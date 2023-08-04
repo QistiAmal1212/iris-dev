@@ -1,0 +1,60 @@
+php artisan krlove:generate:model UserGen --table-name=users
+php artisan krlove:generate:model Role --table-name=roles
+php artisan krlove:generate:model Permission --table-name=permissions
+
+php artisan krlove:generate:model Urs --table-name=urs
+php artisan krlove:generate:model MasterUrsSection --table-name=master_urs_section
+php artisan krlove:generate:model UrsContent --table-name=urs_contents
+php artisan krlove:generate:model UrsFunction --table-name=urs_functions
+php artisan krlove:generate:model UrsFunctionActivity --table-name=urs_function_activity
+php artisan krlove:generate:model UrsCheckVerify --table-name=urs_check_verify
+php artisan krlove:generate:model UrsVersion --table-name=urs_versions
+php artisan krlove:generate:model UrsTemplate --table-name=urs_templates
+php artisan krlove:generate:model ProjectTimesheet --table-name=project_timesheet
+
+php artisan iseed users --force && 
+php artisan iseed roles --force && 
+php artisan iseed model_has_roles --force && 
+php artisan iseed permissions --force
+php artisan iseed master_urs_section --force
+
+
+php artisan migrate:generate
+
+php artisan iseed master_project_role --force && 
+php artisan iseed clients --force && 
+php artisan iseed projects --force && 
+php artisan iseed user_project_role --force && 
+php artisan iseed master_report_type --force && 
+php artisan iseed project_report_types --force && 
+php artisan iseed project_abbreviations --force &&
+
+php artisan iseed master_trans_type --force &&
+
+php artisan iseed project_budget --force
+
+php artisan krlove:generate:model MasterProjectRole --table-name=master_project_role
+php artisan krlove:generate:model Client --table-name=clients
+php artisan krlove:generate:model Project2 --table-name=projects
+php artisan krlove:generate:model UserProjectRole --table-name=user_project_role
+
+
+php artisan migrate:generate --tables="master_report_type"
+php artisan migrate:generate --tables="project_report_types"
+
+php artisan krlove:generate:model MasterReportType --table-name=master_report_type
+php artisan krlove:generate:model ProjectReportType --table-name=project_report_types
+
+php artisan krlove:generate:model MasterTransType --table-name=master_trans_type
+php artisan krlove:generate:model ProjectMisc --table-name=project_misc
+php artisan krlove:generate:model ProjectBudget --table-name=project_budget
+php artisan krlove:generate:model ProjectClaimPlan --table-name=project_claim_plan
+
+
+php artisan make:import ProjectBudgetImport --model=ProjectBudget
+php artisan make:import ProjectClaimPlanImport --model=ProjectClaimPlan
+
+php artisan db:seed --class=MasterTransTypeTableSeeder
+php artisan db:seed --class=ProjectBudgetTableSeeder
+php artisan db:seed --class=ProjectTimesheetTableSeeder
+php artisan db:seed --class=MasterMonthTableSeeder

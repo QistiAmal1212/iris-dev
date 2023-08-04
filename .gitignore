@@ -1,0 +1,24 @@
+/node_modules
+/public/hot
+/public/data
+#/public/fonts
+#/public/images
+/public/storage
+# /public/vendors
+/storage/*.key
+/vendor/
+# public/css/*
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/vuexy-shell-scripts
+supervisord.log
+supervisord.pid
+.vscode/settings.json
+
+.tmp.driveupload
+bootstrap/cache/*
