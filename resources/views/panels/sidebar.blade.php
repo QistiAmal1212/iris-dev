@@ -82,11 +82,11 @@ $configData = Helper::applClasses();
                             <i data-feather="circle"></i> <span class="menu-title text-truncate"> {{__('msg.list')}} </span>
                         </a>
                     </li>
-                    <li class="{{ in_array(request()->route()->getName(), ['mylab.index']) ? 'active' : '' }}">
+                    {{-- <li class="{{ in_array(request()->route()->getName(), ['mylab.index']) ? 'active' : '' }}">
                         <a href="{{ route('mylab.index') }}" class="d-flex align-items-center">
                             <i data-feather="circle"></i> <span class="menu-title text-truncate"> Autosave & Required Tag</span>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
             <li class="nav-item">
