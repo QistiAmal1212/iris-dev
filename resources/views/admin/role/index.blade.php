@@ -81,7 +81,7 @@
                             <a onclick="viewRoleForm()" class="stretched-link text-nowrap add-new-role">
                                 <span class="btn btn-primary mb-1">Add New Role</span>
                             </a>
-                            <p class="mb-0">Add role, if it does not exist</p>
+                            <p class="mb-0 text-muted">Add role, if it does not exist</p>
                         </div>
                     @endcan
                 </div>
@@ -89,7 +89,7 @@
         </div>
     </div>
 </div>
-<!--/ Role cards -->
+
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">List of Roles</h4>
@@ -106,52 +106,21 @@
     <hr>
 
     <div class="card-body">
-
-        <table class="table header_uppercase table-bordered table-responsive">
-            <thead>
-                <tr>
-                    <th width="5%">No</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Display As</th>
-                    <th width="10%">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($roles as $role)
-                <tr>
-                    <th>{{ (($roles->currentPage() - 1) * $roles->perPage()) + $loop->iteration }}</th>
-                    <td>{{ $role->name }}</td>
-                    <td>{{ $role->description }}</td>
-                    <td>{{ $role->display_name }}</td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Role Action">
-                            @can('admin.role.view')
-                                <a href="{{ route('role.show', $role) }}" class="btn btn-outline-dark waves-effect"> <i class="fas fa-eye"></i> </a>
-                            @endcan
-
-                            @can('admin.role.update')
-                                {{-- <a href="{{ route('role.edit', $role) }}" class="btn btn-outline-dark waves-effect"> <i class="fas fa-edit"></i> </a> --}}
-                                <a href="{{ route('role.editting', $role->id) }}" class="btn btn-outline-dark waves-effect" onclick="viewRoleForm('{{$role->id}}')"> <i class="fas fa-edit"></i> </a>
-                            @endcan
-
-                            @can('admin.role.delete')
-                                <a href="#" class="btn btn-outline-dark waves-effect" onclick="event.preventDefault(); document.getElementById('formDestroyRole_{{ $role->id }}').submit();"> <i class="fas fa-trash"></i> </a>
-                                <form id="formDestroyRole_{{ $role->id }}" method="POST" action="{{ route('role.destroy', $role) }}">
-                                    @csrf
-                                    <input type="hidden" name="_method" value="DELETE"/>
-                                </form>
-                            @endcan
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-end">
-            {!! $roles->links() !!}
+        <div class="table-responsive">
+            <table class="table header_uppercase table-bordered table-responsive" id="RoleList" style="width: 300%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Display Name</th>
+                        <th>Description</th>
+                        <th>Role Level</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
-
     </div>
 </div>
 
@@ -160,10 +129,71 @@
 @endsection
 
 @section('script')
-
 <script>
-    $(document).ready(function(){
-        // Swal.fire('Hello');
+    $(function() {
+        var table = $('#RoleList').DataTable({
+            orderCellsTop: true,
+            colReorder: false,
+            pageLength: 10,
+            processing: true,
+            serverSide: true, //enable if data is large (more than 50,000)
+            ajax: {
+                url: "{{ fullUrl() }}",
+                cache: false,
+            },
+            columns: [{
+                    defaultContent: '',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: "id",
+                    name: "id",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "name",
+                    name: "name",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "display_name",
+                    name: "display_name",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "description",
+                    name: "description",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "is_internal",
+                    name: "is_internal",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
+                    searchable: true
+                },
+
+            ],
+        });
+
     });
 
     viewRoleForm = function(id = null){
@@ -220,5 +250,4 @@
         }
     };
 </script>
-
 @endsection

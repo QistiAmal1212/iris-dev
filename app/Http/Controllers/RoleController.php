@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Yajra\DataTables\Contracts\DataTable;
+use Yajra\DataTables\DataTables;
 
 class RoleController extends Controller
 {
@@ -15,18 +17,60 @@ class RoleController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-
-        $permissions = Permission::get();
-        app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
-        $roles = Role::paginate(20);
 
         $internalRoles = Role::where('is_internal', 1)->get();
         $countInternalRoles = count($internalRoles);
 
         $externalRoles = Role::where('is_internal', 0)->get();
         $countExternalRoles = count($externalRoles);
+
+        $permissions = Permission::get();
+        app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+        // $roles = Role::paginate(20);
+        $roles = Role::all();
+
+        if ($request->ajax()) {
+            return Datatables::of($roles)
+                    ->editColumn('id', function ($roles) {
+                        return $roles->id;
+                    })
+                    ->editColumn('name', function ($roles) {
+                        return $roles->name;
+                    })
+                    ->editColumn('display_name', function ($roles) {
+                        return $roles->display_name;
+                    })
+                    ->editColumn('description', function ($roles) {
+                        return $roles->description;
+                    })
+                    ->editColumn('is_internal', function ($roles) {
+
+                        if ($roles->is_internal == 1){
+                            $label = "";
+                            $label .= '<span class="badge rounded-pill bg-light-info">Internal</span>';
+                            return $label;
+                        }else{
+                            $label = "";
+                            $label .= '<span class="badge rounded-pill bg-light-warning">External</span>';
+                            return $label;
+                        }
+                    })
+                    ->editColumn('action', function ($roles) {
+                        $button = "";
+
+                        $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
+                        $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
+                        $button .= '</div>';
+
+                        return $button;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
 
         return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles'));
     }
