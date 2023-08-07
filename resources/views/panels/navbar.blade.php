@@ -77,9 +77,9 @@
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-                    <a class="dropdown-item" href="{{ Route::has('profile.show') ? route('profile.show') : 'javascript:void(0)' }}">
-                        <i class="fa-solid fa-key me-50"></i>
-                            Change Password
+                    <a class="dropdown-item" href="{{ route('user.show', Auth::user()->id) }}">
+                        <i class="fa-regular fa-user me-50"></i>
+                            Profile Information
                     </a>
 
                     <div class="dropdown-divider"></div>

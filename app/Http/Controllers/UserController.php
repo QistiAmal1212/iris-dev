@@ -271,4 +271,39 @@ class UserController extends Controller
         DB::commit();
         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $userId]);
     }
+
+    public function updatePassword (Request $request){
+    
+        // dd($request->all());
+        DB::beginTransaction();
+
+        try {
+            $validatedData = $request->validate([
+                'reset_password_old' => 'required|string|min:8',
+                'reset_password_new' => 'required|string|min:8',
+                'reset_password_confirm' => 'required|same:reset_password_new',
+            ],[
+                'reset_password_old.required' => 'Please fill in current password',
+                'reset_password_new.required' => 'Please fill in new password',
+                'reset_password_confirm.required' => 'Please retype new password',
+            ]);
+
+            if (Hash::check($request->reset_password_old, auth()->user()->password)) {
+
+                User::whereId(auth()->user()->id)->update(['password' => Hash::make($request->reset_password_new)]);
+                $user = auth()->user();
+
+            } else {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Wrong Current Password'], 404);
+            }
+
+        } catch (Throwable $e) {
+
+            DB::rollBack();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        DB::commit();
+        return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+    }
 }

@@ -71,18 +71,15 @@ Route::prefix('profile')->group(function () {
     Route::post('update', [ProfileController::class, 'update'])->name('profile-update');
 });
 
-Route::controller(UserProfileController::class)->group(function () {
-    Route::prefix('user-profile')->group(function () {
-        Route::get('user_profile', 'viewUserProfile')->name('user_profile');
-    });
-});
-
 Route::prefix('admin')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('role', RoleController::class);
+
     Route::get('internalUser',[UserController::class,'index'])->name('admin.internalUser');
     Route::get('externalUser',[UserController::class,'index'])->name('admin.externalUser');
     Route::get('getUser/{userId}', [UserController::class,'getUser'])->name('user.getUser');
+    Route::post('update-password', [UserController::class,'updatePassword'])->name('updatePassword');
+    
     Route::get('edit/{roleId}', [RoleController::class,'getRole'])->name('role.kemaskini');
 
     Route::get('edittingRole/{roleId}', [RoleController::class, 'getRole'])->name('role.editting');
