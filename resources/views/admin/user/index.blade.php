@@ -32,7 +32,7 @@
             </div>
         </div>
         <!-- Role cards -->
-        <div class="row">
+        <div class="row match-height">
 
             <div class="col-xl-4 col-lg-6 col-md-6">
                 <div class="card">
@@ -40,10 +40,8 @@
                         <div class="d-flex justify-content-between">
                             <span>Total Users</span>
                             <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                    title="Kim Karlos" class="avatar avatar-sm pull-up">
-                                    <img class="rounded-circle" src="{{ asset('images/avatars/3.png') }}"
-                                        alt="Avatar" />
+                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kim Karlos" class="avatar avatar-sm pull-up">
+                                    <img class="rounded-circle" src="{{ asset('images/avatars/3.png') }}" alt="Avatar" />
                                 </li>
                             </ul>
                         </div>
@@ -64,10 +62,8 @@
                         <div class="d-flex justify-content-between">
                             <span>Total Active Users</span>
                             <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                    title="Kim Merchent" class="avatar avatar-sm pull-up">
-                                    <img class="rounded-circle" src="{{ asset('images/avatars/10.png') }}"
-                                        alt="Avatar" />
+                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kim Merchent" class="avatar avatar-sm pull-up">
+                                    <img class="rounded-circle" src="{{ asset('images/avatars/10.png') }}" alt="Avatar" />
                                 </li>
                             </ul>
                         </div>

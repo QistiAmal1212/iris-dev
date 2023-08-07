@@ -22,7 +22,13 @@ class RoleController extends Controller
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
         $roles = Role::paginate(20);
 
-        return view('admin.role.index', compact('roles', 'permissions'));
+        $internalRoles = Role::where('is_internal', 1)->get();
+        $countInternalRoles = count($internalRoles);
+
+        $externalRoles = Role::where('is_internal', 0)->get();
+        $countExternalRoles = count($externalRoles);
+
+        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles'));
     }
 
     public function create()
