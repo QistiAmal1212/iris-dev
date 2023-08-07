@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -275,7 +277,7 @@ class UserController extends Controller
     public function updatePassword (Request $request){
     
         // dd($request->all());
-        DB::beginTransaction();
+        \DB::beginTransaction();
 
         try {
             $validatedData = $request->validate([
@@ -299,11 +301,11 @@ class UserController extends Controller
 
         } catch (Throwable $e) {
 
-            DB::rollBack();
+            \DB::rollBack();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
 
-        DB::commit();
+        \DB::commit();
         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
     }
 }
