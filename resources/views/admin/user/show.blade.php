@@ -21,11 +21,11 @@
 
 @section('content')
 <div class="d-flex flex-row align-items-start">
-    <button type="button" class="btn btn-labeled btn-default pe-1" onclick="backtoListingFunction();">
+    <!--<button type="button" class="btn btn-labeled btn-default pe-1" onclick="backtoListingFunction();">
         <span class="btn-label" style="display: inline-block;padding: 6px 12px;background: rgba(0, 0, 0, 0.15);">
             <i class="fa fa-chevron-left"></i>
         </span>
-    </button>
+    </button> -->
 
     <div class="card" style="width:100%" id="showUser">
         <div class="card-header">

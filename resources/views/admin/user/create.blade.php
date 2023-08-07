@@ -25,13 +25,13 @@
 
         <div class="card px-2">
             <div class="card-header">
-                <h4 class="card-title">
+                <h3 class="card-title">
                     @if($type == "internal")
                         {{__('msg.userinternalcreate')}}
                     @else
                         {{__('msg.userexternalcreate')}}
                     @endif
-                </h4>
+                </h3>
             </div>
             <div class="card-body">
                 <form action="{{ route('user.store') }}" method="POST" class="form-horizontal" autocomplete="off">
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputIsActive" class="col-sm-2 col-form-label">Active</label>
+                        <label for="inputIsActive" class="col-sm-2 col-form-label">Is Active</label>
                         <div class="col-sm-10">
                             <select name="is_active" class="form-control" id="inputIsActive" required>
                                 <option value=""></option>

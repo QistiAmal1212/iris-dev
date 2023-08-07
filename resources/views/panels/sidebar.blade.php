@@ -89,14 +89,20 @@ $configData = Helper::applClasses();
                         <span class="menu-title text-truncate"> {{__('msg.user_management')}} </span>
                     </a>
                     <ul class="menu-content">
-                        <li class="{{ in_array(request()->route()->getName(), ['admin.internalUser']) ? 'active' : '' }}">
-                            <a href="{{ route('admin.internalUser')}}" class="d-flex align-items-center">
-                                <i data-feather="circle"></i> <span class="menu-title text-truncate"> {{__('msg.userinternal')}} </span>
-                            </a>
+                        <li class="nav-user-internal {{ in_array(request()->route()->getName(),['admin.internalUser'])? 'active': '' }}">
+                        <a href="{{ route('admin.internalUser') }}" class="d-flex align-items-center">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate">
+                                {{ __('msg.userinternal') }}
+                            </span>
+                        </a>
                         </li>
-                        <li class="{{ in_array(request()->route()->getName(), ['admin.externalUser']) ? 'active' : '' }}">
+                        <li class="nav-user-external {{ in_array(request()->route()->getName(),['admin.externalUser'])? 'active': '' }}">
                             <a href="{{ route('admin.externalUser') }}" class="d-flex align-items-center">
-                                <i data-feather="circle"></i> <span class="menu-title text-truncate"> {{__('msg.userexternal')}} </span>
+                                <i data-feather="circle"></i>
+                                <span class="menu-title text-truncate">
+                                    {{ __('msg.userexternal') }}
+                                </span>
                             </a>
                         </li>
                         <li class="{{ in_array(request()->route()->getName(), ['role.index']) ? 'active' : '' }}">

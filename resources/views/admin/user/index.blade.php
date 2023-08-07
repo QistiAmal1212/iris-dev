@@ -22,82 +22,104 @@
 @endsection
 
 @section('content')
-<div class="row" id="listOfUser">
-    <div class="col-md-12">
+<div class="row">
+    <div class="col-12">
         <div class="col-md-6 col-sm-12">
             <div class="card">
                 <div id="userFormDiv">
-                    @include('admin.user.userForm')
+                    {{-- @include('admin.role.roleForm') --}}
                 </div>
             </div>
         </div>
+        <!-- Role cards -->
         <div class="row">
-            <div class={{$type=='internal' ? "col-lg-4 col-sm-6" : "col-lg-3 col-sm-6"}}>
+
+            <div class="col-xl-4 col-lg-6 col-md-6">
                 <div class="card">
-                    <div class="card-body d-flex align-items-center justify-content-between">
-                        <div>
-                            <h3 class="fw-bolder mb-75">{{$totalUser}}</h3>
-                            <span>Total User</span>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span>Total Users</span>
+                            <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
+                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                                    title="Kim Karlos" class="avatar avatar-sm pull-up">
+                                    <img class="rounded-circle" src="{{ asset('images/avatars/3.png') }}"
+                                        alt="Avatar" />
+                                </li>
+                            </ul>
                         </div>
-                        <div class="avatar bg-light-primary p-50">
-                            <span class="avatar-content">
-                                <i data-feather="user-plus" class="font-medium-4"></i>
-                            </span>
+                        <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
+                            <div class="role-heading">
+                                <h4 class="fw-bolder">{{ $totalUser }}</h4>
+                                <a href="javascript:;" class="role-edit-modal" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-sm-6">
+            <div class="col-xl-4 col-lg-6 col-md-6">
                 <div class="card">
-                    <div class="card-body d-flex align-items-center justify-content-between">
-                        <div>
-                            <h3 class="fw-bolder mb-75">{{$activeUser}}</h3>
-                            <span>Active User</span>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span>Total Active Users</span>
+                            <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
+                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                                    title="Kim Merchent" class="avatar avatar-sm pull-up">
+                                    <img class="rounded-circle" src="{{ asset('images/avatars/10.png') }}"
+                                        alt="Avatar" />
+                                </li>
+                            </ul>
                         </div>
-                        <div class="avatar bg-light-success p-50">
-                            <span class="avatar-content">
-                                <i data-feather="user-check" class="font-medium-4"></i>
-                            </span>
+                        <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
+                            <div class="role-heading">
+                                <h4 class="fw-bolder">{{ $activeUser }}</h4>
+                                <a href="javascript:;" class="role-edit-modal" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-sm-6">
+            <div class="col-xl-4 col-lg-6 col-md-6">
                 <div class="card">
-                    <div class="card-body d-flex align-items-center justify-content-between">
-                        <div>
-                            <h3 class="fw-bolder mb-75">{{$inactiveUser}}</h3>
-                            <span>Inactive User</span>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span>Total Inactive Users</span>
+                            <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
+                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                                    title="Kim Merchent" class="avatar avatar-sm pull-up">
+                                    <img class="rounded-circle" src="{{ asset('images/avatars/10.png') }}"
+                                        alt="Avatar" />
+                                </li>
+                            </ul>
                         </div>
-                        <div class="avatar bg-light-warning p-50">
-                            <span class="avatar-content">
-                                <i data-feather="user-x" class="font-medium-4"></i>
-                            </span>
+                        <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
+                            <div class="role-heading">
+                                <h4 class="fw-bolder">{{ $inactiveUser }}</h4>
+                                <a href="javascript:;" class="role-edit-modal" data-bs-toggle="modal"
+                                    data-bs-target="#addRoleModal">
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">
-                    @if($type == "internal")
-                        {{__('msg.userinternalindex')}}
-                    @else
-                        {{__('msg.userexternalindex')}}
-                    @endif
-                </h4>
-                @can('admin.user.create')
+                <h4 class="card-title"></h4>
+                {{-- @can('admin.user.create') --}}
+                @hasanyrole('admin|superadmin')
                     <div class="d-flex justify-content-end align-items-center">
-                        <button type="button" class="btn btn-success btn-sm float-right" onclick="viewUserForm()">
-                            <i class="fa-solid fa-add"></i> Add
+                        <button type="button" class="btn btn-primary btn-md float-right" onclick="viewUserForm()">
+                            <i class="fa-solid fa-add"></i> 
+                            Add User
                         </button>
                     </div>
-                @endcan
+                @endhasanyrole
+                {{-- @endcan --}}
             </div>
             <div class="card-body" style="width:100%">
                 @include($type == 'internal' ? 'admin.user.tableUserInternal' : 'admin.user.tableUserExternal')
@@ -106,8 +128,8 @@
     </div>
 </div>
 
-<div class="col-12" id="showUser"></div>
-
+@include("admin.user.userForm")
+    <div class="col-12" id="showUser"></div>
 @endsection
 
 @section('script')

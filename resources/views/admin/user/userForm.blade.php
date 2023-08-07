@@ -8,13 +8,15 @@
     $read_only = $read_only ?? null;
     $moduleRole = $moduleRole ?? null;
 @endphp
+
 <div class="modal fade" id="userFormModal" tabindex="-1" aria-labelledby="statusFormModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-light-primary">
-                <h1 class="address-title text-center mb-1 mt-1" id="addNewCardTitle">User Information</h1>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">User Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
 
             <div class="modal-body px-sm-2 mx-50">
                 <form id="userFormModal" action="" method="POST" data-reloadPage="true" name="FormUserModal">
@@ -98,8 +100,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="btnUpdateFake" class="btn btn-success" onclick="$('#btnUpdateUserForm').trigger('click');">{{__('msg.submit')}}</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="btnUpdateFake" class="btn btn-primary" onclick="$('#btnUpdateUserForm').trigger('click');">{{__('msg.submit')}}</button>
             </div>
         </div>
     </div>

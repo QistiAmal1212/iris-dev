@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -21,75 +25,83 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            if (request()->route()->getname() == 'admin.internalUser') {
-                $users = User::whereHas('roles', function ($query) {
-                    $query->where('is_internal', 1);
+            if(request()->route()->getname()=='admin.internalUser'){
+                $users = User::whereHas('roles',function($query){
+                    $query->where('is_internal',1);
                 });
                 $type = 'internal';
-            } else {
-                $users = User::whereHas('roles', function ($query) {
-                    $query->where('is_internal', 0);
+            }
+            else{
+                $users = User::whereHas('roles',function($query){
+                    $query->where('is_internal',0);
                 });
                 $type = 'external';
             }
+
             return Datatables::of($users)
                 ->editColumn('name', function ($users) use ($type) {
 
-                    if ($type == "internal") {
-
+                    if ($type == "internal"){
                         $label = "";
-                        $label .= '<form hidden action="' . route("emptyResponse") . '" method="get" data-refreshFunctionDivId="showUser" data-refreshFunctionURL="' . route('user.show', $users) . '">@csrf';
-                        $label .= '<button type="button" id="btnView' . $users->name . '" hidden onclick="generalFormSubmit(this)"></button></form>';
-                        $label .= '<a class="btn btn-xs btn-default" onclick="$(`#btnView' . $users->name . '`).trigger(`click`)">' . $users->name . '</a>';
-
-                        // $label = '<a href=" '.route('user.show', $users).' ">'.$users->name.' </a>';
-                        $label .= $users->is_active == 1 ? '<img src="' . asset('images/icons/verify.png') . '" style="width: 15px;"> &nbsp;' : '<img src="' . asset('images/icons/alert.png') . '" style="width: 15px;"> &nbsp;';
-                        $roles = implode(",", $users->getRoleNames()->toArray());
-                        $label .= '</br>';
-                        $label .= '<td>';
-                        if (strpos($roles, "admin") !== false && strpos($roles, "superadmin") !== false) {
-                            $label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span> &nbsp; <span class="badge rounded-pill bg-light-secondary">Admin</span>';
-                        } elseif ($roles == "admin") {
-                            $label .= '<span class="badge rounded-pill bg-light-secondary">Admin</span>';
-                        } elseif ($roles == "superadmin") {
-                            $label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span>';
-                        } else {
-                            $label .= '<span class="badge rounded-pill bg-light-info">' . $roles . '</span> &nbsp;';
-                        }
-                        $label .= "</td>";
+                        $label .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default text-primary">';
+                        $label .= $users->name;
+                        $label .= '</a>';
                         return $label;
-                    } else {
-                        $label = '<a href=" ' . route('user.show', $users) . ' ">' . $users->name . ' </a>';
-                        $label .= $users->is_active == 1 ? '<img src="' . asset('images/icons/verify.png') . '" style="width: 15px;"> &nbsp;' : '<img src="' . asset('images/icons/alert.png') . '" style="width: 15px;"> &nbsp;';
-                        $label .= '</br>';
-                        $label .= '<td>';
-                        $label .= $users->no_ic;
-                        $label .= '</td>';
+                    }else{
+                        $label = "";
+                        $label .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default text-primary">';
+                        $label .= $users->name;
+                        $label .= '</a>';
                         return $label;
                     }
                 })
+                ->editColumn('username', function ($users) use ($type) {
+
+                    $username = explode(' ', trim($users->name));
+
+                    return $username;
+
+                })
                 ->editColumn('email', function ($users) use ($type) {
 
-                    if ($type == "internal") {
+                    if ($type== "internal"){
                         return $users->email;
-                    } else {
+                    }else{
                         return $users->email;
                     }
+                })
+                ->editColumn('role', function ($users) use ($type) {
+
+                    $roles = implode(",", $users->getRoleNames()->toArray());
+                        $role_label = '</br>';
+                        $role_label .= '<td>';
+                        if (strpos($roles, "admin") !== false && strpos($roles, "superadmin") !== false) {
+                            $role_label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span> &nbsp; <span class="badge rounded-pill bg-light-secondary">Admin</span>';
+                        } elseif ($roles == "admin") {
+                            $role_label .= '<span class="badge rounded-pill bg-light-secondary">Admin</span>';
+                        } elseif  ($roles == "superadmin"){
+                            $role_label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span>';
+                        }else {
+                            $role_label .= '<span class="badge rounded-pill bg-light-info">'.$roles.'</span> &nbsp;';
+                        }
+                        $role_label .= "</td>";
+
+                    return $role_label;
                 })
                 ->editColumn('action', function ($users) use ($type) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
-                    if ($type == "internal") {
-                        $button .= '<a href=" ' . route('user.show', $users) . ' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
+                    if ($type== "internal"){
+                        //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm('.$users->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                         // $button .= '<form id="formDestroyUser_'.$user->id.'" method="POST" action=" '.route('user.destroy', $user).' "> @csrf <input type="hidden" name="_method" value="DELETE"/> </form>';
                         // $button .= '<a href="#" class="btn btn-outline-dark waves-effect" onclick="event.preventDefault(); document.getElementById('formDestroyUser_. $user->id .').submit();"> <i class="fas fa-trash"></i> </a>';
-                    } else {
-                        $button .= '<a href=" ' . route('user.show', $users) . ' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
+                    }else{
+                        //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm('.$users->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     }
-                    $button .= "</div>";
+                        $button .= "</div>";
 
                     return $button;
                 })
@@ -97,14 +109,15 @@ class UserController extends Controller
                 ->make(true);
         }
 
-        if (request()->route()->getname() == 'admin.internalUser') {
-            $users = User::whereHas('roles', function ($query) {
-                $query->where('is_internal', 1);
+        if(request()->route()->getname()=='admin.internalUser'){
+            $users = User::whereHas('roles',function($query){
+                $query->where('is_internal',1);
             });
             $type = 'internal';
-        } else {
-            $users = User::whereHas('roles', function ($query) {
-                $query->where('is_internal', 0);
+        }
+        else{
+            $users = User::whereHas('roles',function($query){
+                $query->where('is_internal',0);
             });
             $type = 'external';
         }
@@ -113,43 +126,14 @@ class UserController extends Controller
         $totalUser = $totalUser->count();
 
         $inactiveUser = clone $users;
-        $inactiveUser = $inactiveUser->where('is_active', 0)->count();
+        $inactiveUser = $inactiveUser->where('is_active',0)->count();
 
         $activeUser = $totalUser - $inactiveUser;
 
         $role = Role::get();
 
-        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser'));
+        return view('admin.user.index', compact('type','role','totalUser','inactiveUser','activeUser'));
     }
-
-    // public function index(Request $request)
-    // {
-    //     if(request()->route()->getname()=='admin.internalUser'){
-    //         $users = User::whereHas('roles',function($query){
-    //             $query->where('is_internal',1);
-    //         });
-    //         $type = 'internal';
-    //     }
-    //     else{
-    //         $users = User::whereHas('roles',function($query){
-    //             $query->where('is_internal',0);
-    //         });
-    //         $type = 'external';
-    //     }
-
-    //     $totalUser = clone $users;
-    //     $totalUser = $totalUser->count();
-
-    //     $inactiveUser = clone $users;
-    //     $inactiveUser = $inactiveUser->where('is_active',0)->count();
-
-    //     $activeUser = $totalUser - $inactiveUser;
-
-    //     $users = $users->paginate(15);
-    //     $role = Role::get();
-
-    //     return view('admin.user.index', compact('users','type','role','totalUser','inactiveUser','activeUser'));
-    // }
 
     public function create(Request $request)
     {
@@ -157,7 +141,7 @@ class UserController extends Controller
         $roles = Role::all();
         $permissions = Permission::all();
 
-        return view('admin.user.create', compact('roles', 'permissions', 'type'));
+        return view('admin.user.create', compact('roles', 'permissions','type'));
     }
 
     public function store(Request $request)
@@ -166,7 +150,7 @@ class UserController extends Controller
         // dd($request->all());
         DB::beginTransaction();
 
-        try {
+        try{
             $validatedData = $request->validate([
                 'full_name' => 'required|string',
                 'ic_number' => 'required|integer',
@@ -191,7 +175,7 @@ class UserController extends Controller
         } catch (\Throwable $e) {
 
             DB::rollback();
-            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()],404);
         }
 
         DB::commit();
@@ -202,46 +186,45 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $permissions = Permission::all();
-        $internalRoleArr = Role::where('is_internal', 1)->pluck('name')->toArray();
-        if ($user->role($internalRoleArr)) {
+        $internalRoleArr = Role::where('is_internal',1)->pluck('name')->toArray();
+        if($user->role($internalRoleArr)){
             $type = "internal";
-        } else {
+        }else{
             $type = "external";
         }
-        return view('admin.user.show', compact('user', 'roles', 'permissions', 'type'));
+        return view('admin.user.user_information.user_information', compact('user', 'roles', 'permissions','type'));
     }
 
-    public function edit(User $user, $userId)
+    public function edit(User $user,$userId)
     {
         $roles = Role::all();
         $permissions = Permission::all();
 
-        $internalRoleArr = Role::where('is_internal', 1)->pluck('name')->toArray();
-        if ($user->role($internalRoleArr)) {
+        $internalRoleArr = Role::where('is_internal',1)->pluck('name')->toArray();
+        if($user->role($internalRoleArr)){
             $type = "internal";
-        } else {
+        }else{
             $type = "external";
         }
         // return view('admin.user.edit', compact('user', 'roles', 'permissions','type'));
-        return view('admin.user.index', compact('user', 'roles', 'permissions', 'type'));
+        return view('admin.user.index', compact('user', 'roles', 'permissions','type'));
     }
 
     public function update(Request $request, $id_used)
     {
         // dd($request->all());
         DB::beginTransaction();
-        try {
+        try{
             $validatedData = $request->validate([
                 'full_name' => 'required|string',
                 'ic_number' => 'required|integer',
                 'email' => 'required|email',
             ]);
 
-            if ($id_used) {
+            if($id_used)
                 $user = user::find($id_used);
-            } else {
+            else
                 $user = new user;
-            }
 
             $user->name = $request->full_name;
             $user->no_ic = $request->ic_number;
@@ -256,7 +239,7 @@ class UserController extends Controller
         } catch (\Throwable $e) {
 
             DB::rollback();
-            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()],404);
         }
 
         return to_route('user.index', [$user]);
@@ -269,22 +252,20 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    public function getUser(Request $request, User $userId)
-    {
+    public function getUser(Request $request, User $userId){
 
         $userId->listOfRole = $userId->roles->pluck('id')->toArray();
 
         DB::beginTransaction();
-        try {
+        try{
 
-            if (!$userId) {
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Module Role not found. Please refresh"], 404);
-            }
+            if(!$userId)
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Module Role not found. Please refresh"],404);
 
         } catch (\Throwable $e) {
 
             DB::rollback();
-            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()],404);
         }
 
         DB::commit();
