@@ -149,6 +149,114 @@
     }
     //End Show SweetAlert Confirmation Window
 
+//Custom Function by Ahyew
+    //Custom Checking Required Form Field (Whole Tab) (Trigger by next button)
+    function checkForm(formTarget){
+        var form;
+        // all form within the tab
+        if($('#' + formTarget).closest('[role = "tabpanel"]')[0] != null){
+            form = $('#' + formTarget).closest('[role = "tabpanel"]')[0];
+        }
+        // specific form
+        else{
+            form = $('#' + formTarget)[0];
+        }
+        return form;
+    }
+
+    function checkProceed(formTarget,btn) {
+
+        var count = formTarget.querySelectorAll('.required-tag').length;
+        if (count == 0) {
+            btn.parentNode.querySelector('.btn-next').click();
+        }
+    }
+
+    // Whole Tab
+    function addFormRequiredTag(formTarget) {
+        var fields = formTarget.querySelectorAll(
+            'select[required], textarea[required], input[required]'); // get all field required within same tab
+        $.each(fields, function(i, field) {
+            addFieldRequiredTag(field);
+        });
+    }
+
+    // Whole Tab
+    function addTableRequiredTag(formTarget) {
+        var table = formTarget.querySelectorAll(
+            ".required"
+            ); // get all table required within same tab // add required class into table class=""
+
+        $.each(table, function(i, tb) {
+            if (tb.children[1].children.length == 0) {
+                const child = document.createElement('div');
+                child.classList.add('required-tag');
+                child.innerHTML = '<span class="badge badge-light-danger me-1">' + '{{ __("msg.form.required") }}' + '</span>';
+                tb.parentNode.appendChild(child);
+                tb.classList.add('required-border'); // make table border to red and 1px width
+            }
+        });
+    }
+    // End Custom Checking Required Form Field (Whole Tab) (Trigger by next button)
+
+    // Custom Marking Required Field (Specific Field) (Trigger by autosave)
+    function checkRequiredTag(formId, fieldId, errormsg = null) {
+
+        var field = $('#' + formId + ' #' + fieldId)[0]; // get field by formId and fieldId
+
+        deleteFieldRequiredTag(field);
+        addFieldRequiredTag(field, errormsg);
+
+    }
+
+    function addFieldRequiredTag(field, errormsg = null) {
+        if (field.hasAttribute('required')) {
+            if (field.value == '' || errormsg != null) {
+                if (field.getAttribute('type') == "file") { // input type is file
+                    var reloadSectionId = field.id + 'ReloadSection';
+                    if ($('#' + reloadSectionId)[0].children.length <= 1 || errormsg != null) {
+                        addtag(field, errormsg);
+                    }
+                } else { // input type other than file
+                    addtag(field, errormsg);
+                }
+
+                function addtag(field, errormsg = null) {
+                    field.classList.add('required-border'); // make field border to red and 1px width
+                    const child = document.createElement('div');
+                    child.classList.add('required-tag');
+                    if (errormsg == null) {
+                        errormsg = '{{ __("msg.form.required") }}';
+                    }
+                    child.innerHTML = '<span class="badge badge-light-danger me-1">' +
+                        errormsg + '</span>';
+                    if (field.parentNode.classList.contains('input-group')) {
+                        if (field.parentNode.parentNode.querySelectorAll('.required-tag').length == 0) {
+                            field.parentNode.parentNode.appendChild(child);
+                        }
+                    } else {
+                        field.parentNode.appendChild(child);
+                    }
+                }
+            }
+        }
+    }
+
+    function deleteFieldRequiredTag(field) {
+
+        if (field.parentNode.classList.contains('input-group')) {
+            if (field.parentNode.parentNode.querySelectorAll(".required-tag:last-child").length > 0) {
+                field.parentNode.parentNode.lastElementChild.closest(".required-tag").remove();
+            }
+        } else {
+            if (field.parentNode.querySelectorAll(".required-tag:last-child").length > 0) {
+                field.parentNode.lastElementChild.closest(".required-tag").remove();
+            }
+        }
+        field.classList.remove('required-border'); // make field border back to default
+    }
+    // End Custom Marking Required Field (Specific Field) (Trigger by autosave)
+
     // Custom Checking Required Form Field (Whole Tab) (Trigger by next button)
     function checkFormRequire(formTarget,btn) {
         var required_tags = $('.required-tag').children();
@@ -163,6 +271,22 @@
         addTableRequiredTag(formTarget);
         checkProceed(formTarget,btn)
     }
+    // End Custom Checking Required Form Field (Whole Tab) (Trigger by next button)
+
+    // Custom Reload After Upload
+    function reloadDiv(formId, uploadFieldId) {
+        var reloadSectionId = uploadFieldId + 'ReloadSection';
+        if (!$("#" + formId + " #" + uploadFieldId)[0].value == "") { // is not empty upload or cancel upload
+            $("#" + formId + " #" + reloadSectionId).load(window.location.href + "#" + formId + " #" + reloadSectionId,
+                function() {
+                    $(this).replaceWith($(this).children());
+                });
+            var field = $("#" + formId + " #" + uploadFieldId);
+            field[0].classList.remove('required-border');
+        }
+        return;
+    }
+    // End Custom Reload After Upload
 
     // Auto save
 
