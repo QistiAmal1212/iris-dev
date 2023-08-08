@@ -177,7 +177,8 @@ $configData = Helper::applClasses();
 
             @endhasanyrole
 
-            @if(\Composer\InstalledVersions::isInstalled('developer-unijaya/quickstart-helpdesk'))
+            {{-- HELPDESK MODULE HERE  --}}
+            {{-- @if(\Composer\InstalledVersions::isInstalled('developer-unijaya/quickstart-helpdesk'))
                 <li class="navigation-header">
                     <span>Helpdesk</span>
                 </li>
@@ -196,7 +197,7 @@ $configData = Helper::applClasses();
                         </li>
                     </ul>
                 </li>
-            @endif
+            @endif --}}
 
             {{-- Foreach documentation menu item starts --}}
             @hasanyrole('')
