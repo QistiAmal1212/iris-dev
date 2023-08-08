@@ -53,10 +53,16 @@
 
                     <form id="loginForm" class="auth-login-form mt-2" method="post" action="{{ url('/login') }}">
                         @csrf
-                        <div class="mb-1">
+                        {{-- <div class="mb-1">
                             <label class="form-label" for="login-email">Emel</label>
                             <input class="form-control" id="login-email" type="text" name="email"
                                 placeholder="john@example.com" aria-describedby="login-email" autofocus=""
+                                tabindex="1" />
+                        </div> --}}
+                        <div class="mb-1">
+                            <label class="form-label" for="login-ic">No Kad Pengenalan</label>
+                            <input class="form-control" id="login-ic" type="text" name="no_ic"
+                                placeholder="No Kad Pengenalan Tanpa '-'" aria-describedby="login-ic" autofocus=""
                                 tabindex="1" />
                         </div>
                         <div class="mb-1">
@@ -145,10 +151,12 @@
             function demoLogin(index) {
                 var credential = [{
                         email: 'superadmin@yopmail.com',
+                        no_ic: '990101010101',
                         password: 'password',
                     },
                     {
                         email: 'admin@yopmail.com',
+                        no_ic: '990101010102',
                         password: 'password',
                     },
                     {
@@ -157,7 +165,8 @@
                     }
                 ];
 
-                $('[name="email"]').val(credential[index].email);
+                //$('[name="email"]').val(credential[index].email);
+                $('[name="no_ic"]').val(credential[index].no_ic);
                 $('[name="password"]').val(credential[index].password);
                 $('#loginDemo').modal('hide');
                 $('#loginForm')[0].submit();

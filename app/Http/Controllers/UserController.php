@@ -150,8 +150,8 @@ class UserController extends Controller
         try {
             $validatedData = $request->validate([
                 'full_name' => 'required|string',
-                'ic_number' => 'required|integer',
-                'email' => 'required|email',
+                'ic_number' => 'required|integer|min:12|unique:users,no_ic',
+                'email' => 'required|email|unique:users,email',
                 'password' => 'required|string',
                 'retype_password' => 'required|string',
                 // 'role' => 'required',
@@ -218,8 +218,8 @@ class UserController extends Controller
         try {
             $validatedData = $request->validate([
                 'full_name' => 'required|string',
-                'ic_number' => 'required|integer',
-                'email' => 'required|email',
+                'ic_number' => 'required|integer|min:12|unique:users,no_ic',
+                'email' => 'required|email|unique:users,email',
             ]);
 
             if ($id_used) {
