@@ -77,10 +77,27 @@ $configData = Helper::applClasses();
                         @csrf
                         <div class="mb-1">
                             <label class="form-label" for="forgot-password-email">Email</label>
-                            <input class="form-control" id="forgot-password-email" type="text"
-                                name="forgot-password-email" placeholder="john@example.com"
-                                aria-describedby="forgot-password-email" autofocus="" tabindex="1" />
+                            <input class="form-control" id="forgot-password-email" type="email"
+                                name="email" placeholder="john@example.com"
+                                aria-describedby="forgot-password-email" autofocus="" tabindex="1" required/>
                         </div>
+                        @if($errors->any())
+                            {!! implode('', $errors->all('
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <div class="alert-body">
+                                    :message
+                                    </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            ')) !!}
+                        @endif
+                        @if(Session::has('status'))
+                            <div class="alert alert-success">
+                                <ul>
+                                    <li>{{ Session::get('status') }}</li>
+                                </ul>
+                            </div>
+                        @endif
                         <button class="btn btn-primary w-100" tabindex="2">Send reset link</button>
                     </form>
                     <p class="text-center mt-2">

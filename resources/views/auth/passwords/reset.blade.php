@@ -74,14 +74,16 @@ $configData = Helper::applClasses();
                     {{-- <form class="auth-reset-password-form mt-2" action="/auth/login-cover" method="GET"> --}}
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
+                        <input type="hidden" name="token" value="{{ $token }}">
+                        <input type="hidden" name="email" value="{{ $email }}">
                         <div class="mb-1">
                             <div class="d-flex justify-content-between">
                                 <label class="form-label" for="reset-password-new">New Password</label>
                             </div>
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input class="form-control form-control-merge" id="reset-password-new" type="password"
-                                    name="reset-password-new" placeholder="············"
-                                    aria-describedby="reset-password-new" autofocus="" tabindex="1" />
+                                    name="password" placeholder="············"
+                                    aria-describedby="reset-password-new" autofocus="" tabindex="1" required/>
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
                         </div>
@@ -91,11 +93,21 @@ $configData = Helper::applClasses();
                             </div>
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input class="form-control form-control-merge" id="reset-password-confirm" type="password"
-                                    name="reset-password-confirm" placeholder="············"
-                                    aria-describedby="reset-password-confirm" tabindex="2" />
+                                    name="password_confirmation" placeholder="············"
+                                    aria-describedby="reset-password-confirm" tabindex="2" required/>
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
                         </div>
+                        @if($errors->any())
+                            {!! implode('', $errors->all('
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <div class="alert-body">
+                                    :message
+                                    </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            ')) !!}
+                        @endif
                         <button class="btn btn-primary w-100" tabindex="3">Set New Password</button>
                     </form>
                     <p class="text-center mt-2">
