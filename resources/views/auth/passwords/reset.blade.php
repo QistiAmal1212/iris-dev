@@ -111,7 +111,7 @@ $configData = Helper::applClasses();
                         <button class="btn btn-primary w-100" tabindex="3">Set New Password</button>
                     </form>
                     <p class="text-center mt-2">
-                        <a href="{{ url('auth/login-cover') }}">
+                        <a href="{{ route('login') }}">
                             <i data-feather="chevron-left"></i> Back to login
                         </a>
                     </p>
