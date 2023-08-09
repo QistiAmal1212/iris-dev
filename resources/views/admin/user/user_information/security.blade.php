@@ -3,7 +3,7 @@
         <h4 class="card-title">Change Password</h4>
     </div>
     <hr>
-    <form method="POST" action="{{ route('updatePassword') }}" refreshFunctionDivId="divChangePassword" data-swal="Password updated successfully.">
+    <form method="POST" action="{{ route('updatePassword') }}" refreshFunctionDivId="divChangePassword" data-refreshFunctionNameIfSuccess="resetInput" data-refreshFunctionName="resetOnlyCaptcha" data-swal="Password updated successfully.">
         @csrf
         <div class="card-body" id="divChangePassword">
             <p class="text-danger text-center">
@@ -42,6 +42,21 @@
                             <input type="password" class="form-control" name="reset_password_confirm" id="reset_password_confirm" placeholder="············">
                             <span class="input-group-text cursor-pointer">
                                 <i data-feather="eye"></i>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fw-bolder">
+                        <div class="captcha">
+                                <span>{!! captcha_img() !!}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group input-group-merge">
+                            <input type="text" class="form-control" name="captcha" id="captcha" placeholder="Masukkan Captcha">
+                            <span class="input-group-text cursor-pointer" data-toggle="tooltip" title="Set Semula Captcha" id="reload_captcha">
+                                <i data-feather="refresh-cw"></i>
                             </span>
                         </div>
                     </td>
@@ -102,3 +117,51 @@
         </table>
     </div>
 </div>
+
+@section('script')
+<script>
+
+    $('#reload_captcha').click(function() {
+        $.ajax({
+            method : "GET",
+            url : "{{ route('reload.captcha') }}",
+            success:function(data){
+                $(".captcha span").html(data.captcha)
+            }
+        });
+    });
+
+    function resetInput(){
+        var reset_password_old = document.getElementById('reset_password_old');
+        var reset_password_new = document.getElementById('reset_password_new')
+        var reset_password_confirm = document.getElementById('reset_password_confirm');
+        var captcha = document.getElementById('captcha');
+
+        reset_password_old.value = '';
+        reset_password_new.value = '';
+        reset_password_confirm.value = '';
+        captcha.value = '';
+    
+        $.ajax({
+            method : "GET",
+            url : "{{ route('reload.captcha') }}",
+            success:function(data){
+                $(".captcha span").html(data.captcha)
+            }
+        });
+    }
+
+    function resetOnlyCaptcha(){
+        var captcha = document.getElementById('captcha');
+        captcha.value = '';
+    
+        $.ajax({
+            method : "GET",
+            url : "{{ route('reload.captcha') }}",
+            success:function(data){
+                $(".captcha span").html(data.captcha)
+            }
+        });
+    }
+</script>
+@endsection

@@ -51,19 +51,49 @@
                         @endif
                     </center>
 
+                    {{--  @if($errors->any())
+                        {!! implode('', $errors->all('
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div class="alert-body">
+                                :message
+                                </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        ')) !!}
+                    @endif --}}
+
+                    @error('no_ic')
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div class="alert-body">
+                                {{ $message }}
+                                </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @enderror
+
+                    
+                    @error('captcha')
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div class="alert-body">
+                                CAPTCHA validation failed, try again.
+                                </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @enderror
+
                     <form id="loginForm" class="auth-login-form mt-2" method="post" action="{{ url('/login') }}">
                         @csrf
                         {{-- <div class="mb-1">
                             <label class="form-label" for="login-email">Emel</label>
                             <input class="form-control" id="login-email" type="text" name="email"
                                 placeholder="john@example.com" aria-describedby="login-email" autofocus=""
-                                tabindex="1" />
+                                tabindex="1" required/>
                         </div> --}}
                         <div class="mb-1">
                             <label class="form-label" for="login-ic">No Kad Pengenalan</label>
                             <input class="form-control" id="login-ic" type="text" name="no_ic"
                                 placeholder="No Kad Pengenalan Tanpa '-'" aria-describedby="login-ic" autofocus=""
-                                tabindex="1" />
+                                tabindex="1" minlentgh=12 maxlength=12 required/>
                         </div>
                         <div class="mb-1">
                             <div class="d-flex justify-content-between">
@@ -75,10 +105,25 @@
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input class="form-control form-control-merge" id="login-password" type="password"
                                     name="password" placeholder="············" aria-describedby="login-password"
-                                    tabindex="2" />
+                                    tabindex="2" required/>
                                 <span class="input-group-text cursor-pointer">
                                     <i data-feather="eye"></i>
                                 </span>
+                            </div>
+                        </div>
+
+                        <div class="mb-1">
+                            <div class="captcha">
+                                <span>{!! captcha_img() !!}</span>
+                                <a type="button" data-toggle="tooltip" title="Set Semula Captcha" id="reload"><i class="fas fa-undo text-secondary"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="mb-1">
+                            <div class="col-md-6">
+                                <input class="form-control" type="text" name="captcha"
+                                placeholder="Masukkan Captcha" aria-describedby="captcha" autofocus=""
+                                tabindex="1" required/>
                             </div>
                         </div>
 
@@ -94,7 +139,6 @@
                     <div class="divider my-2">
                         <div class="divider-text">atau</div>
                     </div>
-                    <p class="text-center mt-2">
 
                     <p class="text-center mt-2">
                         <span>Tidak mempunyai akaun?</span>
@@ -147,6 +191,17 @@
 
 @section('script')
     <script>
+
+        $('#reload').click(function() {
+            $.ajax({
+                method : "GET",
+                url : "{{ route('reload.captcha') }}",
+                success:function(data){
+                    $(".captcha span").html(data.captcha)
+                }
+            });
+        });
+
         @if (env('APP_URL') != 'production')
             function demoLogin(index) {
                 var credential = [{
@@ -169,7 +224,7 @@
                 $('[name="no_ic"]').val(credential[index].no_ic);
                 $('[name="password"]').val(credential[index].password);
                 $('#loginDemo').modal('hide');
-                $('#loginForm')[0].submit();
+                //$('#loginForm')[0].submit();
             }
         @endif
     </script>

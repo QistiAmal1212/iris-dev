@@ -287,10 +287,13 @@ class UserController extends Controller
                 'reset_password_old' => 'required|string|min:8',
                 'reset_password_new' => 'required|string|min:8',
                 'reset_password_confirm' => 'required|same:reset_password_new',
+                'captcha' => 'required|captcha',
             ], [
                 'reset_password_old.required' => 'Please fill in current password',
                 'reset_password_new.required' => 'Please fill in new password',
                 'reset_password_confirm.required' => 'Please retype new password',
+                'captcha.required' => 'Please enter captcha',
+                'captcha' => 'CAPTCHA validation failed, try again.',
             ]);
 
             if (Hash::check($request->reset_password_old, auth()->user()->password)) {

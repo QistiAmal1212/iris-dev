@@ -15,6 +15,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CaptchaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,8 @@ Route::controller(LoginController::class)->group(function () {
     });
 
 });
+
+Route::get('reload-captcha', [CaptchaController::class, 'reloadCaptcha'])->name('reload.captcha');
 
 Route::get('home', [HomeController::class, 'index'])->name('home');
 
