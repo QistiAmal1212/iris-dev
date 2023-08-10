@@ -195,6 +195,14 @@ $configData = Helper::applClasses();
                                 <span class="menu-title text-truncate"> Senarai </span>
                             </a>
                         </li>
+                    @hasanyrole('superadmin')
+                        <li class="{{ in_array(request()->route()->getName(), ['helpdesk.categoryList']) ? 'active' : '' }}" >
+                            <a href="{{ route('helpdesk.categoryList') }}" class="nav-link">
+                                <i class="fa-solid fa-gear"></i>
+                                <span class="menu-title text-truncate"> Pengurusan </span>
+                            </a>
+                        </li>
+                    @endhasanyrole
                     </ul>
                 </li>
             @endif --}}
