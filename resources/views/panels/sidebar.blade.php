@@ -90,12 +90,12 @@ $configData = Helper::applClasses();
                     </a>
                     <ul class="menu-content">
                         <li class="nav-user-internal {{ in_array(request()->route()->getName(),['admin.internalUser'])? 'active': '' }}">
-                        <a href="{{ route('admin.internalUser') }}" class="d-flex align-items-center">
-                            <i data-feather="circle"></i>
-                            <span class="menu-title text-truncate">
-                                {{ __('msg.userinternal') }}
-                            </span>
-                        </a>
+                            <a href="{{ route('admin.internalUser') }}" class="d-flex align-items-center">
+                                <i data-feather="circle"></i>
+                                <span class="menu-title text-truncate">
+                                    {{ __('msg.userinternal') }}
+                                </span>
+                            </a>
                         </li>
                         <li class="nav-user-external {{ in_array(request()->route()->getName(),['admin.externalUser'])? 'active': '' }}">
                             <a href="{{ route('admin.externalUser') }}" class="d-flex align-items-center">
@@ -198,6 +198,27 @@ $configData = Helper::applClasses();
                     </ul>
                 </li>
             @endif --}}
+
+            {{-- IRIS MODULE PEMOHON --}}
+            <li class="navigation-header">
+                    <span> Maklumat Pemohon </span>
+                </li>
+                <li class="nav-item {{ request()->is('iris/maklumat-pemohon*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-users-line"></i>
+                        <span class="menu-title text-truncate"> Pemohon </span>
+                    </a>
+                    <ul class="menu-content">
+                        <li class="nav-user-internal {{ in_array(request()->route()->getName(),['carian_pemohon'])? 'active': '' }}">
+                            <a href="{{ route('carian_pemohon') }}" class="d-flex align-items-center">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <span class="menu-title text-truncate">
+                                    Carian Pemohon
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
             {{-- Foreach documentation menu item starts --}}
             @hasanyrole('')
