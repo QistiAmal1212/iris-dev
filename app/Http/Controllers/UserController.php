@@ -214,8 +214,8 @@ class UserController extends Controller
         try {
             $validatedData = $request->validate([
                 'full_name' => 'required|string',
-                'ic_number' => 'required|integer|min:12|unique:users,no_ic',
-                'email' => 'required|email|unique:users,email',
+                'ic_number' => 'required|integer|min:12|unique:users,no_ic,'.$id_used,
+                'email' => 'required|email|unique:users,email,'.$id_used,
             ]);
 
             if ($id_used) {
