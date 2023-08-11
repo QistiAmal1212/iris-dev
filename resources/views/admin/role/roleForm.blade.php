@@ -49,6 +49,18 @@
                         </div>
                         <div class="col-md-12 col-12">
                             <div class="form-group">
+                                <label class="form-label" for="role_level">Role Level <span class="text text-danger">*</span> </label>
+                                <div class="input-group">
+                                <select id="role_level" class="form-control" name="role_level" required>
+                                    <option value=""></option>
+                                    <option value="1">Internal</option>
+                                    <option value="0">External</option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
                                 <label class="form-label" for="role_description">Permissions <span class="text text-danger">*</span> </label>
                                 <div class="input-group">
                                     @foreach($permissions as $permission)

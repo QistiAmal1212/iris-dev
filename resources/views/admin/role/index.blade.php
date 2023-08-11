@@ -207,6 +207,7 @@
             $('#roleForm input[name="role_name"]').val("");
             $('#roleForm textarea[name="role_description"]').val("");
             $('#roleForm input[name="role_display"]').val("");
+            $('#roleForm select[name="role_level"]').val("");
             $('#roleForm input[name="permissions[]"]').each(function(){
                 $(this).removeAttr('checked')
             });
@@ -235,6 +236,7 @@
                     $('#roleForm input[name="role_name"]').val(data.detail.name);
                     $('#roleForm textarea[name="role_description"]').val(data.detail.description);
                     $('#roleForm input[name="role_display"]').val(data.detail.display_name);
+                    $('#roleForm select[name="role_level"]').val(data.detail.is_internal);
                     $('#roleForm input[name="permissions[]"]').each(function(){
                         if(data.detail.listOfPermission.includes(parseInt(this.value)))
                             $(this).attr('checked','checked')

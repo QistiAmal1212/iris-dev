@@ -61,8 +61,8 @@ class RoleController extends Controller
                         $button = "";
 
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
-                        $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewRoleForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                         $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
                         $button .= '</div>';
 
@@ -83,27 +83,47 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
+        DB::beginTransaction();
+        try {
+            $validatedData = $request->validate([
+                'role_name' => 'required|string',
+                'role_description' => 'required|string',
+                'role_display' => 'required|string',
+                'role_level' => 'required|boolean'
+            ]);
+
+            $role = Role::create([
+                'name' => $request->role_name, 
+                'description' => $request->role_description, 
+                'display_name' => $request->role_display, 
+                'is_internal' => $request->role_level,
+                'guard_name' => 'web'
+            ]);
+
+            if ($request->permissions) {
+                foreach ($request->permissions as $permission) {
+                    $role->givePermissionTo($permission);
+                }
+            }
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
         // Validator::make($request->all(), [
         //     'name' => 'required|string|unique:role',
         //     'description' => 'required|string',
         //     'display_name' => 'required|string',
         // ]);
 
-        // $role = Role::create(['name' => $request->name, 'description' => $request->description, 'display_name' => $request->role_display, 'guard_name' => 'web']);
-
-        // if ($request->permissions) {
-        //     foreach ($request->permissions as $permission) {
-        //         $role->givePermissionTo($permission);
-        //     }
-        // }
-
-        Validator::make($request->all(), [
-            'name' => 'required|string|unique:role',
-            'description' => 'required|string',
-            'display_name' => 'required|string',
-        ]);
-
-        $role = Role::create(['name' => $request->role_name, 'description' => $request->role_description, 'display_name' => $request->role_display, 'guard_name' => 'web']);
+        // $role = Role::create([
+        //     'name' => $request->role_name, 
+        //     'description' => $request->role_description, 
+        //     'display_name' => $request->role_display, 
+        //     'guard_name' => 'web'
+        // ]);
 
         return redirect()->route('role.index');
     }
@@ -128,6 +148,7 @@ class RoleController extends Controller
                 'role_name' => 'required|string',
                 'role_description' => 'required|string',
                 'role_display' => 'required|string',
+                'role_level' => 'required|boolean'
             ]);
 
             if ($id_used) {
@@ -139,6 +160,7 @@ class RoleController extends Controller
             $role->name = $request->role_name;
             $role->description = $request->role_description;
             $role->display_name = $request->role_display;
+            $role->is_internal = $request->role_level;
             // $role->update($request->only('role_name', 'role_description','role_display'));
             $role->syncPermissions($request->permissions ? $request->permissions : []);
             $role->save();
