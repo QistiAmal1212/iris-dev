@@ -106,6 +106,8 @@ class RoleController extends Controller
                 }
             }
 
+
+            DB::commit();
         } catch (\Throwable $e) {
 
             DB::rollback();
