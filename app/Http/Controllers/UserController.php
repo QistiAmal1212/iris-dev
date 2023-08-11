@@ -36,7 +36,7 @@ class UserController extends Controller
                 $type = 'external';
             }
 
-            return Datatables::of($users)
+            return Datatables::of($users->get())
                 ->editColumn('name', function ($users) use ($type) {
 
                     if ($type == "internal") {
@@ -54,11 +54,7 @@ class UserController extends Controller
                     }
                 })
                 ->editColumn('username', function ($users) use ($type) {
-
-                    $username = explode(' ', trim($users->name));
-
-                    return $username;
-
+                    return $users->no_ic;
                 })
                 ->editColumn('email', function ($users) use ($type) {
 

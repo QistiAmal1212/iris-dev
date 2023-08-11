@@ -4,7 +4,7 @@
             <tr>
                 <th class="font-weight-bold text-center" width="1%"> NO. </th>
                 <th class="font-weight-bold text-center"> NAME </th>
-                <th class="font-weight-bold text-center"> USERNAME </th>
+                <th class="font-weight-bold text-center"> NO IC </th>
                 <th class="font-weight-bold text-center"> EMAIL </th>
                 <th class="font-weight-bold text-center"> ROLE </th>
                 <th class="font-weight-bold text-center"> ACTION </th>
@@ -65,8 +65,8 @@
                     {
                         data: 'action',
                         name: 'action',
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
 
                 ],
