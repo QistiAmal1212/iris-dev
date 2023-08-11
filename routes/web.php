@@ -134,3 +134,6 @@ include 'documentation.php';
 include 'custom_route/report_example_route.php';
 include 'custom_route/test_form.php';
 include 'custom_route/test_form_no_fmf.php';
+
+// ROUTE: IRIS
+include 'iris.php';
