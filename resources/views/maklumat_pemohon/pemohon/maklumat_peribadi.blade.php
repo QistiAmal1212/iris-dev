@@ -11,20 +11,17 @@
             </a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link fw-bolder" id="tempatLahir-tab" data-bs-toggle="tab" href="#tempatLahir"
-                aria-controls="tempatLahir" role="tab" aria-selected="true">
+            <a class="nav-link fw-bolder" id="tempatLahir-tab" data-bs-toggle="tab" href="#tempatLahir" aria-controls="tempatLahir" role="tab" aria-selected="true">
                 Tempat Lahir
             </a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link fw-bolder" id="lesen-tab" data-bs-toggle="tab" href="#lesen"
-                aria-controls="lesen" role="tab" aria-selected="true">
+            <a class="nav-link fw-bolder" id="lesen-tab" data-bs-toggle="tab" href="#lesen" aria-controls="lesen" role="tab" aria-selected="true">
                 Lesen Memandu
             </a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link fw-bolder" id="oku-tab" data-bs-toggle="tab" href="#oku"
-                aria-controls="oku" role="tab" aria-selected="true">
+            <a class="nav-link fw-bolder" id="oku-tab" data-bs-toggle="tab" href="#oku" aria-controls="oku" role="tab" aria-selected="true">
                 Kurang Upaya (OKU)
             </a>
         </li>

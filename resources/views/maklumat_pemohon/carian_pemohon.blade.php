@@ -127,7 +127,7 @@ Maklumat Pemohon
                         </div>
                         <div class="tab-pane fade" id="skim" role="tabpanel" aria-labelledby="skim-tab">
                             <hr>
-                            {{-- @include('maklumat_pemohon.pemohon.maklumat_peribadi.skim') --}}
+                            @include('maklumat_pemohon.pemohon.maklumat_skim')
                         </div>
                         <div class="tab-pane fade" id="akademik" role="tabpanel" aria-labelledby="akademik-tab">
                             <hr>
