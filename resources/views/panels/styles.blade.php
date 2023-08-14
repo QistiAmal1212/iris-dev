@@ -130,6 +130,15 @@
         border: 1px solid red;
     }
 
+    div .faq-search {
+        div .faq-search-input {
+            div .input-group {
+                width: 576px;
+                margin: 0 auto;
+            }
+        }
+    }
+
 </style>
 <!-- BEGIN: Laravel Style CSS-->
 <link rel="stylesheet" href="{{ asset(mix('css/overrides.css')) }}" />

@@ -1,158 +1,55 @@
-<div class="row">
-    {{-- MAKLUMAT PERIBADI --}}
-    <h6 class="fw-bolder mb-1">Maklumat Peribadi</h6>
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Jantina</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
+<div class="">
+    <ul class="nav nav-pills nav-justified" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link fw-bolder active" id="personal-tab" data-bs-toggle="tab" href="#personal" aria-controls="personal" role="tab" aria-selected="true">
+                Peribadi
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link fw-bolder" id="alamat-tab" data-bs-toggle="tab" href="#alamat" aria-controls="alamat" role="tab" aria-selected="true">
+                Alamat
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link fw-bolder" id="tempatLahir-tab" data-bs-toggle="tab" href="#tempatLahir"
+                aria-controls="tempatLahir" role="tab" aria-selected="true">
+                Tempat Lahir
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link fw-bolder" id="lesen-tab" data-bs-toggle="tab" href="#lesen"
+                aria-controls="lesen" role="tab" aria-selected="true">
+                Lesen Memandu
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link fw-bolder" id="oku-tab" data-bs-toggle="tab" href="#oku"
+                aria-controls="oku" role="tab" aria-selected="true">
+                Kurang Upaya (OKU)
+            </a>
+        </li>
+    </ul>
 
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Agama</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Keturunan</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Tarikh Lahir</label>
-        <input type="text" class="form-control flatpickr-basic" placeholder="YYYY-MM-DD" value="" disabled />
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Umur</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Taraf Perkahwinan</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-        <label class="form-label">No. Telefon</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-        <label class="form-label">Alamat Emel</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <hr>
-
-    {{-- ALAMAT --}}
-    <h6 class="fw-bolder mb-1">Alamat</h6>
-
-    {{-- ALAMAT TETAP --}}
-    <h6>
-        <span class="badge badge-light-primary fw-bolder">Alamat Tetap</span>
-    </h6>
-    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
-        <label class="form-label">Alamat</label>
-        <textarea rows="3" type="text" class="form-control" value="" disabled></textarea>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Poskod</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Bandar</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Negeri</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    {{-- ALAMAT SURAT MENYURAT --}}
-    <h6>
-        <span class="badge badge-light-primary fw-bolder mt-1">Alamat Surat Menyurat</span>
-    </h6>
-    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
-        <label class="form-label">Alamat</label>
-        <textarea rows="3" type="text" class="form-control" value="" disabled></textarea>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Poskod</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Bandar</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Negeri</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-    
-    <hr>
-
-    {{-- TEMPAT LAHIR --}}
-    <h6 class="fw-bolder mb-1">Tempat Lahir</h6>
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Pemohon</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Ibu Pemohon</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Bapa Pemohon</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <hr>
-
-    {{-- LESEN MEMANDU --}}
-    <h6 class="fw-bolder mb-1">Lesen Memandu</h6>
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Jenis Lesen</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Tarikh Tamat</label>
-        <input type="text" class="form-control flatpickr-basic" placeholder="YYYY-MM-DD" value="" disabled />
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Status Senarai Hitam</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <hr>
-
-    {{-- KURANG UPAYA (OKU) --}}
-    <h6 class="fw-bolder mb-1">Kurang Upaya (OKU)</h6>
-    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-        <label class="form-label">No. Pendaftaran OKU</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-        <label class="form-label">Status OKU</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-        <label class="form-label">Kategori OKU</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-        <label class="form-label">Sub- Kategori OKU</label>
-        <input type="text" class="form-control" value="" disabled>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+            <hr>
+            @include('maklumat_pemohon.pemohon.maklumat_peribadi.peribadi')
+        </div>
+        <div class="tab-pane fade" id="alamat" role="tabpanel" aria-labelledby="alamat-tab">
+            <hr>
+            @include('maklumat_pemohon.pemohon.maklumat_peribadi.alamat')
+        </div>
+        <div class="tab-pane fade" id="tempatLahir" role="tabpanel" aria-labelledby="tempatLahir-tab">
+            <hr>
+            @include('maklumat_pemohon.pemohon.maklumat_peribadi.tempat_lahir')
+        </div>
+        <div class="tab-pane fade" id="lesen" role="tabpanel" aria-labelledby="lesen-tab">
+            <hr>
+            @include('maklumat_pemohon.pemohon.maklumat_peribadi.lesen_memandu')
+        </div>
+        <div class="tab-pane fade" id="oku" role="tabpanel" aria-labelledby="oku-tab">
+            <hr>
+            @include('maklumat_pemohon.pemohon.maklumat_peribadi.kurang_upaya')
+        </div>
     </div>
 </div>
