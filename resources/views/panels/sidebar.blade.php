@@ -136,8 +136,8 @@ $configData = Helper::applClasses();
                                 <i data-feather="circle"></i> <span class="menu-title text-truncate"> {{ __('msg.system_config') }} </span>
                             </a>
                         </li>
-                        <li class="{{ in_array(request()->route()->getName(), ['admin-log-index']) ? 'active' : '' }}">
-                            <a href="{{ route('admin-log-index') }}" class="d-flex align-items-center">
+                        <li class="{{ in_array(request()->route()->getName(), ['admin.log']) ? 'active' : '' }}">
+                            <a href="{{ route('admin.log') }}" class="d-flex align-items-center">
                                 <i data-feather="circle"></i> <span class="menu-title text-truncate"> Jejak Audit / Log </span>
                             </a>
                         </li>

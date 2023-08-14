@@ -9,6 +9,7 @@ use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -101,6 +102,11 @@ Route::prefix('admin')->group(function () {
         Route::prefix('log')->group(function () {
             Route::get('index', [ActivityLogController::class, 'index'])->name('admin-log-index');
             Route::get('view/{logID}', [ActivityLogController::class, 'view'])->name('admin-log-view');
+        });
+
+        Route::prefix('log')->group(function () {
+            Route::get('/', [LogController::class, 'index'])->name('admin.log');
+            Route::get('{id}', [LogController::class, 'view'])->name('admin.log.view');
         });
 
     });

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-<h2 class="customTitle1"> LOG</span></h2>
+LOG
 @endsection
 
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{route('home')}}">{{ __('msg.home') }}</a></li>
-<li class="breadcrumb-item"><a href="{{route('admin-log-index')}}">Log</a></li>
+<li class="breadcrumb-item"><a href="{{route('admin.log')}}">Log</a></li>
 @endsection
 
 @section('content')
@@ -22,36 +22,6 @@
         </div>
         <div class="card-body pt-2">
             <div class="row">
-                <div class="form-group col-md-4">
-                    <label><strong> Event </strong></label>
-                    <select name="event" class="form-control">
-                        <option value=""></option>
-                        @foreach($eventArr as $key => $event)
-                        {{-- <option value="{{ $event }}" {{ $request->event == $event ? 'selected' : '' }}> {{ $event }} </option> --}}
-                        <option value="{{ $event }}"> {{ $event }} </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label><strong> Subject Type </strong></label>
-                    <select name="subject_type" class="form-control">
-                        <option value=""></option>
-                        @foreach($subjectTypeArr as $key => $subjectType)
-                        {{-- <option value="{{ $subjectType }}" {{ $request->subject_type == $subjectType ? 'selected' : '' }}> {{ $subjectType }} </option> --}}
-                        <option value="{{ $subjectType }}"> {{ $subjectType }} </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label><strong> Causer </strong></label>
-                    <select name="causer_id" class="form-control">
-                        <option value=""></option>
-                        @foreach($users as $user)
-                        {{-- <option value="{{ $user->id }}" {{ $request->causer_id == $user->id ? 'selected' : '' }}> {{ $user->name }} </option> --}}
-                        <option value="{{ $user->id }}"> {{ $user->name }} </option>
-                        @endforeach
-                    </select>
-                </div>
 
                 <div class="form-group col-md-4">
                     <label><strong> Date Start </strong></label>
@@ -65,107 +35,129 @@
                     <input type="date" name="date_end" value="" class="form-control" />
                 </div>
 
-                <div class="col-2">
-                    <label><strong></strong></label>
-                    <input type="submit" value="Filter" class="btn btn-block btn-success" />
-                </div>
-
-                <div class="col-2">
-                    <label><strong></strong></label>
-                    <a href="{{ route('admin-log-index') }}" class="btn btn-block btn-secondary"> Reset </a>
-                </div>
-
             </div>
         </div>
     </div>
 </form>
 <!-- /.custom search filter -->
-
-<div class="row">
-
-    <div class="col-md-12 table-scroll">
-        <table class="table table-condensed table-hover">
-            <thead>
-                <tr>
-                    <th> ID </th>
-                    {{-- <th> Log Name </th> --}}
-                    {{-- <th> Description </th> --}}
-                    <th> Event </th>
-                    <th> Subject Type </th>
-                    <th> Subject ID </th>
-                    <th> Causer </th>
-                    <th> DateTime </th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($activities as $activity)
-                <tr>
-                    <td> {{ $activity->id }} </td>
-                    {{-- <td> {{ $activity->log_name }} </td> --}}
-                    {{-- <td> {{ $activity->description }} </td> --}}
-                    <td> {{ $activity->event }} </td>
-                    <td> {{ $activity->subject_type }} </td>
-                    <td> {{ $activity->subject_id }} </td>
-                    <td> {{ $activity->causer ? $activity->causer->name : '' }} </td>
-                    <td> {{ $activity->created_at->format('d/m/Y h:ia') }} </td>
-                    <td> <button type="button" class="btn btn-sm btn-default btnViewLog" data-activity="{{ $activity->activity_json }}" data-properties="{{ $activity->properties }}"><i class="fas fa-eye"></i></button> </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-end">
-            {!! $activities->links() !!}
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="viewLogModal" tabindex="-1" role="dialog" aria-labelledby="viewLogModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewLogModalLabel">View Log</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4">
-
-                        <div class="form-group">
-                            <label> Description </label>
-                            <input type="text" id="description" name="description" class="form-control" disabled>
-                        </div>
-
-                        <div class="form-group">
-                            <label> Subject Type </label>
-                            <input type="text" id="subject_type" name="subject_type" class="form-control" disabled>
-                        </div>
-
-                        <div class="form-group">
-                            <label> Event </label>
-                            <input type="text" id="event" name="event" class="form-control" disabled>
-                        </div>
-
-                        <div class="form-group">
-                            <label> Created at </label>
-                            <input type="text" id="created_at" name="created_at" class="form-control" disabled>
-                        </div>
-
-                    </div>
-                    <div class="col-md-8">
-                        <pre id="logDetail"></pre>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-condensed table-hover" id="table">
+                <thead>
+                    <tr>
+                        <th bgcolor="#f0f0f0" class="fit align-top text-left" style="color:#000">No.</th>
+                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Activity</th>
+                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Module</th>
+                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Details</th>
+                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">User</th>
+                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">IP Address</th>
+                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Date & Time</th>
+                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Action</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>
 @endsection
+
+@push('js')
+<script type="text/javascript">
+
+var table = $('#table');
+
+var settings = {
+    "processing": true,
+    "serverSide": true,
+    "deferRender": true,
+    "ajax": "{{ fullUrl() }}",
+    "columns": [
+        { data: 'index', defaultContent: '', orderable: false, searchable: false, render: function (data, type, row, meta) {
+            return meta.row + meta.settings._iDisplayStart + 1;
+        }},        
+        { data: "activity_type.name", name: "activity_type.name", render: function(data, type, row){
+            return $("<div/>").html(data).text();
+        }},
+        { data: "module.name", name: "module.name"}, 
+        { data: "description", name: "description"},     
+        { data: "created_by_user_id", name: "created_by_user_id", render: function(data, type, row){
+            return $("<div/>").html(data).text();
+        }},   
+        { data: "ip_address", name: "ip_address"},        
+        { data: "created_at", name: "created_at"},
+        { data: "action", name: "action", orderable: false, searchable: false},
+    ],
+    "columnDefs": [
+        { className: "nowrap", "targets": [ 7 ] }
+    ],
+    "bSortable": false,
+    // "sDom": "B<t><'row'<p i>>",
+    "sDom": "Blfrtip",
+    "lengthMenu": [[10, 25, 50, 100, 500, 1000], [10, 25, 50, 100, 500, 1000]],
+    "buttons": [
+        {
+            text: '<i class="fa fa-print m-r-5"></i> Print',
+            extend: 'print',
+            className: 'btn btn-default btn-sm',
+            exportOptions: {
+                columns: ':visible:not(.nowrap)'
+            }
+        },
+        {
+            text: '<i class="fa fa-download m-r-5"></i> Excel',
+            extend: 'excelHtml5',
+            className: 'btn btn-default btn-sm',
+            exportOptions: {
+                columns: ':visible:not(.nowrap)'
+            }
+        },
+        {
+            text: '<i class="fa fa-download m-r-5"></i> PDF',
+            extend: 'pdfHtml5',
+            className: 'btn btn-default btn-sm',
+            exportOptions: {
+                columns: ':visible:not(.nowrap)'
+            }
+        },
+    ],
+    "destroy": true,
+    "scrollCollapse": true,
+    "pagingType": "full_numbers",
+    "oLanguage": {
+        "sEmptyTable":      "No result",
+        "sInfo":            "Showing _START_ to _END_ from _TOTAL_ record",
+        "sInfoEmpty":       "Showing 0 record",
+        "sInfoFiltered":    "(Filtered from total _MAX_ record)",
+        "sInfoPostFix":     "",
+        "sInfoThousands":   ",",
+        "sLengthMenu":      "Show _MENU_ record",
+        "sLoadingRecords":  "Processed...",
+        "sProcessing":      "Processing...",
+        "sSearch":          "Searching:",
+       "sZeroRecords":      "No record matches found.",
+       "oPaginate": {
+           "sFirst":        "First",
+           "sPrevious":     "Previous",
+           "sNext":         "Next",
+           "sLast":         "Last"
+       },
+       "oAria": {
+           "sSortAscending":  ": diaktifkan kepada susunan lajur menaik",
+           "sSortDescending": ": diaktifkan kepada susunan lajur menurun"
+       }
+    },
+    "iDisplayLength": 25
+};
+
+table.dataTable(settings);
+
+function view(id) {
+    $("#modal-div").load("{{ route('admin.log') }}/"+id);
+}
+
+</script>
+@endpush
 
 @section('script')
 <script>

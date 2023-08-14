@@ -16,7 +16,7 @@ class ActivityLogController extends Controller
         $causer_id = $activities->unique('causer_id')->pluck('causer_id');
         $users = User::whereIn('id', $causer_id)->get();
 
-        return view('admin.log.index', compact([
+        return view('admin.log.index_old', compact([
             'activities',
             'eventArr',
             'subjectTypeArr',
