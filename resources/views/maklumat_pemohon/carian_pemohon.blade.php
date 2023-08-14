@@ -135,7 +135,7 @@ Maklumat Pemohon
                         </div>
                         <div class="tab-pane fade" id="perkhidmatan" role="tabpanel" aria-labelledby="perkhidmatan-tab">
                             <hr>
-                            {{-- @include('maklumat_pemohon.pemohon.maklumat_peribadi.perkhidmatan_memandu') --}}
+                            @include('maklumat_pemohon.pemohon.maklumat_perkhidmatan')
                         </div>
                         <div class="tab-pane fade" id="tambahan" role="tabpanel" aria-labelledby="tambahan-tab">
                             <hr>
