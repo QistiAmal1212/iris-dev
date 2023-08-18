@@ -44,4 +44,15 @@ class Role extends Model
     {
         return $this->belongsToMany('App\Models\Permission', 'role_has_permissions');
     }
+
+    public function function()
+    {
+        return $this->belongsToMany('App\Models\Master\MasterFunction', 'role_has_function', 'role_id', 'function_id');
+    }
+
+    public function menu()
+    {
+        return $this->belongsToMany('App\Models\SecurityMenu', 'role_has_menu', 'role_id', 'menu_id')
+        ->withPivot('access', 'search', 'add', 'update', 'delete', 'report');
+    }
 }

@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+//use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables;
+use App\Models\Master\MasterFunction;
+use App\Models\SecurityMenu;
 
 class RoleController extends Controller
 {
@@ -27,6 +30,8 @@ class RoleController extends Controller
         $countExternalRoles = count($externalRoles);
 
         $permissions = Permission::get();
+        $masterFunction = MasterFunction::all();
+        $securityMenu = SecurityMenu::where('level', '1')->get();
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
         // $roles = Role::paginate(20);
         $roles = Role::all();
@@ -62,7 +67,8 @@ class RoleController extends Controller
 
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                         //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewRoleForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        // $button .= '<a class="btn btn-xs btn-default" onclick="viewRoleForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        $button .= '<a class="btn btn-xs btn-default" onclick="viewForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                         $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
                         $button .= '</div>';
 
@@ -72,7 +78,7 @@ class RoleController extends Controller
                     ->make(true);
             }
 
-        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles'));
+        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles', 'masterFunction', 'securityMenu'));
     }
 
     public function create()
@@ -85,12 +91,12 @@ class RoleController extends Controller
     {
         DB::beginTransaction();
         try {
-            $validatedData = $request->validate([
-                'role_name' => 'required|string',
-                'role_description' => 'required|string',
-                'role_display' => 'required|string',
-                'role_level' => 'required|boolean'
-            ]);
+            // $validatedData = $request->validate([
+            //     'role_name' => 'required|string',
+            //     'role_description' => 'required|string',
+            //     'role_display' => 'required|string',
+            //     'role_level' => 'required|boolean'
+            // ]);
 
             $role = Role::create([
                 'name' => $request->role_name, 
@@ -100,12 +106,34 @@ class RoleController extends Controller
                 'guard_name' => 'web'
             ]);
 
-            if ($request->permissions) {
-                foreach ($request->permissions as $permission) {
-                    $role->givePermissionTo($permission);
-                }
+            $role->function()->sync($request->access_function);
+
+            $levelOne = isset($request->level_one) ? $request->level_one : [];
+            $levelTwo = isset($request->level_two) ? $request->level_two : [];
+            $levelThree = isset($request->level_three) ? $request->level_three : [];
+
+            $accessMenu = array_merge($levelOne, $levelTwo, $levelThree);
+
+            $roleMenu = [];
+
+            $access = isset($request->access) ? $request->access : [];
+            $search = isset($request->search) ? $request->search : [];
+            $add = isset($request->add) ? $request->add : [];
+            $update = isset($request->update) ? $request->update : [];
+            $delete = isset($request->delete) ? $request->delete : [];
+            $report = isset($request->report) ? $request->report : [];
+
+            foreach($accessMenu as $menu)
+            {
+                $roleMenu[$menu]['access'] = in_array($menu, $access) ? true : false;
+                $roleMenu[$menu]['search'] = in_array($menu, $search) ? true : false;
+                $roleMenu[$menu]['add'] = in_array($menu, $add) ? true : false;
+                $roleMenu[$menu]['update'] = in_array($menu, $update) ? true : false;
+                $roleMenu[$menu]['delete'] = in_array($menu, $delete) ? true : false;
+                $roleMenu[$menu]['report'] = in_array($menu, $report) ? true : false;
             }
 
+            $role->menu()->sync($roleMenu);
 
             DB::commit();
         } catch (\Throwable $e) {
@@ -113,19 +141,6 @@ class RoleController extends Controller
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
-
-        // Validator::make($request->all(), [
-        //     'name' => 'required|string|unique:role',
-        //     'description' => 'required|string',
-        //     'display_name' => 'required|string',
-        // ]);
-
-        // $role = Role::create([
-        //     'name' => $request->role_name, 
-        //     'description' => $request->role_description, 
-        //     'display_name' => $request->role_display, 
-        //     'guard_name' => 'web'
-        // ]);
 
         return redirect()->route('role.index');
     }
@@ -174,7 +189,8 @@ class RoleController extends Controller
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
 
-        return to_route('role.index', [$role]);
+        return redirect()->route('role.index');
+        //return to_route('role.index', [$role]);
     }
 
     public function destroy(Request $request, Role $role)
@@ -205,5 +221,138 @@ class RoleController extends Controller
 
         DB::commit();
         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $role]);
+    }
+
+    public function getMenu(Request $request)
+    {
+        if($request->level == 'one') {
+            $level = 1;
+        } else if($request->level == 'two'){
+            $level = 2;
+        } else if($request->level == 'three'){
+            $level = 3;
+        }
+
+        $menuId = isset($request->menu_id) ? $request->menu_id : [];
+
+        $securityMenu = SecurityMenu::whereIn('id', $menuId)->where('level', $level)->orderBy('sequence', 'asc')->get();
+
+        return view('admin.role.listMenu', compact('securityMenu'));
+    }
+
+    public function getNextMenu(Request $request)
+    {
+        if($request->level == 'one') {
+            $level = 1;
+        } else if($request->level == 'two'){
+            $level = 2;
+        } else if($request->level == 'three'){
+            $level = 3;
+        }
+
+        $menuId = isset($request->menu_id) ? $request->menu_id : [];
+
+        $menuData = [];
+
+        $parentMenu = SecurityMenu::whereIn('id', $menuId)->get();
+
+        foreach($parentMenu as $parent){
+            $menuData[$parent->id]['name'] = $parent->name;
+            $menuData[$parent->id]['id'] = $parent->id;
+            $menuData[$parent->id]['sub_menu'] = [];
+        }
+
+        $securityMenu = SecurityMenu::whereIn('menu_link', $menuId)->where('level', $level)->orderBy('sequence', 'asc')->get();
+
+        foreach($securityMenu as $menu) {
+            if($menu->menu_link != null){
+                $menuData[$menu->menu_link]['sub_menu'][] = $menu;
+            }
+        }
+
+        return view('admin.role.menu_details', compact('menuData'));
+    }
+
+    public function editRole(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $role = Role::find($request->roleId);
+            $role->listFunction = $role->function->pluck('id')->toArray();
+            $role->levelOne = $role->menu->where('level', 1)->pluck('id')->toArray();
+            $role->levelTwo = $role->menu->where('level', 2)->pluck('id')->toArray();
+            $role->levelThree = $role->menu->where('level', 3)->pluck('id')->toArray();
+
+            if (!$role) {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Role not found. Please refresh"], 404);
+            }
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        DB::commit();
+        return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $role]);
+    }
+
+    public function updateRole(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $validatedData = $request->validate([
+                'role_name' => 'required|string',
+                'role_description' => 'required|string',
+                'role_display' => 'required|string',
+                'role_level' => 'required|boolean'
+            ]);
+
+            $role = Role::find($request->roleId);
+
+            $role->name = $request->role_name;
+            $role->description = $request->role_description;
+            $role->display_name = $request->role_display;
+            $role->is_internal = $request->role_level;
+            $role->function()->sync($request->access_function);
+
+            $levelOne = isset($request->level_one) ? $request->level_one : [];
+            $levelTwo = isset($request->level_two) ? $request->level_two : [];
+            $levelThree = isset($request->level_three) ? $request->level_three : [];
+
+            $accessMenu = array_merge($levelOne, $levelTwo, $levelThree);
+
+            $roleMenu = [];
+
+            $access = isset($request->access) ? $request->access : [];
+            $search = isset($request->search) ? $request->search : [];
+            $add = isset($request->add) ? $request->add : [];
+            $update = isset($request->update) ? $request->update : [];
+            $delete = isset($request->delete) ? $request->delete : [];
+            $report = isset($request->report) ? $request->report : [];
+
+            foreach($accessMenu as $menu)
+            {
+                $roleMenu[$menu]['access'] = in_array($menu, $access) ? true : false;
+                $roleMenu[$menu]['search'] = in_array($menu, $search) ? true : false;
+                $roleMenu[$menu]['add'] = in_array($menu, $add) ? true : false;
+                $roleMenu[$menu]['update'] = in_array($menu, $update) ? true : false;
+                $roleMenu[$menu]['delete'] = in_array($menu, $delete) ? true : false;
+                $roleMenu[$menu]['report'] = in_array($menu, $report) ? true : false;
+            }
+
+            $role->menu()->sync($roleMenu);
+
+            $role->save();
+            DB::commit();
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        return redirect()->route('role.index');
     }
 }

@@ -1,96 +1,275 @@
-
-@section('vendor-style')
-<!-- vendor css files -->
-<link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
-@endsection
-
-@php
-    $read_only = $read_only ?? null;
-    $moduleRole = $moduleRole ?? null;
-@endphp
-<div class="modal fade" id="roleFormModal" tabindex="-1" aria-labelledby="#addNewCardTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade text-start" id="roleFormModal" tabindex="-1" aria-labelledby="title-role" aria-hidden="true" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header py-0 bg-transparent">
+            <div class="modal-header">
+                <h4 class="modal-title" id="title-role">Add Role</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body px-sm-2 mx-50">
-                <h1 class="text-center mb-1" id="addNewCardTitle">Role Form</h1>
-                <p class="text-center" name="sub_title" id="sub_title">Add Role</p>
+            <div class="modal-body">
+                <!-- Horizontal Wizard -->
+                <section class="horizontal-wizard">
+                <form action="{{ route('role.store') }}" method="POST" id="roleForm">
+                <div class="bs-stepper horizontal-wizard-example">
+                    <div class="bs-stepper-header" role="tablist">
+                    <div class="step" data-target="#role-details" role="tab" id="role-details-trigger">
+                        <button type="button" class="step-trigger">
+                        <span class="bs-stepper-box">1</span>
+                        <span class="bs-stepper-label">
+                            <span class="bs-stepper-title">Role Details</span>
+                            <span class="bs-stepper-subtitle">With Access Function</span>
+                        </span>
+                        </button>
+                    </div>
+                    <div class="line">
+                        <i data-feather="chevron-right" class="font-medium-2"></i>
+                    </div>
+                    <div class="step" data-target="#menu-one" role="tab" id="menu-one-trigger">
+                        <button type="button" class="step-trigger">
+                        <span class="bs-stepper-box">2</span>
+                        <span class="bs-stepper-label">
+                            <span class="bs-stepper-title">Menu Level 1</span>
+                            <span class="bs-stepper-subtitle">Access Menu</span>
+                        </span>
+                        </button>
+                    </div>
+                    <div class="line">
+                        <i data-feather="chevron-right" class="font-medium-2"></i>
+                    </div>
+                    <div class="step" data-target="#menu-two" role="tab" id="menu-two-trigger">
+                        <button type="button" class="step-trigger">
+                        <span class="bs-stepper-box">3</span>
+                        <span class="bs-stepper-label">
+                            <span class="bs-stepper-title">Menu Level 2</span>
+                            <span class="bs-stepper-subtitle">Access Menu</span>
+                        </span>
+                        </button>
+                    </div>
+                    <div class="line">
+                        <i data-feather="chevron-right" class="font-medium-2"></i>
+                    </div>
+                    <div class="step" data-target="#menu-three" role="tab" id="menu-three-trigger">
+                        <button type="button" class="step-trigger">
+                        <span class="bs-stepper-box">4</span>
+                        <span class="bs-stepper-label">
+                            <span class="bs-stepper-title">Menu Level 3</span>
+                            <span class="bs-stepper-subtitle">Access Menu</span>
+                        </span>
+                        </button>
+                    </div>
+                    </div>
+                    <div class="bs-stepper-content">
+                    <div id="role-details" class="content" role="tabpanel" aria-labelledby="role-details-trigger">
+                        <div class="content-header">
+                            <h5 class="mb-0">Role Details</h5>
+                            <small class="text-muted">Enter Role Details.</small>
+                        </div>
 
-                <form id="roleForm" action="{{route('role.store')}}" method="POST" data-reloadPage="true">
-                    @csrf
-                    <input type="hidden" name="user_id" value="{{$id ?? null}}">
-                    <input type="hidden" name="_method" value="">
-                    <div class="row">
-                        <div class="col-md-12 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="role_name">Name <span class="text text-danger">*</span> </label>
-                                <div class="input-group">
-                                    <input type="text" id="role_name" name="role_name" value="" class="form-control" placeholder="Role Name" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="role_description">Descriptions <span class="text text-danger">*</span> </label>
-                                <div class="input-group">
-                                    <textarea class="form-control" rows = 4 placeholder="Role Descriptions" name="role_description"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="role_display">Display Role As <span class="text text-danger">*</span> </label>
-                                <div class="input-group">
-                                    <input type="text" id="role_display" class="form-control" placeholder="Display Role As" name="role_display" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="role_level">Role Level <span class="text text-danger">*</span> </label>
-                                <div class="input-group">
-                                <select id="role_level" class="form-control" name="role_level" required>
-                                    <option value=""></option>
-                                    <option value="1">Internal</option>
-                                    <option value="0">External</option>
-                                </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-12">
-                            <div class="form-group">
-                                <label class="form-label" for="role_description">Permissions <span class="text text-danger">*</span> </label>
-                                <div class="input-group">
-                                    @foreach($permissions as $permission)
-                                    <div class="col-sm-6 mt-1 mb-1">
-                                        <div class="custom-control custom-checkbox">
-                                            <input class="custom-control-input" name="permissions[]" value="{{ $permission->id }}" type="checkbox" id="permissionCB_{{ $permission->id }}" />
-                                            <label for="permissionCB_{{ $permission->id }}" class="custom-control-label"> {{ $permission->name }} </label>
-                                        </div>
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="role_name">Name <span class="text text-danger">*</span> </label>
+                                    <div class="input-group">
+                                        <input type="text" id="role_name" name="role_name" value="" class="form-control" placeholder="Role Name" required>
                                     </div>
-                                    @endforeach
                                 </div>
                             </div>
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="role_description">Descriptions <span class="text text-danger">*</span> </label>
+                                    <div class="input-group">
+                                        <textarea class="form-control" rows = 4 placeholder="Role Descriptions" name="role_description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="role_display">Display Role As <span class="text text-danger">*</span> </label>
+                                    <div class="input-group">
+                                        <input type="text" id="role_display" class="form-control" placeholder="Display Role As" name="role_display" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="role_level">Role Level <span class="text text-danger">*</span> </label>
+                                    <div class="input-group">
+                                    <select id="role_level" class="form-control" name="role_level" required>
+                                        <option value=""></option>
+                                        <option value="1">Internal</option>
+                                        <option value="0">External</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="access_function">Fungsi Akses<span class="text text-danger">*</span> </label>
+                                    <select id="access_function" class="select2 form-select" name="access_function[]" required multiple>
+                                        @foreach($masterFunction as $function)
+                                        <option value="{{ $function->id }}">{{ $function->code." - ".$function->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                        <button class="btn btn-outline-secondary btn-prev" type="button" disabled>
+                            <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                        </button>
+                        <button class="btn btn-primary btn-next" type="button">
+                            <span class="align-middle d-sm-inline-block d-none">Next</span>
+                            <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                        </button>
                         </div>
                     </div>
-                    <button type="button" id="btnUpdateRoleForm" hidden onclick="generalFormSubmit(this);"></button>
+                    <div id="menu-one" class="content" role="tabpanel" aria-labelledby="menu-one-trigger">
+                        <div class="content-header">
+                        <h5 class="mb-0">Menu Level 1</h5>
+                        <small>Choose Access Menu Level 1.</small>
+                        </div>
+
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="level_one">Menu</label>
+                                <select id="level_one" class="select2 form-select" name="level_one[]" multiple onchange="showListMenu('one')">
+                                    @foreach($securityMenu as $menu)
+                                    <option value="{{ $menu->id }}">{{ $menu->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="table-responsive" id="div-table-one">
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between">
+                        <button class="btn btn-primary btn-prev" type="button">
+                            <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                        </button>
+                        <button class="btn btn-primary btn-next" type="button" onclick="showNextMenu('two', 'one')">
+                            <span class="align-middle d-sm-inline-block d-none">Next</span>
+                            <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                        </button>
+                        </div>
+                    </div>
+                    <div id="menu-two" class="content" role="tabpanel" aria-labelledby="menu-two-trigger">
+                        <div class="content-header">
+                        <h5 class="mb-0">Menu Level 2</h5>
+                        <small>Choose Access Menu Level 2.</small>
+                        </div>
+
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="level_two">Menu</label>
+                                <select id="level_two" class="select2 form-select" name="level_two[]" multiple onchange="showListMenu('two')">
+                                    
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="table-responsive" id="div-table-two">
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between">
+                        <button class="btn btn-primary btn-prev" type="button">
+                            <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                        </button>
+                        <button class="btn btn-primary btn-next" type="button" onclick="showNextMenu('three', 'two')">
+                            <span class="align-middle d-sm-inline-block d-none">Next</span>
+                            <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                        </button>
+                        </div>
+                    </div>
+                    <div id="menu-three" class="content" role="tabpanel" aria-labelledby="menu-three-trigger">
+                        <div class="content-header">
+                        <h5 class="mb-0">Menu Level 2</h5>
+                        <small>Choose Access Menu Level 3.</small>
+                        </div>
+                        
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label class="form-label" for="level_three">Menu</label>
+                                <select id="level_three" class="select2 form-select" name="level_three[]" multiple onchange="showListMenu('three')">
+                                    
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="table-responsive" id="div-table-three">
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between">
+                        <button class="btn btn-primary btn-prev" type="button">
+                            <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                        </button>
+                        <button class="btn btn-success btn-submit" type="submit">Submit</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </section>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="btnRoleAdd" class="btn btn-success" onclick="$('#btnUpdateRoleForm').trigger('click');">{{__('msg.submit')}}</button>
+                <!-- /Horizontal Wizard -->
             </div>
         </div>
     </div>
 </div>
+<script>
+    function showListMenu(level) {
+        var value = $('#level_'+level).val();
 
-@section('vendor-script')
-  <!-- vendor files -->
-  <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
-@endsection
-@section('page-script')
-  <!-- Page js files -->
-  <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
-@endsection
+        $.ajax({
+            url: "{{ route('role.getMenu') }}",
+            method: "POST",
+            data : {
+                menu_id : value,
+                level : level,
+            },
+            success: function(response) {
+                $('#div-table-'+level).html('');
+                $('#div-table-'+level).html(response);
+            },
+            error: function(response) {
+                // toastr.error('failed');
+            }
+        });
+    }
+
+    function showNextMenu(nextLevel, currentLevel) {
+        var selectedMenu =  $('#level_'+currentLevel).val();
+
+        $.ajax({
+            url: "{{ route('role.getNextMenu') }}",
+            method: "POST",
+            data : {
+                menu_id : selectedMenu,
+                level : nextLevel,
+            },
+            success: function(response) {
+                $('#level_'+nextLevel).empty();
+                $('#level_'+nextLevel).append(response);
+            },
+            error: function(response) {
+                // toastr.error('failed');
+            }
+        });
+    }
+</script>

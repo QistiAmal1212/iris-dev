@@ -42,7 +42,6 @@
             </div>
         </div>
     </div>
-
     <div class="col-xl-4 col-lg-6 col-md-6">
         <div class="card">
             <div class="card-body">
@@ -78,7 +77,8 @@
                 <div class="col-sm-7">
                     @can('admin.role.create')
                         <div class="card-body text-sm-end text-center ps-sm-0">
-                            <a onclick="viewRoleForm()" class="stretched-link text-nowrap add-new-role">
+                            <!-- <a onclick="viewRoleForm()" class="stretched-link text-nowrap add-new-role"> -->
+                            <a onclick="viewForm()" class="stretched-link text-nowrap add-new-role">
                                 <span class="btn btn-primary mb-1">Add New Role</span>
                             </a>
                             <p class="mb-0 text-muted">Add role, if it does not exist</p>
@@ -246,6 +246,79 @@
                     $('#sub_title').html('Edit Role');
 
                     $('#roleFormModal #btnRoleAdd').html('{{__("msg.update")}}');
+                    roleFormModal.show();
+                },
+            });
+        }
+    };
+
+    viewForm = function(id = null){
+        var roleFormModal;
+        roleFormModal = new bootstrap.Modal(document.getElementById('roleFormModal'), { keyboard: false});
+
+        event.preventDefault();
+        if(id === null){
+            $('#roleForm').attr('action', '{{route("role.store")}}');
+            $('#roleForm input[name="role_name"]').val("");
+            $('#roleForm textarea[name="role_description"]').val("");
+            $('#roleForm input[name="role_display"]').val("");
+            $('#roleForm select[name="role_level"]').val("");
+            $('#roleForm select[name="access_function[]"]').val("").trigger('change');
+            $('#roleForm select[name="level_one[]"]').val("").trigger('change');
+            $('#roleForm select[name="level_two[]"]').val("").trigger('change');
+            $('#roleForm select[name="level_three[]"]').val("").trigger('change');
+
+            $('#role-details-trigger').addClass('active');
+            $('#menu-one-trigger').removeClass('active');
+            $('#menu-two-trigger').removeClass('active');
+            $('#menu-three-trigger').removeClass('active');
+
+            $('#role-details').addClass('active dstepper-block');
+            $('#menu-one').removeClass('active dstepper-block');
+            $('#menu-two').removeClass('active dstepper-block');
+            $('#menu-three').removeClass('active dstepper-block');
+
+            $('#title-role').html('Add Role');
+
+            roleFormModal.show();
+        }else{
+            url = "{{route('role.editRole',':replaceThis')}}"
+            url = url.replace(':replaceThis',id);
+            $.ajax({
+                url: url,
+                method: 'GET',
+                async: true,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    // console.log(data);
+                    id_used = data.detail.id;
+                    // console.log(id_used);
+                    url2 = "{{route('role.updateRole',':replaceThis')}}"
+                    url2 = url2.replace(':replaceThis',id_used);
+
+                    $('#roleForm').attr('action',url2 );
+                    $('#roleForm input[name="role_name"]').val(data.detail.name);
+                    $('#roleForm textarea[name="role_description"]').val(data.detail.description);
+                    $('#roleForm input[name="role_display"]').val(data.detail.display_name);
+                    $('#roleForm select[name="role_level"]').val(data.detail.is_internal);
+                    $('#roleForm select[name="access_function[]"]').val(data.detail.listFunction).trigger('change');
+                    $('#roleForm select[name="level_one[]"]').val(data.detail.levelOne).trigger('change');
+                    $('#roleForm select[name="level_two[]"]').val(data.detail.levelTwo).trigger('change');
+                    $('#roleForm select[name="level_three[]"]').val(data.detail.levelThree).trigger('change');
+
+                    $('#role-details-trigger').addClass('active');
+                    $('#menu-one-trigger').removeClass('active');
+                    $('#menu-two-trigger').removeClass('active');
+                    $('#menu-three-trigger').removeClass('active');
+
+                    $('#role-details').addClass('active dstepper-block');
+                    $('#menu-one').removeClass('active dstepper-block');
+                    $('#menu-two').removeClass('active dstepper-block');
+                    $('#menu-three').removeClass('active dstepper-block');
+
+                    $('#title-role').html('Edit Role');
+
                     roleFormModal.show();
                 },
             });
