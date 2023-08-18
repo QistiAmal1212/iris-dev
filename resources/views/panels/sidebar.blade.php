@@ -115,6 +115,9 @@ $configData = Helper::applClasses();
             @endhasanyrole --}}
 
             @hasanyrole('superadmin|admin')
+                <li class="navigation-header">
+                    <span> Pengurusan </span>
+                </li>
                 <li class="nav-item {{ request()->is('admin/user*') || request()->is('admin/role*') || request()->is('admin/security*') || request()->is('admin/log*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i data-feather="settings"></i>
