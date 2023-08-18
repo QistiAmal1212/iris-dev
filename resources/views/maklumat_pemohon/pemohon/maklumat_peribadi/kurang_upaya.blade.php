@@ -21,5 +21,10 @@
 </div>
 
 <div class="card-footer">
-xx
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3 text-danger" type="button" id="reset" href="#">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Kemaskini
+        </a>
+    </div>
 </div>
