@@ -139,6 +139,37 @@
         }
     }
 
+    .bg-iris-one{
+        background-color: #1D366D;
+    }
+
+    .bg-iris-two{
+        background-color: #2E6095;
+    }
+
+    .bg-iris-three{
+        background-color: #F8F1E0;
+    }
+
+    .bg-iris-four{
+        background-color: #B14145;
+    }
+
+    .text-iris-one{
+        color: #1D366D;
+    }
+
+    .text-iris-two{
+        color: #2E6095;
+    }
+
+    .text-iris-three{
+        color: #F8F1E0;
+    }
+
+    .text-iris-four{
+        color: #B14145;
+    }
 </style>
 <!-- BEGIN: Laravel Style CSS-->
 <link rel="stylesheet" href="{{ asset(mix('css/overrides.css')) }}" />
