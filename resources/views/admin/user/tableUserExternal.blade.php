@@ -13,7 +13,7 @@
         <label class="form-label"> Peranan </label>
         <select class="select2 form-select" id="carianPeranan" name="roles[]" multiple>
             @foreach ($externalUsers as $externalUser)
-                <option value={{$externalUser->id}}>{{$externalUser->name}}</option>
+                <option value={{ $externalUser->id }}>{{ $externalUser->name }}</option>
             @endforeach
         </select>
     </div>
