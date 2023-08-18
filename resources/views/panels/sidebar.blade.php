@@ -23,7 +23,7 @@ $configData = Helper::applClasses();
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
-            <li class="nav-item {{ in_array(request()->route()->getName(), ['home']) ? 'menu-open' : '' }}">
+            <li class="nav-item {{ in_array(request()->route()->getName(), ['home']) ? 'active' : '' }}">
                 <a href="{{ route('home') }}" class="d-flex align-items-center">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate">{{__('msg.home')}} </span>
@@ -79,7 +79,7 @@ $configData = Helper::applClasses();
                 </li>
             @endhasanyrole --}}
 
-            @hasanyrole('superadmin|admin')
+            {{-- @hasanyrole('superadmin|admin')
                 <li class="navigation-header">
                     <span> User Settings </span>
                 </li>
@@ -112,9 +112,150 @@ $configData = Helper::applClasses();
                         </li>
                     </ul>
                 </li>
+            @endhasanyrole --}}
+
+            @hasanyrole('superadmin|admin')
+                <li class="nav-item {{ request()->is('admin/user*') || request()->is('admin/role*') || request()->is('admin/security*') || request()->is('admin/log*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i data-feather="settings"></i>
+                        <span class="menu-title text-truncate">Pengurusan Sistem</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i data-feather="database"></i>
+                                <span class="menu-title text-truncate">Pengurusan Data</span>
+                            </a>
+                            <ul class="menu-content">
+                                <li class="">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <i data-feather="circle"></i>
+                                        <span class="menu-title text-truncate">
+                                            Pelbagai
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <i data-feather="circle"></i>
+                                        <span class="menu-title text-truncate">
+                                            Calon
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item {{ request()->is('admin/user*') || request()->is('admin/role*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i data-feather="users"></i>
+                                <span class="menu-title text-truncate">Pengurusan Pengguna</span>
+                            </a>
+                            <ul class="menu-content">
+                                <li class="{{ in_array(request()->route()->getName(),['admin.internalUser'])? 'active': '' }}">
+                                    <a href="{{ route('admin.internalUser') }}" class="d-flex align-items-center">
+                                        <i data-feather="circle"></i>
+                                        <span class="menu-title text-truncate">
+                                            Pengguna
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="{{ in_array(request()->route()->getName(),['role.index'])? 'active': '' }}">
+                                    <a href="{{ route('role.index') }}" class="d-flex align-items-center">
+                                        <i data-feather="circle"></i>
+                                        <span class="menu-title text-truncate">
+                                            Kumpulan Pengguna
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item {{ request()->is('admin/security*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i data-feather="shield"></i>
+                                <span class="menu-title text-truncate">Pengurusan Keselamatan</span>
+                            </a>
+                            <ul class="menu-content">
+                                <li class="{{ in_array(request()->route()->getName(), ['admin.security.menu']) ? 'active': '' }}">
+                                    <a href="{{ route('admin.security.menu') }}" class="d-flex align-items-center">
+                                        <i data-feather="circle"></i>
+                                        <span class="menu-title text-truncate">
+                                            Selenggara Menu
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <i data-feather="circle"></i>
+                                        <span class="menu-title text-truncate">
+                                            Selenggara Capaian
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <i data-feather="circle"></i>
+                                        <span class="menu-title text-truncate">
+                                            Selenggara Turutan
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item {{ in_array(request()->route()->getName(),['admin.log']) ? 'active' : '' }}">
+                            <a href="{{ route('admin.log') }}">
+                                <i data-feather="file-text"></i>
+                                <span class="menu-title text-truncate">Transaksi Pengguna</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             @endhasanyrole
 
-            @hasanyrole('superadmin')
+            {{-- @hasanyrole('superadmin|admin')
+                @php
+                $securityMenu = App\Models\SecurityMenu::where('level', 1)->get();
+                @endphp
+                @foreach($securityMenu as $menu)
+                    <li class="nav_item {{ ($menu->type == 'Web') ? in_array(request()->route()->getName(), [$menu->module->code]) ? 'active' : '' : '#' }}">
+                        <a href="{{ ($menu->type == 'Web') ? route($menu->module->code) : '#' }}" class="nav_link">
+                            <!-- <i data-feather="circle"></i> -->
+                             <span class="menu-title text-truncate">{{ $menu->name }}</span>
+                        </a>
+                        @if($menu->type == 'Menu')
+                        <ul class="menu-content">
+                            @php
+                            $level2 = App\Models\SecurityMenu::where('level', 2)->where('menu_link', $menu->id)->get();
+                            @endphp
+                            @foreach($level2 as $menu2)
+                            <li class="nav-item {{ ($menu2->type == 'Web') ? in_array(request()->route()->getName(), [$menu2->module->code]) ? 'active' : '' : '#' }}"> 
+                                <a href="{{ ($menu2->type == 'Web') ? route($menu2->module->code) : '#' }}" class="nav-link">
+                                    <!-- <i data-feather="shield"></i> -->
+                                    <span class="menu-title text-truncate">{{ $menu2->name }}</span>
+                                </a>
+                                @if($menu2->type == 'Menu')
+                                <ul class="menu-content">
+                                    @php
+                                    $level3 = App\Models\SecurityMenu::where('level', 3)->where('menu_link', $menu2->id)->get();
+                                    @endphp
+                                    @foreach($level3 as $menu3)
+                                    <li class="nav-item {{ ($menu3->type == 'Web') ? in_array(request()->route()->getName(), [$menu3->module->code]) ? 'active' : '' : '#' }}">
+                                        <a href="{{ ($menu3->type == 'Web') ? route($menu3->module->code) : '#' }}" class="d-flex align-items-center">
+                                            <!-- <i data-feather="circle"></i> -->
+                                            <span class="menu-title text-truncate">{{ $menu3->name }}</span>
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                                @endif
+                            </li>
+                            @endforeach
+                        </ul>
+                        @endif
+                    </li>
+                @endforeach
+            @endhasanyrole --}}
+
+            {{-- @hasanyrole('superadmin')
                 <li class="navigation-header">
                     <span> System Settings </span>
                 </li>
@@ -143,7 +284,7 @@ $configData = Helper::applClasses();
                         </li>
                     </ul>
                 </li>
-            @endhasanyrole
+            @endhasanyrole --}}
 
             {{-- HELPDESK MODULE HERE  --}}
             {{-- @if(\Composer\InstalledVersions::isInstalled('developer-unijaya/quickstart-helpdesk'))

@@ -14,6 +14,7 @@ use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SecurityController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CaptchaController;
@@ -85,8 +86,11 @@ Route::prefix('admin')->group(function () {
     Route::post('update-password', [UserController::class,'updatePassword'])->name('updatePassword');
     
     Route::get('edit/{roleId}', [RoleController::class,'getRole'])->name('role.kemaskini');
-
     Route::get('edittingRole/{roleId}', [RoleController::class, 'getRole'])->name('role.editting');
+    Route::post('getMenu', [RoleController::class, 'getMenu'])->name('role.getMenu');
+    Route::post('getNextMenu', [RoleController::class, 'getNextMenu'])->name('role.getNextMenu');
+    Route::get('editRole/{roleId}', [RoleController::class, 'editRole'])->name('role.editRole');
+    Route::post('updateRole/{roleId}', [RoleController::class, 'updateRole'])->name('role.updateRole');
 
     Route::prefix('settings')->group(function () {
         Route::get('/', [SettingsController::class, 'index'])->name('settings.index');
@@ -104,11 +108,24 @@ Route::prefix('admin')->group(function () {
             Route::get('view/{logID}', [ActivityLogController::class, 'view'])->name('admin-log-view');
         });
 
-        Route::prefix('log')->group(function () {
-            Route::get('/', [LogController::class, 'index'])->name('admin.log');
-            Route::get('{id}', [LogController::class, 'view'])->name('admin.log.view');
+    });
+
+    Route::prefix('security')->group(function () {
+        Route::prefix('menu')->group(function () {
+            Route::get('/', [SecurityController::class, 'menuIndex'])->name('admin.security.menu');
+            Route::get('create', [SecurityController::class, 'menuCreate'])->name('admin.security.menu.create');
+            Route::post('store', [SecurityController::class, 'menuStore'])->name('admin.security.menu.store');
+            Route::post('link', [SecurityController::class, 'menuLink'])->name('admin.security.menu.link');
         });
 
+        Route::get('access', [SecurityController::class, 'accessIndex'])->name('admin.security.access');
+
+        Route::get('sequence', [SecurityController::class, 'sequenceIndex'])->name('admin.security.sequence');
+    });
+
+    Route::prefix('log')->group(function () {
+        Route::get('/', [LogController::class, 'index'])->name('admin.log');
+        Route::get('{id}', [LogController::class, 'view'])->name('admin.log.view');
     });
 
     Route::prefix('general')->group(function () {
