@@ -1,59 +1,73 @@
 @extends('layouts.app')
 
 @section('header')
-LOG
+    Jejak Audit
 @endsection
 
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{route('home')}}">{{ __('msg.home') }}</a></li>
-<li class="breadcrumb-item"><a href="{{route('admin.log')}}">Log</a></li>
+<li class="breadcrumb-item"><a href="{{route('admin.log')}}">Jejak Audit</a></li>
 @endsection
 
 @section('content')
 
-<!-- custom search filter -->
-<form method="GET">
-    <div class="card collapsed-card">
-        <div class="card-header border-0">
-            <span class="card-title searchTitle m-0"> <i class="fas fa-search mr-1"></i> {{__('msg.advanced_search')}} </span>
-            <div class="card-tools">
-                <button type="button" class="btn btn-sm" data-card-widget="collapse"> <i class="fas fa-plus"></i> </button>
-            </div>
-        </div>
-        <div class="card-body pt-2">
-            <div class="row">
-
-                <div class="form-group col-md-4">
-                    <label><strong> Date Start </strong></label>
-                    {{-- <input type="date" name="date_start" value="{{ $request->date_start }}" class="form-control" /> --}}
-                    <input type="date" name="date_start" value="" class="form-control" />
-                </div>
-
-                <div class="form-group col-md-4">
-                    <label><strong> Date End </strong></label>
-                    {{-- <input type="date" name="date_end" value="{{ $request->date_end }}" class="form-control" /> --}}
-                    <input type="date" name="date_end" value="" class="form-control" />
-                </div>
-
-            </div>
-        </div>
-    </div>
-</form>
-<!-- /.custom search filter -->
 <div class="card">
+    <div class="card-header">
+        <h4 class="fw-bolder">
+            Senarai Jejak Audit
+        </h4>
+    </div>
+
+    <hr>
+
     <div class="card-body">
+        <form action="GET">
+            <div class="row">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <label class="fw-bolder"> Aktiviti </label>
+                    <input type="text" name="" id="" class="form-control" />
+                </div>
+
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <label class="fw-bolder"> Modul </label>
+                    <input type="text" name="" id="" class="form-control" />
+                </div>
+
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label class="fw-bolder"> Tarikh Mula </label>
+                    <input type="date" name="date_start" id="" class="form-control" />
+                </div>
+
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label class="fw-bolder"> Tarikh Akhir</label>
+                    <input type="date" name="date_end" id="" class="form-control" />
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center my-1 ">
+                <a class="me-3" type="button" id="reset" href="#">
+                    <span class="text-danger"> Set Semula </span>
+                </a>
+                <button type="submit" class="btn btn-success float-right">
+                    <i class="fa fa-search"></i> Cari
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card-footer">
         <div class="table-responsive">
-            <table class="table table-condensed table-hover" id="table">
+            <table class="table table-condensed table-hover" id="activityLog">
                 <thead>
                     <tr>
-                        <th bgcolor="#f0f0f0" class="fit align-top text-left" style="color:#000">No.</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Activity</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Module</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Details</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">User</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">IP Address</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Date & Time</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Action</th>
+                        <th class="text-uppercase fw-bolder">No.</th>
+                        <th class="text-uppercase fw-bolder">Aktiviti</th>
+                        <th class="text-uppercase fw-bolder">Modul</th>
+                        <th class="text-uppercase fw-bolder">Perincian</th>
+                        <th class="text-uppercase fw-bolder">Pengguna</th>
+                        <th class="text-uppercase fw-bolder">Alamat IP</th>
+                        <th class="text-uppercase fw-bolder">Tarikh & Masa</th>
+                        <th class="text-uppercase fw-bolder">Tindakan</th>
                     </tr>
                 </thead>
             </table>
@@ -65,7 +79,7 @@ LOG
 @push('js')
 <script type="text/javascript">
 
-var table = $('#table');
+var table = $('#activityLog');
 
 var settings = {
     "processing": true,
@@ -96,26 +110,26 @@ var settings = {
     "sDom": "Blfrtip",
     "lengthMenu": [[10, 25, 50, 100, 500, 1000], [10, 25, 50, 100, 500, 1000]],
     "buttons": [
+        // {
+        //     text: '<i class="fa fa-print m-r-5"></i> Print',
+        //     extend: 'print',
+        //     className: 'btn btn-default btn-sm',
+        //     exportOptions: {
+        //         columns: ':visible:not(.nowrap)'
+        //     }
+        // },
         {
-            text: '<i class="fa fa-print m-r-5"></i> Print',
-            extend: 'print',
-            className: 'btn btn-default btn-sm',
-            exportOptions: {
-                columns: ':visible:not(.nowrap)'
-            }
-        },
-        {
-            text: '<i class="fa fa-download m-r-5"></i> Excel',
+            text: '<div class="btn-group" role="group" aria-label="Role Action"> <i class="fa fa-file-excel text-success"></i> Excel ',
             extend: 'excelHtml5',
-            className: 'btn btn-default btn-sm',
+            className: 'btn btn-outline-success waves-effect mb-2',
             exportOptions: {
                 columns: ':visible:not(.nowrap)'
             }
         },
         {
-            text: '<i class="fa fa-download m-r-5"></i> PDF',
+            text: '<i class="fa fa-file-pdf text-danger"></i> PDF </div>',
             extend: 'pdfHtml5',
-            className: 'btn btn-default btn-sm',
+            className: 'btn btn-outline-danger waves-effect mb-2',
             exportOptions: {
                 columns: ':visible:not(.nowrap)'
             }

@@ -43,12 +43,9 @@ class LogController extends Controller
 
                     $text = '';
 
-                    $text .= optional($audit_log->created_by)->name;
-                    $text .= '<br><br>';
-                    $text .= '<span class="badge bg-secondary"> <span class="fa fa-user"></span> ' . optional($audit_log->created_by)->no_ic . '</span>';
-                    $text .= '<br>';
-                    $text .= '<span class="badge bg-secondary"> <span class="fa fa-envelope"></span> ' . optional($audit_log->created_by)->email . '</span>';
-                    $text .= '<br>';
+                    $text .= '<p>' . optional($audit_log->created_by)->name . '</p>';
+                    $text .= '<p><span class="badge bg-light-secondary"> <span class="fa fa-user"></span> ' . optional($audit_log->created_by)->no_ic . '</span></p>';
+                    $text .= '<p><span class="badge bg-light-primary mb-1"> <span class="fa fa-envelope"></span> ' . optional($audit_log->created_by)->email . '</span></p>';
 
                     return $text;
                 })
@@ -57,7 +54,7 @@ class LogController extends Controller
                 })
                 ->editColumn('action', function ($audit_log) {
                     $button = "";
-                    $button .= '<a onclick="view(' . $audit_log->id . ')" href="javascript:;" class="btn btn-default btn-xs text-capitalize"><i class="fa fa-search"></i> View</a> ';
+                    $button .= '<a onclick="view(' . $audit_log->id . ')" href="javascript:;" class="btn btn-default btn-xs text-capitalize"><i class="fa fa-eye"></i></a> ';
                     return $button;
                 })
                 ->make(true);

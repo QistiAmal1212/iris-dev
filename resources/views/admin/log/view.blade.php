@@ -1,36 +1,3 @@
-<!-- Modal -->
-
-<style>
-.form-group-default {
-    background-color: #fff;
-    position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.07);
-    border-radius: 2px;
-    padding-top: 7px;
-    padding-left: 12px;
-    padding-right: 12px;
-    padding-bottom: 4px;
-    overflow: hidden;
-    width: 100%;
-    -webkit-transition: background-color 0.2s ease;
-    transition: background-color 0.2s ease;
-}
-.form-group label:not(.error) {
-    font-family: 'Montserrat';
-    font-size: 10.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-weight: 500;
-}
-.form-group-default label {
-    margin: 0;
-    display: block;
-    opacity: 1;
-    -webkit-transition: opacity 0.2s ease;
-    transition: opacity 0.2s ease;
-}
-</style>
-
 <div class="modal fade" id="auditModal" tabindex="-1" aria-labelledby="#addModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
