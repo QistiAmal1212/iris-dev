@@ -163,7 +163,7 @@ $configData = Helper::applClasses();
                                     <a href="{{ route('role.index') }}" class="d-flex align-items-center">
                                         <i data-feather="circle"></i>
                                         <span class="menu-title text-truncate">
-                                            Kumpulan Pengguna
+                                            Role
                                         </span>
                                     </a>
                                 </li>
