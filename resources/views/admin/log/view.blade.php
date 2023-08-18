@@ -1,74 +1,75 @@
 <div class="modal fade" id="auditModal" tabindex="-1" aria-labelledby="#addModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header py-0 bg-transparent">
+            <div class="modal-header bg-light-secondary">
+                <h4 class="modal-title">Jejak Audit</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body px-sm-2 mx-50">
-                <h1 class="text-center mb-1" id="addModalTitle">Detail <span class="bold">Audit Trail</span></h1>
-                <p class="text-center" name="sub_title" id="sub_title">Please view the information details below.</p>
-
+            <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-5">
-                        <div class="form-group form-group-default ">
-                            <label><span>Modul</span></label>
-                            {{ $audit_log->module->name }}
-                        </div>
+                    <table class="table" width="100%">
+                        <tr>
+                            <td class="fw-bolder" width="30%">Modul: </td>
+                            <td>
+                                {{ $audit_log->module->name }}
+                            </td>
+                        </tr>
 
-                        <div class="form-group form-group-default ">
-                            <label><span>Activity Type</span></label>
-                            @if($audit_log->activity_type_id == 6)
-                                <span class="badge bg-danger">{{ $audit_log->activity_type->name_bi }}</span>
-                            @else
-                                <span class="badge bg-secondary">{{ $audit_log->activity_type->name_bi }}</span>
-                            @endif
-                        </div>
+                        <tr>
+                            <td class="fw-bolder" width="30%">Jenis Aktiviti: </td>
+                            <td>
+                                @if($audit_log->activity_type_id == 6)
+                                    <span class="badge bg-danger">{{ $audit_log->activity_type->name_bi }}</span>
+                                @else
+                                    <span class="badge bg-secondary">{{ $audit_log->activity_type->name_bi }}</span>
+                                @endif
+                            </td>
+                        </tr>
 
-                        <div class="form-group form-group-default ">
-                            <label><span>Description</span></label>
-                            {{ $audit_log->description }}
-                        </div>
+                        <tr>
+                            <td class="fw-bolder" width="30%">Perincian Aktiviti: </td>
+                            <td>
+                                {{ $audit_log->description }}
+                            </td>
+                        </tr>
 
-                        <div class="form-group form-group-default ">
-                            <label><span>URL / Link</span></label>
-                            <span class="badge bg-secondary">{{ $audit_log->method }}</span> <a href="{{ $audit_log->url }}">{{ $audit_log->url }}</a>
-                        </div>
+                        <tr>
+                            <td class="fw-bolder" width="30%">URL AKtiviti: </td>
+                            <td>
+                                {{ $audit_log->description }}
+                            </td>
+                        </tr>
 
-                        <div class="form-group form-group-default ">
-                            <label><span>IP Address</span></label>
-                            {{ $audit_log->ip_address }}
-                        </div>
+                        <tr>
+                            <td class="fw-bolder" width="30%">Tarikh Data Dimasukkan: </td>
+                            <td>
+                                {{ date('d/m/Y H:i:s',strtotime($audit_log->created_at)) }}
+                            </td>
+                        </tr>
 
-                        <div class="form-group form-group-default ">
-                            <label><span>Created By</span></label>
-                            {{ optional($audit_log->created_by)->name }}
-                        </div>
+                        <tr>
+                            <td class="fw-bolder" width="30%">Data Dimasukkan Oleh: </td>
+                            <td>
+                                {{ optional($audit_log->created_by)->name }}
+                            </td>
+                        </tr>
+                    </table>
 
-                        <div class="form-group form-group-default ">
-                            <label><span>Created At</span></label>
-                            {{ date('d/m/Y H:i:s',strtotime($audit_log->created_at)) }}
-                        </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <label class="fw-bolder">Old Data</label>
+                        <pre class="px-1 py-1" id="json-old"></pre>
                     </div>
-                    <div class="col-md-7">
-                        <div class="form-group form-group-default ">
-                            <label><span>Old Data</span></label>
-                            <pre id="json-old"></pre>
-                        </div>
 
-                        <div class="form-group form-group-default ">
-                            <label><span>New Data</span></label>
-                            <pre id="json-new"></pre>
-                        </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <label class="fw-bolder">Old Data</label>
+                        <pre class="px-1 py-1" id="json-new"></pre>
                     </div>
                 </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     $('#auditModal').modal('show');
 
