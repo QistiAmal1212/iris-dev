@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 class HomeController extends Controller
 {
     /**
@@ -21,8 +23,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pageConfigs = ['pageHeader' => false];
+        // $pageConfigs = ['pageHeader' => false];
+        $user = Auth::user();
 
-        return view('home', ['pageConfigs' => $pageConfigs]);
+        return view('dashboard.main_dashboard', compact('user'));
     }
 }

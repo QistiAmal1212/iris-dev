@@ -19,13 +19,19 @@
 <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
 <script src="{{ asset(mix('js/scripts/unijaya/form-wizard-all.js')) }}"></script>
 
+<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.date.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.time.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/pickers/pickadate/legacy.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
+
 @if ($configData['blankPage'] === false)
     <script src="{{ asset(mix('js/scripts/customizer.js')) }}"></script>
 @endif
 <!-- END: Theme JS-->
 <!-- BEGIN: Page JS-->
 @yield('page-script')
-
+<script src="{{ asset(mix('js/scripts/forms/pickers/form-pickers.js')) }}"></script>
 <!-- END: Page JS-->
 <!-- BEGIN: Developer Code JS-->
 @yield('developer-script')

@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="{{ asset(mix('fonts/font-awesome/css/all.min.css')) }}" >
 <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/wizard/bs-stepper.min.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/pickadate/pickadate.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
 
 <!-- END: Vendor CSS-->
 
@@ -32,6 +34,9 @@
 @yield('page-style')
 <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-wizard.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('css/base/pages/page-faq.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-flat-pickr.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-pickadate.css')) }}">
 <style>
     /*--applies to all---*/
 
@@ -123,6 +128,15 @@
 
     .required-border {
         border: 1px solid red;
+    }
+
+    div .faq-search {
+        div .faq-search-input {
+            div .input-group {
+                width: 576px;
+                margin: 0 auto;
+            }
+        }
     }
 
 </style>

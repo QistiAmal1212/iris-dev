@@ -125,7 +125,10 @@ class UserController extends Controller
 
         $role = Role::get();
 
-        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser'));
+        $externalUsers = Role::where('is_internal', 0)->get();
+        $internalUsers = Role::where('is_internal', 1)->get();
+
+        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'externalUsers', 'internalUsers'));
     }
 
     public function create(Request $request)
