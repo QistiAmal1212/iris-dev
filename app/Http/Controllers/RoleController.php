@@ -54,11 +54,11 @@ class RoleController extends Controller
 
                         if ($roles->is_internal == 1){
                             $label = "";
-                            $label .= '<span class="badge rounded-pill bg-light-info">Internal</span>';
+                            $label .= '<span class="badge rounded-pill bg-light-info">Peranan Dalaman</span>';
                             return $label;
                         }else{
                             $label = "";
-                            $label .= '<span class="badge rounded-pill bg-light-warning">External</span>';
+                            $label .= '<span class="badge rounded-pill bg-light-warning">Peranan Luaran</span>';
                             return $label;
                         }
                     })
@@ -68,6 +68,7 @@ class RoleController extends Controller
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                         //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                         // $button .= '<a class="btn btn-xs btn-default" onclick="viewRoleForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        $button .= '<a class="btn btn-xs btn-default" onclick="#"> <i class="fas fa-eye text-iris-one"></i> ';
                         $button .= '<a class="btn btn-xs btn-default" onclick="viewForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                         $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
                         $button .= '</div>';

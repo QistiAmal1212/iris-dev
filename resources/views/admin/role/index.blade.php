@@ -1,15 +1,31 @@
 @extends('layouts.app')
 
 @section('header')
-{{__('msg.role')}}
+    Peranan
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-    <li class="breadcrumb-item"><a> {{__('msg.role')}}</a></li>
+    <li class="breadcrumb-item"><a>Peranan</a></li>
 @endsection
 
 @section('content')
+<style>
+    #RoleList thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #RoleList tbody {
+        vertical-align: middle;
+    }
+
+    #RoleList {
+        width: 100% !important;
+        /* word-wrap: break-word; */
+    }
+</style>
+
 <div class="col-md-6 col-sm-12">
     <div class="card">
         <div id="userFormDiv">
@@ -23,7 +39,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <span>Total Internal Roles</span>
+                    <span>Jumlah Peranan [Dalaman}</span>
                     <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
                         <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
                             <img class="rounded-circle" src="{{asset('images/avatars/2.png')}}" alt="Avatar" />
@@ -35,18 +51,19 @@
                         <h4 class="fw-bolder">{{ $countInternalRoles }}</h4>
                         <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#internal_list" aria-controls="internal_list" title="">
                             <i class="fa-solid fa-chevron-down"></i>
-                            View List
+                            Lihat Senarai
                         </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
     <div class="col-xl-4 col-lg-6 col-md-6">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <span>Total External Roles</span>
+                    <span>Jumlah Peranan [Luaran}</span>
                     <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
                         <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Jimmy Ressula" class="avatar avatar-sm pull-up">
                             <img class="rounded-circle" src="{{asset('images/avatars/4.png')}}" alt="Avatar" />
@@ -58,7 +75,7 @@
                         <h4 class="fw-bolder">{{ $countExternalRoles }}</h4>
                         <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#external_list" aria-controls="external_list" title="">
                             <i class="fa-solid fa-chevron-down"></i>
-                            View List
+                            Lihat Senarai
                         </a>
                     </div>
                 </div>
@@ -79,9 +96,9 @@
                         <div class="card-body text-sm-end text-center ps-sm-0">
                             <!-- <a onclick="viewRoleForm()" class="stretched-link text-nowrap add-new-role"> -->
                             <a onclick="viewForm()" class="stretched-link text-nowrap add-new-role">
-                                <span class="btn btn-primary mb-1">Add New Role</span>
+                                <span class="btn btn-primary mb-1">Tambah Perananan</span>
                             </a>
-                            <p class="mb-0 text-muted">Add role, if it does not exist</p>
+                            <p class="mb-0 text-muted">Tambah peranan, jika peranan belum wujud.</p>
                         </div>
                     @endcan
                 </div>
@@ -107,16 +124,16 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table header_uppercase table-bordered table-responsive" id="RoleList" style="width: 300%">
+            <table class="table header_uppercase table-bordered table-responsive" id="RoleList">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Display Name</th>
-                        <th>Description</th>
-                        <th>Role Level</th>
-                        <th>Action</th>
+                        <th>ID Peranan</th>
+                        <th>Nama Peranan</th>
+                        <th>Nama Paparan</th>
+                        <th>Penerangan</th>
+                        <th>Jenis Peranan</th>
+                        <th>Tindakan</th>
                     </tr>
                 </thead>
             </table>

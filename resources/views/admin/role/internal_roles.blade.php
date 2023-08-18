@@ -13,9 +13,9 @@
                         <thead>
                             <tr>
                                 <th> No </th>
-                                <th> Roles ID </th>
-                                <th> Roles Name </th>
-                                <th> Description </th>
+                                <th> ID Peranan </th>
+                                <th> Nama Peranan </th>
+                                <th> Penerangan </th>
                             </tr>
                         </thead>
 
