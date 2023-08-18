@@ -1,13 +1,45 @@
+<div class="row">
+    <div class="col-sm-4 col-12 mb-1">
+        <label class="form-label"> Nama </label>
+        <input type="text" class="form-control">
+    </div>
+
+    <div class="col-sm-4 col-12 mb-1">
+        <label class="form-label"> No Kad Pengenalan </label>
+        <input type="text" class="form-control">
+    </div>
+
+    <div class="col-sm-4 col-12 mb-1">
+        <label class="form-label"> Peranan </label>
+        <select class="select2 form-select" id="carianPeranan" name="roles[]" multiple>
+            @foreach ($internalUsers as $internalUser)
+                <option value={{$internalUser->id}}>{{$internalUser->name}}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3" type="button" id="reset" href="#">
+            <span class="text-danger"> Set Semula </span>
+        </a>
+        <button type="submit" class="btn btn-success float-right">
+            <i class="fa fa-search"></i> Cari
+        </button>
+    </div>
+</div>
+
+<hr>
+
 <div class="table-responsive" style="width:100%">
     <table class="table header_uppercase table-bordered" id="internalUser">
         <thead>
             <tr>
-                <th class="font-weight-bold text-center" width="1%"> NO. </th>
-                <th class="font-weight-bold text-center"> NAME </th>
-                <th class="font-weight-bold text-center"> NO IC </th>
-                <th class="font-weight-bold text-center"> EMAIL </th>
-                <th class="font-weight-bold text-center"> ROLE </th>
-                <th class="font-weight-bold text-center"> ACTION </th>
+                <th class="text-center fw-bolder" width="1%"> No. </th>
+                <th class="text-center fw-bolder"> Nama Pengguna </th>
+                <th class="text-center fw-bolder"> No. Kad Pengenalan </th>
+                <th class="text-center fw-bolder"> Emel </th>
+                <th class="text-center fw-bolder"> Peranan </th>
+                <th class="text-center fw-bolder"> Tindakan </th>
             </tr>
         </thead>
     </table>

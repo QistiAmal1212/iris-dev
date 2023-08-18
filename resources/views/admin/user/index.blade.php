@@ -33,7 +33,6 @@
         </div>
         <!-- Role cards -->
         <div class="row match-height">
-
             <div class="col-xl-4 col-lg-6 col-md-6">
                 <div class="card">
                     <div class="card-body">
@@ -117,6 +116,8 @@
                 @endhasanyrole
                 {{-- @endcan --}}
             </div>
+            <hr>
+
             <div class="card-body" style="width:100%">
                 @include($type == 'internal' ? 'admin.user.tableUserInternal' : 'admin.user.tableUserExternal')
             </div>
