@@ -143,38 +143,6 @@ $configData = Helper::applClasses();
                         </li>
                     </ul>
                 </li>
-
-                @hasanyrole('superadmin|admin')
-                    <li class="nav-item {{ request()->is('admin/general*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link">
-                            <i data-feather="grid"></i>
-                            <span class="menu-title text-truncate"> {{__('msg.general_management')}} </span>
-                        </a>
-                        <ul class="menu-content">
-                            <li class="{{ in_array(request()->route()->getName(), ['holiday.index']) ? 'active' : '' }}">
-                                <a href="{{ route('holiday.index') }}" class="d-flex align-items-center">
-                                    <i data-feather="circle"></i> <span class="menu-title text-truncate"> {{__('msg.holiday_management')}} </span>
-                                </a>
-                            </li>
-                            <li class="{{ in_array(request()->route()->getName(), ['announcement.index']) ? 'active' : '' }}">
-                                <a href="{{ route('announcement.index') }}" class="d-flex align-items-center">
-                                    <i data-feather="circle"></i> <span class="menu-title text-truncate"> {{__('msg.annnouncement_management')}} </span>
-                                </a>
-                            </li>
-                            <li class="{{ in_array(request()->route()->getName(), ['notify.index']) ? 'active' : '' }}">
-                                <a href="{{ route('notify.index') }}" class="d-flex align-items-center">
-                                    <i data-feather="circle"></i> <span class="menu-title text-truncate"> {{__('msg.notification_management')}} </span>
-                                </a>
-                            </li>
-                            <li class="{{ in_array(request()->route()->getName(), ['faq.index']) ? 'active' : '' }}">
-                                <a href="{{ route('faq.index') }}" class="d-flex align-items-center">
-                                    <i data-feather="circle"></i> <span class="menu-title text-truncate"> {{__('msg.faq_management')}} </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endhasanyrole
-
             @endhasanyrole
 
             {{-- HELPDESK MODULE HERE  --}}
