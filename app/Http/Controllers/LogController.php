@@ -16,10 +16,13 @@ class LogController extends Controller
 
     public function index(Request $request)
     {
+        $module = MasterModule::all();
+        $activityType = MasterActivityType::all();
+
         if ($request->ajax()) {
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'audit_trail')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.log')->firstOrFail()->id;
             $log->activity_type_id = 1;
             $log->description = "Show List Audit Trail / Log System";
             $log->data_old = json_encode($request->input());
@@ -60,7 +63,7 @@ class LogController extends Controller
                 ->make(true);
         }
 
-        return view('admin.log.index');
+        return view('admin.log.index', compact(['module', 'activityType']));
     }
 
     public function view(Request $request)
@@ -69,7 +72,7 @@ class LogController extends Controller
         $audit_log = LogSystem::findOrFail($request->id);
 
         $log = new LogSystem;
-        $log->module_id = MasterModule::where('code', 'audit_trail')->firstOrFail()->id;
+        $log->module_id = MasterModule::where('code', 'admin.log')->firstOrFail()->id;
         $log->activity_type_id = 2;
         $log->description = "Open View Audit Trail / Log System";
         $log->url = $request->fullUrl();
