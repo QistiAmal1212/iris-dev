@@ -235,8 +235,26 @@ class RoleController extends Controller
         }
 
         $menuId = isset($request->menu_id) ? $request->menu_id : [];
+        $role_id = $request->role_id;
 
         $securityMenu = SecurityMenu::whereIn('id', $menuId)->where('level', $level)->orderBy('sequence', 'asc')->get();
+
+        
+        foreach($securityMenu as $menu){
+            if(isset($role_id)){
+                $roleExist = $menu->role->where('id', $role_id)->first();
+                if($roleExist){
+                    unset($menu->role);
+                    $menu->role = $roleExist;
+                } else {
+                    unset($menu->role);
+                    $menu->role = null;
+                }
+            } else {
+                unset($menu->role);
+                $menu->role = null;
+            }
+        }
 
         return view('admin.role.listMenu', compact('securityMenu'));
     }
@@ -255,6 +273,8 @@ class RoleController extends Controller
 
         $menuData = [];
 
+        $role_id = $request->role_id;
+
         $parentMenu = SecurityMenu::whereIn('id', $menuId)->get();
 
         foreach($parentMenu as $parent){
@@ -267,6 +287,19 @@ class RoleController extends Controller
 
         foreach($securityMenu as $menu) {
             if($menu->menu_link != null){
+                if(isset($role_id)){
+                    $roleExist = $menu->role->where('id', $role_id)->first();
+                    if($roleExist){
+                        unset($menu->role);
+                        $menu->role = $roleExist;
+                    } else {
+                        unset($menu->role);
+                        $menu->role = null;
+                    }
+                } else {
+                    unset($menu->role);
+                    $menu->role = null;
+                }
                 $menuData[$menu->menu_link]['sub_menu'][] = $menu;
             }
         }
@@ -284,6 +317,60 @@ class RoleController extends Controller
             $role->levelOne = $role->menu->where('level', 1)->pluck('id')->toArray();
             $role->levelTwo = $role->menu->where('level', 2)->pluck('id')->toArray();
             $role->levelThree = $role->menu->where('level', 3)->pluck('id')->toArray();
+
+            $levelOne = $levelTwo = [];
+
+            $menuLevelOne = SecurityMenu::whereIn('id', $role->levelOne)->get();
+    
+            foreach($menuLevelOne as $menu){
+                $levelOne[$menu->id]['name'] = $menu->name;
+                $levelOne[$menu->id]['id'] = $menu->id;
+                $levelOne[$menu->id]['sub_menu'] = [];
+            }
+
+            $menuLevelTwo = SecurityMenu::whereIn('id', $role->levelTwo)->get();
+    
+            foreach($menuLevelTwo as $menu){
+                $levelTwo[$menu->id]['name'] = $menu->name;
+                $levelTwo[$menu->id]['id'] = $menu->id;
+                $levelTwo[$menu->id]['sub_menu'] = [];
+            }
+    
+            $subMenuOne = SecurityMenu::whereIn('menu_link', $role->levelOne)->where('level', 2)->orderBy('sequence', 'asc')->get();
+            $subMenuTwo = SecurityMenu::whereIn('menu_link', $role->levelTwo)->where('level', 3)->orderBy('sequence', 'asc')->get();
+    
+            foreach($subMenuOne as $menu) {
+                if($menu->menu_link != null){
+                    $levelOne[$menu->menu_link]['sub_menu'][] = $menu;
+                }
+            }
+
+            foreach($subMenuTwo as $menu) {
+                if($menu->menu_link != null){
+                    $levelTwo[$menu->menu_link]['sub_menu'][] = $menu;
+                }
+            }
+
+            $optionLevel2 = '';
+            foreach($levelOne as $menu){
+            $optionLevel2 .= '<optgroup label="'.$menu['name'].'">';
+                foreach($menu['sub_menu'] as $subMenu){
+            $optionLevel2 .= '<option value="'.$subMenu->id.'">'.$subMenu->name.'</option>';
+                }
+            $optionLevel2 .= '</optgroup>';
+            }
+
+            $optionLevel3 = '';
+            foreach($levelTwo as $menu){
+            $optionLevel3 .= '<optgroup label="'.$menu['name'].'">';
+                foreach($menu['sub_menu'] as $subMenu){
+            $optionLevel3 .= '<option value="'.$subMenu->id.'">'.$subMenu->name.'</option>';
+                }
+            $optionLevel3 .= '</optgroup>';
+            }
+
+            $role->optionLevel2 = $optionLevel2;
+            $role->optionLevel3 = $optionLevel3;
 
             if (!$role) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Role not found. Please refresh"], 404);

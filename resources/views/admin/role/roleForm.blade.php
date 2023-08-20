@@ -154,7 +154,7 @@
                             <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
                             <span class="align-middle d-sm-inline-block d-none">Previous</span>
                         </button>
-                        <button class="btn btn-primary btn-next" type="button" onclick="showNextMenu('two', 'one')">
+                        <button class="btn btn-primary btn-next" type="button" id="next_two" onclick="showNextMenu('two', 'one')">
                             <span class="align-middle d-sm-inline-block d-none">Next</span>
                             <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
                         </button>
@@ -187,7 +187,7 @@
                             <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
                             <span class="align-middle d-sm-inline-block d-none">Previous</span>
                         </button>
-                        <button class="btn btn-primary btn-next" type="button" onclick="showNextMenu('three', 'two')">
+                        <button class="btn btn-primary btn-next" type="button" id="next_three" onclick="showNextMenu('three', 'two')">
                             <span class="align-middle d-sm-inline-block d-none">Next</span>
                             <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
                         </button>
@@ -233,7 +233,7 @@
     </div>
 </div>
 <script>
-    function showListMenu(level) {
+    function showListMenu(level, id = null) {
         var value = $('#level_'+level).val();
 
         $.ajax({
@@ -242,6 +242,7 @@
             data : {
                 menu_id : value,
                 level : level,
+                role_id : id,
             },
             success: function(response) {
                 $('#div-table-'+level).html('');
@@ -253,7 +254,7 @@
         });
     }
 
-    function showNextMenu(nextLevel, currentLevel) {
+    function showNextMenu(nextLevel, currentLevel, id = null) {
         var selectedMenu =  $('#level_'+currentLevel).val();
 
         $.ajax({
@@ -262,6 +263,7 @@
             data : {
                 menu_id : selectedMenu,
                 level : nextLevel,
+                role_id : id,
             },
             success: function(response) {
                 $('#level_'+nextLevel).empty();

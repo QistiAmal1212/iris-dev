@@ -24,12 +24,12 @@
             <td>{{ $menu->name }}</td>
             <td align="center">{{ $menu->level }}</td>
             <td align="center">{{ $menu->sequence }}</td>
-            <td align="center"><input type="checkbox" class="form-check-input" name="access[]" value="{{ $menu->id }}"></td>
-            <td align="center"><input type="checkbox" class="form-check-input" name="search[]" value="{{ $menu->id }}"></td>
-            <td align="center"><input type="checkbox" class="form-check-input" name="add[]" value="{{ $menu->id }}"></td>
-            <td align="center"><input type="checkbox" class="form-check-input" name="update[]" value="{{ $menu->id }}"></td>
-            <td align="center"><input type="checkbox" class="form-check-input" name="delete[]" value="{{ $menu->id }}"></td>
-            <td align="center"><input type="checkbox" class="form-check-input" name="report[]" value="{{ $menu->id }}"></td>
+            <td align="center"><input type="checkbox" class="form-check-input" name="access[]" value="{{ $menu->id }}" @if($menu->role != null && $menu->role->pivot->access) checked @endif></td>
+            <td align="center"><input type="checkbox" class="form-check-input" name="search[]" value="{{ $menu->id }}" @if($menu->role != null && $menu->role->pivot->search) checked @endif></td>
+            <td align="center"><input type="checkbox" class="form-check-input" name="add[]" value="{{ $menu->id }}" @if($menu->role != null && $menu->role->pivot->add) checked @endif></td>
+            <td align="center"><input type="checkbox" class="form-check-input" name="update[]" value="{{ $menu->id }}" @if($menu->role != null && $menu->role->pivot->update) checked @endif></td>
+            <td align="center"><input type="checkbox" class="form-check-input" name="delete[]" value="{{ $menu->id }}" @if($menu->role != null && $menu->role->pivot->delete) checked @endif></td>
+            <td align="center"><input type="checkbox" class="form-check-input" name="report[]" value="{{ $menu->id }}" @if($menu->role != null && $menu->role->pivot->report) checked @endif></td>
         </tr>
         @php
         $i++;

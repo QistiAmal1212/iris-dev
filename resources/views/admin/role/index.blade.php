@@ -281,8 +281,15 @@
             $('#roleForm input[name="role_display"]').val("");
             $('#roleForm select[name="role_level"]').val("");
             $('#roleForm select[name="access_function[]"]').val("").trigger('change');
+            $("#level_one").attr("onchange","showListMenu('one')");
             $('#roleForm select[name="level_one[]"]').val("").trigger('change');
+            $('#level_two').empty();
+            $("#next_two").attr("onclick","showNextMenu('two','one')");
+            $("#level_two").attr("onchange","showListMenu('two')");
             $('#roleForm select[name="level_two[]"]').val("").trigger('change');
+            $('#level_three').empty();
+            $("#next_three").attr("onclick","showNextMenu('three','two')");
+            $("#level_three").attr("onchange","showListMenu('three')");
             $('#roleForm select[name="level_three[]"]').val("").trigger('change');
 
             $('#role-details-trigger').addClass('active');
@@ -320,8 +327,17 @@
                     $('#roleForm input[name="role_display"]').val(data.detail.display_name);
                     $('#roleForm select[name="role_level"]').val(data.detail.is_internal);
                     $('#roleForm select[name="access_function[]"]').val(data.detail.listFunction).trigger('change');
+                    $("#level_one").attr("onchange","showListMenu('one', "+data.detail.id+")");
                     $('#roleForm select[name="level_one[]"]').val(data.detail.levelOne).trigger('change');
+                    $('#level_two').empty();
+                    $('#level_two').append(data.detail.optionLevel2);
+                    $("#next_two").attr("onclick","showNextMenu('two','one', "+data.detail.id+")");
+                    $("#level_two").attr("onchange","showListMenu('two', "+data.detail.id+")");
                     $('#roleForm select[name="level_two[]"]').val(data.detail.levelTwo).trigger('change');
+                    $('#level_three').empty();
+                    $('#level_three').append(data.detail.optionLevel3);
+                    $("#next_three").attr("onclick","showNextMenu('three','two', "+data.detail.id+")");
+                    $("#level_three").attr("onchange","showListMenu('three', "+data.detail.id+")");
                     $('#roleForm select[name="level_three[]"]').val(data.detail.levelThree).trigger('change');
 
                     $('#role-details-trigger').addClass('active');
