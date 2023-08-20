@@ -18,7 +18,32 @@
             <i class="fa-solid fa-add"></i> Tambah Menu
         </button>
     </div>
+    <hr>
     <div class="card-body">
+        <form id="form-search" method="GET" action="" novalidate>
+        <div class="row">
+            <div class="col-sm-4 col-12 mb-1">
+                <label class="fw-bolder">Level</label>
+                <select class="form-control" name="level" id="level">
+                    <option value=""></option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center my-1 ">
+                <a class="me-3" type="button" id="reset" href="#">
+                    <span class="text-danger"> Set Semula </span>
+                </a>
+                <button type="submit" class="btn btn-success float-right">
+                    <i class="fa fa-search"></i> Cari
+                </button>
+            </div>
+        </div>
+        </form>
+    </div>
+    <div class="card-footer">
         <div class="table-responsive">
             <table class="table table-condensed table-hover" id="table-menu">
                 <thead>

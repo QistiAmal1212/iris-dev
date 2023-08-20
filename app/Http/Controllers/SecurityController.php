@@ -19,6 +19,13 @@ class SecurityController extends Controller
     {
         $menu = SecurityMenu::all();
         if ($request->ajax()) {
+            if($request->level){
+                $level = $request->level;
+
+                if($level != null) {
+                    $menu = SecurityMenu::where('level', $level)->get();
+                }
+            }
             return Datatables::of($menu)
                 ->editColumn('name', function ($menu) {
                     return $menu->name;
