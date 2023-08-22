@@ -17,12 +17,21 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         \DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
+        $this->call(MasterActvityTypeSeeder::class);
+        $this->call(MasterModuleSeeder::class);
+        $this->call(MasterFunctionSeeder::class);
+        $this->call(SecurityMenuSeeder::class);
+
         $this->call(UsersTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
         $this->call(ModelHasPermissionsTableSeeder::class);
         $this->call(ModelHasRolesTableSeeder::class);
         $this->call(RoleHasPermissionsTableSeeder::class);
+        $this->call(UserHasRoleSeeder::class);
+
+        $this->call(RoleHasFunctionSeeder::class);
+        $this->call(RoleHasMenuSeeder::class);
 
         $this->call(SettingsTableSeeder::class);
         $this->call(MasterAnnouncementTypeSeeder::class);
