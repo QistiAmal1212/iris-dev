@@ -4,7 +4,7 @@
 
 @extends('layouts/fullLayoutMaster')
 
-@section('title', 'Login Page')
+@section('title', 'Log Masuk')
 
 @section('vendor-style')
 <link rel='stylesheet' href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
@@ -51,36 +51,6 @@
                         @endif
                     </center>
 
-                    {{--  @if($errors->any())
-                        {!! implode('', $errors->all('
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <div class="alert-body">
-                                :message
-                                </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        ')) !!}
-                    @endif --}}
-
-                    @error('no_ic')
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <div class="alert-body">
-                                {{ $message }}
-                                </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @enderror
-
-                    
-                    @error('captcha')
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <div class="alert-body">
-                                CAPTCHA validation failed, try again.
-                                </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @enderror
-
                     <form id="loginForm" class="auth-login-form mt-2" method="post" action="{{ url('/login') }}">
                         @csrf
                         {{-- <div class="mb-1">
@@ -89,15 +59,27 @@
                                 placeholder="john@example.com" aria-describedby="login-email" autofocus=""
                                 tabindex="1" required/>
                         </div> --}}
+
+                        @error('no_ic')
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div class="alert-body">
+                                    {{ $message }}
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @enderror
+
                         <div class="mb-1">
-                            <label class="form-label" for="login-ic">No Kad Pengenalan</label>
+                            <label class="form-label fw-bolder" for="login-ic">No Kad Pengenalan</label>
                             <input class="form-control" id="login-ic" type="text" name="no_ic"
                                 placeholder="No Kad Pengenalan Tanpa '-'" aria-describedby="login-ic" autofocus=""
                                 tabindex="1" minlentgh=12 maxlength=12 required/>
                         </div>
+
                         <div class="mb-1">
+                           
                             <div class="d-flex justify-content-between">
-                                <label class="form-label" for="login-password">Kata Laluan</label>
+                                <label class="form-label fw-bolder" for="login-password">Kata Laluan</label>
                                 <a href="{{ route('password.request') }}">
                                     <small>Lupa Kata Laluan?</small>
                                 </a>
@@ -113,6 +95,14 @@
                         </div>
 
                         <div class="mb-1">
+                            @error('captcha')
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <div class="alert-body">
+                                        Pengesahan CAPTCHA gagal. Sila cuba semula.
+                                    </div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @enderror
                             <div class="captcha">
                                 <span>{!! captcha_img() !!}</span>
                                 <a type="button" data-toggle="tooltip" title="Set Semula Captcha" id="reload"><i class="fas fa-undo text-secondary"></i></a>
@@ -135,17 +125,6 @@
                         </div>
                         <button class="btn btn-primary w-100 login-tour" tabindex="4">Daftar Masuk</button>
                     </form>
-
-                    <div class="divider my-2">
-                        <div class="divider-text">atau</div>
-                    </div>
-
-                    <p class="text-center mt-2">
-                        <span>Tidak mempunyai akaun?</span>
-                        <a class="text-primary" data-bs-toggle="modal" data-bs-target="#modal_register_account" aria-controls="modal_register_account">
-                            <span>Daftar Akaun</span>
-                        </a>
-                    </p>
                 </div>
             </div>
         </div>
@@ -178,7 +157,6 @@
         </div>
     @endif
 @endsection
-
 
 @section('vendor-script')
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>

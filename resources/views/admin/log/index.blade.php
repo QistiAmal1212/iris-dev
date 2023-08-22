@@ -110,26 +110,10 @@ var settings = {
     "sDom": "Blfrtip",
     "lengthMenu": [[10, 25, 50, 100, 500, 1000], [10, 25, 50, 100, 500, 1000]],
     "buttons": [
-        // {
-        //     text: '<i class="fa fa-print m-r-5"></i> Print',
-        //     extend: 'print',
-        //     className: 'btn btn-default btn-sm',
-        //     exportOptions: {
-        //         columns: ':visible:not(.nowrap)'
-        //     }
-        // },
         {
             text: '<div class="btn-group" role="group" aria-label="Role Action"> <i class="fa fa-file-excel text-success"></i> Excel ',
             extend: 'excelHtml5',
             className: 'btn btn-outline-success waves-effect mb-2',
-            exportOptions: {
-                columns: ':visible:not(.nowrap)'
-            }
-        },
-        {
-            text: '<i class="fa fa-file-pdf text-danger"></i> PDF </div>',
-            extend: 'pdfHtml5',
-            className: 'btn btn-outline-danger waves-effect mb-2',
             exportOptions: {
                 columns: ':visible:not(.nowrap)'
             }

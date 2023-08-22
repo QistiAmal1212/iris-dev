@@ -25,26 +25,6 @@
             </ul>
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto">
-            <li class="nav-item dropdown dropdown-language">
-                <a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown"
-                    aria-haspopup="true">
-                    <i class="flag-icon flag-icon-us"></i>
-                    <span class="selected-language">English</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag">
-                    <a class="dropdown-item" href="{{ url('lang/en') }}" data-language="en">
-                        <i class="flag-icon flag-icon-gb"></i> English
-                    </a>
-                    <a class="dropdown-item" href="{{ url('lang/ms') }}" data-language="ms">
-                        <i class="flag-icon flag-icon-my"></i> Malay
-                    </a>
-                </div>
-            </li>
-            <li class="nav-item d-none d-lg-block">
-                <a class="nav-link nav-link-style">
-                    <i class="ficon" data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i>
-                </a>
-            </li>
 
             <li class="nav-item dropdown dropdown-user">
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true">
@@ -79,7 +59,7 @@
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
                     <a class="dropdown-item" href="{{ route('user.show', Auth::user()->id) }}">
                         <i class="fa-regular fa-user me-50"></i>
-                            Profile Information
+                            Maklumat Akaun
                     </a>
 
                     <div class="dropdown-divider"></div>
@@ -87,7 +67,7 @@
                     @if (Auth::check())
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="me-50" data-feather="power"></i> 
-                                Logout
+                                Log Keluar
                         </a>
                         <form method="POST" id="logout-form" action="{{ route('logout') }}">
                             @csrf
@@ -95,7 +75,7 @@
                     @else
                         <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : 'javascript:void(0)' }}">
                             <i class="me-50" data-feather="log-in"></i> 
-                                Login
+                                Log Masuk
                         </a>
                     @endif
                 </div>

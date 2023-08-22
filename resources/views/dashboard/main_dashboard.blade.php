@@ -21,9 +21,9 @@
                 <div class="card-body text-center">
                     <div class="row match-height">
                         <div class="col mt-2">
-                            <h1 class="mb-1 text-white">Welcome back, <br> {{ $user->name }}</h1>
+                            <h1 class="mb-1 text-white">Selamat Datang, <br> {{ $user->name }}</h1>
                             <p class="card-text m-auto w-75">
-                                Last login <strong> 14 June 2023 (4pm)</strong>
+                                Log masuk terakhir<strong> <br> 14 June 2023 (4pm)</strong>
                             </p>
                         </div>
                         <div class="col">
@@ -86,7 +86,6 @@
                             <a href="javascript:;" class="btn btn-primary me-1">
                                 Update
                             </a>
-                            <a href="javascript:;" class="btn btn-outline-danger suspend-user">Suspend Account</a>
                         </div>
                     </div>
                 </div>
@@ -334,9 +333,9 @@
                 <div class="card-body text-center">
                     <div class="row match-height">
                         <div class="col mt-2">
-                            <h1 class="mb-1 text-white">Welcome back, <br> {{ $user->name }}</h1>
+                            <h1 class="mb-1 text-white">Selamat Datang, <br> {{ $user->name }}</h1>
                             <p class="card-text m-auto w-75">
-                                Last login <strong> 14 June 2023 (4pm)</strong>
+                                Log masuk terakhir<strong> <br> 14 June 2023 (4pm)</strong>
                             </p>
                         </div>
                         <div class="col">
@@ -398,7 +397,6 @@
                             <a href="javascript:;" class="btn btn-primary me-1">
                                 Update
                             </a>
-                            <a href="javascript:;" class="btn btn-outline-danger suspend-user">Suspend Account</a>
                         </div>
                     </div>
                 </div>

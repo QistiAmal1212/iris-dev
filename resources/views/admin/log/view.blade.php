@@ -48,7 +48,7 @@
                         </tr>
 
                         <tr>
-                            <td class="fw-bolder" width="30%">Data Dimasukkan Oleh: </td>
+                            <td class="fw-bolder" width="30%">Pengguna: </td>
                             <td>
                                 {{ optional($audit_log->created_by)->name }}
                             </td>
@@ -56,12 +56,12 @@
                     </table>
 
                     <div class="col-sm-6 col-md-6 col-lg-6">
-                        <label class="fw-bolder">Old Data</label>
+                        <label class="fw-bolder">Data Lama</label>
                         <pre class="px-1 py-1" id="json-old"></pre>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6">
-                        <label class="fw-bolder">Old Data</label>
+                        <label class="fw-bolder">Data Baru</label>
                         <pre class="px-1 py-1" id="json-new"></pre>
                     </div>
                 </div>
