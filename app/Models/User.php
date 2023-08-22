@@ -65,4 +65,10 @@ class User extends Authenticatable
 
         return $display;
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Models\Role', 'user_has_roles', 'user_id', 'role_id');
+    }
+
 }
