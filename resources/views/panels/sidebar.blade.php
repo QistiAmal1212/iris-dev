@@ -114,7 +114,7 @@ $configData = Helper::applClasses();
                 </li>
             @endhasanyrole --}}
 
-            @hasanyrole('superadmin|admin')
+            {{-- @hasanyrole('superadmin|admin')
                 <li class="navigation-header">
                     <span> Pengurusan </span>
                 </li>
@@ -212,13 +212,22 @@ $configData = Helper::applClasses();
                         </li>
                     </ul>
                 </li>
-            @endhasanyrole
+            @endhasanyrole --}}
 
-            {{-- @hasanyrole('superadmin|admin')
-                @php
+            @hasanyrole('superadmin|admin')
+                <?php
                 $securityMenu = App\Models\SecurityMenu::where('level', 1)->get();
-                @endphp
+                $roles = auth()->user()->roles;
+                $roles = $roles->pluck('id')->toArray();
+                ?>
                 @foreach($securityMenu as $menu)
+                    <?php
+                    $accessLevel1 = $menu->role()->whereIn('id', $roles)->wherePivot('access', true)->get();
+                    ?>
+                    @if(count($accessLevel1) > 0)
+                    <li class="navigation-header">
+                        <span>{{ $menu->name }}</span>
+                    </li>
                     <li class="nav_item {{ ($menu->type == 'Web') ? in_array(request()->route()->getName(), [$menu->module->code]) ? 'active' : '' : '#' }}">
                         <a href="{{ ($menu->type == 'Web') ? route($menu->module->code) : '#' }}" class="nav_link">
                             <!-- <i data-feather="circle"></i> -->
@@ -226,10 +235,14 @@ $configData = Helper::applClasses();
                         </a>
                         @if($menu->type == 'Menu')
                         <ul class="menu-content">
-                            @php
+                            <?php
                             $level2 = App\Models\SecurityMenu::where('level', 2)->where('menu_link', $menu->id)->get();
-                            @endphp
+                            ?>
                             @foreach($level2 as $menu2)
+                            <?php
+                            $accessLevel2 = $menu2->role()->whereIn('id', $roles)->wherePivot('access', true)->get();
+                            ?>
+                            @if(count($accessLevel2) > 0)
                             <li class="nav-item {{ ($menu2->type == 'Web') ? in_array(request()->route()->getName(), [$menu2->module->code]) ? 'active' : '' : '#' }}"> 
                                 <a href="{{ ($menu2->type == 'Web') ? route($menu2->module->code) : '#' }}" class="nav-link">
                                     <!-- <i data-feather="shield"></i> -->
@@ -237,26 +250,33 @@ $configData = Helper::applClasses();
                                 </a>
                                 @if($menu2->type == 'Menu')
                                 <ul class="menu-content">
-                                    @php
+                                    <?php
                                     $level3 = App\Models\SecurityMenu::where('level', 3)->where('menu_link', $menu2->id)->get();
-                                    @endphp
+                                    ?>
                                     @foreach($level3 as $menu3)
+                                    <?php
+                                    $accessLevel3 = $menu3->role()->whereIn('id', $roles)->wherePivot('access', true)->get();
+                                    ?>
+                                    @if(count($accessLevel3) > 0)
                                     <li class="nav-item {{ ($menu3->type == 'Web') ? in_array(request()->route()->getName(), [$menu3->module->code]) ? 'active' : '' : '#' }}">
                                         <a href="{{ ($menu3->type == 'Web') ? route($menu3->module->code) : '#' }}" class="d-flex align-items-center">
                                             <!-- <i data-feather="circle"></i> -->
                                             <span class="menu-title text-truncate">{{ $menu3->name }}</span>
                                         </a>
                                     </li>
+                                    @endif
                                     @endforeach
                                 </ul>
                                 @endif
                             </li>
+                            @endif
                             @endforeach
                         </ul>
                         @endif
                     </li>
+                    @endif
                 @endforeach
-            @endhasanyrole --}}
+            @endhasanyrole 
 
             {{-- @hasanyrole('superadmin')
                 <li class="navigation-header">
@@ -320,7 +340,7 @@ $configData = Helper::applClasses();
             @endif --}}
 
             {{-- IRIS MODULE PEMOHON --}}
-            <li class="navigation-header">
+            {{-- <li class="navigation-header">
                     <span> Maklumat Pemohon </span>
                 </li>
                 <li class="nav-item {{ request()->is('iris/maklumat-pemohon*') ? 'menu-open' : '' }}">
@@ -338,7 +358,7 @@ $configData = Helper::applClasses();
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
             {{-- Foreach documentation menu item starts --}}
             @hasanyrole('')
