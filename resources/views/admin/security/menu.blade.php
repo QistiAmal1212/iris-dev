@@ -45,9 +45,10 @@
     </div>
     <div class="card-footer">
         <div class="table-responsive">
-            <table class="table table-condensed table-hover" id="table-menu">
+            <table class="table header_uppercase table-bordered" id="table-menu">
                 <thead>
                     <tr>
+                        <th bgcolor="#f0f0f0" class="fit align-top text-left" style="color:#000"></th>
                         <th bgcolor="#f0f0f0" class="fit align-top text-left" style="color:#000">Bil</th>
                         <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Nama</th>
                         <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Jenis</th>
@@ -67,79 +68,117 @@
 @section('script')
 <script>
 
-    $(function() {
-        var table = $('#table-menu').DataTable({
-            orderCellsTop: true,
-            colReorder: false,
-            pageLength: 10,
-            processing: true,
-            serverSide: true, //enable if data is large (more than 50,000)
-            ajax: {
-                url: "{{ fullUrl() }}",
-                cache: false,
+    var table = $('#table-menu').DataTable({
+        orderCellsTop: true,
+        colReorder: false,
+        pageLength: 10,
+        processing: true,
+        serverSide: true, //enable if data is large (more than 50,000)
+        ajax: {
+            url: "{{ fullUrl() }}",
+            cache: false,
+        },
+        columns: [
+            {
+                defaultContent: '',
+                orderable: false,
+                searchable: false,
+                data : null,
+                className : 'list-sub-menu'
             },
-            columns: [
-                {
-                    defaultContent: '',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
-                {
-                    data: "name",
-                    name: "name",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
-                    data: "type",
-                    name: "type",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
-                    data: "module_id",
-                    name: "module_id",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
-                    data: "level",
-                    name: "level",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
-                    data: "sequence",
-                    name: "sequence",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
-                    data: "menu_link",
-                    name: "menu_link",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
+            {
+                defaultContent: '',
+                orderable: false,
+                searchable: false,
+                render: function(data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            {
+                data: "name",
+                name: "name",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "type",
+                name: "type",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "module_id",
+                name: "module_id",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "level",
+                name: "level",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "sequence",
+                name: "sequence",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "menu_link",
+                name: "menu_link",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            },
 
-            ],
-        });
-
+        ],
     });
+
+    $('#table-menu tbody').on('click', 'td.list-sub-menu', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    });
+
+    function format () {
+        // `d` is the original data object for the row
+        return '<table class="table">'+
+            '<tr>'+
+                '<td>Full name:</td>'+
+                '<td></td>'+
+                '</tr>'+
+            '<tr>'+
+                '<td>Email:</td>'+
+                '<td></td>'+
+                '</tr>'+
+            '<tr>'+
+                '<td>Extra info:</td>'+
+                '<td>And any further details here (images etc)...</td>'+
+                '</tr>'+
+            '</table>';
+    }
 
     function createMenuForm() {
         $("#modal-div").load("{{ route('admin.security.menu.create') }}");
