@@ -1,22 +1,14 @@
 @extends('layouts.app')
 
 @section('header')
-    @if($type == "internal")
-        {{__('msg.userinternalindex')}}
-    @else
-        {{__('msg.userexternalindex')}}
-    @endif
+    Senarai Pengguna
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
     <li class="breadcrumb-item">
         <a>
-            @if($type == "internal")
-                {{__('msg.userinternalindex')}}
-            @else
-                {{__('msg.userexternalindex')}}
-            @endif
+            Senarai Pengguna
         </a>
     </li>
 @endsection
@@ -37,7 +29,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <span>Total Users</span>
+                            <span>Jumlah Pengguna</span>
                             <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
                                 <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kim Karlos" class="avatar avatar-sm pull-up">
                                     <img class="rounded-circle" src="{{ asset('images/avatars/3.png') }}" alt="Avatar" />
@@ -59,7 +51,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <span>Total Active Users</span>
+                            <span>Jumlah Pengguna Aktif</span>
                             <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
                                 <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kim Merchent" class="avatar avatar-sm pull-up">
                                     <img class="rounded-circle" src="{{ asset('images/avatars/10.png') }}" alt="Avatar" />
@@ -81,7 +73,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <span>Total Inactive Users</span>
+                            <span>Jumlah Pengguna Tidak Aktif</span>
                             <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
                                 <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
                                     title="Kim Merchent" class="avatar avatar-sm pull-up">
@@ -110,7 +102,7 @@
                     <div class="d-flex justify-content-end align-items-center">
                         <button type="button" class="btn btn-primary btn-md float-right" onclick="viewUserForm()">
                             <i class="fa-solid fa-add"></i> 
-                            Add User
+                            Tambah Pengguna
                         </button>
                     </div>
                 @endhasanyrole
