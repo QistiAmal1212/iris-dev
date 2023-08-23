@@ -183,7 +183,7 @@ $configData = Helper::applClasses();
             @endhasanyrole --}}
 
                 <?php
-                $securityMenu = App\Models\SecurityMenu::where('level', 1)->get();
+                $securityMenu = App\Models\SecurityMenu::where('level', 1)->orderBy('sequence', 'asc')->get();
                 $roles = auth()->user()->roles;
                 $roles = $roles->pluck('id')->toArray();
                 ?>
@@ -203,7 +203,7 @@ $configData = Helper::applClasses();
                         @if($menu->type == 'Menu')
                         <ul class="menu-content">
                             <?php
-                            $level2 = App\Models\SecurityMenu::where('level', 2)->where('menu_link', $menu->id)->get();
+                            $level2 = App\Models\SecurityMenu::where('level', 2)->where('menu_link', $menu->id)->orderBy('sequence', 'asc')->get();
                             ?>
                             @foreach($level2 as $menu2)
                             <?php
@@ -218,7 +218,7 @@ $configData = Helper::applClasses();
                                 @if($menu2->type == 'Menu')
                                 <ul class="menu-content">
                                     <?php
-                                    $level3 = App\Models\SecurityMenu::where('level', 3)->where('menu_link', $menu2->id)->get();
+                                    $level3 = App\Models\SecurityMenu::where('level', 3)->where('menu_link', $menu2->id)->orderBy('sequence', 'asc')->get();
                                     ?>
                                     @foreach($level3 as $menu3)
                                     <?php
