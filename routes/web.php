@@ -21,6 +21,8 @@ use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\Reference\StateController;
 use App\Http\Controllers\Reference\ReligionController;
 use App\Http\Controllers\Reference\MartialStatusController;
+use App\Http\Controllers\Reference\DepartmentMinistryController;
+use App\Http\Controllers\Reference\SkimController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -133,6 +135,20 @@ Route::prefix('admin')->group(function () {
             Route::post('create', [MartialStatusController::class, 'store'])->name('admin.reference.martial-status.store');
             Route::get('edit/{martialStatusId}', [MartialStatusController::class, 'edit'])->name('admin.reference.martial-status.edit');
             Route::post('update/{martialStatusId}', [MartialStatusController::class, 'update'])->name('admin.reference.martial-status.update');
+        });
+
+        Route::prefix('department_ministry')->group(function () {
+            Route::get('/', [DepartmentMinistryController::class, 'index'])->name('admin.reference.department-ministry');
+            Route::post('create', [DepartmentMinistryController::class, 'store'])->name('admin.reference.department-ministry.store');
+            Route::get('edit/{departmentMinistryId}', [DepartmentMinistryController::class, 'edit'])->name('admin.reference.department-ministry.edit');
+            Route::post('update/{departmentMinistryId}', [DepartmentMinistryController::class, 'update'])->name('admin.reference.department-ministry.update');
+        });
+
+        Route::prefix('skim')->group(function () {
+            Route::get('/', [SkimController::class, 'index'])->name('admin.reference.skim');
+            Route::post('create', [SkimController::class, 'store'])->name('admin.reference.skim.store');
+            Route::get('edit/{skimId}', [SkimController::class, 'edit'])->name('admin.reference.skim.edit');
+            Route::post('update/{skimId}', [SkimController::class, 'update'])->name('admin.reference.skim.update');
         });
     });
 
