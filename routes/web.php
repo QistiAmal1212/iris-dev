@@ -89,9 +89,12 @@ Route::prefix('admin')->group(function () {
     Route::get('externalUser',[UserController::class,'index'])->name('admin.externalUser');
     Route::get('getUser/{userId}', [UserController::class,'getUser'])->name('user.getUser');
     Route::post('update-password', [UserController::class,'updatePassword'])->name('updatePassword');
-    
+
     Route::get('edit/{roleId}', [RoleController::class,'getRole'])->name('role.kemaskini');
     Route::get('edittingRole/{roleId}', [RoleController::class, 'getRole'])->name('role.editting');
+    Route::post('delete-role/{roleId}', [RoleController::class,'deleteRole'])->name('roles.delete');
+    Route::get('view-role/{roleId}', [RoleController::class,'viewForm'])->name('roles.view');
+
     Route::post('getMenu', [RoleController::class, 'getMenu'])->name('role.getMenu');
     Route::post('getNextMenu', [RoleController::class, 'getNextMenu'])->name('role.getNextMenu');
     Route::get('editRole/{roleId}', [RoleController::class, 'editRole'])->name('role.editRole');

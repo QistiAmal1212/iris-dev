@@ -58,7 +58,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-xl-4 col-lg-6 col-md-6">
         <div class="card">
             <div class="card-body">
@@ -269,6 +269,7 @@
         }
     };
 
+    // EDIT FORM
     viewForm = function(id = null){
         var roleFormModal;
         roleFormModal = new bootstrap.Modal(document.getElementById('roleFormModal'), { keyboard: false});
@@ -357,5 +358,93 @@
             });
         }
     };
+
+    // VIEW FORM
+    viewOnlyForm = function(id = null){
+    var roleFormModal;
+    roleFormModal = new bootstrap.Modal(document.getElementById('roleFormModal'), { keyboard: false});
+
+    event.preventDefault();
+    if(id === null){
+        $('#roleForm').attr('action', '{{ route("role.store") }}');
+        $('#roleForm input[name="role_name"]').val("").prop('readonly', true);
+        $('#roleForm textarea[name="role_description"]').val("").prop('readonly', true);
+        $('#roleForm input[name="role_display"]').val("").prop('readonly', true);
+        $('#roleForm select[name="role_level"]').val("").prop('disabled', true);
+        $('#roleForm select[name="access_function[]"]').val("").trigger('change').prop('disabled', true);
+        $("#level_one").attr("onchange","showListMenu('one')");
+        $('#roleForm select[name="level_one[]"]').val("").trigger('change').prop('disabled', true);
+        $('#level_two').empty();
+        $("#next_two").attr("onclick","showNextMenu('two','one')");
+        $("#level_two").attr("onchange","showListMenu('two')");
+        $('#roleForm select[name="level_two[]"]').val("").trigger('change').prop('disabled', true);
+        $('#level_three').empty();
+        $("#next_three").attr("onclick","showNextMenu('three','two')");
+        $("#level_three").attr("onchange","showListMenu('three')");
+        $('#roleForm select[name="level_three[]"]').val("").trigger('change').prop('disabled', true);
+
+        $('#role-details-trigger').addClass('active');
+        $('#menu-one-trigger').removeClass('active');
+        $('#menu-two-trigger').removeClass('active');
+        $('#menu-three-trigger').removeClass('active');
+
+        $('#role-details').addClass('active dstepper-block');
+        $('#menu-one').removeClass('active dstepper-block');
+        $('#menu-two').removeClass('active dstepper-block');
+        $('#menu-three').removeClass('active dstepper-block');
+
+        $('#title-role').html('Role Information');
+
+        $('#roleForm .btn-submit').prop('hidden', true);
+
+        roleFormModal.show();
+    }else{
+        url = "{{route('role.editRole',':replaceThis')}}"
+        url = url.replace(':replaceThis',id);
+        $.ajax({
+            url: url,
+            method: 'GET',
+            async: true,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                $('#roleForm input[name="role_name"]').val(data.detail.name).prop('readonly', true);
+                $('#roleForm textarea[name="role_description"]').val(data.detail.description).prop('readonly', true);
+                $('#roleForm input[name="role_display"]').val(data.detail.display_name).prop('readonly', true);
+                $('#roleForm select[name="role_level"]').val(data.detail.is_internal).prop('disabled', true);
+                $('#roleForm select[name="access_function[]"]').val(data.detail.listFunction).trigger('change').prop('disabled', true);
+                $("#level_one").attr("onchange","showListMenu('one', "+data.detail.id+")").prop('disabled', true);
+                $('#roleForm select[name="level_one[]"]').val(data.detail.levelOne).trigger('change').prop('disabled', true);
+                $('#level_two').empty().prop('disabled', true);
+                $('#level_two').append(data.detail.optionLevel2).prop('disabled', true);
+                $("#next_two").attr("onclick","showNextMenu('two','one', "+data.detail.id+")").prop('disabled', false);
+                $("#level_two").attr("onchange","showListMenu('two', "+data.detail.id+")").prop('disabled', true);
+                $('#roleForm select[name="level_two[]"]').val(data.detail.levelTwo).trigger('change').prop('disabled', true);
+                $('#level_three').empty().prop('disabled', true);
+                $('#level_three').append(data.detail.optionLevel3).prop('disabled', true);
+                $("#next_three").attr("onclick","showNextMenu('three','two', "+data.detail.id+")").prop('disabled', false);
+                $("#level_three").attr("onchange","showListMenu('three', "+data.detail.id+")").prop('disabled', true);
+                $('#roleForm select[name="level_three[]"]').val(data.detail.levelThree).trigger('change').prop('disabled', true);
+
+                $('#role-details-trigger').addClass('active');
+                $('#menu-one-trigger').removeClass('active');
+                $('#menu-two-trigger').removeClass('active');
+                $('#menu-three-trigger').removeClass('active');
+
+                $('#role-details').addClass('active dstepper-block');
+                $('#menu-one').removeClass('active dstepper-block');
+                $('#menu-two').removeClass('active dstepper-block');
+                $('#menu-three').removeClass('active dstepper-block');
+
+                $('#title-role').html('Role Information');
+
+                $('#roleForm .btn-submit').prop('hidden', true);
+
+                roleFormModal.show();
+            },
+        });
+    }
+};
+
 </script>
 @endsection

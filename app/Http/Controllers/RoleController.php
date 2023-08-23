@@ -66,11 +66,19 @@ class RoleController extends Controller
                         $button = "";
 
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
-                        //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                        // $button .= '<a class="btn btn-xs btn-default" onclick="viewRoleForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                        $button .= '<a class="btn btn-xs btn-default" onclick="#"> <i class="fas fa-eye text-iris-one"></i> ';
+
+                        //view role
+                        $button .= '<a class="btn btn-xs btn-default" onclick="viewOnlyForm('.$roles->id.')"> <i class="fas fa-eye text-seconday"></i> ';
+
+                        //edit role
                         $button .= '<a class="btn btn-xs btn-default" onclick="viewForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                        $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
+
+                        //delete role
+                        // $button .= '<a class="btn btn-xs btn-default" title="" onclick="$(`#rolesDeleteButton_'.$roles->id.'`).trigger(`click`);" > <i class="fas fa-trash text-danger"></i> </a>';
+                        // $button .= "</div>";
+                        // $button .= '<form action="'.route('roles.delete',['roleId' => $roles->id]).'" method="post" refreshFunctionDivId="RoleList">';
+                        // $button .= '<button id="rolesDeleteButton_'.$roles->id.'" type="button" hidden onclick="confirmBeforeSubmit(this)"></button>';
+                        // $button .= '</form>';
                         $button .= '</div>';
 
                         return $button;
@@ -100,9 +108,9 @@ class RoleController extends Controller
             // ]);
 
             $role = Role::create([
-                'name' => $request->role_name, 
-                'description' => $request->role_description, 
-                'display_name' => $request->role_display, 
+                'name' => $request->role_name,
+                'description' => $request->role_description,
+                'display_name' => $request->role_display,
                 'is_internal' => $request->role_level,
                 'guard_name' => 'web'
             ]);
@@ -239,7 +247,7 @@ class RoleController extends Controller
 
         $securityMenu = SecurityMenu::whereIn('id', $menuId)->where('level', $level)->orderBy('sequence', 'asc')->get();
 
-        
+
         foreach($securityMenu as $menu){
             if(isset($role_id)){
                 $roleExist = $menu->role->where('id', $role_id)->first();
@@ -321,7 +329,7 @@ class RoleController extends Controller
             $levelOne = $levelTwo = [];
 
             $menuLevelOne = SecurityMenu::whereIn('id', $role->levelOne)->get();
-    
+
             foreach($menuLevelOne as $menu){
                 $levelOne[$menu->id]['name'] = $menu->name;
                 $levelOne[$menu->id]['id'] = $menu->id;
@@ -329,16 +337,16 @@ class RoleController extends Controller
             }
 
             $menuLevelTwo = SecurityMenu::whereIn('id', $role->levelTwo)->get();
-    
+
             foreach($menuLevelTwo as $menu){
                 $levelTwo[$menu->id]['name'] = $menu->name;
                 $levelTwo[$menu->id]['id'] = $menu->id;
                 $levelTwo[$menu->id]['sub_menu'] = [];
             }
-    
+
             $subMenuOne = SecurityMenu::whereIn('menu_link', $role->levelOne)->where('level', 2)->orderBy('sequence', 'asc')->get();
             $subMenuTwo = SecurityMenu::whereIn('menu_link', $role->levelTwo)->where('level', 3)->orderBy('sequence', 'asc')->get();
-    
+
             foreach($subMenuOne as $menu) {
                 if($menu->menu_link != null){
                     $levelOne[$menu->menu_link]['sub_menu'][] = $menu;
