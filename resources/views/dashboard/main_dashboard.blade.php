@@ -12,9 +12,28 @@
 @endsection
 
 @section('content')
+<style>
+    #carianPemohonan thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #carianPemohonan tbody {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #carianPemohonan {
+        width: 100% !important;
+        /* word-wrap: break-word; */
+    }
+
+</style>
+
+
 @hasanyrole('superadmin')
 <section class="app-user-view-account">
-    <div class="row match-height">
+    <div class="row">
 
         <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="card card-congratulations">
@@ -121,6 +140,11 @@
                     </div>
                     <div class="d-flex justify-content-between mt-4 mb-2">
                         <div class="text-center">
+                            <div class="avatar bg-light-primary p-50 m-1">
+                                <div class="avatar-content">
+                                    <i data-feather="check-circle" class="font-medium-5"></i>
+                                </div>
+                            </div>
                             <p class="card-text mb-50">Tiket Baru</p>
                             <span class="font-large-1 fw-bold">29</span>
                         </div>
@@ -284,8 +308,6 @@
                                 style="opacity: .8; width:120px; height:140px;">
                         </div>
                     </div>
-
-
                 </div>
             </div>
 
@@ -342,6 +364,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between pb-0">
@@ -370,6 +393,11 @@
                     </div>
                     <div class="d-flex justify-content-between mt-4 mb-2">
                         <div class="text-center">
+                            <div class="avatar bg-light-primary p-50 m-1">
+                                <div class="avatar-content">
+                                    <i data-feather="check-circle" class="font-medium-5"></i>
+                                </div>
+                            </div>
                             <p class="card-text mb-50">Tiket Baru</p>
                             <span class="font-large-1 fw-bold">29</span>
                         </div>
@@ -445,6 +473,7 @@
                     </table>
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">Jumlah Status Laporan </h4>
@@ -494,8 +523,114 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Semakan Status Permohonan </h4>
+                </div>
+                <hr>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                            <label class="form-label fw-bolder">ID Permohonan</label>
+                            <input type="text" class="form-control" name="" id="">
+                        </div>
+
+                        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                            <label class="form-label fw-bolder">No. Kad Pengenalan</label>
+                            <input type="text" class="form-control" name="" id="">
+                        </div>
+
+                        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                            <label class="form-label fw-bolder">Nama Pemohon</label>
+                            <input type="text" class="form-control" name="" id="">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end align-items-center my-1 ">
+                        <a class="me-3" type="button" id="reset" href="#">
+                            <span class="text-danger"> Set Semula </span>
+                        </a>
+                        <button type="submit" class="btn btn-success float-right">
+                            Cari
+                        </button>
+                    </div>
+
+                    <hr>
+
+                    <div class="table-responsive">
+                        <table class="table header_uppercase table-bordered table-hovered" id="carianPemohonan">
+                            <thead>
+                                <tr>
+                                    <th width="2%">No.</th>
+                                    <th width="15%">ID Permohonan</th>
+                                    <th width="15%">No Kad Pengenalan</th>
+                                    <th>Nama Pemohon</th>
+                                    <th width="10%">Tarikh Permohonan</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <a data-bs-toggle="modal" data-bs-target="#maklumat_calon" aria-controls="maklumat_calon" class="btn text-primary" title="">
+                                            SPA9-TTP-221
+                                        </a>
+                                    </td>
+                                    <td>990101010011</td>
+                                    <td>Nur Azamlia Ayuni</td>
+                                    <td>21/05/2020 03:44:15</td>
+                                </tr>
+
+                                 <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <a data-bs-toggle="modal" data-bs-target="#maklumat_calon" aria-controls="maklumat_calon" class="btn text-primary" title="">
+                                            SPA9-TTP-221
+                                        </a>
+                                    </td>
+                                    <td>990101010011</td>
+                                    <td>Nur Azamlia Ayuni</td>
+                                    <td>21/05/2020 03:44:15</td>
+                                </tr>
+
+                                 <tr>
+                                    <td>3</td>
+                                    <td>
+                                        <a data-bs-toggle="modal" data-bs-target="#maklumat_calon" aria-controls="maklumat_calon" class="btn text-primary" title="">
+                                            SPA9-TTP-221
+                                        </a>
+                                    </td>
+                                    <td>990101010011</td>
+                                    <td>Nur Azamlia Ayuni</td>
+                                    <td>21/05/2020 03:44:15</td>
+                                </tr>
+
+                                 <tr>
+                                    <td>4</td>
+                                    <td>
+                                        <a data-bs-toggle="modal" data-bs-target="#maklumat_calon" aria-controls="maklumat_calon" class="btn text-primary" title="">
+                                            SPA9-TTP-221
+                                        </a>
+                                    </td>
+                                    <td>990101010011</td>
+                                    <td>Nur Azamlia Ayuni</td>
+                                    <td>21/05/2020 03:44:15</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+
+@include('dashboard.maklumat_carian.index')
+
 @endhasanyrole
 @endsection
 

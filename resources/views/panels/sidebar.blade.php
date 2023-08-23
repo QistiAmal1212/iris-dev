@@ -2,7 +2,7 @@
 $configData = Helper::applClasses();
 @endphp
 <div class="main-menu menu-fixed {{ $configData['theme'] === 'dark' || $configData['theme'] === 'semi-dark' ? 'menu-dark' : 'menu-light' }} menu-accordion menu-shadow" data-scroll-to-active="true">
-    <div class="navbar-header">
+    <div class="navbar-header mb-2">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -23,7 +23,7 @@ $configData = Helper::applClasses();
 
     <div class="shadow-bottom"></div>
 
-    <div class="main-menu-content">
+    <div class="main-menu-content mt-2">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
             <li class="nav-item {{ in_array(request()->route()->getName(), ['home']) ? 'active' : '' }}">
