@@ -14,13 +14,14 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Menu</h4>
-        <button type="button" class="btn btn-success btn-sm float-right" onclick="createMenuForm()">
+        <button type="button" class="btn btn-primary btn-md float-right" onclick="createMenuForm()">
             <i class="fa-solid fa-add"></i> Tambah Menu
         </button>
     </div>
     <hr>
+
     <div class="card-body">
-        <form id="form-search" method="GET" action="" novalidate>
+        {{-- <form id="form-search" method="GET" action="" novalidate>
         <div class="row">
             <div class="col-sm-4 col-12 mb-1">
                 <label class="fw-bolder">Level</label>
@@ -41,21 +42,20 @@
                 </button>
             </div>
         </div>
-        </form>
-    </div>
-    <div class="card-footer">
+        </form> --}}
+        
         <div class="table-responsive">
             <table class="table table-condensed table-hover" id="table-menu">
                 <thead>
                     <tr>
-                        <th bgcolor="#f0f0f0" class="fit align-top text-left" style="color:#000">Bil</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Nama</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Jenis</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Modul</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Level</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Turutan</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Pautan Menu</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Action</th>
+                        <th>No.</th>
+                        <th>Nama</th>
+                        <th>Jenis</th>
+                        <th>Modul</th>
+                        <th>Level</th>
+                        <th>Turutan</th>
+                        <th>Pautan Menu</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
             </table>
