@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Reference;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Reference\State;
+use App\Models\Reference\MartialStatus;
 use Yajra\DataTables\DataTables;
 
-class StateController extends Controller
+class MartialStatusController extends Controller
 {
     public function __construct()
     {
@@ -17,21 +17,21 @@ class StateController extends Controller
 
     public function index(Request $request)
     {
-        $state = State::all();
+        $martialStatus = MartialStatus::all();
         if ($request->ajax()) {
-            return Datatables::of($state)
-                ->editColumn('code', function ($state){
-                    return $state->code;
+            return Datatables::of($martialStatus)
+                ->editColumn('code', function ($martialStatus){
+                    return $martialStatus->code;
                 })
-                ->editColumn('name', function ($state) {
-                    return $state->name;
+                ->editColumn('name', function ($martialStatus) {
+                    return $martialStatus->name;
                 })
-                ->editColumn('action', function ($state) {
+                ->editColumn('action', function ($martialStatus) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="stateForm('.$state->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="martialStatusForm('.$martialStatus->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
                     $button .= '</div>';
 
@@ -41,7 +41,7 @@ class StateController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.state');
+        return view('admin.reference.martial_status');
     }
 
     public function store(Request $request)
@@ -50,15 +50,15 @@ class StateController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_state,code',
+                'code' => 'required|string|unique:ref_martial_status,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan negeri',
+                'name.required' => 'Sila isikan taraf perkahwinan',
             ]);
 
-            State::create([
+            MartialStatus::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
@@ -81,13 +81,13 @@ class StateController extends Controller
         DB::beginTransaction();
         try {
 
-            $state = State::find($request->stateId);
+            $martialStatus = MartialStatus::find($request->martialStatusId);
 
-            if (!$state) {
+            if (!$martialStatus) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
             
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $state]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $martialStatus]);
 
         } catch (\Throwable $e) {
 
@@ -101,19 +101,19 @@ class StateController extends Controller
         DB::beginTransaction();
         try {
 
-            $stateId = $request->stateId;
-            $state = State::find($stateId);
+            $martialStatusId = $request->martialStatusId;
+            $martialStatus = MartialStatus::find($martialStatusId);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_state,code,'.$stateId,
+                'code' => 'required|string|unique:ref_martial_status,code,'.$martialStatusId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan negeri',
+                'name.required' => 'Sila isikan taraf perkahwinan',
             ]);
 
-            $state->update([
+            $martialStatus->update([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
