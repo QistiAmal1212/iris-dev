@@ -1,19 +1,19 @@
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Notification</h4>
+        <h4 class="card-title">Notifikasi</h4>
     </div>
     <hr>
 
     <div class="card-body">
         <table class="table" width="100%">
             <th>
-                <td>Email</td>
-                <td>Browse</td>
-                <td>App</td>
+                <td>Emel</td>
+                <td>Pelayar</td>
+                <td>Aplikasi</td>
             </th>
 
             <tr>
-                <td class="fw-bolder">New for you </td>
+                <td class="fw-bolder">New For You </td>
                 <td>
                     <div class="custom-control custom-checkbox">
                         <input class="custom-control-input" type="checkbox"/>
@@ -32,7 +32,7 @@
             </tr>
 
             <tr>
-                <td class="fw-bolder">Account activity </td>
+                <td class="fw-bolder">Aktiviti Akaun </td>
                 <td>
                     <div class="custom-control custom-checkbox">
                         <input class="custom-control-input" type="checkbox"/>
@@ -51,7 +51,7 @@
             </tr>
 
             <tr>
-                <td class="fw-bolder">New sign-in </td>
+                <td class="fw-bolder">Log Masuk Baru </td>
                 <td>
                     <div class="custom-control custom-checkbox">
                         <input class="custom-control-input" type="checkbox"/>
@@ -70,7 +70,7 @@
             </tr>
 
             <tr>
-                <td class="fw-bolder">New device linked </td>
+                <td class="fw-bolder">Peranti Baru</td>
                 <td>
                     <div class="custom-control custom-checkbox">
                         <input class="custom-control-input" type="checkbox"/>
@@ -92,11 +92,11 @@
 
     <div class="card-footer">
         <div class="d-flex justify-content-center">
-            <a href="javascript();" class="btn btn-light-secondary me-1">
-                Discard
+            <a href="javascript();" class="btn btn-light-danger me-1">
+                Set Semula
             </a>
             <a href="javascript();" class="btn btn-primary">
-                Save Changes
+                Simpan
             </a>
         </div>
     </div>

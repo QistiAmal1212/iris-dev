@@ -1,18 +1,22 @@
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Change Password</h4>
+        <h4 class="card-title">Tukar Kata Laluan</h4>
     </div>
     <hr>
     <form method="POST" action="{{ route('updatePassword') }}" refreshFunctionDivId="divChangePassword" data-refreshFunctionNameIfSuccess="resetInput" data-refreshFunctionName="resetOnlyCaptcha" data-swal="Password updated successfully.">
         @csrf
         <div class="card-body" id="divChangePassword">
-            <p class="text-danger text-center">
-                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                Minimum 8 characters long, mixed with uppercase, lowercase, symbol and number.
-            </p>
+            <div class="alert alert-warning mb-2" role="alert">
+                <h6 class="alert-heading">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    Pastikan keperluan ini dipenuhi: 
+                </h6>
+                <div class="alert-body fw-normal"> Minimum panjang kata laluan adalah 8 huruf, kombinasi antara huruf besar, karakter & nombor.</div>
+            </div>
+
             <table class="table" width="100%">
                 <tr>
-                    <td class="fw-bolder">Current Password: </td>
+                    <td class="fw-bolder">Kata Laluan Semasa: </td>
                     <td>
                         <div class="input-group input-group-merge form-password-toggle">
                             <input type="password" class="form-control" name="reset_password_old" id="reset_password_old" placeholder="············">
@@ -24,7 +28,7 @@
                 </tr>
 
                 <tr>
-                    <td class="fw-bolder">New Password: </td>
+                    <td class="fw-bolder">Kata Laluan Baru: </td>
                     <td>
                         <div class="input-group input-group-merge form-password-toggle">
                             <input type="password" class="form-control" name="reset_password_new" id="reset_password_new" placeholder="············">
@@ -36,7 +40,7 @@
                 </tr>
 
                 <tr>
-                    <td class="fw-bolder">Retype New Password: </td>
+                    <td class="fw-bolder">Sahkan Kata Laluan: </td>
                     <td>
                         <div class="input-group input-group-merge form-password-toggle">
                             <input type="password" class="form-control" name="reset_password_confirm" id="reset_password_confirm" placeholder="············">
@@ -69,7 +73,7 @@
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-primary" onclick="$('#change_password_button').trigger('click');">
                     <span class="align-middle d-sm-inline-block d-none">
-                        Update Password
+                        Kemaskini Kata Laluan
                     </span>
                 </button>
             </div>
@@ -79,19 +83,19 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">2-Step Verification</h4>
+        <h4 class="card-title">Pengesahan Dua Langkah</h4>
     </div>
     <hr>
 
     <div class="card-body">
         <table class="table" width="100%">
             <tr>
-                <td class="fw-bolder">Through SMS (Phone Number): </td>
+                <td class="fw-bolder">Melalui SMS (Nombor Telefon): </td>
                 <td>
                     <div class="input-group">
                         <input type="text" class="form-control" required/>
                         <button class="btn btn-primary" type="button">
-                            Verify
+                            Sahkan
                         </button>
                     </div>
                 </td>
@@ -99,17 +103,17 @@
 
             <tr class="text-center fw-bolder">
                 <td colspan="2">
-                    <h4>or</h4>
+                    <h4>atau</h4>
                 </td>
             </tr>
 
             <tr>
-                <td class="fw-bolder">Using Email: </td>
+                <td class="fw-bolder">Melalui Emel: </td>
                 <td>
                     <div class="input-group">
                         <input type="text" class="form-control" required/>
                         <button class="btn btn-primary" type="button">
-                            Verify
+                            Sahkan
                         </button>
                     </div>
                 </td>

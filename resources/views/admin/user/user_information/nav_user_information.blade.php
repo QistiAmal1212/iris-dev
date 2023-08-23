@@ -2,19 +2,19 @@
     <li class="nav-item" role="presentation">
         <a class="text-uppercase nav-link fw-bolder active" id="account-info-tab" data-bs-toggle="tab" href="#account-info" aria-controls="account-info" role="tab" aria-selected="true">
             <i class="fa fa-user-circle" aria-hidden="true"></i>
-            Account
+            Akaun
         </a>
     </li>
     <li class="nav-item" role="presentation">
         <a class="text-uppercase nav-link fw-bolder" id="security-info-tab" data-bs-toggle="tab" href="#security-info" aria-controls="security-info" role="tab" aria-selected="true">
             <i class="fa fa-lock" aria-hidden="true"></i>
-            Security
+            Keselamatan
         </a>
     </li>
     <li class="nav-item" role="presentation">
         <a class="text-uppercase nav-link fw-bolder" id="notification-info-tab" data-bs-toggle="tab" href="#notification-info" aria-controls="notification-info" role="tab" aria-selected="true">
             <i class="fa fa-bell" aria-hidden="true"></i>
-            Notification
+            Notifikasi
         </a>
     </li>
 </ul>

@@ -5,12 +5,12 @@
 @endsection
 
 @section('header')
-Profile Information
+Maklumat Profil
 @endsection
 
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-<li class="breadcrumb-item"><a>Profile Information</a></li>
+<li class="breadcrumb-item"><a>Maklumat Profil</a></li>
 @endsection
 
 @section('content')
@@ -50,14 +50,14 @@ Profile Information
 
                 <table class="table" width="100%">
                     <tr>
-                        <td class="fw-bolder">Username: </td>
+                        <td class="fw-bolder">Nama Pengguna: </td>
                         <td>
                             <input type="text" class="form-control" value="{{ $user->name }}">
                         </td>
                     </tr>
 
                     <tr>
-                        <td class="fw-bolder">Email: </td>
+                        <td class="fw-bolder">Emel: </td>
                         <td>
                             <input type="text" class="form-control" value="{{ $user->email }}">
                         </td>
@@ -67,15 +67,15 @@ Profile Information
                         <td class="fw-bolder">Status</td>
                         <td>
                             @if($user->is_active == '1')
-                                <span class="badge bg-light-primary">Active</span>
+                                <span class="badge bg-light-primary">Aktif</span>
                             @else
-                                <span class="badge bg-light-danger">Suspended</span>
+                                <span class="badge bg-light-danger">Tidak Aktif</span>
                             @endif
                         </td>
                     </tr>
 
                     <tr>
-                        <td class="fw-bolder">Role</td>
+                        <td class="fw-bolder">Peranan</td>
                         <td>
                             <select class="select2 form-select" id="select2-multiple" name="roles[]" multiple>
                                 @foreach ($roles as $role)
@@ -90,9 +90,8 @@ Profile Information
             <div class="card-footer">
                 <div class="d-flex justify-content-center">
                     <a href="javascript();" class="btn btn-primary me-1">
-                        Update
+                        Kemaskini
                     </a>
-                    <a href="javascript();" class="btn btn-outline-danger suspend-user">Suspend Account</a>
                 </div>
             </div>
         </div>

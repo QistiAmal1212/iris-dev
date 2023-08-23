@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Activty Timeline</h4>
+        <h4 class="card-title">Garis Masa Aktiviti</h4>
     </div>
     <hr>
     
@@ -10,8 +10,8 @@
                 <span class="timeline-point timeline-point-indicator"></span>
                 <div class="timeline-event">
                     <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                        <h6>Download Helpdesk Report</h6>
-                        <span class="timeline-event-time">12 min ago</span>
+                        <h6>Muat Turun Laporan Meja Bantuan [Helpdesk]</h6>
+                        <span class="timeline-event-time">12 min lalu</span>
                     </div>
                     <div class="d-flex flex-row align-items-center">
                         <img class="me-1" src="{{asset('images/icons/file-icons/pdf.png')}}" alt="invoice"
@@ -24,13 +24,13 @@
                 <span class="timeline-point timeline-point-danger timeline-point-indicator"></span>
                 <div class="timeline-event">
                     <div class="d-flex justify-content-between align-items-center mb-50">
-                        <h6>Account Updated</h6>
+                        <h6>Maklumat Profil Dikemaskini</h6>
                         <div>
                             <span class="timeline-event-time">03:00PM</span>
                         </div>
                     </div>
                     <div>
-                        <span class="badge rounded-pill badge-light-danger">Updated</span>
+                        <span class="badge rounded-pill badge-light-danger">Kemaskini</span>
                     </div>
                 </div>
             </li>
@@ -38,13 +38,13 @@
                 <span class="timeline-point timeline-point-info timeline-point-indicator"></span>
                 <div class="timeline-event">
                     <div class="d-flex justify-content-between align-items-center mb-50">
-                        <h6>Account Created</h6>
+                        <h6>Akaun Dicipta</h6>
                         <div>
                             <span class="timeline-event-time">03:00PM</span>
                         </div>
                     </div>
                     <div>
-                        <span class="badge rounded-pill badge-light-primary">Created</span>
+                        <span class="badge rounded-pill badge-light-primary">Baru</span>
                     </div>
                 </div>
             </li>
