@@ -1,34 +1,163 @@
-<div class="modal fade" id="view_integration" tabindex="-1" aria-labelledby="view_integration" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">Maklumat API Integrasi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+@extends('layouts.app')
 
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
-                        <label class="form-label fw-bolder">URL API</label>
-                        <input type="url" class="form-control" name="" id="" disabled>
-                    </div>
+@section('vendor-style')
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/charts/apexcharts.css')) }}">
+@endsection
 
-                    <div class="col-sm-10 col-md-10 col-lg-10 mb-1">
-                        <label class="form-label fw-bolder">Nama API</label>
-                        <input type="text" class="form-control" name="" id="" disabled>
+@section('page-style')
+<link rel="stylesheet" href="{{ asset(mix('css/base/plugins/charts/chart-apex.css')) }}">
+@endsection
 
-                    </div>
+@section('header')
+Maklumat Integrasi
+@endsection
 
-                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                        <label class="form-label fw-bolder">Status API</label>
-                        <div class="demo-inline-spacing mt-0">
-                            <div class="form-check form-switch">
-                                <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status" checked disabled />
-                            </div>
+@section('breadcrumb')
+<li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('msg.home') }}</a></li>
+<li class="breadcrumb-item"><a>Maklumat Integrasi</a></li>
+@endsection
+
+@section('content')
+<style>
+    #integrationInformation thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #integrationInformation tbody {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #integrationInformation {
+        width: 100% !important;
+        /* word-wrap: break-word; */
+    }
+
+</style>
+
+
+<div class="row">
+    <div class="col-md-3 col-lg-3 col-xl-3 col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="user-avatar-section">
+                    <div class="d-flex align-items-center flex-column">
+                        <div class="user-info text-center">
+                            <h4 class="fw-bolder">ID API: API001</h4>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="card">
+            <div class="card-header align-items-start pb-0">
+                <div>
+                    <h2 class="fw-bolder">Ralat Dilaporkan</h2>
+                    <p class="card-text text-muted">Selama 48 Jam Terakhir</p>
+                </div>
+            </div>
+            <div id="line-area-chart-7"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header align-items-start pb-0">
+                <div>
+                    <h2 class="fw-bolder">Penyambungan Berjaya</h2>
+                    <p class="card-text text-muted">Selama 48 Jam Terakhir</p>
+                </div>
+            </div>
+            <div id="line-area-chart-6"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header align-items-start pb-0">
+                <div>
+                    <h2 class="fw-bolder">Average Latency (ms)</h2>
+                    <p class="card-text text-muted">Selama 48 Jam Terakhir</p>
+                </div>
+            </div>
+            <div id="line-area-chart-5"></div>
+        </div>
+    </div>
+
+    <div class="col-md-9 col-lg-9 col-xl-9 col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Maklumat Log Integrasi</h4>
+            </div>
+
+            <hr>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table header_uppercase table-bordered table-responsive" id="integrationInformation">
+                        <thead>
+                            <tr>
+                                <th width="10%">No</th>
+                                <th>Masa</th>
+                                <th>Kod HTTP</th>
+                                <th>Nama</th>
+                                <th width="10%">Execution Time </th>
+                                <th width="10%">Size Request</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="bg-light-info">
+                                <td colspan="6">17 July 2022</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td> 04:00:00 </td>
+                                <td>
+                                    <span class="badge badge-rounded badge-light-primary fw-bolder mb-1">Prod</span>
+                                    <br>
+                                    <span class="badge badge-rounded badge-light-success fw-bolder">200</span>
+                                </td>
+                                <td>APPSumo Message Notification</td>
+                                <td> 1.757ms </td>
+                                <td> 0.003Kb </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td> 05:00:00 </td>
+                                <td>
+                                    <span class="badge badge-rounded badge-light-primary fw-bolder mb-1">Prod</span>
+                                    <br>
+                                    <span class="badge badge-rounded badge-light-success fw-bolder">200</span>
+                                </td>
+                                <td>APPSumo Message Notification</td>
+                                <td> 1.757ms </td>
+                                <td> 0.003Kb </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td> 06:00:00 </td>
+                                <td>
+                                    <span class="badge badge-rounded badge-light-primary fw-bolder mb-1">Prod</span>
+                                    <br>
+                                    <span class="badge badge-rounded badge-light-success fw-bolder">200</span>
+                                </td>
+                                <td>APPSumo Message Notification</td>
+                                <td> 1.757ms </td>
+                                <td> 0.003Kb </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+@endsection
+
+@section('vendor-script')
+<script src="{{ asset(mix('vendors/js/charts/apexcharts.min.js')) }}"></script>
+@endsection
+
+@section('page-script')
+<script src="{{ asset(mix('js/scripts/cards/card-statistics.js')) }}"></script>
+@endsection

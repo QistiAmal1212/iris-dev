@@ -148,7 +148,5 @@ Pengurusan Integrasi
         </div>
     </div>
 </div>
-
-@include('admin.integrasi.integration_information')
 @endsection
 
