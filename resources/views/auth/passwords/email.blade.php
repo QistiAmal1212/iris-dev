@@ -9,16 +9,16 @@ $configData = Helper::applClasses();
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
 
-    <style>
-        .fill {
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.5;
-            background-image: url('{{ asset('images/logo/bg-login.jpg') }}');
-        }
+     <style>
+         .fill {
+             overflow: hidden;
+             background-size: cover;
+             background-position: center;
+             opacity: 0.5;
+             background-image: url('{{ asset('images/iris-images/bangunan.jpg') }}');
+         }
 
-    </style>
+     </style>
 @endsection
 
 @section('content')

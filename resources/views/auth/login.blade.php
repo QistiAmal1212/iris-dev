@@ -20,7 +20,7 @@
             background-size: cover;
             background-position: center;
             opacity: 0.5;
-            background-image: url('{{ asset('images/logo/bg-login.jpg') }}');
+            background-image: url('{{ asset('images/iris-images/bangunan.jpg') }}');
         }
     </style>
 @endsection

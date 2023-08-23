@@ -141,6 +141,27 @@ Pengurusan Integrasi
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <a class="btn text-primary float-right" href="{{ route('integration_information') }}">
+                                        API002
+                                    </a>
+                                </td>
+                                <td>Penjanaan Laporan Permohonan dan Status</td>
+                                <td>https://api.example.com:8443/v1/reports</td>
+                                <td>
+                                    <span class="badge badge-rounded badge-light-danger fw-bolder">Tidak Aktif</span>
+                                </td>
+                                <td>
+                                    <div class="demo-inline-spacing justify-content-center align-content-center">
+                                        <div class="form-check form-switch">
+                                            <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>

@@ -55,16 +55,6 @@ Maklumat Integrasi
         <div class="card">
             <div class="card-header align-items-start pb-0">
                 <div>
-                    <h2 class="fw-bolder">Ralat Dilaporkan</h2>
-                    <p class="card-text text-muted">Selama 48 Jam Terakhir</p>
-                </div>
-            </div>
-            <div id="line-area-chart-7"></div>
-        </div>
-
-        <div class="card">
-            <div class="card-header align-items-start pb-0">
-                <div>
                     <h2 class="fw-bolder">Penyambungan Berjaya</h2>
                     <p class="card-text text-muted">Selama 48 Jam Terakhir</p>
                 </div>
@@ -102,12 +92,13 @@ Maklumat Integrasi
                                 <th>Nama</th>
                                 <th width="10%">Execution Time </th>
                                 <th width="10%">Size Request</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr class="bg-light-info">
-                                <td colspan="6">17 July 2022</td>
+                                <td colspan="7">17 July 2022</td>
                             </tr>
                             <tr>
                                 <td>1</td>
@@ -120,6 +111,9 @@ Maklumat Integrasi
                                 <td>APPSumo Message Notification</td>
                                 <td> 1.757ms </td>
                                 <td> 0.003Kb </td>
+                                <td>
+                                    <span class="badge badge-rounded badge-light-danger fw-bolder mb-1">Gagal</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>1</td>
@@ -132,6 +126,9 @@ Maklumat Integrasi
                                 <td>APPSumo Message Notification</td>
                                 <td> 1.757ms </td>
                                 <td> 0.003Kb </td>
+                                <td>
+                                    <span class="badge badge-rounded badge-light-danger fw-bolder mb-1">Gagal</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>1</td>
@@ -144,6 +141,9 @@ Maklumat Integrasi
                                 <td>APPSumo Message Notification</td>
                                 <td> 1.757ms </td>
                                 <td> 0.003Kb </td>
+                                <td>
+                                    <span class="badge badge-rounded badge-light-success fw-bolder mb-1">Berjaya</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
