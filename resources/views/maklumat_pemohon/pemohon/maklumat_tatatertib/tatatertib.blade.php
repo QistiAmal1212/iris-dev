@@ -8,18 +8,17 @@
     </div>
 
     <div class="col sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label fw-bolder">Tempoh Hukuman</label>
-            <div class="input-group">
-                <input type="text" class="form-control">
-                <span class="input-group-text" id="basic-addon-search1">
-                    <select class="form-control select2" name="jenis" id="jenis">
-                        <option value="" hidden>Spesis</option>
-                        <option value="Ayam">Tahun</option>
-                        <option value="Babi">Bulan</option>
-                        <option value="Kerbau">Hari</option>
-                    </select>
-                </span>
-            </div>
+    <label class="form-label fw-bolder">Tempoh Hukuman</label>
+        <div class="input-group">
+            <input type="text" class="form-control">
+            <span class="input-group-text" id="basic-addon-search1">
+                <select class="form-control select2" name="jenis" id="jenis">
+                    <option value="" hidden>Spesis</option>
+                    <option value="Ayam">Tahun</option>
+                    <option value="Babi">Bulan</option>
+                    <option value="Kerbau">Hari</option>
+                </select>
+            </span>
         </div>
     </div>
 
