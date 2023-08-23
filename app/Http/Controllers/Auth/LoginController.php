@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\LogSystem;
 use App\Http\Controllers\Controller;
 use App\Models\Master\MasterFaqType;
 use App\Models\Other\Announcement;
@@ -60,6 +61,20 @@ class LoginController extends Controller
         return 'no_ic';
     }
 
+    protected function authenticated($request, $user)
+    {
+        $log = new LogSystem;
+        $log->module_id = 1;
+        $log->activity_type_id = 6;
+        $log->description = "Login user [{$user->name}]";
+        $log->data_new = json_encode($user);
+        $log->url = $request->fullUrl();
+        $log->method = strtoupper($request->method());
+        $log->ip_address = $request->ip();
+        $log->created_by_user_id = $user->id;
+        $log->save();
+    }
+
     /**
      * Create a new controller instance.
      *
@@ -87,6 +102,17 @@ class LoginController extends Controller
             // $user->last_logout_date = Carbon::now();
             $user->save();
         }
+
+        $log = new LogSystem;
+        $log->module_id = 1;
+        $log->activity_type_id = 7;
+        $log->description = "Logout user [" . auth()->user()->name . "]";
+        $log->data_old = json_encode(auth()->user());
+        $log->url = $request->fullUrl();
+        $log->method = strtoupper($request->method());
+        $log->ip_address = $request->ip();
+        $log->created_by_user_id = auth()->id();
+        $log->save();
 
         auth()->logout();
         return redirect()->route('login');
