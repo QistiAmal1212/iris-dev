@@ -4,9 +4,9 @@ namespace App\Models\Reference;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MartialStatus extends Model
+class MaritalStatus extends Model
 {
-    protected $table = 'ref_martial_status';
+    protected $table = 'ref_marital_status';
 
     protected $fillable = [
         'code',

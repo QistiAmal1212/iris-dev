@@ -12,17 +12,17 @@
 
 @section('content')
 <style>
-    #table-martial-status thead th {
+    #table-marital-status thead th {
         vertical-align: middle;
         text-align: center;
     }
 
-    #table-martial-status tbody {
+    #table-marital-status tbody {
         vertical-align: middle;
         /* text-align: center; */
     }
 
-    #table-martial-status {
+    #table-marital-status {
         width: 100% !important;
         /* word-wrap: break-word; */
     }
@@ -40,7 +40,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table header_uppercase table-bordered" id="table-martial-status">
+            <table class="table header_uppercase table-bordered" id="table-marital-status">
                 <thead>
                     <tr>
                         <th width="2%">No.</th>
@@ -54,14 +54,14 @@
     </div>
 </div>
 
-@include('admin.reference.martialStatusForm')
+@include('admin.reference.maritalStatusForm')
 
 @endsection
 
 @section('script')
 <script>
 
-    var table = $('#table-martial-status').DataTable({
+    var table = $('#table-marital-status').DataTable({
         orderCellsTop: true,
         colReorder: false,
         pageLength: 25,
@@ -122,21 +122,21 @@
     });
 
     maritalStatusForm = function(id = null){
-        var martialStatusFormModal;
-        martialStatusFormModal = new bootstrap.Modal(document.getElementById('martialStatusFormModal'), { keyboard: false});
+        var maritalStatusFormModal;
+        maritalStatusFormModal = new bootstrap.Modal(document.getElementById('maritalStatusFormModal'), { keyboard: false});
 
         event.preventDefault();
         if(id === null){
-            $('#martialStatusForm').attr('action', '{{ route("admin.reference.martial-status.store") }}');
-            $('#martialStatusForm input[name="code"]').val("");
-            $('#martialStatusForm input[name="name"]').val("");
+            $('#maritalStatusForm').attr('action', '{{ route("admin.reference.marital-status.store") }}');
+            $('#maritalStatusForm input[name="code"]').val("");
+            $('#maritalStatusForm input[name="name"]').val("");
 
             $('#title-role').html('Tambah Taraf Perkahwinan');
 
-            martialStatusFormModal.show();
+            maritalStatusFormModal.show();
         }else{
             console.log(id);
-            url = "{{ route('admin.reference.martial-status.edit', ':replaceThis') }}"
+            url = "{{ route('admin.reference.marital-status.edit', ':replaceThis') }}"
             url = url.replace(':replaceThis', id);
             $.ajax({
                 url: url,
@@ -146,18 +146,18 @@
                 processData: false,
                 success: function(data) {
                     // console.log(data);
-                    martial_status_id = data.detail.id;
+                    marital_status_id = data.detail.id;
                     // console.log(id_used);
-                    url2 = "{{ route('admin.reference.martial-status.update',':replaceThis') }}"
-                    url2 = url2.replace(':replaceThis', martial_status_id);
+                    url2 = "{{ route('admin.reference.marital-status.update',':replaceThis') }}"
+                    url2 = url2.replace(':replaceThis', marital_status_id);
 
-                    $('#martialStatusForm').attr('action',url2 );
-                    $('#martialStatusForm input[name="code"]').val(data.detail.code);
-                    $('#martialStatusForm input[name="name"]').val(data.detail.name);
+                    $('#maritalStatusForm').attr('action',url2 );
+                    $('#maritalStatusForm input[name="code"]').val(data.detail.code);
+                    $('#maritalStatusForm input[name="name"]').val(data.detail.name);
 
                     $('#title-role').html('Kemaskini Taraf Perkahwinan');
 
-                    martialStatusFormModal.show();
+                    maritalStatusFormModal.show();
                 },
             });
         }

@@ -1,4 +1,4 @@
-<div class="modal fade text-start" id="martialStatusFormModal" tabindex="-1" aria-labelledby="title-role" aria-hidden="true" data-bs-backdrop="false">
+<div class="modal fade text-start" id="maritalStatusFormModal" tabindex="-1" aria-labelledby="title-role" aria-hidden="true" data-bs-backdrop="false">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.reference.martial-status.store') }}" method="POST" id="martialStatusForm" data-reloadPage="true">
+                <form action="{{ route('admin.reference.marital-status.store') }}" method="POST" id="maritalStatusForm" data-reloadPage="true">
                     @csrf
                     <div class="row">
                         <div class="col-md-4">

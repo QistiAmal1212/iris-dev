@@ -20,7 +20,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\Reference\StateController;
 use App\Http\Controllers\Reference\ReligionController;
-use App\Http\Controllers\Reference\MartialStatusController;
+use App\Http\Controllers\Reference\MaritalStatusController;
 use App\Http\Controllers\Reference\DepartmentMinistryController;
 use App\Http\Controllers\Reference\SkimController;
 use Illuminate\Support\Facades\Auth;
@@ -130,11 +130,11 @@ Route::prefix('admin')->group(function () {
             Route::post('update/{religionId}', [ReligionController::class, 'update'])->name('admin.reference.religion.update');
         });
 
-        Route::prefix('martial_status')->group(function () {
-            Route::get('/', [MartialStatusController::class, 'index'])->name('admin.reference.martial-status');
-            Route::post('create', [MartialStatusController::class, 'store'])->name('admin.reference.martial-status.store');
-            Route::get('edit/{martialStatusId}', [MartialStatusController::class, 'edit'])->name('admin.reference.martial-status.edit');
-            Route::post('update/{martialStatusId}', [MartialStatusController::class, 'update'])->name('admin.reference.martial-status.update');
+        Route::prefix('marital_status')->group(function () {
+            Route::get('/', [MaritalStatusController::class, 'index'])->name('admin.reference.marital-status');
+            Route::post('create', [MaritalStatusController::class, 'store'])->name('admin.reference.marital-status.store');
+            Route::get('edit/{maritalStatusId}', [MaritalStatusController::class, 'edit'])->name('admin.reference.marital-status.edit');
+            Route::post('update/{maritalStatusId}', [MaritalStatusController::class, 'update'])->name('admin.reference.marital-status.update');
         });
 
         Route::prefix('department_ministry')->group(function () {
