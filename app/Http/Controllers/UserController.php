@@ -112,11 +112,13 @@ class UserController extends Controller
             $users = User::whereHas('roles', function ($query) {
                 $query->where('is_internal', 1);
             });
+            $is_internal = 1;
             $type = 'internal';
         } else {
             $users = User::whereHas('roles', function ($query) {
                 $query->where('is_internal', 0);
             });
+            $is_internal = 0;
             $type = 'external';
         }
 
@@ -128,7 +130,7 @@ class UserController extends Controller
 
         $activeUser = $totalUser - $inactiveUser;
 
-        $role = Role::get();
+        $role = Role::where('is_internal', $is_internal)->get();
 
         $externalUsers = Role::where('is_internal', 0)->get();
         $internalUsers = Role::where('is_internal', 1)->get();

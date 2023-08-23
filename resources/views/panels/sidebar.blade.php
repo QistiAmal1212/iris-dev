@@ -182,7 +182,6 @@ $configData = Helper::applClasses();
                 </li>
             @endhasanyrole --}}
 
-            @hasanyrole('superadmin|admin')
                 <?php
                 $securityMenu = App\Models\SecurityMenu::where('level', 1)->get();
                 $roles = auth()->user()->roles;
@@ -244,7 +243,6 @@ $configData = Helper::applClasses();
                     </li>
                     @endif
                 @endforeach
-            @endhasanyrole 
 
             @hasanyrole('superadmin|admin')
             <li class="navigation-header">
