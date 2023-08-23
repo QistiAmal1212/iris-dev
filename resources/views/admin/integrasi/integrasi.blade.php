@@ -29,7 +29,7 @@ Pengurusan Integrasi
 </style>
 
 <div class="row match-height">
-    <div class="col-xl-4 col-lg-6 col-md-6">
+    {{-- <div class="col-xl-4 col-lg-6 col-md-6">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
@@ -42,7 +42,6 @@ Pengurusan Integrasi
                 </div>
                 <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
                     <div class="role-heading">
-                        {{-- <h4 class="fw-bolder">{{ $countInternalRoles }}</h4> --}}
                         <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#internal_list" aria-controls="internal_list" title="">
                             <i class="fa-solid fa-chevron-down"></i>
                             Lihat Senarai
@@ -66,7 +65,6 @@ Pengurusan Integrasi
                 </div>
                 <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
                     <div class="role-heading">
-                        {{-- <h4 class="fw-bolder">{{ $countExternalRoles }}</h4> --}}
                         <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#external_list" aria-controls="external_list" title="">
                             <i class="fa-solid fa-chevron-down"></i>
                             Lihat Senarai
@@ -75,7 +73,7 @@ Pengurusan Integrasi
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 
     <div class="col-xl-4 col-lg-6 col-md-6">
         <div class="card">
@@ -89,7 +87,7 @@ Pengurusan Integrasi
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
     <div class="col-xl-12 col-lg-12 col-md-12">
@@ -115,6 +113,7 @@ Pengurusan Integrasi
                             <tr>
                                 <th width="10%">No</th>
                                 <th>ID API</th>
+                                <th>Nama API</th>
                                 <th>URL API</th>
                                 <th width="10%">Status</th>
                                 <th width="10%">Tindakan</th>
@@ -124,7 +123,12 @@ Pengurusan Integrasi
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>API001</td>
+                                <td>
+                                    <a class="btn text-primary float-right" href="{{ route('integration_information') }}">
+                                        API001
+                                    </a>
+                                </td>
+                                <td>Penjanaan Laporan Permohonan</td>
                                 <td>https://api.example.com:8443/v1/reports</td>
                                 <td>
                                     <span class="badge badge-rounded badge-light-primary fw-bolder">Aktif</span>
@@ -132,7 +136,7 @@ Pengurusan Integrasi
                                 <td>
                                     <div class="demo-inline-spacing justify-content-center align-content-center">
                                         <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status" />
+                                            <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status" checked/>
                                         </div>
                                     </div>
                                 </td>
@@ -145,5 +149,6 @@ Pengurusan Integrasi
     </div>
 </div>
 
+@include('admin.integrasi.integration_information')
 @endsection
 

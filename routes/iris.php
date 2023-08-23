@@ -13,5 +13,6 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
 Route::controller(IntegrationController::class)->group(function () {
     Route::prefix('integrasi')->group(function () {
         Route::get('dashboard-integrasi','DashboardIntegration')->name('dashboard_integration');
+        Route::get('informasi-integrasi','IntegrationInformation')->name('integration_information');
     });
 });
