@@ -121,7 +121,7 @@
         }
     });
 
-    martialStatusForm = function(id = null){
+    maritalStatusForm = function(id = null){
         var martialStatusFormModal;
         martialStatusFormModal = new bootstrap.Modal(document.getElementById('martialStatusFormModal'), { keyboard: false});
 

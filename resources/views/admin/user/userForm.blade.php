@@ -66,16 +66,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label class="form-label fw-bolder"> Bahagian </label>
-                                <div class="input-group">
-                                    <input type="text" id="bahagian" name="bahagian" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-12">
+                        <div class="col-md-12 col-12">
                             <div class="form-group">
                                 <label class="form-label fw-bolder"> Jawatan </label>
                                 <select class="select2 form-select" name="skim_code" id="skim_code" required>
