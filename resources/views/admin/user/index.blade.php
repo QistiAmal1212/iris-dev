@@ -138,6 +138,7 @@
             $('#userFormModal input[name="full_name"]').val("");
             $('#userFormModal input[name="ic_number"]').val("");
             $('#userFormModal input[name="email"]').val("");
+            $('#userFormModal input[name="phone_number"]').val("");
             $('#userFormModal input[name="password"]').val("");
             $('#userFormModal input[name="retype_password"]').val("");
             $('#userFormModal select[name="role"]:checked').val();+
@@ -152,6 +153,8 @@
             $('#userFormModal span[name="the_eye_2"]').attr('hidden', false);
             $('#userFormModal form[name="FormUserModal"]').attr('action', '{{route("user.store")}}');
             $('#userFormModal input[name="_method"]').attr('value', 'POST');
+            $('#userFormModal select[name="department_ministry_code"]').val("").trigger('change');
+            $('#userFormModal select[name="skim_code"]').val("").trigger('change');
             $('#userFormModal select[name="roles[]"] option').each(function(){
                 $(this).removeAttr('selected')
             });
@@ -176,7 +179,7 @@
                     $('#userFormModal input[name="full_name"]').val(data.detail.name);
                     $('#userFormModal input[name="ic_number"]').val(data.detail.no_ic);
                     $('#userFormModal input[name="email"]').val(data.detail.email);
-                    $('#userFormModal input[name="email"]').val(data.detail.email);
+                    $('#userFormModal input[name="phone_number"]').val(data.detail.phone_number);
                     $('#userFormModal input[name="password"]').attr('disabled', true);
                     $('#userFormModal input[name="password"]').attr('hidden', true);
                     $('#userFormModal input[name="retype_password"]').attr('disabled', true);
@@ -188,6 +191,8 @@
                     $('#userFormModal span[name="the_eye_2"]').attr('hidden', true);
                     $('#userFormModal form[name="FormUserModal"]').attr('action',url2 );
                     $('#userFormModal input[name="_method"]').attr('value','PUT' );
+                    $('#userFormModal select[name="department_ministry_code"]').val(data.detail.ref_department_ministry_code).trigger('change');
+                    $('#userFormModal select[name="skim_code"]').val(data.detail.ref_skim_code).trigger('change');
 
                     if(data.detail.is_active == 1)
                         $('#userFormModal input[name="status"]').prop('checked', true);
