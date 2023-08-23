@@ -73,18 +73,18 @@
                     <div class="info-container">
                         <div class="row match-height">
                             <div class="col">
-                                <label for="" class="fw-bolder">Username:</label>
+                                <label for="" class="fw-bolder">Nama Pengguna:</label>
                                 <input type="text" class="form-control" value="{{ $user->name }}" name="name" id="name">
                             </div>
                             <div class="col">
-                                <label for="" class="fw-bolder">Email:</label>
+                                <label for="" class="fw-bolder">Emel:</label>
                                 <input type="text" class="form-control" value="{{ $user->email }}" name="email"
                                     id="email">
                             </div>
                         </div>
                         <div class="d-flex justify-content-center pt-2 mb-1 mt-2">
                             <a href="javascript:;" class="btn btn-primary me-1">
-                                Update
+                                Kemaskini
                             </a>
                         </div>
                     </div>
@@ -95,16 +95,16 @@
         <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between pb-0">
-                    <h4 class="card-title">Helpdesk Tracker</h4>
+                    <h4 class="card-title">Pengurusan Meja Bantuan [Helpdesk]</h4>
                     <div class="dropdown chart-dropdown">
                         <button class="btn btn-sm border-0 dropdown-toggle p-50" type="button" id="dropdownItem4"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Last 7 Days
+                            7 Hari Lalu
                         </button>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownItem4">
-                            <a class="dropdown-item" href="#">Last 28 Days</a>
-                            <a class="dropdown-item" href="#">Last Month</a>
-                            <a class="dropdown-item" href="#">Last Year</a>
+                            <a class="dropdown-item" href="#">28 Hari Lalu</a>
+                            <a class="dropdown-item" href="#">Bulan Sebelum</a>
+                            <a class="dropdown-item" href="#">Tahun Sebelum</a>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                         <div class="col-sm-2 col-12 d-flex flex-column flex-wrap text-center">
 
                             <h1 class="font-large-2 fw-bolder mt-2 mb-">163</h1>
-                            <p class="card-text">Tickets</p>
+                            <p class="card-text">Tiket Dikeluarkan</p>
                         </div>
                         <div class="col-sm-10 col-12 d-flex justify-content-center mt-3 mb-1">
                             <div id="support-trackers-chart"></div>
@@ -121,21 +121,7 @@
                     </div>
                     <div class="d-flex justify-content-between mt-4 mb-2">
                         <div class="text-center">
-                            <div class="avatar bg-light-primary p-50 m-1">
-                                <div class="avatar-content">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                        <g id="feTicket0" fill="none" fill-rule="evenodd" stroke="none"
-                                            stroke-width="1">
-                                            <g id="feTicket1" fill="currentColor">
-                                                <path id="feTicket2"
-                                                    d="M2 10V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2a2 2 0 1 0 0 4v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2a2 2 0 1 0 0-4Zm3-2v8h14V8H5Zm2 2h10v4H7v-4Z" />
-                                            </g>
-                                        </g>
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <p class="card-text mb-50">New Tickets</p>
+                            <p class="card-text mb-50">Tiket Baru</p>
                             <span class="font-large-1 fw-bold">29</span>
                         </div>
                         <div class="text-center">
@@ -144,7 +130,7 @@
                                     <i data-feather="check-circle" class="font-medium-5"></i>
                                 </div>
                             </div>
-                            <p class="card-text mb-50">Open Tickets</p>
+                            <p class="card-text mb-50">Tiket Selesai</p>
                             <span class="font-large-1 fw-bold">63</span>
                         </div>
                         <div class="text-center">
@@ -153,8 +139,8 @@
                                     <i data-feather="clock" class="font-medium-5"></i>
                                 </div>
                             </div>
-                            <p class="card-text mb-50">Response Time</p>
-                            <span class="font-large-1 fw-bold">1d</span>
+                            <p class="card-text mb-50">Masa Tindak Balas</p>
+                            <span class="font-large-1 fw-bold">1 Hari</span>
                         </div>
                     </div>
                 </div>
@@ -169,149 +155,104 @@
                                 <table class="invoice-list-table table">
                                     <thead>
                                         <tr>
-                                            <th width="20%">Name</th>
-                                            <th>Type</th>
-                                            <th width="35%">Usage</th>
-                                            <th>Updated At</th>
+                                            <th width="20%">Nama</th>
+                                            <th>Jenis</th>
+                                            <th width="35%">Penggunaan</th>
                                         </tr>
                                     </thead>
                                     <tr>
                                         <td>
                                             <div class="avatar me-25">
-                                                <img src="{{ asset('images/iris-images/ram.png') }}" alt="avatar" width="20"
-                                                    height="20" />
+                                                <img src="{{ asset('images/iris-images/ram.png') }}" alt="avatar" width="20" height="20" />
                                             </div>
                                             <span class="fw-bolder">Memory</span>
                                         </td>
                                         <td>RAM</td>
                                         <td>
                                             <div class="progress progress-bar-primary">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="25"
-                                                    aria-valuemin="25" aria-valuemax="100" style="width: 25%">
-
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="25" aria-valuemax="100" style="width: 25%">
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>10, Jan 2021 20:07</td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <div class="avatar me-25">
-                                                <img src="{{ asset('images/iris-images/memory.png') }}" alt="avatar"
-                                                    width="20" height="20" />
+                                                <img src="{{ asset('images/iris-images/memory.png') }}" alt="avatar" width="20" height="20" />
                                             </div>
                                             <span class="fw-bolder">Storage</span>
                                         </td>
                                         <td>Database</td>
                                         <td>
                                             <div class="progress progress-bar-primary">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="60"
-                                                    aria-valuemin="60" aria-valuemax="100" style="width: 60%">
-
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="60" aria-valuemax="100" style="width: 60%"> 
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>10, Jan 2021 20:07</td>
                                     </tr>
 
                                     <tr>
                                         <td class="text-start">
                                             <div class="avatar me-25">
-                                                <img src="{{ asset('images/iris-images/sql.png') }}" alt="avatar" width="20"
-                                                    height="20" />
+                                                <img src="{{ asset('images/iris-images/sql.png') }}" alt="avatar" width="20" height="20" />
                                             </div>
                                             <span class="fw-bolder"> &nbsp; Database </span>
                                         </td>
                                         <td>SQL</td>
                                         <td>
                                             <div class="progress progress-bar-primary">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="50"
-                                                    aria-valuemin="50" aria-valuemax="100" style="width: 50%">
-
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width: 50%">
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>10, Jan 2021 20:07</td>
                                     </tr>
 
                                     <tr>
                                         <td class="text-start">
                                             <div class="avatar me-25">
-                                                <img src="{{ asset('images/iris-images/cpu.png') }}" alt="avatar" width="20"
-                                                    height="20" />
+                                                <img src="{{ asset('images/iris-images/cpu.png') }}" alt="avatar" width="20" height="20" />
                                             </div>
                                             <span class="fw-bolder"> &nbsp; CPU </span>
                                         </td>
                                         <td>Processor</td>
                                         <td>
                                             <div class="progress progress-bar-primary">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="50"
-                                                    aria-valuemin="50" aria-valuemax="100" style="width: 50%">
-
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width: 50%">
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>10, Jan 2021 20:07</td>
                                     </tr>
 
                                     <tr>
                                         <td class="text-start">
                                             <div class="avatar me-25">
-                                                <img src="{{ asset('images/iris-images/ram.png') }}" alt="avatar" width="20"
-                                                    height="20" />
+                                                <img src="{{ asset('images/iris-images/ram.png') }}" alt="avatar" width="20" height="20" />
                                             </div>
                                             <span class="fw-bolder"> &nbsp; RAM </span>
                                         </td>
                                         <td>Memory</td>
                                         <td>
                                             <div class="progress progress-bar-primary">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="50"
-                                                    aria-valuemin="50" aria-valuemax="100" style="width: 50%">
-
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width: 50%">
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>10, Jan 2021 20:07</td>
                                     </tr>
 
                                     <tr>
                                         <td class="text-start">
                                             <div class="avatar me-25">
-                                                <img src="{{ asset('images/iris-images/gpu.png') }}" alt="avatar" width="20"
-                                                    height="20" />
+                                                <img src="{{ asset('images/iris-images/battery.png') }}" alt="avatar" width="20" height="20" />
                                             </div>
-                                            <span class="fw-bolder"> &nbsp; GPU </span>
+                                            <span class="fw-bolder"> Server </span>
                                         </td>
-                                        <td>Graphics</td>
+                                        <td>Uptime</td>
                                         <td>
                                             <div class="progress progress-bar-primary">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="50"
-                                                    aria-valuemin="50" aria-valuemax="100" style="width: 50%">
-
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="100" style="width: 100%">
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>10, Jan 2021 20:07</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="text-start">
-                                            <div class="avatar me-25">
-                                                <img src="{{ asset('images/iris-images/battery.png') }}" alt="avatar"
-                                                    width="20" height="20" />
-                                            </div>
-                                            <span class="fw-bolder"> &nbsp; Battery </span>
-                                        </td>
-                                        <td>Power</td>
-                                        <td>
-                                            <div class="progress progress-bar-primary">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="100"
-                                                    aria-valuemin="100" aria-valuemax="100" style="width: 100%">
-
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>10, Jan 2021 20:07</td>
                                     </tr>
                                 </table>
                             </div>
@@ -384,18 +325,17 @@
                     <div class="info-container">
                         <div class="row match-height">
                             <div class="col">
-                                <label for="" class="fw-bolder">Username:</label>
+                                <label for="" class="fw-bolder">Nama Pengguna:</label>
                                 <input type="text" class="form-control" value="{{ $user->name }}" name="name" id="name">
                             </div>
                             <div class="col">
-                                <label for="" class="fw-bolder">Email:</label>
-                                <input type="text" class="form-control" value="{{ $user->email }}" name="email"
-                                    id="email">
+                                <label for="" class="fw-bolder">Emel:</label>
+                                <input type="text" class="form-control" value="{{ $user->email }}" name="email" id="email">
                             </div>
                         </div>
                         <div class="d-flex justify-content-center pt-2 mb-1 mt-2">
                             <a href="javascript:;" class="btn btn-primary me-1">
-                                Update
+                                Kemaskini
                             </a>
                         </div>
                     </div>
@@ -405,16 +345,15 @@
         <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between pb-0">
-                    <h4 class="card-title">Helpdesk Tracker</h4>
+                    <h4 class="card-title">Pengurusan Meja Bantuan [Helpdesk]</h4>
                     <div class="dropdown chart-dropdown">
-                        <button class="btn btn-sm border-0 dropdown-toggle p-50" type="button" id="dropdownItem4"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Last 7 Days
+                        <button class="btn btn-sm border-0 dropdown-toggle p-50" type="button" id="dropdownItem4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            7 Hari Lalu
                         </button>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownItem4">
-                            <a class="dropdown-item" href="#">Last 28 Days</a>
-                            <a class="dropdown-item" href="#">Last Month</a>
-                            <a class="dropdown-item" href="#">Last Year</a>
+                            <a class="dropdown-item" href="#">28 Hari Lalu</a>
+                            <a class="dropdown-item" href="#">Bulan Sebelum</a>
+                            <a class="dropdown-item" href="#">Tahun Sebelum</a>
                         </div>
                     </div>
                 </div>
@@ -423,7 +362,7 @@
                         <div class="col-sm-2 col-12 d-flex flex-column flex-wrap text-center">
 
                             <h1 class="font-large-2 fw-bolder mt-2 mb-">163</h1>
-                            <p class="card-text">Tickets</p>
+                            <p class="card-text">Tiket Dikeluarkan</p>
                         </div>
                         <div class="col-sm-10 col-12 d-flex justify-content-center mt-3 mb-1">
                             <div id="support-trackers-chart"></div>
@@ -431,21 +370,7 @@
                     </div>
                     <div class="d-flex justify-content-between mt-4 mb-2">
                         <div class="text-center">
-                            <div class="avatar bg-light-primary p-50 m-1">
-                                <div class="avatar-content">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                        <g id="feTicket0" fill="none" fill-rule="evenodd" stroke="none"
-                                            stroke-width="1">
-                                            <g id="feTicket1" fill="currentColor">
-                                                <path id="feTicket2"
-                                                    d="M2 10V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2a2 2 0 1 0 0 4v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2a2 2 0 1 0 0-4Zm3-2v8h14V8H5Zm2 2h10v4H7v-4Z" />
-                                            </g>
-                                        </g>
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <p class="card-text mb-50">New Tickets</p>
+                            <p class="card-text mb-50">Tiket Baru</p>
                             <span class="font-large-1 fw-bold">29</span>
                         </div>
                         <div class="text-center">
@@ -454,7 +379,7 @@
                                     <i data-feather="check-circle" class="font-medium-5"></i>
                                 </div>
                             </div>
-                            <p class="card-text mb-50">Open Tickets</p>
+                            <p class="card-text mb-50">Tiket Selesai</p>
                             <span class="font-large-1 fw-bold">63</span>
                         </div>
                         <div class="text-center">
@@ -463,8 +388,8 @@
                                     <i data-feather="clock" class="font-medium-5"></i>
                                 </div>
                             </div>
-                            <p class="card-text mb-50">Response Time</p>
-                            <span class="font-large-1 fw-bold">1d</span>
+                            <p class="card-text mb-50">Masa Tindak Balas</p>
+                            <span class="font-large-1 fw-bold">1 Hari</span>
                         </div>
                     </div>
                 </div>
