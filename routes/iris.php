@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MaklumatPemohonController;
+use App\Http\Controllers\IntegrationController;
 
 Route::controller(MaklumatPemohonController::class)->group(function () {
     Route::prefix('pemohon')->group(function () {
@@ -9,3 +10,8 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
     });
 });
 
+Route::controller(IntegrationController::class)->group(function () {
+    Route::prefix('integrasi')->group(function () {
+        Route::get('dashboard-integrasi','DashboardIntegration')->name('dashboard_integration');
+    });
+});

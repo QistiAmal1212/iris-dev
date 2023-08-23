@@ -79,40 +79,25 @@ $configData = Helper::applClasses();
                 </li>
             @endhasanyrole --}}
 
-            {{-- @hasanyrole('superadmin|admin')
+            @hasanyrole('superadmin|admin')
                 <li class="navigation-header">
-                    <span> User Settings </span>
+                    <span> Pengurusan Integrasi </span>
                 </li>
-                <li class="nav-item {{ request()->is('admin/user*') ? 'menu-open' : '' }}">
+                <li class="nav-item {{ request()->is('pengurusan_integrasi*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
-                        <i data-feather="user"></i>
-                        <span class="menu-title text-truncate"> {{__('msg.user_management')}} </span>
+                        <span class="menu-title text-truncate"> Pengurusan Integrasi </span>
                     </a>
                     <ul class="menu-content">
-                        <li class="nav-user-internal {{ in_array(request()->route()->getName(),['admin.internalUser'])? 'active': '' }}">
-                            <a href="{{ route('admin.internalUser') }}" class="d-flex align-items-center">
-                                <i data-feather="circle"></i>
+                        <li class="{{ in_array(request()->route()->getName(), ['dashboard_integration']) ? 'active' : '' }}">
+                            <a href="{{ route('dashboard_integration') }}" class="d-flex align-items-center">
                                 <span class="menu-title text-truncate">
-                                    {{ __('msg.userinternal') }}
+                                    Pengurusan Integrasi
                                 </span>
-                            </a>
-                        </li>
-                        <li class="nav-user-external {{ in_array(request()->route()->getName(),['admin.externalUser'])? 'active': '' }}">
-                            <a href="{{ route('admin.externalUser') }}" class="d-flex align-items-center">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate">
-                                    {{ __('msg.userexternal') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="{{ in_array(request()->route()->getName(), ['role.index']) ? 'active' : '' }}">
-                            <a href="{{ route('role.index') }}" class="d-flex align-items-center">
-                                <i data-feather="circle"></i> <span class="menu-title text-truncate"> Pengurusan Peranan </span>
                             </a>
                         </li>
                     </ul>
                 </li>
-            @endhasanyrole --}}
+            @endhasanyrole
 
             {{-- @hasanyrole('superadmin|admin')
                 <li class="navigation-header">
