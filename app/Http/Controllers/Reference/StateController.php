@@ -50,7 +50,7 @@ class StateController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_negeri,code',
+                'code' => 'required|string|unique:ref_state,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -105,7 +105,7 @@ class StateController extends Controller
             $state = State::find($stateId);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_negeri,code,'.$stateId,
+                'code' => 'required|string|unique:ref_state,code,'.$stateId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
