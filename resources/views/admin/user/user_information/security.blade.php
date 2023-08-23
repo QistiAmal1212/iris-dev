@@ -19,10 +19,7 @@
                     <td class="fw-bolder">Kata Laluan Semasa: </td>
                     <td>
                         <div class="input-group input-group-merge form-password-toggle">
-                            <input type="password" class="form-control" name="reset_password_old" id="reset_password_old" placeholder="············">
-                            <span class="input-group-text cursor-pointer">
-                                <i data-feather="eye"></i>
-                            </span>
+                            <input type="password" class="form-control" name="reset_password_old" id="reset_password_old" placeholder="············" value="{{ $user->password }}">
                         </div>
                     </td>
                 </tr>
@@ -79,47 +76,6 @@
             </div>
         </div>
     </form>
-</div>
-
-<div class="card">
-    <div class="card-header">
-        <h4 class="card-title">Pengesahan Dua Langkah</h4>
-    </div>
-    <hr>
-
-    <div class="card-body">
-        <table class="table" width="100%">
-            <tr>
-                <td class="fw-bolder">Melalui SMS (Nombor Telefon): </td>
-                <td>
-                    <div class="input-group">
-                        <input type="text" class="form-control" required/>
-                        <button class="btn btn-primary" type="button">
-                            Sahkan
-                        </button>
-                    </div>
-                </td>
-            </tr>
-
-            <tr class="text-center fw-bolder">
-                <td colspan="2">
-                    <h4>atau</h4>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="fw-bolder">Melalui Emel: </td>
-                <td>
-                    <div class="input-group">
-                        <input type="text" class="form-control" required/>
-                        <button class="btn btn-primary" type="button">
-                            Sahkan
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
 </div>
 
 @section('script')

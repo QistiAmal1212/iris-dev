@@ -77,7 +77,7 @@ Maklumat Profil
                     <tr>
                         <td class="fw-bolder">Peranan</td>
                         <td>
-                            <select class="select2 form-select" id="select2-multiple" name="roles[]" multiple>
+                            <select class="select2 form-select" id="select2-multiple" name="roles[]" multiple disabled>
                                 @foreach ($roles as $role)
                                     <option value="{{$role->id}}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>{{$role->name}}</option>
                                 @endforeach
