@@ -11,6 +11,24 @@
 @endsection
 
 @section('content')
+<style>
+    #table-state thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #table-state tbody {
+        vertical-align: middle;
+        /* text-align: center; */
+    }
+
+    #table-state {
+        width: 100% !important;
+        /* word-wrap: break-word; */
+    }
+
+</style>
+
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Negeri</h4>
@@ -25,10 +43,10 @@
             <table class="table header_uppercase table-bordered" id="table-state">
                 <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Kod</th>
+                        <th width="2%">No.</th>
+                        <th width="10%">Kod</th>
                         <th>Negeri</th>
-                        <th>Tindakan</th>
+                        <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
             </table>

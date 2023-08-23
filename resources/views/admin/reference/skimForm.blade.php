@@ -9,7 +9,7 @@
                 <form action="{{ route('admin.reference.skim.store') }}" method="POST" id="skimForm" data-reloadPage="true">
                     @csrf
                     <div class="row">
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label" for="code">Kod <span class="text text-danger">*</span> </label>
                                 <div class="input-group">
@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label class="form-label" for="name">Nama Jawatan <span class="text text-danger">*</span> </label>
                                 <div class="input-group">
@@ -30,7 +30,6 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Tutup</button>
                 <button type="button" id="btn_fake" class="btn btn-primary" onclick="$('#btn_submit').trigger('click');">Simpan</button>
             </div>
         </div>

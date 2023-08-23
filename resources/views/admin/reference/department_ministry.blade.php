@@ -11,22 +11,42 @@
 @endsection
 
 @section('content')
+<style>
+    #table-department-ministry thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #table-department-ministry tbody {
+        vertical-align: middle;
+        /* text-align: center; */
+    }
+
+    #table-department-ministry {
+        width: 100% !important;
+        /* word-wrap: break-word; */
+    }
+
+</style>
+
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Kementerian</h4>
-        <button type="button" class="btn btn-success btn-sm float-right" onclick="departmentMinistryForm()">
+        <button type="button" class="btn btn-primary btn-md float-right" onclick="departmentMinistryForm()">
             <i class="fa-solid fa-add"></i> Tambah Kementerian
         </button>
     </div>
+    <hr>
+
     <div class="card-body">
         <div class="table-responsive">
             <table class="table header_uppercase table-bordered" id="table-department-ministry">
                 <thead>
                     <tr>
-                        <th bgcolor="#f0f0f0" class="fit align-top text-left" style="color:#000">#</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Kod</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Nama Kementerian</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Tindakan</th>
+                        <th width="2%">No.</th>
+                        <th width="10%">Kod</th>
+                        <th>Nama Kementerian</th>
+                        <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
             </table>

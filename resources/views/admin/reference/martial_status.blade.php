@@ -11,22 +11,42 @@
 @endsection
 
 @section('content')
+<style>
+    #table-martial-status thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #table-martial-status tbody {
+        vertical-align: middle;
+        /* text-align: center; */
+    }
+
+    #table-martial-status {
+        width: 100% !important;
+        /* word-wrap: break-word; */
+    }
+
+</style>
+
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Taraf Perkahwinan</h4>
-        <button type="button" class="btn btn-success btn-sm float-right" onclick="martialStatusForm()">
-            <i class="fa-solid fa-add"></i> Tambah Taraf Perkahwinan
+        <button type="button" class="btn btn-primary btn-md float-right" onclick="maritalStatusForm()">
+            <i class="fa-solid fa-add"></i> Tambah Taraf
         </button>
     </div>
+    <hr>
+
     <div class="card-body">
         <div class="table-responsive">
             <table class="table header_uppercase table-bordered" id="table-martial-status">
                 <thead>
                     <tr>
-                        <th bgcolor="#f0f0f0" class="fit align-top text-left" style="color:#000">#</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Kod</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Taraf Perkahwinan</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Tindakan</th>
+                        <th width="2%">No.</th>
+                        <th width="10%">Kod</th>
+                        <th>Taraf Perkahwinan</th>
+                        <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
             </table>

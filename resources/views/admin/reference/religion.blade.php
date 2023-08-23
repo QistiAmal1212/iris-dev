@@ -11,22 +11,42 @@
 @endsection
 
 @section('content')
+<style>
+    #table-religion thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #table-religion tbody {
+        vertical-align: middle;
+        /* text-align: center; */
+    }
+
+    #table-religion {
+        width: 100% !important;
+        /* word-wrap: break-word; */
+    }
+
+</style>
+
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Agama</h4>
-        <button type="button" class="btn btn-success btn-sm float-right" onclick="religionForm()">
+        <button type="button" class="btn btn-primary btn-md float-right" onclick="religionForm()">
             <i class="fa-solid fa-add"></i> Tambah Agama
         </button>
     </div>
+    <hr>
+
     <div class="card-body">
         <div class="table-responsive">
             <table class="table header_uppercase table-bordered" id="table-religion">
                 <thead>
                     <tr>
-                        <th bgcolor="#f0f0f0" class="fit align-top text-left" style="color:#000">#</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Kod</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Agama</th>
-                        <th bgcolor="#f0f0f0" class="align-top text-left" style="color:#000">Tindakan</th>
+                        <th width="2%">No.</th>
+                        <th width="10%">Kod</th>
+                        <th>Agama</th>
+                        <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
             </table>
