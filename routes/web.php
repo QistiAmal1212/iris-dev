@@ -18,6 +18,7 @@ use App\Http\Controllers\SecurityController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CaptchaController;
+use App\Http\Controllers\Reference\StateController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -108,6 +109,15 @@ Route::prefix('admin')->group(function () {
             Route::get('view/{logID}', [ActivityLogController::class, 'view'])->name('admin-log-view');
         });
 
+    });
+
+    Route::prefix('reference')->group(function () {
+        Route::prefix('state')->group(function () {
+            Route::get('/', [StateController::class, 'index'])->name('admin.reference.state');
+            Route::post('create', [StateController::class, 'store'])->name('admin.reference.state.store');
+            Route::get('edit/{stateId}', [StateController::class, 'edit'])->name('admin.reference.state.edit');
+            Route::post('update/{stateId}', [StateController::class, 'update'])->name('admin.reference.state.update');
+        });
     });
 
     Route::prefix('security')->group(function () {
