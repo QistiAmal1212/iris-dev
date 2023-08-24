@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Reference\Institution;
 use App\Models\Reference\Penalty;
 use App\Models\DummyPenalty;
 use Illuminate\Support\Facades\DB;
@@ -11,10 +12,11 @@ class MaklumatPemohonController extends Controller
 {
     public function searchPemohon ()
     {
+        $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
         $penalties = Penalty::all();
         $dummyPenalty = DummyPenalty::all();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('penalties', 'dummyPenalty'));
+        return view('maklumat_pemohon.carian_pemohon', compact('institutions', 'penalties', 'dummyPenalty'));
     }
 
     public function viewMaklumatPemohon(){

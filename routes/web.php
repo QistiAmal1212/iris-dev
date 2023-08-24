@@ -23,6 +23,7 @@ use App\Http\Controllers\Reference\ReligionController;
 use App\Http\Controllers\Reference\MaritalStatusController;
 use App\Http\Controllers\Reference\DepartmentMinistryController;
 use App\Http\Controllers\Reference\SkimController;
+use App\Http\Controllers\Reference\InstitutionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -152,6 +153,13 @@ Route::prefix('admin')->group(function () {
             Route::post('create', [SkimController::class, 'store'])->name('admin.reference.skim.store');
             Route::get('edit/{skimId}', [SkimController::class, 'edit'])->name('admin.reference.skim.edit');
             Route::post('update/{skimId}', [SkimController::class, 'update'])->name('admin.reference.skim.update');
+        });
+
+        Route::prefix('institution')->group(function () {
+            Route::get('/', [InstitutionController::class, 'index'])->name('admin.reference.institution');
+            Route::post('create', [InstitutionController::class, 'store'])->name('admin.reference.institution.store');
+            Route::get('edit/{institutionId}', [InstitutionController::class, 'edit'])->name('admin.reference.institution.edit');
+            Route::post('update/{institutionId}', [InstitutionController::class, 'update'])->name('admin.reference.institution.update');
         });
     });
 
