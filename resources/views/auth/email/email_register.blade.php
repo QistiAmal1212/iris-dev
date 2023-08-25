@@ -161,12 +161,10 @@
                                 {{-- header logo and title ---}}
                                 <tr>
                                     <td class="pt-2 pb-2">
-                                        <a href="{{ URL::to('/') }}" target="_blank" class="logo-link" data-saferedirecturl="{{ URL::to('/') }}">
-                                            <img src="{{  $message->embed(public_path() . "/images/iris-images/jata_negara.png") }}" width="150"><br>
+                                        <img src="{{ asset('images/iris-images/jata_negara.png') }}" width="150"><br>
 
-                                            {{--- Title here ---}}
-                                            Suruhanjaya Perkhidmatan Awam
-                                        </a>
+                                        {{--- Title here ---}}
+                                        Suruhanjaya Perkhidmatan Awam
                                     </td>
                                 </tr>
 
@@ -179,17 +177,46 @@
                                                 <tr>
                                                     <td>
                                                         <h1 class="table-header">
-                                                            Notifikasi Pendaftaran Akaun
+                                                        PENDAFTARAN AKAUN SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS)
                                                         </h1>
 
                                                         <br>
-                                                            Akaun telah berjaya didaftarkan ke emel : nama emel.
+                                                            Akaun telah berjaya didaftarkan ke emel : {{ $user->email }}.
                                                         <br>
-
+                                                        <br>
+                                                        <center>
+                                                        <table width="100%">
+                                                            <tr>
+                                                                <td width="40%" align="left">Nama Penuh</td>
+                                                                <td width="60%">:&nbsp;&nbsp;{{ $user->name }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>No Kad Pengenalan</td>
+                                                                <td>:&nbsp;&nbsp;{{ $user->no_ic }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Kata Laluan</td>
+                                                                <td>:&nbsp;&nbsp;{{ $password }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>No Telefon</td>
+                                                                <td>:&nbsp;&nbsp;{{ $user->phone_number}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Kementerian</td>
+                                                                <td>:&nbsp;&nbsp;{{ $user->department_ministry->name }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Jawatan</td>
+                                                                <td>:&nbsp;&nbsp;{{ $user->skim->name }}</td>
+                                                            </tr>
+                                                        </table>
+                                                        </center>
+                                                        <br>
                                                         <br>
                                                             <center>
                                                                 <button class="bg-iris-one">
-                                                                    <a class="text-primary" href="{{ url('https://iris-dev.nakmenangtender.com/login')}}"> </a> 
+                                                                    <a class="text-primary" href="{{ route('login') }}"> </a> 
                                                                     Log Masuk
                                                                 </button>
                                                             </center>
@@ -197,8 +224,8 @@
 
                                                         <br>
                                                             Jika anda menghadapi masalah pada butang 'Log Masuk' sekarang, klik atau salin dan tampal url: 
-                                                                <a class="text-primary" href="{{ url('https://iris-dev.nakmenangtender.com/login')}}"> 
-                                                                    https://iris-dev.nakmenangtender.com/login 
+                                                                <a class="text-primary" href="{{ route('login') }}"> 
+                                                                    {{ route('login') }} 
                                                                 </a> 
                                                             ke dalam pelayar web anda.
                                                         <br>

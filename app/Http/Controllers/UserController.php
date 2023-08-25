@@ -14,6 +14,8 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Throwable;
 use Yajra\DataTables\DataTables;
+use Mail;
+use App\Mail\Auth\RegisterUser;
 
 class UserController extends Controller
 {
@@ -187,23 +189,22 @@ class UserController extends Controller
 
             ]);
 
-            $user = new User;
-            $user->name = $request->full_name;
-            $user->no_ic = $request->ic_number;
-            $user->email = $request->email;
-            $user->phone_number = $request->phone_number;
-            $user->ref_department_ministry_code = $request->department_ministry_code;
-            $user->ref_skim_code = $request->skim_code;
-            $user->is_active = $request->has("status") ?? 0;
-            $user->password = Hash::make($request->password);
-
-            $user->save();
+            $user = User::create([
+                'name' => $request->full_name,
+                'no_ic' => $request->ic_number,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'ref_department_ministry_code' => $request->department_ministry_code,
+                'ref_skim_code' => $request->skim_code,
+                'is_active' => $request->has("status") ?? 0,
+                'password' => Hash::make($request->password),
+            ]);
 
             $user->syncRoles($request->roles ? $request->roles : []);
             // $user->syncPermissions($request->permissions ? $request->permissions : []);
 
             if ($user) {
-                $user->notify(new NewUser($user, $request->password));
+                Mail::to($user->email)->send(new RegisterUser($user, $request->password));
             }
 
         } catch (\Throwable $e) {
@@ -274,22 +275,19 @@ class UserController extends Controller
 
             ]);
 
-            if ($id_used) {
-                $user = user::find($id_used);
-            } else {
-                $user = new user;
-            }
+            $user = user::find($id_used);
 
-            $user->name = $request->full_name;
-            $user->no_ic = $request->ic_number;
-            $user->email = $request->email;
-            $user->phone_number = $request->phone_number;
-            $user->ref_department_ministry_code = $request->department_ministry_code;
-            $user->ref_skim_code = $request->skim_code;
-            $user->is_active = $request->has("status") ?? 0;
+            $user->update([
+                'name' => $request->full_name,
+                'no_ic' => $request->ic_number,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'ref_department_ministry_code' => $request->department_ministry_code,
+                'ref_skim_code' => $request->skim_code,
+                'is_active' => $request->has("status") ?? 0,
+            ]);
 
             $user->syncRoles($request->roles ? $request->roles : []);
-            $user->save();
 
             DB::commit();
 

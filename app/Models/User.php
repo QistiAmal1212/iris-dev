@@ -22,9 +22,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'no_ic',
+        'phone_number',
         'email',
         'password',
         'ref_department_ministry_code',
+        'ref_skim_code',
     ];
 
     /**
@@ -72,4 +75,13 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role', 'user_has_roles', 'user_id', 'role_id');
     }
 
+    public function department_ministry()
+    {
+        return $this->belongsTo('App\Models\Reference\DepartmentMinistry', 'ref_department_ministry_code', 'code');
+    }
+
+    public function skim()
+    {
+        return $this->belongsTo('App\Models\Reference\Skim', 'ref_skim_code', 'code');
+    }
 }
