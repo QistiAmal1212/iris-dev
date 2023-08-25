@@ -177,7 +177,7 @@
                                                 <tr>
                                                     <td>
                                                         <h1 class="table-header">
-                                                        PENDAFTARAN AKAUN SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS)
+                                                        PENDAFTARAN AKAUN<br>SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS)
                                                         </h1>
 
                                                         <br>

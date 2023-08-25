@@ -19,7 +19,7 @@ class RegisterUser extends Mailable
     public function __construct(User $user, $password=false)
     {   
         $this->user = $user;
-        $this->subject = 'PENDAFTARAN AKAUN SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS)';
+        $this->subject = 'Pendaftaran Akaun Sistem Perkhidmatan Pengambilan Bersepadu (IRIS)';
         $this->password = $password;
     }
 
