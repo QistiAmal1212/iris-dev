@@ -36,7 +36,7 @@ class LogController extends Controller
 
             return datatables()->of($audit_log)
                 ->editColumn('activity_type.name', function ($audit_log) {
-                    if ($audit_log->activity_type_id == 6) {
+                    if ($audit_log->activity_type_id == 5) {
                         return '<span class="badge bg-danger">' . $audit_log->activity_type->name_bi . '</span>';
                     } else {
                         return '<span class="badge bg-secondary">' . $audit_log->activity_type->name_bi . '</span>';

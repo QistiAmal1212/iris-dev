@@ -80,7 +80,7 @@
 
 <script>
     $(function() {
-        setupAutoSave('testForm_submitSectionASubC_form'); // autosave setup (remember form also need to add data-autosave-url="ROUTE INFORMATION")
+        setupAutoSave(['testForm_submitSectionASubC_form']); // autosave setup (remember form also need to add data-autosave-url="ROUTE INFORMATION")
         initializeFlatpickr();
     })
 

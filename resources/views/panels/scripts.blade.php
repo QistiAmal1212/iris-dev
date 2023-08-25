@@ -94,7 +94,7 @@
                 }
 
                 if (element.parent().hasClass('input-group')) {
-            element.parent().addClass('is-invalid');
+                    element.parent().addClass('is-invalid');
                 }
             },
             highlight: function(element, errorClass, validClass) {
@@ -155,22 +155,22 @@
     }
     //End Show SweetAlert Confirmation Window
 
-//Custom Function by Ahyew
+    //Custom Autosave Function by Ahyew
     //Custom Checking Required Form Field (Whole Tab) (Trigger by next button)
-    function checkForm(formTarget){
+    function checkForm(formTarget) {
         var form;
         // all form within the tab
-        if($('#' + formTarget).closest('[role = "tabpanel"]')[0] != null){
+        if ($('#' + formTarget).closest('[role = "tabpanel"]')[0] != null) {
             form = $('#' + formTarget).closest('[role = "tabpanel"]')[0];
         }
         // specific form
-        else{
+        else {
             form = $('#' + formTarget)[0];
         }
         return form;
     }
 
-    function checkProceed(formTarget,btn) {
+    function checkProceed(formTarget, btn) {
 
         var count = formTarget.querySelectorAll('.required-tag').length;
         if (count == 0) {
@@ -191,13 +191,14 @@
     function addTableRequiredTag(formTarget) {
         var table = formTarget.querySelectorAll(
             ".required"
-            ); // get all table required within same tab // add required class into table class=""
+        ); // get all table required within same tab // add required class into table class=""
 
         $.each(table, function(i, tb) {
             if (tb.children[1].children.length == 0) {
                 const child = document.createElement('div');
                 child.classList.add('required-tag');
-                child.innerHTML = '<span class="badge badge-light-danger me-1">' + '{{ __("msg.form.required") }}' + '</span>';
+                child.innerHTML = '<span class="badge badge-light-danger me-1">' + 'Ruangan ini perlu diisi' +
+                    '</span>';
                 tb.parentNode.appendChild(child);
                 tb.classList.add('required-border'); // make table border to red and 1px width
             }
@@ -228,11 +229,19 @@
                 }
 
                 function addtag(field, errormsg = null) {
-                    field.classList.add('required-border'); // make field border to red and 1px width
+                    // select2
+                    if (field.type == 'select-one' || field.type == 'select-multiple') {
+                        field.parentNode.children[1].classList.add(
+                        'required-border'); // make field border to red and 1px width
+                    }
+                    // other input
+                    else {
+                        field.classList.add('required-border'); // make field border to red and 1px width
+                    }
                     const child = document.createElement('div');
                     child.classList.add('required-tag');
                     if (errormsg == null) {
-                        errormsg = '{{ __("msg.form.required") }}';
+                        errormsg = 'Ruangan ini perlu diisi';
                     }
                     child.innerHTML = '<span class="badge badge-light-danger me-1">' +
                         errormsg + '</span>';
@@ -259,25 +268,17 @@
                 field.parentNode.lastElementChild.closest(".required-tag").remove();
             }
         }
-        field.classList.remove('required-border'); // make field border back to default
+        // select2
+        if (field.type == 'select-one' || field.type == 'select-multiple') {
+            field.parentNode.children[1].classList.remove('required-border'); // make field border back to default
+        }
+        // other input
+        else {
+            field.classList.remove('required-border'); // make field border back to default
+        }
+
     }
     // End Custom Marking Required Field (Specific Field) (Trigger by autosave)
-
-    // Custom Checking Required Form Field (Whole Tab) (Trigger by next button)
-    function checkFormRequire(formTarget,btn) {
-        var required_tags = $('.required-tag').children();
-        $.each(required_tags, function(i, required_tag) {
-            if (required_tag.innerHTML == '{{ __("msg.form.required") }}') {
-                required_tag.parentNode.remove();
-                // delete all required-tag where the message is same as {{ __("msg.form.required") }} (This field is required / Ruangan ini perlu diisi)
-            }
-        });
-        var formTarget = checkForm(formTarget);
-        addFormRequiredTag(formTarget);
-        addTableRequiredTag(formTarget);
-        checkProceed(formTarget,btn)
-    }
-    // End Custom Checking Required Form Field (Whole Tab) (Trigger by next button)
 
     // Custom Reload After Upload
     function reloadDiv(formId, uploadFieldId) {
@@ -294,11 +295,58 @@
     }
     // End Custom Reload After Upload
 
+    // Custom Checking Required Form Field (Whole Tab) (Trigger by next button)
+    function checkFormRequire(formTarget, btn) {
+        var required_tags = $('.required-tag').children();
+        $.each(required_tags, function(i, required_tag) {
+            if (required_tag.innerHTML == 'Ruangan ini perlu diisi') {
+                required_tag.parentNode.remove();
+                // delete all required-tag where the message is same as Ruangan ini perlu diisi (This field is required / Ruangan ini perlu diisi)
+            }
+        });
+        var formTarget = checkForm(formTarget);
+        addFormRequiredTag(formTarget);
+        addTableRequiredTag(formTarget);
+        checkProceed(formTarget, btn)
+    }
+    // End Custom Checking Required Form Field (Whole Tab) (Trigger by next button)
+
     // Auto save
+    // function setupAutoSave(formId) {
+    //     for (i = 0; i < formId.length; i++) {
+    //         var field = $('#' + formId[i])[0].querySelectorAll('input, textarea, select, checkbox, radio');
+    //         field.forEach((el) => el.addEventListener('change', autoSaveApplication));
+    //     }
+    // }
 
     function setupAutoSave(formId) {
-        var field = $('#' + formId)[0].querySelectorAll('input, textarea, select');
-        field.forEach((el) => el.addEventListener('change', autoSaveApplication));
+        for (i = 0; i < formId.length; i++) {
+            var field = $('#' + formId[i])[0].querySelectorAll('input, textarea, select');
+            field.forEach((el) => setupField(el));
+        }
+
+        function setupField(field) {
+
+            // select2 or select
+            if (field.type == 'select-one') {
+                $('#' + field.id).on('change', function(e) {
+                    autoSaveApplication(e);
+                });
+                // select2 multiple
+            } else if (field.type == 'select-multiple') {
+                $('#' + field.id).on('select2:select', function(e) {
+                    autoSaveApplication(e);
+                });
+                $('#' + field.id).on('select2:unselect', function(e) {
+                    autoSaveApplication(e);
+                });
+                // other input
+            } else {
+                field.addEventListener('change', function(e) {
+                    autoSaveApplication(e);
+                });
+            }
+        }
     }
 
     function autoSaveApplication(e) {
@@ -316,11 +364,17 @@
         form.append('_token', document.querySelector('meta[name="csrf-token"]').content);
 
         // if not input[type='file']
-        if (e.target.getAttribute('type') != 'file') { // input type other than file
+        if (e.target.getAttribute('type') != 'file') {
 
-            form.append(e.target.getAttribute('name'), e.target.value);
+            // select2 multiple
+            if (e.target.type == 'select-multiple') {
+                form.append(e.target.getAttribute('name'), e.params.data.id);
+                // other input
+            } else {
+                form.append(e.target.getAttribute('name'), e.target.value);
+            }
 
-        } else { // input type is file
+        } else {
 
             var file = document.getElementsByName(e.target.getAttribute('name'))[0];
 
@@ -377,7 +431,7 @@
 
                 if (message != null) {
                     if (message != 'false') {
-                        swalSuccessAfterSubmit('{{ __("msg.information") }}', message)
+                        swalSuccessAfterSubmit('{{ __('msg.information') }}', message)
                             .then((result) => {
                                 // showing swal then proceed
                                 proceed();

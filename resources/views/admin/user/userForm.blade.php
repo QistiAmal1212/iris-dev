@@ -49,7 +49,7 @@
                             <div class="form-group">
                                 <label class="form-label fw-bolder"> No Telefon </label>
                                 <div class="input-group">
-                                    <input type="text" id="" name="" class="form-control" maxlength="11" oninput="onlyNumberOnInputText(this)">
+                                    <input type="text" id="phone_number" name="phone_number" class="form-control" maxlength="11" oninput="onlyNumberOnInputText(this)">
                                 </div>
                             </div>
                         </div>
@@ -57,33 +57,30 @@
                         <div class="col-md-12 col-12">
                             <div class="form-group">
                                 <label class="form-label fw-bolder"> Nama Kementerian </label>
-                                <div class="input-group">
-                                    <input type="text" id="" name="" class="form-control">
-                                </div>
+                                <select class="select2 form-select" name="department_ministry_code" id="department_ministry_code" required>
+                                    <option value=""></option>
+                                    @foreach($departmentMinistry as $department)
+                                    <option value="{{ $department->code }}">{{ $department->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
-                        <div class="col-md-8 col-12">
-                            <div class="form-group">
-                                <label class="form-label fw-bolder"> Bahagian </label>
-                                <div class="input-group">
-                                    <input type="text" id="" name="" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-12">
+                        <div class="col-md-12 col-12">
                             <div class="form-group">
                                 <label class="form-label fw-bolder"> Jawatan </label>
-                                <div class="input-group">
-                                    <input type="text" id="" name="" class="form-control">
-                                </div>
+                                <select class="select2 form-select" name="skim_code" id="skim_code" required>
+                                    <option value=""></option>
+                                    @foreach($skim as $scheme)
+                                    <option value="{{ $scheme->code }}">{{ $scheme->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
                         <div class="col-md-6 col-12 mb-1">
                             <div class="d-flex justify-content-between">
-                                <label class="form-label fw-bolder"> Kata Laluan </label>
+                                <label class="form-label fw-bolder" name="label_password"> Kata Laluan </label>
                             </div>
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input type="password" class="form-control form-control-merge" id="password" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="reset-password-new" tabindex="1" autofocus/>
@@ -95,7 +92,7 @@
 
                         <div class="col-md-6 col-12 mb-1">
                             <div class="d-flex justify-content-between">
-                                <label class="form-label fw-bolder"> Sahkan Kata Laluan </label>
+                                <label class="form-label fw-bolder" name="label_retype_password"> Sahkan Kata Laluan </label>
                             </div>
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input type="password" class="form-control form-control-merge" id="retype_password" name="retype_password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="reset-password-confirm" tabindex="2"/>
@@ -109,7 +106,7 @@
                             <label class="form-label fw-bolder"> Pilih Peranan </label>
                             <select class="select2 form-select" id="select2-multiple" name="roles[]" multiple>
                                 @foreach ($role as $role)
-                                    <option value={{$role->id}}>{{$role->name}}</option>
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
                                 @endforeach
                             </select>
                         </div>

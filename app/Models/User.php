@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'ref_department_ministry_code',
     ];
 
     /**

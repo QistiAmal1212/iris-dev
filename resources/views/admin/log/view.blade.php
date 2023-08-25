@@ -18,7 +18,7 @@
                         <tr>
                             <td class="fw-bolder" width="30%">Jenis Aktiviti: </td>
                             <td>
-                                @if($audit_log->activity_type_id == 6)
+                                @if($audit_log->activity_type_id == 5)
                                     <span class="badge bg-danger">{{ $audit_log->activity_type->name_bi }}</span>
                                 @else
                                     <span class="badge bg-secondary">{{ $audit_log->activity_type->name_bi }}</span>
@@ -34,9 +34,9 @@
                         </tr>
 
                         <tr>
-                            <td class="fw-bolder" width="30%">URL AKtiviti: </td>
+                            <td class="fw-bolder" width="30%">URL Aktiviti: </td>
                             <td>
-                                {{ $audit_log->description }}
+                                <span class="badge bg-secondary">{{ $audit_log->method }}</span><div style="overflow: hidden; text-overflow: ellipsis;width: 300px;" title="{{ $audit_log->url }}">{{ $audit_log->url }}</div>
                             </td>
                         </tr>
 
@@ -48,7 +48,7 @@
                         </tr>
 
                         <tr>
-                            <td class="fw-bolder" width="30%">Data Dimasukkan Oleh: </td>
+                            <td class="fw-bolder" width="30%">Pengguna: </td>
                             <td>
                                 {{ optional($audit_log->created_by)->name }}
                             </td>
@@ -56,12 +56,12 @@
                     </table>
 
                     <div class="col-sm-6 col-md-6 col-lg-6">
-                        <label class="fw-bolder">Old Data</label>
+                        <label class="fw-bolder">Data Lama</label>
                         <pre class="px-1 py-1" id="json-old"></pre>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-6">
-                        <label class="fw-bolder">Old Data</label>
+                        <label class="fw-bolder">Data Baru</label>
                         <pre class="px-1 py-1" id="json-new"></pre>
                     </div>
                 </div>

@@ -2,10 +2,13 @@
 $configData = Helper::applClasses();
 @endphp
 <div class="main-menu menu-fixed {{ $configData['theme'] === 'dark' || $configData['theme'] === 'semi-dark' ? 'menu-dark' : 'menu-light' }} menu-accordion menu-shadow" data-scroll-to-active="true">
-    <div class="navbar-header">
+    <div class="navbar-header mb-2">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
                 <a class="navbar-brand" href="{{ url('/') }}">
+                    <span class="brand-logo">
+                        <img src="{{ asset('images/iris-images/jata_negara.png') }}" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    </span>
                     <h2 class="brand-text text-uppercase">IRIS - SPA</h2>
                 </a>
             </li>
@@ -20,7 +23,7 @@ $configData = Helper::applClasses();
 
     <div class="shadow-bottom"></div>
 
-    <div class="main-menu-content">
+    <div class="main-menu-content mt-2">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
             <li class="nav-item {{ in_array(request()->route()->getName(), ['home']) ? 'active' : '' }}">
@@ -76,41 +79,6 @@ $configData = Helper::applClasses();
                         <i data-feather="pie-chart"></i>
                         <span class="menu-title text-truncate"> {{__('msg.statistics')}} </span>
                     </a>
-                </li>
-            @endhasanyrole --}}
-
-            {{-- @hasanyrole('superadmin|admin')
-                <li class="navigation-header">
-                    <span> User Settings </span>
-                </li>
-                <li class="nav-item {{ request()->is('admin/user*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link">
-                        <i data-feather="user"></i>
-                        <span class="menu-title text-truncate"> {{__('msg.user_management')}} </span>
-                    </a>
-                    <ul class="menu-content">
-                        <li class="nav-user-internal {{ in_array(request()->route()->getName(),['admin.internalUser'])? 'active': '' }}">
-                            <a href="{{ route('admin.internalUser') }}" class="d-flex align-items-center">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate">
-                                    {{ __('msg.userinternal') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-user-external {{ in_array(request()->route()->getName(),['admin.externalUser'])? 'active': '' }}">
-                            <a href="{{ route('admin.externalUser') }}" class="d-flex align-items-center">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate">
-                                    {{ __('msg.userexternal') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="{{ in_array(request()->route()->getName(), ['role.index']) ? 'active' : '' }}">
-                            <a href="{{ route('role.index') }}" class="d-flex align-items-center">
-                                <i data-feather="circle"></i> <span class="menu-title text-truncate"> Pengurusan Peranan </span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
             @endhasanyrole --}}
 
@@ -214,9 +182,8 @@ $configData = Helper::applClasses();
                 </li>
             @endhasanyrole --}}
 
-            @hasanyrole('superadmin|admin')
                 <?php
-                $securityMenu = App\Models\SecurityMenu::where('level', 1)->get();
+                $securityMenu = App\Models\SecurityMenu::where('level', 1)->orderBy('sequence', 'asc')->get();
                 $roles = auth()->user()->roles;
                 $roles = $roles->pluck('id')->toArray();
                 ?>
@@ -236,7 +203,7 @@ $configData = Helper::applClasses();
                         @if($menu->type == 'Menu')
                         <ul class="menu-content">
                             <?php
-                            $level2 = App\Models\SecurityMenu::where('level', 2)->where('menu_link', $menu->id)->get();
+                            $level2 = App\Models\SecurityMenu::where('level', 2)->where('menu_link', $menu->id)->orderBy('sequence', 'asc')->get();
                             ?>
                             @foreach($level2 as $menu2)
                             <?php
@@ -251,7 +218,7 @@ $configData = Helper::applClasses();
                                 @if($menu2->type == 'Menu')
                                 <ul class="menu-content">
                                     <?php
-                                    $level3 = App\Models\SecurityMenu::where('level', 3)->where('menu_link', $menu2->id)->get();
+                                    $level3 = App\Models\SecurityMenu::where('level', 3)->where('menu_link', $menu2->id)->orderBy('sequence', 'asc')->get();
                                     ?>
                                     @foreach($level3 as $menu3)
                                     <?php
@@ -276,7 +243,26 @@ $configData = Helper::applClasses();
                     </li>
                     @endif
                 @endforeach
-            @endhasanyrole 
+
+            @hasanyrole('superadmin|admin')
+            <li class="navigation-header">
+                <span> Pengurusan Integrasi </span>
+            </li>
+            <li class="nav-item {{ request()->is('pengurusan_integrasi*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link">
+                    <span class="menu-title text-truncate"> Pengurusan Integrasi </span>
+                </a>
+                <ul class="menu-content">
+                    <li class="{{ in_array(request()->route()->getName(), ['dashboard_integration']) ? 'active' : '' }}">
+                        <a href="{{ route('dashboard_integration') }}" class="d-flex align-items-center">
+                            <span class="menu-title text-truncate">
+                                Pengurusan Integrasi
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endhasanyrole
 
             {{-- @hasanyrole('superadmin')
                 <li class="navigation-header">

@@ -18,6 +18,12 @@ use App\Http\Controllers\SecurityController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CaptchaController;
+use App\Http\Controllers\Reference\StateController;
+use App\Http\Controllers\Reference\ReligionController;
+use App\Http\Controllers\Reference\MaritalStatusController;
+use App\Http\Controllers\Reference\DepartmentMinistryController;
+use App\Http\Controllers\Reference\SkimController;
+use App\Http\Controllers\Reference\InstitutionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -84,9 +90,12 @@ Route::prefix('admin')->group(function () {
     Route::get('externalUser',[UserController::class,'index'])->name('admin.externalUser');
     Route::get('getUser/{userId}', [UserController::class,'getUser'])->name('user.getUser');
     Route::post('update-password', [UserController::class,'updatePassword'])->name('updatePassword');
-    
+
     Route::get('edit/{roleId}', [RoleController::class,'getRole'])->name('role.kemaskini');
     Route::get('edittingRole/{roleId}', [RoleController::class, 'getRole'])->name('role.editting');
+    Route::post('delete-role/{roleId}', [RoleController::class,'deleteRole'])->name('roles.delete');
+    Route::get('view-role/{roleId}', [RoleController::class,'viewForm'])->name('roles.view');
+
     Route::post('getMenu', [RoleController::class, 'getMenu'])->name('role.getMenu');
     Route::post('getNextMenu', [RoleController::class, 'getNextMenu'])->name('role.getNextMenu');
     Route::get('editRole/{roleId}', [RoleController::class, 'editRole'])->name('role.editRole');
@@ -108,6 +117,50 @@ Route::prefix('admin')->group(function () {
             Route::get('view/{logID}', [ActivityLogController::class, 'view'])->name('admin-log-view');
         });
 
+    });
+
+    Route::prefix('reference')->group(function () {
+        Route::prefix('state')->group(function () {
+            Route::get('/', [StateController::class, 'index'])->name('admin.reference.state');
+            Route::post('create', [StateController::class, 'store'])->name('admin.reference.state.store');
+            Route::get('edit/{stateId}', [StateController::class, 'edit'])->name('admin.reference.state.edit');
+            Route::post('update/{stateId}', [StateController::class, 'update'])->name('admin.reference.state.update');
+        });
+
+        Route::prefix('religion')->group(function () {
+            Route::get('/', [ReligionController::class, 'index'])->name('admin.reference.religion');
+            Route::post('create', [ReligionController::class, 'store'])->name('admin.reference.religion.store');
+            Route::get('edit/{religionId}', [ReligionController::class, 'edit'])->name('admin.reference.religion.edit');
+            Route::post('update/{religionId}', [ReligionController::class, 'update'])->name('admin.reference.religion.update');
+        });
+
+        Route::prefix('marital_status')->group(function () {
+            Route::get('/', [MaritalStatusController::class, 'index'])->name('admin.reference.marital-status');
+            Route::post('create', [MaritalStatusController::class, 'store'])->name('admin.reference.marital-status.store');
+            Route::get('edit/{maritalStatusId}', [MaritalStatusController::class, 'edit'])->name('admin.reference.marital-status.edit');
+            Route::post('update/{maritalStatusId}', [MaritalStatusController::class, 'update'])->name('admin.reference.marital-status.update');
+        });
+
+        Route::prefix('department_ministry')->group(function () {
+            Route::get('/', [DepartmentMinistryController::class, 'index'])->name('admin.reference.department-ministry');
+            Route::post('create', [DepartmentMinistryController::class, 'store'])->name('admin.reference.department-ministry.store');
+            Route::get('edit/{departmentMinistryId}', [DepartmentMinistryController::class, 'edit'])->name('admin.reference.department-ministry.edit');
+            Route::post('update/{departmentMinistryId}', [DepartmentMinistryController::class, 'update'])->name('admin.reference.department-ministry.update');
+        });
+
+        Route::prefix('skim')->group(function () {
+            Route::get('/', [SkimController::class, 'index'])->name('admin.reference.skim');
+            Route::post('create', [SkimController::class, 'store'])->name('admin.reference.skim.store');
+            Route::get('edit/{skimId}', [SkimController::class, 'edit'])->name('admin.reference.skim.edit');
+            Route::post('update/{skimId}', [SkimController::class, 'update'])->name('admin.reference.skim.update');
+        });
+
+        Route::prefix('institution')->group(function () {
+            Route::get('/', [InstitutionController::class, 'index'])->name('admin.reference.institution');
+            Route::post('create', [InstitutionController::class, 'store'])->name('admin.reference.institution.store');
+            Route::get('edit/{institutionId}', [InstitutionController::class, 'edit'])->name('admin.reference.institution.edit');
+            Route::post('update/{institutionId}', [InstitutionController::class, 'update'])->name('admin.reference.institution.update');
+        });
     });
 
     Route::prefix('security')->group(function () {

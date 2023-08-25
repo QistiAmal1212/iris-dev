@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Reference\DepartmentMinistry;
+use App\Models\Reference\Skim;
 use App\Notifications\NewUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +25,9 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $departmentMinistry = DepartmentMinistry::all();
+        $skim = Skim::all();
+
         if ($request->ajax()) {
             if (request()->route()->getname() == 'admin.internalUser') {
                 $users = User::whereHas('roles', function ($query) {
@@ -107,11 +112,13 @@ class UserController extends Controller
             $users = User::whereHas('roles', function ($query) {
                 $query->where('is_internal', 1);
             });
+            $is_internal = 1;
             $type = 'internal';
         } else {
             $users = User::whereHas('roles', function ($query) {
                 $query->where('is_internal', 0);
             });
+            $is_internal = 0;
             $type = 'external';
         }
 
@@ -123,12 +130,12 @@ class UserController extends Controller
 
         $activeUser = $totalUser - $inactiveUser;
 
-        $role = Role::get();
+        $role = Role::where('is_internal', $is_internal)->get();
 
         $externalUsers = Role::where('is_internal', 0)->get();
         $internalUsers = Role::where('is_internal', 1)->get();
 
-        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'externalUsers', 'internalUsers'));
+        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'externalUsers', 'internalUsers', 'departmentMinistry', 'skim'));
     }
 
     public function create(Request $request)
@@ -143,16 +150,17 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request->all());
         DB::beginTransaction();
-
         try {
             $validatedData = $request->validate([
                 'full_name' => 'required|string',
                 'ic_number' => 'required|integer|min:12|unique:users,no_ic',
                 'email' => 'required|email|unique:users,email',
+                'phone_number' => 'required',
                 'password' => 'required|string',
                 'retype_password' => 'required|string',
+                'department_ministry_code' => 'required|exists:ref_department_ministry,code',
+                'skim_code' => 'required|exists:ref_skim,code',
                 // 'role' => 'required',
             ]);
 
@@ -160,6 +168,9 @@ class UserController extends Controller
             $user->name = $request->full_name;
             $user->no_ic = $request->ic_number;
             $user->email = $request->email;
+            $user->phone_number = $request->phone_number;
+            $user->ref_department_ministry_code = $request->department_ministry_code;
+            $user->ref_skim_code = $request->skim_code;
             $user->is_active = $request->has("status") ?? 0;
             $user->password = Hash::make($request->password);
 
@@ -212,13 +223,16 @@ class UserController extends Controller
 
     public function update(Request $request, $id_used)
     {
-        // dd($request->all());
+
         DB::beginTransaction();
         try {
             $validatedData = $request->validate([
                 'full_name' => 'required|string',
                 'ic_number' => 'required|integer|min:12|unique:users,no_ic,'.$id_used,
                 'email' => 'required|email|unique:users,email,'.$id_used,
+                'phone_number' => 'required',
+                'department_ministry_code' => 'required|exists:ref_department_ministry,code',
+                'skim_code' => 'required|exists:ref_skim,code',
             ]);
 
             if ($id_used) {
@@ -230,6 +244,9 @@ class UserController extends Controller
             $user->name = $request->full_name;
             $user->no_ic = $request->ic_number;
             $user->email = $request->email;
+            $user->phone_number = $request->phone_number;
+            $user->ref_department_ministry_code = $request->department_ministry_code;
+            $user->ref_skim_code = $request->skim_code;
             $user->is_active = $request->has("status") ?? 0;
 
             $user->syncRoles($request->roles ? $request->roles : []);
