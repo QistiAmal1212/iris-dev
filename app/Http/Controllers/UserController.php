@@ -153,15 +153,38 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $validatedData = $request->validate([
+                'ic_number' => 'required|integer|min_digits:12|unique:users,no_ic',
                 'full_name' => 'required|string',
-                'ic_number' => 'required|integer|min:12|unique:users,no_ic',
                 'email' => 'required|email|unique:users,email',
                 'phone_number' => 'required',
-                'password' => 'required|string',
-                'retype_password' => 'required|string',
                 'department_ministry_code' => 'required|exists:ref_department_ministry,code',
                 'skim_code' => 'required|exists:ref_skim,code',
-                // 'role' => 'required',
+                'password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
+                    'confirmed',
+                ],
+                'roles' => 'required',
+            ],[ 
+                'ic_number.required' => 'Sila isikan no kad pengenalan',
+                'ic_number.unique' => 'No kad pengenalan telah diambil',
+                'ic_number.min_digits' => 'No kad pengenalan mestilah sekurang-kurangnya 12 aksara',
+                'full_name.required' => 'Sila isikan nama penuh',
+                'email.required' => 'Sila isikan emel',
+                'email.unique' => 'Emel telah diambil',
+                'phone_number.required' => 'Sila isikan no telefon',
+                'department_ministry_code.required' => 'Sila pilih nama kementerian',
+                'department_ministry_code.exists' => 'Nama kementerian tidak sah',
+                'skim_code.required' => 'Sila pilih jawatan',
+                'skim_code.exists' => 'Jawatan tidak sah',
+                'password.required' => 'Sila isikan kata laluan',
+                'password.min' => 'Kata laluan mestilah sekurang-kurangnya 8 aksara',
+                'password.regex' => 'Kata laluan tidak sah',
+                'password.confirmed' => 'Pengesahan kata laluan tidak sepadan',
+                'roles.required' => 'Sila pilih peranan',
+
             ]);
 
             $user = new User;
@@ -226,13 +249,29 @@ class UserController extends Controller
 
         DB::beginTransaction();
         try {
+
             $validatedData = $request->validate([
+                'ic_number' => 'required|integer|min_digits:12|unique:users,no_ic,'.$id_used,
                 'full_name' => 'required|string',
-                'ic_number' => 'required|integer|min:12|unique:users,no_ic,'.$id_used,
                 'email' => 'required|email|unique:users,email,'.$id_used,
                 'phone_number' => 'required',
                 'department_ministry_code' => 'required|exists:ref_department_ministry,code',
                 'skim_code' => 'required|exists:ref_skim,code',
+                'roles' => 'required',
+            ],[ 
+                'ic_number.required' => 'Sila isikan no kad pengenalan',
+                'ic_number.unique' => 'No kad pengenalan telah diambil',
+                'ic_number.min_digits' => 'No kad pengenalan mestilah sekurang-kurangnya 12 aksara',
+                'full_name.required' => 'Sila isikan nama penuh',
+                'email.required' => 'Sila isikan emel',
+                'email.unique' => 'Emel telah diambil',
+                'phone_number.required' => 'Sila isikan no telefon',
+                'department_ministry_code.required' => 'Sila pilih nama kementerian',
+                'department_ministry_code.exists' => 'Nama kementerian tidak sah',
+                'skim_code.required' => 'Sila pilih jawatan',
+                'skim_code.exists' => 'Jawatan tidak sah',
+                'roles.required' => 'Sila pilih peranan',
+
             ]);
 
             if ($id_used) {

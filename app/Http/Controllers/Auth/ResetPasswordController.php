@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 
 class ResetPasswordController extends Controller
 {
@@ -20,6 +23,52 @@ class ResetPasswordController extends Controller
      */
 
     use ResetsPasswords;
+
+    public function __construct(HasherContract $hasher)
+    {
+        $this->hasher = $hasher;
+    }
+
+    public function showResetForm(Request $request)
+    {
+        $token = $request->route()->parameter('token');
+        $email = $request->email;
+
+        $existToken = DB::table('password_resets')->where('email', $email)->first();
+
+        if(!$existToken){
+            abort(419);
+        }
+
+        $checkToken = $this->hasher->check($token, $existToken->token);
+
+        if(!$checkToken) {
+            abort(419);
+        }
+
+        return view('auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $email]
+        );
+    }
+
+    protected function rules()
+    {
+        return [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => ['required', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/', 'confirmed'],
+        ];
+    }
+
+    protected function validationErrorMessages()
+    {
+        return [
+            'password.required' => 'Sila isikan kata laluan',
+            'password.min' => 'Kata laluan mestilah sekurang-kurangnya 8 aksara',
+            'password.regex' => 'Kata laluan tidak sah',
+            'password.confirmed' => 'Pengesahan kata laluan tidak sepadan',
+        ];
+    }
 
     /**
      * Where to redirect users after resetting their password.

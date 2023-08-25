@@ -92,10 +92,10 @@
 
                         <div class="col-md-6 col-12 mb-1">
                             <div class="d-flex justify-content-between">
-                                <label class="form-label fw-bolder" name="label_retype_password"> Sahkan Kata Laluan </label>
+                                <label class="form-label fw-bolder" name="label_password_confirmation"> Sahkan Kata Laluan </label>
                             </div>
                             <div class="input-group input-group-merge form-password-toggle">
-                                <input type="password" class="form-control form-control-merge" id="retype_password" name="retype_password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="reset-password-confirm" tabindex="2"/>
+                                <input type="password" class="form-control form-control-merge" id="password_confirmation" name="password_confirmation" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="reset-password-confirm" tabindex="2"/>
                                 <span class="input-group-text cursor-pointer" name="the_eye">
                                     <i data-feather="eye"></i>
                                 </span>
@@ -104,7 +104,7 @@
 
                         <div class="col-md-8 col-12">
                             <label class="form-label fw-bolder"> Pilih Peranan </label>
-                            <select class="select2 form-select" id="select2-multiple" name="roles[]" multiple>
+                            <select class="select2 form-select" id="select2-multiple" name="roles[]" id="roles" multiple>
                                 @foreach ($role as $role)
                                     <option value="{{ $role->id }}">{{ $role->name }}</option>
                                 @endforeach

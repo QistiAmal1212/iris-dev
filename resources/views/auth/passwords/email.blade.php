@@ -34,7 +34,9 @@ $configData = Helper::applClasses();
                     <hr>
                     <h2 class="mt-2 card-title fw-bold mb-1"> SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS) </h2>
 
-                    <p class="card-text mb-2">Terlupa kata laluan</p>
+                    <h4 class="card-title fw-bold mb-1">Lupa Kata Laluan 🔒</h4>
+                    <p class="card-text mb-2">Masukkan emel yang telah didaftarkan</p>
+                    
                 </center>
 
                 <form method="POST" action="{{ route('password.email') }}">
@@ -43,20 +45,18 @@ $configData = Helper::applClasses();
                         <label class="form-label" for="forgot-password-email">Emel</label>
                         <input class="form-control" id="forgot-password-email" type="email" name="email" placeholder="john@example.com" aria-describedby="forgot-password-email" autofocus="" tabindex="1" required />
                     </div>
-                    @if($errors->any())
-                        {!! implode('', $errors->all('
+                    @if($errors->has('email'))
                         <div class="alert alert-danger alert-dismissible" role="alert">
                             <div class="alert-body">
-                                :message
+                                Tiada rekod pengguna dengan alamat e-mel itu.
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                        ')) !!}
                     @endif
                     @if(Session::has('status'))
                         <div class="alert alert-success">
                             <ul>
-                                <li>{{ Session::get('status') }}</li>
+                                <li>E-mel pautan tetapan semula kata laluan telah dihantar</li>
                             </ul>
                         </div>
                     @endif
