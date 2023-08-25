@@ -1,4 +1,3 @@
-@@ -1,131 +0,0 @@
 @php
 $configData = Helper::applClasses();
 @endphp
