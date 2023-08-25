@@ -161,12 +161,10 @@
                                 {{-- header logo and title ---}}
                                 <tr>
                                     <td class="pt-2 pb-2">
-                                        <a href="{{ URL::to('/') }}" target="_blank" class="logo-link" data-saferedirecturl="{{ URL::to('/') }}">
-                                            <img src="{{  $message->embed(public_path() . "/images/iris-images/jata_negara.png") }}" width="150"><br>
+                                        <img src="{{ asset('images/iris-images/jata_negara.png') }}" width="150"><br>
 
-                                            {{--- Title here ---}}
-                                            Suruhanjaya Perkhidmatan Awam
-                                        </a>
+                                        {{--- Title here ---}}
+                                        Suruhanjaya Perkhidmatan Awam
                                     </td>
                                 </tr>
 
@@ -179,7 +177,7 @@
                                                 <tr>
                                                     <td>
                                                         <h1 class="table-header">
-                                                            Sahkan Semula Kata Laluan
+                                                        <br>SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS)
                                                         </h1>
 
                                                         <br>
@@ -188,7 +186,7 @@
 
                                                         <br>
                                                         <center>
-                                                            <button class="bg-iris-one">Sahkan Semula</button>
+                                                            <button class="bg-iris-one" onclick="location.href='{{ route('login') }}';">Tetapan Semula Kata Laluan</button>
                                                         </center>
                                                         <br>
 
@@ -198,6 +196,14 @@
 
                                                         <br>
                                                             Jika anda tidak meminta tetapan semula kata laluan, tiada tindakan lanjut diperlukan.
+                                                        <br>
+
+                                                        <br>
+                                                            Jika anda menghadapi masalah pada butang 'Tetapan Semula Kata Laluan' sekarang, klik atau salin dan tampal url: 
+                                                                <a class="text-primary" href="{{ $url }}"> 
+                                                                    {{ $url }} 
+                                                                </a>  
+                                                            ke dalam pelayar web anda.
                                                         <br>
 
                                                         <i class="do-not-reply">

@@ -215,10 +215,7 @@
                                                         <br>
                                                         <br>
                                                             <center>
-                                                                <button class="bg-iris-one">
-                                                                    <a class="text-primary" href="{{ route('login') }}"> </a> 
-                                                                    Log Masuk
-                                                                </button>
+                                                                <button class="bg-iris-one" onclick="location.href='{{ route('login') }}';">Log Masuk</button>
                                                             </center>
                                                         <br>
 

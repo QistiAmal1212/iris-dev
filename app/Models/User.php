@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use Mail;
+use App\Mail\Auth\ResetPasswordUser;
 
 class User extends Authenticatable
 {
@@ -68,6 +70,11 @@ class User extends Authenticatable
         }
 
         return $display;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        Mail::to($this->email)->send(new ResetPasswordUser($token, $this->email));
     }
 
     public function roles()

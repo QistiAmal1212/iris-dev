@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
+use Carbon\Carbon;
 
 class ResetPasswordController extends Controller
 {
@@ -27,6 +28,7 @@ class ResetPasswordController extends Controller
     public function __construct(HasherContract $hasher)
     {
         $this->hasher = $hasher;
+        $this->expired = config('auth.passwords.'.config('auth.defaults.passwords').'.expire') * 60; //60seconds x 60 minutes
     }
 
     public function showResetForm(Request $request)
@@ -43,6 +45,12 @@ class ResetPasswordController extends Controller
         $checkToken = $this->hasher->check($token, $existToken->token);
 
         if(!$checkToken) {
+            abort(419);
+        }
+
+        $expiredToken = Carbon::parse($existToken->created_at)->addSeconds($this->expired)->isPast();
+
+        if($expiredToken) {
             abort(419);
         }
 
