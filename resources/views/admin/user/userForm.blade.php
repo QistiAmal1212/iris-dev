@@ -78,6 +78,16 @@
                             </div>
                         </div>
 
+                        <div class="col-md-12 col-12" id="div_disclaimer">
+                            <div class="alert alert-warning mb-2" role="alert">
+                                <h6 class="alert-heading">
+                                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                    Pastikan keperluan ini dipenuhi: 
+                                </h6>
+                                <div class="alert-body fw-normal"> Minimum panjang kata laluan adalah 8 huruf, kombinasi antara huruf besar dan kecil, karakter & nombor.</div>
+                            </div>
+                        </div>
+
                         <div class="col-md-6 col-12 mb-1">
                             <div class="d-flex justify-content-between">
                                 <label class="form-label fw-bolder" name="label_password"> Kata Laluan </label>

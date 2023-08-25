@@ -132,6 +132,7 @@
     viewUserForm = function(id = null){
         var userFormModal;
         userFormModal = new bootstrap.Modal(document.getElementById('userFormModal'), { keyboard: false});
+        var div_div_disclaimer = document.getElementById('div_disclaimer');
 
         event.preventDefault();
         if(id === null){
@@ -160,6 +161,7 @@
             });
             $('select[name="roles[]"]').trigger('change');
             $('#userFormModal #btnUpdateFake').html('{{__("msg.submit")}}');
+            div_div_disclaimer.style.display = 'block';
             userFormModal.show();
         }else{
             url = "{{route('user.getUser',':replaceThis')}}"
@@ -208,6 +210,7 @@
                     $('select[name="roles[]"]').trigger('change');
 
                     $('#userFormModal #btnUpdateFake').html('{{__("msg.update")}}');
+                    div_div_disclaimer.style.display = 'none';
                     userFormModal.show();
                 },
             });

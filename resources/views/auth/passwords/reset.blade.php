@@ -37,11 +37,14 @@ $configData = Helper::applClasses();
                     <h2 class="mt-2 card-title fw-bold mb-1"> SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS) </h2>
 
                     <h4 class="card-title fw-bold mb-1">Tukar Kata Laluan Baharu 🔒</h4>
-                    <div class="alert alert-warning" role="alert">
-                        <div class="alert-body">Minimum panjang kata laluan adalah 8 huruf, kombinasi antara huruf besar, karakter & nombor.</div>
-                    </div>
-                    
                 </center>
+                <div class="alert alert-warning mb-2" role="alert">
+                    <h6 class="alert-heading">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Pastikan keperluan ini dipenuhi: 
+                    </h6>
+                    <div class="alert-body fw-normal"> Minimum panjang kata laluan adalah 8 huruf, kombinasi antara huruf besar dan kecil, karakter & nombor.</div>
+                </div>
                 <form method="POST" action="{{ route('password.update') }}">
                     @csrf
                     <input type="hidden" name="token" value="{{ $token }}">

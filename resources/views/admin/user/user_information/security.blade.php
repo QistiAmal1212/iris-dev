@@ -11,7 +11,7 @@
                     <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                     Pastikan keperluan ini dipenuhi: 
                 </h6>
-                <div class="alert-body fw-normal"> Minimum panjang kata laluan adalah 8 huruf, kombinasi antara huruf besar, karakter & nombor.</div>
+                <div class="alert-body fw-normal"> Minimum panjang kata laluan adalah 8 huruf, kombinasi antara huruf besar dan kecil, karakter & nombor.</div>
             </div>
 
             <table class="table" width="100%">
