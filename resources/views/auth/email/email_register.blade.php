@@ -145,6 +145,18 @@
         .pb-3 {
             padding-bottom: 30px;
         }
+        
+        .btn {
+            color: #333;
+            background-color: #ccc;
+            border-color: #ccc;
+            border: 1px solid transparent;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            text-decoration:none;
+        }
 
         /*------------------------*/
 
@@ -215,7 +227,7 @@
                                                         <br>
                                                         <br>
                                                             <center>
-                                                                <button class="bg-iris-one" onclick="location.href='{{ route('login') }}';">Log Masuk</button>
+                                                                <a class="btn" href="{{ route('login') }}">Log Masuk</a>
                                                             </center>
                                                         <br>
 
