@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MaklumatPemohonController;
 use App\Http\Controllers\IntegrationController;
+use App\Http\Controllers\PGSPAController;
 
 Route::controller(MaklumatPemohonController::class)->group(function () {
     Route::prefix('pemohon')->group(function () {
@@ -16,5 +17,14 @@ Route::controller(IntegrationController::class)->group(function () {
     Route::prefix('integrasi')->group(function () {
         Route::get('dashboard-integrasi','DashboardIntegration')->name('dashboard_integration');
         Route::get('informasi-integrasi','IntegrationInformation')->name('integration_information');
+    });
+});
+
+Route::prefix('perolehan')->group(function () {
+    Route::controller(PGSPAController::class)->group(function () {
+        Route::prefix('pgspa')->group(function () {
+            Route::get('senarai-skim','SenaraiSkim')->name('senarai_skim');
+            Route::get('skim-baharu','SkimBaharu')->name('skim_baharu');
+        });
     });
 });

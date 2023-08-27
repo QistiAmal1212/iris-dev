@@ -210,7 +210,7 @@ $configData = Helper::applClasses();
                             $accessLevel2 = $menu2->role()->whereIn('id', $roles)->wherePivot('access', true)->get();
                             ?>
                             @if(count($accessLevel2) > 0)
-                            <li class="nav-item {{ ($menu2->type == 'Web') ? in_array(request()->route()->getName(), [$menu2->module->code]) ? 'active' : '' : '#' }}"> 
+                            <li class="nav-item {{ ($menu2->type == 'Web') ? in_array(request()->route()->getName(), [$menu2->module->code]) ? 'active' : '' : '#' }}">
                                 <a href="{{ ($menu2->type == 'Web') ? route($menu2->module->code) : '#' }}" class="nav-link">
                                     <!-- <i data-feather="shield"></i> -->
                                     <span class="menu-title text-truncate">{{ $menu2->name }}</span>
@@ -259,6 +259,33 @@ $configData = Helper::applClasses();
                                 Pengurusan Integrasi
                             </span>
                         </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="navigation-header">
+                <span> Tapisan Permohonan </span>
+            </li>
+            <li class="nav-item {{ request()->is('tapisan_permohonan*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link">
+                    <span class="menu-title text-truncate"> Tapisan Permohonan </span>
+                </a>
+                <ul class="menu-content">
+                    <li class="nav-item {{ request()->is('tapisan_permohonan*') ? 'menu-open' : '' }}">
+                        <a href="#" class="d-flex align-items-center">
+                            <span class="menu-title text-truncate">
+                                Pengurusan Pemerolehan
+                            </span>
+                        </a>
+                        <ul class="menu-content">
+                            <li class="{{ in_array(request()->route()->getName(), ['senarai_skim']) ? 'active' : '' }}">
+                                <a href="{{ route('senarai_skim') }}" class="d-flex align-items-center">
+                                    <span class="menu-title text-truncate">
+                                        PGSPA
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </li>
