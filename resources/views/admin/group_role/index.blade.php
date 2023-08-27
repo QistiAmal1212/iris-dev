@@ -156,7 +156,11 @@
             },
         });
 
-        var tableListUsers = $('#table-list-users').DataTable({
+        var tableListUsers;
+
+        tableListUsers = $('#table-list-users').DataTable().destroy();
+        
+        tableListUsers = $('#table-list-users').DataTable({
             orderCellsTop: true,
             colReorder: false,
             pageLength: 10,
@@ -184,10 +188,46 @@
                     }
                 },
                 {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
+                    data: "no_ic",
+                    name: "no_ic",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "email",
+                    name: "email",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "phone_number",
+                    name: "phone_number",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "department_ministry",
+                    name: "department_ministry",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "skim",
+                    name: "skim",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "status",
+                    name: "status",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
                 },
 
             ],

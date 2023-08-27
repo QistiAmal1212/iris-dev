@@ -86,28 +86,32 @@ class GroupRoleController extends Controller
                 ->editColumn('name', function ($users) {
                     return $users->name;
                 })
-                ->editColumn('action', function ($users) {
-                    $button = "";
-
-                    $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
-
-                    // //view role
-                    // $button .= '<a class="btn btn-xs btn-default" onclick="viewOnlyForm('.$roles->id.')"> <i class="fas fa-eye text-seconday"></i> ';
-
-                    //edit role
-                    // $button .= '<a class="btn btn-xs btn-default" onclick="viewUsersForm('.$users->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-
-                    //delete role
-                    // $button .= '<a class="btn btn-xs btn-default" title="" onclick="$(`#rolesDeleteButton_'.$roles->id.'`).trigger(`click`);" > <i class="fas fa-trash text-danger"></i> </a>';
-                    // $button .= "</div>";
-                    // $button .= '<form action="'.route('roles.delete',['roleId' => $roles->id]).'" method="post" refreshFunctionDivId="RoleList">';
-                    // $button .= '<button id="rolesDeleteButton_'.$roles->id.'" type="button" hidden onclick="confirmBeforeSubmit(this)"></button>';
-                    // $button .= '</form>';
-                    $button .= '</div>';
-
-                    return $button;
+                ->editColumn('no_ic', function ($users) {
+                    return $users->no_ic;
                 })
-                ->rawColumns(['action'])
+                ->editColumn('email', function ($users) {
+                    return $users->email;
+                })
+                ->editColumn('phone_number', function ($users) {
+                    return $users->phone_number;
+                })
+                ->editColumn('department_ministry', function ($users) {
+                    return ($users->ref_department_ministry_code != null) ? $users->department_ministry->name : null;
+                })
+                ->editColumn('skim', function ($users) {
+                    return ($users->ref_skim_code != null) ? $users->skim->name : null;
+                })
+                ->editColumn('status', function ($users) {
+                    if ($users->is_active == 1){
+                        $label = "";
+                        $label .= '<span class="badge rounded-pill bg-light-success">Aktif</span>';
+                        return $label;
+                    }else{
+                        $label = "";
+                        $label .= '<span class="badge rounded-pill bg-light-danger">Tidak Aktif</span>';
+                        return $label;
+                    }
+                })
                 ->make(true);
         }
     }

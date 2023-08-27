@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="title-role">Kemaskini Kumpulan Pengguna</h4>
+                <h4 class="modal-title" id="title-role">Lihat Kumpulan Pengguna</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
             </div>
             <div class="modal-body">
@@ -39,7 +39,12 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Nama</th>
-                                <th>Tindakan</th>
+                                <th>No Kad Pengenalan</th>
+                                <th>Emel</th>
+                                <th>No Telefon</th>
+                                <th>Kementerian</th>
+                                <th>Jawatan</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                     </table>
