@@ -112,8 +112,8 @@
                     }
                 },
                 {
-                    data: "deparment_ministry",
-                    name: "deparment_ministry",
+                    data: "department_ministry",
+                    name: "department_ministry",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
