@@ -7,6 +7,7 @@
         data-refreshFunctionNameIfSuccess="resetInput" data-refreshFunctionName="resetOnlyCaptcha"
         data-swal="Password updated successfully.">
         @csrf
+        
         <div class="card-body" id="divChangePassword">
             <div class="alert alert-warning mb-2" role="alert">
                 <h6 class="alert-heading">
@@ -62,18 +63,15 @@
                     </td>
                     <td>
                         <div class="input-group input-group-merge">
-                            <input type="text" class="form-control" name="captcha" id="captcha"
-                                placeholder="Masukkan Captcha">
-                            <span class="input-group-text cursor-pointer" data-toggle="tooltip"
-                                title="Set Semula Captcha" id="reload_captcha">
+                            <input type="text" class="form-control" name="captcha" id="captcha" placeholder="Masukkan Captcha">
+                            <span class="input-group-text cursor-pointer" data-toggle="tooltip" title="Set Semula Captcha" id="reload_captcha">
                                 <i data-feather="refresh-cw"></i>
                             </span>
                         </div>
                     </td>
                 </tr>
             </table>
-            <button type="button" class="btn btn-success" onclick="generalFormSubmit(this);" id="change_password_button"
-                hidden></button>
+            <button type="button" class="btn btn-success" onclick="generalFormSubmit(this);" id="change_password_button" hidden></button>
         </div>
 
         <div class="card-footer">
