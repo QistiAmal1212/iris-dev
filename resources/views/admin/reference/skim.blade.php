@@ -134,7 +134,6 @@
 
             skimFormModal.show();
         }else{
-            console.log(id);
             url = "{{ route('admin.reference.skim.edit', ':replaceThis') }}"
             url = url.replace(':replaceThis', id);
             $.ajax({

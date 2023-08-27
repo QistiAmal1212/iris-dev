@@ -134,7 +134,6 @@
 
             specializationFormModal.show();
         }else{
-            console.log(id);
             url = "{{ route('admin.reference.specialization.edit', ':replaceThis') }}"
             url = url.replace(':replaceThis', id);
             $.ajax({

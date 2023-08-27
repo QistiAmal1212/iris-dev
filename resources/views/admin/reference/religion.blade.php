@@ -135,7 +135,6 @@
 
             religionFormModal.show();
         }else{
-            console.log(id);
             url = "{{ route('admin.reference.religion.edit', ':replaceThis') }}"
             url = url.replace(':replaceThis', id);
             $.ajax({

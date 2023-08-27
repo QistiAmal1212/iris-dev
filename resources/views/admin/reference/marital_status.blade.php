@@ -135,7 +135,6 @@
 
             maritalStatusFormModal.show();
         }else{
-            console.log(id);
             url = "{{ route('admin.reference.marital-status.edit', ':replaceThis') }}"
             url = url.replace(':replaceThis', id);
             $.ajax({

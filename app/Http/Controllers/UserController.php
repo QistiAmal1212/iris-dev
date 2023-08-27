@@ -43,6 +43,29 @@ class UserController extends Controller
                 $type = 'external';
             }
 
+            if($request->name){
+                $users->where('name', 'like', '%' . $request->name . '%');
+            }
+            if($request->no_ic){
+                $users->where('no_ic', 'like', '%' . $request->no_ic . '%');
+            }
+            if($request->role){
+                $users->whereHas('roles', function ($query) use ($request) {
+                    $query->where('id', $request->role);
+                });
+
+            }
+            if($request->department_ministry){
+                $users->whereHas('department_ministry', function ($query) use ($request) {
+                    $query->where('code', $request->department_ministry);
+                });
+            }
+            if($request->skim){
+                $users->whereHas('skim', function ($query) use ($request) {
+                    $query->where('code', $request->skim);
+                });
+            }
+
             return Datatables::of($users->get())
                 ->editColumn('name', function ($users) use ($type) {
 
@@ -63,13 +86,11 @@ class UserController extends Controller
                 ->editColumn('username', function ($users) use ($type) {
                     return $users->no_ic;
                 })
-                ->editColumn('email', function ($users) use ($type) {
-
-                    if ($type == "internal") {
-                        return $users->email;
-                    } else {
-                        return $users->email;
-                    }
+                ->editColumn('department_ministry', function ($users) use ($type) {
+                    return ($users->ref_department_ministry_code != null) ? $users->department_ministry->name : null;
+                })
+                ->editColumn('skim', function ($users) use ($type) {
+                    return ($users->ref_skim_code != null) ? $users->skim->name : null;
                 })
                 ->editColumn('role', function ($users) use ($type) {
 

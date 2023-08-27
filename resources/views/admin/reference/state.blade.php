@@ -135,7 +135,6 @@
 
             stateFormModal.show();
         }else{
-            console.log(id);
             url = "{{ route('admin.reference.state.edit', ':replaceThis') }}"
             url = url.replace(':replaceThis', id);
             $.ajax({

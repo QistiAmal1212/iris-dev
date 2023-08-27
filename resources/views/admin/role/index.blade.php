@@ -124,7 +124,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table header_uppercase table-bordered table-responsive" id="RoleList">
+            <table class="table header_uppercase table-bordered" id="RoleList">
                 <thead>
                     <tr>
                         <th>No</th>
