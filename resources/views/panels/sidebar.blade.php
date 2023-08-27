@@ -323,7 +323,7 @@ $configData = Helper::applClasses();
             @endhasanyrole --}}
 
             {{-- HELPDESK MODULE HERE  --}}
-            {{-- @if(\Composer\InstalledVersions::isInstalled('developer-unijaya/quickstart-helpdesk'))
+            @if(\Composer\InstalledVersions::isInstalled('developer-unijaya/quickstart-helpdesk'))
                 <li class="navigation-header">
                     <span>Helpdesk</span>
                 </li>
@@ -350,7 +350,7 @@ $configData = Helper::applClasses();
                     @endhasanyrole
                     </ul>
                 </li>
-            @endif --}}
+            @endif
 
             {{-- IRIS MODULE PEMOHON --}}
             {{-- <li class="navigation-header">
