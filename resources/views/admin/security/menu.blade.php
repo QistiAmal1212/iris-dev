@@ -48,6 +48,7 @@
             <table class="table header_uppercase table-bordered" id="table-menu">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>No.</th>
                         <th>Nama</th>
                         <th>Jenis</th>

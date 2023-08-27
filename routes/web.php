@@ -24,6 +24,9 @@ use App\Http\Controllers\Reference\MaritalStatusController;
 use App\Http\Controllers\Reference\DepartmentMinistryController;
 use App\Http\Controllers\Reference\SkimController;
 use App\Http\Controllers\Reference\InstitutionController;
+use App\Http\Controllers\Reference\SpecializationController;
+use App\Http\Controllers\Reference\QualificationController;
+use App\Http\Controllers\Reference\RaceController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -160,6 +163,27 @@ Route::prefix('admin')->group(function () {
             Route::post('create', [InstitutionController::class, 'store'])->name('admin.reference.institution.store');
             Route::get('edit/{institutionId}', [InstitutionController::class, 'edit'])->name('admin.reference.institution.edit');
             Route::post('update/{institutionId}', [InstitutionController::class, 'update'])->name('admin.reference.institution.update');
+        });
+
+        Route::prefix('specialization')->group(function () {
+            Route::get('/', [SpecializationController::class, 'index'])->name('admin.reference.specialization');
+            Route::post('create', [SpecializationController::class, 'store'])->name('admin.reference.specialization.store');
+            Route::get('edit/{specializationId}', [SpecializationController::class, 'edit'])->name('admin.reference.specialization.edit');
+            Route::post('update/{specializationId}', [SpecializationController::class, 'update'])->name('admin.reference.specialization.update');
+        });
+
+        Route::prefix('qualification')->group(function () {
+            Route::get('/', [QualificationController::class, 'index'])->name('admin.reference.qualification');
+            Route::post('create', [QualificationController::class, 'store'])->name('admin.reference.qualification.store');
+            Route::get('edit/{qualificationId}', [QualificationController::class, 'edit'])->name('admin.reference.qualification.edit');
+            Route::post('update/{qualificationId}', [QualificationController::class, 'update'])->name('admin.reference.qualification.update');
+        });
+
+        Route::prefix('race')->group(function () {
+            Route::get('/', [RaceController::class, 'index'])->name('admin.reference.race');
+            Route::post('create', [RaceController::class, 'store'])->name('admin.reference.race.store');
+            Route::get('edit/{raceId}', [RaceController::class, 'edit'])->name('admin.reference.race.edit');
+            Route::post('update/{raceId}', [RaceController::class, 'update'])->name('admin.reference.race.update');
         });
     });
 

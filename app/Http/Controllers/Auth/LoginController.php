@@ -11,6 +11,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
@@ -73,6 +74,17 @@ class LoginController extends Controller
         $log->ip_address = $request->ip();
         $log->created_by_user_id = $user->id;
         $log->save();
+
+        if($request->remember_login)
+        {
+            Cookie::queue(Cookie::make('no_ic', $user->no_ic, 525600));
+            Cookie::queue(Cookie::make('password', $request->password, 525600));
+        } else {
+            Cookie::queue(Cookie::forget('no_ic'));
+            Cookie::queue(Cookie::forget('password'));
+        }
+        // Cookie::make('no_ic', $user->no_ic, 525600);
+        // Cookie::make('password', $request->password, 525600);
     }
 
     /**
@@ -92,7 +104,9 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('auth.login');
+        $cookieName = Cookie::get('no_ic');
+        $cookiePassword = Cookie::get('password');
+        return view('auth.login', compact('cookieName', 'cookiePassword'));
     }
 
     public function logout(Request $request)
@@ -100,7 +114,7 @@ class LoginController extends Controller
         $user = auth()->user();
         if ($user) {
             // $user->last_logout_date = Carbon::now();
-            $user->save();
+            //$user->save();
         }
 
         $log = new LogSystem;

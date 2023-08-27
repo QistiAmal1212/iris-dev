@@ -73,7 +73,7 @@
                             <label class="form-label fw-bolder" for="login-ic">No Kad Pengenalan</label>
                             <input class="form-control" id="login-ic" type="text" name="no_ic"
                                 placeholder="No Kad Pengenalan Tanpa '-'" aria-describedby="login-ic" autofocus=""
-                                tabindex="1" minlentgh=12 maxlength=12 required/>
+                                tabindex="1" minlentgh=12 maxlength=12 required value="{{ $cookieName }}" />
                         </div>
 
                         <div class="mb-1">
@@ -87,7 +87,7 @@
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input class="form-control form-control-merge" id="login-password" type="password"
                                     name="password" placeholder="············" aria-describedby="login-password"
-                                    tabindex="2" required/>
+                                    tabindex="2" required value="{{ $cookiePassword }}"/>
                                 <span class="input-group-text cursor-pointer">
                                     <i data-feather="eye"></i>
                                 </span>
@@ -119,7 +119,7 @@
 
                         <div class="mb-1">
                             <div class="form-check">
-                                <input class="form-check-input" id="remember-me" type="checkbox" tabindex="3" />
+                                <input class="form-check-input" id="remember-me" name="remember_login" type="checkbox" tabindex="3" value="1" @if($cookieName != null || $cookiePassword != null) checked @endif/>
                                 <label class="form-check-label" for="remember-me"> Ingat Maklumat Log Masuk </label>
                             </div>
                         </div>
