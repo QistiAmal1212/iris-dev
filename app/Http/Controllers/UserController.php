@@ -169,7 +169,7 @@ class UserController extends Controller
                     'confirmed',
                 ],
                 'roles' => 'required',
-            ],[ 
+            ],[
                 'ic_number.required' => 'Sila isikan no kad pengenalan',
                 'ic_number.unique' => 'No kad pengenalan telah diambil',
                 'ic_number.min_digits' => 'No kad pengenalan mestilah sekurang-kurangnya 12 aksara',
@@ -221,13 +221,16 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $permissions = Permission::all();
+        $departments = DepartmentMinistry::all();
+        $skims = Skim::all();
+
         $internalRoleArr = Role::where('is_internal', 1)->pluck('name')->toArray();
         if ($user->role($internalRoleArr)) {
             $type = "internal";
         } else {
             $type = "external";
         }
-        return view('admin.user.user_information.user_information', compact('user', 'roles', 'permissions', 'type'));
+        return view('admin.user.user_information.user_information', compact('user', 'roles', 'skims', 'departments', 'permissions', 'type'));
     }
 
     public function edit(User $user, $userId)
@@ -259,7 +262,7 @@ class UserController extends Controller
                 'department_ministry_code' => 'required|exists:ref_department_ministry,code',
                 'skim_code' => 'required|exists:ref_skim,code',
                 'roles' => 'required',
-            ],[ 
+            ],[
                 'ic_number.required' => 'Sila isikan no kad pengenalan',
                 'ic_number.unique' => 'No kad pengenalan telah diambil',
                 'ic_number.min_digits' => 'No kad pengenalan mestilah sekurang-kurangnya 12 aksara',
