@@ -31,9 +31,9 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Taraf Perkahwinan</h4>
+        <h4 class="card-title">Senarai Institusi</h4>
         <button type="button" class="btn btn-primary btn-md float-right" onclick="institutionForm()">
-            <i class="fa-solid fa-add"></i> Tambah Taraf
+            <i class="fa-solid fa-add"></i> Tambah Institusi
         </button>
     </div>
     <hr>
