@@ -122,11 +122,15 @@
                         </div>
 
                         <div class="col-md-4 col-12">
-                            <label class="form-check-label fw-bolder"> Status Pengguna </label>
-                            <div class="demo-inline-spacing">
-                                <div class="form-check form-switch">
-                                    <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status" />
-                                </div>
+                            <label class="form-check-label fw-bolder"> Status Pengguna
+                                <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Pengguna Aktif / Pengguna Tidak Aktif"></i>
+                            </label>
+                            <div class="form-check form-switch form-check-primary">
+                                <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status"  style="width:20% !important;"/>
+                                <label class="form-check-label" for="customSwitch3">
+                                    <span class="switch-icon-left"><i class="fa-solid fa-circle-check text-success"></i></span>
+                                    <span class="switch-icon-right"><i class="fa-solid fa-circle-xmark text-danger"></i></span>
+                                </label>
                             </div>
                         </div>
                     </div>
