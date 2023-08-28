@@ -13,6 +13,7 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\GroupRoleController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SecurityController;
 use App\Http\Controllers\StatisticsController;
@@ -103,6 +104,13 @@ Route::prefix('admin')->group(function () {
     Route::post('getNextMenu', [RoleController::class, 'getNextMenu'])->name('role.getNextMenu');
     Route::get('editRole/{roleId}', [RoleController::class, 'editRole'])->name('role.editRole');
     Route::post('updateRole/{roleId}', [RoleController::class, 'updateRole'])->name('role.updateRole');
+
+    Route::prefix('group_role')->group(function () {
+        Route::get('/', [GroupRoleController::class, 'index'])->name('admin.group-role');
+
+        Route::get('edit/{roleId}', [GroupRoleController::class, 'edit'])->name('admin.group-role.edit');
+        Route::get('getRole/{roleId}', [GroupRoleController::class, 'getRole'])->name('admin.group-role.getRole');
+    });
 
     Route::prefix('settings')->group(function () {
         Route::get('/', [SettingsController::class, 'index'])->name('settings.index');

@@ -6,6 +6,7 @@ use App\Models\LogSystem;
 use App\Models\Master\MasterActivityType;
 use App\Models\Master\MasterModule;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class LogController extends Controller
 {
@@ -34,12 +35,28 @@ class LogController extends Controller
 
             $audit_log = LogSystem::with(['module', 'activity_type', 'created_by']);
 
-            return datatables()->of($audit_log)
+            if ($request->activity_type_id) {
+                $audit_log->where('activity_type_id', $request->activity_type_id);
+            }
+
+            if ($request->module_id) {
+                $audit_log->where('module_id', $request->module_id);
+            }
+
+            if ($request->date_start) {
+                $audit_log->where('created_at', '>=', Carbon::createFromFormat('Y-m-d H:i:s', $request->date_start." 00:00:00")->toDateTimeString());
+            }
+
+            if ($request->date_end) {
+                $audit_log->where('created_at', '<=', Carbon::createFromFormat('Y-m-d H:i:s', $request->date_end." 23:59:59")->toDateTimeString());
+            }
+
+            return datatables()->of($audit_log->get())
                 ->editColumn('activity_type.name', function ($audit_log) {
                     if ($audit_log->activity_type_id == 5) {
-                        return '<span class="badge bg-danger">' . $audit_log->activity_type->name_bi . '</span>';
+                        return '<span class="badge bg-danger">' . $audit_log->activity_type->name . '</span>';
                     } else {
-                        return '<span class="badge bg-secondary">' . $audit_log->activity_type->name_bi . '</span>';
+                        return '<span class="badge bg-secondary">' . $audit_log->activity_type->name . '</span>';
                     }
                 })
                 ->editColumn('created_by_user_id', function ($audit_log) {
@@ -68,7 +85,6 @@ class LogController extends Controller
 
     public function view(Request $request)
     {
-
         $audit_log = LogSystem::findOrFail($request->id);
 
         $log = new LogSystem;

@@ -19,9 +19,9 @@
                             <td class="fw-bolder" width="30%">Jenis Aktiviti: </td>
                             <td>
                                 @if($audit_log->activity_type_id == 5)
-                                    <span class="badge bg-danger">{{ $audit_log->activity_type->name_bi }}</span>
+                                    <span class="badge bg-danger">{{ $audit_log->activity_type->name }}</span>
                                 @else
-                                    <span class="badge bg-secondary">{{ $audit_log->activity_type->name_bi }}</span>
+                                    <span class="badge bg-secondary">{{ $audit_log->activity_type->name }}</span>
                                 @endif
                             </td>
                         </tr>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Reference\Institution;
 use App\Models\Reference\Penalty;
 use App\Models\DummyPenalty;
+use App\Models\DummyTimeline;
 use Illuminate\Support\Facades\DB;
 
 class MaklumatPemohonController extends Controller
@@ -15,8 +16,9 @@ class MaklumatPemohonController extends Controller
         $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
         $penalties = Penalty::all();
         $dummyPenalty = DummyPenalty::all();
+        $dummyTimeline = DummyTimeline::limit(10)->orderBy('created_at', 'desc')->get();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('institutions', 'penalties', 'dummyPenalty'));
+        return view('maklumat_pemohon.carian_pemohon', compact('institutions', 'penalties', 'dummyPenalty', 'dummyTimeline'));
     }
 
     public function viewMaklumatPemohon(){
@@ -42,12 +44,19 @@ class MaklumatPemohonController extends Controller
                 'penalty_end.required' => 'Sila isikan tarikh akhir hukuman',
             ]);
 
-            DummyPenalty::create([
+            $dummyPenalty = DummyPenalty::create([
                 'ref_penalty_code' => $request->penalty,
                 'duration' => $request->penalty_duration,
                 'type' => $request->penalty_type,
                 'date_start' => $request->penalty_start,
                 'date_end' => $request->penalty_end,
+            ]);
+
+            DummyTimeline::create([
+                'dummy_penalty_id' => $dummyPenalty->id,
+                'details' => 'Tambah Tatatertib',
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -64,6 +73,11 @@ class MaklumatPemohonController extends Controller
     {
         $dummyPenalty = DummyPenalty::all();
         return view('maklumat_pemohon.dummy_penalty', compact('dummyPenalty'));
+    }
+
+    public function listTimeline()
+    {
+
     }
 
 }

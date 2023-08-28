@@ -1,92 +1,81 @@
+@extends('layouts.app')
 
-<form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
-<div class="row">
-    <div class="col-sm-4 col-12 mb-1">
-        <label class="form-label"> Nama </label>
-        <input type="text" class="form-control" name="name">
+@section('header')
+    Kumpulan Pengguna
+@endsection
+
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
+    <li class="breadcrumb-item"><a>Kumpulan Pengguna</a>
+    </li>
+@endsection
+
+@section('content')
+<style>
+    #table-group-role thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #table-group-role tbody {
+        vertical-align: middle;
+        /* text-align: center; */
+    }
+
+    #table-group-role {
+        width: 100% !important;
+        /* word-wrap: break-word; */
+    }
+
+</style>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Senarai Kumpulan Pengguna</h4>
     </div>
+    <hr>
 
-    <div class="col-sm-4 col-12 mb-1">
-        <label class="form-label"> No Kad Pengenalan </label>
-        <input type="text" class="form-control" name="no_ic">
-    </div>
-
-    <div class="col-sm-4 col-12 mb-1">
-        <label class="form-label"> Peranan </label>
-        <select class="select2 form-control" id="role" name="role">
-            <option value=""></option>
-            @foreach ($externalUsers as $externalUser)
-                <option value={{ $externalUser->id }}>{{ $externalUser->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-sm-6 col-12 mb-1">
-        <label class="form-label"> Kementerian </label>
-        <select class="select2 form-control" id="department_ministry" name="department_ministry" >
-            <option value=""></option>
-            @foreach($departmentMinistry as $department)
-            <option value="{{ $department->code }}">{{ $department->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-sm-6 col-12 mb-1">
-        <label class="form-label"> Jawatan </label>
-        <select class="select2 form-control" id="skim" name="skim" >
-            <option value=""></option>
-            @foreach($skim as $scheme)
-            <option value="{{ $scheme->code }}">{{ $scheme->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3" type="reset" id="reset" onclick="resetFilterForm()">
-            <span class="text-danger"> Set Semula </span>
-        </a>
-        <button type="submit" class="btn btn-success float-right">
-            <i class="fa fa-search"></i> Cari
-        </button>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table header_uppercase table-bordered" id="table-group-role">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Nama Peranan</th>
+                        <th>Nama Paparan</th>
+                        <th>Penerangan</th>
+                        <th>Jenis Peranan</th>
+                        <th>Tindakan</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 </div>
-</form>
 
-<hr>
+@include('admin.group_role.getListUsers')
 
-<div class="table-responsive" style="width:100%">
-    <table class="table header_uppercase table-bordered" id="externalUser">
-        <thead>
-            <tr>
-                <th class="text-center fw-bolder" width="1%"> No. </th>
-                <th class="text-center fw-bolder"> Nama Pengguna </th>
-                <th class="text-center fw-bolder"> No. Kad Pengenalan </th>
-                <th class="text-center fw-bolder"> Emel </th>
-                <th class="text-center fw-bolder"> Kementerian </th>
-                <th class="text-center fw-bolder"> Jawatan </th>
-                <th class="text-center fw-bolder"> Peranan </th>
-                <th class="text-center fw-bolder"> Tindakan </th>
-            </tr>
-        </thead>
-    </table>
-</div>
+@endsection
 
-@push('js')
+@section('script')
 <script>
-    var table = $('#externalUser').DataTable({
+
+    var table = $('#table-group-role').DataTable({
         orderCellsTop: true,
         colReorder: false,
-        pageLength: 10,
+        pageLength: 25,
         processing: true,
         serverSide: true, //enable if data is large (more than 50,000)
         ajax: {
             url: "{{ fullUrl() }}",
             cache: false,
         },
-        columns: [{
+        columns: [
+            {
                 defaultContent: '',
                 orderable: false,
                 searchable: false,
+                className : "text-center",
                 render: function(data, type, row, meta) {
                     return meta.row + meta.settings._iDisplayStart + 1;
                 }
@@ -99,36 +88,22 @@
                 }
             },
             {
-                data: "username",
-                name: "username",
+                data: "display_name",
+                name: "display_name",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
             },
             {
-                data: "email",
-                name: "email",
+                data: "description",
+                name: "description",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
             },
             {
-                data: "department_ministry",
-                name: "department_ministry",
-                render: function(data, type, row) {
-                    return $("<div/>").html(data).text();
-                }
-            },
-            {
-                data: "skim",
-                name: "skim",
-                render: function(data, type, row) {
-                    return $("<div/>").html(data).text();
-                }
-            },
-            {
-                data: "role",
-                name: "role",
+                data: "is_internal",
+                name: "is_internal",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -139,6 +114,7 @@
                 orderable: false,
                 searchable: false
             },
+
         ],
         language : {
             emptyTable : "Tiada data tersedia",
@@ -157,31 +133,49 @@
         }
     });
 
-    $('body').on('submit','#form-search',function(e){
+    function viewUsersForm(id){
+        url = "{{ route('admin.group-role.edit', ':replaceThis') }}";
+        url = url.replace(':replaceThis', id);
 
-        e.preventDefault();
+        url2 = "{{ route('admin.group-role.getRole', ':replaceThis') }}";
+        url2 = url2.replace(':replaceThis', id);
 
-        var form = $("#form-search");
+        $.ajax({
+            url: url2,
+            method: 'GET',
+            async: true,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                $('#td_name').html(':&nbsp;&nbsp;'+data.detail.name);
+                $('#td_display_name').html(':&nbsp;&nbsp;'+data.detail.display_name);
+                $('#td_description').html(':&nbsp;&nbsp;'+data.detail.description);
+                $('#td_is_internal').html(':&nbsp;&nbsp;'+data.detail.internalType);
+                $('#td_count').html(':&nbsp;&nbsp;'+data.detail.totalCount);
 
-        if(!form.valid()){
-            return false;
-        }
-        var table;
+            },
+        });
 
-        table = $('#externalUser').DataTable().destroy();
+        var tableListUsers;
 
-        table = $('#externalUser').DataTable({
+        tableListUsers = $('#table-list-users').DataTable().destroy();
+        
+        tableListUsers = $('#table-list-users').DataTable({
             orderCellsTop: true,
             colReorder: false,
             pageLength: 10,
             processing: true,
             serverSide: true, //enable if data is large (more than 50,000)
-            deferRender: true,
-            ajax: form.attr('action')+"?"+form.serialize(),
-            columns: [{
+            ajax: {
+                url: url,
+                cache: false,
+            },
+            columns: [
+                {
                     defaultContent: '',
                     orderable: false,
                     searchable: false,
+                    className : "text-center",
                     render: function(data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
@@ -194,8 +188,8 @@
                     }
                 },
                 {
-                    data: "username",
-                    name: "username",
+                    data: "no_ic",
+                    name: "no_ic",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -203,6 +197,13 @@
                 {
                     data: "email",
                     name: "email",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "phone_number",
+                    name: "phone_number",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -222,18 +223,13 @@
                     }
                 },
                 {
-                    data: "role",
-                    name: "role",
+                    data: "status",
+                    name: "status",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
                 },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
+
             ],
             language : {
                 emptyTable : "Tiada data tersedia",
@@ -251,13 +247,23 @@
                 lengthMenu : "Lihat _MENU_ entri",
             }
         });
-    });
 
-    function resetFilterForm() {
-        $('#form-search')[0].reset();
-        $("#form-search").trigger("reset");
-        $('#form-search select').val("").trigger("change");
+        var viewUsersModal = new bootstrap.Modal(document.getElementById('viewUsersModal'), { keyboard: false});
+        viewUsersModal.show();
+    }
+
+    function closeModal() {
+
+        $('#td_name').html(':&nbsp;&nbsp;');
+        $('#td_display_name').html(':&nbsp;&nbsp;');
+        $('#td_description').html(':&nbsp;&nbsp;');
+        $('#td_is_internal').html(':&nbsp;&nbsp;');
+        $('#td_count').html(':&nbsp;&nbsp;');
+
+        $('#table-list-users').DataTable().destroy();
+
+        $("#table-list-users > tbody").html("");
     }
 
 </script>
-@endpush
+@endsection

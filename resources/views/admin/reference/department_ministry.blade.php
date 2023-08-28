@@ -135,7 +135,6 @@
 
             departmentMinistryFormModal.show();
         }else{
-            console.log(id);
             url = "{{ route('admin.reference.department-ministry.edit', ':replaceThis') }}"
             url = url.replace(':replaceThis', id);
             $.ajax({

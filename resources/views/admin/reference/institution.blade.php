@@ -135,7 +135,6 @@
 
             institutionFormModal.show();
         }else{
-            console.log(id);
             url = "{{ route('admin.reference.institution.edit', ':replaceThis') }}"
             url = url.replace(':replaceThis', id);
             $.ajax({

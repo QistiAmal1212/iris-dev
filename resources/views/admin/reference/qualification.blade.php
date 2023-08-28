@@ -134,7 +134,6 @@
 
             qualificationFormModal.show();
         }else{
-            console.log(id);
             url = "{{ route('admin.reference.qualification.edit', ':replaceThis') }}"
             url = url.replace(':replaceThis', id);
             $.ajax({

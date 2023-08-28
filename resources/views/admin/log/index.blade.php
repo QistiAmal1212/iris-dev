@@ -21,31 +21,41 @@
     <hr>
 
     <div class="card-body">
-        <form action="GET">
+        <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
             <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <label class="fw-bolder"> Aktiviti </label>
-                    <input type="text" name="" id="" class="form-control" />
+                    <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
+                        <option value=""></option>
+                        @foreach($activityType as $activity)
+                        <option value="{{ $activity->id }}">{{ $activity->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <label class="fw-bolder"> Modul </label>
-                    <input type="text" name="" id="" class="form-control" />
+                    <select name="module_id" id="module_id" class="select2 form-control">
+                        <option value=""></option>
+                        @foreach($module as $modul)
+                        <option value="{{ $modul->id }}">{{ $modul->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="col-sm-2 col-md-2 col-lg-2">
                     <label class="fw-bolder"> Tarikh Mula </label>
-                    <input type="date" name="date_start" id="" class="form-control" />
+                    <input type="date" name="date_start" id="date_start" class="form-control" />
                 </div>
 
                 <div class="col-sm-2 col-md-2 col-lg-2">
                     <label class="fw-bolder"> Tarikh Akhir</label>
-                    <input type="date" name="date_end" id="" class="form-control" />
+                    <input type="date" name="date_end" id="date_end" class="form-control" />
                 </div>
             </div>
 
             <div class="d-flex justify-content-end align-items-center my-1 ">
-                <a class="me-3" type="button" id="reset" href="#">
+                <a class="me-3" type="button" id="reset" onclick="resetFilterForm()">
                     <span class="text-danger"> Set Semula </span>
                 </a>
                 <button type="submit" class="btn btn-success float-right">
@@ -79,80 +89,112 @@
 @push('js')
 <script type="text/javascript">
 
-var table = $('#activityLog');
+    var table = $('#activityLog');
 
-var settings = {
-    "processing": true,
-    "serverSide": true,
-    "deferRender": true,
-    "ajax": "{{ fullUrl() }}",
-    "columns": [
-        { data: 'index', defaultContent: '', orderable: false, searchable: false, render: function (data, type, row, meta) {
-            return meta.row + meta.settings._iDisplayStart + 1;
-        }},        
-        { data: "activity_type.name", name: "activity_type.name", render: function(data, type, row){
-            return $("<div/>").html(data).text();
-        }},
-        { data: "module.name", name: "module.name"}, 
-        { data: "description", name: "description"},     
-        { data: "created_by_user_id", name: "created_by_user_id", render: function(data, type, row){
-            return $("<div/>").html(data).text();
-        }},   
-        { data: "ip_address", name: "ip_address"},        
-        { data: "created_at", name: "created_at"},
-        { data: "action", name: "action", orderable: false, searchable: false},
-    ],
-    "columnDefs": [
-        { className: "nowrap", "targets": [ 7 ] }
-    ],
-    "bSortable": false,
-    // "sDom": "B<t><'row'<p i>>",
-    "sDom": "Blfrtip",
-    "lengthMenu": [[10, 25, 50, 100, 500, 1000], [10, 25, 50, 100, 500, 1000]],
-    "buttons": [
-        {
-            text: '<div class="btn-group" role="group" aria-label="Role Action"> <i class="fa fa-file-excel text-success"></i> Excel ',
-            extend: 'excelHtml5',
-            className: 'btn btn-outline-success waves-effect mb-2',
-            exportOptions: {
-                columns: ':visible:not(.nowrap)'
+    var settings = {
+        "processing": true,
+        "serverSide": true,
+        "deferRender": true,
+        "ajax": "{{ fullUrl() }}",
+        "columns": [
+            { data: 'index', defaultContent: '', orderable: false, searchable: false, render: function (data, type, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1;
+            }},        
+            { data: "activity_type.name", name: "activity_type.name", render: function(data, type, row){
+                return $("<div/>").html(data).text();
+            }},
+            { data: "module.name", name: "module.name"}, 
+            { data: "description", name: "description"},     
+            { data: "created_by_user_id", name: "created_by_user_id", render: function(data, type, row){
+                return $("<div/>").html(data).text();
+            }},   
+            { data: "ip_address", name: "ip_address"},        
+            { data: "created_at", name: "created_at"},
+            { data: "action", name: "action", orderable: false, searchable: false},
+        ],
+        language : {
+            emptyTable : "Tiada data tersedia",
+            info : "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+            infoEmpty : "Menunjukkan 0 hingga 0 daripada 0 entri",
+            infoFiltered : "(Ditapis dari _MAX_ entri)",
+            search : "Cari:",
+            zeroRecords : "Tiada rekod yang ditemui",
+            paginate : {
+                first : "Pertama",
+                last : "Terakhir",
+                next : "Seterusnya",
+                previous : "Sebelumnya"
+            },
+            lengthMenu : "Lihat _MENU_ entri",
+        }
+    };
+
+    table.dataTable(settings);
+
+    $('body').on('submit','#form-search',function(e){
+
+        e.preventDefault();
+
+        var form = $("#form-search");
+
+        if(!form.valid()){
+            return false;
+        }
+        var table;
+
+        table = $('#activityLog').DataTable().destroy();
+
+        table = $('#activityLog').DataTable({
+            orderCellsTop: true,
+            colReorder: false,
+            pageLength: 10,
+            processing: true,
+            serverSide: true, //enable if data is large (more than 50,000)
+            deferRender: true,
+            ajax: form.attr('action')+"?"+form.serialize(),
+            columns: [
+                { data: 'index', defaultContent: '', orderable: false, searchable: false, render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }},        
+                { data: "activity_type.name", name: "activity_type.name", render: function(data, type, row){
+                    return $("<div/>").html(data).text();
+                }},
+                { data: "module.name", name: "module.name"}, 
+                { data: "description", name: "description"},     
+                { data: "created_by_user_id", name: "created_by_user_id", render: function(data, type, row){
+                    return $("<div/>").html(data).text();
+                }},   
+                { data: "ip_address", name: "ip_address"},        
+                { data: "created_at", name: "created_at"},
+                { data: "action", name: "action", orderable: false, searchable: false},
+            ],
+            language : {
+                emptyTable : "Tiada data tersedia",
+                info : "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+                infoEmpty : "Menunjukkan 0 hingga 0 daripada 0 entri",
+                infoFiltered : "(Ditapis dari _MAX_ entri)",
+                search : "Cari:",
+                zeroRecords : "Tiada rekod yang ditemui",
+                paginate : {
+                    first : "Pertama",
+                    last : "Terakhir",
+                    next : "Seterusnya",
+                    previous : "Sebelumnya"
+                },
+                lengthMenu : "Lihat _MENU_ entri",
             }
-        },
-    ],
-    "destroy": true,
-    "scrollCollapse": true,
-    "pagingType": "full_numbers",
-    "oLanguage": {
-        "sEmptyTable":      "No result",
-        "sInfo":            "Showing _START_ to _END_ from _TOTAL_ record",
-        "sInfoEmpty":       "Showing 0 record",
-        "sInfoFiltered":    "(Filtered from total _MAX_ record)",
-        "sInfoPostFix":     "",
-        "sInfoThousands":   ",",
-        "sLengthMenu":      "Show _MENU_ record",
-        "sLoadingRecords":  "Processed...",
-        "sProcessing":      "Processing...",
-        "sSearch":          "Searching:",
-       "sZeroRecords":      "No record matches found.",
-       "oPaginate": {
-           "sFirst":        "First",
-           "sPrevious":     "Previous",
-           "sNext":         "Next",
-           "sLast":         "Last"
-       },
-       "oAria": {
-           "sSortAscending":  ": diaktifkan kepada susunan lajur menaik",
-           "sSortDescending": ": diaktifkan kepada susunan lajur menurun"
-       }
-    },
-    "iDisplayLength": 25
-};
+        });
+    });
 
-table.dataTable(settings);
+    function resetFilterForm() {
+        $('#form-search')[0].reset();
+        $("#form-search").trigger("reset");
+        $('#form-search select').val("").trigger("change");
+    }
 
-function view(id) {
-    $("#modal-div").load("{{ route('admin.log') }}/"+id);
-}
+    function view(id) {
+        $("#modal-div").load("{{ route('admin.log') }}/"+id);
+    }
 
 </script>
 @endpush
