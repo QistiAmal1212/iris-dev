@@ -104,7 +104,7 @@
 @endsection
 
 @section('script')
-<script>
+{{-- <script>
 
     var table = $('#table-pgspa').DataTable({
         orderCellsTop: true,
@@ -165,5 +165,5 @@
             lengthMenu : "Lihat _MENU_ entri",
         }
     });
-</script>
+</script> --}}
 @endsection

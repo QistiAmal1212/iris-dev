@@ -18,47 +18,21 @@ class SecurityController extends Controller
     public function menuIndex(Request $request)
     {
         $menu = SecurityMenu::all();
+        $menuLevel1 = SecurityMenu::where('level', 1)->get();
+
         if ($request->ajax()) {
-            if($request->level){
-                $level = $request->level;
-
-                if($level != null) {
-                    $menu = SecurityMenu::where('level', $level)->get();
-                }
-            }
-            return Datatables::of($menu)
-                ->editColumn('name', function ($menu) {
-                    return $menu->name;
+            return Datatables::of($menuLevel1)
+                ->editColumn('sequence', function ($menuLevel1) {
+                    return $menuLevel1->sequence;
                 })
-                ->editColumn('type', function ($menu) {
-                    return $menu->type;
+                ->editColumn('name', function ($menuLevel1) {
+                    return $menuLevel1->name;
                 })
-                ->editColumn('module_id', function ($menu) {
-                    $module = null;
-
-                    if($menu->module_id != null)
-                    {
-                        $module = MasterModule::find($menu->module_id)->name;
-                    }
-
-                    return $module;
+                ->editColumn('type', function ($menuLevel1) {
+                    return $menuLevel1->type;
                 })
-                ->editColumn('level', function ($menu) {
-                    return $menu->level;
-                })
-                ->editColumn('sequence', function ($menu) {
-                    return $menu->sequence;
-                })
-                ->editColumn('menu_link', function ($menu) {
-
-                    $menuLink = null;
-
-                    if($menu->menu_link != null)
-                    {
-                        $menuLink = SecurityMenu::find($menu->menu_link)->name;
-                    }
-
-                    return $menuLink;
+                ->editColumn('module_id', function ($menuLevel1) {
+                    return $menuLevel1->module->name;
                 })
                 ->editColumn('action', function ($menu) {
                     $button = "";
@@ -75,7 +49,8 @@ class SecurityController extends Controller
                 ->make(true);
         }
 
-        return view('admin.security.menu');
+        // return view('admin.security.menu');
+        return view('admin.security.menu', compact('menuLevel1'));
     }
 
     public function menuCreate(Request $request)
@@ -108,9 +83,9 @@ class SecurityController extends Controller
             }
 
             SecurityMenu::create([
-                'name' => $request->name, 
-                'type' => $request->type, 
-                'module_id' => ($request->type == 'Web') ? $request->module : null, 
+                'name' => $request->name,
+                'type' => $request->type,
+                'module_id' => ($request->type == 'Web') ? $request->module : null,
                 'level' => $request->level,
                 'sequence' => $lastSequence ? $lastSequence->sequence + 1 : 1,
                 'menu_link' => ($request->level != 1) ? $request->menu_link : null,

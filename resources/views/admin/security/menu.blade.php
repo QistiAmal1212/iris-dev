@@ -53,25 +53,29 @@
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <a href="#" class="text-primary">Selenggara Menu</a>
-                                </td>
-                                <td>Menu</td>
-                                <td>-</td>
-                                <td>
-                                    <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">
-                                        <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="">
-                                            <i class="fas fa-pencil text-primary"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-xs btn-default">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                                @foreach($menuLevel1 as $menu1)
+                                    <tr>
+                                        <td>{{ $menu1->sequence }}</td>
+                                        <td>
+                                            <a href="#" class="text-primary">
+                                                {{ $menu1->name }}
+                                            </a>
+                                        </td>
+                                        <td>{{ $menu1->type }}</td>
+                                        <td>#</td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">
+                                                <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="">
+                                                    <i class="fas fa-pencil text-primary"></i>
+                                                </a>
+                                                <a href="#" class="btn btn-xs btn-default">
+                                                    <i class="fas fa-trash text-danger"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -176,13 +180,8 @@
 
 @section('script')
 <script>
-    function showLevel2() {
-        var menuLevel2 = document.getElementById("menuLevel2");
-        if (menuLevel2.style.display === "none") {
-            menuLevel2.style.display = "block";
-        } else {
-            menuLevel2.style.display = "none";
-        }
-        }
+    function createMenuForm() {
+        $("#modal-div").load("{{ route('admin.security.menu.create') }}");
+    }
 </script>
 @endsection
