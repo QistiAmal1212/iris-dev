@@ -1,8 +1,8 @@
-<div class="modal fade text-start" id="roleFormModal" tabindex="-1" aria-labelledby="title-role" aria-hidden="true" data-bs-backdrop="false">
+<div class="modal fade text-start" id="roleFormModal" tabindex="-1" aria-labelledby="title-role" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="title-role">Add Role</h4>
+                <h4 class="modal-title" id="title-role">Tambah Peranan</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -15,8 +15,8 @@
                         <button type="button" class="step-trigger">
                         <span class="bs-stepper-box">1</span>
                         <span class="bs-stepper-label">
-                            <span class="bs-stepper-title">Role Details</span>
-                            <span class="bs-stepper-subtitle">With Access Function</span>
+                            <span class="bs-stepper-title">Maklumat Peranan</span>
+                            <span class="bs-stepper-subtitle">dan Akses Level Peranan</span>
                         </span>
                         </button>
                     </div>
@@ -27,8 +27,7 @@
                         <button type="button" class="step-trigger">
                         <span class="bs-stepper-box">2</span>
                         <span class="bs-stepper-label">
-                            <span class="bs-stepper-title">Menu Level 1</span>
-                            <span class="bs-stepper-subtitle">Access Menu</span>
+                            <span class="bs-stepper-title">Menu [Level 1]</span>
                         </span>
                         </button>
                     </div>
@@ -39,8 +38,7 @@
                         <button type="button" class="step-trigger">
                         <span class="bs-stepper-box">3</span>
                         <span class="bs-stepper-label">
-                            <span class="bs-stepper-title">Menu Level 2</span>
-                            <span class="bs-stepper-subtitle">Access Menu</span>
+                            <span class="bs-stepper-title">Menu [Level 2]</span>
                         </span>
                         </button>
                     </div>
@@ -51,8 +49,7 @@
                         <button type="button" class="step-trigger">
                         <span class="bs-stepper-box">4</span>
                         <span class="bs-stepper-label">
-                            <span class="bs-stepper-title">Menu Level 3</span>
-                            <span class="bs-stepper-subtitle">Access Menu</span>
+                            <span class="bs-stepper-title">Menu [Level 3]</span>
                         </span>
                         </button>
                     </div>
@@ -60,51 +57,48 @@
                     <div class="bs-stepper-content">
                     <div id="role-details" class="content" role="tabpanel" aria-labelledby="role-details-trigger">
                         <div class="content-header">
-                            <h5 class="mb-0">Role Details</h5>
-                            <small class="text-muted">Enter Role Details.</small>
+                            <h5 class="mb-0">Maklumat Peranan</h5>
                         </div>
 
                         @csrf
                         <div class="row">
                             <div class="col-md-12 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="role_name">Name <span class="text text-danger">*</span> </label>
+                                    <label class="form-label" for="role_name">Nama <span class="text text-danger">*</span> </label>
                                     <div class="input-group">
-                                        <input type="text" id="role_name" name="role_name" value="" class="form-control" placeholder="Role Name" required>
+                                        <input type="text" id="role_name" name="role_name" value="" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="role_description">Descriptions <span class="text text-danger">*</span> </label>
+                                    <label class="form-label" for="role_description">Ringkasan Peranan <span class="text text-danger">*</span> </label>
                                     <div class="input-group">
-                                        <textarea class="form-control" rows = 4 placeholder="Role Descriptions" name="role_description"></textarea>
+                                        <textarea class="form-control" rows = 4 name="role_description"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 col-12">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="role_display">Display Role As <span class="text text-danger">*</span> </label>
+                                    <label class="form-label" for="role_display">Nama Paparan <span class="text text-danger">*</span> </label>
                                     <div class="input-group">
-                                        <input type="text" id="role_display" class="form-control" placeholder="Display Role As" name="role_display" required>
+                                        <input type="text" id="role_display" class="form-control" name="role_display" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 col-12">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="role_level">Role Level <span class="text text-danger">*</span> </label>
-                                    <div class="input-group">
-                                    <select id="role_level" class="form-control" name="role_level" required>
+                                    <label class="form-label" for="role_level">Jenis Peranan <span class="text text-danger">*</span> </label>
+                                    <select id="role_level" class="form-select select2" name="role_level" required>
                                         <option value=""></option>
-                                        <option value="1">Internal</option>
-                                        <option value="0">External</option>
+                                        <option value="1">Peranan Dalaman</option>
+                                        <option value="0">Peranan Luaran</option>
                                     </select>
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="access_function">Fungsi Akses<span class="text text-danger">*</span> </label>
+                                    <label class="form-label" for="access_function">Fungsi Capaian Akses<span class="text text-danger">*</span> </label>
                                     <select id="access_function" class="select2 form-select" name="access_function[]" required multiple>
                                         @foreach($masterFunction as $function)
                                         <option value="{{ $function->id }}">{{ $function->code." - ".$function->name }}</option>
@@ -117,18 +111,17 @@
                         <div class="d-flex justify-content-between">
                         <button class="btn btn-outline-secondary btn-prev" type="button" disabled>
                             <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
-                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
                         </button>
                         <button class="btn btn-primary btn-next" type="button">
-                            <span class="align-middle d-sm-inline-block d-none">Next</span>
+                            <span class="align-middle d-sm-inline-block d-none">Seterusnya</span>
                             <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
                         </button>
                         </div>
                     </div>
                     <div id="menu-one" class="content" role="tabpanel" aria-labelledby="menu-one-trigger">
                         <div class="content-header">
-                        <h5 class="mb-0">Menu Level 1</h5>
-                        <small>Choose Access Menu Level 1.</small>
+                        <h5 class="mb-0">Menu [Level 1]</h5>
                         </div>
 
                         <div class="col-md-12 col-12">
@@ -136,7 +129,7 @@
                                 <label class="form-label" for="level_one">Menu</label>
                                 <select id="level_one" class="select2 form-select" name="level_one[]" multiple onchange="showListMenu('one')">
                                     @foreach($securityMenu as $menu)
-                                    <option value="{{ $menu->id }}">{{ $menu->name }}</option>
+                                        <option value="{{ $menu->id }}">{{ $menu->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -152,25 +145,24 @@
                         <div class="d-flex justify-content-between">
                         <button class="btn btn-primary btn-prev" type="button">
                             <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
-                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
                         </button>
                         <button class="btn btn-primary btn-next" type="button" id="next_two" onclick="showNextMenu('two', 'one')">
-                            <span class="align-middle d-sm-inline-block d-none">Next</span>
+                            <span class="align-middle d-sm-inline-block d-none">Seterusnya</span>
                             <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
                         </button>
                         </div>
                     </div>
                     <div id="menu-two" class="content" role="tabpanel" aria-labelledby="menu-two-trigger">
                         <div class="content-header">
-                        <h5 class="mb-0">Menu Level 2</h5>
-                        <small>Choose Access Menu Level 2.</small>
+                        <h5 class="mb-0">Menu [Level 2]</h5>
                         </div>
 
                         <div class="col-md-12 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="level_two">Menu</label>
                                 <select id="level_two" class="select2 form-select" name="level_two[]" multiple onchange="showListMenu('two')">
-                                    
+
                                 </select>
                             </div>
                         </div>
@@ -185,25 +177,24 @@
                         <div class="d-flex justify-content-between">
                         <button class="btn btn-primary btn-prev" type="button">
                             <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
-                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
                         </button>
                         <button class="btn btn-primary btn-next" type="button" id="next_three" onclick="showNextMenu('three', 'two')">
-                            <span class="align-middle d-sm-inline-block d-none">Next</span>
+                            <span class="align-middle d-sm-inline-block d-none">Seterusnya</span>
                             <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
                         </button>
                         </div>
                     </div>
                     <div id="menu-three" class="content" role="tabpanel" aria-labelledby="menu-three-trigger">
                         <div class="content-header">
-                        <h5 class="mb-0">Menu Level 2</h5>
-                        <small>Choose Access Menu Level 3.</small>
+                        <h5 class="mb-0">Menu [Level 2]</h5>
                         </div>
-                        
+
                         <div class="col-md-12 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="level_three">Menu</label>
                                 <select id="level_three" class="select2 form-select" name="level_three[]" multiple onchange="showListMenu('three')">
-                                    
+
                                 </select>
                             </div>
                         </div>
@@ -218,9 +209,9 @@
                         <div class="d-flex justify-content-between">
                         <button class="btn btn-primary btn-prev" type="button">
                             <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
-                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
                         </button>
-                        <button class="btn btn-success btn-submit" type="submit">Submit</button>
+                        <button class="btn btn-success btn-submit" type="submit">Simpan</button>
                         </div>
                     </div>
                     </div>

@@ -109,7 +109,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">List of Roles</h4>
+        <h4 class="card-title">Senarai Peranan</h4>
         {{-- @can('admin.role.create') --}}
             {{-- <a href="{{ route('role.create') }}" class="btn btn-primary float-right hovertext waves-effect waves-float waves-light"> CREATE </a> --}}
             {{-- <div class="d-flex justify-content-end align-items-center">

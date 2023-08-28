@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">List of External Roles</h5>
+                <h5 class="modal-title">Senarai Peranan [Luaran]</h5>
                 <button type="button" class="btn-close bg-danger" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
