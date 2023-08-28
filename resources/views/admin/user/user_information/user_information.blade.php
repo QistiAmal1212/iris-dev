@@ -77,7 +77,7 @@ Maklumat Profil
                             <label class="form-label fw-bolder">Kementerian:</label>
                             <select name="department" id="department" class="form-select select2">
                                 @foreach ($departments as $department)
-                                    <option value="{{ $department->id }} {{ $user->department_ministry->name ? 'selected' : '' }}">
+                                    <option value="{{ $department->id }} {{ $user->ref_department_ministry_code ? 'selected' : '' }}">
                                         {{ $department->name }}
                                     </option>
                                 @endforeach
@@ -88,7 +88,7 @@ Maklumat Profil
                             <label class="form-label fw-bolder">Jawatan:</label>
                             <select name="skim" id="skim" class="form-select select2">
                                 @foreach ($skims as $skim)
-                                    <option value="{{ $skim->id }} {{ $user->skim->name ? 'selected' : '' }}">
+                                    <option value="{{ $skim->id }} {{ $user->ref_skim_code ? 'selected' : '' }}">
                                         {{ $skim->name }}
                                     </option>
                                 @endforeach
