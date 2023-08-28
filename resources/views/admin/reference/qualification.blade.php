@@ -19,7 +19,7 @@
 
     #table-qualification tbody {
         vertical-align: middle;
-        text-align: center;
+        /* text-align: center; */
     }
 
     #table-qualification {
