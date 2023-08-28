@@ -1,5 +1,23 @@
-<div class="modal fade text-start" id="viewUsersModal" tabindex="-1" aria-labelledby="title-role" aria-hidden="true" data-bs-backdrop="false">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+<style>
+    #table-list-users thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    #table-list-users tbody {
+        vertical-align: middle;
+        /* text-align: center; */
+    }
+
+    #table-list-users {
+        width: 100% !important;
+        /* word-wrap: break-word; */
+    }
+
+</style>
+
+<div class="modal fade text-start" id="viewUsersModal" tabindex="-1" aria-labelledby="title-role" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="title-role">Lihat Kumpulan Pengguna</h4>
@@ -10,23 +28,23 @@
                     <center>
                     <table width="100%">
                         <tr>
-                            <td width="30%">Nama Peranan</td>
+                            <td width="20%" class="fw-bolder">Nama Peranan</td>
                             <td id="td_name"></td>
                         </tr>
                         <tr>
-                            <td>Nama Paparan</td>
+                            <td class="fw-bolder">Nama Paparan</td>
                             <td id="td_display_name"></td>
                         </tr>
                         <tr>
-                            <td>Penerangan</td>
+                            <td class="fw-bolder">Penerangan</td>
                             <td id="td_description"></td>
                         </tr>
                         <tr>
-                            <td>Jenis Peranan</td>
+                            <td class="fw-bolder">Jenis Peranan</td>
                             <td id="td_is_internal"></td>
                         </tr>
                         <tr>
-                            <td>Jumlah Bilangan Pengguna</td>
+                            <td class="fw-bolder">Jumlah Bilangan Pengguna</td>
                             <td id="td_count"></td>
                         </tr>
                     </table>
@@ -49,9 +67,6 @@
                         </thead>
                     </table>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" onclick="closeModal()">Tutup</button>
             </div>
         </div>
     </div>

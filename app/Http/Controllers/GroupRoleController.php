@@ -30,7 +30,13 @@ class GroupRoleController extends Controller
                     return $roles->id;
                 })
                 ->editColumn('name', function ($roles) {
-                    return $roles->name;
+
+                    $name = '';
+                    $name .= '<a class="text-primary" onclick="viewUsersForm('.$roles->id.')">';
+                    $name .= $roles->name;
+                    $name .= '</a>';
+
+                    return $name;
                 })
                 ->editColumn('display_name', function ($roles) {
                     return $roles->display_name;
@@ -50,28 +56,6 @@ class GroupRoleController extends Controller
                         return $label;
                     }
                 })
-                ->editColumn('action', function ($roles) {
-                    $button = "";
-
-                    $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
-
-                    // //view role
-                    // $button .= '<a class="btn btn-xs btn-default" onclick="viewOnlyForm('.$roles->id.')"> <i class="fas fa-eye text-seconday"></i> ';
-
-                    //edit role
-                    $button .= '<a class="btn btn-xs btn-default" onclick="viewUsersForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-
-                    //delete role
-                    // $button .= '<a class="btn btn-xs btn-default" title="" onclick="$(`#rolesDeleteButton_'.$roles->id.'`).trigger(`click`);" > <i class="fas fa-trash text-danger"></i> </a>';
-                    // $button .= "</div>";
-                    // $button .= '<form action="'.route('roles.delete',['roleId' => $roles->id]).'" method="post" refreshFunctionDivId="RoleList">';
-                    // $button .= '<button id="rolesDeleteButton_'.$roles->id.'" type="button" hidden onclick="confirmBeforeSubmit(this)"></button>';
-                    // $button .= '</form>';
-                    $button .= '</div>';
-
-                    return $button;
-                })
-                ->rawColumns(['action'])
                 ->make(true);
         }
 
@@ -134,7 +118,7 @@ class GroupRoleController extends Controller
             }
 
             $role->totalCount = count($role->users);
-            
+
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $role]);
 
         } catch (\Throwable $e) {

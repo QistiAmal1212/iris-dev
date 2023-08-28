@@ -45,7 +45,6 @@
                         <th>Nama Paparan</th>
                         <th>Penerangan</th>
                         <th>Jenis Peranan</th>
-                        <th>Tindakan</th>
                     </tr>
                 </thead>
             </table>
@@ -108,13 +107,6 @@
                     return $("<div/>").html(data).text();
                 }
             },
-            {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false
-            },
-
         ],
         language : {
             emptyTable : "Tiada data tersedia",
@@ -159,7 +151,7 @@
         var tableListUsers;
 
         tableListUsers = $('#table-list-users').DataTable().destroy();
-        
+
         tableListUsers = $('#table-list-users').DataTable({
             orderCellsTop: true,
             colReorder: false,
