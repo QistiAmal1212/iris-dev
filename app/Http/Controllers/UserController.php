@@ -176,7 +176,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $validatedData = $request->validate([
-                'ic_number' => 'required|integer|min_digits:12|unique:users,no_ic',
+                'ic_number' => 'required|min_digits:12|unique:users,no_ic',
                 'full_name' => 'required|string',
                 'email' => 'required|email|unique:users,email',
                 'phone_number' => 'required',
