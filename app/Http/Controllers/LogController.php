@@ -33,7 +33,7 @@ class LogController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            $audit_log = LogSystem::with(['module', 'activity_type', 'created_by']);
+            $audit_log = LogSystem::with(['module', 'activity_type', 'created_by'])->orderBy('created_at', 'desc');
 
             if ($request->activity_type_id) {
                 $audit_log->where('activity_type_id', $request->activity_type_id);

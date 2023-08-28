@@ -200,6 +200,8 @@ Route::prefix('admin')->group(function () {
             Route::get('/', [SecurityController::class, 'menuIndex'])->name('admin.security.menu');
             Route::get('create', [SecurityController::class, 'menuCreate'])->name('admin.security.menu.create');
             Route::post('store', [SecurityController::class, 'menuStore'])->name('admin.security.menu.store');
+            Route::get('edit/{menuId}', [SecurityController::class, 'menuEdit'])->name('admin.security.menu.edit');
+            Route::post('update/{menuId}', [SecurityController::class, 'menuUpdate'])->name('admin.security.menu.update');
             Route::post('link', [SecurityController::class, 'menuLink'])->name('admin.security.menu.link');
         });
 

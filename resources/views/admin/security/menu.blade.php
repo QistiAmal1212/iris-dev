@@ -51,31 +51,6 @@
                                 <th width="10%">Tindakan</th>
                             </tr>
                         </thead>
-
-                        <tbody>
-                                @foreach($menuLevel1 as $menu1)
-                                    <tr>
-                                        <td>{{ $menu1->sequence }}</td>
-                                        <td>
-                                            <a href="#" class="text-primary">
-                                                {{ $menu1->name }}
-                                            </a>
-                                        </td>
-                                        <td>{{ $menu1->type }}</td>
-                                        <td>#</td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">
-                                                <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="">
-                                                    <i class="fas fa-pencil text-primary"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-xs btn-default">
-                                                    <i class="fas fa-trash text-danger"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
                     </table>
                 </div>
             </div>
@@ -101,27 +76,6 @@
                                 <th width="10%">Tindakan</th>
                             </tr>
                         </thead>
-
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <a href="#" class="text-primary">Pengurusan Data</a>
-                                </td>
-                                <td>Menu</td>
-                                <td>-</td>
-                                <td>
-                                    <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">
-                                        <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="">
-                                            <i class="fas fa-pencil text-primary"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-xs btn-default">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -148,27 +102,6 @@
                                 <th width="10%">Tindakan</th>
                             </tr>
                         </thead>
-
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <a href="#" class="text-primary">Selenggara Menu</a>
-                                </td>
-                                <td>Menu</td>
-                                <td>-</td>
-                                <td>
-                                    <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">
-                                        <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="">
-                                            <i class="fas fa-pencil text-primary"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-xs btn-default">
-                                            <i class="fas fa-trash text-danger"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -180,8 +113,213 @@
 
 @section('script')
 <script>
+
+    var table = $('#tableLevel1').DataTable({
+        orderCellsTop: true,
+        colReorder: false,
+        pageLength: 25,
+        processing: true,
+        serverSide: true, //enable if data is large (more than 50,000)
+        ajax: {
+            url: "{{ fullUrl().'?level=1' }}",
+            cache: false,
+        },
+        columns: [
+            {
+                data: "sequence",
+                name: "sequence",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "name",
+                name: "name",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "type",
+                name: "type",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "module_id",
+                name: "module_id",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            },
+
+        ],
+        language : {
+            emptyTable : "Tiada data tersedia",
+            info : "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+            infoEmpty : "Menunjukkan 0 hingga 0 daripada 0 entri",
+            infoFiltered : "(Ditapis dari _MAX_ entri)",
+            search : "Cari:",
+            zeroRecords : "Tiada rekod yang ditemui",
+            paginate : {
+                first : "Pertama",
+                last : "Terakhir",
+                next : "Seterusnya",
+                previous : "Sebelumnya"
+            },
+            lengthMenu : "Lihat _MENU_ entri",
+        }
+    });
+
+    var table2 = $('#tableLevel2').DataTable({
+        orderCellsTop: true,
+        colReorder: false,
+        pageLength: 25,
+        processing: true,
+        serverSide: true, //enable if data is large (more than 50,000)
+        ajax: {
+            url: "{{ fullUrl().'?level=2' }}",
+            cache: false,
+        },
+        columns: [
+            {
+                data: "sequence",
+                name: "sequence",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "name",
+                name: "name",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "type",
+                name: "type",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "module_id",
+                name: "module_id",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            },
+
+        ],
+        language : {
+            emptyTable : "Tiada data tersedia",
+            info : "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+            infoEmpty : "Menunjukkan 0 hingga 0 daripada 0 entri",
+            infoFiltered : "(Ditapis dari _MAX_ entri)",
+            search : "Cari:",
+            zeroRecords : "Tiada rekod yang ditemui",
+            paginate : {
+                first : "Pertama",
+                last : "Terakhir",
+                next : "Seterusnya",
+                previous : "Sebelumnya"
+            },
+            lengthMenu : "Lihat _MENU_ entri",
+        }
+    });
+
+    var table3 = $('#tableLevel3').DataTable({
+        orderCellsTop: true,
+        colReorder: false,
+        pageLength: 25,
+        processing: true,
+        serverSide: true, //enable if data is large (more than 50,000)
+        ajax: {
+            url: "{{ fullUrl().'?level=3' }}",
+            cache: false,
+        },
+        columns: [
+            {
+                data: "sequence",
+                name: "sequence",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "name",
+                name: "name",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "type",
+                name: "type",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "module_id",
+                name: "module_id",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            },
+
+        ],
+        language : {
+            emptyTable : "Tiada data tersedia",
+            info : "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+            infoEmpty : "Menunjukkan 0 hingga 0 daripada 0 entri",
+            infoFiltered : "(Ditapis dari _MAX_ entri)",
+            search : "Cari:",
+            zeroRecords : "Tiada rekod yang ditemui",
+            paginate : {
+                first : "Pertama",
+                last : "Terakhir",
+                next : "Seterusnya",
+                previous : "Sebelumnya"
+            },
+            lengthMenu : "Lihat _MENU_ entri",
+        }
+    });
+
     function createMenuForm() {
         $("#modal-div").load("{{ route('admin.security.menu.create') }}");
+    }
+
+    function editMenuForm(id) {
+        url = "{{ route('admin.security.menu.edit', ':replaceThis') }}"
+        url = url.replace(':replaceThis', id);
+        $("#modal-div").load(url);
     }
 </script>
 @endsection

@@ -19,34 +19,46 @@ class SecurityController extends Controller
     {
         $menu = SecurityMenu::all();
         $menuLevel1 = SecurityMenu::where('level', 1)->get();
+        $menuLevel2 = SecurityMenu::where('level', 2)->get();
+        $menuLevel3 = SecurityMenu::where('level', 3)->get();
 
-        if ($request->ajax()) {
-            return Datatables::of($menuLevel1)
-                ->editColumn('sequence', function ($menuLevel1) {
-                    return $menuLevel1->sequence;
-                })
-                ->editColumn('name', function ($menuLevel1) {
-                    return $menuLevel1->name;
-                })
-                ->editColumn('type', function ($menuLevel1) {
-                    return $menuLevel1->type;
-                })
-                ->editColumn('module_id', function ($menuLevel1) {
-                    return $menuLevel1->module->name;
-                })
-                ->editColumn('action', function ($menu) {
-                    $button = "";
+        if($request->level){
+            if ($request->ajax()) {
+                if($request->level == 1) {
+                    $menuLevel = $menuLevel1;
+                } else if($request->level == 2) {
+                    $menuLevel = $menuLevel2;
+                } else if($request->level == 3) {
+                    $menuLevel = $menuLevel3;
+                }
+                
+                return Datatables::of($menuLevel)
+                    ->editColumn('sequence', function ($menuLevel) {
+                        return $menuLevel->sequence;
+                    })
+                    ->editColumn('name', function ($menuLevel) {
+                        return $menuLevel->name;
+                    })
+                    ->editColumn('type', function ($menuLevel) {
+                        return $menuLevel->type;
+                    })
+                    ->editColumn('module_id', function ($menuLevel) {
+                        return ($menuLevel->module_id != null) ? $menuLevel->module->name : null;
+                    })
+                    ->editColumn('action', function ($menuLevel) {
+                        $button = "";
 
-                    // $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
-                    // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    // $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewRoleForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    // $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
-                    // $button .= '</div>';
+                        $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
+                        // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="editMenuForm('.$menuLevel->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        // $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
+                        $button .= '</div>';
 
-                    return $button;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+                        return $button;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
         }
 
         // return view('admin.security.menu');
@@ -88,6 +100,50 @@ class SecurityController extends Controller
                 'module_id' => ($request->type == 'Web') ? $request->module : null,
                 'level' => $request->level,
                 'sequence' => $lastSequence ? $lastSequence->sequence + 1 : 1,
+                'menu_link' => ($request->level != 1) ? $request->menu_link : null,
+            ]);
+
+            DB::commit();
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        return redirect()->route('admin.security.menu');
+    }
+
+    public function menuEdit(Request $request)
+    {
+        $menuId = $request->menuId;
+        $menu = SecurityMenu::find($menuId);
+        $masterModule = MasterModule::whereNot('code', 'home')->get();
+        $menuLevel2 = SecurityMenu::where('level', 1)->get();
+        $menuLevel3 = SecurityMenu::where('level', 2)->get();
+        return view('admin.security.menu_edit', compact(['menu', 'masterModule', 'menuLevel2', 'menuLevel3', 'menuId']));
+    }
+
+    public function menuUpdate(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $menuId = $request->menuId;
+            $menu = SecurityMenu::find($menuId);
+
+            $validatedData = $request->validate([
+                'name' => 'required|string',
+                'type' => 'required|string|in:Web,Menu',
+                'module' => 'required_if:type,Web|nullable|integer|exists:master_module,id',
+                'level' => 'required|integer|between:1,3',
+                'menu_link' => 'required_if:level,2,3|integer|exists:security_menu,id',
+            ]);
+
+            $menu->update([
+                'name' => $request->name,
+                'type' => $request->type,
+                'module_id' => ($request->type == 'Web') ? $request->module : null,
+                'level' => $request->level,
                 'menu_link' => ($request->level != 1) ? $request->menu_link : null,
             ]);
 
