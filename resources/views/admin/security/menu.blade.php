@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-    Selenggra Menu
+    Selenggara Menu
 @endsection
 
 @section('breadcrumb')
@@ -11,55 +11,164 @@
 @endsection
 
 @section('content')
-<div class="card">
-    <div class="card-header">
-        <h4 class="card-title">Senarai Menu</h4>
-        <button type="button" class="btn btn-primary btn-md float-right" onclick="createMenuForm()">
-            <i class="fa-solid fa-add"></i> Tambah Menu
-        </button>
-    </div>
-    <hr>
+<style>
+    thead th {
+        vertical-align: middle;
+        text-align: center;
+    }
 
-    <div class="card-body">
-        {{-- <form id="form-search" method="GET" action="" novalidate>
-        <div class="row">
-            <div class="col-sm-4 col-12 mb-1">
-                <label class="fw-bolder">Level</label>
-                <select class="form-control" name="level" id="level">
-                    <option value=""></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-            </div>
+    tbody {
+        vertical-align: middle;
+        /* text-align: center; */
+    }
 
-            <div class="d-flex justify-content-end align-items-center my-1 ">
-                <a class="me-3" type="button" id="reset" href="#">
-                    <span class="text-danger"> Set Semula </span>
-                </a>
-                <button type="submit" class="btn btn-success float-right">
-                    <i class="fa fa-search"></i> Cari
+    table {
+        width: 100% !important;
+        /* word-wrap: break-word; */
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" id="menuLevel1">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Senarai Menu [Level 1]</h4>
+                <button type="button" class="btn btn-primary btn-md float-right" onclick="createMenuForm()">
+                    <i class="fa-solid fa-add"></i> Tambah Menu
                 </button>
             </div>
+            <hr>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table header_uppercase table-bordered" id="tableLevel1">
+                        <thead>
+                            <tr>
+                                <th width="10%">Turutan</th>
+                                <th>Nama Menu</th>
+                                <th>Jenis Menu</th>
+                                <th>Nama Modul</th>
+                                <th width="10%">Tindakan</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <a href="#" class="text-primary">Selenggara Menu</a>
+                                </td>
+                                <td>Menu</td>
+                                <td>-</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="">
+                                            <i class="fas fa-pencil text-primary"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-xs btn-default">
+                                            <i class="fas fa-trash text-danger"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        </form> --}}
-        
-        <div class="table-responsive">
-            <table class="table header_uppercase table-bordered" id="table-menu">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>No.</th>
-                        <th>Nama</th>
-                        <th>Jenis</th>
-                        <th>Modul</th>
-                        <th>Level</th>
-                        <th>Turutan</th>
-                        <th>Pautan Menu</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-            </table>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-6" id="menuLevel2">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Senarai Menu [Level 2]</h4>
+            </div>
+            <hr>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table header_uppercase table-bordered" id="tableLevel2">
+                        <thead>
+                            <tr>
+                                <th width="10%">Turutan</th>
+                                <th>Nama Menu</th>
+                                <th>Jenis Menu</th>
+                                <th>Nama Modul</th>
+                                <th width="10%">Tindakan</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <a href="#" class="text-primary">Pengurusan Data</a>
+                                </td>
+                                <td>Menu</td>
+                                <td>-</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="">
+                                            <i class="fas fa-pencil text-primary"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-xs btn-default">
+                                            <i class="fas fa-trash text-danger"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-6" id="menuLevel3">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Senarai Menu [Level 3]</h4>
+            </div>
+            <hr>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table header_uppercase table-bordered" id="tableLevel3">
+                        <thead>
+                            <tr>
+                                <th width="10%">Turutan</th>
+                                <th>Nama Menu</th>
+                                <th>Jenis Menu</th>
+                                <th>Nama Modul</th>
+                                <th width="10%">Tindakan</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <a href="#" class="text-primary">Selenggara Menu</a>
+                                </td>
+                                <td>Menu</td>
+                                <td>-</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="">
+                                            <i class="fas fa-pencil text-primary"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-xs btn-default">
+                                            <i class="fas fa-trash text-danger"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -67,121 +176,13 @@
 
 @section('script')
 <script>
-
-    var table = $('#table-menu').DataTable({
-        orderCellsTop: true,
-        colReorder: false,
-        pageLength: 10,
-        processing: true,
-        serverSide: true, //enable if data is large (more than 50,000)
-        ajax: {
-            url: "{{ fullUrl() }}",
-            cache: false,
-        },
-        columns: [
-            {
-                defaultContent: '',
-                orderable: false,
-                searchable: false,
-                data : null,
-                className : 'list-sub-menu'
-            },
-            {
-                defaultContent: '',
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1;
-                }
-            },
-            {
-                data: "name",
-                name: "name",
-                render: function(data, type, row) {
-                    return $("<div/>").html(data).text();
-                }
-            },
-            {
-                data: "type",
-                name: "type",
-                render: function(data, type, row) {
-                    return $("<div/>").html(data).text();
-                }
-            },
-            {
-                data: "module_id",
-                name: "module_id",
-                render: function(data, type, row) {
-                    return $("<div/>").html(data).text();
-                }
-            },
-            {
-                data: "level",
-                name: "level",
-                render: function(data, type, row) {
-                    return $("<div/>").html(data).text();
-                }
-            },
-            {
-                data: "sequence",
-                name: "sequence",
-                render: function(data, type, row) {
-                    return $("<div/>").html(data).text();
-                }
-            },
-            {
-                data: "menu_link",
-                name: "menu_link",
-                render: function(data, type, row) {
-                    return $("<div/>").html(data).text();
-                }
-            },
-            {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false
-            },
-
-        ],
-    });
-
-    $('#table-menu tbody').on('click', 'td.list-sub-menu', function () {
-        var tr = $(this).closest('tr');
-        var row = table.row( tr );
-
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
+    function showLevel2() {
+        var menuLevel2 = document.getElementById("menuLevel2");
+        if (menuLevel2.style.display === "none") {
+            menuLevel2.style.display = "block";
+        } else {
+            menuLevel2.style.display = "none";
         }
-        else {
-            // Open this row
-            row.child( format(row.data()) ).show();
-            tr.addClass('shown');
         }
-    });
-
-    function format () {
-        // `d` is the original data object for the row
-        return '<table class="table">'+
-            '<tr>'+
-                '<td>Full name:</td>'+
-                '<td></td>'+
-                '</tr>'+
-            '<tr>'+
-                '<td>Email:</td>'+
-                '<td></td>'+
-                '</tr>'+
-            '<tr>'+
-                '<td>Extra info:</td>'+
-                '<td>And any further details here (images etc)...</td>'+
-                '</tr>'+
-            '</table>';
-    }
-
-    function createMenuForm() {
-        $("#modal-div").load("{{ route('admin.security.menu.create') }}");
-    }
 </script>
 @endsection
