@@ -3,7 +3,7 @@
     $moduleRole = $moduleRole ?? null;
 @endphp
 
-<div class="modal fade" id="userFormModal" tabindex="-1" aria-labelledby="statusFormModalTitle" aria-hidden="true">
+<div class="modal fade" id="userFormModal" tabindex="-1" aria-labelledby="statusFormModalTitle" aria-hidden="true" data-bs-backdrop="false" style="background:rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">

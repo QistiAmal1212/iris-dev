@@ -1,5 +1,5 @@
 
-<div class="modal fade" id="menuModal" tabindex="-1" aria-labelledby="#addModal" aria-hidden="true" data-bs-backdrop="false">
+<div class="modal fade" id="menuModal" tabindex="-1" aria-labelledby="#addModal" aria-hidden="true" data-bs-backdrop="false" data-bs-backdrop="false" style="background:rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
