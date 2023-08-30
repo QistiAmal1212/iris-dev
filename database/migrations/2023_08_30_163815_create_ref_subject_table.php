@@ -11,18 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidate_license', function (Blueprint $table) {
+        Schema::create('ref_subject', function (Blueprint $table) {
             $table->id();
-            $table->string('no_pengenalan')->unique();
-            $table->string('type');
-            $table->date('expiry_date');
-            $table->boolean('is_blacklist')->default(false);
-            $table->text('blacklist_details')->nullable();
+            $table->string('code')->unique();
+            $table->string('form')->comment('Tingkatan');
+            $table->string('name');
+            $table->string('pemerolehan_code')->comment('Link with table pemerolehan column code')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->comment('Last Update User')->nullable();
             $table->timestamps();
-
-            $table->foreign('no_pengenalan')->references('no_pengenalan')->on('candidate')->onDelete('no action')->onUpdate('cascade');
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidate_license');
+        Schema::dropIfExists('ref_subject');
     }
 };

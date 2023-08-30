@@ -29,6 +29,7 @@ return new class extends Migration
 
             $table->foreign('no_pengenalan')->references('no_pengenalan')->on('candidate')->onDelete('no action')->onUpdate('cascade');
             $table->foreign('ref_skim_code')->references('code')->on('ref_skim')->onDelete('no action')->onUpdate('cascade');
+            $table->foreign('ref_interview_centre_code')->references('code')->on('ref_interview_centre')->onDelete('no action')->onUpdate('cascade');
         });
     }
 

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->comment('Last Update User')->nullable();
             $table->timestamps();
+
+            $table->foreign('no_pengenalan')->references('no_pengenalan')->on('candidate')->onDelete('no action')->onUpdate('cascade');
         });
     }
 

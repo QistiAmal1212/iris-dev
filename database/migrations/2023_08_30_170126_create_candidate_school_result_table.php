@@ -11,18 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidate_license', function (Blueprint $table) {
+        Schema::create('candidate_school_result', function (Blueprint $table) {
             $table->id();
-            $table->string('no_pengenalan')->unique();
-            $table->string('type');
-            $table->date('expiry_date');
-            $table->boolean('is_blacklist')->default(false);
-            $table->text('blacklist_details')->nullable();
+            $table->string('no_pengenalan');
+            $table->string('certificate_type');
+            $table->string('examination_no');
+            $table->string('open_result');
+            $table->string('year');
+            $table->string('ref_subject_code');
+            $table->string('grade');
+            $table->string('certificate_rank');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->comment('Last Update User')->nullable();
             $table->timestamps();
 
             $table->foreign('no_pengenalan')->references('no_pengenalan')->on('candidate')->onDelete('no action')->onUpdate('cascade');
+            $table->foreign('ref_subject_code')->references('code')->on('ref_subject')->onDelete('no action')->onUpdate('cascade');
         });
     }
 
@@ -31,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidate_license');
+        Schema::dropIfExists('candidate_school_result');
     }
 };

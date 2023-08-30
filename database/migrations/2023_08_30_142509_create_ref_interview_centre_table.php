@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('ref_state_code');
             $table->string('short_name')->nullable();
             $table->timestamps();
+
+            $table->foreign('ref_area_interview_centre_code')->references('code')->on('ref_area_interview_centre')->onDelete('no action')->onUpdate('cascade');
         });
     }
 
