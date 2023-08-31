@@ -53,7 +53,7 @@
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="level">Level <span class="text text-danger">*</span> </label>
-                                    <select class="form-control" name="level" id="level" required onchange="displayLinkMenu(this.value)">
+                                    <select class="form-control" name="level" id="level" required onchange="displayLinkMenu({{ $menu->id }}, this.value)">
                                         <option value="">Sila Pilih:-</option>
                                         <option value="1" @if($menu->level == 1) selected @endif>1</option>
                                         @if(count($menuLevel2) > 0)<option value="2" @if($menu->level == 2) selected @endif>2</option>@endif
@@ -137,7 +137,7 @@
         }
     }
 
-    function displayLinkMenu(level) {
+    function displayLinkMenu(id, level) {
 
         var div_parent = document.getElementById('div_parent');
 
@@ -148,7 +148,8 @@
                 method: "POST",
                 async: true,
                 data: {
-                    level: level,
+                    id : id,
+                    level : level,
                 },
                 success: function(response) {
                     div_parent.style.display = 'block';

@@ -16,6 +16,7 @@
                     @csrf
                     <input type="hidden" name="user_id" value="{{$id ?? null}}">
                     <input type="hidden" name="_method" value="">
+                    <input type="hidden" name="route" value="{{ $route }}">
 
                     <div class="row">
                         <div class="col-md-3 col-12">

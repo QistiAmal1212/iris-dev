@@ -67,7 +67,7 @@ class LoginController extends Controller
         $log = new LogSystem;
         $log->module_id = 1;
         $log->activity_type_id = 6;
-        $log->description = "Login user [{$user->name}]";
+        $log->description = "Log Masuk Pengguna [{$user->name}]";
         $log->data_new = json_encode($user);
         $log->url = $request->fullUrl();
         $log->method = strtoupper($request->method());
@@ -120,7 +120,7 @@ class LoginController extends Controller
         $log = new LogSystem;
         $log->module_id = 1;
         $log->activity_type_id = 7;
-        $log->description = "Logout user [" . auth()->user()->name . "]";
+        $log->description = "Log Keluar Pengguna [" . auth()->user()->name . "]";
         $log->data_old = json_encode(auth()->user());
         $log->url = $request->fullUrl();
         $log->method = strtoupper($request->method());

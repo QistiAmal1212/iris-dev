@@ -25,7 +25,7 @@ class LogController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.log')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Show List Audit Trail / Log System";
+            $log->description = "Lihat Senarai Transaksi Pengguna";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -90,7 +90,7 @@ class LogController extends Controller
         $log = new LogSystem;
         $log->module_id = MasterModule::where('code', 'admin.log')->firstOrFail()->id;
         $log->activity_type_id = 2;
-        $log->description = "Open View Audit Trail / Log System";
+        $log->description = "Lihat Maklumat Transaksi Pengguna";
         $log->url = $request->fullUrl();
         $log->method = strtoupper($request->method());
         $log->ip_address = $request->ip();

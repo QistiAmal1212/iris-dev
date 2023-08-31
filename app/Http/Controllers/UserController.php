@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Reference\DepartmentMinistry;
 use App\Models\Reference\Skim;
+use App\Models\LogSystem;
+use App\Models\Master\MasterModule;
+use App\Models\Master\MasterActivityType;
 use App\Notifications\NewUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,119 +33,137 @@ class UserController extends Controller
         $departmentMinistry = DepartmentMinistry::all();
         $skim = Skim::all();
 
-        if ($request->ajax()) {
-            if (request()->route()->getname() == 'admin.internalUser') {
-                $users = User::whereHas('roles', function ($query) {
-                    $query->where('is_internal', 1);
-                });
-                $type = 'internal';
-            } else {
-                $users = User::whereHas('roles', function ($query) {
-                    $query->where('is_internal', 0);
-                });
-                $type = 'external';
+        if(request()->route()->getname() == 'admin.internalUser' || request()->route()->getname() == 'admin.externalUser'){
+            if ($request->ajax()) {
+                if (request()->route()->getname() == 'admin.internalUser') {
+                    $users = User::whereHas('roles', function ($query) {
+                        $query->where('is_internal', 1);
+                    });
+                    $type = 'internal';
+                    $type2 = 'Dalaman';
+                    $code = 'admin.internalUser';
+                } else if(request()->route()->getname() == 'admin.externalUser'){
+                    $users = User::whereHas('roles', function ($query) {
+                        $query->where('is_internal', 0);
+                    });
+                    $type = 'external';
+                    $type2 = 'Luaran';
+                    $code = 'admin.externalUser';
+                }
+
+                $log = new LogSystem;
+                $log->module_id = MasterModule::where('code', $code)->firstOrFail()->id;
+                $log->activity_type_id = 1;
+                $log->description = "Lihat Senarai Pengguna ".$type2;
+                $log->data_old = json_encode($request->input());
+                $log->url = $request->fullUrl();
+                $log->method = strtoupper($request->method());
+                $log->ip_address = $request->ip();
+                $log->created_by_user_id = auth()->id();
+                $log->save();
+
+                if($request->name){
+                    $users->where('name', 'like', '%' . $request->name . '%');
+                }
+                if($request->no_ic){
+                    $users->where('no_ic', 'like', '%' . $request->no_ic . '%');
+                }
+                if($request->role){
+                    $users->whereHas('roles', function ($query) use ($request) {
+                        $query->where('id', $request->role);
+                    });
+
+                }
+                if($request->department_ministry){
+                    $users->whereHas('department_ministry', function ($query) use ($request) {
+                        $query->where('code', $request->department_ministry);
+                    });
+                }
+                if($request->skim){
+                    $users->whereHas('skim', function ($query) use ($request) {
+                        $query->where('code', $request->skim);
+                    });
+                }
+
+                return Datatables::of($users->get())
+                    ->editColumn('name', function ($users) use ($type) {
+
+                        if ($type == "internal") {
+                            $label = "";
+                            $label .= '<a href=" ' . route('user.show', $users) . ' " class="btn btn-xs btn-default text-primary" style="width:100%">';
+                            $label .= $users->name;
+                            $label .= '</a>';
+                            return $label;
+                        } else {
+                            $label = "";
+                            $label .= '<a href=" ' . route('user.show', $users) . ' " class="btn btn-xs btn-default text-primary" style="width:100%">';
+                            $label .= $users->name;
+                            $label .= '</a>';
+                            return $label;
+                        }
+                    })
+                    ->editColumn('username', function ($users) use ($type) {
+                        return $users->no_ic;
+                    })
+                    ->editColumn('department_ministry', function ($users) use ($type) {
+                        return ($users->ref_department_ministry_code != null) ? $users->department_ministry->name : null;
+                    })
+                    ->editColumn('skim', function ($users) use ($type) {
+                        return ($users->ref_skim_code != null) ? $users->skim->name : null;
+                    })
+                    ->editColumn('role', function ($users) use ($type) {
+
+                        $roles = implode(",", $users->getRoleNames()->toArray());
+                        $role_label = '</br>';
+                        $role_label .= '<td>';
+                        if (strpos($roles, "admin") !== false && strpos($roles, "superadmin") !== false) {
+                            $role_label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span> &nbsp; <span class="badge rounded-pill bg-light-secondary">Admin</span>';
+                        } elseif ($roles == "admin") {
+                            $role_label .= '<span class="badge rounded-pill bg-light-secondary">Admin</span>';
+                        } elseif ($roles == "superadmin") {
+                            $role_label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span>';
+                        } else {
+                            $role_label .= '<span class="badge rounded-pill bg-light-info">' . $roles . '</span> &nbsp;';
+                        }
+                        $role_label .= "</td>";
+
+                        return $role_label;
+                    })
+                    ->editColumn('action', function ($users) use ($type) {
+                        $button = "";
+
+                        $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
+                        if ($type == "internal") {
+                            //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
+                            $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
+                            // $button .= '<form id="formDestroyUser_'.$user->id.'" method="POST" action=" '.route('user.destroy', $user).' "> @csrf <input type="hidden" name="_method" value="DELETE"/> </form>';
+                            // $button .= '<a href="#" class="btn btn-outline-dark waves-effect" onclick="event.preventDefault(); document.getElementById('formDestroyUser_. $user->id .').submit();"> <i class="fas fa-trash"></i> </a>';
+                        } else {
+                            //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
+                            $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
+                        }
+                        $button .= "</div>";
+
+                        return $button;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
             }
-
-            if($request->name){
-                $users->where('name', 'like', '%' . $request->name . '%');
-            }
-            if($request->no_ic){
-                $users->where('no_ic', 'like', '%' . $request->no_ic . '%');
-            }
-            if($request->role){
-                $users->whereHas('roles', function ($query) use ($request) {
-                    $query->where('id', $request->role);
-                });
-
-            }
-            if($request->department_ministry){
-                $users->whereHas('department_ministry', function ($query) use ($request) {
-                    $query->where('code', $request->department_ministry);
-                });
-            }
-            if($request->skim){
-                $users->whereHas('skim', function ($query) use ($request) {
-                    $query->where('code', $request->skim);
-                });
-            }
-
-            return Datatables::of($users->get())
-                ->editColumn('name', function ($users) use ($type) {
-
-                    if ($type == "internal") {
-                        $label = "";
-                        $label .= '<a href=" ' . route('user.show', $users) . ' " class="btn btn-xs btn-default text-primary">';
-                        $label .= $users->name;
-                        $label .= '</a>';
-                        return $label;
-                    } else {
-                        $label = "";
-                        $label .= '<a href=" ' . route('user.show', $users) . ' " class="btn btn-xs btn-default text-primary">';
-                        $label .= $users->name;
-                        $label .= '</a>';
-                        return $label;
-                    }
-                })
-                ->editColumn('username', function ($users) use ($type) {
-                    return $users->no_ic;
-                })
-                ->editColumn('department_ministry', function ($users) use ($type) {
-                    return ($users->ref_department_ministry_code != null) ? $users->department_ministry->name : null;
-                })
-                ->editColumn('skim', function ($users) use ($type) {
-                    return ($users->ref_skim_code != null) ? $users->skim->name : null;
-                })
-                ->editColumn('role', function ($users) use ($type) {
-
-                    $roles = implode(",", $users->getRoleNames()->toArray());
-                    $role_label = '</br>';
-                    $role_label .= '<td>';
-                    if (strpos($roles, "admin") !== false && strpos($roles, "superadmin") !== false) {
-                        $role_label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span> &nbsp; <span class="badge rounded-pill bg-light-secondary">Admin</span>';
-                    } elseif ($roles == "admin") {
-                        $role_label .= '<span class="badge rounded-pill bg-light-secondary">Admin</span>';
-                    } elseif ($roles == "superadmin") {
-                        $role_label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span>';
-                    } else {
-                        $role_label .= '<span class="badge rounded-pill bg-light-info">' . $roles . '</span> &nbsp;';
-                    }
-                    $role_label .= "</td>";
-
-                    return $role_label;
-                })
-                ->editColumn('action', function ($users) use ($type) {
-                    $button = "";
-
-                    $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
-                    if ($type == "internal") {
-                        //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
-                        // $button .= '<form id="formDestroyUser_'.$user->id.'" method="POST" action=" '.route('user.destroy', $user).' "> @csrf <input type="hidden" name="_method" value="DELETE"/> </form>';
-                        // $button .= '<a href="#" class="btn btn-outline-dark waves-effect" onclick="event.preventDefault(); document.getElementById('formDestroyUser_. $user->id .').submit();"> <i class="fas fa-trash"></i> </a>';
-                    } else {
-                        //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
-                    }
-                    $button .= "</div>";
-
-                    return $button;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
         }
-
         if (request()->route()->getname() == 'admin.internalUser') {
             $users = User::whereHas('roles', function ($query) {
                 $query->where('is_internal', 1);
             });
             $is_internal = 1;
             $type = 'internal';
+            $route = 'admin.internalUser';
         } else {
             $users = User::whereHas('roles', function ($query) {
                 $query->where('is_internal', 0);
             });
             $is_internal = 0;
             $type = 'external';
+            $route = 'admin.externalUser';
         }
 
         $totalUser = clone $users;
@@ -158,7 +179,7 @@ class UserController extends Controller
         $externalUsers = Role::where('is_internal', 0)->get();
         $internalUsers = Role::where('is_internal', 1)->get();
 
-        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'externalUsers', 'internalUsers', 'departmentMinistry', 'skim'));
+        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'externalUsers', 'internalUsers', 'departmentMinistry', 'skim' ,'route'));
     }
 
     public function create(Request $request)
@@ -172,7 +193,6 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-
         DB::beginTransaction();
         try {
             $validatedData = $request->validate([
@@ -224,6 +244,22 @@ class UserController extends Controller
             $user->syncRoles($request->roles ? $request->roles : []);
             // $user->syncPermissions($request->permissions ? $request->permissions : []);
 
+            //For Audi Trail
+            $userNewData = User::with(['department_ministry', 'skim', 'roles'])->find($user->id);
+
+            $code = $request->route;
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', $code)->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Pengguna [" . $userNewData->name . "]";
+            $log->data_new = json_encode($userNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             if ($user) {
                 Mail::to($user->email)->send(new RegisterUser($user, $request->password));
             }
@@ -271,7 +307,6 @@ class UserController extends Controller
 
     public function update(Request $request, $id_used)
     {
-
         DB::beginTransaction();
         try {
 
@@ -299,8 +334,16 @@ class UserController extends Controller
 
             ]);
 
-            $user = user::find($id_used);
+            $user = User::with(['department_ministry', 'skim', 'roles'])->find($id_used);
 
+            $code = $request->route;
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', $code)->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Pengguna [".$user->name."]";
+            $log->data_old = json_encode($user);
+            
             $user->update([
                 'name' => $request->full_name,
                 'no_ic' => $request->ic_number,
@@ -313,7 +356,18 @@ class UserController extends Controller
 
             $user->syncRoles($request->roles ? $request->roles : []);
 
+            //For Audit Trail
+            $userNewData = User::with(['department_ministry', 'skim', 'roles'])->find($user->id);
+
+            $log->data_new = json_encode($userNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
 
         } catch (\Throwable $e) {
 
@@ -321,7 +375,7 @@ class UserController extends Controller
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
 
-        return to_route('user.index', [$user]);
+        //return to_route('user.index', [$user]);
     }
 
     public function destroy(Request $request, User $user)
@@ -333,13 +387,27 @@ class UserController extends Controller
 
     public function getUser(Request $request, User $userId)
     {
-
-        $userId->listOfRole = $userId->roles->pluck('id')->toArray();
+        $user = User::with(['department_ministry', 'skim', 'roles'])->find($userId->id);
 
         DB::beginTransaction();
         try {
 
-            if (!$userId) {
+            $code = $request->route;
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', $code)->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Pengguna [".$user->name."]";
+            $log->data_old = $user;
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            $user->listOfRole = $user->roles->pluck('id')->toArray();
+
+            if (!$user) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Module Role not found. Please refresh"], 404);
             }
 
@@ -350,7 +418,7 @@ class UserController extends Controller
         }
 
         DB::commit();
-        return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $userId]);
+        return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $user]);
     }
 
     public function updatePassword(Request $request)

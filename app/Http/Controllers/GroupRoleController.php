@@ -10,8 +10,8 @@ use Spatie\Permission\Models\Permission;
 use App\Models\Role;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables;
-use App\Models\Master\MasterFunction;
-use App\Models\SecurityMenu;
+use App\Models\LogSystem;
+use App\Models\Master\MasterModule;
 
 class GroupRoleController extends Controller
 {
@@ -25,6 +25,18 @@ class GroupRoleController extends Controller
         $roles = Role::all();
 
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.group-role')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Kumpulan Pengguna";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($roles)
                 ->editColumn('id', function ($roles) {
                     return $roles->id;
@@ -64,8 +76,21 @@ class GroupRoleController extends Controller
 
     public function edit(Request $request)
     {
-        $users = Role::find($request->roleId)->users;
+        $role = Role::find($request->roleId);
+        $users = $role->users;
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.group-role')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Pengguna [".$role->name."]";
+            $log->data_old = $users;
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($users)
                 ->editColumn('name', function ($users) {
                     return $users->name;
@@ -107,6 +132,17 @@ class GroupRoleController extends Controller
 
             $role = Role::find($request->roleId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.group-role')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Kumpulan Pengguna [".$role->name."]";
+            $log->data_old = $role;
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             if (!$role) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
@@ -119,6 +155,7 @@ class GroupRoleController extends Controller
 
             $role->totalCount = count($role->users);
 
+            DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $role]);
 
         } catch (\Throwable $e) {

@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Security;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Master\MasterModule;
 use App\Models\SecurityMenu;
 use Yajra\DataTables\DataTables;
+use App\Models\LogSystem;
 
-class SecurityController extends Controller
+class MenuController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    public function menuIndex(Request $request)
+    public function index(Request $request)
     {
         $menu = SecurityMenu::all();
         $menuLevel1 = SecurityMenu::where('level', 1)->get();
@@ -26,11 +28,25 @@ class SecurityController extends Controller
             if ($request->ajax()) {
                 if($request->level == 1) {
                     $menuLevel = $menuLevel1;
+                    $details = 'Level 1';
                 } else if($request->level == 2) {
                     $menuLevel = $menuLevel2;
+                    $details = 'Level 2';
                 } else if($request->level == 3) {
                     $menuLevel = $menuLevel3;
+                    $details = 'Level 3';
                 }
+
+                $log = new LogSystem;
+                $log->module_id = MasterModule::where('code', 'admin.security.menu')->firstOrFail()->id;
+                $log->activity_type_id = 1;
+                $log->description = "Lihat Senarai Menu ".$details;
+                $log->data_old = json_encode($request->input());
+                $log->url = $request->fullUrl();
+                $log->method = strtoupper($request->method());
+                $log->ip_address = $request->ip();
+                $log->created_by_user_id = auth()->id();
+                $log->save();
                 
                 return Datatables::of($menuLevel)
                     ->editColumn('sequence', function ($menuLevel) {
@@ -65,7 +81,7 @@ class SecurityController extends Controller
         return view('admin.security.menu', compact('menuLevel1'));
     }
 
-    public function menuCreate(Request $request)
+    public function create(Request $request)
     {
         $masterModule = MasterModule::whereNot('code', 'home')->get();
         $menuLevel2 = count(SecurityMenu::where('level', 1)->get());
@@ -73,7 +89,7 @@ class SecurityController extends Controller
         return view('admin.security.menu_create', compact(['masterModule', 'menuLevel2', 'menuLevel3']));
     }
 
-    public function menuStore(Request $request)
+    public function store(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -94,7 +110,7 @@ class SecurityController extends Controller
                 $lastSequence = $lastSequence->orderBy('sequence', 'desc')->first();
             }
 
-            SecurityMenu::create([
+            $menu = SecurityMenu::create([
                 'name' => $request->name,
                 'type' => $request->type,
                 'module_id' => ($request->type == 'Web') ? $request->module : null,
@@ -103,33 +119,63 @@ class SecurityController extends Controller
                 'menu_link' => ($request->level != 1) ? $request->menu_link : null,
             ]);
 
+
+            //For Audit Trail
+            $menuNewData = SecurityMenu::with('module')->find($menu->id);
+            $menuNewData->menu_link_details = SecurityMenu::find($menuNewData->menu_link);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.security.menu')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Menu [" . $menuNewData->name . "]";
+            $log->data_new = json_encode($menuNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
         } catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
 
-        return redirect()->route('admin.security.menu');
+        //return redirect()->route('admin.security.menu');
     }
 
-    public function menuEdit(Request $request)
+    public function edit(Request $request)
     {
         $menuId = $request->menuId;
-        $menu = SecurityMenu::find($menuId);
+        $menu = SecurityMenu::with('module')->find($menuId);
         $masterModule = MasterModule::whereNot('code', 'home')->get();
         $menuLevel2 = SecurityMenu::where('level', 1)->get();
         $menuLevel3 = SecurityMenu::where('level', 2)->get();
+
+        $log = new LogSystem;
+        $log->module_id = MasterModule::where('code', 'admin.security.menu')->firstOrFail()->id;
+        $log->activity_type_id = 2;
+        $log->description = "Lihat Maklumat Menu [".$menu->name."]";
+        $log->data_old = $menu;
+        $log->url = $request->fullUrl();
+        $log->method = strtoupper($request->method());
+        $log->ip_address = $request->ip();
+        $log->created_by_user_id = auth()->id();
+        $log->save();
+
         return view('admin.security.menu_edit', compact(['menu', 'masterModule', 'menuLevel2', 'menuLevel3', 'menuId']));
     }
 
-    public function menuUpdate(Request $request)
+    public function update(Request $request)
     {
         DB::beginTransaction();
         try {
 
             $menuId = $request->menuId;
-            $menu = SecurityMenu::find($menuId);
+            $menu = SecurityMenu::with('module')->find($menuId);
+            $menu->menu_link_details = SecurityMenu::find($menu->menu_link);
 
             $validatedData = $request->validate([
                 'name' => 'required|string',
@@ -139,6 +185,13 @@ class SecurityController extends Controller
                 'menu_link' => 'required_if:level,2,3|integer|exists:security_menu,id',
             ]);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.security.menu')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Menu [".$menu->name."]";
+            $log->data_old = json_encode($menu);
+            unset($menu->menu_link_details);
+
             $menu->update([
                 'name' => $request->name,
                 'type' => $request->type,
@@ -147,14 +200,26 @@ class SecurityController extends Controller
                 'menu_link' => ($request->level != 1) ? $request->menu_link : null,
             ]);
 
+            //For Audit Trail
+            $menuNewData = SecurityMenu::with('module')->find($menu->id); 
+            $menuNewData->menu_link_details = SecurityMenu::find($menuNewData->menu_link);
+
+            $log->data_new = json_encode($menuNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
         } catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
 
-        return redirect()->route('admin.security.menu');
+        //return redirect()->route('admin.security.menu');
     }
 
     public function menuLink(Request $request)
@@ -167,7 +232,14 @@ class SecurityController extends Controller
             $linkLevel = 2;
         }
 
-        $menuLink = SecurityMenu::where('level', $linkLevel)->get();
+        $menuId = '';
+        if(isset($request->id)){
+            $menuId = $request->id;
+        }
+
+        $menuLink = SecurityMenu::where('level', $linkLevel)->where('type', 'Menu')->when(isset($request->id), function($query) use($menuId){
+            $query->whereNot('id', $menuId);
+        })->get();
 
         $data = '';
 
@@ -185,15 +257,4 @@ class SecurityController extends Controller
 
         return $data;
     }
-
-    public function accessIndex(Request $request)
-    {
-        return view('admin.security.menu');
-    }
-
-    public function sequenceIndex(Request $request)
-    {
-        return view('admin.security.menu');
-    }
-
 }

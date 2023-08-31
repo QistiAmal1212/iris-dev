@@ -12,6 +12,8 @@ use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables;
 use App\Models\Master\MasterFunction;
 use App\Models\SecurityMenu;
+use App\Models\LogSystem;
+use App\Models\Master\MasterModule;
 
 class RoleController extends Controller
 {
@@ -37,6 +39,18 @@ class RoleController extends Controller
         $roles = Role::all();
 
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'role.index')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Peranan";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($roles)
                     ->editColumn('id', function ($roles) {
                         return $roles->id;
@@ -144,14 +158,30 @@ class RoleController extends Controller
 
             $role->menu()->sync($roleMenu);
 
+            //For Audit Trail
+            $roleNewData = Role::with(['function', 'menu'])->find($role->id);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'role.index')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Peranan [" . $roleNewData->name . "]";
+            $log->data_new = json_encode($roleNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+            
         } catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
 
-        return redirect()->route('role.index');
+        //return redirect()->route('role.index');
     }
 
     public function show(Role $role)
@@ -320,7 +350,19 @@ class RoleController extends Controller
         DB::beginTransaction();
         try {
 
-            $role = Role::find($request->roleId);
+            $role = Role::with(['function', 'menu'])->find($request->roleId);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'role.index')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Peranan [".$role->name."]";
+            $log->data_old = $role;
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             $role->listFunction = $role->function->pluck('id')->toArray();
             $role->levelOne = $role->menu->where('level', 1)->pluck('id')->toArray();
             $role->levelTwo = $role->menu->where('level', 2)->pluck('id')->toArray();
@@ -405,12 +447,21 @@ class RoleController extends Controller
                 'role_level' => 'required|boolean'
             ]);
 
-            $role = Role::find($request->roleId);
+            $role = Role::with(['function', 'menu'])->find($request->roleId);
 
-            $role->name = $request->role_name;
-            $role->description = $request->role_description;
-            $role->display_name = $request->role_display;
-            $role->is_internal = $request->role_level;
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'role.index')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Peranan [".$role->name."]";
+            $log->data_old = json_encode($role);
+
+            $role->update([
+                'name' => $request->role_name,
+                'description' => $request->role_description,
+                'display_name' => $request->role_display,
+                'is_internal' => $request->role_level,
+            ]);
+
             $role->function()->sync($request->access_function);
 
             $levelOne = isset($request->level_one) ? $request->level_one : [];
@@ -440,8 +491,18 @@ class RoleController extends Controller
 
             $role->menu()->sync($roleMenu);
 
-            $role->save();
+            //For Audit Trail
+            $roleNewData = Role::with(['function', 'menu'])->find($role->id);
+
+            $log->data_new = json_encode($roleNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
 
         } catch (\Throwable $e) {
 
@@ -449,6 +510,6 @@ class RoleController extends Controller
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
 
-        return redirect()->route('role.index');
+        //return redirect()->route('role.index');
     }
 }

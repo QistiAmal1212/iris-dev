@@ -15,10 +15,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\GroupRoleController;
 use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\SecurityController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CaptchaController;
+use App\Http\Controllers\Security\MenuController;
 use App\Http\Controllers\Reference\StateController;
 use App\Http\Controllers\Reference\ReligionController;
 use App\Http\Controllers\Reference\MaritalStatusController;
@@ -197,12 +197,12 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('security')->group(function () {
         Route::prefix('menu')->group(function () {
-            Route::get('/', [SecurityController::class, 'menuIndex'])->name('admin.security.menu');
-            Route::get('create', [SecurityController::class, 'menuCreate'])->name('admin.security.menu.create');
-            Route::post('store', [SecurityController::class, 'menuStore'])->name('admin.security.menu.store');
-            Route::get('edit/{menuId}', [SecurityController::class, 'menuEdit'])->name('admin.security.menu.edit');
-            Route::post('update/{menuId}', [SecurityController::class, 'menuUpdate'])->name('admin.security.menu.update');
-            Route::post('link', [SecurityController::class, 'menuLink'])->name('admin.security.menu.link');
+            Route::get('/', [MenuController::class, 'index'])->name('admin.security.menu');
+            Route::get('create', [MenuController::class, 'create'])->name('admin.security.menu.create');
+            Route::post('store', [MenuController::class, 'store'])->name('admin.security.menu.store');
+            Route::get('edit/{menuId}', [MenuController::class, 'edit'])->name('admin.security.menu.edit');
+            Route::post('update/{menuId}', [MenuController::class, 'update'])->name('admin.security.menu.update');
+            Route::post('link', [MenuController::class, 'menuLink'])->name('admin.security.menu.link');
         });
 
         Route::get('access', [SecurityController::class, 'accessIndex'])->name('admin.security.access');

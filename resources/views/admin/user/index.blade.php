@@ -143,7 +143,7 @@
             $('#userFormModal input[name="password"]').val("");
             $('#userFormModal input[name="password_confirmation"]').val("");
             $('#userFormModal select[name="role"]:checked').val();+
-            $('#userFormModal checkbox[name="status"]').val("satu");
+            $('#userFormModal input[name="status"]').prop('checked', true);
             $('#userFormModal input[name="password"]').attr('disabled', false);
             $('#userFormModal input[name="password"]').attr('hidden', false);
             $('#userFormModal input[name="password_confirmation"]').attr('disabled', false);
@@ -164,7 +164,7 @@
             div_div_disclaimer.style.display = 'block';
             userFormModal.show();
         }else{
-            url = "{{route('user.getUser',':replaceThis')}}"
+            url = "{{route('user.getUser',':replaceThis').'?route='.$route}}"
             url = url.replace(':replaceThis',id);
             $.ajax({
                 url: url,
