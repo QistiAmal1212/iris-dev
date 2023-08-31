@@ -139,21 +139,15 @@ class RoleController extends Controller
 
             $roleMenu = [];
 
-            $access = isset($request->access) ? $request->access : [];
-            $search = isset($request->search) ? $request->search : [];
             $add = isset($request->add) ? $request->add : [];
             $update = isset($request->update) ? $request->update : [];
             $delete = isset($request->delete) ? $request->delete : [];
-            $report = isset($request->report) ? $request->report : [];
 
             foreach($accessMenu as $menu)
             {
-                $roleMenu[$menu]['access'] = in_array($menu, $access) ? true : false;
-                $roleMenu[$menu]['search'] = in_array($menu, $search) ? true : false;
                 $roleMenu[$menu]['add'] = in_array($menu, $add) ? true : false;
                 $roleMenu[$menu]['update'] = in_array($menu, $update) ? true : false;
                 $roleMenu[$menu]['delete'] = in_array($menu, $delete) ? true : false;
-                $roleMenu[$menu]['report'] = in_array($menu, $report) ? true : false;
             }
 
             $role->menu()->sync($roleMenu);
@@ -472,21 +466,15 @@ class RoleController extends Controller
 
             $roleMenu = [];
 
-            $access = isset($request->access) ? $request->access : [];
-            $search = isset($request->search) ? $request->search : [];
             $add = isset($request->add) ? $request->add : [];
             $update = isset($request->update) ? $request->update : [];
             $delete = isset($request->delete) ? $request->delete : [];
-            $report = isset($request->report) ? $request->report : [];
 
             foreach($accessMenu as $menu)
             {
-                $roleMenu[$menu]['access'] = in_array($menu, $access) ? true : false;
-                $roleMenu[$menu]['search'] = in_array($menu, $search) ? true : false;
                 $roleMenu[$menu]['add'] = in_array($menu, $add) ? true : false;
                 $roleMenu[$menu]['update'] = in_array($menu, $update) ? true : false;
                 $roleMenu[$menu]['delete'] = in_array($menu, $delete) ? true : false;
-                $roleMenu[$menu]['report'] = in_array($menu, $report) ? true : false;
             }
 
             $role->menu()->sync($roleMenu);

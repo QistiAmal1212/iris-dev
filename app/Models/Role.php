@@ -58,6 +58,6 @@ class Role extends Model
     public function menu()
     {
         return $this->belongsToMany('App\Models\SecurityMenu', 'role_has_menu', 'role_id', 'menu_id')
-        ->withPivot('access', 'search', 'add', 'update', 'delete', 'report');
+        ->withPivot('add', 'update', 'delete');
     }
 }

@@ -189,7 +189,7 @@ $configData = Helper::applClasses();
                 ?>
                 @foreach($securityMenu as $menu)
                     <?php
-                    $accessLevel1 = $menu->role()->whereIn('id', $roles)->wherePivot('access', true)->get();
+                    $accessLevel1 = $menu->role()->whereIn('id', $roles)->get();
                     ?>
                     @if(count($accessLevel1) > 0)
                     <li class="navigation-header">
@@ -207,7 +207,7 @@ $configData = Helper::applClasses();
                             ?>
                             @foreach($level2 as $menu2)
                             <?php
-                            $accessLevel2 = $menu2->role()->whereIn('id', $roles)->wherePivot('access', true)->get();
+                            $accessLevel2 = $menu2->role()->whereIn('id', $roles)->get();
                             ?>
                             @if(count($accessLevel2) > 0)
                             <li class="nav-item {{ ($menu2->type == 'Web') ? in_array(request()->route()->getName(), [$menu2->module->code]) ? 'active' : '' : '#' }}">
@@ -222,7 +222,7 @@ $configData = Helper::applClasses();
                                     ?>
                                     @foreach($level3 as $menu3)
                                     <?php
-                                    $accessLevel3 = $menu3->role()->whereIn('id', $roles)->wherePivot('access', true)->get();
+                                    $accessLevel3 = $menu3->role()->whereIn('id', $roles)->get();
                                     ?>
                                     @if(count($accessLevel3) > 0)
                                     <li class="nav-item {{ ($menu3->type == 'Web') ? in_array(request()->route()->getName(), [$menu3->module->code]) ? 'active' : '' : '#' }}">
