@@ -34,12 +34,12 @@ return new class extends Migration
             $table->string('poscode')->nullable();
             $table->string('city')->nullable();
             $table->string('ref_state_code')->nullable()->comment('Table Calon: tempat_tinggal');
-            $table->text('mail_address_1')->nullable();
-            $table->text('maiL_address_2')->nullable();
-            $table->text('mail_address_3')->nullable();
-            $table->string('mail_poscode')->nullable();
-            $table->string('mail_city')->nullable();
-            $table->string('mail_ref_state_code')->nullable()->comment('Table Calon: tempat_tinggal');
+            $table->text('permanent_address_1')->nullable();
+            $table->text('permanent_address_2')->nullable();
+            $table->text('permanent_address_3')->nullable();
+            $table->string('permanent_poscode')->nullable();
+            $table->string('permanent_city')->nullable();
+            $table->string('permanent_ref_state_code')->nullable()->comment('Table Calon: tempat_tinggal');
             $table->date('date_of_birth')->nullable();
             $table->string('place_of_birth')->nullable()->comment('ref_state_code');
             $table->string('father_place_of_birth')->nullable()->comment('ref_state_code');
