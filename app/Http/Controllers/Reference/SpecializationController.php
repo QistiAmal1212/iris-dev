@@ -7,16 +7,40 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Specialization;
 use Yajra\DataTables\DataTables;
+use App\Models\Master\MasterModule;
 
 class SpecializationController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->module = MasterModule::where('code', 'admin.reference.specialization')->first();
+        $this->menu = $this->module->menu;
     }
 
     public function index(Request $request)
     {
+        $roles = auth()->user()->roles;
+        $roles = $roles->pluck('id')->toArray();
+
+        $accessRole = $this->menu->role()->whereIn('id', $roles)->get();
+
+        $accessAdd = $accessUpdate = $accessDelete = false;
+
+        foreach($accessRole as $access) {
+            if($access->pivot->add){
+                $accessAdd = true;
+            }
+
+            if($access->pivot->update){
+                $accessUpdate = true;
+            }
+
+            if($access->pivot->delete){
+                $accessDelete = true;
+            }
+        }
+
         $specialization = Specialization::all();
         if ($request->ajax()) {
             return Datatables::of($specialization)
@@ -26,13 +50,15 @@ class SpecializationController extends Controller
                 ->editColumn('name', function ($specialization) {
                     return $specialization->name;
                 })
-                ->editColumn('action', function ($specialization) {
+                ->editColumn('action', function ($specialization) use ($accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="specializationForm('.$specialization->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    if($accessDelete){
                     $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
+                    }
                     $button .= '</div>';
 
                     return $button;
@@ -41,7 +67,7 @@ class SpecializationController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.specialization');
+        return view('admin.reference.specialization', compact('accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function store(Request $request)

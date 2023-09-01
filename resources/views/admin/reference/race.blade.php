@@ -32,9 +32,11 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Keturunan</h4>
+        @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="raceForm()">
             <i class="fa-solid fa-add"></i> Tambah Keturunan
         </button>
+        @endif
     </div>
     <hr>
     <div class="card-body">
@@ -124,6 +126,9 @@
         var raceFormModal;
         raceFormModal = new bootstrap.Modal(document.getElementById('raceFormModal'), { keyboard: false});
 
+        var accessAdd = '{{ $accessAdd }}';
+        var accessUpdate = '{{ $accessUpdate }}';
+
         event.preventDefault();
         if(id === null){
             $('#raceForm').attr('action', '{{ route("admin.reference.race.store") }}');
@@ -131,6 +136,12 @@
             $('#raceForm input[name="name"]').val("");
 
             $('#title-role').html('Tambah Keturunan');
+
+            if(accessAdd == ''){
+                $('#btn_fake').attr('hidden', true);
+            } else if (accessAdd != ''){
+                $('#btn_fake').attr('hidden', false);
+            }
 
             raceFormModal.show();
         }else{
@@ -154,6 +165,12 @@
                     $('#raceForm input[name="name"]').val(data.detail.name);
 
                     $('#title-role').html('Kemaskini Keturunan');
+
+                    if(accessUpdate == ''){
+                        $('#btn_fake').attr('hidden', true);
+                    } else if (accessUpdate != ''){
+                        $('#btn_fake').attr('hidden', false);
+                    }
 
                     raceFormModal.show();
                 },

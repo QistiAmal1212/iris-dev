@@ -20,10 +20,32 @@ class RoleController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->module = MasterModule::where('code', 'role.index')->first();
+        $this->menu = $this->module->menu;
     }
 
     public function index(Request $request)
     {
+        $roles = auth()->user()->roles;
+        $roles = $roles->pluck('id')->toArray();
+
+        $accessRole = $this->menu->role()->whereIn('id', $roles)->get();
+
+        $accessAdd = $accessUpdate = $accessDelete = false;
+
+        foreach($accessRole as $access) {
+            if($access->pivot->add){
+                $accessAdd = true;
+            }
+
+            if($access->pivot->update){
+                $accessUpdate = true;
+            }
+
+            if($access->pivot->delete){
+                $accessDelete = true;
+            }
+        }
 
         $internalRoles = Role::where('is_internal', 1)->get();
         $countInternalRoles = count($internalRoles);
@@ -76,13 +98,13 @@ class RoleController extends Controller
                             return $label;
                         }
                     })
-                    ->editColumn('action', function ($roles) {
+                    ->editColumn('action', function ($roles) use ($accessDelete) {
                         $button = "";
 
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
 
                         //view role
-                        $button .= '<a class="btn btn-xs btn-default" onclick="viewOnlyForm('.$roles->id.')"> <i class="fas fa-eye text-seconday"></i> ';
+                        //$button .= '<a class="btn btn-xs btn-default" onclick="viewOnlyForm('.$roles->id.')"> <i class="fas fa-eye text-seconday"></i> ';
 
                         //edit role
                         $button .= '<a class="btn btn-xs btn-default" onclick="viewForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
@@ -101,7 +123,7 @@ class RoleController extends Controller
                     ->make(true);
             }
 
-        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles', 'masterFunction', 'securityMenu'));
+        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles', 'masterFunction', 'securityMenu', 'accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function create()

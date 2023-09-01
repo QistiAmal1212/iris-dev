@@ -15,10 +15,33 @@ class MenuController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->module = MasterModule::where('code', 'admin.security.menu')->first();
+        $this->menu = $this->module->menu;
     }
 
     public function index(Request $request)
     {
+        $roles = auth()->user()->roles;
+        $roles = $roles->pluck('id')->toArray();
+
+        $accessRole = $this->menu->role()->whereIn('id', $roles)->get();
+
+        $accessAdd = $accessUpdate = $accessDelete = false;
+
+        foreach($accessRole as $access) {
+            if($access->pivot->add){
+                $accessAdd = true;
+            }
+
+            if($access->pivot->update){
+                $accessUpdate = true;
+            }
+
+            if($access->pivot->delete){
+                $accessDelete = true;
+            }
+        }
+
         $menu = SecurityMenu::all();
         $menuLevel1 = SecurityMenu::where('level', 1)->get();
         $menuLevel2 = SecurityMenu::where('level', 2)->get();
@@ -61,13 +84,15 @@ class MenuController extends Controller
                     ->editColumn('module_id', function ($menuLevel) {
                         return ($menuLevel->module_id != null) ? $menuLevel->module->name : null;
                     })
-                    ->editColumn('action', function ($menuLevel) {
+                    ->editColumn('action', function ($menuLevel) use ($accessDelete) {
                         $button = "";
 
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                         // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                         $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="editMenuForm('.$menuLevel->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        if($accessDelete){
                         // $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
+                        }
                         $button .= '</div>';
 
                         return $button;
@@ -78,15 +103,28 @@ class MenuController extends Controller
         }
 
         // return view('admin.security.menu');
-        return view('admin.security.menu', compact('menuLevel1'));
+        return view('admin.security.menu', compact('menuLevel1', 'accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function create(Request $request)
     {
+        $roles = auth()->user()->roles;
+        $roles = $roles->pluck('id')->toArray();
+
+        $accessRole = $this->menu->role()->whereIn('id', $roles)->get();
+
+        $accessAdd = false;
+
+        foreach($accessRole as $access) {
+            if($access->pivot->add){
+                $accessAdd = true;
+            }
+        }
+
         $masterModule = MasterModule::whereNot('code', 'home')->get();
         $menuLevel2 = count(SecurityMenu::where('level', 1)->get());
         $menuLevel3 = count(SecurityMenu::where('level', 2)->get());
-        return view('admin.security.menu_create', compact(['masterModule', 'menuLevel2', 'menuLevel3']));
+        return view('admin.security.menu_create', compact(['masterModule', 'menuLevel2', 'menuLevel3', 'accessAdd']));
     }
 
     public function store(Request $request)
@@ -96,7 +134,7 @@ class MenuController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required|string',
                 'type' => 'required|string|in:Web,Menu',
-                'module' => 'required_if:type,Web|nullable|integer|exists:master_module,id',
+                'module' => 'required_if:type,Web|nullable|integer|exists:master_module,id|unique:security_menu,module_id',
                 'level' => 'required|integer|between:1,3',
                 'menu_link' => 'required_if:level,2,3|integer|exists:security_menu,id',
             ]);
@@ -148,6 +186,19 @@ class MenuController extends Controller
 
     public function edit(Request $request)
     {
+        $roles = auth()->user()->roles;
+        $roles = $roles->pluck('id')->toArray();
+
+        $accessRole = $this->menu->role()->whereIn('id', $roles)->get();
+
+        $accessUpdate = false;
+
+        foreach($accessRole as $access) {
+            if($access->pivot->update){
+                $accessUpdate = true;
+            }
+        }
+
         $menuId = $request->menuId;
         $menu = SecurityMenu::with('module')->find($menuId);
         $masterModule = MasterModule::whereNot('code', 'home')->get();
@@ -165,7 +216,7 @@ class MenuController extends Controller
         $log->created_by_user_id = auth()->id();
         $log->save();
 
-        return view('admin.security.menu_edit', compact(['menu', 'masterModule', 'menuLevel2', 'menuLevel3', 'menuId']));
+        return view('admin.security.menu_edit', compact(['menu', 'masterModule', 'menuLevel2', 'menuLevel3', 'menuId', 'accessUpdate']));
     }
 
     public function update(Request $request)
@@ -180,7 +231,7 @@ class MenuController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required|string',
                 'type' => 'required|string|in:Web,Menu',
-                'module' => 'required_if:type,Web|nullable|integer|exists:master_module,id',
+                'module' => 'required_if:type,Web|nullable|integer|exists:master_module,id|unique:security_menu,module_id,'.$menuId,
                 'level' => 'required|integer|between:1,3',
                 'menu_link' => 'required_if:level,2,3|integer|exists:security_menu,id',
             ]);

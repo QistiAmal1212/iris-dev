@@ -32,9 +32,11 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Kementerian</h4>
+        @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="departmentMinistryForm()">
             <i class="fa-solid fa-add"></i> Tambah Kementerian
         </button>
+        @endif
     </div>
     <hr>
 
@@ -125,6 +127,9 @@
         var departmentMinistryFormModal;
         departmentMinistryFormModal = new bootstrap.Modal(document.getElementById('departmentMinistryFormModal'), { keyboard: false});
 
+        var accessAdd = '{{ $accessAdd }}';
+        var accessUpdate = '{{ $accessUpdate }}';
+
         event.preventDefault();
         if(id === null){
             $('#departmentMinistryForm').attr('action', '{{ route("admin.reference.department-ministry.store") }}');
@@ -132,6 +137,12 @@
             $('#departmentMinistryForm input[name="name"]').val("");
 
             $('#title-role').html('Tambah Kementerian');
+
+            if(accessAdd == ''){
+                $('#btn_fake').attr('hidden', true);
+            } else if (accessAdd != ''){
+                $('#btn_fake').attr('hidden', false);
+            }
 
             departmentMinistryFormModal.show();
         }else{
@@ -155,6 +166,12 @@
                     $('#departmentMinistryForm input[name="name"]').val(data.detail.name);
 
                     $('#title-role').html('Kemaskini Kementerian');
+
+                    if(accessUpdate == ''){
+                        $('#btn_fake').attr('hidden', true);
+                    } else if (accessUpdate != ''){
+                        $('#btn_fake').attr('hidden', false);
+                    }
 
                     departmentMinistryFormModal.show();
                 },

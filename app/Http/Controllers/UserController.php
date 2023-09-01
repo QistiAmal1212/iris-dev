@@ -26,10 +26,39 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->moduleInternal = MasterModule::where('code', 'admin.internalUser')->first();
+        $this->menuInternal = $this->moduleInternal->menu;
+        $this->moduleExternal= MasterModule::where('code', 'admin.externalUser')->first();
+        $this->menuExternal = $this->moduleExternal->menu;
     }
 
     public function index(Request $request)
     {
+        $roles = auth()->user()->roles;
+        $roles = $roles->pluck('id')->toArray();
+
+        if (request()->route()->getname() == 'admin.internalUser') {
+            $accessRole = $this->menuInternal->role()->whereIn('id', $roles)->get();
+        } else if(request()->route()->getname() == 'admin.externalUser'){
+            $accessRole = $this->menuExternal->role()->whereIn('id', $roles)->get();
+        }
+
+        $accessAdd = $accessUpdate = $accessDelete = false;
+
+        foreach($accessRole as $access) {
+            if($access->pivot->add){
+                $accessAdd = true;
+            }
+
+            if($access->pivot->update){
+                $accessUpdate = true;
+            }
+
+            if($access->pivot->delete){
+                $accessDelete = true;
+            }
+        }
+
         $departmentMinistry = DepartmentMinistry::all();
         $skim = Skim::all();
 
@@ -129,7 +158,7 @@ class UserController extends Controller
 
                         return $role_label;
                     })
-                    ->editColumn('action', function ($users) use ($type) {
+                    ->editColumn('action', function ($users) use ($type, $accessDelete) {
                         $button = "";
 
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
@@ -179,7 +208,7 @@ class UserController extends Controller
         $externalUsers = Role::where('is_internal', 0)->get();
         $internalUsers = Role::where('is_internal', 1)->get();
 
-        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'externalUsers', 'internalUsers', 'departmentMinistry', 'skim' ,'route'));
+        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'externalUsers', 'internalUsers', 'departmentMinistry', 'skim' ,'route', 'accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function create(Request $request)

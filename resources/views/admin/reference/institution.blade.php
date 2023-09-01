@@ -32,9 +32,11 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Institusi</h4>
+        @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="institutionForm()">
             <i class="fa-solid fa-add"></i> Tambah Institusi
         </button>
+        @endif
     </div>
     <hr>
 
@@ -125,6 +127,9 @@
         var institutionFormModal;
         institutionFormModal = new bootstrap.Modal(document.getElementById('institutionFormModal'), { keyboard: false});
 
+        var accessAdd = '{{ $accessAdd }}';
+        var accessUpdate = '{{ $accessUpdate }}';
+
         event.preventDefault();
         if(id === null){
             $('#institutionForm').attr('action', '{{ route("admin.reference.institution.store") }}');
@@ -132,6 +137,12 @@
             $('#institutionForm input[name="name"]').val("");
 
             $('#title-role').html('Tambah Institusi');
+
+            if(accessAdd == ''){
+                $('#btn_fake').attr('hidden', true);
+            } else if (accessAdd != ''){
+                $('#btn_fake').attr('hidden', false);
+            }
 
             institutionFormModal.show();
         }else{
@@ -155,6 +166,12 @@
                     $('#institutionForm input[name="name"]').val(data.detail.name);
 
                     $('#title-role').html('Kemaskini Institusi');
+
+                    if(accessUpdate == ''){
+                        $('#btn_fake').attr('hidden', true);
+                    } else if (accessUpdate != ''){
+                        $('#btn_fake').attr('hidden', false);
+                    }
 
                     institutionFormModal.show();
                 },

@@ -16,4 +16,9 @@ class MasterModule extends Model
         'code',
         'type',
     ];
+
+    public function menu()
+    {
+        return $this->belongsTo('App\Models\SecurityMenu', 'id', 'module_id');
+    }
 }

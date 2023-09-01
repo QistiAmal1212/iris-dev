@@ -32,9 +32,11 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Pengkhususan</h4>
+        @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="specializationForm()">
             <i class="fa-solid fa-add"></i> Tambah Pengkhususan
         </button>
+        @endif
     </div>
     <hr>
     <div class="card-body">
@@ -124,6 +126,9 @@
         var specializationFormModal;
         specializationFormModal = new bootstrap.Modal(document.getElementById('specializationFormModal'), { keyboard: false});
 
+        var accessAdd = '{{ $accessAdd }}';
+        var accessUpdate = '{{ $accessUpdate }}';
+
         event.preventDefault();
         if(id === null){
             $('#specializationForm').attr('action', '{{ route("admin.reference.specialization.store") }}');
@@ -131,6 +136,12 @@
             $('#specializationForm input[name="name"]').val("");
 
             $('#title-role').html('Tambah Pengkhususan');
+
+            if(accessAdd == ''){
+                $('#btn_fake').attr('hidden', true);
+            } else if (accessAdd != ''){
+                $('#btn_fake').attr('hidden', false);
+            }
 
             specializationFormModal.show();
         }else{
@@ -154,6 +165,12 @@
                     $('#specializationForm input[name="name"]').val(data.detail.name);
 
                     $('#title-role').html('Kemaskini Pengkhususan');
+
+                    if(accessUpdate == ''){
+                        $('#btn_fake').attr('hidden', true);
+                    } else if (accessUpdate != ''){
+                        $('#btn_fake').attr('hidden', false);
+                    }
 
                     specializationFormModal.show();
                 },

@@ -32,9 +32,11 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Skim Jawatan</h4>
+        @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="skimForm()">
             <i class="fa-solid fa-add"></i> Tambah Jawatan
         </button>
+        @endif
     </div>
     <hr>
     <div class="card-body">
@@ -124,6 +126,9 @@
         var skimFormModal;
         skimFormModal = new bootstrap.Modal(document.getElementById('skimFormModal'), { keyboard: false});
 
+        var accessAdd = '{{ $accessAdd }}';
+        var accessUpdate = '{{ $accessUpdate }}';
+
         event.preventDefault();
         if(id === null){
             $('#skimForm').attr('action', '{{ route("admin.reference.skim.store") }}');
@@ -131,6 +136,12 @@
             $('#skimForm input[name="name"]').val("");
 
             $('#title-role').html('Tambah Jawatan');
+
+            if(accessAdd == ''){
+                $('#btn_fake').attr('hidden', true);
+            } else if (accessAdd != ''){
+                $('#btn_fake').attr('hidden', false);
+            }
 
             skimFormModal.show();
         }else{
@@ -154,6 +165,12 @@
                     $('#skimForm input[name="name"]').val(data.detail.name);
 
                     $('#title-role').html('Kemaskini Jawatan');
+
+                    if(accessUpdate == ''){
+                        $('#btn_fake').attr('hidden', true);
+                    } else if (accessUpdate != ''){
+                        $('#btn_fake').attr('hidden', false);
+                    }
 
                     skimFormModal.show();
                 },

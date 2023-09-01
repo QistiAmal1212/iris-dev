@@ -98,14 +98,16 @@
             <div class="card-header">
                 <h4 class="card-title"></h4>
                 {{-- @can('admin.user.create') --}}
-                @hasanyrole('admin|superadmin')
+                {{-- @hasanyrole('admin|superadmin') --}}
+                    @if($accessAdd)
                     <div class="d-flex justify-content-end align-items-center">
                         <button type="button" class="btn btn-primary btn-md float-right" onclick="viewUserForm()">
                             <i class="fa-solid fa-add"></i> 
                             Tambah Pengguna
                         </button>
                     </div>
-                @endhasanyrole
+                    @endif
+                {{-- @endhasanyrole --}}
                 {{-- @endcan --}}
             </div>
             <hr>
@@ -134,6 +136,9 @@
         userFormModal = new bootstrap.Modal(document.getElementById('userFormModal'), { keyboard: false});
         var div_div_disclaimer = document.getElementById('div_disclaimer');
 
+        var accessAdd = '{{ $accessAdd }}';
+        var accessUpdate = '{{ $accessUpdate }}';
+
         event.preventDefault();
         if(id === null){
             $('#userFormModal input[name="full_name"]').val("");
@@ -161,6 +166,13 @@
             });
             $('select[name="roles[]"]').trigger('change');
             $('#userFormModal #btnUpdateFake').html('{{__("msg.submit")}}');
+
+            if(accessAdd == ''){
+                $('#btnUpdateFake').attr('hidden', true);
+            } else if (accessAdd != ''){
+                $('#btnUpdateFake').attr('hidden', false);
+            }
+
             div_div_disclaimer.style.display = 'block';
             userFormModal.show();
         }else{
@@ -210,6 +222,13 @@
                     $('select[name="roles[]"]').trigger('change');
 
                     $('#userFormModal #btnUpdateFake').html('{{__("msg.update")}}');
+
+                    if(accessUpdate == ''){
+                        $('#btnUpdateFake').attr('hidden', true);
+                    } else if (accessUpdate != ''){
+                        $('#btnUpdateFake').attr('hidden', false);
+                    }
+
                     div_div_disclaimer.style.display = 'none';
                     userFormModal.show();
                 },

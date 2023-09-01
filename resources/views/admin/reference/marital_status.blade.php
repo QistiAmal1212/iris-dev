@@ -32,9 +32,11 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Taraf Perkahwinan</h4>
+        @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="maritalStatusForm()">
             <i class="fa-solid fa-add"></i> Tambah Taraf
         </button>
+        @endif
     </div>
     <hr>
 
@@ -125,6 +127,9 @@
         var maritalStatusFormModal;
         maritalStatusFormModal = new bootstrap.Modal(document.getElementById('maritalStatusFormModal'), { keyboard: false});
 
+        var accessAdd = '{{ $accessAdd }}';
+        var accessUpdate = '{{ $accessUpdate }}';
+
         event.preventDefault();
         if(id === null){
             $('#maritalStatusForm').attr('action', '{{ route("admin.reference.marital-status.store") }}');
@@ -132,6 +137,12 @@
             $('#maritalStatusForm input[name="name"]').val("");
 
             $('#title-role').html('Tambah Taraf Perkahwinan');
+
+            if(accessAdd == ''){
+                $('#btn_fake').attr('hidden', true);
+            } else if (accessAdd != ''){
+                $('#btn_fake').attr('hidden', false);
+            }
 
             maritalStatusFormModal.show();
         }else{
@@ -155,6 +166,12 @@
                     $('#maritalStatusForm input[name="name"]').val(data.detail.name);
 
                     $('#title-role').html('Kemaskini Taraf Perkahwinan');
+
+                    if(accessUpdate == ''){
+                        $('#btn_fake').attr('hidden', true);
+                    } else if (accessUpdate != ''){
+                        $('#btn_fake').attr('hidden', false);
+                    }
 
                     maritalStatusFormModal.show();
                 },

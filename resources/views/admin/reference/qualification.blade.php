@@ -32,9 +32,11 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Kelulusan</h4>
+        @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="qualificationForm()">
             <i class="fa-solid fa-add"></i> Tambah Kelulusan
         </button>
+        @endif
     </div>
     <hr>
     <div class="card-body">
@@ -124,6 +126,9 @@
         var qualificationFormModal;
         qualificationFormModal = new bootstrap.Modal(document.getElementById('qualificationFormModal'), { keyboard: false});
 
+        var accessAdd = '{{ $accessAdd }}';
+        var accessUpdate = '{{ $accessUpdate }}';
+
         event.preventDefault();
         if(id === null){
             $('#qualificationForm').attr('action', '{{ route("admin.reference.qualification.store") }}');
@@ -131,6 +136,12 @@
             $('#qualificationForm input[name="name"]').val("");
 
             $('#title-role').html('Tambah Kelulusan');
+
+            if(accessAdd == ''){
+                $('#btn_fake').attr('hidden', true);
+            } else if (accessAdd != ''){
+                $('#btn_fake').attr('hidden', false);
+            }
 
             qualificationFormModal.show();
         }else{
@@ -154,6 +165,12 @@
                     $('#qualificationForm input[name="name"]').val(data.detail.name);
 
                     $('#title-role').html('Kemaskini Kelulusan');
+
+                    if(accessUpdate == ''){
+                        $('#btn_fake').attr('hidden', true);
+                    } else if (accessUpdate != ''){
+                        $('#btn_fake').attr('hidden', false);
+                    }
 
                     qualificationFormModal.show();
                 },

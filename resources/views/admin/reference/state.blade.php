@@ -32,9 +32,11 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Negeri</h4>
+        @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="stateForm()">
             <i class="fa-solid fa-add"></i> Tambah Negeri
         </button>
+        @endif
     </div>
     <hr>
 
@@ -125,6 +127,9 @@
         var stateFormModal;
         stateFormModal = new bootstrap.Modal(document.getElementById('stateFormModal'), { keyboard: false});
 
+        var accessAdd = '{{ $accessAdd }}';
+        var accessUpdate = '{{ $accessUpdate }}';
+
         event.preventDefault();
         if(id === null){
             $('#stateForm').attr('action', '{{ route("admin.reference.state.store") }}');
@@ -132,6 +137,12 @@
             $('#stateForm input[name="name"]').val("");
 
             $('#title-role').html('Tambah Negeri');
+
+            if(accessAdd == ''){
+                $('#btn_fake').attr('hidden', true);
+            } else if (accessAdd != ''){
+                $('#btn_fake').attr('hidden', false);
+            }
 
             stateFormModal.show();
         }else{
@@ -155,6 +166,12 @@
                     $('#stateForm input[name="name"]').val(data.detail.name);
 
                     $('#title-role').html('Kemaskini Negeri');
+
+                    if(accessUpdate == ''){
+                        $('#btn_fake').attr('hidden', true);
+                    } else if (accessUpdate != ''){
+                        $('#btn_fake').attr('hidden', false);
+                    }
 
                     stateFormModal.show();
                 },

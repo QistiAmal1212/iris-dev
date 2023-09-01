@@ -7,16 +7,40 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Qualification;
 use Yajra\DataTables\DataTables;
+use App\Models\Master\MasterModule;
 
 class QualificationController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->module = MasterModule::where('code', 'admin.reference.qualification')->first();
+        $this->menu = $this->module->menu;
     }
 
     public function index(Request $request)
     {
+        $roles = auth()->user()->roles;
+        $roles = $roles->pluck('id')->toArray();
+
+        $accessRole = $this->menu->role()->whereIn('id', $roles)->get();
+
+        $accessAdd = $accessUpdate = $accessDelete = false;
+
+        foreach($accessRole as $access) {
+            if($access->pivot->add){
+                $accessAdd = true;
+            }
+
+            if($access->pivot->update){
+                $accessUpdate = true;
+            }
+
+            if($access->pivot->delete){
+                $accessDelete = true;
+            }
+        }
+
         $qualification = Qualification::all();
         if ($request->ajax()) {
             return Datatables::of($qualification)
@@ -26,13 +50,15 @@ class QualificationController extends Controller
                 ->editColumn('name', function ($qualification) {
                     return $qualification->name;
                 })
-                ->editColumn('action', function ($qualification) {
+                ->editColumn('action', function ($qualification) use ($accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="qualificationForm('.$qualification->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    if($accessDelete){
                     $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
+                    }
                     $button .= '</div>';
 
                     return $button;
@@ -41,7 +67,7 @@ class QualificationController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.qualification');
+        return view('admin.reference.qualification', compact('accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function store(Request $request)

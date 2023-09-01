@@ -32,9 +32,11 @@
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Senarai Agama</h4>
+        @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="religionForm()">
             <i class="fa-solid fa-add"></i> Tambah Agama
         </button>
+        @endif
     </div>
     <hr>
 
@@ -125,6 +127,9 @@
         var religionFormModal;
         religionFormModal = new bootstrap.Modal(document.getElementById('religionFormModal'), { keyboard: false});
 
+        var accessAdd = '{{ $accessAdd }}';
+        var accessUpdate = '{{ $accessUpdate }}';
+
         event.preventDefault();
         if(id === null){
             $('#religionForm').attr('action', '{{ route("admin.reference.religion.store") }}');
@@ -132,6 +137,12 @@
             $('#religionForm input[name="name"]').val("");
 
             $('#title-role').html('Tambah Agama');
+
+            if(accessAdd == ''){
+                $('#btn_fake').attr('hidden', true);
+            } else if (accessAdd != ''){
+                $('#btn_fake').attr('hidden', false);
+            }
 
             religionFormModal.show();
         }else{
@@ -155,6 +166,12 @@
                     $('#religionForm input[name="name"]').val(data.detail.name);
 
                     $('#title-role').html('Kemaskini Agama');
+
+                    if(accessUpdate == ''){
+                        $('#btn_fake').attr('hidden', true);
+                    } else if (accessUpdate != ''){
+                        $('#btn_fake').attr('hidden', false);
+                    }
 
                     religionFormModal.show();
                 },

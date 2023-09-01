@@ -33,9 +33,11 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Senarai Menu [Level 1]</h4>
+                @if($accessAdd)
                 <button type="button" class="btn btn-primary btn-md float-right" onclick="createMenuForm()">
                     <i class="fa-solid fa-add"></i> Tambah Menu
                 </button>
+                @endif
             </div>
             <hr>
 

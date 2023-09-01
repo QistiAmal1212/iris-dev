@@ -211,7 +211,7 @@
                                 <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
                                 <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
                             </button>
-                            <button class="btn btn-success btn-submit" type="button" onclick="$('#btn_submit').trigger('click');">Simpan</button>
+                            <button class="btn btn-success btn-submit" id="btn_fake" type="button" onclick="$('#btn_submit').trigger('click');">Simpan</button>
                             </div>
                         </div>
                     </div>
