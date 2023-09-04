@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table header_uppercase table-bordered table-hovered">
+    <table class="table header_uppercase table-bordered table-hovered" id="table-penalty">
         <thead>
             <tr>
                 <th>Bil.</th>
