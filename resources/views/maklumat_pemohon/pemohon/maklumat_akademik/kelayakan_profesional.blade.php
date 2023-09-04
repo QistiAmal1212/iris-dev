@@ -10,15 +10,7 @@
                     <th>Kemaskini Terkini</th>
                 </tr>
             </thead>
-
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>G1181350A</td>
-                    <td>Ahli Lembaga Jurutera Malaysia</td>
-                    <td>23/11/2022</td>
-                    <td>29/06/2024 03:47:37</td>
-                </tr>
             </tbody>
         </table>
     </div>

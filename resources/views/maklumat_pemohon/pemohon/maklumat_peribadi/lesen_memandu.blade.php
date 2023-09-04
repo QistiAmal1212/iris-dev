@@ -1,17 +1,27 @@
 <div class="row">
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Jenis Lesen</label>
-        <input type="text" class="form-control" value="" disabled>
+        <input type="text" class="form-control" value="" name="license_type" id="license_type" disabled>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Tarikh Tamat</label>
-        <input type="text" class="form-control flatpickr-basic" placeholder="YYYY-MM-DD" value="" disabled />
+        <input type="text" class="form-control flatpickr-basic" placeholder="YYYY-MM-DD" value="" name="license_expiry_date" id="license_expiry_date" disabled />
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Status Senarai Hitam</label>
-        <input type="text" class="form-control" value="" disabled>
+        <select class="select2 form-control" name="license_blacklist_status" id="license_blacklist_status" disabled>
+            <option value=""></option>
+            <option value="1">Ya</option>
+            <option value="0">Tidak</option>
+        </select>
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+        <label class="form-label">Butiran Senarai Hitam</label>
+        <textarea rows="3" class="form-control" name="license_blacklist_details" id="license_blacklist_details" disabled>
+        </textarea>
     </div>
 </div>
 

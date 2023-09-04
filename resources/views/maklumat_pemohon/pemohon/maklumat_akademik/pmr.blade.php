@@ -10,7 +10,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table header_uppercase table-bordered table-hovered">
+        <table class="table header_uppercase table-bordered table-hovered" id="table-form3">
             <thead>
                 <tr>
                     <th>Bil.</th>
@@ -19,14 +19,7 @@
                     <th>Gred</th>
                 </tr>
             </thead>
-
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>002</td>
-                    <td>Sejarah</td>
-                    <td>A</td>
-                </tr>
             </tbody>
         </table>
     </div>

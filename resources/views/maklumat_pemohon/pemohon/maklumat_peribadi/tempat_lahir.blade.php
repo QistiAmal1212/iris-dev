@@ -1,42 +1,32 @@
 <div class="row">
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Jantina</label>
-        <input type="text" class="form-control" value="" disabled>
+        <label class="form-label">Tempat Lahir</label>
+        <select class="select2 form-control" name="place_of_birth" id="place_of_birth" disabled>
+            <option value=""></option>
+            @foreach($states as $state)
+            <option value="{{ $state->code }}">{{ $state->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Agama</label>
-        <input type="text" class="form-control" value="" disabled>
+        <label class="form-label">Tempat Lahir Ayah</label>
+        <select class="select2 form-control" name="father_place_of_birth" id="father_place_of_birth" disabled>
+            <option value=""></option>
+            @foreach($states as $state)
+            <option value="{{ $state->code }}">{{ $state->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Keturunan</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Tarikh Lahir</label>
-        <input type="text" class="form-control flatpickr-basic" placeholder="YYYY-MM-DD" value="" disabled />
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Umur</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Taraf Perkahwinan</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-        <label class="form-label">No. Telefon</label>
-        <input type="text" class="form-control" value="" disabled>
-    </div>
-
-    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-        <label class="form-label">Alamat Emel</label>
-        <input type="text" class="form-control" value="" disabled>
+        <label class="form-label">Tempat Lahir Ibu</label>
+        <select class="select2 form-control" name="mother_place_of_birth" id="mother_place_of_birth" disabled>
+            <option value=""></option>
+            @foreach($states as $state)
+            <option value="{{ $state->code }}">{{ $state->name }}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 

@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dummy_timeline', function (Blueprint $table) {
+        Schema::create('candidate_timeline', function (Blueprint $table) {
             $table->id();
-            $table->string('dummy_penalty_id');
+            $table->string('no_pengenalan');
             $table->string('details');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->comment('Last Update User')->nullable();
             $table->timestamps();
+
+            $table->foreign('no_pengenalan')->references('no_pengenalan')->on('candidate')->onDelete('no action')->onUpdate('cascade');
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dummy_timeline');
+        Schema::dropIfExists('candidate_timeline');
     }
 };

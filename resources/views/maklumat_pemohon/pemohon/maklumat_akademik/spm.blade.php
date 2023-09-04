@@ -13,7 +13,7 @@
     </div>
 
     <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered">
+        <table class="table header_uppercase table-bordered table-hovered" id="table-form5">
             <thead>
                 <tr>
                     <th>Bil.</th>
@@ -22,14 +22,7 @@
                     <th>Gred</th>
                 </tr>
             </thead>
-
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>002</td>
-                    <td>Sejarah</td>
-                    <td>A</td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -59,14 +52,7 @@
                     <th>Gred</th>
                 </tr>
             </thead>
-
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>002</td>
-                    <td>Sejarah</td>
-                    <td>A</td>
-                </tr>
             </tbody>
         </table>
     </div>

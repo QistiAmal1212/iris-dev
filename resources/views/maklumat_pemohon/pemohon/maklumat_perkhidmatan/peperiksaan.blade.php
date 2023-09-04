@@ -10,15 +10,7 @@
                     <th>Kemaskini Terkini</th>
                 </tr>
             </thead>
-
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Z002</td>
-                    <td>Lulus Peperiksaan Khas</td>
-                    <td>21/05/2020</td>
-                    <td>21/05/2020 03:44:15</td>
-                </tr>
             </tbody>
         </table>
     </div>

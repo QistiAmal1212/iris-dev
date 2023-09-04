@@ -5,22 +5,31 @@
     </h6>
     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Alamat</label>
-        <textarea rows="3" type="text" class="form-control" value="" disabled></textarea>
+        <input type="text" class="form-control" value="" name="permanent_address_1" id="permanent_address_1" disabled>
+        <br>
+        <input type="text" class="form-control" value="" name="permanent_address_2" id="permanent_address_2" disabled>
+        <br>
+        <input type="text" class="form-control" value="" name="permanent_address_3" id="permanent_address_3" disabled>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Poskod</label>
-        <input type="text" class="form-control" value="" disabled>
+        <input type="text" class="form-control" value="" name="permanent_poscode" id="permanent_poscode" disabled>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Bandar</label>
-        <input type="text" class="form-control" value="" disabled>
+        <input type="text" class="form-control" value="" name="permanent_city" id="permanent_city" disabled>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Negeri</label>
-        <input type="text" class="form-control" value="" disabled>
+        <select class="select2 form-control" name="permanent_state" id="permanent_state" disabled>
+            <option value=""></option>
+            @foreach($states as $state)
+            <option value="{{ $state->code }}">{{ $state->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     {{-- ALAMAT SURAT MENYURAT --}}
@@ -29,22 +38,31 @@
     </h6>
     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Alamat</label>
-        <textarea rows="3" type="text" class="form-control" value="" disabled></textarea>
+        <input type="text" class="form-control" value="" name="address_1" id="address_1" disabled>
+        <br>
+        <input type="text" class="form-control" value="" name="address_2" id="address_2" disabled>
+        <br>
+        <input type="text" class="form-control" value="" name="address_3" id="address_3" disabled>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Poskod</label>
-        <input type="text" class="form-control" value="" disabled>
+        <input type="text" class="form-control" value="" name="poscode" id="poscode" disabled>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Bandar</label>
-        <input type="text" class="form-control" value="" disabled>
+        <input type="text" class="form-control" value="" name="city" id="city" disabled>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Negeri</label>
-        <input type="text" class="form-control" value="" disabled>
+        <select class="select2 form-control" name="state" id="state" disabled>
+            <option value=""></option>
+            @foreach($states as $state)
+            <option value="{{ $state->code }}">{{ $state->name }}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 

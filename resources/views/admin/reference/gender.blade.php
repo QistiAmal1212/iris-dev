@@ -1,28 +1,28 @@
 @extends('layouts.app')
 
 @section('header')
-    Institusi
+    Jantina
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-    <li class="breadcrumb-item"><a>Institusi</a>
+    <li class="breadcrumb-item"><a>Jantina</a>
     </li>
 @endsection
 
 @section('content')
 <style>
-    #table-institution thead th {
+    #table-gender thead th {
         vertical-align: middle;
         text-align: center;
     }
 
-    #table-institution tbody {
+    #table-gender tbody {
         vertical-align: middle;
         /* text-align: center; */
     }
 
-    #table-institution {
+    #table-gender {
         width: 100% !important;
         /* word-wrap: break-word; */
     }
@@ -31,10 +31,10 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Institusi</h4>
+        <h4 class="card-title">Senarai Jantina</h4>
         @if($accessAdd)
-        <button type="button" class="btn btn-primary btn-md float-right" onclick="institutionForm()">
-            <i class="fa-solid fa-add"></i> Tambah Institusi
+        <button type="button" class="btn btn-primary btn-md float-right" onclick="genderForm()">
+            <i class="fa-solid fa-add"></i> Tambah Jantina
         </button>
         @endif
     </div>
@@ -42,12 +42,12 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table header_uppercase table-bordered" id="table-institution">
+            <table class="table header_uppercase table-bordered" id="table-gender">
                 <thead>
                     <tr>
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
-                        <th>Nama Institusi</th>
+                        <th>Jantina</th>
                         <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
@@ -56,14 +56,14 @@
     </div>
 </div>
 
-@include('admin.reference.institutionForm')
+@include('admin.reference.genderForm')
 
 @endsection
 
 @section('script')
 <script>
 
-    var table = $('#table-institution').DataTable({
+    var table = $('#table-gender').DataTable({
         orderCellsTop: true,
         colReorder: false,
         pageLength: 25,
@@ -123,20 +123,20 @@
         }
     });
 
-    institutionForm = function(id = null){
-        var institutionFormModal;
-        institutionFormModal = new bootstrap.Modal(document.getElementById('institutionFormModal'), { keyboard: false});
+    genderForm = function(id = null){
+        var genderFormModal;
+        genderFormModal = new bootstrap.Modal(document.getElementById('genderFormModal'), { keyboard: false});
 
         var accessAdd = '{{ $accessAdd }}';
         var accessUpdate = '{{ $accessUpdate }}';
 
         event.preventDefault();
         if(id === null){
-            $('#institutionForm').attr('action', '{{ route("admin.reference.institution.store") }}');
-            $('#institutionForm input[name="code"]').val("");
-            $('#institutionForm input[name="name"]').val("");
+            $('#genderForm').attr('action', '{{ route("admin.reference.gender.store") }}');
+            $('#genderForm input[name="code"]').val("");
+            $('#genderForm input[name="name"]').val("");
 
-            $('#title-role').html('Tambah Institusi');
+            $('#title-role').html('Tambah Jantina');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -144,9 +144,9 @@
                 $('#btn_fake').attr('hidden', false);
             }
 
-            institutionFormModal.show();
+            genderFormModal.show();
         }else{
-            url = "{{ route('admin.reference.institution.edit', ':replaceThis') }}"
+            url = "{{ route('admin.reference.gender.edit', ':replaceThis') }}"
             url = url.replace(':replaceThis', id);
             $.ajax({
                 url: url,
@@ -156,16 +156,16 @@
                 processData: false,
                 success: function(data) {
                     // console.log(data);
-                    institution_id = data.detail.id;
+                    gender_id = data.detail.id;
                     // console.log(id_used);
-                    url2 = "{{ route('admin.reference.institution.update',':replaceThis') }}"
-                    url2 = url2.replace(':replaceThis', institution_id);
+                    url2 = "{{ route('admin.reference.gender.update',':replaceThis') }}"
+                    url2 = url2.replace(':replaceThis', gender_id);
 
-                    $('#institutionForm').attr('action',url2 );
-                    $('#institutionForm input[name="code"]').val(data.detail.code);
-                    $('#institutionForm input[name="name"]').val(data.detail.name);
+                    $('#genderForm').attr('action',url2 );
+                    $('#genderForm input[name="code"]').val(data.detail.code);
+                    $('#genderForm input[name="name"]').val(data.detail.name);
 
-                    $('#title-role').html('Kemaskini Institusi');
+                    $('#title-role').html('Kemaskini Jantina');
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);
@@ -173,7 +173,7 @@
                         $('#btn_fake').attr('hidden', false);
                     }
 
-                    institutionFormModal.show();
+                    genderFormModal.show();
                 },
             });
         }

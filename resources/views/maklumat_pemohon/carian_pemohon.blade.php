@@ -23,10 +23,8 @@ Maklumat Pemohon
                     </div>
 
                     {{-- Search form --}}
-                    <input type="text" class="form-control" placeholder="No. Kad Pegenalan Calon" />
-                    <button class="btn btn-primary waves-effect" type="button">
-                        Cari
-                    </button>
+                        <input type="text" class="form-control" id="search_ic" placeholder="No. Kad Pegenalan Calon" oninput="onlyNumberOnInputText(this)"/>
+                        <button class="btn btn-primary waves-effect" type="button" onclick="searchCandidate()">Cari</button>
                 </div>
             </div>
         </div>
@@ -45,18 +43,15 @@ Maklumat Pemohon
                 {{-- Maklumat Pemohon [Nama dan No KP] --}}
                 <div class="mt-2">
                     <h5 class="fw-bolder">Nama Pemohon:</h5>
-                    <p class="card-text">
-                        Princess Aura Nurr Ermily Amara Auliya Bidadari Nawal El Zendra binti Mohd Suffian {{-- NAMA
-                        PEMOHON --}}
+                    <p class="card-text" id="candidate_name">
                     </p>
                 </div>
                 <div class="mt-2">
                     <h5 class="fw-bolder">No Kad Pengenalan:</h5>
-                    <p class="card-text">
-                        990701010011 {{-- IC PEMOHON --}}
+                    <p class="card-text" id="candidate_ic">
                     </p>
                 </div>
-
+                <input type="hidden" id="candidate_no_pengenalan" name="candidate_no_pengenalan" value="">
             </div>
         </div>
 
@@ -64,24 +59,10 @@ Maklumat Pemohon
             <div class="card-body">
                 <p class="card-title fw-bolder">Garis Masa Permohonan</p>
                 <hr>
-
+                <div id="candidate_timeline">
                 {{-- TIMELINE PERMOHONAN --}}
-                <ul class="timeline mt-2">
-                    {{-- This is where looping started if needed --}}
-                    @foreach($dummyTimeline as $timeline)
-                    <li class="timeline-item">
-                        <span class="timeline-point timeline-point-indicator"></span>
-                        <div class="timeline-event">
-                            <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                                <h6>{{ $timeline->details }}</h6> {{-- Timeline Activity --}}
-                                <span class="timeline-event-time"  data-target="tooltip" title="{{ $timeline->created_at->format('d-m-Y H:i:s') }}">{{ $timeline->created_at->diffForHumans() }}</span> {{-- Timeline Time --}}
-                            </div>
-                            <p>Created by: <strong> {{ $timeline->created_user->name }} </strong></p>
-                        </div>
-                    </li>
-                    @endforeach
-                    {{-- End of looping --}}
-                </ul>
+               
+                </div>
             </div>
         </div>
     </div>
@@ -154,4 +135,179 @@ Maklumat Pemohon
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    function searchCandidate() {
+        var search_ic = $('#search_ic').val();
+
+        if(search_ic == ''){
+            Swal.fire('Gagal', 'Sila isikan no kad pengenalan', 'error');
+        } else {
+            $.ajax({
+                url: "{{ route('get-candidate-details') }}",
+                method: 'POST',
+                async: true,
+                data : {
+                    no_ic : search_ic
+                },
+                success: function(data) {
+                    $('#candidate_name').html(data.detail.full_name);
+                    $('#candidate_ic').html(data.detail.no_ic);
+                    $('#candidate_no_pengenalan').val(data.detail.no_pengenalan);
+                    
+                    var timelineUrl = "{{ route('timeline.list', ':replaceThis') }}"
+                    timelineUrl = timelineUrl.replace(':replaceThis', data.detail.no_pengenalan);
+                    $('#candidate_timeline').load(timelineUrl)
+
+                    $('#gender').val(data.detail.ref_gender_code).trigger('change');
+                    $('#religion').val(data.detail.ref_religion_code).trigger('change');
+                    $('#race').val(data.detail.ref_race_code).trigger('change');
+                    $('#date_of_birth').val(data.detail.date_of_birth);
+                    $('#marital_status').val(data.detail.ref_marital_status_code).trigger('change');
+                    $('#phone_number').val(data.detail.phone_number);
+                    $('#email').val(data.detail.email);
+                    $('#permanent_address_1').val(data.detail.permanent_address_1);
+                    $('#permanent_address_2').val(data.detail.permanent_address_2);
+                    $('#permanent_address_3').val(data.detail.permanent_address_3);
+                    $('#permanent_poscode').val(data.detail.permanent_poscode);
+                    $('#permanent_city').val(data.detail.permanent_city);
+                    $('#permanent_state').val(data.detail.permanent_ref_state_code).trigger('change');
+                    $('#address_1').val(data.detail.address_1);
+                    $('#address_2').val(data.detail.address_2);
+                    $('#address_3').val(data.detail.address_3);
+                    $('#poscode').val(data.detail.poscode);
+                    $('#city').val(data.detail.city);
+                    $('#state').val(data.detail.ref_state_code).trigger('change');
+                    $('#place_of_birth').val(data.detail.place_of_birth).trigger('change');
+                    $('#father_place_of_birth').val(data.detail.father_place_of_birth).trigger('change');
+                    $('#mother_place_of_birth').val(data.detail.mother_place_of_birth).trigger('change');
+                    $('#poscode').val(data.detail.poscode);
+                    $('#city').val(data.detail.city);
+                    if(data.detail.license != null) {
+                        $('#license_type').val(data.detail.license.type);
+                        $('#license_expiry_date').val(data.detail.license.expiry_date);
+                        $('#license_blacklist_status').val(data.detail.license.is_blacklist).trigger('change');
+                        $('#license_blacklist_details').val(data.detail.license.blacklist_details);
+                    }
+                    if(data.detail.oku != null) {
+                        $('#oku_registration_no').val(data.detail.oku.no_registration);
+                        $('#oku_status').val(data.detail.oku.status);
+                        $('#oku_category').val(data.detail.oku.category);
+                        $('#oku_sub').val(data.detail.oku.sub);
+                    }
+
+                    $('#table-skim tbody').empty();
+                    var trSkim = '';
+                    var bilSkim = 0;
+                    $.each(data.detail.skim, function (i, item) {
+                        bilSkim += 1;
+                        trSkim += '<tr><td align="center">' + bilSkim + '</td><td>' + item.ref_skim_code + '</td><td>' + item.skim.name + '</td><td>' + item.register_date + '</td><td>' + item.expiry_date + '</td><td>' + item.interview_centre.name + '</td></tr>';
+                    });
+                    $('#table-skim tbody').append(trSkim);
+
+                    $('#table-form3 tbody').empty();
+                    var trForm3 = '';
+                    var bilForm3 = 0;
+                    $.each(data.detail.resultForm3, function (i, item) {
+                        if(item.subject != null) {
+                            bilForm3 += 1;
+                            trForm3 += '<tr><td align="center">' + bilForm3 + '</td><td>' + item.subject.code + '</td><td>' + item.subject.name + '</td><td>' + item.grade + '</td></tr>';
+                        }
+                    });
+                    $('#table-form3 tbody').append(trForm3);
+
+                    $('#table-form5 tbody').empty();
+                    var trForm5 = '';
+                    var bilForm5 = 0;
+                    $.each(data.detail.resultForm5, function (i, item) {
+                        if(item.subject != null) {
+                            bilForm5 += 1;
+                            trForm5 += '<tr><td align="center">' + bilForm5 + '</td><td>' + item.subject.code + '</td><td>' + item.subject.name + '</td><td>' + item.grade + '</td></tr>';
+                        }
+                    });
+                    $('#table-form5 tbody').append(trForm5);
+
+                    $('#table-form6 tbody').empty();
+                    var trForm6 = '';
+                    var bilForm6 = 0;
+                    $.each(data.detail.resultForm6, function (i, item) {
+                        if(item.subject != null) {
+                            bilForm6 += 1;
+                            trForm6 += '<tr><td align="center">' + bilForm6 + '</td><td>' + item.subject.code + '</td><td>' + item.subject.name + '</td><td>' + item.grade + '</td></tr>';
+                        }
+                    });
+                    $('#table-form6 tbody').append(trForm6);
+
+                    $('#table-matriculation tbody').empty();
+                    var trMatriculation = '';
+                    var bilMatriculation = 0;
+                    $.each(data.detail.matriculation, function (i, item) {
+                            bilMatriculation += 1;
+                            trMatriculation += '<tr>';
+                            trMatriculation += '<td align="center">' + bilMatriculation + '</td>'
+                            trMatriculation += '<td>' + item.college.name + '</td>';
+                            trMatriculation += '<td>' + item.course.name + '</td>';
+                            trMatriculation += '<td>' + item.matric_no + '</td>';
+                            trMatriculation += '<td>' + item.session + '</td>';
+                            trMatriculation += '<td>' + item.semester + '</td>';
+                            trMatriculation += '<td>' + item.subject.name + '</td>';
+                            trMatriculation += '<td>' + item.grade + '</td>';
+                            trMatriculation += '<td>' + item.pngk + '</td>';
+                            trMatriculation += '</tr>';
+                    });
+                    $('#table-matriculation tbody').append(trMatriculation);
+
+                    $('#table-skm tbody').empty();
+                    var trSkm = '';
+                    var bilSkm = 0;
+                    $.each(data.detail.skm, function (i, item) {
+                        bilSkm += 1;
+                        trSkm += '<tr>';
+                        trSkm += '<td align="center">' + bilSkm + '</td>'
+                        trSkm += '<td>' + item.year + '</td>';
+                        trSkm += '<td>' + item.qualification.code + '</td>';
+                        trSkm += '<td>' + item.qualification.name + '</td>';
+                        trSkm += '</tr>';
+                    });
+                    $('#table-skm tbody').append(trSkm);
+
+                    $('#table-penalty tbody').empty();
+                    var trPenalty = '';
+                    var bilPenalty = 0;
+                    $.each(data.detail.penalty, function (i, item) {
+                        bilPenalty += 1;
+                        trPenalty += '<tr>';
+                        trPenalty += '<td align="center">' + bilPenalty + '</td>'
+                        trPenalty += '<td>' + item.penalty.name + '</td>';
+                        trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
+                        trPenalty += '<td>' + item.date_start + '</td>';
+                        trPenalty += '<td>' + item.date_end + '</td>';
+                        trPenalty += '</tr>';
+                    });
+                    $('#table-penalty tbody').append(trPenalty);
+
+                    var penaltyUrl = "{{ route('penalty.list', ':replaceThis') }}"
+                    penaltyUrl = penaltyUrl.replace(':replaceThis', data.detail.no_pengenalan);
+                    $('#penaltyForm').attr('data-refreshfunctionurl', penaltyUrl);
+                    $('#penalty_no_pengenalan').val(data.detail.no_pengenalan);
+
+                },
+                error: function(data) {
+                    var data = data.responseJSON;
+                    Swal.fire(data.title, data.detail, 'error');
+                }
+            });
+        }
+    }
+
+    function reloadTimeline() {
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
+
+        var reloadUrl = "{{ route('timeline.list', ':replaceThis') }}"
+        reloadUrl = reloadUrl.replace(':replaceThis', no_pengenalan);
+        $('#candidate_timeline').load(reloadUrl)
+    }
+</script>
 @endsection

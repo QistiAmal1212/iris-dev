@@ -5,23 +5,16 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table header_uppercase table-bordered table-hovered">
+        <table class="table header_uppercase table-bordered table-hovered" id="table-skm">
             <thead>
                 <tr>
                     <th>Bil.</th>
                     <th>Tahun</th>
-                    <th>Kod MP</th>
-                    <th>Mata Pelajaran</th>
+                    <th>Kod Kelulusan</th>
+                    <th>Kelulusan</th>
                 </tr>
             </thead>
-
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2015</td>
-                    <td>L108</td>
-                    <td>Sijil SKM Tahap 3 - Pembuatan Pastri</td>
-                </tr>
             </tbody>
         </table>
     </div>

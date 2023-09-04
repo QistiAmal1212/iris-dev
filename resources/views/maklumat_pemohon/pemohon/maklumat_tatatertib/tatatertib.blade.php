@@ -3,9 +3,10 @@
     <form id="penaltyForm"
     action="{{ route('penalty.store') }}"
     method="POST"
-    data-refreshFunctionURL="{{ route('penalty.list') }}"
+    data-refreshFunctionURL=""
     data-refreshFunctionDivId="div_table_penalty" data-reloadPage="false">
     @csrf
+    <input type="hidden" name="penalty_no_pengenalan" id="penalty_no_pengenalan" value="">
     <div class="row">
         <div class="col sm-12 col-md-12 col-lg-12 mb-1">
             <label class="form-label fw-bolder">Tindakan Tatatertib</label>
@@ -50,7 +51,7 @@
             <a class="me-3" type="button" id="reset" href="#">
                 <span class="text-danger"> Set Semula </span>
             </a>
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnAddPenalty').trigger('click');">
+            <button type="button" class="btn btn-success float-right" onclick="$('#btnAddPenalty').trigger('click');reloadTimeline();">
                 <i class="fa fa-save"></i> Simpan
             </button>
         </div>
@@ -61,7 +62,7 @@
 
     <div id="div_table_penalty">
         <div class="table-responsive">
-            <table class="table header_uppercase table-bordered table-hovered">
+            <table class="table header_uppercase table-bordered table-hovered" id="table-penalty">
                 <thead>
                     <tr>
                         <th>Bil.</th>
@@ -69,27 +70,9 @@
                         <th>Tempoh Hukuman</th>
                         <th>Tarikh Mula Hukuman</th>
                         <th>Tarikh Akhir Hukuman</th>
-                        <th>Kemaskini Terkini</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    @php
-                    $i = 1;
-                    @endphp
-                    @foreach($dummyPenalty as $penalty)
-                    <tr>
-                        <td>{{ $i }}</td>
-                        <td>{{ $penalty->penalty->name }}</td>
-                        <td>{{ $penalty->duration." ".$penalty->type }}</td>
-                        <td>{{ $penalty->date_start }}</td>
-                        <td>{{ $penalty->date_end }}</td>
-                        <td>{{ $penalty->updated_at }}</td>
-                    </tr>
-                    @php
-                    $i++;
-                    @endphp
-                    @endforeach
                 </tbody>
             </table>
         </div>

@@ -1,12 +1,12 @@
-<div class="modal fade text-start" id="institutionFormModal" tabindex="-1" aria-labelledby="title-role" aria-hidden="true" data-bs-backdrop="false" style="background:rgba(0,0,0,0.5);">
+<div class="modal fade text-start" id="genderFormModal" tabindex="-1" aria-labelledby="title-role" aria-hidden="true" data-bs-backdrop="false" style="background:rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="title-role">Tambah Institusi</h4>
+                <h4 class="modal-title" id="title-role">Tambah Jantina</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.reference.institution.store') }}" method="POST" id="institutionForm" data-reloadPage="true">
+                <form action="{{ route('admin.reference.gender.store') }}" method="POST" id="genderForm" data-reloadPage="true">
                     @csrf
                     <div class="row">
                         <div class="col-md-4">
@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label class="form-label" for="name">Nama Institusi
+                                <label class="form-label" for="name">Jantina
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">

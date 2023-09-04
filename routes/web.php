@@ -28,6 +28,7 @@ use App\Http\Controllers\Reference\InstitutionController;
 use App\Http\Controllers\Reference\SpecializationController;
 use App\Http\Controllers\Reference\QualificationController;
 use App\Http\Controllers\Reference\RaceController;
+use App\Http\Controllers\Reference\GenderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -192,6 +193,13 @@ Route::prefix('admin')->group(function () {
             Route::post('create', [RaceController::class, 'store'])->name('admin.reference.race.store');
             Route::get('edit/{raceId}', [RaceController::class, 'edit'])->name('admin.reference.race.edit');
             Route::post('update/{raceId}', [RaceController::class, 'update'])->name('admin.reference.race.update');
+        });
+
+        Route::prefix('gender')->group(function () {
+            Route::get('/', [GenderController::class, 'index'])->name('admin.reference.gender');
+            Route::post('create', [GenderController::class, 'store'])->name('admin.reference.gender.store');
+            Route::get('edit/{genderId}', [GenderController::class, 'edit'])->name('admin.reference.gender.edit');
+            Route::post('update/{genderId}', [GenderController::class, 'update'])->name('admin.reference.gender.update');
         });
     });
 
