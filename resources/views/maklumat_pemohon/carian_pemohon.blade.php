@@ -23,7 +23,7 @@ Maklumat Pemohon
                     </div>
 
                     {{-- Search form --}}
-                        <input type="text" class="form-control" id="search_ic" placeholder="No. Kad Pegenalan Calon" oninput="onlyNumberOnInputText(this)"/>
+                        <input type="text" class="form-control" id="search_ic" placeholder="No. Kad Pegenalan Calon" maxlength="12"/>
                         <button class="btn btn-primary waves-effect" type="button" onclick="searchCandidate()">Cari</button>
                 </div>
             </div>
