@@ -198,6 +198,8 @@ Maklumat Pemohon
                         $('#oku_sub').val(data.detail.oku.sub);
                     }
 
+                    $('#personal_no_pengenalan').val(data.detail.no_pengenalan);
+
                     $('#table-skim tbody').empty();
                     var trSkim = '';
                     var bilSkim = 0;

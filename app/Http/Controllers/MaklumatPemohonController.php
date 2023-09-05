@@ -95,8 +95,81 @@ class MaklumatPemohonController extends Controller
 
     public function listTimeline(Request $request)
     {
-        $candidateTimeline = CandidateTimeline::where('no_pengenalan', $request->noPengenalan)->orderBy('created_at', 'asc')->get();
+        $candidateTimeline = CandidateTimeline::where('no_pengenalan', $request->noPengenalan)->orderBy('created_at', 'desc')->limit(10)->get();
         return view('maklumat_pemohon.pemohon.list_timeline', compact('candidateTimeline'));
+    }
+
+    public function storePersonal(Request $request) 
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = Candidate::where('no_pengenalan', $request->personal_no_pengenalan)->first();
+
+            $request->validate([
+                'personal_no_pengenalan' => 'required|string|exists:candidate,no_pengenalan',
+                'gender' => 'required|string|exists:ref_gender,code',
+                'religion' => 'required|string|exists:ref_religion,code',
+                'race' => 'required|string|exists:ref_race,code',
+                'date_of_birth' => 'required',
+                'marital_status' => 'required|required|exists:ref_marital_status,code',
+                'phone_number' => 'required',
+                'email' => 'required',
+            ],[
+                'personal_no_pengenalan.required' => 'Sila isikan no kad pengenalan',
+                'personal_no_pengenalan.exists' => 'Rekod data no kad pengenalan tidak dijumpai',
+                'gender.required' => 'Sila pilih jantina',
+                'date_of_birth.required' => 'Sila isikan tarikh lahir',
+            ]);
+
+            $candidate->update([
+                'no_pengenalan' => $request->personal_no_pengenalan,
+                'ref_gender_code' => $request->gender,
+                'ref_religion_code' => $request->religion,
+                'ref_race_code' => $request->race,
+                'date_of_birth' => $request->date_of_birth,
+                'ref_marital_status_code' => $request->marital_status,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->personal_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Peribadi (Tatatertib)',
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
+            
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function personalDetails(Request $request) 
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)->first();
+
+            if(!$candidate) {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            } 
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }  
     }
 
     public function storePenalty(Request $request) 
@@ -108,9 +181,9 @@ class MaklumatPemohonController extends Controller
                 'penalty_no_pengenalan' => 'required|string|exists:candidate,no_pengenalan',
                 'penalty' => 'required|string|exists:ref_penalty,code',
                 'penalty_duration' => 'required|integer',
-                'penalty_type' => 'required|required',
-                'penalty_start' => 'required|required',
-                'penalty_end' => 'required|required',
+                'penalty_type' => 'required',
+                'penalty_start' => 'required',
+                'penalty_end' => 'required',
             ],[
                 'penalty_no_pengenalan.required' => 'Sila isikan no kad pengenalan',
                 'penalty_no_pengenalan.exists' => 'Rekod data no kad pengenalan tidak dijumpai',
