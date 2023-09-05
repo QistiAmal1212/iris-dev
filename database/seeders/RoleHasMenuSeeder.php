@@ -21,122 +21,185 @@ class RoleHasMenuSeeder extends Seeder
             array (
                 'role_id' => 1,
                 'menu_id' => 1,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
             ),
             1 =>
             array (
                 'role_id' => 1,
                 'menu_id' => 2,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
             ),
             2 =>
             array (
                 'role_id' => 1,
                 'menu_id' => 3,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
             ),
             3 =>
             array (
                 'role_id' => 1,
                 'menu_id' => 4,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
             ),
             4 =>
             array (
                 'role_id' => 1,
                 'menu_id' => 5,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
             ),
             5 =>
             array (
                 'role_id' => 1,
                 'menu_id' => 6,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
             ),
             6 =>
             array (
                 'role_id' => 1,
                 'menu_id' => 7,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
             ),
             7 =>
             array (
                 'role_id' => 1,
                 'menu_id' => 8,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
             ),
             8 =>
             array (
                 'role_id' => 1,
                 'menu_id' => 9,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
             ),
             9 =>
             array (
                 'role_id' => 1,
                 'menu_id' => 10,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
             ),
             10 =>
             array (
                 'role_id' => 1,
                 'menu_id' => 11,
-                'access' => true,
-                'search' => true,
                 'add' => true,
                 'update' => true,
                 'delete' => true,
-                'report' => true,
+            ),
+            11 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 12,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            12 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 13,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            13 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 14,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            14 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 15,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            15 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 16,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            16 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 17,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            17 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 18,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            18 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 19,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            19 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 20,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            20 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 21,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            21 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 22,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
+            ),
+            22 =>
+            array (
+                'role_id' => 1,
+                'menu_id' => 23,
+                'add' => true,
+                'update' => true,
+                'delete' => true,
             ),
         ));
     }

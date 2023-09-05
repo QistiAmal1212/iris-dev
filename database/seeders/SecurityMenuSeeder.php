@@ -96,7 +96,7 @@ class SecurityMenuSeeder extends Seeder
             ),
             7 =>
             array (
-                'name' => 'Selenggara Pengguna',
+                'name' => 'Pengguna Dalaman',
                 'type' => 'Web',
                 'module_id' => 2,
                 'level' => 3,
@@ -107,11 +107,11 @@ class SecurityMenuSeeder extends Seeder
             ),
             8 =>
             array (
-                'name' => 'Role',
+                'name' => 'Peranan',
                 'type' => 'Web',
                 'module_id' => 3,
                 'level' => 3,
-                'sequence' => 2,
+                'sequence' => 3,
                 'menu_link' => 4,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
@@ -135,6 +135,138 @@ class SecurityMenuSeeder extends Seeder
                 'level' => 3,
                 'sequence' => 1,
                 'menu_link' => 7,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            11 =>
+            array (
+                'name' => 'Negeri',
+                'type' => 'Web',
+                'module_id' => 9,
+                'level' => 3,
+                'sequence' => 1,
+                'menu_link' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            12 =>
+            array (
+                'name' => 'Agama',
+                'type' => 'Web',
+                'module_id' => 10,
+                'level' => 3,
+                'sequence' => 2,
+                'menu_link' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            13 =>
+            array (
+                'name' => 'Taraf Perkahwinan',
+                'type' => 'Web',
+                'module_id' => 11,
+                'level' => 3,
+                'sequence' => 3,
+                'menu_link' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            14 =>
+            array (
+                'name' => 'Pengguna Luaran',
+                'type' => 'Web',
+                'module_id' => 12,
+                'level' => 3,
+                'sequence' => 2,
+                'menu_link' => 4,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            15 =>
+            array (
+                'name' => 'Kementerian',
+                'type' => 'Web',
+                'module_id' => 13,
+                'level' => 3,
+                'sequence' => 4,
+                'menu_link' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            16 =>
+            array (
+                'name' => 'Jawatan',
+                'type' => 'Web',
+                'module_id' => 14,
+                'level' => 3,
+                'sequence' => 5,
+                'menu_link' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            17 =>
+            array (
+                'name' => 'Institusi',
+                'type' => 'Web',
+                'module_id' => 15,
+                'level' => 3,
+                'sequence' => 6,
+                'menu_link' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            18 =>
+            array (
+                'name' => 'Pengkhususan',
+                'type' => 'Web',
+                'module_id' => 16,
+                'level' => 3,
+                'sequence' => 7,
+                'menu_link' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            19 =>
+            array (
+                'name' => 'Kelulusan',
+                'type' => 'Web',
+                'module_id' => 17,
+                'level' => 3,
+                'sequence' => 8,
+                'menu_link' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            20 =>
+            array (
+                'name' => 'Keturunan',
+                'type' => 'Web',
+                'module_id' => 18,
+                'level' => 3,
+                'sequence' => 9,
+                'menu_link' => 3,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            21 =>
+            array (
+                'name' => 'Kumpulan Pengguna',
+                'type' => 'Web',
+                'module_id' => 19,
+                'level' => 3,
+                'sequence' => 4,
+                'menu_link' => 4,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ),
+            22 =>
+            array (
+                'name' => 'Jantina',
+                'type' => 'Web',
+                'module_id' => 20,
+                'level' => 3,
+                'sequence' => 10,
+                'menu_link' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ),
