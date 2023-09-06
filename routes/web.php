@@ -8,7 +8,6 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InboxController;
-use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ProfileController;
@@ -18,6 +17,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CaptchaController;
+use App\Http\Controllers\Reference\AreaInterviewCentreController;
 use App\Http\Controllers\Security\MenuController;
 use App\Http\Controllers\Reference\StateController;
 use App\Http\Controllers\Reference\ReligionController;
@@ -29,6 +29,18 @@ use App\Http\Controllers\Reference\SpecializationController;
 use App\Http\Controllers\Reference\QualificationController;
 use App\Http\Controllers\Reference\RaceController;
 use App\Http\Controllers\Reference\GenderController;
+use App\Http\Controllers\Reference\JobController;
+use App\Http\Controllers\Reference\LanguageController;
+use App\Http\Controllers\Reference\LevelJKKController;
+use App\Http\Controllers\Reference\MatriculationController;
+use App\Http\Controllers\Reference\MatriculationCourseController;
+use App\Http\Controllers\Reference\MatriculationSubjectController;
+use App\Http\Controllers\Reference\PenaltyController;
+use App\Http\Controllers\Reference\PositionLevelController;
+use App\Http\Controllers\Reference\RankController;
+use App\Http\Controllers\Reference\SalaryGradeController;
+use App\Http\Controllers\Reference\SubjectController;
+use App\Http\Controllers\Reference\TalentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -201,6 +213,98 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{genderId}', [GenderController::class, 'edit'])->name('admin.reference.gender.edit');
             Route::post('update/{genderId}', [GenderController::class, 'update'])->name('admin.reference.gender.update');
         });
+
+        Route::prefix('job')->group(function () {
+            Route::get('/', [JobController::class, 'index'])->name('admin.reference.job');
+            Route::post('create', [JobController::class, 'store'])->name('admin.reference.job.store');
+            Route::get('edit/{jobId}', [JobController::class, 'edit'])->name('admin.reference.job.edit');
+            Route::post('update/{jobId}', [JobController::class, 'update'])->name('admin.reference.job.update');
+        });
+
+        Route::prefix('language')->group(function () {
+            Route::get('/', [LanguageController::class, 'index'])->name('admin.reference.language');
+            Route::post('create', [LanguageController::class, 'store'])->name('admin.reference.language.store');
+            Route::get('edit/{languageId}', [LanguageController::class, 'edit'])->name('admin.reference.language.edit');
+            Route::post('update/{languageId}', [LanguageController::class, 'update'])->name('admin.reference.language.update');
+        });
+
+        Route::prefix('matriculation')->group(function () {
+            Route::get('/', [MatriculationController::class, 'index'])->name('admin.reference.matriculation');
+            Route::post('create', [MatriculationController::class, 'store'])->name('admin.reference.matriculation.store');
+            Route::get('edit/{matriculationId}', [MatriculationController::class, 'edit'])->name('admin.reference.matriculation.edit');
+            Route::post('update/{matriculationId}', [MatriculationController::class, 'update'])->name('admin.reference.matriculation.update');
+        });
+
+        Route::prefix('matriculation_course')->group(function () {
+            Route::get('/', [MatriculationCourseController::class, 'index'])->name('admin.reference.matriculation-course');
+            Route::post('create', [MatriculationCourseController::class, 'store'])->name('admin.reference.matriculation-course.store');
+            Route::get('edit/{matriculationCourseId}', [MatriculationCourseController::class, 'edit'])->name('admin.reference.matriculation-course.edit');
+            Route::post('update/{matriculationCourseId}', [MatriculationCourseController::class, 'update'])->name('admin.reference.matriculation-course.update');
+        });
+
+        Route::prefix('matriculation_subject')->group(function () {
+            Route::get('/', [MatriculationSubjectController::class, 'index'])->name('admin.reference.matriculation-subject');
+            Route::post('create', [MatriculationSubjectController::class, 'store'])->name('admin.reference.matriculation-subject.store');
+            Route::get('edit/{matriculationSubjectId}', [MatriculationSubjectController::class, 'edit'])->name('admin.reference.matriculation-subject.edit');
+            Route::post('update/{matriculationSubjectId}', [MatriculationSubjectController::class, 'update'])->name('admin.reference.matriculation-subject.update');
+        });
+
+        Route::prefix('position_level')->group(function () {
+            Route::get('/', [PositionLevelController::class, 'index'])->name('admin.reference.position-level');
+            Route::post('create', [PositionLevelController::class, 'store'])->name('admin.reference.position-level.store');
+            Route::get('edit/{positionLevelId}', [PositionLevelController::class, 'edit'])->name('admin.reference.position-level.edit');
+            Route::post('update/{positionLevelId}', [PositionLevelController::class, 'update'])->name('admin.reference.position-level.update');
+        });
+
+        Route::prefix('rank')->group(function () {
+            Route::get('/', [RankController::class, 'index'])->name('admin.reference.rank');
+            Route::post('create', [RankController::class, 'store'])->name('admin.reference.rank.store');
+            Route::get('edit/{rankId}', [RankController::class, 'edit'])->name('admin.reference.rank.edit');
+            Route::post('update/{rankId}', [RankController::class, 'update'])->name('admin.reference.rank.update');
+        });
+
+        Route::prefix('subject')->group(function () {
+            Route::get('/', [SubjectController::class, 'index'])->name('admin.reference.subject');
+            Route::post('create', [SubjectController::class, 'store'])->name('admin.reference.subject.store');
+            Route::get('edit/{subjectId}', [SubjectController::class, 'edit'])->name('admin.reference.subject.edit');
+            Route::post('update/{subjectId}', [SubjectController::class, 'update'])->name('admin.reference.subject.update');
+        });
+
+        Route::prefix('talent')->group(function () {
+            Route::get('/', [TalentController::class, 'index'])->name('admin.reference.talent');
+            Route::post('create', [TalentController::class, 'store'])->name('admin.reference.talent.store');
+            Route::get('edit/{talentId}', [TalentController::class, 'edit'])->name('admin.reference.talent.edit');
+            Route::post('update/{talentId}', [TalentController::class, 'update'])->name('admin.reference.talent.update');
+        });
+
+        Route::prefix('salary_grade')->group(function () {
+            Route::get('/', [SalaryGradeController::class, 'index'])->name('admin.reference.salary-grade');
+            Route::post('create', [SalaryGradeController::class, 'store'])->name('admin.reference.salary-grade.store');
+            Route::get('edit/{salaryGradeId}', [SalaryGradeController::class, 'edit'])->name('admin.reference.salary-grade.edit');
+            Route::post('update/{salaryGradeId}', [SalaryGradeController::class, 'update'])->name('admin.reference.salary-grade.update');
+        });
+
+        Route::prefix('level_JKK')->group(function () {
+            Route::get('/', [LevelJKKController::class, 'index'])->name('admin.reference.level-JKK');
+            Route::post('create', [LevelJKKController::class, 'store'])->name('admin.reference.level-JKK.store');
+            Route::get('edit/{levelJKKId}', [LevelJKKController::class, 'edit'])->name('admin.reference.level-JKK.edit');
+            Route::post('update/{levelJKKId}', [LevelJKKController::class, 'update'])->name('admin.reference.level-JKK.update');
+        });
+
+        Route::prefix('area_interview_centre')->group(function () {
+            Route::get('/', [AreaInterviewCentreController::class, 'index'])->name('admin.reference.area-interview-centre');
+            Route::post('create', [AreaInterviewCentreController::class, 'store'])->name('admin.reference.area-interview-centre.store');
+            Route::get('edit/{areaInterviewCentreId}', [AreaInterviewCentreController::class, 'edit'])->name('admin.reference.area-interview-centre.edit');
+            Route::post('update/{areaInterviewCentreId}', [AreaInterviewCentreController::class, 'update'])->name('admin.reference.area-interview-centre.update');
+        });
+
+        Route::prefix('penalty')->group(function () {
+            Route::get('/', [PenaltyController::class, 'index'])->name('admin.reference.penalty');
+            Route::post('create', [PenaltyController::class, 'store'])->name('admin.reference.penalty.store');
+            Route::get('edit/{penaltyId}', [PenaltyController::class, 'edit'])->name('admin.reference.penalty.edit');
+            Route::post('update/{penaltyId}', [PenaltyController::class, 'update'])->name('admin.reference.penalty.update');
+        });
+
     });
 
     Route::prefix('security')->group(function () {
