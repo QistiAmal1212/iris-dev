@@ -165,6 +165,15 @@
                     $('#levelJKKForm input[name="code"]').val(data.detail.code);
                     $('#levelJKKForm input[name="name"]').val(data.detail.name);
 
+                    $('#levelJKKForm input[name="code"]').prop('readonly', true);
+
+                        $('#levelJKKForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
+
                     $('#title-role').html('Kemaskini Tahap JKK');
 
                     if(accessUpdate == ''){

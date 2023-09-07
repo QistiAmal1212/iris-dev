@@ -165,6 +165,15 @@
                     $('#matriculationCourseForm input[name="code"]').val(data.detail.code);
                     $('#matriculationCourseForm input[name="name"]').val(data.detail.name);
 
+                    $('#matriculationCourseForm input[name="code"]').prop('readonly', true);
+
+                        $('#matriculationCourseForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
+
                     $('#title-role').html('Kemaskini Kursus Matrikulasi');
 
                     if(accessUpdate == ''){

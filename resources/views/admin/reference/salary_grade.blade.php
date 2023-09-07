@@ -165,6 +165,15 @@
                     $('#salaryGradeForm input[name="code"]').val(data.detail.code);
                     $('#salaryGradeForm input[name="name"]').val(data.detail.name);
 
+                    $('#salaryGradeForm input[name="code"]').prop('readonly', true);
+
+                        $('#salaryGradeForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
+
                     $('#title-role').html('Kemaskini Gred Gaji');
 
                     if(accessUpdate == ''){
