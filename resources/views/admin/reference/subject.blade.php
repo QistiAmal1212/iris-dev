@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Subject
+    Subjek
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-    <li class="breadcrumb-item"><a>Subject</a>
+    <li class="breadcrumb-item"><a>Subjek</a>
     </li>
 @endsection
 
@@ -31,10 +31,10 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Subject</h4>
+        <h4 class="card-title">Senarai Subjek</h4>
         @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="subjectForm()">
-            <i class="fa-solid fa-add"></i> Tambah Subject
+            <i class="fa-solid fa-add"></i> Tambah Subjek
         </button>
         @endif
     </div>
@@ -46,7 +46,7 @@
                     <tr>
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
-                        <th>Subject</th>
+                        <th>Subjek</th>
                         <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
@@ -136,7 +136,7 @@
             $('#subjectForm input[name="name"]').val("");
             $('#subjectForm input[name="form"]').val("");
 
-            $('#title-role').html('Tambah Subject');
+            $('#title-role').html('Tambah Subjek');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -175,7 +175,7 @@
                             'cursor': 'not-allowed'
                         });
 
-                    $('#title-role').html('Kemaskini Subject');
+                    $('#title-role').html('Kemaskini Subjek');
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);
