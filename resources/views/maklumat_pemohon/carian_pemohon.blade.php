@@ -275,6 +275,34 @@ Maklumat Pemohon
                     });
                     $('#table-skm tbody').append(trSkm);
 
+                    console.log(data.detail.army_police.ref_rank_code);
+                    $('#army_police_rank').val(data.detail.army_police.ref_rank_code).trigger('change');
+
+                    $('#table-language tbody').empty();
+                    var trLanguage = '';
+                    var bilLanguage = 0;
+                    $.each(data.detail.language, function (i, item) {
+                        bilLanguage += 1;
+                        trLanguage += '<tr>';
+                        trLanguage += '<td align="center">' + bilLanguage + '</td>'
+                        trLanguage += '<td>' + item.language.name + '</td>';
+                        trLanguage += '<td>' + item.level + '</td>';
+                        trLanguage += '</tr>';
+                    });
+                    $('#table-language tbody').append(trLanguage);
+
+                    $('#table-talent tbody').empty();
+                    var trTalent = '';
+                    var bilTalent = 0;
+                    $.each(data.detail.talent, function (i, item) {
+                        bilTalent += 1;
+                        trTalent += '<tr>';
+                        trTalent += '<td align="center">' + bilTalent + '</td>'
+                        trTalent += '<td>' + item.talent.name + '</td>';
+                        trTalent += '</tr>';
+                    });
+                    $('#table-talent tbody').append(trTalent);
+
                     $('#table-penalty tbody').empty();
                     var trPenalty = '';
                     var bilPenalty = 0;

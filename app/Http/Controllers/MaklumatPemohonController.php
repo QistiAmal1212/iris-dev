@@ -8,6 +8,7 @@ use App\Models\Reference\Gender;
 use App\Models\Reference\Institution;
 use App\Models\Reference\MaritalStatus;
 use App\Models\Reference\Penalty;
+use App\Models\Reference\Rank;
 use App\Models\Reference\Race;
 use App\Models\Reference\Religion;
 use App\Models\Reference\State;
@@ -29,10 +30,11 @@ class MaklumatPemohonController extends Controller
         $maritalStatuses = MaritalStatus::all();
         $penalties = Penalty::all();
         $races = Race::all();
+        $ranks = Rank::all();
         $religions = Religion::all();
         $states = State::orderBy('name', 'asc')->get();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('genders', 'institutions', 'maritalStatuses', 'penalties', 'races', 'religions', 'states'));
+        return view('maklumat_pemohon.carian_pemohon', compact('genders', 'institutions', 'maritalStatuses', 'penalties', 'races', 'ranks', 'religions', 'states'));
     }
 
     public function viewMaklumatPemohon(){
@@ -60,6 +62,15 @@ class MaklumatPemohonController extends Controller
                 },
                 'skm' => function ($query) {
                     $query->with(['qualification']);
+                },
+                'armyPolice' => function ($query) {
+                    $query->with(['rank']);
+                },
+                'language' => function ($query) {
+                    $query->with(['language']);
+                },
+                'talent' => function ($query) {
+                    $query->with(['talent']);
                 },
                 'penalty' => function ($query) {
                     $query->with(['penalty']);

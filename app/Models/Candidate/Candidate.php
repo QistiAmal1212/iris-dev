@@ -67,6 +67,18 @@ class Candidate extends Model
     public function skm() {
         return $this->hasMany('App\Models\Candidate\CandidateSkm', 'no_pengenalan', 'no_pengenalan');
     }
+    
+    public function armyPolice() {
+        return $this->hasOne('App\Models\Candidate\CandidateArmyPolice', 'no_pengenalan', 'no_pengenalan');
+    }
+
+    public function language() {
+        return $this->hasMany('App\Models\Candidate\CandidateLanguage', 'no_pengenalan', 'no_pengenalan');
+    }
+
+    public function talent() {
+        return $this->hasMany('App\Models\Candidate\CandidateTalent', 'no_pengenalan', 'no_pengenalan');
+    }
 
     public function penalty() {
         return $this->hasMany('App\Models\Candidate\CandidatePenalty', 'no_pengenalan', 'no_pengenalan');

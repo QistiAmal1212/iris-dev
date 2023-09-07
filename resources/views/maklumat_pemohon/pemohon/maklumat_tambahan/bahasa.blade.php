@@ -1,12 +1,12 @@
 <div class="row mt-2 mb-2">
     <div class="table-responsive">
-        <table class="table header_uppercase table-bordered table-hovered">
+        <table class="table header_uppercase table-bordered table-hovered" id="table-language">
             <thead>
                 <tr>
                     <th>Bil.</th>
                     <th>Bahasa</th>
                     <th>Penguasaan Bahasa</th>
-                    <th>Kemaskini Terkini</th>
+                    {{-- <th>Kemaskini Terkini</th> --}}
                 </tr>
             </thead>
             <tbody>
