@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('candidate_talent', function (Blueprint $table) {
-            $table->string('ref_talent_code')->nullable()->after('no_pengenalan');
+            $table->string('ref_talent_code')->after('no_pengenalan');
             $table->foreign('ref_talent_code')->references('code')->on('ref_talent')->onDelete('no action')->onUpdate('cascade');
         });
     }
