@@ -165,6 +165,15 @@
                     $('#maritalStatusForm input[name="code"]').val(data.detail.code);
                     $('#maritalStatusForm input[name="name"]').val(data.detail.name);
 
+                    $('#maritalStatusForm input[name="code"]').prop('readonly', true);
+
+                        $('#maritalStatusForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
+
                     $('#title-role').html('Kemaskini Taraf Perkahwinan');
 
                     if(accessUpdate == ''){

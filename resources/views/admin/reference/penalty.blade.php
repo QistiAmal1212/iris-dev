@@ -166,6 +166,15 @@
                     $('#penaltyForm input[name="name"]').val(data.detail.name);
                     $('#penaltyForm input[name="category"]').val(data.detail.category);
 
+                    $('#penaltyForm input[name="code"]').prop('readonly', true);
+
+                        $('#penaltyForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
+
                     $('#title-role').html('Kemaskini Penalti');
 
                     if(accessUpdate == ''){

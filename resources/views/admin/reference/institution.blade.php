@@ -165,6 +165,15 @@
                     $('#institutionForm input[name="code"]').val(data.detail.code);
                     $('#institutionForm input[name="name"]').val(data.detail.name);
 
+                    $('#institutionForm input[name="code"]').prop('readonly', true);
+
+                        $('#institutionForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
+
                     $('#title-role').html('Kemaskini Institusi');
 
                     if(accessUpdate == ''){

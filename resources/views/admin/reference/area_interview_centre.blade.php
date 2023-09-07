@@ -164,6 +164,14 @@
                     $('#areaInterviewCentreForm').attr('action',url2 );
                     $('#areaInterviewCentreForm input[name="code"]').val(data.detail.code);
                     $('#areaInterviewCentreForm input[name="name"]').val(data.detail.name);
+                    $('#areaInterviewCentreForm input[name="code"]').prop('readonly', true);
+
+                        $('#areaInterviewCentreForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
 
                     $('#title-role').html('Kemaskini Kawasan Pusat Temuduga');
 

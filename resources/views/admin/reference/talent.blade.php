@@ -164,6 +164,15 @@
                     $('#talentForm input[name="code"]').val(data.detail.code);
                     $('#talentForm input[name="name"]').val(data.detail.name);
 
+                    $('#talentForm input[name="code"]').prop('readonly', true);
+
+                        $('#talentForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
+
                     $('#title-role').html('Kemaskini Bakat');
 
                     if(accessUpdate == ''){

@@ -165,6 +165,15 @@
                     $('#religionForm input[name="code"]').val(data.detail.code);
                     $('#religionForm input[name="name"]').val(data.detail.name);
 
+                    $('#religionForm input[name="code"]').prop('readonly', true);
+
+                        $('#religionForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
+
                     $('#title-role').html('Kemaskini Agama');
 
                     if(accessUpdate == ''){

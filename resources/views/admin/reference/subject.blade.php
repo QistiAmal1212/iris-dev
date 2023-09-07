@@ -166,6 +166,15 @@
                     $('#subjectForm input[name="name"]').val(data.detail.name);
                     $('#subjectForm input[name="form"]').val(data.detail.form);
 
+                    $('#subjectForm input[name="code"]').prop('readonly', true);
+
+                        $('#subjectForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
+
                     $('#title-role').html('Kemaskini Subject');
 
                     if(accessUpdate == ''){
