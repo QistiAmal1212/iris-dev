@@ -27,6 +27,17 @@
         /* word-wrap: break-word; */
     }
 
+    input[readonly] {
+            pointer-events: none;
+            /* Disable pointer events */
+            background-color: #f0f0f0;
+            /* Change background color */
+            color: #666;
+            /* Change text color */
+            border: 1px solid #ccc;
+            /* Change border color */
+        }
+
 </style>
 
 <div class="card">
@@ -134,6 +145,7 @@
             $('#talentForm').attr('action', '{{ route("admin.reference.talent.store") }}');
             $('#talentForm input[name="code"]').val("");
             $('#talentForm input[name="name"]').val("");
+            $('#talentForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Bakat');
 
@@ -163,15 +175,8 @@
                     $('#talentForm').attr('action',url2 );
                     $('#talentForm input[name="code"]').val(data.detail.code);
                     $('#talentForm input[name="name"]').val(data.detail.name);
-
                     $('#talentForm input[name="code"]').prop('readonly', true);
 
-                        $('#talentForm input[name="code"]').css({
-                            'background-color': '#f0f0f0',
-                            'color': '#666',
-                            'border': '1px solid #ccc',
-                            'cursor': 'not-allowed'
-                        });
 
                     $('#title-role').html('Kemaskini Bakat');
 

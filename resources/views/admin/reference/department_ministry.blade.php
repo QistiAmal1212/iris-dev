@@ -27,6 +27,17 @@
         /* word-wrap: break-word; */
     }
 
+    input[readonly] {
+            pointer-events: none;
+            /* Disable pointer events */
+            background-color: #f0f0f0;
+            /* Change background color */
+            color: #666;
+            /* Change text color */
+            border: 1px solid #ccc;
+            /* Change border color */
+        }
+
 </style>
 
 <div class="card">
@@ -135,6 +146,7 @@
             $('#departmentMinistryForm').attr('action', '{{ route("admin.reference.department-ministry.store") }}');
             $('#departmentMinistryForm input[name="code"]').val("");
             $('#departmentMinistryForm input[name="name"]').val("");
+            $('#departmentMinistryForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Kementerian');
 
@@ -165,13 +177,6 @@
                     $('#departmentMinistryForm input[name="code"]').val(data.detail.code);
                     $('#departmentMinistryForm input[name="name"]').val(data.detail.name);
                     $('#departmentMinistryForm input[name="code"]').prop('readonly', true);
-
-                        $('#departmentMinistryForm input[name="code"]').css({
-                            'background-color': '#f0f0f0',
-                            'color': '#666',
-                            'border': '1px solid #ccc',
-                            'cursor': 'not-allowed'
-                        });
 
                     $('#title-role').html('Kemaskini Kementerian');
 

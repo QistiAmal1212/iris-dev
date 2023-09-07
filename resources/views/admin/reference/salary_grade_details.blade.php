@@ -1,50 +1,39 @@
 @extends('layouts.app')
 
 @section('header')
-    Institusi
+    Butiran Gred Gaji
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('msg.home') }}</a></li>
-    <li class="breadcrumb-item"><a>Institusi</a>
+    <li class="breadcrumb-item"><a>Butiran Gred Gaji</a>
     </li>
 @endsection
 
 @section('content')
     <style>
-        #table-institution thead th {
+        #table-salary-grade-details thead th {
             vertical-align: middle;
             text-align: center;
         }
 
-        #table-institution tbody {
+        #table-salary-grade-details tbody {
             vertical-align: middle;
             /* text-align: center; */
         }
 
-        #table-institution {
+        #table-salary-grade-details {
             width: 100% !important;
             /* word-wrap: break-word; */
-        }
-
-        input[readonly] {
-            pointer-events: none;
-            /* Disable pointer events */
-            background-color: #f0f0f0;
-            /* Change background color */
-            color: #666;
-            /* Change text color */
-            border: 1px solid #ccc;
-            /* Change border color */
         }
     </style>
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Senarai Institusi</h4>
+            <h4 class="card-title">Senarai Butiran Gred Gaji</h4>
             @if ($accessAdd)
-                <button type="button" class="btn btn-primary btn-md float-right" onclick="institutionForm()">
-                    <i class="fa-solid fa-add"></i> Tambah Institusi
+                <button type="button" class="btn btn-primary btn-md float-right" onclick="salaryGradeDetailsForm()">
+                    <i class="fa-solid fa-add"></i> Tambah Butiran Gred Gaji
                 </button>
             @endif
         </div>
@@ -52,12 +41,14 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table header_uppercase table-bordered" id="table-institution">
+                <table class="table header_uppercase table-bordered" id="table-salary-grade-details">
                     <thead>
                         <tr>
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
-                            <th>Nama Institusi</th>
+                            <th width="15%">Tahap</th>
+                            <th width="15%">Tahun</th>
+                            <th>Jumlah</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -66,12 +57,13 @@
         </div>
     </div>
 
-    @include('admin.reference.institutionForm')
+    @include('admin.reference.salaryGradeDetailsForm')
+    @include('admin.reference.salaryGradeDetailsEditForm')
 @endsection
 
 @section('script')
     <script>
-        var table = $('#table-institution').DataTable({
+        var table = $('#table-salary-grade-details').DataTable({
             orderCellsTop: true,
             colReorder: false,
             pageLength: 25,
@@ -91,16 +83,30 @@
                     }
                 },
                 {
-                    data: "code",
-                    name: "code",
+                    data: "ref_salary_grade_code",
+                    name: "ref_salary_grade_code",
                     className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
                 },
                 {
-                    data: "name",
-                    name: "name",
+                    data: "level",
+                    name: "level",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "year",
+                    name: "year",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "amount",
+                    name: "amount",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -130,9 +136,9 @@
             }
         });
 
-        institutionForm = function(id = null) {
-            var institutionFormModal;
-            institutionFormModal = new bootstrap.Modal(document.getElementById('institutionFormModal'), {
+        salaryGradeDetailsForm = function(id = null) {
+            var salaryGradeDetailsFormModal;
+            salaryGradeDetailsFormModal = new bootstrap.Modal(document.getElementById('salaryGradeDetailsFormModal'), {
                 keyboard: false
             });
 
@@ -141,13 +147,15 @@
 
             event.preventDefault();
             if (id === null) {
-                $('#institutionForm').attr('action', '{{ route('admin.reference.institution.store') }}');
-                $('#institutionForm input[name="code"]').val("");
-                $('#institutionForm input[name="name"]').val("");
+                $('#salaryGradeDetailsForm').attr('action',
+                    '{{ route('admin.reference.salary-grade-details.store') }}');
 
-                $('#institutionForm input[name="code"]').prop('readonly', false);
+                $('#salaryGradeDetailsForm input[name="code"]').val("");
+                $('#salaryGradeDetailsForm input[name="level"]').val("");
+                $('#salaryGradeDetailsForm input[name="year"]').val("");
+                $('#salaryGradeDetailsForm input[name="amount"]').val("");
 
-                $('#title-role').html('Tambah Institusi');
+                $('#title-role').html('Tambah Butiran Gred Gaji');
 
                 if (accessAdd == '') {
                     $('#btn_fake').attr('hidden', true);
@@ -155,9 +163,13 @@
                     $('#btn_fake').attr('hidden', false);
                 }
 
-                institutionFormModal.show();
+                salaryGradeDetailsFormModal.show();
             } else {
-                url = "{{ route('admin.reference.institution.edit', ':replaceThis') }}"
+                salaryGradeDetailsFormModal = new bootstrap.Modal(document.getElementById(
+                    'salaryGradeDetailsEditFormModal'), {
+                        keyboard: false
+                    });
+                url = "{{ route('admin.reference.salary-grade-details.edit', ':replaceThis') }}"
                 url = url.replace(':replaceThis', id);
                 $.ajax({
                     url: url,
@@ -167,18 +179,27 @@
                     processData: false,
                     success: function(data) {
                         // console.log(data);
-                        institution_id = data.detail.id;
+                        salary_grade_id = data.detail.id;
                         // console.log(id_used);
-                        url2 = "{{ route('admin.reference.institution.update', ':replaceThis') }}"
-                        url2 = url2.replace(':replaceThis', institution_id);
+                        url2 = "{{ route('admin.reference.salary-grade-details.update', ':replaceThis') }}"
+                        url2 = url2.replace(':replaceThis', salary_grade_id);
 
-                        $('#institutionForm').attr('action', url2);
-                        $('#institutionForm input[name="code"]').val(data.detail.code);
-                        $('#institutionForm input[name="name"]').val(data.detail.name);
+                        $('#salaryGradeDetailsForm').attr('action', url2);
+                        $('#salaryGradeDetailsForm input[name="code"]').val(data.detail.ref_salary_grade_code);
+                        $('#salaryGradeDetailsForm input[name="level"]').val(data.detail.level);
+                        $('#salaryGradeDetailsForm input[name="year"]').val(data.detail.year);
+                        $('#salaryGradeDetailsForm input[name="amount"]').val(data.detail.amount);
 
-                        $('#institutionForm input[name="code"]').prop('readonly', true);
+                        $('#salaryGradeDetailsForm input[name="code"]').prop('readonly', true);
 
-                        $('#title-role').html('Kemaskini Institusi');
+                        $('#salaryGradeDetailsForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
+
+                        $('#title-role').html('Kemaskini Butiran Gred Gaji');
 
                         if (accessUpdate == '') {
                             $('#btn_fake').attr('hidden', true);
@@ -186,7 +207,7 @@
                             $('#btn_fake').attr('hidden', false);
                         }
 
-                        institutionFormModal.show();
+                        salaryGradeDetailsFormModal.show();
                     },
                 });
             }

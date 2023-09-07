@@ -27,6 +27,17 @@
         /* word-wrap: break-word; */
     }
 
+    input[readonly] {
+            pointer-events: none;
+            /* Disable pointer events */
+            background-color: #f0f0f0;
+            /* Change background color */
+            color: #666;
+            /* Change text color */
+            border: 1px solid #ccc;
+            /* Change border color */
+        }
+
 </style>
 
 <div class="card">
@@ -134,6 +145,7 @@
             $('#matriculationForm').attr('action', '{{ route("admin.reference.matriculation.store") }}');
             $('#matriculationForm input[name="code"]').val("");
             $('#matriculationForm input[name="name"]').val("");
+            $('#matriculationForm  input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Matrikulasi');
 
@@ -163,15 +175,8 @@
                     $('#matriculationForm').attr('action',url2 );
                     $('#matriculationForm input[name="code"]').val(data.detail.code);
                     $('#matriculationForm input[name="name"]').val(data.detail.name);
-
                     $('#matriculationForm  input[name="code"]').prop('readonly', true);
 
-                        $('#matriculationForm  input[name="code"]').css({
-                            'background-color': '#f0f0f0',
-                            'color': '#666',
-                            'border': '1px solid #ccc',
-                            'cursor': 'not-allowed'
-                        });
 
                     $('#title-role').html('Kemaskini Matrikulasi');
 

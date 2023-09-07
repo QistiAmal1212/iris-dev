@@ -27,6 +27,18 @@
         /* word-wrap: break-word; */
     }
 
+    input[readonly] {
+            pointer-events: none;
+            /* Disable pointer events */
+            background-color: #f0f0f0;
+            /* Change background color */
+            color: #666;
+            /* Change text color */
+            border: 1px solid #ccc;
+            /* Change border color */
+        }
+
+
 </style>
 
 <div class="card">
@@ -137,6 +149,7 @@
             $('#matriculationSubjectForm input[name="name"]').val("");
             $('#matriculationSubjectForm input[name="credit"]').val("");
             $('#matriculationSubjectForm input[name="semester"]').val("");
+            $('#matriculationSubjectForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Subjek Matrikulasi');
 
@@ -169,13 +182,6 @@
                     $('#matriculationSubjectForm input[name="credit"]').val(data.detail.credit);
                     $('#matriculationSubjectForm input[name="semester"]').val(data.detail.semester);
                     $('#matriculationSubjectForm input[name="code"]').prop('readonly', true);
-
-                        $('#matriculationSubjectForm input[name="code"]').css({
-                            'background-color': '#f0f0f0',
-                            'color': '#666',
-                            'border': '1px solid #ccc',
-                            'cursor': 'not-allowed'
-                        });
 
                     $('#title-role').html('Kemaskini Subjek Matrikulasi');
 

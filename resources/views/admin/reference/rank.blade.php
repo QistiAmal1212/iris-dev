@@ -27,6 +27,17 @@
         /* word-wrap: break-word; */
     }
 
+    input[readonly] {
+            pointer-events: none;
+            /* Disable pointer events */
+            background-color: #f0f0f0;
+            /* Change background color */
+            color: #666;
+            /* Change text color */
+            border: 1px solid #ccc;
+            /* Change border color */
+        }
+
 </style>
 
 <div class="card">
@@ -134,6 +145,7 @@
             $('#rankForm').attr('action', '{{ route("admin.reference.rank.store") }}');
             $('#rankForm input[name="code"]').val("");
             $('#rankForm input[name="name"]').val("");
+            $('#rankForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Pangkat');
 
@@ -163,15 +175,8 @@
                     $('#rankForm').attr('action',url2 );
                     $('#rankForm input[name="code"]').val(data.detail.code);
                     $('#rankForm input[name="name"]').val(data.detail.name);
-
                     $('#rankForm input[name="code"]').prop('readonly', true);
 
-                        $('#rankForm input[name="code"]').css({
-                            'background-color': '#f0f0f0',
-                            'color': '#666',
-                            'border': '1px solid #ccc',
-                            'cursor': 'not-allowed'
-                        });
 
                     $('#title-role').html('Kemaskini Pangkat');
 

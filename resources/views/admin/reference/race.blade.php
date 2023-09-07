@@ -27,6 +27,17 @@
         /* word-wrap: break-word; */
     }
 
+    input[readonly] {
+            pointer-events: none;
+            /* Disable pointer events */
+            background-color: #f0f0f0;
+            /* Change background color */
+            color: #666;
+            /* Change text color */
+            border: 1px solid #ccc;
+            /* Change border color */
+        }
+
 </style>
 
 <div class="card">
@@ -134,6 +145,7 @@
             $('#raceForm').attr('action', '{{ route("admin.reference.race.store") }}');
             $('#raceForm input[name="code"]').val("");
             $('#raceForm input[name="name"]').val("");
+            $('#raceForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Keturunan');
 
@@ -165,13 +177,6 @@
                     $('#raceForm input[name="name"]').val(data.detail.name);
 
                     $('#raceForm input[name="code"]').prop('readonly', true);
-
-                        $('#raceForm input[name="code"]').css({
-                            'background-color': '#f0f0f0',
-                            'color': '#666',
-                            'border': '1px solid #ccc',
-                            'cursor': 'not-allowed'
-                        });
 
                     $('#title-role').html('Kemaskini Keturunan');
 
