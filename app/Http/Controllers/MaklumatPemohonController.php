@@ -110,7 +110,7 @@ class MaklumatPemohonController extends Controller
         return view('maklumat_pemohon.pemohon.list_timeline', compact('candidateTimeline'));
     }
 
-    public function storePersonal(Request $request) 
+    public function updatePersonal(Request $request) 
     {
         DB::beginTransaction();
         try {
@@ -118,23 +118,29 @@ class MaklumatPemohonController extends Controller
             $candidate = Candidate::where('no_pengenalan', $request->personal_no_pengenalan)->first();
 
             $request->validate([
-                'personal_no_pengenalan' => 'required|string|exists:candidate,no_pengenalan',
                 'gender' => 'required|string|exists:ref_gender,code',
                 'religion' => 'required|string|exists:ref_religion,code',
                 'race' => 'required|string|exists:ref_race,code',
                 'date_of_birth' => 'required',
                 'marital_status' => 'required|required|exists:ref_marital_status,code',
                 'phone_number' => 'required',
-                'email' => 'required',
+                'email' => 'required|email:rfc,dns',
             ],[
-                'personal_no_pengenalan.required' => 'Sila isikan no kad pengenalan',
-                'personal_no_pengenalan.exists' => 'Rekod data no kad pengenalan tidak dijumpai',
                 'gender.required' => 'Sila pilih jantina',
+                'gender.exists' => 'Tiada rekod data jantina yang dipilih',
+                'religion.required' => 'Sila pilih agama',
+                'religion.exists' => 'Tiada rekod data agama yang dipilih',
+                'race.required' => 'Sila pilih keturunan',
+                'race.exists' => 'Tiada rekod data keturunan yang dipilih',
                 'date_of_birth.required' => 'Sila isikan tarikh lahir',
+                'marital_status.required' => 'Sila pilih taraf perkahwinan',
+                'marital_status.exists' => 'Tiada rekod data taraf perkahwinan yang dipilih',
+                'phone_number.required' => 'Sila isikan no telefon',
+                'email.required' => 'Sila isikan emel',
+                'email.email' => 'Sila isikan emel yang sah',
             ]);
 
             $candidate->update([
-                'no_pengenalan' => $request->personal_no_pengenalan,
                 'ref_gender_code' => $request->gender,
                 'ref_religion_code' => $request->religion,
                 'ref_race_code' => $request->race,
@@ -147,7 +153,7 @@ class MaklumatPemohonController extends Controller
 
             CandidateTimeline::create([
                 'no_pengenalan' => $request->personal_no_pengenalan,
-                'details' => 'Kemaskini Maklumat Peribadi (Tatatertib)',
+                'details' => 'Kemaskini Maklumat Peribadi (Peribadi)',
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -163,6 +169,94 @@ class MaklumatPemohonController extends Controller
     }
 
     public function personalDetails(Request $request) 
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)->first();
+
+            if(!$candidate) {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            } 
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }  
+    }
+
+    public function updateAlamat(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = Candidate::where('no_pengenalan', $request->alamat_no_pengenalan)->first();
+
+            $request->validate([
+                'permanent_address_1' => 'required|string',
+                'permanent_address_2' => 'nullable|string',
+                'permanent_address_3' => 'nullable|string',
+                'permanent_poscode' => 'required|min:5|string',
+                'permanent_city' => 'required|string',
+                'permanent_state' => 'required|string|exists:ref_state,code',
+                'address_1' => 'required|string',
+                'address_2' => 'nullable|string',
+                'address_3' => 'nullable|string',
+                'poscode' => 'required|min:5|string',
+                'city' => 'required|string',
+                'state' => 'required|string|exists:ref_state,code',
+            ],[
+                'permanent_address_1.required' => 'Sila isi alamat tetap',
+                'permanent_poscode.required' => 'Sila isi poskod alamat tetap',
+                'permanent_poscode.min' => 'Poskod alamat tetap mestilah sekurang-kurangnya 5 aksara',
+                'permanent_city.required' => 'Sila isi bandar alamat tetap',
+                'permanent_state.required' => 'Sila pilih negeri alamat tetap',
+                'permanent_state.exists' => 'Tiada rekod data negeri yang dipilih',
+                'address_1.required' => 'Sila isi alamat surat menyurat',
+                'poscode.required' => 'Sila isi poskod alamat surat menyurat',
+                'poscode.min' => 'Poskod alamat surat menyurat mestilah sekurang-kurangnya 5 aksara',
+                'city.required' => 'Sila isi bandar alamat surat menyurat',
+                'state.required' => 'Sila pilih negeri alamat surat menyurat',
+                'state.exists' => 'Tiada rekod data negeri yang dipilih',
+            ]);
+
+            $candidate->update([
+                'permanent_address_1' => $request->permanent_address_1,
+                'permanent_address_2' => $request->permanent_address_2,
+                'permanent_address_3' => $request->permanent_address_3,
+                'permanent_poscode' => $request->permanent_poscode,
+                'permanent_city' => $request->permanent_city,
+                'permanent_state' => $request->permanent_state,
+                'address_1' => $request->address_1,
+                'address_2' => $request->address_2,
+                'address_3' => $request->address_3,
+                'poscode' => $request->poscode,
+                'city' => $request->city,
+                'state' => $request->state,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->alamat_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Peribadi (Alamat)',
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
+            
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function alamatDetails(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -235,8 +329,25 @@ class MaklumatPemohonController extends Controller
 
     public function listPenalty(Request $request) 
     {
-        $candidatePenalty = CandidatePenalty::where('no_pengenalan', $request->noPengenalan)->get();
-        return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+        DB::beginTransaction();
+        try {
+
+            $candidatePenalty = CandidatePenalty::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //} 
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePenalty]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }  
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
     }
 
 }

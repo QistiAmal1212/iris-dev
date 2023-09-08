@@ -5,9 +5,10 @@
 </style>
 <form 
 id="personalForm"
-action="{{ route('personal.store') }}"
+action="{{ route('personal.update') }}"
 method="POST"
-data-refreshFunctionNameIfSuccess="reloadPersonal" data-reloadPage="false">
+data-refreshFunctionNameIfSuccess="reloadPersonal" 
+data-reloadPage="false">
 @csrf
 <div id="div_personal">
     <input type="hidden" name="personal_no_pengenalan" id="personal_no_pengenalan" value="">
@@ -85,7 +86,7 @@ data-refreshFunctionNameIfSuccess="reloadPersonal" data-reloadPage="false">
 
 <div class="card-footer">
     <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" id="update_personal" onclick="editPersonal()">
+        <a class="me-3 text-danger" type="button" id="update_personal" hidden onclick="editPersonal()">
             <i class="fa-regular fa-pen-to-square"></i>
             Kemaskini
         </a>
@@ -114,13 +115,13 @@ data-refreshFunctionNameIfSuccess="reloadPersonal" data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#gender').val(data.detail.ref_gender_code).trigger('change');
-                $('#religion').val(data.detail.ref_religion_code).trigger('change');
-                $('#race').val(data.detail.ref_race_code).trigger('change');
-                $('#date_of_birth').val(data.detail.date_of_birth);
-                $('#marital_status').val(data.detail.ref_marital_status_code).trigger('change');
-                $('#phone_number').val(data.detail.phone_number);
-                $('#email').val(data.detail.email);
+                $('#personalForm select[name="gender"]').val(data.detail.ref_gender_code).trigger('change');
+                $('#personalForm select[name="religion"]').val(data.detail.ref_religion_code).trigger('change');
+                $('#personalForm select[name="race"]').val(data.detail.ref_race_code).trigger('change');
+                $('#personalForm input[name="date_of_birth"]').val(data.detail.date_of_birth);
+                $('#personalForm select[name="marital_status"]').val(data.detail.ref_marital_status_code).trigger('change');
+                $('#personalForm input[name="phone_number"]').val(data.detail.phone_number);
+                $('#personalForm input[name="email"]').val(data.detail.email);
             },
             error: function(data) {
                 //

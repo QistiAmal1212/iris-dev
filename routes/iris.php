@@ -10,12 +10,26 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::get('maklumat-pemohon','viewMaklumatPemohon')->name('maklumat_pemohon');
         Route::post('get-candidate-details', 'getCandidateDetails')->name('get-candidate-details');
         Route::get('timeline/{noPengenalan}', 'listTimeline')->name('timeline.list');
-        Route::post('personal/store', 'storePersonal')->name('personal.store');
-        Route::get('personal/{noPengenalan}', 'personalDetails')->name('personal.details');
-        Route::post('armyPolice/store', 'storeArmyPolice')->name('army-police.store');
-        Route::get('armyPolice/{noPengenalan}', 'armyPoliceDetails')->name('army-police.details');
-        Route::post('penalty/store', 'storePenalty')->name('penalty.store');
-        Route::get('penalty/{noPengenalan}', 'listPenalty')->name('penalty.list');
+
+        Route::prefix('personal')->group(function () {
+            Route::post('update', 'updatePersonal')->name('personal.update');
+            Route::get('details/{noPengenalan}', 'personalDetails')->name('personal.details');
+        });
+
+        Route::prefix('alamat')->group(function () {
+            Route::post('update', 'updateAlamat')->name('alamat.update');
+            Route::get('details/{noPengenalan}', 'alamatDetails')->name('alamat.details');
+        });
+
+        Route::prefix('armyPolice')->group(function () {
+            Route::post('store', 'storeArmyPolice')->name('army-police.store');
+            Route::get('details/{noPengenalan}', 'armyPoliceDetails')->name('army-police.details');
+        });
+
+        Route::prefix('penalty')->group(function () {
+            Route::post('store', 'storePenalty')->name('penalty.store');
+            Route::get('list/{noPengenalan}', 'listPenalty')->name('penalty.list');
+        });
     });
 });
 

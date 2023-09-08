@@ -1,10 +1,11 @@
 <div class="row mt-2 mb-2">
     
-    <form id="penaltyForm"
+    <form 
+    id="penaltyForm"
     action="{{ route('penalty.store') }}"
     method="POST"
-    data-refreshFunctionURL=""
-    data-refreshFunctionDivId="div_table_penalty" data-reloadPage="false">
+    data-refreshFunctionNameIfSuccess="reloadPenalty" 
+    data-reloadPage="false">
     @csrf
     <input type="hidden" name="penalty_no_pengenalan" id="penalty_no_pengenalan" value="">
     <div class="row">
@@ -81,7 +82,7 @@
 
 <div class="card-footer">
     <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" id="update_penalty" onclick="editPenalty()">
+        <a class="me-3 text-danger" type="button" id="update_penalty" hidden onclick="editPenalty()">
             <i class="fa-regular fa-pen-to-square"></i>
             Kemaskini
         </a>
@@ -97,10 +98,6 @@
         $('#penaltyForm input[name="penalty_start"]').attr('disabled', false);
         $('#penaltyForm input[name="penalty_end"]').attr('disabled', false);
         $('#penaltyForm input[name="penalty_end"]').attr('readonly', true);
-        $('#penaltyForm select[name="penalty"]').attr('required', true);
-        $('#penaltyForm input[name="penalty_duration"]').attr('required', true);
-        $('#penaltyForm select[name="penalty_type"]').attr('required', true);
-        $('#penaltyForm input[name="penalty_start"]').attr('required', true);
 
         var button_action_penalty = document.getElementById('button_action_penalty').style.display = 'block';
     }
@@ -152,6 +149,43 @@
             var date_end = y + '-' + mm + '-' + dd;
             var penalty_end = $('#penalty_end').val(date_end);
         }
+    }
+
+    function reloadPenalty() {
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
+
+        var reloadPenaltyUrl = "{{ route('penalty.list', ':replaceThis') }}"
+        reloadPenaltyUrl = reloadPenaltyUrl.replace(':replaceThis', no_pengenalan);
+        $.ajax({
+            url: reloadPenaltyUrl,
+            method: 'GET',
+            async: true,
+            success: function(data) {
+
+                $('#penaltyForm select[name="penalty"]').val('').trigger('change');
+                $('#penaltyForm input[name="penalty_duration"]').val('');
+                $('#penaltyForm select[name="penalty_type"]').val('');
+                $('#penaltyForm input[name="penalty_start"]').val('');
+
+                $('#table-penalty tbody').empty();
+                    var trPenalty = '';
+                    var bilPenalty = 0;
+                    $.each(data.detail, function (i, item) {
+                        bilPenalty += 1;
+                        trPenalty += '<tr>';
+                        trPenalty += '<td align="center">' + bilPenalty + '</td>'
+                        trPenalty += '<td>' + item.penalty.name + '</td>';
+                        trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
+                        trPenalty += '<td>' + item.date_start + '</td>';
+                        trPenalty += '<td>' + item.date_end + '</td>';
+                        trPenalty += '</tr>';
+                    });
+                    $('#table-penalty tbody').append(trPenalty);
+            },
+            error: function(data) {
+                //
+            }
+        });
     }
 
 </script>
