@@ -12,6 +12,8 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::get('timeline/{noPengenalan}', 'listTimeline')->name('timeline.list');
         Route::post('personal/store', 'storePersonal')->name('personal.store');
         Route::get('personal/{noPengenalan}', 'personalDetails')->name('personal.details');
+        Route::post('armyPolice/store', 'storeArmyPolice')->name('army-police.store');
+        Route::get('armyPolice/{noPengenalan}', 'armyPoliceDetails')->name('army-police.details');
         Route::post('penalty/store', 'storePenalty')->name('penalty.store');
         Route::get('penalty/{noPengenalan}', 'listPenalty')->name('penalty.list');
     });

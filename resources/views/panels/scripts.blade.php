@@ -320,9 +320,11 @@
     // }
 
     function setupAutoSave(formId) {
-        for (i = 0; i < formId.length; i++) {
-            var field = $('#' + formId[i])[0].querySelectorAll('input, textarea, select');
-            field.forEach((el) => setupField(el));
+        for (var i = 0; i < formId.length; i++) {
+            if($('#' + formId[i])[0] != null){
+                var field = $('#' + formId[i])[0].querySelectorAll('input, textarea, select');
+                field.forEach((el) => setupField(el));
+            }
         }
 
         function setupField(field) {
