@@ -17,5 +17,6 @@ class Institution extends Model
         'category',
         'created_by',
         'updated_by',
+        'is_active',
     ];
 }

@@ -57,7 +57,11 @@ class AreaInterviewCentreController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="areaInterviewCentreForm('.$areaInterviewCentre->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                    $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
+                        if($areaInterviewCentre->is_active) {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$areaInterviewCentre->id.'" onclick="toggleActive('.$areaInterviewCentre->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        } else {
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$areaInterviewCentre->id.'" onclick="toggleActive('.$areaInterviewCentre->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                        }
                     }
                     $button .= '</div>';
 
@@ -147,6 +151,30 @@ class AreaInterviewCentreController extends Controller
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function toggleActive(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $areaInterviewCentreId = $request->areaInterviewCentreId;
+            $areaInterviewCentre = AreaInterviewCentre::find($areaInterviewCentreId);
+
+            $is_active = $areaInterviewCentre->is_active;
+
+            $areaInterviewCentre->update([
+                'is_active' => !$is_active,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
 

@@ -20,5 +20,6 @@ class DepartmentMinistry extends Model
         'phone_number',
         'created_by',
         'updated_by',
+        'is_active',
     ];
 }

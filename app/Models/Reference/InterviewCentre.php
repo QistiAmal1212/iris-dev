@@ -11,10 +11,9 @@ class InterviewCentre extends Model
     protected $fillable = [
         'code',
         'name',
-        'ref_area_interview_centre',
+        'ref_area_interview_centre_code',
         'ref_state_code',
         'short_name',
-        'created_by',
-        'updated_by',
+        'is_active',
     ];
 }

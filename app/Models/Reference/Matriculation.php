@@ -14,5 +14,6 @@ class Matriculation extends Model
         'pemerolehan_code',
         'created_by',
         'updated_by',
+        'is_active',
     ];
 }

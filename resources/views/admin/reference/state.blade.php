@@ -193,5 +193,38 @@
         }
     };
 
+    function toggleActive(stateId) {
+            var url = "{{ route('admin.reference.state.toggleActive', ':replaceThis') }}"
+            url = url.replace(':replaceThis', stateId);
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                success: function(data) {
+                    if (data.success) {
+                        // Toggle the button class and icon
+                        var button = document.querySelector('[data-id="' + stateId + '"]');
+                        button.classList.toggle('activate');
+                        button.classList.toggle('deactivate');
+
+                        // Toggle the icon
+                        var icon = button.querySelector('i');
+                        if (icon.classList.contains('fa-toggle-on')) {
+                            icon.classList.replace('fa-toggle-on', 'fa-toggle-off');
+                            icon.classList.replace('text-success', 'text-danger');
+                        } else {
+                            icon.classList.replace('fa-toggle-off', 'fa-toggle-on');
+                            icon.classList.replace('text-danger', 'text-success');
+                        }
+                    } else {
+                        alert('Error toggling active state');
+                    }
+                },
+                error: function(error) {
+                    console.error('Error toggling active state:', error);
+                }
+            });
+        }
+
 </script>
 @endsection

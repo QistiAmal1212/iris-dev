@@ -57,7 +57,11 @@ class RaceController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="raceForm('.$race->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                    $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
+                        if($race->is_active) {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        } else {
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                        }
                     }
                     $button .= '</div>';
 
@@ -92,8 +96,8 @@ class RaceController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -112,7 +116,7 @@ class RaceController extends Controller
             if (!$race) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
-            
+
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $race]);
 
         } catch (\Throwable $e) {
@@ -146,8 +150,32 @@ class RaceController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function toggleActive(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $raceId = $request->raceId;
+            $race = Race::find($raceId);
+
+            $is_active = $race->is_active;
+
+            $race->update([
+                'is_active' => !$is_active,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();

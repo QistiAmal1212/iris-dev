@@ -13,5 +13,6 @@ class Job extends Model
         'name',
         'created_by',
         'updated_by',
+        'is_active',
     ];
 }

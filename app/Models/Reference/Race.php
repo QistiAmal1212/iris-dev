@@ -16,5 +16,6 @@ class Race extends Model
         'group',
         'created_by',
         'updated_by',
+        'is_active',
     ];
 }

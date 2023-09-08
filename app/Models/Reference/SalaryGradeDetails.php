@@ -16,5 +16,6 @@ class SalaryGradeDetails extends Model
         'starting_salary',
         'created_by',
         'updated_by',
+        'is_active',
     ];
 }

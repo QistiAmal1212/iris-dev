@@ -12,6 +12,7 @@ class Penalty extends Model
         'code',
         'name',
         'category',
-        'pemerolehan_code'
+        'pemerolehan_code',
+        'is_active',
     ];
 }

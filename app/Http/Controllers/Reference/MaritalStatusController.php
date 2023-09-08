@@ -40,7 +40,7 @@ class MaritalStatusController extends Controller
                 $accessDelete = true;
             }
         }
-        
+
         $maritalStatus = MaritalStatus::all();
         if ($request->ajax()) {
             return Datatables::of($maritalStatus)
@@ -57,7 +57,11 @@ class MaritalStatusController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="maritalStatusForm('.$maritalStatus->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                    $button .= '<a href="#" class="btn btn-xs btn-default"> <i class="fas fa-trash text-danger"></i> </a>';
+                        if($maritalStatus->is_active) {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$maritalStatus->id.'" onclick="toggleActive('.$maritalStatus->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        } else {
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$maritalStatus->id.'" onclick="toggleActive('.$maritalStatus->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                        }
                     }
                     $button .= '</div>';
 
@@ -92,8 +96,8 @@ class MaritalStatusController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -112,7 +116,7 @@ class MaritalStatusController extends Controller
             if (!$maritalStatus) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
-            
+
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $maritalStatus]);
 
         } catch (\Throwable $e) {
@@ -146,8 +150,32 @@ class MaritalStatusController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function toggleActive(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $maritalStatusId = $request->maritalStatusId;
+            $maritalStatus = MaritalStatus::find($maritalStatusId);
+
+            $is_active = $maritalStatus->is_active;
+
+            $maritalStatus->update([
+                'is_active' => !$is_active,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();

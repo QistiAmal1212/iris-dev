@@ -16,5 +16,6 @@ class Specialization extends Model
         'field',
         'created_by',
         'updated_by',
+        'is_active',
     ];
 }
