@@ -231,7 +231,7 @@ Maklumat Pemohon
                     var bilSkim = 0;
                     $.each(data.detail.skim, function (i, item) {
                         bilSkim += 1;
-                        trSkim += '<tr><td align="center">' + bilSkim + '</td><td>' + item.ref_skim_code + '</td><td>' + item.skim.name + '</td><td>' + item.register_date + '</td><td>' + item.expiry_date + '</td><td>' + item.interview_centre.name + '</td></tr>';
+                        trSkim += '<tr><td align="center">' + bilSkim + '</td><td>' + item.ref_skim_code + '</td><td>' + item.skim.name + '</td><td>' + item.register_date + '</td><td>' + item.expiry_date + '</td><td></td></tr>';
                     });
                     $('#table-skim tbody').append(trSkim);
 
