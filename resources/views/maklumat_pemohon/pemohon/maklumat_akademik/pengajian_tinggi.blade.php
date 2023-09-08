@@ -63,7 +63,7 @@
 
 <div class="card-footer">
     <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" onclick="editInstitution()">
+        <a class="me-3 text-danger" type="button" id="update_instituion" hidden onclick="editInstitution()">
             <i class="fa-regular fa-pen-to-square"></i>
             Kemaskini
         </a>

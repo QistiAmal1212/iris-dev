@@ -41,7 +41,7 @@ data-refreshFunctionNameIfSuccess="reloadArmyPolice" data-reloadPage="false">
 
 <div class="card-footer">
     <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" id="update_army_police" onclick="editArmyPolice()">
+        <a class="me-3 text-danger" type="button" id="update_army_police" hidden onclick="editArmyPolice()">
             <i class="fa-regular fa-pen-to-square"></i>
             Kemaskini
         </a>
