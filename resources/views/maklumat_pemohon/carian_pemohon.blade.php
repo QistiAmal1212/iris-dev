@@ -227,109 +227,281 @@ Maklumat Pemohon
                     }
 
                     $('#table-skim tbody').empty();
-                    var trSkim = '';
-                    var bilSkim = 0;
-                    $.each(data.detail.skim, function (i, item) {
-                        bilSkim += 1;
-                        trSkim += '<tr><td align="center">' + bilSkim + '</td><td>' + item.ref_skim_code + '</td><td>' + item.skim.name + '</td><td>' + item.register_date + '</td><td>' + item.expiry_date + '</td><td></td></tr>';
-                    });
+                    if(data.detail.skim.length == 0){
+                        var trSkim = '<tr><td align="center" colspan="6">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trSkim = '';
+                        var bilSkim = 0;
+                        $.each(data.detail.skim, function (i, item) {
+                            bilSkim += 1;
+                            trSkim += '<tr>';
+                            trSkim += '<td align="center">' + bilSkim + '</td>'
+                            trSkim += '<td>' + item.ref_skim_code + '</td>'
+                            trSkim += '<td>' + item.skim.name + '</td>';
+                            trSkim += '<td>' + item.register_date + '</td>';
+                            trSkim += '<td>' + item.expiry_date + '</td>';
+                            trSkim += '<td>' + item.interview_centre.name + '</td>';
+                            trSkim += '</tr>';
+                        });
+                }
                     $('#table-skim tbody').append(trSkim);
 
-                    $('#table-form3 tbody').empty();
-                    var trForm3 = '';
-                    var bilForm3 = 0;
-                    $.each(data.detail.resultForm3, function (i, item) {
-                        if(item.subject != null) {
-                            bilForm3 += 1;
-                            trForm3 += '<tr><td align="center">' + bilForm3 + '</td><td>' + item.subject.code + '</td><td>' + item.subject.name + '</td><td>' + item.grade + '</td></tr>';
-                        }
-                    });
-                    $('#table-form3 tbody').append(trForm3);
+                    $('#table-pmr tbody').empty();
+                    if(data.detail.pmr.length == 0){
+                        var trPmr = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trPmr = '';
+                        var bilPmr = 0;
+                        $.each(data.detail.pmr, function (i, item) {
+                            if(item.subject != null) {
+                                bilPmr += 1;
+                                trPmr += '<tr>';
+                                trPmr += '<td align="center">' + bilPmr + '</td>';
+                                trPmr += '<td>' + item.subject.code + '</td>';
+                                trPmr += '<td>' + item.subject.name + '</td>';
+                                trPmr += '<td>' + item.grade + '</td>';
+                                trPmr += '</tr>';
+                            }
+                        });
+                    }
+                    $('#table-pmr tbody').append(trPmr);
 
-                    $('#table-form5 tbody').empty();
-                    var trForm5 = '';
-                    var bilForm5 = 0;
-                    $.each(data.detail.resultForm5, function (i, item) {
-                        if(item.subject != null) {
-                            bilForm5 += 1;
-                            trForm5 += '<tr><td align="center">' + bilForm5 + '</td><td>' + item.subject.code + '</td><td>' + item.subject.name + '</td><td>' + item.grade + '</td></tr>';
-                        }
-                    });
-                    $('#table-form5 tbody').append(trForm5);
+                    $('#table-spm tbody').empty();
+                    if(data.detail.spm.length == 0){
+                        var trSpm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trSpm = '';
+                        var bilSpm = 0;
+                        $.each(data.detail.spm, function (i, item) {
+                            if(item.subject != null) {
+                                bilSpm += 1;
+                                trSpm += '<tr>';
+                                trSpm += '<td align="center">' + bilSpm + '</td>';
+                                trSpm += '<td>' + item.subject.code + '</td>';
+                                trSpm += '<td>' + item.subject.name + '</td>';
+                                trSpm += '<td>' + item.grade + '</td>';
+                                trSpm += '</tr>';
+                            }
+                        });
+                    }
+                    $('#table-spm tbody').append(trSpm);
 
-                    $('#table-form6 tbody').empty();
-                    var trForm6 = '';
-                    var bilForm6 = 0;
-                    $.each(data.detail.resultForm6, function (i, item) {
-                        if(item.subject != null) {
-                            bilForm6 += 1;
-                            trForm6 += '<tr><td align="center">' + bilForm6 + '</td><td>' + item.subject.code + '</td><td>' + item.subject.name + '</td><td>' + item.grade + '</td></tr>';
-                        }
-                    });
-                    $('#table-form6 tbody').append(trForm6);
+                    $('#table-spmv tbody').empty();
+                    if(data.detail.spmv.length == 0){
+                        var trSpmv = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trSpmv = '';
+                        var bilSpmv = 0;
+                        $.each(data.detail.spmv, function (i, item) {
+                            if(item.subject != null) {
+                                bilSpmv += 1;
+                                trSpmv += '<tr>';
+                                trSpmv += '<td align="center">' + bilSpmv + '</td>';
+                                trSpmv += '<td>' + item.subject.code + '</td>';
+                                trSpmv += '<td>' + item.subject.name + '</td>';
+                                trSpmv += '<td>' + item.grade + '</td>';
+                                trSpmv += '</tr>';
+                            }
+                        });
+                    }
+                    $('#table-spmv tbody').append(trSpmv);
+
+                    $('#table-svm tbody').empty();
+                    if(data.detail.svm.length == 0){
+                        var trSvm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trSvm = '';
+                        var bilSvm = 0;
+                        $.each(data.detail.svm, function (i, item) {
+                            if(item.subject != null) {
+                                bilSvm += 1;
+                                trSvm += '<tr>';
+                                trSvm += '<td align="center">' + bilSvm + '</td>';
+                                trSvm += '<td>' + item.subject.code + '</td>';
+                                trSvm += '<td>' + item.subject.name + '</td>';
+                                trSvm += '<td>' + item.grade + '</td>';
+                                trSvm += '</tr>';
+                            }
+                        });
+                    }
+                    $('#table-svm tbody').append(trSvm);
+
+                    $('#table-stpm tbody').empty();
+                    if(data.detail.stpm.length == 0){
+                        var trStpm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trStpm = '';
+                        var bilStpm = 0;
+                        $.each(data.detail.stpm, function (i, item) {
+                            if(item.subject != null) {
+                                bilStpm += 1;
+                                trStpm += '<tr>';
+                                trStpm += '<td align="center">' + bilStpm + '</td>';
+                                trStpm += '<td>' + item.subject.code + '</td>';
+                                trStpm += '<td>' + item.subject.name + '</td>';
+                                trStpm += '<td>' + item.grade + '</td>';
+                                trStpm += '</tr>';
+                            }
+                        });
+                    }
+                    $('#table-stpm tbody').append(trStpm);
+
+                    $('#table-stam tbody').empty();
+                    if(data.detail.stam.length == 0){
+                        var trStam = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trStam = '';
+                        var bilStam = 0;
+                        $.each(data.detail.stam, function (i, item) {
+                            if(item.subject != null) {
+                                bilStam += 1;
+                                trStam += '<tr>';
+                                trStam += '<td align="center">' + bilStam + '</td>';
+                                trStam += '<td>' + item.subject.code + '</td>';
+                                trStam += '<td>' + item.subject.name + '</td>';
+                                trStam += '<td>' + item.grade + '</td>';
+                                trStam += '</tr>';
+                            }
+                        });
+                    }
+                    $('#table-stam tbody').append(trStam);
 
                     $('#table-matriculation tbody').empty();
-                    var trMatriculation = '';
-                    var bilMatriculation = 0;
-                    $.each(data.detail.matriculation, function (i, item) {
-                            bilMatriculation += 1;
-                            trMatriculation += '<tr>';
-                            trMatriculation += '<td align="center">' + bilMatriculation + '</td>'
-                            trMatriculation += '<td>' + item.college.name + '</td>';
-                            trMatriculation += '<td>' + item.course.name + '</td>';
-                            trMatriculation += '<td>' + item.matric_no + '</td>';
-                            trMatriculation += '<td>' + item.session + '</td>';
-                            trMatriculation += '<td>' + item.semester + '</td>';
-                            trMatriculation += '<td>' + item.subject.name + '</td>';
-                            trMatriculation += '<td>' + item.grade + '</td>';
-                            trMatriculation += '<td>' + item.pngk + '</td>';
-                            trMatriculation += '</tr>';
-                    });
+                    if(data.detail.matriculation.length == 0){
+                        var trMatriculation = '<tr><td align="center" colspan="9">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trMatriculation = '';
+                        var bilMatriculation = 0;
+                        $.each(data.detail.matriculation, function (i, item) {
+                                bilMatriculation += 1;
+                                trMatriculation += '<tr>';
+                                trMatriculation += '<td align="center">' + bilMatriculation + '</td>'
+                                trMatriculation += '<td>' + item.college.name + '</td>';
+                                trMatriculation += '<td>' + item.course.name + '</td>';
+                                trMatriculation += '<td>' + item.matric_no + '</td>';
+                                trMatriculation += '<td>' + item.session + '</td>';
+                                trMatriculation += '<td>' + item.semester + '</td>';
+                                trMatriculation += '<td>' + item.subject.name + '</td>';
+                                trMatriculation += '<td>' + item.grade + '</td>';
+                                trMatriculation += '<td>' + item.pngk + '</td>';
+                                trMatriculation += '</tr>';
+                        });
+                    }
                     $('#table-matriculation tbody').append(trMatriculation);
 
                     $('#table-skm tbody').empty();
-                    var trSkm = '';
-                    var bilSkm = 0;
-                    $.each(data.detail.skm, function (i, item) {
-                        bilSkm += 1;
-                        trSkm += '<tr>';
-                        trSkm += '<td align="center">' + bilSkm + '</td>'
-                        trSkm += '<td>' + item.year + '</td>';
-                        trSkm += '<td>' + item.qualification.code + '</td>';
-                        trSkm += '<td>' + item.qualification.name + '</td>';
-                        trSkm += '</tr>';
-                    });
+                    if(data.detail.skm.length == 0){
+                        var trSkm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trSkm = '';
+                        var bilSkm = 0;
+                        $.each(data.detail.skm, function (i, item) {
+                            bilSkm += 1;
+                            trSkm += '<tr>';
+                            trSkm += '<td align="center">' + bilSkm + '</td>'
+                            trSkm += '<td>' + item.year + '</td>';
+                            trSkm += '<td>' + item.qualification.code + '</td>';
+                            trSkm += '<td>' + item.qualification.name + '</td>';
+                            trSkm += '</tr>';
+                        });
+                    }
                     $('#table-skm tbody').append(trSkm);
+
+                    if(data.detail.higher_education != null) {
+                        $('#higherEducationForm input[name="tahun_pengajian_tinggi"]').val(data.detail.higher_education.year);
+                        $('#higherEducationForm input[name="cgpa_pengajian_tinggi"]').val(data.detail.higher_education.cgpa);
+                        $('#higherEducationForm select[name="institusi_pengajian_tinggi"]').val(data.detail.higher_education.ref_institution_code).trigger('change');
+                        $('#higherEducationForm select[name="pengkhususan_pengajian_tinggi"]').val(data.detail.higher_education.ref_specialization_code).trigger('change');
+                    }
+
+                    $('#table-professional tbody').empty();
+                    if(data.detail.professional.length == 0){
+                        var trProfessional = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trProfessional = '';
+                        var bilProfessional = 0;
+                        $.each(data.detail.professional, function (i, item) {
+                            bilProfessional += 1;
+                            trProfessional += '<tr>';
+                            trProfessional += '<td align="center">' + bilProfessional + '</td>'
+                            trProfessional += '<td>' + (item.member_no ? item.member_no : '') + '</td>';
+                            trProfessional += '<td>' + item.specialization.name + '</td>';
+                            trProfessional += '<td>' + (item.date ? item.date : '') + '</td>';
+                            trProfessional += '</tr>';
+                        });
+                    }
+                    $('#table-professional tbody').append(trProfessional);
+
+                    if(data.detail.experience != null){
+                        $('#experienceForm select[name="experience_position_level"]').val(data.detail.experience.ref_position_level_code).trigger('change');
+                        $('#experienceForm select[name="experience_skim"]').val(data.detail.experience.ref_skim_code).trigger('change');
+                        $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.date_verify);
+                        $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.experience.ref_department_ministry_code).trigger('change');
+                        $('#experienceForm select[name="experience_department_state"]').val(data.detail.experience.state_department).trigger('change');
+                    }
+
+                    $('#table-psl tbody').empty();
+                    if(data.detail.psl.length == 0){
+                        var trPsl = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trPsl = '';
+                        var bilPsl = 0;
+                        $.each(data.detail.psl, function (i, item) {
+                            bilPsl += 1;
+                            trPsl += '<tr>';
+                            trPsl += '<td align="center">' + bilPsl + '</td>'
+                            trPsl += '<td>' + item.qualification.code + '</td>';
+                            trPsl += '<td>' + item.qualification.name + '</td>';
+                            trPsl += '<td>' + item.exam_date + '</td>';
+                            trPsl += '</tr>';
+                        });
+                    }
+                    $('#table-psl tbody').append(trPsl);
 
                     if(data.detail.army_police != null){
                         $('#army_police_rank').val(data.detail.army_police.ref_rank_code).trigger('change');
                     }
 
                     $('#table-language tbody').empty();
-                    var trLanguage = '';
-                    var bilLanguage = 0;
-                    $.each(data.detail.language, function (i, item) {
-                        bilLanguage += 1;
-                        trLanguage += '<tr>';
-                        trLanguage += '<td align="center">' + bilLanguage + '</td>'
-                        trLanguage += '<td>' + item.language.name + '</td>';
-                        trLanguage += '<td>' + item.level + '</td>';
-                        trLanguage += '</tr>';
-                    });
+                    if(data.detail.language.length == 0){
+                        var trLanguage = '<tr><td align="center" colspan="3">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trLanguage = '';
+                        var bilLanguage = 0;
+                        $.each(data.detail.language, function (i, item) {
+                            var languageLevel = '';
+                            if(item.level == 1){
+                                languageLevel = 'BERTUTUR DAN MENULIS';
+                            } else if(item.level == 2){
+                                languageLevel = 'BERTUTUR';
+                            } else if(item.level == 3){
+                                languageLevel = 'MENULIS';
+                            }
+                            bilLanguage += 1;
+                            trLanguage += '<tr>';
+                            trLanguage += '<td align="center">' + bilLanguage + '</td>'
+                            trLanguage += '<td>' + item.language.name + '</td>';
+                            trLanguage += '<td>' + languageLevel + '</td>';
+                            trLanguage += '</tr>';
+                        });
+                    }
                     $('#table-language tbody').append(trLanguage);
 
                     $('#table-talent tbody').empty();
-                    var trTalent = '';
-                    var bilTalent = 0;
-                    $.each(data.detail.talent, function (i, item) {
-                        bilTalent += 1;
-                        trTalent += '<tr>';
-                        trTalent += '<td align="center">' + bilTalent + '</td>'
-                        trTalent += '<td>' + item.talent.name + '</td>';
-                        trTalent += '</tr>';
-                    });
+                    if(data.detail.talent.length == 0){
+                        var trTalent = '<tr><td align="center" colspan="2">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trTalent = '';
+                        var bilTalent = 0;
+                        $.each(data.detail.talent, function (i, item) {
+                            bilTalent += 1;
+                            trTalent += '<tr>';
+                            trTalent += '<td align="center">' + bilTalent + '</td>'
+                            trTalent += '<td>' + item.talent.name + '</td>';
+                            trTalent += '</tr>';
+                        });
+                    }
                     $('#table-talent tbody').append(trTalent);
-
                     
                     $('#penaltyForm select[name="penalty"]').attr('disabled', true);
                     $('#penaltyForm input[name="penalty_duration"]').attr('disabled', true);
@@ -340,18 +512,22 @@ Maklumat Pemohon
                     $('#penaltyForm input[name="penalty_no_pengenalan"]').val(data.detail.no_pengenalan);
 
                     $('#table-penalty tbody').empty();
-                    var trPenalty = '';
-                    var bilPenalty = 0;
-                    $.each(data.detail.penalty, function (i, item) {
-                        bilPenalty += 1;
-                        trPenalty += '<tr>';
-                        trPenalty += '<td align="center">' + bilPenalty + '</td>'
-                        trPenalty += '<td>' + item.penalty.name + '</td>';
-                        trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
-                        trPenalty += '<td>' + item.date_start + '</td>';
-                        trPenalty += '<td>' + item.date_end + '</td>';
-                        trPenalty += '</tr>';
-                    });
+                    if(data.detail.penalty.length == 0){
+                        var trPenalty = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    } else {
+                        var trPenalty = '';
+                        var bilPenalty = 0;
+                        $.each(data.detail.penalty, function (i, item) {
+                            bilPenalty += 1;
+                            trPenalty += '<tr>';
+                            trPenalty += '<td align="center">' + bilPenalty + '</td>'
+                            trPenalty += '<td>' + item.penalty.name + '</td>';
+                            trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
+                            trPenalty += '<td>' + item.date_start + '</td>';
+                            trPenalty += '<td>' + item.date_end + '</td>';
+                            trPenalty += '</tr>';
+                        });
+                    }
                     $('#table-penalty tbody').append(trPenalty);
 
 
@@ -411,6 +587,9 @@ Maklumat Pemohon
                     $('#penaltyForm input[name="penalty_end"]').attr('disabled', true);
                     $('#penaltyForm input[name="penalty_end"]').attr('readonly', false);
                     $('#penaltyForm input[name="penalty_no_pengenalan"]').val('');
+
+                    $("#button_action_penalty").attr("style", "display:none");
+                    $('#table-penalty tbody').empty();
 
                     var data = data.responseJSON;
                     Swal.fire(data.title, data.detail, 'error');

@@ -7,6 +7,7 @@
 id="personalForm"
 action="{{ route('personal.update') }}"
 method="POST"
+data-refreshFunctionName="reloadTimeline"
 data-refreshFunctionNameIfSuccess="reloadPersonal" 
 data-reloadPage="false">
 @csrf
@@ -45,7 +46,7 @@ data-reloadPage="false">
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">Tarikh Lahir</label>
-            <input type="text" class="form-control flatpickr-basic" placeholder="YYYY-MM-DD" value="" name="date_of_birth" id="date_of_birth" disabled />
+            <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" value="" name="date_of_birth" id="date_of_birth" disabled />
         </div>
 
         {{-- <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
@@ -77,7 +78,7 @@ data-reloadPage="false">
 <div id="button_action_personal" style="display:none">
         <button type="button" id="btnEditPersonal" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPersonal').trigger('click');reloadTimeline();">
+            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPersonal').trigger('click');">
                 <i class="fa fa-save"></i> Simpan
             </button>
         </div>

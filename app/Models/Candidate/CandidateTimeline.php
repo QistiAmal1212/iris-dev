@@ -11,6 +11,7 @@ class CandidateTimeline extends Model
     protected $fillable = [
         'no_pengenalan',
         'details',
+        'activity_type_id',
         'created_by',
         'updated_by',
     ];

@@ -13,7 +13,7 @@
     </div>
 
     <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-form6">
+        <table class="table header_uppercase table-bordered table-hovered" id="table-stpm">
             <thead>
                 <tr>
                     <th>Bil.</th>
@@ -49,7 +49,7 @@
     </div>
 
     <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered">
+        <table class="table header_uppercase table-bordered table-hovered" id="table-stam">
             <thead>
                 <tr>
                     <th>Bil.</th>

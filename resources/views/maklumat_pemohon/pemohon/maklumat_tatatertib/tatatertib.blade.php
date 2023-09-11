@@ -4,6 +4,7 @@
     id="penaltyForm"
     action="{{ route('penalty.store') }}"
     method="POST"
+    data-refreshFunctionName="reloadTimeline"
     data-refreshFunctionNameIfSuccess="reloadPenalty" 
     data-reloadPage="false">
     @csrf
@@ -36,12 +37,12 @@
 
         <div class="col sm-4 col-md-4 col-lg-4 mb-1">
             <label class="form-label fw-bolder">Tarikh Mula Hukuman</label>
-            <input type="date" class="form-control" name="penalty_start" id="penalty_start" disabled onchange="calculatePenalty()">
+            <input type="text" class="form-control flatpickr" name="penalty_start" id="penalty_start" disabled onchange="calculatePenalty()">
         </div>
 
         <div class="col sm-4 col-md-4 col-lg-4 mb-1">
             <label class="form-label fw-bolder">Tarikh Akhir Hukuman</label>
-            <input type="date" class="form-control" name="penalty_end" id="penalty_end" disabled>
+            <input type="text" class="form-control flatpickr" name="penalty_end" id="penalty_end" disabled>
         </div>
 
     </div>
@@ -52,7 +53,7 @@
             <a class="me-3" type="button" id="reset" href="#">
                 <span class="text-danger"> Set Semula </span>
             </a>
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnAddPenalty').trigger('click');reloadTimeline();">
+            <button type="button" class="btn btn-success float-right" onclick="$('#btnAddPenalty').trigger('click');">
                 <i class="fa fa-save"></i> Simpan
             </button>
         </div>
@@ -99,7 +100,8 @@
         $('#penaltyForm input[name="penalty_end"]').attr('disabled', false);
         $('#penaltyForm input[name="penalty_end"]').attr('readonly', true);
 
-        var button_action_penalty = document.getElementById('button_action_penalty').style.display = 'block';
+        $("#button_action_penalty").attr("style", "display:block");
+        //document.getElementById('button_action_penalty').style.display = 'block';
     }
 
     function calculatePenalty() {
@@ -146,7 +148,8 @@
             dd = (dd < 10 ? '0' : '') + dd;
             mm = (mm < 10 ? '0' : '') + mm;
 
-            var date_end = y + '-' + mm + '-' + dd;
+            //var date_end = y + '-' + mm + '-' + dd;
+            var date_end = dd + '/' + mm + '/' + y;
             var penalty_end = $('#penalty_end').val(date_end);
         }
     }

@@ -2,7 +2,9 @@
 id="alamatForm"
 action="{{ route('alamat.update') }}"
 method="POST"
-data-refreshFunctionNameIfSuccess="reloadAlamat" data-reloadPage="false">
+data-refreshFunctionName="reloadTimeline"
+data-refreshFunctionNameIfSuccess="reloadAlamat" 
+data-reloadPage="false">
 @csrf
 <div class="row">
     
@@ -76,7 +78,7 @@ data-refreshFunctionNameIfSuccess="reloadAlamat" data-reloadPage="false">
 <div id="button_action_alamat" style="display:none">
         <button type="button" id="btnEditAlamat" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditAlamat').trigger('click');reloadTimeline();">
+            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditAlamat').trigger('click');">
                 <i class="fa fa-save"></i> Simpan
             </button>
         </div>

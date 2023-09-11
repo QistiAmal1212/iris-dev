@@ -10,7 +10,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-form3">
+        <table class="table header_uppercase table-bordered table-hovered" id="table-pmr">
             <thead>
                 <tr>
                     <th>Bil.</th>

@@ -8,7 +8,14 @@
                 <h6>{{ $timeline->details }}</h6> {{-- Timeline Activity --}}
                 <span class="timeline-event-time"  data-target="tooltip" title="{{ $timeline->created_at->format('d-m-Y H:i:s') }}">{{ $timeline->created_at->diffForHumans() }}</span> {{-- Timeline Time --}}
             </div>
-            <p>Created by: <strong> {{ $timeline->created_user->name }} </strong></p>
+            <?php
+            if($timeline->activity_type_id == 3){
+                $action = 'Ditambah oleh:';
+            } else if($timeline->activity_type_id == 4){
+                $action = 'Dikemaskini oleh:';
+            }
+            ?>
+            <p>{{ $action }} <strong> {{ $timeline->created_user->name }} </strong></p>
         </div>
     </li>
     @endforeach

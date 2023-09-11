@@ -4,17 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Reference\DepartmentMinistry;
 use App\Models\Reference\Gender;
 use App\Models\Reference\Institution;
 use App\Models\Reference\MaritalStatus;
 use App\Models\Reference\Penalty;
+use App\Models\Reference\PositionLevel;
 use App\Models\Reference\Rank;
 use App\Models\Reference\Race;
 use App\Models\Reference\Religion;
 use App\Models\Reference\State;
+use App\Models\Reference\Skim;
+use App\Models\Reference\Specialization;
 use App\Models\Candidate\Candidate;
 use App\Models\Candidate\CandidatePenalty;
 use App\Models\Candidate\CandidateTimeline;
+use Carbon\Carbon;
 
 class MaklumatPemohonController extends Controller
 {
@@ -25,16 +30,20 @@ class MaklumatPemohonController extends Controller
 
     public function searchPemohon ()
     {
+        $departmentMinistries = DepartmentMinistry::orderBy('name', 'asc')->get();
         $genders = Gender::all();
         $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
         $maritalStatuses = MaritalStatus::all();
         $penalties = Penalty::all();
+        $positionLevels = PositionLevel::orderBy('name', 'asc')->get();
         $races = Race::all();
         $ranks = Rank::all();
         $religions = Religion::all();
         $states = State::orderBy('name', 'asc')->get();
+        $skims = Skim::orderBy('name', 'asc')->get();
+        $specializations = Specialization::orderBy('name', 'asc')->get();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('genders', 'institutions', 'maritalStatuses', 'penalties', 'races', 'ranks', 'religions', 'states'));
+        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'genders', 'institutions', 'maritalStatuses', 'penalties', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations'));
     }
 
     public function viewMaklumatPemohon(){
@@ -63,6 +72,16 @@ class MaklumatPemohonController extends Controller
                 'skm' => function ($query) {
                     $query->with(['qualification']);
                 },
+                'higherEducation' => function ($query) {
+                    $query->with(['institution', 'eligibility', 'specialization']);
+                },
+                'professional' => function ($query) {
+                    $query->with(['specialization']);
+                },
+                'experience',
+                'psl' => function ($query) {
+                    $query->with(['qualification']);
+                },
                 'armyPolice' => function ($query) {
                     $query->with(['rank']);
                 },
@@ -82,17 +101,33 @@ class MaklumatPemohonController extends Controller
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             } 
 
-            $candidate->resultForm3 = $candidate->schoolResult()->with(['subject' => function ($query) { 
+            $candidate->date_of_birth = Carbon::parse($candidate->date_of_birth)->format('d/m/Y');
+
+            $candidate->pmr = $candidate->schoolResult()->with('subject')->whereHas('subject', function ($query) { 
                 $query->where('form', '3');
-            }])->get();
+            })->get();
 
-            $candidate->resultForm5 = $candidate->schoolResult()->with(['subject' => function ($query) { 
+            //Cerfiticate Type Form 5 : 1 - SPM, 3 - SPMV, 5 - SVM
+            $candidate->spm = $candidate->schoolResult()->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) { 
                 $query->where('form', '5');
-            }])->get();
+            })->get();
 
-            $candidate->resultForm6 = $candidate->schoolResult()->with(['subject' => function ($query) { 
+            $candidate->spmv = $candidate->schoolResult()->where('certificate_type', 3)->with('subject')->whereHas('subject', function ($query) { 
+                $query->where('form', '5');
+            })->get();
+
+            $candidate->svm = $candidate->schoolResult()->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) { 
+                $query->where('form', '5');
+            })->get();
+
+            //Cerfiticate Type Form 6 : 1 - STPM, 2- STP, 3 - HSC, 4 - X Pakai, 5 - STAM
+            $candidate->stpm = $candidate->schoolResult()->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) { 
                 $query->where('form', '6');
-            }])->get();
+            })->get();
+
+            $candidate->stam = $candidate->schoolResult()->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) { 
+                $query->where('form', '6');
+            })->get();
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
@@ -144,7 +179,7 @@ class MaklumatPemohonController extends Controller
                 'ref_gender_code' => $request->gender,
                 'ref_religion_code' => $request->religion,
                 'ref_race_code' => $request->race,
-                'date_of_birth' => $request->date_of_birth,
+                'date_of_birth' => Carbon::createFromFormat('d/m/Y', $request->date_of_birth)->format('Y-m-d'),
                 'ref_marital_status_code' => $request->marital_status,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
@@ -153,6 +188,7 @@ class MaklumatPemohonController extends Controller
 
             CandidateTimeline::create([
                 'no_pengenalan' => $request->personal_no_pengenalan,
+                'activity_type_id' => 4,
                 'details' => 'Kemaskini Maklumat Peribadi (Peribadi)',
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
@@ -178,6 +214,8 @@ class MaklumatPemohonController extends Controller
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             } 
+
+            $candidate->date_of_birth = Carbon::parse($candidate->date_of_birth)->format('d/m/Y');
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
@@ -242,6 +280,7 @@ class MaklumatPemohonController extends Controller
             CandidateTimeline::create([
                 'no_pengenalan' => $request->alamat_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Peribadi (Alamat)',
+                'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -304,8 +343,8 @@ class MaklumatPemohonController extends Controller
                 'ref_penalty_code' => $request->penalty,
                 'duration' => $request->penalty_duration,
                 'type' => $request->penalty_type,
-                'date_start' => $request->penalty_start,
-                'date_end' => $request->penalty_end,
+                'date_start' => Carbon::createFromFormat('d/m/Y', $request->penalty_start)->format('Y-m-d'),
+                'date_end' => Carbon::createFromFormat('d/m/Y', $request->penalty_end)->format('Y-m-d'),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -313,6 +352,7 @@ class MaklumatPemohonController extends Controller
             CandidateTimeline::create([
                 'no_pengenalan' => $request->penalty_no_pengenalan,
                 'details' => 'Tambah Tatatertib',
+                'activity_type_id' => 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);

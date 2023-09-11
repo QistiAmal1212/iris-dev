@@ -1,13 +1,13 @@
 <div class="row mt-2 mb-2">
     <div class="table-responsive">
-        <table class="table header_uppercase table-bordered table-hovered">
+        <table class="table header_uppercase table-bordered table-hovered" id="table-professional">
             <thead>
                 <tr>
                     <th>Bil.</th>
                     <th>No. Ahli</th>
                     <th>Kelayakan Profesional/ Ikhtisas</th>
                     <th>Tarikh Keahlian</th>
-                    <th>Kemaskini Terkini</th>
+                    {{-- <th>Kemaskini Terkini</th> --}}
                 </tr>
             </thead>
             <tbody>

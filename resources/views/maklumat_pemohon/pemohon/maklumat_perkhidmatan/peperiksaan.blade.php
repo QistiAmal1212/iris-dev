@@ -1,13 +1,14 @@
 <div class="row mt-2 mb-2">
     <div class="table-responsive">
-        <table class="table header_uppercase table-bordered table-hovered">
+        <table class="table header_uppercase table-bordered table-hovered" id="table-psl">
             <thead>
                 <tr>
                     <th>Bil.</th>
                     <th>Kod Peperiksaan</th>
                     <th>Jenis Peperiksaan</th>
-                    <th>Tarikh Keahlian</th>
-                    <th>Kemaskini Terkini</th>
+                    {{-- <th>Tarikh Keahlian</th>
+                    <th>Kemaskini Terkini</th> --}}
+                    <th>Tarikh Peperiksaan</th>
                 </tr>
             </thead>
             <tbody>
