@@ -42,7 +42,7 @@
 
         <div class="col sm-4 col-md-4 col-lg-4 mb-1">
             <label class="form-label fw-bolder">Tarikh Akhir Hukuman</label>
-            <input type="text" class="form-control flatpickr" name="penalty_end" id="penalty_end" disabled>
+            <input type="text" class="form-control" name="penalty_end" id="penalty_end" disabled>
         </div>
 
     </div>
@@ -112,10 +112,14 @@
 
         if(penalty_duration != '' && penalty_type != '' && penalty_start != '')
         {
-            var date = new Date(penalty_start);
+            day = penalty_start.substr(0,2);
+            month = penalty_start.substr(3,2);
+            year = penalty_start.substr(6,4);
+
+            var date = new Date(year, month, day);
 
             var dd = date.getDate();
-            var mm = date.getMonth() + 1;
+            var mm = date.getMonth();
             var y = date.getFullYear();
 
             dd = parseInt(dd);
@@ -179,8 +183,8 @@
                         trPenalty += '<td align="center">' + bilPenalty + '</td>'
                         trPenalty += '<td>' + item.penalty.name + '</td>';
                         trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
-                        trPenalty += '<td>' + item.date_start + '</td>';
-                        trPenalty += '<td>' + item.date_end + '</td>';
+                        trPenalty += '<td>' + item.startDate + '</td>';
+                        trPenalty += '<td>' + item.endDate + '</td>';
                         trPenalty += '</tr>';
                     });
                     $('#table-penalty tbody').append(trPenalty);

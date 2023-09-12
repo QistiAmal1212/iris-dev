@@ -46,7 +46,7 @@ data-reloadPage="false">
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">Tarikh Lahir</label>
-            <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" value="" name="date_of_birth" id="date_of_birth" disabled />
+            <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="date_of_birth" id="date_of_birth" disabled />
         </div>
 
         {{-- <div class="col-sm-4 col-md-4 col-lg-4 mb-1">

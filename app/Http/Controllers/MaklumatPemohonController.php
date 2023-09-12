@@ -61,9 +61,19 @@ class MaklumatPemohonController extends Controller
                 $query->where('no_ic', $no_ic)->orWhere('no_ic_old', $no_ic);
             })
             ->with([
-                'license', 
+                'license' => function ($query) {
+                    $query->select(
+                        '*', 
+                        DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
+                    );
+                }, 
                 'oku', 
                 'skim' => function ($query) {
+                    $query->select(
+                        '*', 
+                        DB::raw("DATE_FORMAT(register_date, '%d/%m/%Y') as registerDate"),
+                        DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
+                    );
                     $query->with(['skim', 'interviewCentre']);
                 },
                 'matriculation' => function ($query) {
@@ -76,10 +86,18 @@ class MaklumatPemohonController extends Controller
                     $query->with(['institution', 'eligibility', 'specialization']);
                 },
                 'professional' => function ($query) {
+                    $query->select(
+                        '*', 
+                        DB::raw("DATE_FORMAT(date, '%d/%m/%Y') as newDate")
+                    );
                     $query->with(['specialization']);
                 },
                 'experience',
                 'psl' => function ($query) {
+                    $query->select(
+                        '*', 
+                        DB::raw("DATE_FORMAT(exam_date, '%d/%m/%Y') as examDate")
+                    );
                     $query->with(['qualification']);
                 },
                 'armyPolice' => function ($query) {
@@ -92,6 +110,11 @@ class MaklumatPemohonController extends Controller
                     $query->with(['talent']);
                 },
                 'penalty' => function ($query) {
+                    $query->select(
+                        '*', 
+                        DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as startDate"),
+                        DB::raw("DATE_FORMAT(date_end, '%d/%m/%Y') as endDate")
+                    );
                     $query->with(['penalty']);
                 },
                 'timeline',
@@ -437,7 +460,11 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidatePenalty = CandidatePenalty::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
+            $candidatePenalty = CandidatePenalty::select(
+                '*', 
+                DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as startDate"),
+                DB::raw("DATE_FORMAT(date_end, '%d/%m/%Y') as endDate")
+            )->where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);

@@ -6,7 +6,7 @@
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Tarikh Tamat</label>
-        <input type="text" class="form-control flatpickr-basic" placeholder="YYYY-MM-DD" value="" name="license_expiry_date" id="license_expiry_date" disabled />
+        <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="license_expiry_date" id="license_expiry_date" disabled />
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">

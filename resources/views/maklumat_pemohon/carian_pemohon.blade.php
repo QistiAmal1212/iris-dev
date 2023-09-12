@@ -216,7 +216,7 @@ Maklumat Pemohon
 
                     if(data.detail.license != null) {
                         $('#license_type').val(data.detail.license.type);
-                        $('#license_expiry_date').val(data.detail.license.expiry_date);
+                        $('#license_expiry_date').val(data.detail.license.expiryDate);
                         $('#license_blacklist_status').val(data.detail.license.is_blacklist).trigger('change');
                         $('#license_blacklist_details').val(data.detail.license.blacklist_details);
                     }
@@ -240,7 +240,7 @@ Maklumat Pemohon
                             trSkim += '<td align="center">' + bilSkim + '</td>'
                             trSkim += '<td>' + item.ref_skim_code + '</td>'
                             trSkim += '<td>' + item.skim.name + '</td>';
-                            trSkim += '<td>' + item.register_date + '</td>';
+                            trSkim += '<td>' + (item.register_date ? item.registerDate : '') + '</td>';
                             trSkim += '<td>' + (item.expiry_date ? item.expiry_date : '') + '</td>';
                             trSkim += '<td>' + (item.interview_centre ? item.interview_centre.name : '') + '</td>';
                             //trSkim += '<td>' + item.interview_centre.name + '</td>';
@@ -429,7 +429,7 @@ Maklumat Pemohon
                             trProfessional += '<td align="center">' + bilProfessional + '</td>'
                             trProfessional += '<td>' + (item.member_no ? item.member_no : '') + '</td>';
                             trProfessional += '<td>' + item.specialization.name + '</td>';
-                            trProfessional += '<td>' + (item.date ? item.date : '') + '</td>';
+                            trProfessional += '<td>' + (item.date ? item.newDate : '') + '</td>';
                             trProfessional += '</tr>';
                         });
                     }
@@ -455,7 +455,7 @@ Maklumat Pemohon
                             trPsl += '<td align="center">' + bilPsl + '</td>'
                             trPsl += '<td>' + item.qualification.code + '</td>';
                             trPsl += '<td>' + item.qualification.name + '</td>';
-                            trPsl += '<td>' + item.exam_date + '</td>';
+                            trPsl += '<td>' + (item.exam_date ? item.examDate : '') + '</td>';
                             trPsl += '</tr>';
                         });
                     }
@@ -526,8 +526,8 @@ Maklumat Pemohon
                             trPenalty += '<td align="center">' + bilPenalty + '</td>'
                             trPenalty += '<td>' + item.penalty.name + '</td>';
                             trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
-                            trPenalty += '<td>' + item.date_start + '</td>';
-                            trPenalty += '<td>' + item.date_end + '</td>';
+                            trPenalty += '<td>' + item.startDate + '</td>';
+                            trPenalty += '<td>' + item.endDate + '</td>';
                             trPenalty += '</tr>';
                         });
                     }
