@@ -156,6 +156,7 @@ Maklumat Pemohon
 
                     $('#update_alamat').attr('hidden', false);
                     $('#update_personal').attr('hidden', false);
+                    $('#update_tempat_lahir').attr('hidden', false);
                     $('#update_penalty').attr('hidden', false);
                     
                     $('#candidate_name').html(data.detail.full_name);
@@ -208,9 +209,10 @@ Maklumat Pemohon
                     $('#alamatForm select[name="state"]').val(data.detail.ref_state_code).trigger('change');
                     $('#alamatForm input[name="alamat_no_pengenalan"]').val(data.detail.no_pengenalan);
 
-                    $('#place_of_birth').val(data.detail.place_of_birth).trigger('change');
-                    $('#father_place_of_birth').val(data.detail.father_place_of_birth).trigger('change');
-                    $('#mother_place_of_birth').val(data.detail.mother_place_of_birth).trigger('change');
+                    $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.place_of_birth).trigger('change');
+                    $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.father_place_of_birth).trigger('change');
+                    $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.mother_place_of_birth).trigger('change');
+                    $('#tempatLahirForm input[name="tempat_lahir_no_pengenalan"]').val(data.detail.no_pengenalan);
 
                     if(data.detail.license != null) {
                         $('#license_type').val(data.detail.license.type);
@@ -536,7 +538,13 @@ Maklumat Pemohon
                     
                     $('#update_personal').attr('hidden', true);
                     $('#update_alamat').attr('hidden', true);
+                    $('#update_tempat_lahir').attr('hidden', true);
                     $('#update_penalty').attr('hidden', true);
+
+                    $("#button_action_personal").attr("style", "display:none");
+                    $("#button_action_alamat").attr("style", "display:none");
+                    $("#button_action_tempat_lahir").attr("style", "display:none");
+                    $("#button_action_penalty").attr("style", "display:none");
 
                     $('#personalForm select[name="gender"]').attr('disabled', true);
                     $('#personalForm select[name="gender"]').val('').trigger('change');
@@ -579,6 +587,14 @@ Maklumat Pemohon
                     $('#alamatForm select[name="state"]').attr('disabled', true);
                     $('#alamatForm select[name="state"]').val('').trigger('change');
                     $('#alamatForm input[name="alamat_no_pengenalan"]').val('');
+
+                    $('#tempatLahirForm select[name="place_of_birth"]').attr('disabled', true);
+                    $('#tempatLahirForm select[name="place_of_birth"]').val('').trigger('change');
+                    $('#tempatLahirForm select[name="father_place_of_birth"]').attr('disabled', true);
+                    $('#tempatLahirForm select[name="father_place_of_birth"]').val('').trigger('change');
+                    $('#tempatLahirForm select[name="mother_place_of_birth"]').attr('disabled', true);
+                    $('#tempatLahirForm select[name="mother_place_of_birth"]').val('').trigger('change');
+                    $('#tempatLahirForm input[name="tempat_lahir_no_pengenalan"]').val('');
 
                     $('#penaltyForm select[name="penalty"]').attr('disabled', true);
                     $('#penaltyForm input[name="penalty_duration"]').attr('disabled', true);

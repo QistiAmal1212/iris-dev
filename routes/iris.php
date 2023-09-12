@@ -21,7 +21,12 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('details/{noPengenalan}', 'alamatDetails')->name('alamat.details');
         });
 
-        Route::prefix('armyPolice')->group(function () {
+        Route::prefix('tempat_lahir')->group(function () {
+            Route::post('update', 'updateTempatLahir')->name('tempat-lahir.update');
+            Route::get('details/{noPengenalan}', 'tempatLahirDetails')->name('tempat-lahir.details');
+        });
+
+        Route::prefix('army_police')->group(function () {
             Route::post('store', 'storeArmyPolice')->name('army-police.store');
             Route::get('details/{noPengenalan}', 'armyPoliceDetails')->name('army-police.details');
         });

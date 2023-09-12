@@ -76,13 +76,13 @@ data-reloadPage="false">
     </div>
 </div>
 <div id="button_action_personal" style="display:none">
-        <button type="button" id="btnEditPersonal" hidden onclick="generalFormSubmit(this);"></button>
-        <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPersonal').trigger('click');">
-                <i class="fa fa-save"></i> Simpan
-            </button>
-        </div>
+    <button type="button" id="btnEditPersonal" hidden onclick="generalFormSubmit(this);"></button>
+    <div class="d-flex justify-content-end align-items-center my-1">
+        <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPersonal').trigger('click');">
+            <i class="fa fa-save"></i> Simpan
+        </button>
     </div>
+</div>
 </form>
 
 <div class="card-footer">
@@ -103,7 +103,8 @@ data-reloadPage="false">
         $('#personalForm input[name="phone_number"]').attr('disabled', false);
         $('#personalForm input[name="email"]').attr('disabled', false);
 
-        var button_action_personal = document.getElementById('button_action_personal').style.display = 'block';
+        $("#button_action_personal").attr("style", "display:block");
+        //document.getElementById('button_action_personal').style.display = 'block';
     }
 
     function reloadPersonal() {

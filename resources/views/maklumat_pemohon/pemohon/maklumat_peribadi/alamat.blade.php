@@ -7,7 +7,6 @@ data-refreshFunctionNameIfSuccess="reloadAlamat"
 data-reloadPage="false">
 @csrf
 <div class="row">
-    
     <input type="hidden" name="alamat_no_pengenalan" id="alamat_no_pengenalan" value="">
     {{-- ALAMAT TETAP --}}
     <h6>
@@ -76,13 +75,13 @@ data-reloadPage="false">
     </div>
 </div>
 <div id="button_action_alamat" style="display:none">
-        <button type="button" id="btnEditAlamat" hidden onclick="generalFormSubmit(this);"></button>
-        <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditAlamat').trigger('click');">
-                <i class="fa fa-save"></i> Simpan
-            </button>
-        </div>
+    <button type="button" id="btnEditAlamat" hidden onclick="generalFormSubmit(this);"></button>
+    <div class="d-flex justify-content-end align-items-center my-1">
+        <button type="button" class="btn btn-success float-right" onclick="$('#btnEditAlamat').trigger('click');">
+            <i class="fa fa-save"></i> Simpan
+        </button>
     </div>
+</div>
 </form>
 
 <div class="card-footer">
@@ -109,7 +108,8 @@ data-reloadPage="false">
         $('#alamatForm input[name="city"]').attr('disabled', false);
         $('#alamatForm select[name="state"]').attr('disabled', false);
 
-        var button_action_alamat = document.getElementById('button_action_alamat').style.display = 'block';
+        $("#button_action_alamat").attr("style", "display:block");
+        //document.getElementById('button_action_alamat').style.display = 'block';
     }
 
     function reloadAlamat() {

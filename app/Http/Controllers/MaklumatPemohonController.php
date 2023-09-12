@@ -316,6 +316,71 @@ class MaklumatPemohonController extends Controller
         }  
     }
 
+    public function updateTempatLahir(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            
+            $candidate = Candidate::where('no_pengenalan', $request->tempat_lahir_no_pengenalan)->first();
+
+            $request->validate([
+                'place_of_birth' => 'required|string|exists:ref_state,code',
+                'father_place_of_birth' => 'required|string|exists:ref_state,code',
+                'mother_place_of_birth' => 'required|string|exists:ref_state,code',
+            ],[
+                'place_of_birth.required' => 'Sila pilih tempat lahir',
+                'place_of_birth.exists' => 'Tiada rekod tempat lahir yang dipilih',
+                'father_place_of_birth.required' => 'Sila pilih tempat lahir ayah',
+                'father_place_of_birth.exists' => 'Tiada rekod tempat lahir ayah yang dipilih',
+                'mother_place_of_birth.required' => 'Sila pilih tempat lahir ibu',
+                'mother_place_of_birth.exists' => 'Tiada rekod tempat lahir ibu yang dipilih',
+            ]);
+
+            $candidate->update([
+                'place_of_birth' => $request->place_of_birth,
+                'father_place_of_birth' => $request->father_place_of_birth,
+                'mother_place_of_birth' => $request->mother_place_of_birth,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->tempat_lahir_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Peribadi (Tempat Lahir)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
+            
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function tempatLahirDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)->first();
+
+            if(!$candidate) {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            } 
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }  
+    }
+
     public function storePenalty(Request $request) 
     {
         DB::beginTransaction();
