@@ -241,8 +241,8 @@ Maklumat Pemohon
                             trSkim += '<td>' + item.ref_skim_code + '</td>'
                             trSkim += '<td>' + item.skim.name + '</td>';
                             trSkim += '<td>' + item.register_date + '</td>';
-                            trSkim += '<td>' + item.expiry_date + '</td>';
-                            trSkim += '<td></td>';
+                            trSkim += '<td>' + (item.expiry_date ? item.expiry_date : '') + '</td>';
+                            trSkim += '<td>' + (item.interview_centre ? item.interview_centre.name : '') + '</td>';
                             //trSkim += '<td>' + item.interview_centre.name + '</td>';
                             trSkim += '</tr>';
                         });
