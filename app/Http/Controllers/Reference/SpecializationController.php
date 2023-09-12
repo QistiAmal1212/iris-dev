@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Specialization;
@@ -43,6 +44,18 @@ class SpecializationController extends Controller
 
         $specialization = Specialization::all();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.specialization')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Pengkhususan";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($specialization)
                 ->editColumn('code', function ($specialization){
                     return $specialization->code;
@@ -88,12 +101,23 @@ class SpecializationController extends Controller
                 'name.required' => 'Sila isikan nama pengkhususan',
             ]);
 
-            Specialization::create([
+            $specialization = Specialization::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.specialization')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Pengkhususan";
+            $log->data_new = json_encode($specialization);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -116,6 +140,18 @@ class SpecializationController extends Controller
             if (!$specialization) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.specialization')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Pengkhususan";
+            $log->data_new = json_encode($specialization);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $specialization]);
 
@@ -134,6 +170,12 @@ class SpecializationController extends Controller
             $specializationId = $request->specializationId;
             $specialization = Specialization::find($specializationId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.specialization')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Pengkhususan";
+            $log->data_old = json_encode($specialization);
+
             $request->validate([
                 'code' => 'required|string|unique:ref_specialization,code,'.$specializationId,
                 'name' => 'required|string',
@@ -148,6 +190,14 @@ class SpecializationController extends Controller
                 'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $specializationNewData = Specialization::find($specializationId);
+            $log->data_new = json_encode($specializationNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

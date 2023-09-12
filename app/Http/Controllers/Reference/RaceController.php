@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Race;
@@ -43,6 +44,18 @@ class RaceController extends Controller
 
         $race = Race::all();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Keturunan";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($race)
                 ->editColumn('code', function ($race){
                     return $race->code;
@@ -88,12 +101,23 @@ class RaceController extends Controller
                 'name.required' => 'Sila isikan keturunan',
             ]);
 
-            Race::create([
+            $race = Race::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Keturunan";
+            $log->data_new = json_encode($race);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -116,6 +140,18 @@ class RaceController extends Controller
             if (!$race) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Keturunan";
+            $log->data_new = json_encode($race);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $race]);
 
@@ -134,6 +170,12 @@ class RaceController extends Controller
             $raceId = $request->raceId;
             $race = Race::find($raceId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Keturunan";
+            $log->data_old = json_encode($race);
+
             $request->validate([
                 'code' => 'required|string|unique:ref_race,code,'.$raceId,
                 'name' => 'required|string',
@@ -148,6 +190,14 @@ class RaceController extends Controller
                 'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $raceNewData = race::find($raceId);
+            $log->data_new = json_encode($raceNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

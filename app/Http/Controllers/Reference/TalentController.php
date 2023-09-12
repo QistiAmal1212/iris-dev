@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Talent;
@@ -43,6 +44,18 @@ class TalentController extends Controller
 
         $talent = Talent::all();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.talent')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Bakat";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($talent)
                 ->editColumn('code', function ($talent){
                     return $talent->code;
@@ -88,12 +101,23 @@ class TalentController extends Controller
                 'name.required' => 'Sila isikan keturunan',
             ]);
 
-            Talent::create([
+            $talent = Talent::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.talent')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Bakat";
+            $log->data_new = json_encode($talent);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -108,14 +132,26 @@ class TalentController extends Controller
 
     public function edit(Request $request)
     {
+
         DB::beginTransaction();
         try {
-
             $talent = Talent::find($request->talentId);
 
             if (!$talent) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.talent')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Bakat";
+            $log->data_new = json_encode($talent);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $talent]);
 
@@ -134,6 +170,12 @@ class TalentController extends Controller
             $talentId = $request->talentId;
             $talent = Talent::find($talentId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.talent')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Bakat";
+            $log->data_old = json_encode($talent);
+
             $request->validate([
                 'code' => 'required|string|unique:ref_talent,code,'.$talentId,
                 'name' => 'required|string',
@@ -148,6 +190,14 @@ class TalentController extends Controller
                 'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $talentNewData = Talent::find($talentId);
+            $log->data_new = json_encode($talentNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

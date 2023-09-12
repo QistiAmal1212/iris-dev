@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\State;
@@ -43,6 +44,18 @@ class StateController extends Controller
 
         $state = State::all();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Negeri";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($state)
                 ->editColumn('code', function ($state){
                     return $state->code;
@@ -88,12 +101,23 @@ class StateController extends Controller
                 'name.required' => 'Sila isikan negeri',
             ]);
 
-            State::create([
+            $state = State::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Negeri";
+            $log->data_new = json_encode($state);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -116,6 +140,18 @@ class StateController extends Controller
             if (!$state) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Negeri";
+            $log->data_new = json_encode($state);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $state]);
 
@@ -134,6 +170,12 @@ class StateController extends Controller
             $stateId = $request->stateId;
             $state = State::find($stateId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Negeri";
+            $log->data_old = json_encode($state);
+
             $request->validate([
                 'code' => 'required|string|unique:ref_state,code,'.$stateId,
                 'name' => 'required|string',
@@ -148,6 +190,14 @@ class StateController extends Controller
                 'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $stateNewData = State::find($stateId);
+            $log->data_new = json_encode($stateNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

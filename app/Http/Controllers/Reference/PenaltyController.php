@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Penalty;
@@ -43,6 +44,18 @@ class PenaltyController extends Controller
 
         $penalty = Penalty::all();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Penalti";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($penalty)
                 ->editColumn('code', function ($penalty){
                     return $penalty->code;
@@ -90,13 +103,24 @@ class PenaltyController extends Controller
                 'category.required' => 'Sila isikan kategori',
             ]);
 
-            Penalty::create([
+            $penalty = Penalty::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
                 'category' => strtoupper($request->category),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Penalti";
+            $log->data_new = json_encode($penalty);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -119,6 +143,16 @@ class PenaltyController extends Controller
             if (!$penalty) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Penalti";
+            $log->data_new = json_encode($penalty);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $penalty]);
 
@@ -137,6 +171,12 @@ class PenaltyController extends Controller
             $penaltyId = $request->penaltyId;
             $penalty = Penalty::find($penaltyId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Penalti";
+            $log->data_old = json_encode($penalty);
+
             $request->validate([
                 'code' => 'required|string|unique:ref_penalty,code,'.$penaltyId,
                 'name' => 'required|string',
@@ -154,6 +194,14 @@ class PenaltyController extends Controller
                 'category' => strtoupper($request->category),
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $penaltyNewData = Penalty::find($penaltyId);
+            $log->data_new = json_encode($penaltyNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

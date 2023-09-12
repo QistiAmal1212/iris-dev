@@ -3,12 +3,12 @@
         background-color: #efefef;
     }
 </style>
-<form 
+<form
 id="personalForm"
 action="{{ route('personal.update') }}"
 method="POST"
 data-refreshFunctionName="reloadTimeline"
-data-refreshFunctionNameIfSuccess="reloadPersonal" 
+data-refreshFunctionNameIfSuccess="reloadPersonal"
 data-reloadPage="false">
 @csrf
 <div id="div_personal">
@@ -22,6 +22,7 @@ data-reloadPage="false">
                 <option value="{{ $gender->code }}">{{ $gender->name }}</option>
                 @endforeach
             </select>
+            <div id="genderAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
         <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
@@ -32,6 +33,7 @@ data-reloadPage="false">
                 <option value="{{ $religion->code }}">{{ $religion->name }}</option>
                 @endforeach
             </select>
+            <div id="religionAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
         <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
@@ -42,11 +44,13 @@ data-reloadPage="false">
                 <option value="{{ $race->code }}">{{ $race->name }}</option>
                 @endforeach
             </select>
+            <div id="raceAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">Tarikh Lahir</label>
-            <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="date_of_birth" id="date_of_birth" disabled />
+            <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="date_of_birth" id="date_of_birth" onchange="checkInput('date_of_birth', 'date_of_birthAlert')" disabled />
+            <div id="date_of_birthAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
         {{-- <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
@@ -62,16 +66,19 @@ data-reloadPage="false">
                 <option value="{{ $maritalStatus->code }}">{{ $maritalStatus->name }}</option>
                 @endforeach
             </select>
+            <div id="marital_statusAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">No. Telefon</label>
-            <input type="text" class="form-control" value="" name="phone_number" id="phone_number" disabled>
+            <input type="text" class="form-control" value="" name="phone_number" id="phone_number" onchange="checkInput('phone_number', 'phone_numberAlert')" disabled>
+            <div id="phone_numberAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">Alamat Emel</label>
-            <input type="text" class="form-control" value="" name="email" id="email" disabled>
+            <input type="text" class="form-control" value="" name="email" id="email" onchange="checkInput('email', 'emailAlert')" disabled>
+            <div id="emailAlert" style="color: red; font-size: smaller;"></div>
         </div>
     </div>
 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Subject;
@@ -43,6 +44,18 @@ class SubjectController extends Controller
 
         $subject = Subject::all();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Subjek";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($subject)
                 ->editColumn('code', function ($subject){
                     return $subject->code;
@@ -93,13 +106,24 @@ class SubjectController extends Controller
                 'form.max' => 'Tingkatan hendaklah antara 1 dan 6',
             ]);
 
-            Subject::create([
+            $subject = Subject::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
                 'form' => strtoupper($request->form),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Subjek";
+            $log->data_new = json_encode($subject);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -122,6 +146,18 @@ class SubjectController extends Controller
             if (!$subject) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Subjek";
+            $log->data_new = json_encode($subject);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $subject]);
 
@@ -139,6 +175,12 @@ class SubjectController extends Controller
 
             $subjectId = $request->subjectId;
             $subject = Subject::find($subjectId);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Subjek";
+            $log->data_old = json_encode($subject);
 
             $request->validate([
                 'code' => 'required|string|unique:ref_subject,code,'.$subjectId,
@@ -160,6 +202,14 @@ class SubjectController extends Controller
                 'form' => strtoupper($request->form),
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $subjectNewData = Subject::find($subjectId);
+            $log->data_new = json_encode($subjectNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

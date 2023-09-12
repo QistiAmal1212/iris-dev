@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Qualification;
@@ -43,6 +44,18 @@ class QualificationController extends Controller
 
         $qualification = Qualification::all();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.qualification')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Kelulusan";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($qualification)
                 ->editColumn('code', function ($qualification){
                     return $qualification->code;
@@ -88,12 +101,23 @@ class QualificationController extends Controller
                 'name.required' => 'Sila isikan nama kelulusan',
             ]);
 
-            Qualification::create([
+            $qualification = Qualification::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.qualification')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Kelulusan";
+            $log->data_new = json_encode($qualification);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -116,6 +140,18 @@ class QualificationController extends Controller
             if (!$qualification) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.qualification')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Kelulusan";
+            $log->data_new = json_encode($qualification);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $qualification]);
 
@@ -134,6 +170,12 @@ class QualificationController extends Controller
             $qualificationId = $request->qualificationId;
             $qualification = Qualification::find($qualificationId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.qualification')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Kelulusan";
+            $log->data_old = json_encode($qualification);
+
             $request->validate([
                 'code' => 'required|string|unique:ref_qualification,code,'.$qualificationId,
                 'name' => 'required|string',
@@ -148,6 +190,14 @@ class QualificationController extends Controller
                 'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $qualificationNewData = Qualification::find($qualificationId);
+            $log->data_new = json_encode($qualificationNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
