@@ -168,21 +168,21 @@ Maklumat Pemohon
     }
 
     function confirmSubmit(btnName, newValues) {
-        var htmlContent = '<p>Changes:</p>';
+        var htmlContent = '<p>Perubahan:</p>';
 
         console.log(originalVal, newValues)
 
         for (var key in originalVal) {
             if (originalVal.hasOwnProperty(key)) {
                 if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
-                    htmlContent += '<p>' + originalVal[key] + ' to ' + newValues[key] + '</p>';
+                    htmlContent += '<p>' + originalVal[key] + ' kepada ' + newValues[key] + '</p>';
                 }
             }
         }
 
-        if (htmlContent === '<p>Changes:</p>') {
+        if (htmlContent === '<p>Perubahan:</p>') {
             Swal.fire({
-                title: 'No changes made',
+                title: 'Tiada Perubahan Dibuat',
                 icon: 'info',
                 confirmButtonText: 'OK'
             });
@@ -190,10 +190,11 @@ Maklumat Pemohon
         }
 
         Swal.fire({
-        title: 'Do you want to save the changes?',
+        title: 'Adakah anda ingin simpan perubahan ini?',
         html: htmlContent,
         showCancelButton: true,
-        confirmButtonText: 'Confirm',
+        confirmButtonText: 'Sahkan',
+        cancelButtonText: 'Batal',
         }).then((result) => {
         if (result.isConfirmed) {
             $('#'+btnName).trigger('click');
