@@ -6,12 +6,12 @@
         </a>
     </div>
 </div>
-<form 
+<form
 id="tempatLahirForm"
 action="{{ route('tempat-lahir.update') }}"
 method="POST"
 data-refreshFunctionName="reloadTimeline"
-data-refreshFunctionNameIfSuccess="reloadTempatLahir" 
+data-refreshFunctionNameIfSuccess="reloadTempatLahir"
 data-reloadPage="false">
 @csrf
 <div class="row">
@@ -49,7 +49,11 @@ data-reloadPage="false">
 <div id="button_action_tempat_lahir" style="display:none">
     <button type="button" id="btnEditTempatLahir" hidden onclick="generalFormSubmit(this);"></button>
     <div class="d-flex justify-content-end align-items-center my-1">
-        <button type="button" class="btn btn-success float-right" onclick="$('#btnEditTempatLahir').trigger('click');">
+        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditPersonal', {
+            place_of_birth: $('#place_of_birth').val(),
+            father_place_of_birth: $('#father_place_of_birth').val(),
+            mother_place_of_birth: $('#mother_place_of_birth').val(),
+        });">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>

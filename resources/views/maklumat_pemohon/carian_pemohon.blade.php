@@ -157,6 +157,50 @@ Maklumat Pemohon
         }
     }
 
+    function selectionNull(inputID, formID){
+        var x = document.getElementById(inputID);
+        var option = document.createElement("option");
+        option.text = "Tiada Maklumat";
+        option.value = "Tiada Maklumat";
+        x.add(option);
+        $('#' + formID + ' select[name="' + inputID + '"]').val("Tiada Maklumat").trigger('change');
+        option.disabled = true;
+    }
+
+    function confirmSubmit(btnName, newValues) {
+        var htmlContent = '<p>Changes:</p>';
+
+        console.log(originalVal, newValues)
+
+        for (var key in originalVal) {
+            if (originalVal.hasOwnProperty(key)) {
+                if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+                    htmlContent += '<p>' + originalVal[key] + ' to ' + newValues[key] + '</p>';
+                }
+            }
+        }
+
+        if (htmlContent === '<p>Changes:</p>') {
+            Swal.fire({
+                title: 'No changes made',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        Swal.fire({
+        title: 'Do you want to save the changes?',
+        html: htmlContent,
+        showCancelButton: true,
+        confirmButtonText: 'Confirm',
+        }).then((result) => {
+        if (result.isConfirmed) {
+            $('#'+btnName).trigger('click');
+        }
+        })
+    }
+
     function searchCandidate() {
         var search_ic = $('#search_ic').val();
 
@@ -188,18 +232,26 @@ Maklumat Pemohon
                     $('#candidate_timeline').load(timelineUrl)
 
                     $('#personalForm select[name="gender"]').attr('disabled', true);
-                    $('#personalForm select[name="gender"]').val(data.detail.ref_gender_code).trigger('change');
+                    if(data.detail.ref_gender_code) { $('#personalForm select[name="gender"]').val(data.detail.ref_gender_code).trigger('change'); }
+                    else { selectionNull('gender', 'personalForm');}
+                    originalVal['gender'] = data.detail.ref_gender_code;
                     $('#personalForm select[name="religion"]').attr('disabled', true);
-                    $('#personalForm select[name="religion"]').val(data.detail.ref_religion_code).trigger('change');
+                    if(data.detail.ref_religion_code) { $('#personalForm select[name="religion"]').val(data.detail.ref_religion_code).trigger('change'); }
+                    else { selectionNull('religion', 'personalForm'); }
+                    originalVal['religion'] = data.detail.ref_religion_code;
                     $('#personalForm select[name="race"]').attr('disabled', true);
-                    $('#personalForm select[name="race"]').val(data.detail.ref_race_code).trigger('change');
+                    if(data.detail.ref_race_code) { $('#personalForm select[name="race"]').val(data.detail.ref_race_code).trigger('change'); }
+                    else { selectionNull('race', 'personalForm'); }
+                    originalVal['race'] = data.detail.ref_race_code;
 
                     $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
                     $('#personalForm input[name="date_of_birth"]').val(data.detail.date_of_birth ? data.detail.date_of_birth : data_not_available);
                     originalVal['date_of_birth'] = data.detail.date_of_birth;
 
                     $('#personalForm select[name="marital_status"]').attr('disabled', true);
-                    $('#personalForm select[name="marital_status"]').val(data.detail.ref_marital_status_code).trigger('change');
+                    if(data.detail.ref_marital_status_code) { $('#personalForm select[name="marital_status"]').val(data.detail.ref_marital_status_code).trigger('change'); }
+                    else { selectionNull('marital_status', 'personalForm'); }
+                    originalVal['marital_status'] = data.detail.ref_marital_status_code;
 
                     $('#personalForm input[name="phone_number"]').attr('disabled', true);
                      $('#personalForm input[name="phone_number"]').val(data.detail.phone_number ? data.detail.phone_number : data_not_available);
@@ -227,7 +279,8 @@ Maklumat Pemohon
                     $('#alamatForm input[name="permanent_city"]').val(data.detail.permanent_city ? data.detail.permanent_city : data_not_available);
                     originalVal['permanent_city'] = data.detail.permanent_city;
                     $('#alamatForm select[name="permanent_state"]').attr('disabled', true);
-                    $('#alamatForm select[name="permanent_state"]').val(data.detail.permanent_ref_state_code ? data.detail.permanent_ref_state_code : data_not_available).trigger('change');
+                    if(data.detail.permanent_ref_state_code) { $('#alamatForm select[name="permanent_state"]').val(data.detail.permanent_ref_state_code).trigger('change'); }
+                    else { selectionNull('permanent_state', 'alamatForm'); }
                     originalVal['permanent_state'] = data.detail.permanent_ref_state_code;
                     $('#alamatForm input[name="address_1"]').attr('disabled', true);
                     $('#alamatForm input[name="address_1"]').val(data.detail.address_1 ? data.detail.address_1 : data_not_available);
@@ -245,15 +298,19 @@ Maklumat Pemohon
                     $('#alamatForm input[name="city"]').val(data.detail.city ? data.detail.city : data_not_available);
                     originalVal['city'] = data.detail.city;
                     $('#alamatForm select[name="state"]').attr('disabled', true);
-                    $('#alamatForm select[name="state"]').val(data.detail.ref_state_code ? data.detail.ref_state_code : data_not_available).trigger('change');
+                    if(data.detail.ref_state_code) { $('#alamatForm select[name="state"]').val(data.detail.ref_state_code).trigger('change'); }
+                    else { selectionNull('state', 'alamatForm'); }
                     originalVal['state'] = data.detail.ref_state_code;
                     $('#alamatForm input[name="alamat_no_pengenalan"]').val(data.detail.no_pengenalan);
 
-                    $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.place_of_birth ? data.detail.place_of_birth : data_not_available).trigger('change');
+                    if(data.detail.place_of_birth) { $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.place_of_birth).trigger('change'); }
+                    else { selectionNull('place_of_birth', 'tempatLahirForm'); }
                     originalVal['place_of_birth'] = data.detail.place_of_birth;
-                    $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.father_place_of_birth ? data.detail.father_place_of_birth : data_not_available).trigger('change');
+                    if(data.detail.father_place_of_birth) { $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.father_place_of_birth).trigger('change'); }
+                    else { selectionNull('father_place_of_birth', 'tempatLahirForm'); }
                     originalVal['father_place_of_birth'] = data.detail.father_place_of_birth;
-                    $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.mother_place_of_birth ? data.detail.mother_place_of_birth : data_not_available).trigger('change');
+                    if(data.detail.mother_place_of_birth) { $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.mother_place_of_birth).trigger('change'); }
+                    else { selectionNull('mother_place_of_birth', 'tempatLahirForm'); }
                     originalVal['mother_place_of_birth'] = data.detail.mother_place_of_birth;
                     $('#tempatLahirForm input[name="tempat_lahir_no_pengenalan"]').val(data.detail.no_pengenalan);
 

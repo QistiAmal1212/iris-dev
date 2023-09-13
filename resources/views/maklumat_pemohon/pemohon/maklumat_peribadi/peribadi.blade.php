@@ -93,7 +93,15 @@ data-reloadPage="false">
 <div id="button_action_personal" style="display:none">
     <button type="button" id="btnEditPersonal" hidden onclick="generalFormSubmit(this);"></button>
     <div class="d-flex justify-content-end align-items-center my-1">
-        <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPersonal').trigger('click');">
+        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditPersonal', {
+            gender: $('#gender').val(),
+            religion: $('#religion').val(),
+            race: $('#race').val(),
+            date_of_birth: $('#date_of_birth').val(),
+            marital_status: $('#marital_status').val(),
+            phone_number: $('#phone_number').val(),
+            email: $('#email').val()
+        });">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>

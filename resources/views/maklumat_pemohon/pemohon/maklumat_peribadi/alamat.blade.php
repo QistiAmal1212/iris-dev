@@ -97,7 +97,20 @@ data-reloadPage="false">
 <div id="button_action_alamat" style="display:none">
     <button type="button" id="btnEditAlamat" hidden onclick="generalFormSubmit(this);"></button>
     <div class="d-flex justify-content-end align-items-center my-1">
-        <button type="button" class="btn btn-success float-right" onclick="$('#btnEditAlamat').trigger('click');">
+        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditAlamat', {
+            permanent_address_1: $('#permanent_address_1').val(),
+            permanent_address_2: $('#permanent_address_2').val(),
+            permanent_address_3: $('#permanent_address_3').val(),
+            permanent_poscode: $('#permanent_poscode').val(),
+            permanent_city: $('#permanent_city').val(),
+            permanent_state: $('#permanent_state').val(),
+            address_1: $('#address_1').val(),
+            address_2: $('#address_2').val(),
+            address_3: $('#address_3').val(),
+            poscode: $('#poscode').val(),
+            city: $('#city').val(),
+            state: $('#state').val(),
+        });">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>
