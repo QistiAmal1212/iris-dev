@@ -1,3 +1,11 @@
+<div class="card" id="update_penalty" style="display:none">
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3 text-danger" type="button" onclick="editPenalty()">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Kemaskini
+        </a>
+    </div>
+</div>
 <div class="row mt-2 mb-2">
     
     <form 
@@ -81,15 +89,6 @@
     </div>
 </div>
 
-<div class="card-footer">
-    <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" id="update_penalty" hidden onclick="editPenalty()">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Kemaskini
-        </a>
-    </div>
-</div>
-
 <script>
 
     function editPenalty() {
@@ -101,7 +100,6 @@
         $('#penaltyForm input[name="penalty_end"]').attr('readonly', true);
 
         $("#button_action_penalty").attr("style", "display:block");
-        //document.getElementById('button_action_penalty').style.display = 'block';
     }
 
     function calculatePenalty() {
@@ -175,19 +173,20 @@
                 $('#penaltyForm input[name="penalty_start"]').val('');
 
                 $('#table-penalty tbody').empty();
-                    var trPenalty = '';
-                    var bilPenalty = 0;
-                    $.each(data.detail, function (i, item) {
-                        bilPenalty += 1;
-                        trPenalty += '<tr>';
-                        trPenalty += '<td align="center">' + bilPenalty + '</td>'
-                        trPenalty += '<td>' + item.penalty.name + '</td>';
-                        trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
-                        trPenalty += '<td>' + item.startDate + '</td>';
-                        trPenalty += '<td>' + item.endDate + '</td>';
-                        trPenalty += '</tr>';
-                    });
-                    $('#table-penalty tbody').append(trPenalty);
+
+                var trPenalty = '';
+                var bilPenalty = 0;
+                $.each(data.detail, function (i, item) {
+                    bilPenalty += 1;
+                    trPenalty += '<tr>';
+                    trPenalty += '<td align="center">' + bilPenalty + '</td>'
+                    trPenalty += '<td>' + item.penalty.name + '</td>';
+                    trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
+                    trPenalty += '<td>' + item.startDate + '</td>';
+                    trPenalty += '<td>' + item.endDate + '</td>';
+                    trPenalty += '</tr>';
+                });
+                $('#table-penalty tbody').append(trPenalty);
             },
             error: function(data) {
                 //

@@ -172,10 +172,12 @@ Maklumat Pemohon
                 },
                 success: function(data) {
 
-                    $('#update_alamat').attr('hidden', false);
-                    $('#update_personal').attr('hidden', false);
-                    $('#update_tempat_lahir').attr('hidden', false);
-                    $('#update_penalty').attr('hidden', false);
+                    $('#update_alamat').attr("style", "display:block");
+                    $('#update_personal').attr("style", "display:block");
+                    $('#update_tempat_lahir').attr("style", "display:block");
+                    $('#update_pmr').attr("style", "display:block");
+                    $('#update_pengajian_tinggi').attr("style", "display:block");
+                    $('#update_penalty').attr("style", "display:block");
 
                     $('#candidate_name').html(data.detail.full_name);
                     $('#candidate_ic').html(data.detail.no_ic);
@@ -302,11 +304,12 @@ Maklumat Pemohon
                             trSkim += '<td>' + (item.register_date ? item.registerDate : '') + '</td>';
                             trSkim += '<td>' + (item.expiry_date ? item.expiry_date : '') + '</td>';
                             trSkim += '<td>' + (item.interview_centre ? item.interview_centre.name : '') + '</td>';
-                            //trSkim += '<td>' + item.interview_centre.name + '</td>';
                             trSkim += '</tr>';
                         });
                 }
                     $('#table-skim tbody').append(trSkim);
+
+                    $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
 
                     $('#table-pmr tbody').empty();
                     if(data.detail.pmr.length == 0){
@@ -319,9 +322,9 @@ Maklumat Pemohon
                                 bilPmr += 1;
                                 trPmr += '<tr>';
                                 trPmr += '<td align="center">' + bilPmr + '</td>';
-                                trPmr += '<td>' + item.subject.code + '</td>';
                                 trPmr += '<td>' + item.subject.name + '</td>';
-                                trPmr += '<td>' + item.grade + '</td>';
+                                trPmr += '<td align="center">' + item.grade + '</td>';
+                                trPmr += '<td align="center">' + item.year + '</td>';
                                 trPmr += '</tr>';
                             }
                         });
@@ -469,11 +472,18 @@ Maklumat Pemohon
                     }
                     $('#table-skm tbody').append(trSkm);
 
+                    $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.higher_education != null) {
-                        $('#higherEducationForm input[name="tahun_pengajian_tinggi"]').val(data.detail.higher_education.year);
-                        $('#higherEducationForm input[name="cgpa_pengajian_tinggi"]').val(data.detail.higher_education.cgpa);
-                        $('#higherEducationForm select[name="institusi_pengajian_tinggi"]').val(data.detail.higher_education.ref_institution_code).trigger('change');
-                        $('#higherEducationForm select[name="pengkhususan_pengajian_tinggi"]').val(data.detail.higher_education.ref_specialization_code).trigger('change');
+                        $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').val(data.detail.higher_education.peringkat_pengajian).trigger('change');
+                        $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val(data.detail.higher_education.year);
+                        $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').val(data.detail.higher_education.ref_eligibility_code).trigger('change');
+                        $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').val(data.detail.higher_education.cgpa);
+                        $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').val(data.detail.higher_education.ref_institution_code).trigger('change');
+                        $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').val(data.detail.higher_education.nama_sijil);
+                        $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val(data.detail.higher_education.ref_specialization_code).trigger('change');
+                        $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').val(data.detail.higher_education.ins_fln).trigger('change');
+                        $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val(data.detail.higher_education.tarikhSenat);
+                        $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val(data.detail.higher_education.biasiswa).trigger('change');
                     }
 
                     $('#table-professional tbody').empty();
@@ -596,14 +606,18 @@ Maklumat Pemohon
                 },
                 error: function(data) {
 
-                    $('#update_personal').attr('hidden', true);
-                    $('#update_alamat').attr('hidden', true);
-                    $('#update_tempat_lahir').attr('hidden', true);
-                    $('#update_penalty').attr('hidden', true);
+                    $('#update_personal').attr("style", "display:none");
+                    $('#update_alamat').attr("style", "display:none");
+                    $('#update_tempat_lahir').attr("style", "display:none");
+                    $('#update_pmr').attr("style", "display:none");
+                    $('#update_pengajian_tinggi').attr("style", "display:none");
+                    $('#update_penalty').attr("style", "display:none");
 
                     $("#button_action_personal").attr("style", "display:none");
                     $("#button_action_alamat").attr("style", "display:none");
                     $("#button_action_tempat_lahir").attr("style", "display:none");
+                    $("#button_action_pmr").attr("style", "display:none");
+                    $("#button_action_pengajian_tinggi").attr("style", "display:none");
                     $("#button_action_penalty").attr("style", "display:none");
 
                     $('#personalForm select[name="gender"]').attr('disabled', true);
@@ -656,6 +670,68 @@ Maklumat Pemohon
                     $('#tempatLahirForm select[name="mother_place_of_birth"]').val('').trigger('change');
                     $('#tempatLahirForm input[name="tempat_lahir_no_pengenalan"]').val('');
 
+                    $('#license_type').val('');
+                    $('#license_expiry_date').val('');
+                    $('#license_blacklist_status').val('').trigger('change');
+                    $('#license_blacklist_details').val('');
+
+                    $('#oku_registration_no').val('');
+                    $('#oku_status').val('');
+                    $('#oku_category').val('');
+                    $('#oku_sub').val('');
+
+                    $('#table-skim tbody').empty();
+
+                    $('#pmrForm select[name="subjek_pmr"]').attr('disabled', true);
+                    $('#pmrForm select[name="subjek_pmr"]').val('').trigger('change');
+                    $('#pmrForm select[name="gred_pmr"]').attr('disabled', true);
+                    $('#pmrForm select[name="gred_pmr"]').val('').trigger('change');
+                    $('#pmrForm input[name="tahun_pmr"]').attr('disabled', true);
+                    $('#pmrForm input[name="tahun_pmr"]').val('');
+
+                    $('#table-pmr tbody').empty();
+
+                    $('#table-spm tbody').empty();
+
+                    $('#table-spmv tbody').empty();
+
+                    $('#table-svm tbody').empty();
+
+                    $('#table-stpm tbody').empty();
+
+                    $('#table-stam tbody').empty();
+
+                    $('#table-matriculation tbody').empty();
+
+                    $('#table-skm tbody').empty();
+
+                    $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val('');
+                    $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').val('');
+                    $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').val('');
+                    $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val('');
+                    $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val('').trigger('change');
+
+                    $('#table-professional tbody').empty();
+
+                    $('#experienceForm select[name="experience_position_level"]').val('').trigger('change');
+                    $('#experienceForm select[name="experience_skim"]').val('').trigger('change');
+                    $('#experienceForm input[name="experience_verify_date"]').val('');
+                    $('#experienceForm select[name="experience_department_ministry"]').val('').trigger('change');
+                    $('#experienceForm select[name="experience_department_state"]').val('').trigger('change');
+
+                    $('#table-psl tbody').empty();
+
+                    $('#army_police_rank').val('').trigger('change');
+
+                    $('#table-language tbody').empty();
+
+                    $('#table-talent tbody').empty();
+
                     $('#penaltyForm select[name="penalty"]').attr('disabled', true);
                     $('#penaltyForm input[name="penalty_duration"]').attr('disabled', true);
                     $('#penaltyForm select[name="penalty_type"]').attr('disabled', true);
@@ -664,7 +740,6 @@ Maklumat Pemohon
                     $('#penaltyForm input[name="penalty_end"]').attr('readonly', false);
                     $('#penaltyForm input[name="penalty_no_pengenalan"]').val('');
 
-                    $("#button_action_penalty").attr("style", "display:none");
                     $('#table-penalty tbody').empty();
 
                     var data = data.responseJSON;

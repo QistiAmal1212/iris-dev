@@ -5,19 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\DepartmentMinistry;
+use App\Models\Reference\Eligibility;
 use App\Models\Reference\Gender;
+use App\Models\Reference\GredMatapelajaran;
 use App\Models\Reference\Institution;
 use App\Models\Reference\MaritalStatus;
 use App\Models\Reference\Penalty;
+use App\Models\Reference\PeringkatPengajian;
 use App\Models\Reference\PositionLevel;
 use App\Models\Reference\Rank;
 use App\Models\Reference\Race;
 use App\Models\Reference\Religion;
 use App\Models\Reference\State;
 use App\Models\Reference\Skim;
+use App\Models\Reference\Subject;
 use App\Models\Reference\Specialization;
 use App\Models\Candidate\Candidate;
+use App\Models\Candidate\CandidateHigherEducation;
 use App\Models\Candidate\CandidatePenalty;
+use App\Models\Candidate\CandidateSchoolResult;
 use App\Models\Candidate\CandidateTimeline;
 use Carbon\Carbon;
 
@@ -31,10 +37,13 @@ class MaklumatPemohonController extends Controller
     public function searchPemohon ()
     {
         $departmentMinistries = DepartmentMinistry::orderBy('name', 'asc')->get();
+        $eligibilities = Eligibility::all();
         $genders = Gender::all();
+        $gredPmr = GredMatapelajaran::where('tkt', 3)->orderBy('susunan', 'asc')->get();
         $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
         $maritalStatuses = MaritalStatus::all();
         $penalties = Penalty::all();
+        $peringkatPengajian = PeringkatPengajian::all();
         $positionLevels = PositionLevel::orderBy('name', 'asc')->get();
         $races = Race::all();
         $ranks = Rank::all();
@@ -42,8 +51,9 @@ class MaklumatPemohonController extends Controller
         $states = State::orderBy('name', 'asc')->get();
         $skims = Skim::orderBy('name', 'asc')->get();
         $specializations = Specialization::orderBy('name', 'asc')->get();
+        $subjekPmr = Subject::where('form', 3)->orderBy('name', 'asc')->get();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'genders', 'institutions', 'maritalStatuses', 'penalties', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations'));
+        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr'));
     }
 
     public function viewMaklumatPemohon(){
@@ -83,6 +93,10 @@ class MaklumatPemohonController extends Controller
                     $query->with(['qualification']);
                 },
                 'higherEducation' => function ($query) {
+                    $query->select(
+                        '*', 
+                        DB::raw("DATE_FORMAT(tarikh_senat, '%d/%m/%Y') as tarikhSenat")
+                    );
                     $query->with(['institution', 'eligibility', 'specialization']);
                 },
                 'professional' => function ($query) {
@@ -396,6 +410,171 @@ class MaklumatPemohonController extends Controller
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }  
+    }
+
+    public function storePmr(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            
+            $request->validate([
+                'subjek_pmr' => 'required|string|exists:ref_subject,code',
+                'gred_pmr' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'tahun_pmr' => 'required|string',
+            ],[
+                'subjek_pmr.required' => 'Sila pilih subjek pmr',
+                'subjek_pmr.exists' => 'Tiada rekod subjek yang dipilih',
+                'gred_pmr.required' => 'Sila pilih gred pmr',
+                'gred_pmr.exists' => 'Tiada rekod gred yang dipilih',
+                'tahun_pmr.required' => 'Sila pilih gred pmr',
+                'tahun_pmr.exists' => 'Tiada rekod gred pmr yang dipilih',
+            ]);
+
+            CandidateSchoolResult::create([
+                'no_pengenalan' => $request->pmr_no_pengenalan,
+                'ref_subject_code' => $request->subjek_pmr,
+                'grade' => $request->gred_pmr,
+                'year' => $request->tahun_pmr,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->pmr_no_pengenalan,
+                'details' => 'Tambah Maklumat Akademik (PT3/PMR/SRP)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
+            
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listPmr(Request $request) 
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidatePmr = CandidateSchoolResult::select(
+                '*', 
+                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+            )->where('no_pengenalan', $request->noPengenalan)->with('subject')->whereHas('subject', function ($query) { 
+                $query->where('form', '3');
+            })->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //} 
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePmr]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }  
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updatePengajianTinggi(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            
+            $candidate = CandidateHigherEducation::where('no_pengenalan', $request->pengajian_tinggi_no_pengenalan)->first();
+
+            $request->validate([
+                'peringkat_pengajian_tinggi' => 'required|string|exists:ref_peringkat_pengajian,id',
+                'tahun_pengajian_tinggi' => 'required|string',
+                'kelayakan_pengajian_tinggi' => 'required|string|exists:ref_eligibility,code',
+                'cgpa_pengajian_tinggi' => 'required|string',
+                'institusi_pengajian_tinggi' => 'required|string|exists:ref_institution,code',
+                'nama_sijil_pengajian_tinggi' => 'required|string',
+                'pengkhususan_pengajian_tinggi' => 'required|string|exists:ref_specialization,code',
+                'fln_pengajian_tinggi' => 'required|integer|digits_between:1,2',
+                'tarikh_senat_pengajian_tinggi' => 'required',
+                'biasiswa_pengajian_tinggi' => 'required|boolean',
+            ],[
+                'peringkat_pengajian_tinggi.required' => 'Sila pilih peringkat pengajian tinggi',
+                'peringkat_pengajian_tinggi.exists' => 'Tiada rekod peringkat pengajian tinggi yang dipilih',
+                'tahun_pengajian_tinggi.required' => 'Sila pilih tahun pengajian tinggi',
+                'kelayakan_pengajian_tinggi.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+                'kelayakan_pengajian_tinggi.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+                'cgpa_pengajian_tinggi.required' => 'Sila pilih cgpa pengajian tinggi',
+                'institusi_pengajian_tinggi.required' => 'Sila pilih institusi pengajian tinggi',
+                'institusi_pengajian_tinggi.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+                'nama_sijil_pengajian_tinggi.required' => 'Sila pilih nama sijil pengajian tinggi',
+                'pengkhususan_pengajian_tinggi.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+                'pengkhususan_pengajian_tinggi.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+                'fln_pengajian_tinggi.required' => 'Sila pilih francais luar negara pengajian tinggi',
+                'fln_pengajian_tinggi.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+                'tarikh_senat_pengajian_tinggi.required' => 'Sila pilih tarikh senat pengajian tinggi',
+                'biasiswa_pengajian_tinggi.required' => 'Sila pilih biasiswa pengajian tinggi',
+                'biasiswa_pengajian_tinggi.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+            ]);
+
+            $candidate->update([
+                'peringkat_pengajian' => $request->peringkat_pengajian_tinggi,
+                'year' => $request->tahun_pengajian_tinggi,
+                'ref_eligibility_code' => $request->kelayakan_pengajian_tinggi,
+                'cgpa' => $request->cgpa_pengajian_tinggi,
+                'ref_institution_code' => $request->institusi_pengajian_tinggi,
+                'nama_sijil' => $request->nama_sijil_pengajian_tinggi,
+                'ref_specialization_code' => $request->pengkhususan_pengajian_tinggi,
+                'ins_fln' => $request->fln_pengajian_tinggi,
+                'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_pengajian_tinggi)->format('Y-m-d'),
+                'biasiswa' => $request->biasiswa_pengajian_tinggi,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->pengajian_tinggi_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
+            
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function pengajianTinggiDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateHigherEducation = CandidateHigherEducation::select(
+                '*', 
+                DB::raw("DATE_FORMAT(tarikh_senat, '%d/%m/%Y') as tarikhSenat"),
+            )->where('no_pengenalan', $request->noPengenalan)->first();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            // } 
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateHigherEducation]);
 
         } catch (\Throwable $e) {
 

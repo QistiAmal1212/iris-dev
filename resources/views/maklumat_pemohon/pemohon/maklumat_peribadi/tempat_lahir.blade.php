@@ -1,3 +1,11 @@
+<div class="card" id="update_tempat_lahir" style="display:none">
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3 text-danger" type="button" onclick="editTempatLahir()">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Kemaskini
+        </a>
+    </div>
+</div>
 <form 
 id="tempatLahirForm"
 action="{{ route('tempat-lahir.update') }}"
@@ -48,15 +56,6 @@ data-reloadPage="false">
 </div>
 </form>
 
-<div class="card-footer">
-    <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" id="update_tempat_lahir" hidden onclick="editTempatLahir()">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Kemaskini
-        </a>
-    </div>
-</div>
-
 <script>
     function editTempatLahir() {
         $('#tempatLahirForm select[name="place_of_birth"]').attr('disabled', false);
@@ -64,7 +63,6 @@ data-reloadPage="false">
         $('#tempatLahirForm select[name="mother_place_of_birth"]').attr('disabled', false);
 
         $("#button_action_tempat_lahir").attr("style", "display:block");
-        //document.getElementById('button_action_tempat_lahir').style.display = 'block';
     }
 
     function reloadTempatLahir() {
@@ -78,8 +76,13 @@ data-reloadPage="false">
             async: true,
             success: function(data) {
                 $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.place_of_birth).trigger('change');
+                $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.place_of_birth).attr('disabled', true);
                 $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.father_place_of_birth).trigger('change');
+                $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.father_place_of_birth).attr('disabled', true);
                 $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.mother_place_of_birth).trigger('change');
+                $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.mother_place_of_birth).attr('disabled', true);
+
+                $("#button_action_tempat_lahir").attr("style", "display:none");
             },
             error: function(data) {
                 //

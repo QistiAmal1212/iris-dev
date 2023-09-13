@@ -15,6 +15,11 @@ class CandidateHigherEducation extends Model
         'ref_specialization_code',
         'year',
         'cgpa',
+        'peringkat_pengajian',
+        'nama_sijil',
+        'tarikh_senat',
+        'biasiswa',
+        'ins_fln',
         'created_by',
         'updated_by',
     ];

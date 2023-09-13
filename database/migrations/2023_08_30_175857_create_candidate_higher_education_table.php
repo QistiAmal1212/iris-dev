@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('ref_specialization_code');
             $table->string('year');
             $table->string('cgpa');
+            $table->string('ins_fln')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->comment('Last Update User')->nullable();
             $table->timestamps();

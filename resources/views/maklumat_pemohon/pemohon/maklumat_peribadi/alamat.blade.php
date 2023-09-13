@@ -1,3 +1,11 @@
+<div class="card" id="update_alamat" style="display:none">
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3 text-danger" type="button" onclick="editAlamat()">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Kemaskini
+        </a>
+    </div>
+</div>
 <form
 id="alamatForm"
 action="{{ route('alamat.update') }}"
@@ -96,15 +104,6 @@ data-reloadPage="false">
 </div>
 </form>
 
-<div class="card-footer">
-    <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" id="update_alamat" hidden onclick="editAlamat()">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Kemaskini
-        </a>
-    </div>
-</div>
-
 <script>
     function editAlamat() {
         $('#alamatForm input[name="permanent_address_1"]').attr('disabled', false);
@@ -121,7 +120,6 @@ data-reloadPage="false">
         $('#alamatForm select[name="state"]').attr('disabled', false);
 
         $("#button_action_alamat").attr("style", "display:block");
-        //document.getElementById('button_action_alamat').style.display = 'block';
     }
 
     function reloadAlamat() {
@@ -135,17 +133,31 @@ data-reloadPage="false">
             async: true,
             success: function(data) {
                 $('#alamatForm input[name="permanent_address_1"]').val(data.detail.permanent_address_1);
+                $('#alamatForm input[name="permanent_address_1"]').attr('disabled', true);
                 $('#alamatForm input[name="permanent_address_2"]').val(data.detail.permanent_address_2);
+                $('#alamatForm input[name="permanent_address_2"]').attr('disabled', true);
                 $('#alamatForm input[name="permanent_address_3"]').val(data.detail.permanent_address_3);
+                $('#alamatForm input[name="permanent_address_3"]').attr('disabled', true);
                 $('#alamatForm input[name="permanent_poscode"]').val(data.detail.permanent_poscode);
+                $('#alamatForm input[name="permanent_poscode"]').attr('disabled', true);
                 $('#alamatForm input[name="permanent_city"]').val(data.detail.permanent_city);
+                $('#alamatForm input[name="permanent_city"]').attr('disabled', true);
                 $('#alamatForm select[name="permanent_state"]').val(data.detail.permanent_ref_state_code).trigger('change');
+                $('#alamatForm select[name="permanent_state"]').attr('disabled', true);
                 $('#alamatForm input[name="address_1"]').val(data.detail.address_1);
+                $('#alamatForm input[name="address_1"]').attr('disabled', true);
                 $('#alamatForm input[name="address_2"]').val(data.detail.address_2);
+                $('#alamatForm input[name="address_2"]').attr('disabled', true);
                 $('#alamatForm input[name="address_3"]').val(data.detail.address_3);
+                $('#alamatForm input[name="address_3"]').attr('disabled', true);
                 $('#alamatForm input[name="poscode"]').val(data.detail.poscode);
+                $('#alamatForm input[name="poscode"]').attr('disabled', true);
                 $('#alamatForm input[name="city"]').val(data.detail.city);
+                $('#alamatForm input[name="city"]').attr('disabled', true);
                 $('#alamatForm select[name="state"]').val(data.detail.ref_state_code).trigger('change');
+                $('#alamatForm select[name="state"]').attr('disabled', true);
+
+                $("#button_action_alamat").attr("style", "display:none");
             },
             error: function(data) {
                 //

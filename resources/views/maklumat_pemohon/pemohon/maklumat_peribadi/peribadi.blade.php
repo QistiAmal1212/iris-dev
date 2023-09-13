@@ -3,6 +3,14 @@
         background-color: #efefef;
     }
 </style>
+<div class="card" id="update_personal" style="display:none">
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3 text-danger" type="button" onclick="editPersonal()">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Kemaskini
+        </a>
+    </div>
+</div>
 <form
 id="personalForm"
 action="{{ route('personal.update') }}"
@@ -92,14 +100,6 @@ data-reloadPage="false">
 </div>
 </form>
 
-<div class="card-footer">
-    <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" id="update_personal" hidden onclick="editPersonal()">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Kemaskini
-        </a>
-    </div>
-</div>
 <script>
     function editPersonal() {
         $('#personalForm select[name="gender"]').attr('disabled', false);
@@ -111,7 +111,6 @@ data-reloadPage="false">
         $('#personalForm input[name="email"]').attr('disabled', false);
 
         $("#button_action_personal").attr("style", "display:block");
-        //document.getElementById('button_action_personal').style.display = 'block';
     }
 
     function reloadPersonal() {
@@ -125,12 +124,21 @@ data-reloadPage="false">
             async: true,
             success: function(data) {
                 $('#personalForm select[name="gender"]').val(data.detail.ref_gender_code).trigger('change');
+                $('#personalForm select[name="gender"]').attr('disabled', true);
                 $('#personalForm select[name="religion"]').val(data.detail.ref_religion_code).trigger('change');
+                $('#personalForm select[name="religion"]').attr('disabled', true);
                 $('#personalForm select[name="race"]').val(data.detail.ref_race_code).trigger('change');
+                $('#personalForm select[name="race"]').attr('disabled', true);
                 $('#personalForm input[name="date_of_birth"]').val(data.detail.date_of_birth);
+                $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
                 $('#personalForm select[name="marital_status"]').val(data.detail.ref_marital_status_code).trigger('change');
+                $('#personalForm select[name="marital_status"]').attr('disabled', true);
                 $('#personalForm input[name="phone_number"]').val(data.detail.phone_number);
+                $('#personalForm input[name="phone_number"]').attr('disabled', true);
                 $('#personalForm input[name="email"]').val(data.detail.email);
+                $('#personalForm input[name="email"]').attr('disabled', true);
+
+                $("#button_action_personal").attr("style", "display:none");
             },
             error: function(data) {
                 //
