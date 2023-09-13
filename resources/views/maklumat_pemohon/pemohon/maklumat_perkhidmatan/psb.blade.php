@@ -1,5 +1,21 @@
-<form id="experienceForm">
+<div class="card" id="update_experience" style="display:none">
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3 text-danger" type="button" onclick="editExperience()">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Kemaskini
+        </a>
+    </div>
+</div>
+<form 
+id="experienceForm"
+action="{{ route('experience.update') }}"
+method="POST"
+data-refreshFunctionName="reloadTimeline"
+data-refreshFunctionNameIfSuccess="reloadExperience" 
+data-reloadPage="false">
+@csrf
 <div class="row">
+    <input type="hidden" name="experience_no_pengenalan" id="experience_no_pengenalan" value="">
     {{-- MAKLUMAT PSB/PSL --}}
     {{-- <h6>
         <span class="text-muted">Kemaskini terkini: ONLINE 13/03/2023</span>
@@ -11,12 +27,12 @@
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Lantikan Pertama</label>
-        <input type="text" class="form-control" value="" disabled>
+        <input type="text" class="form-control" value="" name="experience_appoint_date" id="experience_appoint_date" disabled>
     </div>
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Taraf Jawatan</label>
-        <select class="select2 form-control" name="experience_position_level" disabled>
+        <select class="select2 form-control" name="experience_position_level" id="experience_position_level" disabled>
             <option value=""></option>
             @foreach($positionLevels as $positionLevel)
             <option value="{{ $positionLevel->code }}">{{ $positionLevel->name }}</option>
@@ -47,12 +63,12 @@
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Lantikan</label>
-        <input type="text" class="form-control" value="" disabled>
+        <input type="text" class="form-control" value="" name="experience_start_date" id="experience_start_date" disabled>
     </div>
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Pengesahan Lantikan</label>
-        <input type="text" class="form-control" value="" name="experience_verify_date" id="experience_verify_date" disabled>
+        <input type="text" class="form-control flatpickr" value="" name="experience_verify_date" id="experience_verify_date" disabled>
     </div>
 
     {{-- TEMPAT BERTUGAS TERKINI --}}
@@ -84,13 +100,59 @@
         <input type="text" class="form-control" value="" disabled>
     </div>
 </div>
-</form>
-
-<div class="card-footer">
-    <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" id="reset" hidden href="#">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Kemaskini
-        </a>
+<div id="button_action_experience" style="display:none">
+    <button type="button" id="btnEditExperience" hidden onclick="generalFormSubmit(this);"></button>
+    <div class="d-flex justify-content-end align-items-center my-1">
+        <button type="button" class="btn btn-success float-right" onclick="$('#btnEditExperience').trigger('click');">
+            <i class="fa fa-save"></i> Simpan
+        </button>
     </div>
 </div>
+</form>
+
+<script>
+    function editExperience() {
+        $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', false);
+        $('#experienceForm select[name="experience_position_level"]').attr('disabled', false);
+        $('#experienceForm select[name="experience_skim"]').attr('disabled', false);
+        $('#experienceForm input[name="experience_start_date"]').attr('disabled', false);
+        $('#experienceForm input[name="experience_verify_date"]').attr('disabled', false);
+        $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', false);
+        $('#experienceForm select[name="experience_department_state"]').attr('disabled', false);
+
+        $("#button_action_experience").attr("style", "display:block");
+    }
+
+    function reloadExperience() {
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
+
+        var reloadExperienceUrl = "{{ route('experience.details', ':replaceThis') }}"
+        reloadExperienceUrl = reloadExperienceUrl.replace(':replaceThis', no_pengenalan);
+        $.ajax({
+            url: reloadExperienceUrl,
+            method: 'GET',
+            async: true,
+            success: function(data) {
+                $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.dateAppoint);
+                $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
+                $('#experienceForm select[name="experience_position_level"]').val(data.detail.ref_position_level_code).trigger('change');
+                $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
+                $('#experienceForm select[name="experience_skim"]').val(data.detail.ref_skim_code).trigger('change');
+                $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
+                $('#experienceForm input[name="experience_start_date"]').val(data.detail.dateStart);
+                $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
+                $('#experienceForm input[name="experience_verify_date"]').val(data.detail.dateVerify);
+                $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
+                $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.ref_department_ministry_code).trigger('change');
+                $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
+                $('#experienceForm select[name="experience_department_state"]').val(data.detail.state_department).trigger('change');
+                $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
+
+                $("#button_action_experience").attr("style", "display:none");
+            },
+            error: function(data) {
+                //
+            }
+        });
+    }
+</script>

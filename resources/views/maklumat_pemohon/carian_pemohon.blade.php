@@ -222,6 +222,7 @@ Maklumat Pemohon
                     $('#update_tempat_lahir').attr("style", "display:block");
                     $('#update_pmr').attr("style", "display:block");
                     $('#update_pengajian_tinggi').attr("style", "display:block");
+                    $('#update_experience').attr("style", "display:block");
                     $('#update_penalty').attr("style", "display:block");
 
                     $('#candidate_name').html(data.detail.full_name);
@@ -562,10 +563,13 @@ Maklumat Pemohon
                     }
                     $('#table-professional tbody').append(trProfessional);
 
+                    $('#experienceForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.experience != null){
+                        $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.experience.dateAppoint);
                         $('#experienceForm select[name="experience_position_level"]').val(data.detail.experience.ref_position_level_code).trigger('change');
                         $('#experienceForm select[name="experience_skim"]').val(data.detail.experience.ref_skim_code).trigger('change');
-                        $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.date_verify);
+                        $('#experienceForm input[name="experience_start_date"]').val(data.detail.experience.dateStart);
+                        $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.dateVerify);
                         $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.experience.ref_department_ministry_code).trigger('change');
                         $('#experienceForm select[name="experience_department_state"]').val(data.detail.experience.state_department).trigger('change');
                     }
@@ -669,6 +673,7 @@ Maklumat Pemohon
                     $('#update_tempat_lahir').attr("style", "display:none");
                     $('#update_pmr').attr("style", "display:none");
                     $('#update_pengajian_tinggi').attr("style", "display:none");
+                    $('#update_experience').attr("style", "display:none");
                     $('#update_penalty').attr("style", "display:none");
 
                     $("#button_action_personal").attr("style", "display:none");
@@ -676,6 +681,7 @@ Maklumat Pemohon
                     $("#button_action_tempat_lahir").attr("style", "display:none");
                     $("#button_action_pmr").attr("style", "display:none");
                     $("#button_action_pengajian_tinggi").attr("style", "display:none");
+                    $("#button_action_experience").attr("style", "display:none");
                     $("#button_action_penalty").attr("style", "display:none");
 
                     $('#personalForm select[name="gender"]').attr('disabled', true);
