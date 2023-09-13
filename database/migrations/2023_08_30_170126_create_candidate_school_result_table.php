@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('ref_subject_code');
             $table->string('grade');
             $table->string('certificate_rank');
+            $table->string('ref_subject_tkt');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->comment('Last Update User')->nullable();
             $table->timestamps();

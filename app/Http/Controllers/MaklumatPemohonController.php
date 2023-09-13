@@ -21,6 +21,7 @@ use App\Models\Reference\Skim;
 use App\Models\Reference\Subject;
 use App\Models\Reference\Specialization;
 use App\Models\Candidate\Candidate;
+use App\Models\Candidate\CandidateExperience;
 use App\Models\Candidate\CandidateHigherEducation;
 use App\Models\Candidate\CandidatePenalty;
 use App\Models\Candidate\CandidateSchoolResult;
@@ -106,7 +107,14 @@ class MaklumatPemohonController extends Controller
                     );
                     $query->with(['specialization']);
                 },
-                'experience',
+                'experience' => function ($query) {
+                    $query->select(
+                        '*', 
+                        DB::raw("DATE_FORMAT(date_appoint, '%d/%m/%Y') as dateAppoint"),
+                        DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as dateStart"),
+                        DB::raw("DATE_FORMAT(date_verify, '%d/%m/%Y') as dateVerify"),
+                    );
+                },
                 'psl' => function ($query) {
                     $query->select(
                         '*', 
@@ -422,7 +430,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            
+
             $request->validate([
                 'subjek_pmr' => 'required|string|exists:ref_subject,code',
                 'gred_pmr' => 'required|string|exists:ref_gred_matapelajaran,gred',
@@ -575,6 +583,90 @@ class MaklumatPemohonController extends Controller
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateHigherEducation]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }  
+    }
+
+    public function updateExperience(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            
+            $candidate = CandidateExperience::where('no_pengenalan', $request->experience_no_pengenalan)->first();
+
+            $request->validate([
+                'experience_appoint_date' => 'required',
+                'experience_position_level' => 'required|string|exists:ref_position_level,code',
+                'experience_skim' => 'required|string|exists:ref_skim,code',
+                'experience_start_date' => 'required',
+                'experience_verify_date' => 'required',
+                'experience_department_ministry' => 'required|string|exists:ref_department_ministry,code',
+                'experience_department_state' => 'required|string|exists:ref_state,code',
+            ],[
+                'experience_appoint_date.required' => 'Sila pilih tarikh lantikan pertama',
+                'experience_position_level.required' => 'Sila pilih taraf jawatan',
+                'experience_position_level.exists' => 'Tiada rekod taraf jawatan yang dipilih',
+                'experience_skim.required' => 'Sila pilih skim perkhidmatan',
+                'experience_skim.exists' => 'Tiada rekod skim perkhidmatan yang dipilih',
+                'experience_start_date.required' => 'Sila pilih tarikh lantikan',
+                'experience_verify_date.required' => 'Sila pilih tarikh pengesahan lantikan',
+                'experience_department_ministry.required' => 'Sila pilih kementerian/jabatan',
+                'experience_department_ministry.exists' => 'Tiada rekod kementerian/jabatan yang dipilih',
+                'experience_department_state.required' => 'Sila pilih negeri kementerian/jabatan',
+                'experience_department_state.exists' => 'Tiada rekod negeri kementerian/jabatan yang dipilih',
+            ]);
+
+            $candidate->update([
+                'date_appoint' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
+                'ref_position_level_code' => $request->experience_position_level,
+                'ref_skim_code' => $request->experience_skim,
+                'date_start' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
+                'date_end' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
+                'ref_department_ministry_code' => $request->experience_department_ministry,
+                'state_department' => $request->experience_department_state,
+                
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->experience_no_pengenalan,
+                'details' => 'Kemaskini Pegawai Berkhidmat (Maklumat PSB/PSL)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
+            
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function experienceDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateExperience = CandidateExperience::select(
+                '*', 
+                DB::raw("DATE_FORMAT(date_appoint, '%d/%m/%Y') as dateAppoint"),
+                DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as dateStart"),
+                DB::raw("DATE_FORMAT(date_verify, '%d/%m/%Y') as dateVerify"),
+            )->where('no_pengenalan', $request->noPengenalan)->first();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            // } 
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateExperience]);
 
         } catch (\Throwable $e) {
 

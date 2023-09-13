@@ -36,6 +36,11 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('details/{noPengenalan}', 'pengajianTinggiDetails')->name('pengajian-tinggi.details');
         });
 
+        Route::prefix('experience')->group(function () {
+            Route::post('update', 'updateExperience')->name('experience.update');
+            Route::get('details/{noPengenalan}', 'experienceDetails')->name('experience.details');
+        });
+
         Route::prefix('army_police')->group(function () {
             Route::post('store', 'storeArmyPolice')->name('army-police.store');
             Route::get('details/{noPengenalan}', 'armyPoliceDetails')->name('army-police.details');
