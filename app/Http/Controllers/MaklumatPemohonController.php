@@ -439,10 +439,10 @@ class MaklumatPemohonController extends Controller
                 'license_blacklist_status' => 'required|string',
                 'license_blacklist_details' => 'required|string',
             ],[
-                'license_type.required' => 'Sila pilih tempat lahir',
-                'license_expiry_date.required' => 'Sila pilih tempat lahir ayah',
-                'license_blacklist_status.required' => 'Sila pilih tempat lahir ibu',
-                'license_blacklist_details.required' => 'Sila pilih tempat lahir ibu',
+                'license_type.required' => 'Sila pilih jenis lesen',
+                'license_expiry_date.required' => 'Sila pilih tarikh tamat tempoh',
+                'license_blacklist_status.required' => 'Sila pilih senarai hitam status',
+                'license_blacklist_details.required' => 'Sila pilih butiran senarai hitam',
             ]);
 
             CandidateLicense::updateOrCreate([
@@ -510,10 +510,10 @@ class MaklumatPemohonController extends Controller
                 'oku_category' => 'required|string',
                 'oku_sub' => 'required|string',
             ],[
-                'oku_registration_no.required' => 'Sila pilih tempat lahir',
-                'oku_status.required' => 'Sila pilih tempat lahir ayah',
-                'oku_category.required' => 'Sila pilih tempat lahir ibu',
-                'oku_sub.required' => 'Sila pilih tempat lahir ibu',
+                'oku_registration_no.required' => 'Sila pilih nombor pendaftaran',
+                'oku_status.required' => 'Sila pilih tempat status',
+                'oku_category.required' => 'Sila pilih kategori',
+                'oku_sub.required' => 'Sila pilih sub-kategori',
             ]);
 
             CandidateOku::updateOrCreate([
