@@ -6,12 +6,12 @@
         </a>
     </div>
 </div>
-<form 
+<form
 id="experienceForm"
 action="{{ route('experience.update') }}"
 method="POST"
 data-refreshFunctionName="reloadTimeline"
-data-refreshFunctionNameIfSuccess="reloadExperience" 
+data-refreshFunctionNameIfSuccess="reloadExperience"
 data-reloadPage="false">
 @csrf
 <div class="row">
@@ -27,7 +27,8 @@ data-reloadPage="false">
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Lantikan Pertama</label>
-        <input type="text" class="form-control" value="" name="experience_appoint_date" id="experience_appoint_date" disabled>
+        <input type="text" class="form-control" value="" name="experience_appoint_date" id="experience_appoint_date" onchange="checkInput('experience_appoint_date', 'experience_appoint_dateAlert')" disabled>
+        <div id="experience_appoint_dateAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
@@ -63,12 +64,14 @@ data-reloadPage="false">
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Lantikan</label>
-        <input type="text" class="form-control" value="" name="experience_start_date" id="experience_start_date" disabled>
+        <input type="text" class="form-control" value="" name="experience_start_date" id="experience_start_date" onchange="checkInput('experience_start_date', 'experience_start_dateAlert')" disabled>
+        <div id="experience_start_dateAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Pengesahan Lantikan</label>
-        <input type="text" class="form-control flatpickr" value="" name="experience_verify_date" id="experience_verify_date" disabled>
+        <input type="text" class="form-control flatpickr" value="" name="experience_verify_date" id="experience_verify_date" onchange="checkInput('experience_verify_date', 'experience_verify_dateAlert')" disabled>
+        <div id="experience_verify_dateAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     {{-- TEMPAT BERTUGAS TERKINI --}}
@@ -103,7 +106,17 @@ data-reloadPage="false">
 <div id="button_action_experience" style="display:none">
     <button type="button" id="btnEditExperience" hidden onclick="generalFormSubmit(this);"></button>
     <div class="d-flex justify-content-end align-items-center my-1">
-        <button type="button" class="btn btn-success float-right" onclick="$('#btnEditExperience').trigger('click');">
+        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditExperience',
+            {
+                experience_appoint_date: $('#experience_appoint_date').val(),
+                experience_position_level: $('#experience_position_level').val(),
+                experience_skim: $('#experience_skim').val(),
+                experience_start_date: $('#experience_start_date').val(),
+                experience_verify_date: $('#experience_verify_date').val(),
+                experience_department_ministry: $('#experience_department_ministry').val(),
+                experience_department_state: $('#experience_department_state').val(),
+            }
+            );"onclick="$('#btnEditExperience').trigger('click');">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>
@@ -111,6 +124,7 @@ data-reloadPage="false">
 </form>
 
 <script>
+
     function editExperience() {
         $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', false);
         $('#experienceForm select[name="experience_position_level"]').attr('disabled', false);

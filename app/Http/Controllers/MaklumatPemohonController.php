@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidate\CandidateLicense;
+use App\Models\Candidate\CandidateOku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\DepartmentMinistry;
@@ -74,14 +76,14 @@ class MaklumatPemohonController extends Controller
             ->with([
                 'license' => function ($query) {
                     $query->select(
-                        '*', 
+                        '*',
                         DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
                     );
-                }, 
-                'oku', 
+                },
+                'oku',
                 'skim' => function ($query) {
                     $query->select(
-                        '*', 
+                        '*',
                         DB::raw("DATE_FORMAT(register_date, '%d/%m/%Y') as registerDate"),
                         DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
                     );
@@ -95,21 +97,21 @@ class MaklumatPemohonController extends Controller
                 },
                 'higherEducation' => function ($query) {
                     $query->select(
-                        '*', 
+                        '*',
                         DB::raw("DATE_FORMAT(tarikh_senat, '%d/%m/%Y') as tarikhSenat")
                     );
                     $query->with(['institution', 'eligibility', 'specialization']);
                 },
                 'professional' => function ($query) {
                     $query->select(
-                        '*', 
+                        '*',
                         DB::raw("DATE_FORMAT(date, '%d/%m/%Y') as newDate")
                     );
                     $query->with(['specialization']);
                 },
                 'experience' => function ($query) {
                     $query->select(
-                        '*', 
+                        '*',
                         DB::raw("DATE_FORMAT(date_appoint, '%d/%m/%Y') as dateAppoint"),
                         DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as dateStart"),
                         DB::raw("DATE_FORMAT(date_verify, '%d/%m/%Y') as dateVerify"),
@@ -117,7 +119,7 @@ class MaklumatPemohonController extends Controller
                 },
                 'psl' => function ($query) {
                     $query->select(
-                        '*', 
+                        '*',
                         DB::raw("DATE_FORMAT(exam_date, '%d/%m/%Y') as examDate")
                     );
                     $query->with(['qualification']);
@@ -133,7 +135,7 @@ class MaklumatPemohonController extends Controller
                 },
                 'penalty' => function ($query) {
                     $query->select(
-                        '*', 
+                        '*',
                         DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as startDate"),
                         DB::raw("DATE_FORMAT(date_end, '%d/%m/%Y') as endDate")
                     );
@@ -144,33 +146,33 @@ class MaklumatPemohonController extends Controller
 
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            } 
+            }
 
             $candidate->date_of_birth = Carbon::parse($candidate->date_of_birth)->format('d/m/Y');
 
-            $candidate->pmr = $candidate->schoolResult()->with('subject')->whereHas('subject', function ($query) { 
+            $candidate->pmr = $candidate->schoolResult()->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '3');
             })->get();
 
             //Cerfiticate Type Form 5 : 1 - SPM, 3 - SPMV, 5 - SVM
-            $candidate->spm = $candidate->schoolResult()->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) { 
+            $candidate->spm = $candidate->schoolResult()->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
-            $candidate->spmv = $candidate->schoolResult()->where('certificate_type', 3)->with('subject')->whereHas('subject', function ($query) { 
+            $candidate->spmv = $candidate->schoolResult()->where('certificate_type', 3)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
-            $candidate->svm = $candidate->schoolResult()->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) { 
+            $candidate->svm = $candidate->schoolResult()->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
             //Cerfiticate Type Form 6 : 1 - STPM, 2- STP, 3 - HSC, 4 - X Pakai, 5 - STAM
-            $candidate->stpm = $candidate->schoolResult()->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) { 
+            $candidate->stpm = $candidate->schoolResult()->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '6');
             })->get();
 
-            $candidate->stam = $candidate->schoolResult()->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) { 
+            $candidate->stam = $candidate->schoolResult()->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '6');
             })->get();
 
@@ -181,7 +183,7 @@ class MaklumatPemohonController extends Controller
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }     
+        }
     }
 
     public function listTimeline(Request $request)
@@ -190,7 +192,7 @@ class MaklumatPemohonController extends Controller
         return view('maklumat_pemohon.pemohon.list_timeline', compact('candidateTimeline'));
     }
 
-    public function updatePersonal(Request $request) 
+    public function updatePersonal(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -240,8 +242,8 @@ class MaklumatPemohonController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -249,7 +251,7 @@ class MaklumatPemohonController extends Controller
         }
     }
 
-    public function personalDetails(Request $request) 
+    public function personalDetails(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -258,7 +260,7 @@ class MaklumatPemohonController extends Controller
 
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            } 
+            }
 
             $candidate->date_of_birth = Carbon::parse($candidate->date_of_birth)->format('d/m/Y');
 
@@ -269,7 +271,7 @@ class MaklumatPemohonController extends Controller
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }  
+        }
     }
 
     public function updateAlamat(Request $request)
@@ -331,8 +333,8 @@ class MaklumatPemohonController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -349,7 +351,7 @@ class MaklumatPemohonController extends Controller
 
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            } 
+            }
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
@@ -358,14 +360,14 @@ class MaklumatPemohonController extends Controller
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }  
+        }
     }
 
     public function updateTempatLahir(Request $request)
     {
         DB::beginTransaction();
         try {
-            
+
             $candidate = Candidate::where('no_pengenalan', $request->tempat_lahir_no_pengenalan)->first();
 
             $request->validate([
@@ -396,8 +398,8 @@ class MaklumatPemohonController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -414,7 +416,7 @@ class MaklumatPemohonController extends Controller
 
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            } 
+            }
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
@@ -423,7 +425,144 @@ class MaklumatPemohonController extends Controller
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }  
+        }
+    }
+
+    public function updateLesenMemandu(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'license_type' => 'required|string',
+                'license_expiry_date' => 'required|string',
+                'license_blacklist_status' => 'required|string',
+                'license_blacklist_details' => 'required|string',
+            ],[
+                'license_type.required' => 'Sila pilih tempat lahir',
+                'license_expiry_date.required' => 'Sila pilih tempat lahir ayah',
+                'license_blacklist_status.required' => 'Sila pilih tempat lahir ibu',
+                'license_blacklist_details.required' => 'Sila pilih tempat lahir ibu',
+            ]);
+
+            CandidateLicense::updateOrCreate([
+                'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
+                'type' => $request->license_type,
+                'expiry_date' => $request->license_expiry_date,
+                'is_blacklist' => $request->license_blacklist_status,
+                'blacklist_details' => $request->license_blacklist_details,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Peribadi (Lesen Memandu)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function lesenMemanduDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = Candidate::where('no_pengenalan', $request->lesen_memandu_no_pengenalan)
+            ->with([
+                'license' => function ($query) {
+                    $query->select(
+                        '*',
+                        DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
+                    );
+                },
+            ])->first();
+            if(!$candidate) {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            }
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function updateOKU(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'oku_registration_no' => 'required|string',
+                'oku_status' => 'required|string',
+                'oku_category' => 'required|string',
+                'oku_sub' => 'required|string',
+            ],[
+                'oku_registration_no.required' => 'Sila pilih tempat lahir',
+                'oku_status.required' => 'Sila pilih tempat lahir ayah',
+                'oku_category.required' => 'Sila pilih tempat lahir ibu',
+                'oku_sub.required' => 'Sila pilih tempat lahir ibu',
+            ]);
+
+            CandidateOku::updateOrCreate([
+                'no_pengenalan' => $request->oku_no_pengenalan,
+                'no_registration' => $request->oku_registration_no,
+                'status' => $request->oku_status,
+                'category' => $request->oku_category,
+                'sub' => $request->oku_sub,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->oku_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Peribadi (OKU)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function OKUDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = Candidate::where('no_pengenalan', $request->oku_no_pengenalan)
+            ->with([
+                'oku',
+            ])->first();
+            if(!$candidate) {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            }
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
     }
 
     public function storePmr(Request $request)
@@ -462,8 +601,8 @@ class MaklumatPemohonController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -471,21 +610,21 @@ class MaklumatPemohonController extends Controller
         }
     }
 
-    public function listPmr(Request $request) 
+    public function listPmr(Request $request)
     {
         DB::beginTransaction();
         try {
 
             $candidatePmr = CandidateSchoolResult::select(
-                '*', 
+                '*',
                 DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->with('subject')->whereHas('subject', function ($query) { 
+            )->where('no_pengenalan', $request->noPengenalan)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '3');
             })->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            //} 
+            //}
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePmr]);
@@ -494,7 +633,7 @@ class MaklumatPemohonController extends Controller
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }  
+        }
 
         //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
     }
@@ -503,7 +642,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            
+
             $candidate = CandidateHigherEducation::where('no_pengenalan', $request->pengajian_tinggi_no_pengenalan)->first();
 
             $request->validate([
@@ -558,8 +697,8 @@ class MaklumatPemohonController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -573,13 +712,13 @@ class MaklumatPemohonController extends Controller
         try {
 
             $candidateHigherEducation = CandidateHigherEducation::select(
-                '*', 
+                '*',
                 DB::raw("DATE_FORMAT(tarikh_senat, '%d/%m/%Y') as tarikhSenat"),
             )->where('no_pengenalan', $request->noPengenalan)->first();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            // } 
+            // }
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateHigherEducation]);
@@ -588,14 +727,14 @@ class MaklumatPemohonController extends Controller
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }  
+        }
     }
 
     public function updateExperience(Request $request)
     {
         DB::beginTransaction();
         try {
-            
+
             $candidate = CandidateExperience::where('no_pengenalan', $request->experience_no_pengenalan)->first();
 
             $request->validate([
@@ -628,7 +767,7 @@ class MaklumatPemohonController extends Controller
                 'date_end' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
                 'ref_department_ministry_code' => $request->experience_department_ministry,
                 'state_department' => $request->experience_department_state,
-                
+
             ]);
 
             CandidateTimeline::create([
@@ -640,8 +779,8 @@ class MaklumatPemohonController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -655,7 +794,7 @@ class MaklumatPemohonController extends Controller
         try {
 
             $candidateExperience = CandidateExperience::select(
-                '*', 
+                '*',
                 DB::raw("DATE_FORMAT(date_appoint, '%d/%m/%Y') as dateAppoint"),
                 DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as dateStart"),
                 DB::raw("DATE_FORMAT(date_verify, '%d/%m/%Y') as dateVerify"),
@@ -663,7 +802,7 @@ class MaklumatPemohonController extends Controller
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            // } 
+            // }
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateExperience]);
@@ -672,10 +811,10 @@ class MaklumatPemohonController extends Controller
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }  
+        }
     }
 
-    public function storePenalty(Request $request) 
+    public function storePenalty(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -717,8 +856,8 @@ class MaklumatPemohonController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -726,20 +865,20 @@ class MaklumatPemohonController extends Controller
         }
     }
 
-    public function listPenalty(Request $request) 
+    public function listPenalty(Request $request)
     {
         DB::beginTransaction();
         try {
 
             $candidatePenalty = CandidatePenalty::select(
-                '*', 
+                '*',
                 DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as startDate"),
                 DB::raw("DATE_FORMAT(date_end, '%d/%m/%Y') as endDate")
             )->where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            //} 
+            //}
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePenalty]);
@@ -748,7 +887,7 @@ class MaklumatPemohonController extends Controller
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }  
+        }
 
         //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
     }

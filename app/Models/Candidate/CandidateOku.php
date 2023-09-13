@@ -10,10 +10,10 @@ class CandidateOku extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'type',
-        'expiry_date',
-        'is_blacklist',
-        'blacklist_details',
+        'no_registration',
+        'status',
+        'category',
+        'sub',
         'created_by',
         'updated_by',
     ];

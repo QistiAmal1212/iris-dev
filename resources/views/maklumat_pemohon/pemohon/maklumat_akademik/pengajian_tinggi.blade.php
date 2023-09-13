@@ -32,7 +32,8 @@ data-reloadPage="false">
 
     <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
         <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" name="tahun_pengajian_tinggi" id="tahun_pengajian_tinggi" disabled>
+        <input type="text" class="form-control" value="" name="tahun_pengajian_tinggi" id="tahun_pengajian_tinggi" onchange="checkInput('tahun_pengajian_tinggi', 'tahun_pengajian_tinggiAlert')" disabled>
+        <div id="tahun_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
@@ -47,7 +48,8 @@ data-reloadPage="false">
 
     <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
         <label class="form-label">CGPA</label>
-        <input type="text" class="form-control" value="" name="cgpa_pengajian_tinggi" id="cgpa_pengajian_tinggi" disabled>
+        <input type="text" class="form-control" value="" name="cgpa_pengajian_tinggi" id="cgpa_pengajian_tinggi" onchange="checkInput('cgpa_pengajian_tinggi', 'cgpa_pengajian_tinggiAlert')" disabled>
+        <div id="cgpa_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
@@ -62,12 +64,13 @@ data-reloadPage="false">
 
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Nama Sijil</label>
-        <input type="text" class="form-control" value="" name="nama_sijil_pengajian_tinggi" id="nama_sijil_pengajian_tinggi" disabled>
+        <input type="text" class="form-control" value="" name="nama_sijil_pengajian_tinggi" id="nama_sijil_pengajian_tinggi" onchange="checkInput('nama_sijil_pengajian_tinggi', 'nama_sijil_pengajian_tinggiAlert')" disabled>
+        <div id="nama_sijil_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Pengkhususan/ Bidang</label>
-        <select class="select2 form-control" value="" name="pengkhususan_pengajian_tinggi" disabled><option value=""></option>
+        <select class="select2 form-control" value="" name="pengkhususan_pengajian_tinggi" id="pengkhususan_pengajian_tinggi" disabled><option value=""></option>
             @foreach($specializations as $specialization)
             <option value="{{ $specialization->code }}">{{ $specialization->name }}</option>
             @endforeach
@@ -85,7 +88,8 @@ data-reloadPage="false">
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Tarikh Senat</label>
-        <input type="text" class="form-control flatpickr" value="" name="tarikh_senat_pengajian_tinggi" id="tarikh_senat_pengajian_tinggi" disabled>
+        <input type="text" class="form-control flatpickr" value="" name="tarikh_senat_pengajian_tinggi" id="tarikh_senat_pengajian_tinggi" onchange="checkInput('tarikh_senat_pengajian_tinggi', 'tarikh_senat_pengajian_tinggiAlert')" disabled>
+        <div id="tarikh_senat_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
@@ -100,7 +104,20 @@ data-reloadPage="false">
 <div id="button_action_pengajian_tinggi" style="display:none">
     <button type="button" id="btnEditPengajianTinggi" hidden onclick="generalFormSubmit(this);"></button>
     <div class="d-flex justify-content-end align-items-center my-1">
-        <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPengajianTinggi').trigger('click');">
+        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditPengajianTinggi',
+            {
+                peringkat_pengajian_tinggi: $('#peringkat_pengajian_tinggi').val(),
+                tahun_pengajian_tinggi: $('#tahun_pengajian_tinggi').val(),
+                kelayakan_pengajian_tinggi: $('#kelayakan_pengajian_tinggi').val(),
+                cgpa_pengajian_tinggi: $('#cgpa_pengajian_tinggi').val(),
+                institusi_pengajian_tinggi: $('#institusi_pengajian_tinggi').val(),
+                nama_sijil_pengajian_tinggi: $('#nama_sijil_pengajian_tinggi').val(),
+                pengkhususan_pengajian_tinggi: $('#pengkhususan_pengajian_tinggi').val(),
+                fln_pengajian_tinggi: $('#fln_pengajian_tinggi').val(),
+                tarikh_senat_pengajian_tinggi: $('#tarikh_senat_pengajian_tinggi').val(),
+                biasiswa_pengajian_tinggi: $('#biasiswa_pengajian_tinggi').val(),
+            }
+            );">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>
@@ -108,6 +125,31 @@ data-reloadPage="false">
 </form>
 
 <script>
+    // function confirmSubject(Data) {
+    //     var htmlContent = `<p>Tambahan Maklumat Subjek:</p>
+    //     <p>Peringkat Pengajian= ${Data['peringkat_pengajian_tinggi']}</p>
+    //     <p>Tahun= ${Data['tahun_pengajian_tinggi']}</p>
+    //     <p>Peringkat Kelulusan= ${Data['kelayakan_pengajian_tinggi']}</p>
+    //     <p>CGPA= ${Data['cgpa_pengajian_tinggi']}</p>
+    //     <p>Institusi= ${Data['institusi_pengajian_tinggi']}</p>
+    //     <p>Nama Sijil= ${Data['nama_sijil_pengajian_tinggi']}</p>
+    //     <p>Pengkhususan/ Bidang= ${Data['pengkhususan_pengajian_tinggi']}</p>
+    //     <p>Francais Luar Negara= ${Data['fln_pengajian_tinggi']}</p>
+    //     <p>Tarikh Senat= ${Data['tarikh_senat_pengajian_tinggi']}</p>
+    //     <p>Biasiswa= ${Data['biasiswa_pengajian_tinggi']}</p>`;
+
+    //     Swal.fire({
+    //     title: 'Do you want to save the changes?',
+    //     html: htmlContent,
+    //     showCancelButton: true,
+    //     confirmButtonText: 'Sahkan',
+    //     cancelButtonText: 'Batal',
+    //     }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         $('#btnEditPengajianTinggi').trigger('click');
+    //     }
+    //     })
+    // }
 
     function editPengajianTinggi() {
         $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').attr('disabled', false);

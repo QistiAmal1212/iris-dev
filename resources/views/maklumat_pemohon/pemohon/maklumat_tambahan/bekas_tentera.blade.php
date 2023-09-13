@@ -1,14 +1,24 @@
-<form 
+<div class="card" id="update_army_police" style="display:none">
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3 text-danger" type="button" onclick="editArmyPolice()">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Kemaskini
+        </a>
+    </div>
+</div>
+<form
 id="armyPoliceForm"
 action="{{ route('army-police.store') }}"
 method="POST"
-data-refreshFunctionNameIfSuccess="reloadArmyPolice" data-reloadPage="false">
+data-refreshFunctionName="reloadTimeline"
+data-refreshFunctionNameIfSuccess="reloadArmyPolice"
+data-reloadPage="false">
 @csrf
 <div class="row">
     {{-- <h6>
         <span class="text-muted">Kemaskini terkini: ONLINE 13/03/2023</span>
     </h6> --}}
-
+    <input type="hidden" name="army_police_no_pengenalan" id="army_police_no_pengenalan" value="">
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Kategori</label>
         <input type="text" class="form-control" value="" disabled>
@@ -32,21 +42,16 @@ data-refreshFunctionNameIfSuccess="reloadArmyPolice" data-reloadPage="false">
 <div id="button_action_army_police" style="display:none">
         {{-- <button type="button" id="btnEditArmyPolice" hidden onclick="generalFormSubmit(this);"></button> --}}
         <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditArmyPolice').trigger('click');reloadTimeline();">
+            <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditArmyPolice',
+            {
+                army_police_rank: $('#army_police_rank').val(),
+            }
+            );">
                 <i class="fa fa-save"></i> Simpan
             </button>
         </div>
     </div>
 </form>
-
-<div class="card-footer">
-    <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" id="update_army_police" hidden onclick="editArmyPolice()">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Kemaskini
-        </a>
-    </div>
-</div>
 
 <script>
 function editArmyPolice() {
