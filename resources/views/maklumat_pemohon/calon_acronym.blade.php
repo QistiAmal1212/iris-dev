@@ -270,7 +270,8 @@ Calon Acronym
                     </button>
                 </div>
                 </form>
-
+                <hr>
+                <h4>Jumlah Data:<span id="count_calon"></span></h4>
                 <div class="table-responsive">
                     <table class="table header_uppercase table-bordered table-hovered" id="table-acronym">
                         <thead>
@@ -330,11 +331,14 @@ Calon Acronym
             },
             success: function(data) {
 
+                $('#count_calon').html('');
+                $('#count_calon').html(data.detail.count);
+
                 $('#table-acronym tbody').empty();
 
                 var tr = '';
                 var bil = 0;
-                $.each(data.detail, function (i, item) {
+                $.each(data.detail.result, function (i, item) {
                     bil += 1;
                     tr += '<tr>';
                     tr += '<td align="center">' + bil + '</td>'

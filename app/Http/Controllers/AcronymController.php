@@ -247,7 +247,7 @@ class AcronymController extends Controller
         // $parameterAgamaPmr = implode($selectAgamaPmr);
         // $parameterKemahiranPmr = implode($selectKemahiranPmr);
 
-        $calonList = DB::table('calon_acronym_pmr')->get();
+        $calonList = DB::table('calon_acronym_pmr')->cursor();
 
         $resultPmr = [];
 
@@ -312,7 +312,7 @@ class AcronymController extends Controller
         //return count($resultPmr);
         $result = [];
 
-        $resultCalonPmr = DB::table('calon_acronym_spm')->whereIn('no_pengenalan', $resultPmr)->get();
+        $resultCalonPmr = DB::table('calon_acronym_spm')->whereIn('no_pengenalan', $resultPmr)->cursor();
 
         //$count = 0;
         foreach($resultCalonPmr as $calonSpm){
@@ -367,14 +367,17 @@ class AcronymController extends Controller
             }
             //$count++;
         }
+
+        $data = [
+            'count' => count($result),
+            'result' => $result,
+        ];
         
         // foreach($result as $calon){
         //     return DB::table('calon_acronym_spm')->where('no_pengenalan', $calon->no_pengenalan)->first();
         // }
 
-
-
-        return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $result]);
+        return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $data]);
 
         // return [
         //     'teras' => $selectTerasPmr,
