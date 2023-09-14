@@ -1,32 +1,36 @@
-<div class="card" id="update_army_police" style="display:none">
+<div class="card" id="update_tentera_polis" style="display:none">
     <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" onclick="editArmyPolice()">
+        <a class="me-3 text-danger" type="button" onclick="editTenteraPolis()">
             <i class="fa-regular fa-pen-to-square"></i>
             Kemaskini
         </a>
     </div>
 </div>
-<form
-id="armyPoliceForm"
-action="{{ route('army-police.store') }}"
+<form 
+id="tenteraPolisForm"
+action="{{ route('tentera-polis.update') }}"
 method="POST"
-data-refreshFunctionName="reloadTimeline"
-data-refreshFunctionNameIfSuccess="reloadArmyPolice"
-data-reloadPage="false">
+data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
 @csrf
 <div class="row">
+    
+    <input type="hidden" name="tentera_polis_no_pengenalan" id="tentera_polis_no_pengenalan" value="">
     {{-- <h6>
         <span class="text-muted">Kemaskini terkini: ONLINE 13/03/2023</span>
     </h6> --}}
-    <input type="hidden" name="army_police_no_pengenalan" id="army_police_no_pengenalan" value="">
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Kategori</label>
-        <input type="text" class="form-control" value="" disabled>
+        <select class="select2 form-control" name="jenis_bekas_tentera_polis" id="jenis_bekas_tentera_polis" disabled>
+            <option value=""></option>
+            @foreach($jenisBekasTenteraPolis as $bekas)
+            <option value="{{ $bekas->id }}">{{ $bekas->name }}</option>
+            @endforeach
+        <select>
     </div>
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Pangkat dalam Tentera</label>
-        <select class="select2 form-control" name="army_police_rank" id="army_police_rank" disabled>
+        <select class="select2 form-control" name="pangkat_tentera_polis" id="pangkat_tentera_polis" disabled>
             <option value=""></option>
             @foreach($ranks as $rank)
             <option value="{{ $rank->code }}">{{ $rank->name }}</option>
@@ -36,46 +40,59 @@ data-reloadPage="false">
 
     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Jenis Penamatan Perkhidmatan</label>
-        <input type="text" class="form-control" value="" disabled>
+        <select class="select2 form-control" name="jenis_perkhidmatan_tentera_polis" id="jenis_perkhidmatan_tentera_polis" disabled>
+            <option value=""></option>
+            @foreach($jenisPerkhidmatanTenteraPolis as $perkhidmatan)
+            <option value="{{ $perkhidmatan->code }}">{{ $perkhidmatan->name }}</option>
+            @endforeach
+        </select>
     </div>
 </div>
-<div id="button_action_army_police" style="display:none">
-        {{-- <button type="button" id="btnEditArmyPolice" hidden onclick="generalFormSubmit(this);"></button> --}}
-        <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditArmyPolice',
-            {
-                army_police_rank: $('#army_police_rank').val(),
-            }
-            );">
-                <i class="fa fa-save"></i> Simpan
-            </button>
-        </div>
+<div id="button_action_tentera_polis" style="display:none">
+    {{-- <button type="button" id="btnEditTenteraPolis" hidden onclick="generalFormSubmit(this);"></button> --}}
+    <div class="d-flex justify-content-end align-items-center my-1">
+        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditTenteraPolis',
+        {
+            jenis_bekas_tentera_polis: $('#jenis_bekas_tentera_polis').val(),
+            pangkat_tentera_polis: $('#pangkat_tentera_polis').val(),
+            jenis_perkhidmatan_tentera_polis: $('#jenis_perkhidmatan_tentera_polis').val(),
+        }
+        );">
+            <i class="fa fa-save"></i> Simpan
+        </button>
     </div>
+</div>
 </form>
 
 <script>
-function editArmyPolice() {
-        $('#armyPoliceForm select[name="army_police_rank"]').attr('disabled', false);
-        $('#armyPoliceForm select[name="army_police_rank"]').attr('required', true);
+    function editTenteraPolis() {
+        $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', false);
+        $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', false);
+        $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').attr('disabled', false);
 
-        var button_action_army_police = document.getElementById('button_action_army_police').style.display = 'block';
+        $("#button_action_tentera_polis").attr("style", "display:block");
     }
 
-    {{-- function reloadArmyPolice() {
+    function reloadTenteraPolis() {
         var no_pengenalan = $('#candidate_no_pengenalan').val();
 
-        var reloadArmyPoliceUrl = "{{ route('army-police.details', ':replaceThis') }}"
-        reloadArmyPoliceUrl = reloadArmyPoliceUrl.replace(':replaceThis', no_pengenalan);
+        var reloadTenteraPolisUrl = "{{ route('tentera-polis.details', ':replaceThis') }}"
+        reloadTenteraPolisUrl = reloadTenteraPolisUrl.replace(':replaceThis', no_pengenalan);
         $.ajax({
-            url: reloadArmyPoliceUrl,
+            url: reloadTenteraPolisUrl,
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#army_police_rank').val(data.detail.ref_rank_code).trigger('change');
+                $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.type_army_police).trigger('change');
+                $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', true);
+                $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.ref_rank_code).trigger('change');
+                $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);
+                $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.type_service).trigger('change');
+                $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').attr('disabled', true);
             },
             error: function(data) {
                 //
             }
         });
-    } --}}
+    }
 </script>

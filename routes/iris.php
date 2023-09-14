@@ -51,9 +51,9 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('details/{noPengenalan}', 'experienceDetails')->name('experience.details');
         });
 
-        Route::prefix('army_police')->group(function () {
-            Route::post('store', 'storeArmyPolice')->name('army-police.store');
-            Route::get('details/{noPengenalan}', 'armyPoliceDetails')->name('army-police.details');
+        Route::prefix('tentera_polis')->group(function () {
+            Route::post('update', 'updateTenteraPolis')->name('tentera-polis.update');
+            Route::get('details/{noPengenalan}', 'tenteraPolisDetails')->name('tentera-polis.details');
         });
 
         Route::prefix('penalty')->group(function () {

@@ -11,6 +11,8 @@ use App\Models\Reference\Eligibility;
 use App\Models\Reference\Gender;
 use App\Models\Reference\GredMatapelajaran;
 use App\Models\Reference\Institution;
+use App\Models\Reference\JenisBekasTenteraPolis;
+use App\Models\Reference\JenisPerkhidmatanTenteraPolis;
 use App\Models\Reference\MaritalStatus;
 use App\Models\Reference\Penalty;
 use App\Models\Reference\PeringkatPengajian;
@@ -23,6 +25,7 @@ use App\Models\Reference\Skim;
 use App\Models\Reference\Subject;
 use App\Models\Reference\Specialization;
 use App\Models\Candidate\Candidate;
+use App\Models\Candidate\CandidateArmyPolice;
 use App\Models\Candidate\CandidateExperience;
 use App\Models\Candidate\CandidateHigherEducation;
 use App\Models\Candidate\CandidatePenalty;
@@ -44,6 +47,8 @@ class MaklumatPemohonController extends Controller
         $genders = Gender::all();
         $gredPmr = GredMatapelajaran::where('tkt', 3)->orderBy('susunan', 'asc')->get();
         $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
+        $jenisBekasTenteraPolis = JenisBekasTenteraPolis::all();
+        $jenisPerkhidmatanTenteraPolis = JenisPerkhidmatanTenteraPolis::all();
         $maritalStatuses = MaritalStatus::all();
         $penalties = Penalty::all();
         $peringkatPengajian = PeringkatPengajian::all();
@@ -56,7 +61,7 @@ class MaklumatPemohonController extends Controller
         $specializations = Specialization::orderBy('name', 'asc')->get();
         $subjekPmr = Subject::where('form', 3)->orderBy('name', 'asc')->get();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr'));
+        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatanTenteraPolis', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr'));
     }
 
     public function viewMaklumatPemohon(){
@@ -812,6 +817,71 @@ class MaklumatPemohonController extends Controller
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
+    }
+
+    public function updateTenteraPolis(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            
+            $candidate = CandidateArmyPolice::where('no_pengenalan', $request->tentera_polis_no_pengenalan)->first();
+
+            $request->validate([
+                'jenis_bekas_tentera_polis' => 'required|string|exists:ref_jenis_bekas_tentera_polis,id',
+                'pangkat_tentera_polis' => 'required|string|exists:ref_rank,code',
+                'jenis_perkhidmatan_tentera_polis' => 'required|string|exists:ref_jenis_perkhidmatan_tentera_polis,code',
+            ],[
+                'jenis_bekas_tentera_polis.required' => 'Sila pilih kategori',
+                'jenis_bekas_tentera_polis.exists' => 'Tiada rekod kategori yang dipilih',
+                'pangkat_tentera_polis.required' => 'Sila pilih pangkat dalam tentera',
+                'pangkat_tentera_polis.exists' => 'Tiada rekod pangkat dalam tentera yang dipilih',
+                'jenis_perkhidmatan_tentera_polis.required' => 'Sila pilih jenis penamatan perkhidmatan',
+                'jenis_perkhidmatan_tentera_polis.exists' => 'Tiada rekod jenis penamatan perkhidmatan yang dipilih',
+            ]);
+
+            $candidate->update([
+                'type_army_police' => $request->jenis_bekas_tentera_polis,
+                'ref_rank_code' => $request->pangkat_tentera_polis,
+                'type_service' => $request->jenis_perkhidmatan_tentera_polis,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->tentera_polis_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Tambahan (Maklumat Bekas Tentera)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
+            
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function tenteraPolisDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateArmyPolice = CandidateArmyPolice::where('no_pengenalan', $request->noPengenalan)->first();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            // } 
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateArmyPolice]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }  
     }
 
     public function storePenalty(Request $request)

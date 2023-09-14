@@ -238,8 +238,8 @@ Maklumat Pemohon
                     $('#update_pmr').attr("style", "display:block");
                     $('#update_pengajian_tinggi').attr("style", "display:block");
                     $('#update_experience').attr("style", "display:block");
+                    $('#update_tentera_polis').attr("style", "display:block");
                     $('#update_penalty').attr("style", "display:block");
-                    $('#update_army_police').attr("style", "display:block");
                     $('#update_lesen_memandu').attr("style", "display:block");
                     $('#update_oku').attr("style", "display:block");
 
@@ -698,14 +698,36 @@ Maklumat Pemohon
                     }
                     $('#table-psl tbody').append(trPsl);
 
-                    $('#armyPoliceForm input[name="army_police_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.army_police != null){
-                        if(data.detail.army_police.ref_rank_code) { $('#armyPoliceForm select[name="army_police_rank"]').val(data.detail.army_police.ref_rank_code).trigger('change'); }
-                        else { selectionNull('army_police_rank', 'armyPoliceForm'); }
-                        originalVal['army_police_rank'] = data.detail.army_police.ref_rank_code;
-                    }else{
-                        selectionNull('army_police_rank', 'armyPoliceForm');
-                        originalVal['army_police_rank'] = '';
+                        if(data.detail.army_police.type_army_police) { 
+                            $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.army_police.type_army_police).trigger('change');
+                        }
+                        else { 
+                            selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm'); 
+                        }
+                        originalVal['pangkat_tentera_polis'] = data.detail.army_police.type_army_police;
+                        if(data.detail.army_police.ref_rank_code) { 
+                            $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.army_police.ref_rank_code).trigger('change'); 
+                        }
+                        else { 
+                            selectionNull('pangkat_tentera_polis', 'tenteraPolisForm'); 
+                        }
+                        originalVal['pangkat_tentera_polis'] = data.detail.army_police.ref_rank_code;
+                        if(data.detail.army_police.type_service) { 
+                            $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.army_police.type_service).trigger('change');
+                        }
+                        else { 
+                            selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm'); 
+                        }
+                        originalVal['pangkat_tentera_polis'] = data.detail.army_police.type_service;
+                    } else {
+                        selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm'); 
+                        originalVal['jenis_bekas_tentera_polis'] = '';
+                        selectionNull('pangkat_tentera_polis', 'tenteraPolisForm');
+                        originalVal['pangkat_tentera_polis'] = '';
+                        selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm'); 
+                        originalVal['jenis_perkhidmatan_tentera_polis'] = '';
                     }
 
                     $('#table-language tbody').empty();
@@ -776,7 +798,6 @@ Maklumat Pemohon
                     }
                     $('#table-penalty tbody').append(trPenalty);
 
-
                 },
                 error: function(data) {
 
@@ -786,8 +807,8 @@ Maklumat Pemohon
                     $('#update_pmr').attr("style", "display:none");
                     $('#update_pengajian_tinggi').attr("style", "display:none");
                     $('#update_experience').attr("style", "display:none");
+                    $('#update_tentera_polis').attr("style", "display:none");
                     $('#update_penalty').attr("style", "display:none");
-                    $('#update_army_police').attr("style", "display:none");
                     $('#update_lesen_memandu').attr("style", "display:none");
                     $('#update_oku').attr("style", "display:none");
 
@@ -797,6 +818,7 @@ Maklumat Pemohon
                     $("#button_action_pmr").attr("style", "display:none");
                     $("#button_action_pengajian_tinggi").attr("style", "display:none");
                     $("#button_action_experience").attr("style", "display:none");
+                    $("#button_action_tentera_polis").attr("style", "display:none");
                     $("#button_action_penalty").attr("style", "display:none");
 
                     $('#personalForm select[name="gender"]').attr('disabled', true);
@@ -867,6 +889,7 @@ Maklumat Pemohon
                     $('#pmrForm select[name="gred_pmr"]').val('').trigger('change');
                     $('#pmrForm input[name="tahun_pmr"]').attr('disabled', true);
                     $('#pmrForm input[name="tahun_pmr"]').val('');
+                    $('#pmrForm input[name="pmr_no_pengenalan"]').val('');
 
                     $('#table-pmr tbody').empty();
 
@@ -885,27 +908,54 @@ Maklumat Pemohon
                     $('#table-skm tbody').empty();
 
                     $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val('');
+                    $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').val('');
+                    $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').val('');
+                    $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val('');
+                    $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val('').trigger('change');
+                    $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').attr('disabled', true);
+                    $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val('');
 
                     $('#table-professional tbody').empty();
 
+                    $('#experienceForm input[name="experience_appoint_date"]').val('');
+                    $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
                     $('#experienceForm select[name="experience_position_level"]').val('').trigger('change');
+                    $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
                     $('#experienceForm select[name="experience_skim"]').val('').trigger('change');
+                    $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
+                    $('#experienceForm input[name="experience_start_date"]').val('');
+                    $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
                     $('#experienceForm input[name="experience_verify_date"]').val('');
+                    $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
                     $('#experienceForm select[name="experience_department_ministry"]').val('').trigger('change');
+                    $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
                     $('#experienceForm select[name="experience_department_state"]').val('').trigger('change');
+                    $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
+                    $('#experienceForm input[name="experience_no_pengenalan"]').val('');
 
                     $('#table-psl tbody').empty();
 
-                    $('#army_police_rank').val('').trigger('change');
+                    $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val('').trigger('change');
+                    $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', true);
+                    $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val('').trigger('change');
+                    $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);
+                    $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val('').trigger('change');
+                    $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').attr('disabled', true);
+                    $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val('');
 
                     $('#table-language tbody').empty();
 
