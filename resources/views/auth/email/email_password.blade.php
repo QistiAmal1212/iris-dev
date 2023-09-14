@@ -198,7 +198,7 @@
 
                                                         <br>
                                                         <center>
-                                                            <a class="btn" href="{{ route('login') }}">Tetapan Semula Kata Laluan</a>
+                                                            <a class="btn" href="{{ $url }}">Tetapan Semula Kata Laluan</a>
                                                         </center>
                                                         <br>
 
