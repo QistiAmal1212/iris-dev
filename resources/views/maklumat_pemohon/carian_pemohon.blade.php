@@ -159,11 +159,18 @@ Maklumat Pemohon
 
     function selectionNull(inputID, formID){
         var x = document.getElementById(inputID);
+        var existingOption = x.querySelector('option[value="Tiada Maklumat"]');
+
+        if(existingOption){
+            x.removeChild(existingOption);
+        }
+
         var option = document.createElement("option");
         option.text = "Tiada Maklumat";
         option.value = "Tiada Maklumat";
         option.disabled = true;
         x.add(option);
+
         $('#' + formID + ' select[name="' + inputID + '"]').val("Tiada Maklumat").trigger('change');
     }
 
