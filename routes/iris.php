@@ -3,9 +3,11 @@
 use App\Http\Controllers\MaklumatPemohonController;
 use App\Http\Controllers\IntegrationController;
 use App\Http\Controllers\PGSPAController;
+use App\Http\Controllers\AcronymController;
 
 Route::controller(MaklumatPemohonController::class)->group(function () {
     Route::prefix('pemohon')->group(function () {
+
         Route::get('carian-pemohon','searchPemohon')->name('carian_pemohon');
         Route::get('maklumat-pemohon','viewMaklumatPemohon')->name('maklumat_pemohon');
         Route::post('get-candidate-details', 'getCandidateDetails')->name('get-candidate-details');
@@ -76,5 +78,15 @@ Route::prefix('perolehan')->group(function () {
             Route::get('senarai-skim','SenaraiSkim')->name('senarai_skim');
             Route::get('skim-baharu','SkimBaharu')->name('skim_baharu');
         });
+    });
+});
+
+Route::controller(AcronymController::class)->group(function() {
+    Route::prefix('acronym')->group(function (){
+        Route::get('/', 'index')->name('acronym.index');
+        Route::post('search', 'search')->name('acronym.search');
+        Route::post('list', 'list')->name('acronym.list');
+        Route::get('insertData', 'insertData')->name('acronym.insertData');
+        Route::get('updateData', 'updateData')->name('acronym.updateData');
     });
 });

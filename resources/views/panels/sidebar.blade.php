@@ -246,6 +246,23 @@ $configData = Helper::applClasses();
 
             @hasanyrole('superadmin|admin')
             <li class="navigation-header">
+                <span> Calon Acronym </span>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="menu-title text-truncate"> Calon Acronym </span>
+                </a>
+                <ul class="menu-content">
+                    <li class="{{ in_array(request()->route()->getName(), ['acronym.index']) ? 'active' : '' }}">
+                        <a href="{{ route('acronym.index') }}" class="d-flex align-items-center">
+                            <span class="menu-title text-truncate">
+                                Calon Acronym
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="navigation-header">
                 <span> Pengurusan Integrasi </span>
             </li>
             <li class="nav-item {{ request()->is('pengurusan_integrasi*') ? 'menu-open' : '' }}">
