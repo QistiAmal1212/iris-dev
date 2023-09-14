@@ -177,7 +177,6 @@ Maklumat Pemohon
     function confirmSubmit(btnName, newValues) {
         var htmlContent = '<p>Perubahan:</p>';
 
-        console.log(originalVal, newValues)
         for (var key in originalVal) {
         if (originalVal.hasOwnProperty(key)) {
             if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
@@ -231,7 +230,6 @@ Maklumat Pemohon
                     no_ic : search_ic
                 },
                 success: function(data) {
-
                     $('#update_alamat').attr("style", "display:block");
                     $('#update_personal').attr("style", "display:block");
                     $('#update_tempat_lahir').attr("style", "display:block");
@@ -427,13 +425,49 @@ Maklumat Pemohon
                                 trPmr += '<td>' + item.subject.name + '</td>';
                                 trPmr += '<td align="center">' + item.grade + '</td>';
                                 trPmr += '<td align="center">' + item.year + '</td>';
+                                trPmr += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                                trPmr += '&nbsp;&nbsp;';
+                                trPmr += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                                 trPmr += '</tr>';
                             }
                         });
                     }
                     $('#table-pmr tbody').append(trPmr);
 
+                    $(document).on('click', '.edit-btn', function() {
+                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
+                        $('#pmrForm').attr('action', "{{ route('pmr.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#pmrForm input[name="id_pmr"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#pmrForm select[name="subjek_pmr"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        $('#pmrForm select[name="gred_pmr"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
+                        $('#pmrForm input[name="tahun_pmr"]').val($(row).find('td:nth-child(4)').text());
+
+                    });
+                    $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
+
+                    $(document).on('click', '.delete-btn', function() {
+                        var id = $(this).data('id');
+                        Swal.fire({
+                        title: 'Adakah anda ingin hapuskan maklumat ini?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sahkan',
+                        cancelButtonText: 'Batal',
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            pmrDelete(id);
+                        }
+                        })
+
+                    });
+
                     $('#table-spm tbody').empty();
+                    $('#spmForm input[name="spm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.spm.length == 0){
                         var trSpm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
                     } else {
@@ -444,16 +478,37 @@ Maklumat Pemohon
                                 bilSpm += 1;
                                 trSpm += '<tr>';
                                 trSpm += '<td align="center">' + bilSpm + '</td>';
-                                trSpm += '<td>' + item.subject.code + '</td>';
                                 trSpm += '<td>' + item.subject.name + '</td>';
-                                trSpm += '<td>' + item.grade + '</td>';
+                                trSpm += '<td align="center">' + item.grade + '</td>';
+                                trSpm += '<td align="center">' + item.year + '</td>';
+                                trSpm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                                trSpm += '&nbsp;&nbsp;';
+                                trSpm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                                 trSpm += '</tr>';
                             }
                         });
                     }
                     $('#table-spm tbody').append(trSpm);
 
+                    $(document).on('click', '.edit-btn', function() {
+                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
+                        $('#spmForm').attr('action', "{{ route('spm.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#spmForm input[name="id_spm"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#spmForm select[name="subjek_spm"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        $('#spmForm select[name="gred_spm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
+                        $('#spmForm input[name="tahun_spm"]').val($(row).find('td:nth-child(4)').text());
+
+                    });
+
+
                     $('#table-spmv tbody').empty();
+                    $('#spmvForm input[name="spmv_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.spmv.length == 0){
                         var trSpmv = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
                     } else {
@@ -464,16 +519,36 @@ Maklumat Pemohon
                                 bilSpmv += 1;
                                 trSpmv += '<tr>';
                                 trSpmv += '<td align="center">' + bilSpmv + '</td>';
-                                trSpmv += '<td>' + item.subject.code + '</td>';
                                 trSpmv += '<td>' + item.subject.name + '</td>';
-                                trSpmv += '<td>' + item.grade + '</td>';
+                                trSpmv += '<td align="center">' + item.grade + '</td>';
+                                trSpmv += '<td align="center">' + item.year + '</td>';
+                                trSpmv += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                                trSpmv += '&nbsp;&nbsp;';
+                                trSpmv += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                                 trSpmv += '</tr>';
                             }
                         });
                     }
                     $('#table-spmv tbody').append(trSpmv);
 
+                    $(document).on('click', '.edit-btn', function() {
+                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
+                        $('#spmvForm').attr('action', "{{ route('spmv.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#spmvForm input[name="id_spmv"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#spmvForm select[name="subjek_spmv"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        $('#spmvForm select[name="gred_spmv"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
+                        $('#spmvForm input[name="tahun_spmv"]').val($(row).find('td:nth-child(4)').text());
+
+                    });
+
                     $('#table-svm tbody').empty();
+                    $('#svmForm input[name="svm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.svm.length == 0){
                         var trSvm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
                     } else {
@@ -484,16 +559,36 @@ Maklumat Pemohon
                                 bilSvm += 1;
                                 trSvm += '<tr>';
                                 trSvm += '<td align="center">' + bilSvm + '</td>';
-                                trSvm += '<td>' + item.subject.code + '</td>';
                                 trSvm += '<td>' + item.subject.name + '</td>';
-                                trSvm += '<td>' + item.grade + '</td>';
+                                trSvm += '<td align="center">' + item.grade + '</td>';
+                                trSvm += '<td align="center">' + item.year + '</td>';
+                                trSvm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                                trSvm += '&nbsp;&nbsp;';
+                                trSvm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                                 trSvm += '</tr>';
                             }
                         });
                     }
                     $('#table-svm tbody').append(trSvm);
 
+                    $(document).on('click', '.edit-btn', function() {
+                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
+                        $('#svmForm').attr('action', "{{ route('svm.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#svmForm input[name="id_svm"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#svmForm select[name="subjek_svm"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        $('#svmForm select[name="gred_svm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
+                        $('#svmForm input[name="tahun_svm"]').val($(row).find('td:nth-child(4)').text());
+
+                    });
+
                     $('#table-stpm tbody').empty();
+                    $('#stpmForm input[name="stpm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.stpm.length == 0){
                         var trStpm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
                     } else {
@@ -504,16 +599,36 @@ Maklumat Pemohon
                                 bilStpm += 1;
                                 trStpm += '<tr>';
                                 trStpm += '<td align="center">' + bilStpm + '</td>';
-                                trStpm += '<td>' + item.subject.code + '</td>';
                                 trStpm += '<td>' + item.subject.name + '</td>';
-                                trStpm += '<td>' + item.grade + '</td>';
+                                trStpm += '<td align="center">' + item.grade + '</td>';
+                                trStpm += '<td align="center">' + item.year + '</td>';
+                                trStpm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                                trStpm += '&nbsp;&nbsp;';
+                                trStpm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                                 trStpm += '</tr>';
                             }
                         });
                     }
                     $('#table-stpm tbody').append(trStpm);
 
+                    $(document).on('click', '.edit-btn', function() {
+                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
+                        $('#stpmForm').attr('action', "{{ route('stpm.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#stpmForm input[name="id_stpm"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#stpmForm select[name="subjek_stpm"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        $('#stpmForm select[name="gred_stpm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
+                        $('#stpmForm input[name="tahun_stpm"]').val($(row).find('td:nth-child(4)').text());
+
+                    });
+
                     $('#table-stam tbody').empty();
+                    $('#stamForm input[name="stam_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.stam.length == 0){
                         var trStam = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
                     } else {
@@ -524,39 +639,127 @@ Maklumat Pemohon
                                 bilStam += 1;
                                 trStam += '<tr>';
                                 trStam += '<td align="center">' + bilStam + '</td>';
-                                trStam += '<td>' + item.subject.code + '</td>';
                                 trStam += '<td>' + item.subject.name + '</td>';
-                                trStam += '<td>' + item.grade + '</td>';
+                                trStam += '<td align="center">' + item.grade + '</td>';
+                                trStam += '<td align="center">' + item.year + '</td>';
+                                trStam += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                                trStam += '&nbsp;&nbsp;';
+                                trStam += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                                 trStam += '</tr>';
                             }
                         });
                     }
                     $('#table-stam tbody').append(trStam);
 
-                    $('#table-matriculation tbody').empty();
+                    $(document).on('click', '.edit-btn', function() {
+                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
+                        $('#stamForm').attr('action', "{{ route('stam.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#stamForm input[name="id_stam"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#stamForm select[name="subjek_stam"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        $('#stamForm select[name="gred_stam"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
+                        $('#stamForm input[name="tahun_stam"]').val($(row).find('td:nth-child(4)').text());
+
+                    });
+
+                    // $('#table-matriculation tbody').empty();
+                    // if(data.detail.matriculation.length == 0){
+                    //     var trMatriculation = '<tr><td align="center" colspan="9">*Tiada Rekod*</td></tr>';
+                    // } else {
+                    //     var trMatriculation = '';
+                    //     var bilMatriculation = 0;
+                    //     $.each(data.detail.matriculation, function (i, item) {
+                    //             bilMatriculation += 1;
+                    //             trMatriculation += '<tr>';
+                    //             trMatriculation += '<td align="center">' + bilMatriculation + '</td>'
+                    //             trMatriculation += '<td>' + item.college.name + '</td>';
+                    //             trMatriculation += '<td>' + item.course.name + '</td>';
+                    //             trMatriculation += '<td>' + item.matric_no + '</td>';
+                    //             trMatriculation += '<td>' + item.session + '</td>';
+                    //             trMatriculation += '<td>' + item.semester + '</td>';
+                    //             trMatriculation += '<td>' + item.subject.name + '</td>';
+                    //             trMatriculation += '<td>' + item.grade + '</td>';
+                    //             trMatriculation += '<td>' + item.pngk + '</td>';
+                    //             trMatriculation += '</tr>';
+                    //     });
+                    // }
+                    // $('#table-matriculation tbody').append(trMatriculation);
+
+                    $('#table-matrikulasi tbody').empty();
+                    $('#matrikulasiForm input[name="matrikulasi_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.matriculation.length == 0){
-                        var trMatriculation = '<tr><td align="center" colspan="9">*Tiada Rekod*</td></tr>';
+                        var trStam = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
                     } else {
-                        var trMatriculation = '';
-                        var bilMatriculation = 0;
+                        var trMatrikulasi = '';
+                        var bilMatrikulasi = 0;
                         $.each(data.detail.matriculation, function (i, item) {
-                                bilMatriculation += 1;
-                                trMatriculation += '<tr>';
-                                trMatriculation += '<td align="center">' + bilMatriculation + '</td>'
-                                trMatriculation += '<td>' + item.college.name + '</td>';
-                                trMatriculation += '<td>' + item.course.name + '</td>';
-                                trMatriculation += '<td>' + item.matric_no + '</td>';
-                                trMatriculation += '<td>' + item.session + '</td>';
-                                trMatriculation += '<td>' + item.semester + '</td>';
-                                trMatriculation += '<td>' + item.subject.name + '</td>';
-                                trMatriculation += '<td>' + item.grade + '</td>';
-                                trMatriculation += '<td>' + item.pngk + '</td>';
-                                trMatriculation += '</tr>';
+                                bilMatrikulasi += 1;
+                                trMatrikulasi += '<tr>';
+                                trMatrikulasi += '<td align="center">' + bilMatrikulasi + '</td>';
+                                trMatrikulasi += '<td>' + item.college.name + '</td>';
+                                trMatrikulasi += '<td align="center">' + item.course.name + '</td>';
+                                trMatrikulasi += '<td align="center">' + item.matric_no + '</td>';
+                                trMatrikulasi += '<td>' + item.session + '</td>';
+                                trMatrikulasi += '<td align="center">' + item.semester + '</td>';
+                                trMatrikulasi += '<td align="center">' + item.subject.name + '</td>';
+                                trMatrikulasi += '<td align="center">' + item.grade + '</td>';
+                                trMatrikulasi += '<td align="center">' + item.pngk + '</td>';
+                                trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                                trMatrikulasi += '&nbsp;&nbsp;';
+                                trMatrikulasi += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                         });
                     }
-                    $('#table-matriculation tbody').append(trMatriculation);
+                    $('#table-matrikulasi tbody').append(trMatrikulasi);
+
+                    $(document).on('click', '.edit-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                        $('#matrikulasiForm').attr('action', "{{ route('matrikulasi.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#matrikulasiForm input[name="id_matrikulasi"]').val(id);
+                        var kolejName = $(row).find('td:nth-child(2)').text();
+                        $('#matrikulasiForm select[name="kolej_matrikulasi"] option').filter(function() {
+                            return $(this).text() === kolejName;
+                        }).prop('selected', true).trigger('change');
+                        var jurusanName = $(row).find('td:nth-child(3)').text();
+                        $('#matrikulasiForm select[name="jurusan_matrikulasi"] option').filter(function() {
+                            return $(this).text() === jurusanName;
+                        }).prop('selected', true).trigger('change');
+                        $('#matrikulasiForm select[name="matrik_matrikulasi"]').val($(row).find('td:nth-child(4)').text());
+                        $('#matrikulasiForm input[name="sesi_matrikulasi"]').val($(row).find('td:nth-child(5)').text());
+                        $('#matrikulasiForm input[name="semester_matrikulasi"]').val($(row).find('td:nth-child(6)').text());
+                        var subjekName = $(row).find('td:nth-child(7)').text();
+                        $('#matrikulasiForm select[name="subjek_matrikulasi"] option').filter(function() {
+                            return $(this).text() === subjekName;
+                        }).prop('selected', true).trigger('change');
+                        $('#matrikulasiForm input[name="gred_matrikulasi"]').val($(row).find('td:nth-child(8)').text());
+                        $('#matrikulasiForm input[name="pngk_matrikulasi"]').val($(row).find('td:nth-child(9)').text());
+                    });
+
+
+                    $(document).on('click', '.delete-btn', function() {
+                        var id = $(this).data('id');
+                        Swal.fire({
+                        title: 'Adakah anda ingin hapuskan maklumat ini?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sahkan',
+                        cancelButtonText: 'Batal',
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            matrikulasiDelete(id);
+                        }
+                        })
+
+                    });
 
                     $('#table-skm tbody').empty();
+                    $('#skmForm input[name="skm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.skm.length == 0){
                         var trSkm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
                     } else {
@@ -565,14 +768,45 @@ Maklumat Pemohon
                         $.each(data.detail.skm, function (i, item) {
                             bilSkm += 1;
                             trSkm += '<tr>';
-                            trSkm += '<td align="center">' + bilSkm + '</td>'
-                            trSkm += '<td>' + item.year + '</td>';
-                            trSkm += '<td>' + item.qualification.code + '</td>';
-                            trSkm += '<td>' + item.qualification.name + '</td>';
+                            trSkm += '<td align="center">' + bilSkm + '</td>';
+                            trSkm += '<td>' + (item.qualification ? item.qualification.name : "Tiada Maklumat")  + '</td>';
+                            trSkm += '<td align="center">' + item.year + '</td>';
+                            trSkm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                            trSkm += '&nbsp;&nbsp;';
+                            trSkm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                             trSkm += '</tr>';
                         });
                     }
                     $('#table-skm tbody').append(trSkm);
+
+                    $(document).on('click', '.edit-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                        $('#skmForm').attr('action', "{{ route('skm.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#skmForm input[name="id_skm"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#skmForm select[name="nama_skm"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        $('#skmForm input[name="tahun_skm"]').val($(row).find('td:nth-child(3)').text());
+                    });
+
+                    $(document).on('click', '.delete-btn', function() {
+                        var id = $(this).data('id');
+                        Swal.fire({
+                        title: 'Adakah anda ingin hapuskan maklumat ini?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sahkan',
+                        cancelButtonText: 'Batal',
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            skmDelete(id);
+                        }
+                        })
+
+                    });
 
                     $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.higher_education != null) {
@@ -636,7 +870,7 @@ Maklumat Pemohon
                             trProfessional += '<tr>';
                             trProfessional += '<td align="center">' + bilProfessional + '</td>'
                             trProfessional += '<td>' + (item.member_no ? item.member_no : '') + '</td>';
-                            trProfessional += '<td>' + item.specialization.name + '</td>';
+                            trProfessional += '<td>' + (item.specialization ? item.specialization.name : '') + '</td>';
                             trProfessional += '<td>' + (item.date ? item.newDate : '') + '</td>';
                             trProfessional += '</tr>';
                         });
@@ -700,33 +934,33 @@ Maklumat Pemohon
 
                     $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.army_police != null){
-                        if(data.detail.army_police.type_service) { 
+                        if(data.detail.army_police.type_service) {
                             $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.army_police.type_service).trigger('change');
                         }
-                        else { 
-                            selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm'); 
+                        else {
+                            selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm');
                         }
                         originalVal['jenis_perkhidmatan_tentera_polis'] = data.detail.army_police.type_service;
-                        if(data.detail.army_police.ref_rank_code) { 
-                            $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.army_police.ref_rank_code).trigger('change'); 
+                        if(data.detail.army_police.ref_rank_code) {
+                            $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.army_police.ref_rank_code).trigger('change');
                         }
-                        else { 
-                            selectionNull('pangkat_tentera_polis', 'tenteraPolisForm'); 
+                        else {
+                            selectionNull('pangkat_tentera_polis', 'tenteraPolisForm');
                         }
                         originalVal['pangkat_tentera_polis'] = data.detail.army_police.ref_rank_code;
-                        if(data.detail.army_police.type_army_police) { 
+                        if(data.detail.army_police.type_army_police) {
                             $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.army_police.type_army_police).trigger('change');
                         }
-                        else { 
-                            selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm'); 
+                        else {
+                            selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm');
                         }
                         originalVal['jenis_bekas_tentera_polis'] = data.detail.army_police.type_army_police;
                     } else {
-                        selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm'); 
+                        selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm');
                         originalVal['jenis_perkhidmatan_tentera_polis'] = '';
                         selectionNull('pangkat_tentera_polis', 'tenteraPolisForm');
                         originalVal['pangkat_tentera_polis'] = '';
-                        selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm'); 
+                        selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm');
                         originalVal['jenis_bekas_tentera_polis'] = '';
                     }
 
@@ -757,19 +991,51 @@ Maklumat Pemohon
 
                     $('#table-talent tbody').empty();
                     if(data.detail.talent.length == 0){
-                        var trTalent = '<tr><td align="center" colspan="2">*Tiada Rekod*</td></tr>';
+                        var trBakat = '<tr><td align="center" colspan="2">*Tiada Rekod*</td></tr>';
                     } else {
-                        var trTalent = '';
-                        var bilTalent = 0;
+                        var trBakat = '';
+                        var bilBakat = 0;
                         $.each(data.detail.talent, function (i, item) {
-                            bilTalent += 1;
-                            trTalent += '<tr>';
-                            trTalent += '<td align="center">' + bilTalent + '</td>'
-                            trTalent += '<td>' + item.talent.name + '</td>';
-                            trTalent += '</tr>';
+                            bilBakat += 1;
+                            trBakat += '<tr>';
+                            trBakat += '<td align="center">' + bilBakat + '</td>'
+                            trBakat += '<td>' + item.talent.name + '</td>';
+                            trBakat += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                            trBakat += '&nbsp;&nbsp;';
+                            trBakat += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                            trBakat += '</tr>';
                         });
                     }
-                    $('#table-talent tbody').append(trTalent);
+                    $('#table-talent tbody').append(trBakat);
+
+                    $(document).on('click', '.edit-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                        $('#bakatForm').attr('action', "{{ route('bakat.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#bakatForm input[name="id_bakat"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#bakatForm select[name="nama_bakat"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                    });
+                    $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
+
+                    $(document).on('click', '.delete-btn', function() {
+                        var id = $(this).data('id');
+                        Swal.fire({
+                        title: 'Adakah anda ingin hapuskan maklumat ini?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sahkan',
+                        cancelButtonText: 'Batal',
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            bakatDelete(id);
+                        }
+                        })
+
+                    });
 
                     $('#penaltyForm select[name="penalty"]').attr('disabled', true);
                     $('#penaltyForm input[name="penalty_duration"]').attr('disabled', true);

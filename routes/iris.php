@@ -41,6 +41,64 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::prefix('pmr')->group(function () {
             Route::post('store', 'storePmr')->name('pmr.store');
             Route::get('list/{noPengenalan}', 'listPmr')->name('pmr.list');
+            Route::post('update', 'updatePmr')->name('pmr.update');
+            Route::post('delete/{idPmr}', 'deletePmr')->name('pmr.delete');
+        });
+
+        Route::prefix('spm')->group(function () {
+            Route::post('store', 'storeSpm')->name('spm.store');
+            Route::get('list/{noPengenalan}', 'listSpm')->name('spm.list');
+            Route::post('update', 'updateSpm')->name('spm.update');
+            Route::post('delete/{idSpm}', 'deleteSpm')->name('spm.delete');
+        });
+
+        Route::prefix('spmv')->group(function () {
+            Route::post('store', 'storeSpmv')->name('spmv.store');
+            Route::get('list/{noPengenalan}', 'listSpmv')->name('spmv.list');
+            Route::post('update', 'updateSpmv')->name('spmv.update');
+            Route::post('delete/{idSpmv}', 'deleteSpmv')->name('spmv.delete');
+        });
+
+        Route::prefix('svm')->group(function () {
+            Route::post('store', 'storeSvm')->name('svm.store');
+            Route::get('list/{noPengenalan}', 'listSvm')->name('svm.list');
+            Route::post('update', 'updateSvm')->name('svm.update');
+            Route::post('delete/{idSvm}', 'deleteSvm')->name('svm.delete');
+        });
+
+        Route::prefix('stpm')->group(function () {
+            Route::post('store', 'storeStpm')->name('stpm.store');
+            Route::get('list/{noPengenalan}', 'listStpm')->name('stpm.list');
+            Route::post('update', 'updateStpm')->name('stpm.update');
+            Route::post('delete/{idStpm}', 'deleteStpm')->name('stpm.delete');
+        });
+
+        Route::prefix('stam')->group(function () {
+            Route::post('store', 'storeStam')->name('stam.store');
+            Route::get('list/{noPengenalan}', 'listStam')->name('stam.list');
+            Route::post('update', 'updateStam')->name('stam.update');
+            Route::post('delete/{idStam}', 'deleteStam')->name('stam.delete');
+        });
+
+        Route::prefix('matrikulasi')->group(function () {
+            Route::post('store', 'storeMatrikulasi')->name('matrikulasi.store');
+            Route::get('list/{noPengenalan}', 'listMatrikulasi')->name('matrikulasi.list');
+            Route::post('update', 'updateMatrikulasi')->name('matrikulasi.update');
+            Route::post('delete/{idMatrikulasi}', 'deleteMatrikulasi')->name('matrikulasi.delete');
+        });
+
+        Route::prefix('skm')->group(function () {
+            Route::post('store', 'storeSkm')->name('skm.store');
+            Route::get('list/{noPengenalan}', 'listSkm')->name('skm.list');
+            Route::post('update', 'updateSkm')->name('skm.update');
+            Route::post('delete/{idSkm}', 'deleteSkm')->name('skm.delete');
+        });
+
+        Route::prefix('bakat')->group(function () {
+            Route::post('store', 'storeBakat')->name('bakat.store');
+            Route::get('list/{noPengenalan}', 'listBakat')->name('bakat.list');
+            Route::post('update', 'updateBakat')->name('bakat.update');
+            Route::post('delete/{idBakat}', 'deleteBakat')->name('bakat.delete');
         });
 
         Route::prefix('pengajian_tinggi')->group(function () {

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate\CandidateLicense;
+use App\Models\Candidate\CandidateMatriculation;
 use App\Models\Candidate\CandidateOku;
+use App\Models\Reference\MatriculationSubject;
+use App\Models\Reference\Qualification;
+use App\Models\Reference\Talent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\DepartmentMinistry;
@@ -30,7 +34,11 @@ use App\Models\Candidate\CandidateExperience;
 use App\Models\Candidate\CandidateHigherEducation;
 use App\Models\Candidate\CandidatePenalty;
 use App\Models\Candidate\CandidateSchoolResult;
+use App\Models\Candidate\CandidateSkm;
+use App\Models\Candidate\CandidateTalent;
 use App\Models\Candidate\CandidateTimeline;
+use App\Models\Reference\Matriculation;
+use App\Models\Reference\MatriculationCourse;
 use Carbon\Carbon;
 
 class MaklumatPemohonController extends Controller
@@ -46,6 +54,11 @@ class MaklumatPemohonController extends Controller
         $eligibilities = Eligibility::all();
         $genders = Gender::all();
         $gredPmr = GredMatapelajaran::where('tkt', 3)->orderBy('susunan', 'asc')->get();
+        $gredSpm = GredMatapelajaran::where('tkt', 5)->orderBy('susunan', 'asc')->get();
+        $gredSpmv = GredMatapelajaran::where('tkt', 5)->orderBy('susunan', 'asc')->get();
+        $gredSvm = GredMatapelajaran::where('tkt', 5)->orderBy('susunan', 'asc')->get();
+        $gredStpm = GredMatapelajaran::where('tkt', 6)->orderBy('susunan', 'asc')->get();
+        $gredStam = GredMatapelajaran::where('tkt', 6)->orderBy('susunan', 'asc')->get();
         $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
         $jenisBekasTenteraPolis = JenisBekasTenteraPolis::all();
         $jenisPerkhidmatan = JenisPerkhidmatan::all();
@@ -60,8 +73,19 @@ class MaklumatPemohonController extends Controller
         $skims = Skim::orderBy('name', 'asc')->get();
         $specializations = Specialization::orderBy('name', 'asc')->get();
         $subjekPmr = Subject::where('form', 3)->orderBy('name', 'asc')->get();
+        $subjekSpm = Subject::where('form', 5)->orderBy('name', 'asc')->get();
+        $subjekSpmv = Subject::where('form', 5)->orderBy('name', 'asc')->get();
+        $subjekSvm = Subject::where('form', 5)->orderBy('name', 'asc')->get();
+        $subjekStpm = Subject::where('form', 6)->orderBy('name', 'asc')->get();
+        $subjekStam = Subject::where('form', 6)->orderBy('name', 'asc')->get();
+        $skmkod = Qualification::orderBy('name', 'asc')->get();
+        $talentkod = Talent::orderBy('name', 'asc')->get();
+        $matrikulasi = Matriculation::orderBy('name', 'asc')->get();
+        $jurusanMatrikulasi = MatriculationCourse::orderBy('name', 'asc')->get();
+        $subjekMatrikulasi =  MatriculationSubject::orderBy('name', 'asc')->get();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr'));
+
+        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'matrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi' ));
     }
 
     public function viewMaklumatPemohon(){
@@ -643,6 +667,1035 @@ class MaklumatPemohonController extends Controller
         //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
     }
 
+    public function updatePmr(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_pmr' => 'required|string',
+                'gred_pmr' => 'required|string',
+                'tahun_pmr' => 'required|string',
+            ],[
+                'subjek_pmr.required' => 'Sila pilih subjek pmr',
+                'gred_pmr.required' => 'Sila pilih gred pmr',
+                'tahun_pmr.required' => 'Sila pilih gred pmr',
+            ]);
+
+            CandidateSchoolResult::where('id',$request->id_pmr)->update([
+                'ref_subject_code' => $request->subjek_pmr,
+                'grade' => $request->gred_pmr,
+                'year' => $request->tahun_pmr,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->pmr_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (PT3/PMR/SRP)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deletePmr(Request $request){
+        $pmr = CandidateSchoolResult::find($request-> idPmr);
+
+        if (!$pmr) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $pmr->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
+    public function storeSpm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_spm' => 'required|string|exists:ref_subject,code',
+                'gred_spm' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'tahun_spm' => 'required|string',
+            ],[
+                'subjek_spm.required' => 'Sila pilih subjek spm',
+                'subjek_spm.exists' => 'Tiada rekod subjek yang dipilih',
+                'gred_spm.required' => 'Sila pilih gred spm',
+                'gred_spm.exists' => 'Tiada rekod gred yang dipilih',
+                'tahun_spm.required' => 'Sila pilih gred spm',
+                'tahun_spm.exists' => 'Tiada rekod gred spm yang dipilih',
+            ]);
+
+            CandidateSchoolResult::create([
+                'no_pengenalan' => $request->spm_no_pengenalan,
+                'ref_subject_code' => $request->subjek_spm,
+                'grade' => $request->gred_spm,
+                'year' => $request->tahun_spm,
+                'certificate_type' => 1,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->spm_no_pengenalan,
+                'details' => 'Tambah Maklumat Akademik (SPM)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listSpm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateSpm = CandidateSchoolResult::select(
+                '*',
+                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
+                $query->where('form', '5');
+            })->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateSpm]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updateSpm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_spm' => 'required|string',
+                'gred_spm' => 'required|string',
+                'tahun_spm' => 'required|string',
+            ],[
+                'subjek_spm.required' => 'Sila pilih subjek spm',
+                'gred_spm.required' => 'Sila pilih gred spm',
+                'tahun_spm.required' => 'Sila pilih gred spm',
+            ]);
+
+            CandidateSchoolResult::where('id',$request->id_spm)->update([
+                'ref_subject_code' => $request->subjek_spm,
+                'grade' => $request->gred_spm,
+                'year' => $request->tahun_spm,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->spm_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (SPM)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteSpm(Request $request){
+        $spm = CandidateSchoolResult::find($request-> idSpm);
+
+        if (!$spm) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $spm->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
+    public function storeSpmv(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_spmv' => 'required|string|exists:ref_subject,code',
+                'gred_spmv' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'tahun_spmv' => 'required|string',
+            ],[
+                'subjek_spmv.required' => 'Sila pilih subjek spmv',
+                'subjek_spmv.exists' => 'Tiada rekod subjek yang dipilih',
+                'gred_spmv.required' => 'Sila pilih gred spmv',
+                'gred_spmv.exists' => 'Tiada rekod gred yang dipilih',
+                'tahun_spmv.required' => 'Sila pilih gred spmv',
+                'tahun_spmv.exists' => 'Tiada rekod gred spmv yang dipilih',
+            ]);
+
+            CandidateSchoolResult::create([
+                'no_pengenalan' => $request->spmv_no_pengenalan,
+                'ref_subject_code' => $request->subjek_spmv,
+                'grade' => $request->gred_spmv,
+                'year' => $request->tahun_spmv,
+                'certificate_type' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->spmv_no_pengenalan,
+                'details' => 'Tambah Maklumat Akademik (SPMV)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listSpmv(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateSpmv = CandidateSchoolResult::select(
+                '*',
+                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 3)->with('subject')->whereHas('subject', function ($query) {
+                $query->where('form', '5');
+            })->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateSpmv]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updateSpmv(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_spmv' => 'required|string',
+                'gred_spmv' => 'required|string',
+                'tahun_spmv' => 'required|string',
+            ],[
+                'subjek_spmv.required' => 'Sila pilih subjek spmv',
+                'gred_spmv.required' => 'Sila pilih gred spmv',
+                'tahun_spmv.required' => 'Sila pilih gred spmv',
+            ]);
+
+            CandidateSchoolResult::where('id',$request->id_spmv)->update([
+                'ref_subject_code' => $request->subjek_spmv,
+                'grade' => $request->gred_spmv,
+                'year' => $request->tahun_spmv,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->spmv_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (SPMV)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteSpmv(Request $request){
+        $spmv = CandidateSchoolResult::find($request-> idSpmv);
+
+        if (!$spmv) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $spmv->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
+    public function storeSvm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_svm' => 'required|string|exists:ref_subject,code',
+                'gred_svm' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'tahun_svm' => 'required|string',
+            ],[
+                'subjek_svm.required' => 'Sila pilih subjek svm',
+                'subjek_svm.exists' => 'Tiada rekod subjek yang dipilih',
+                'gred_svm.required' => 'Sila pilih gred svm',
+                'gred_svm.exists' => 'Tiada rekod gred yang dipilih',
+                'tahun_svm.required' => 'Sila pilih gred svm',
+                'tahun_svm.exists' => 'Tiada rekod gred svm yang dipilih',
+            ]);
+
+            CandidateSchoolResult::create([
+                'no_pengenalan' => $request->svm_no_pengenalan,
+                'ref_subject_code' => $request->subjek_svm,
+                'grade' => $request->gred_svm,
+                'year' => $request->tahun_svm,
+                'certificate_type' => 5,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->svm_no_pengenalan,
+                'details' => 'Tambah Maklumat Akademik (SVM)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listSvm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateSvm = CandidateSchoolResult::select(
+                '*',
+                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
+                $query->where('form', '5');
+            })->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateSvm]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updateSvm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_svm' => 'required|string',
+                'gred_svm' => 'required|string',
+                'tahun_svm' => 'required|string',
+            ],[
+                'subjek_svm.required' => 'Sila pilih subjek svm',
+                'gred_svm.required' => 'Sila pilih gred svm',
+                'tahun_svm.required' => 'Sila pilih gred svm',
+            ]);
+
+            CandidateSchoolResult::where('id',$request->id_svm)->update([
+                'ref_subject_code' => $request->subjek_svm,
+                'grade' => $request->gred_svm,
+                'year' => $request->tahun_svm,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->svm_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (SVM)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteSvm(Request $request){
+        $svm = CandidateSchoolResult::find($request-> idSvm);
+
+        if (!$svm) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $svm->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
+    public function storeStpm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_stpm' => 'required|string|exists:ref_subject,code',
+                'gred_stpm' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'tahun_stpm' => 'required|string',
+            ],[
+                'subjek_stpm.required' => 'Sila pilih subjek stpm',
+                'subjek_stpm.exists' => 'Tiada rekod subjek yang dipilih',
+                'gred_stpm.required' => 'Sila pilih gred stpm',
+                'gred_stpm.exists' => 'Tiada rekod gred yang dipilih',
+                'tahun_stpm.required' => 'Sila pilih gred stpm',
+                'tahun_stpm.exists' => 'Tiada rekod gred stpm yang dipilih',
+            ]);
+
+            CandidateSchoolResult::create([
+                'no_pengenalan' => $request->stpm_no_pengenalan,
+                'ref_subject_code' => $request->subjek_stpm,
+                'grade' => $request->gred_stpm,
+                'year' => $request->tahun_stpm,
+                'certificate_type' => 1,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->stpm_no_pengenalan,
+                'details' => 'Tambah Maklumat Akademik (STPM)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listStpm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateStpm = CandidateSchoolResult::select(
+                '*',
+                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
+                $query->where('form', '5');
+            })->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateStpm]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updateStpm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_stpm' => 'required|string',
+                'gred_stpm' => 'required|string',
+                'tahun_stpm' => 'required|string',
+            ],[
+                'subjek_stpm.required' => 'Sila pilih subjek stpm',
+                'gred_stpm.required' => 'Sila pilih gred stpm',
+                'tahun_stpm.required' => 'Sila pilih gred stpm',
+            ]);
+
+            CandidateSchoolResult::where('id',$request->id_stpm)->update([
+                'ref_subject_code' => $request->subjek_stpm,
+                'grade' => $request->gred_stpm,
+                'year' => $request->tahun_stpm,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->stpm_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (STPM)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteStpm(Request $request){
+        $stpm = CandidateSchoolResult::find($request-> idStpm);
+
+        if (!$stpm) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $stpm->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
+    public function storeStam(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_stam' => 'required|string|exists:ref_subject,code',
+                'gred_stam' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'tahun_stam' => 'required|string',
+            ],[
+                'subjek_stam.required' => 'Sila pilih subjek stam',
+                'subjek_stam.exists' => 'Tiada rekod subjek yang dipilih',
+                'gred_stam.required' => 'Sila pilih gred stam',
+                'gred_stam.exists' => 'Tiada rekod gred yang dipilih',
+                'tahun_stam.required' => 'Sila pilih gred stam',
+                'tahun_stam.exists' => 'Tiada rekod gred stam yang dipilih',
+            ]);
+
+            CandidateSchoolResult::create([
+                'no_pengenalan' => $request->stam_no_pengenalan,
+                'ref_subject_code' => $request->subjek_stam,
+                'grade' => $request->gred_stam,
+                'year' => $request->tahun_stam,
+                'certificate_type' => 5,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->stam_no_pengenalan,
+                'details' => 'Tambah Maklumat Akademik (STAM)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listStam(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateStam = CandidateSchoolResult::select(
+                '*',
+                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
+                $query->where('form', '5');
+            })->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateStam]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updateStam(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'subjek_stam' => 'required|string',
+                'gred_stam' => 'required|string',
+                'tahun_stam' => 'required|string',
+            ],[
+                'subjek_stam.required' => 'Sila pilih subjek stam',
+                'gred_stam.required' => 'Sila pilih gred stam',
+                'tahun_stam.required' => 'Sila pilih gred stam',
+            ]);
+
+            CandidateSchoolResult::where('id',$request->id_stam)->update([
+                'ref_subject_code' => $request->subjek_stam,
+                'grade' => $request->gred_stam,
+                'year' => $request->tahun_stam,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->stam_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (STAM)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteStam(Request $request){
+        $stam = CandidateSchoolResult::find($request-> idStam);
+
+        if (!$stam) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $stam->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
+    public function storeMatrikulasi(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'kolej_matrikulasi' => 'required|string',
+                'jurusan_matrikulasi' => 'required|string',
+                'matrik_matrikulasi' => 'required|string',
+                'sesi_matrikulasi' => 'required|string',
+                'semester_matrikulasi' => 'required|string',
+                'subjek_matrikulasi' => 'required|string',
+                'gred_matrikulasi' => 'required|string',
+                'pngk_matrikulasi' => 'required|string',
+            ],[
+                'kolej_matrikulasi.required' => 'Sila pilih kolej matrikulasi',
+                'jurusan_matrikulasi.required' => 'Sila pilih jurusan matrikulasi',
+                'matrik_matrikulasi.required' => 'Sila isikan nombor matrik matrikulasi',
+                'sesi_matrikulasi.required' => 'Sila isikan sesi matrikulasi',
+                'semester_matrikulasi.required' => 'Sila isikan semester matrikulasi',
+                'subjek_matrikulasi.required' => 'Sila pilih subjek matrikulasi',
+                'gred_matrikulasi.required' => 'Sila isikan gred matrikulasi',
+                'pngk_matrikulasi.required' => 'Sila isikan pngk matrikulasi',
+            ]);
+
+            CandidateMatriculation::create([
+                'no_pengenalan' => $request->matrikulasi_no_pengenalan,
+                'matric_no' => $request->matrik_matrikulasi,
+                'ref_matriculation_course_code' => $request->jurusan_matrikulasi,
+                'session' => $request->sesi_matrikulasi,
+                'semester' => $request->semester_matrikulasi,
+                'ref_matriculation_code' => $request->kolej_matrikulasi,
+                'ref_matriculation_subject_code' => $request->subjek_matrikulasi,
+                'grade' => $request->gred_matrikulasi,
+                'pngk' => $request->pngk_matrikulasi,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->matrikulasi_no_pengenalan,
+                'details' => 'Tambah Maklumat Akademik (Matrikulasi)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listMatrikulasi(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateMatrikulasi = CandidateMatriculation::where('no_pengenalan', $request->noPengenalan)->with(['course', 'college', 'subject'])->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateMatrikulasi]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updateMatrikulasi(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'kolej_matrikulasi' => 'required|string',
+                'jurusan_matrikulasi' => 'required|string',
+                'matrik_matrikulasi' => 'required|string',
+                'sesi_matrikulasi' => 'required|string',
+                'semester_matrikulasi' => 'required|string',
+                'subjek_matrikulasi' => 'required|string',
+                'gred_matrikulasi' => 'required|string',
+                'pngk_matrikulasi' => 'required|string',
+            ],[
+                'kolej_matrikulasi.required' => 'Sila pilih kolej matrikulasi',
+                'jurusan_matrikulasi.required' => 'Sila pilih jurusan matrikulasi',
+                'matrik_matrikulasi.required' => 'Sila isikan nombor matrik matrikulasi',
+                'sesi_matrikulasi.required' => 'Sila isikan sesi matrikulasi',
+                'semester_matrikulasi.required' => 'Sila isikan semester matrikulasi',
+                'subjek_matrikulasi.required' => 'Sila pilih subjek matrikulasi',
+                'gred_matrikulasi.required' => 'Sila isikan gred matrikulasi',
+                'pngk_matrikulasi.required' => 'Sila isikan pngk matrikulasi',
+            ]);
+
+            CandidateMatriculation::where('id',$request->id_matrikulasi)->update([
+                'ref_subject_code' => $request->subjek_stam,
+                'matric_no' => $request->matrik_matrikulasi,
+                'ref_matriculation_course_code' => $request->jurusan_matrikulasi,
+                'session' => $request->sesi_matrikulasi,
+                'semester' => $request->semester_matrikulasi,
+                'ref_matriculation_code' => $request->kolej_matrikulasi,
+                'ref_matriculation_subject_code' => $request->subjek_matrikulasi,
+                'grade' => $request->gred_matrikulasi,
+                'pngk' => $request->pngk_matrikulasi,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->matrikulasi_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (Matrikulasi)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteMatrikulasi(Request $request){
+        $smatrikulasi = CandidateMatriculation::find($request-> idMatrikulasi);
+
+        if (!$smatrikulasi) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $smatrikulasi->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+    public function storeSkm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'tahun_skm' => 'required|string',
+                'nama_skm' => 'required|string',
+            ],[
+                'tahun_skm.required' => 'Sila isi tahun kelulusan',
+                'nama_skm.required' => 'Sila pilih kelulusan',
+            ]);
+
+            CandidateSkm::create([
+                'no_pengenalan' => $request->skm_no_pengenalan,
+                'ref_qualification_code' => $request->nama_skm,
+                'year' => $request->tahun_skm,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->skm_no_pengenalan,
+                'details' => 'Tambah Maklumat Akademik (SKM)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listSkm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $candidateSkm = CandidateSkm::select(
+                '*',
+                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+            )->where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateSkm]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updateSkm(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'tahun_skm' => 'required|string',
+                'nama_skm' => 'required|string',
+            ],[
+                'tahun_skm.required' => 'Sila isi tahun kelulusan',
+                'nama_skm.required' => 'Sila pilih kelulusan',
+            ]);
+
+            CandidateSkm::where('id',$request->id_skm)->update([
+                'ref_qualification_code' => $request->nama_skm,
+                'year' => $request->tahun_skm,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->skm_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (SKM)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteSkm(Request $request){
+        $skm = CandidateSkm::find($request-> idSkm);
+
+        if (!$skm) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $skm->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
+    public function storeBakat(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'nama_bakat' => 'required|string',
+            ],[
+                'nama_bakat.required' => 'Sila pilih kelulusan',
+            ]);
+
+            CandidateTalent::create([
+                'no_pengenalan' => $request->bakat_no_pengenalan,
+                'ref_talent_code' => $request->nama_bakat,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->bakat_no_pengenalan,
+                'details' => 'Tambah Maklumat Tambahan (Bakat)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listBakat(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $candidateBakat = CandidateTalent::select(
+            )->where('no_pengenalan', $request->noPengenalan)->with(['talent'])->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateBakat]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updateBakat(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'nama_bakat' => 'required|string',
+            ],[
+                'nama_bakat.required' => 'Sila pilih kelulusan',
+            ]);
+
+            CandidateTalent::where('id',$request->id_bakat)->update([
+                'ref_talent_code' => $request->nama_bakat,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->bakat_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Tamabahan (Bakat)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteBakat(Request $request){
+        $bakat = CandidateTalent::find($request-> idBakat);
+
+        if (!$bakat) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $bakat->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
     public function updatePengajianTinggi(Request $request)
     {
         DB::beginTransaction();
@@ -823,7 +1876,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            
+
             $candidate = CandidateArmyPolice::where('no_pengenalan', $request->tentera_polis_no_pengenalan)->first();
 
             $request->validate([
@@ -854,8 +1907,8 @@ class MaklumatPemohonController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);    
-            
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -872,7 +1925,7 @@ class MaklumatPemohonController extends Controller
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            // } 
+            // }
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateArmyPolice]);
@@ -881,7 +1934,7 @@ class MaklumatPemohonController extends Controller
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }  
+        }
     }
 
     public function storePenalty(Request $request)
