@@ -49,7 +49,7 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
     </div>
 </div>
 <div id="button_action_tentera_polis" style="display:none">
-    {{-- <button type="button" id="btnEditTenteraPolis" hidden onclick="generalFormSubmit(this);"></button> --}}
+    <button type="button" id="btnEditTenteraPolis" hidden onclick="generalFormSubmit(this);"></button>
     <div class="d-flex justify-content-end align-items-center my-1">
         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditTenteraPolis',
         {
