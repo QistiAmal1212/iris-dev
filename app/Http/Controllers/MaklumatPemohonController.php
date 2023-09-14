@@ -12,7 +12,7 @@ use App\Models\Reference\Gender;
 use App\Models\Reference\GredMatapelajaran;
 use App\Models\Reference\Institution;
 use App\Models\Reference\JenisBekasTenteraPolis;
-use App\Models\Reference\JenisPerkhidmatanTenteraPolis;
+use App\Models\Reference\JenisPerkhidmatan;
 use App\Models\Reference\MaritalStatus;
 use App\Models\Reference\Penalty;
 use App\Models\Reference\PeringkatPengajian;
@@ -48,7 +48,7 @@ class MaklumatPemohonController extends Controller
         $gredPmr = GredMatapelajaran::where('tkt', 3)->orderBy('susunan', 'asc')->get();
         $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
         $jenisBekasTenteraPolis = JenisBekasTenteraPolis::all();
-        $jenisPerkhidmatanTenteraPolis = JenisPerkhidmatanTenteraPolis::all();
+        $jenisPerkhidmatan = JenisPerkhidmatan::all();
         $maritalStatuses = MaritalStatus::all();
         $penalties = Penalty::all();
         $peringkatPengajian = PeringkatPengajian::all();
@@ -61,7 +61,7 @@ class MaklumatPemohonController extends Controller
         $specializations = Specialization::orderBy('name', 'asc')->get();
         $subjekPmr = Subject::where('form', 3)->orderBy('name', 'asc')->get();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatanTenteraPolis', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr'));
+        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr'));
     }
 
     public function viewMaklumatPemohon(){
@@ -827,22 +827,22 @@ class MaklumatPemohonController extends Controller
             $candidate = CandidateArmyPolice::where('no_pengenalan', $request->tentera_polis_no_pengenalan)->first();
 
             $request->validate([
-                'jenis_bekas_tentera_polis' => 'required|string|exists:ref_jenis_bekas_tentera_polis,id',
+                'jenis_perkhidmatan_tentera_polis' => 'required|string|exists:ref_jenis_perkhidmatan,id',
                 'pangkat_tentera_polis' => 'required|string|exists:ref_rank,code',
-                'jenis_perkhidmatan_tentera_polis' => 'required|string|exists:ref_jenis_perkhidmatan_tentera_polis,code',
+                'jenis_bekas_tentera_polis' => 'required|string|exists:ref_jenis_bekas_tentera_polis,code',
             ],[
-                'jenis_bekas_tentera_polis.required' => 'Sila pilih kategori',
-                'jenis_bekas_tentera_polis.exists' => 'Tiada rekod kategori yang dipilih',
-                'pangkat_tentera_polis.required' => 'Sila pilih pangkat dalam tentera',
-                'pangkat_tentera_polis.exists' => 'Tiada rekod pangkat dalam tentera yang dipilih',
                 'jenis_perkhidmatan_tentera_polis.required' => 'Sila pilih jenis penamatan perkhidmatan',
                 'jenis_perkhidmatan_tentera_polis.exists' => 'Tiada rekod jenis penamatan perkhidmatan yang dipilih',
+                'pangkat_tentera_polis.required' => 'Sila pilih pangkat dalam tentera',
+                'pangkat_tentera_polis.exists' => 'Tiada rekod pangkat dalam tentera yang dipilih',
+                'jenis_bekas_tentera_polis.required' => 'Sila pilih kategori',
+                'jenis_bekas_tentera_polis.exists' => 'Tiada rekod kategori yang dipilih',
             ]);
 
             $candidate->update([
-                'type_army_police' => $request->jenis_bekas_tentera_polis,
-                'ref_rank_code' => $request->pangkat_tentera_polis,
                 'type_service' => $request->jenis_perkhidmatan_tentera_polis,
+                'ref_rank_code' => $request->pangkat_tentera_polis,
+                'type_army_police' => $request->jenis_bekas_tentera_polis,
             ]);
 
             CandidateTimeline::create([

@@ -9,6 +9,7 @@ class JenisBekasTenteraPolis extends Model
     protected $table = 'ref_jenis_bekas_tentera_polis';
 
     protected $fillable = [
+        'code',
         'name',
         'created_by',
         'updated_by',

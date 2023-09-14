@@ -700,13 +700,13 @@ Maklumat Pemohon
 
                     $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.army_police != null){
-                        if(data.detail.army_police.type_army_police) { 
-                            $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.army_police.type_army_police).trigger('change');
+                        if(data.detail.army_police.type_service) { 
+                            $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.army_police.type_service).trigger('change');
                         }
                         else { 
-                            selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm'); 
+                            selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm'); 
                         }
-                        originalVal['pangkat_tentera_polis'] = data.detail.army_police.type_army_police;
+                        originalVal['jenis_perkhidmatan_tentera_polis'] = data.detail.army_police.type_service;
                         if(data.detail.army_police.ref_rank_code) { 
                             $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.army_police.ref_rank_code).trigger('change'); 
                         }
@@ -714,20 +714,20 @@ Maklumat Pemohon
                             selectionNull('pangkat_tentera_polis', 'tenteraPolisForm'); 
                         }
                         originalVal['pangkat_tentera_polis'] = data.detail.army_police.ref_rank_code;
-                        if(data.detail.army_police.type_service) { 
-                            $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.army_police.type_service).trigger('change');
+                        if(data.detail.army_police.type_army_police) { 
+                            $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.army_police.type_army_police).trigger('change');
                         }
                         else { 
-                            selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm'); 
+                            selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm'); 
                         }
-                        originalVal['pangkat_tentera_polis'] = data.detail.army_police.type_service;
+                        originalVal['jenis_bekas_tentera_polis'] = data.detail.army_police.type_army_police;
                     } else {
-                        selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm'); 
-                        originalVal['jenis_bekas_tentera_polis'] = '';
-                        selectionNull('pangkat_tentera_polis', 'tenteraPolisForm');
-                        originalVal['pangkat_tentera_polis'] = '';
                         selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm'); 
                         originalVal['jenis_perkhidmatan_tentera_polis'] = '';
+                        selectionNull('pangkat_tentera_polis', 'tenteraPolisForm');
+                        originalVal['pangkat_tentera_polis'] = '';
+                        selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm'); 
+                        originalVal['jenis_bekas_tentera_polis'] = '';
                     }
 
                     $('#table-language tbody').empty();
@@ -949,12 +949,12 @@ Maklumat Pemohon
 
                     $('#table-psl tbody').empty();
 
-                    $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val('').trigger('change');
-                    $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', true);
-                    $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val('').trigger('change');
-                    $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);
                     $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val('').trigger('change');
                     $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').attr('disabled', true);
+                    $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val('').trigger('change');
+                    $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);
+                    $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val('').trigger('change');
+                    $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', true);
                     $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val('');
 
                     $('#table-language tbody').empty();
