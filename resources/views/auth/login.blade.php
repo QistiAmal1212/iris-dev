@@ -36,7 +36,7 @@
                     <center>
                         <img class="mb-2" src="{{ asset('images/iris-images/jata_negara.png') }}" style="width: 10vw">
                         <hr>
-                        <h2 class="mt-2 card-title fw-bold mb-1"> SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS) </h2>
+                        <h2 class="mt-2 card-title fw-bold mb-1"> SISTEM PENGAMBILAN BERSEPADU (IRIS) </h2>
 
                         <p class="card-text mb-2">Log masuk untuk mengakses sistem.</p>
 
@@ -77,7 +77,7 @@
                         </div>
 
                         <div class="mb-1">
-                           
+
                             <div class="d-flex justify-content-between">
                                 <label class="form-label fw-bolder" for="login-password">Kata Laluan</label>
                                 <a href="{{ route('password.request') }}">

@@ -32,11 +32,11 @@ $configData = Helper::applClasses();
                 <center>
                     <img class="mb-2" src="{{ asset('images/iris-images/jata_negara.png') }}" style="width: 10vw">
                     <hr>
-                    <h2 class="mt-2 card-title fw-bold mb-1"> SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS) </h2>
+                    <h2 class="mt-2 card-title fw-bold mb-1"> SISTEM PENGAMBILAN BERSEPADU (IRIS) </h2>
 
                     <h4 class="card-title fw-bold mb-1">Lupa Kata Laluan 🔒</h4>
                     <p class="card-text mb-2">Masukkan emel yang telah didaftarkan</p>
-                    
+
                 </center>
 
                 <form method="POST" action="{{ route('password.email') }}">

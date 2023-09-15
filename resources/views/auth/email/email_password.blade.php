@@ -189,7 +189,7 @@
                                                 <tr>
                                                     <td>
                                                         <h1 class="table-header">
-                                                        <br>SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS)
+                                                        <br>SISTEM PENGAMBILAN BERSEPADU (IRIS)
                                                         </h1>
 
                                                         <br>
@@ -211,10 +211,10 @@
                                                         <br>
 
                                                         <br>
-                                                            Jika anda menghadapi masalah pada butang 'Tetapan Semula Kata Laluan' sekarang, klik atau salin dan tampal url: 
-                                                                <a class="text-primary" href="{{ $url }}"> 
-                                                                    {{ $url }} 
-                                                                </a>  
+                                                            Jika anda menghadapi masalah pada butang 'Tetapan Semula Kata Laluan' sekarang, klik atau salin dan tampal url:
+                                                                <a class="text-primary" href="{{ $url }}">
+                                                                    {{ $url }}
+                                                                </a>
                                                             ke dalam pelayar web anda.
                                                         <br>
 

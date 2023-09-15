@@ -34,14 +34,14 @@ $configData = Helper::applClasses();
                 <center>
                     <img class="mb-2" src="{{ asset('images/iris-images/jata_negara.png') }}" style="width: 10vw">
                     <hr>
-                    <h2 class="mt-2 card-title fw-bold mb-1"> SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS) </h2>
+                    <h2 class="mt-2 card-title fw-bold mb-1"> SISTEM PENGAMBILAN BERSEPADU (IRIS) </h2>
 
                     <h4 class="card-title fw-bold mb-1">Tukar Kata Laluan Baharu 🔒</h4>
                 </center>
                 <div class="alert alert-warning mb-2" role="alert">
                     <h6 class="alert-heading">
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        Pastikan keperluan ini dipenuhi: 
+                        Pastikan keperluan ini dipenuhi:
                     </h6>
                     <div class="alert-body fw-normal"> Minimum panjang kata laluan adalah 8 huruf, kombinasi antara huruf besar dan kecil, karakter & nombor.</div>
                 </div>

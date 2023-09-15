@@ -145,7 +145,7 @@
         .pb-3 {
             padding-bottom: 30px;
         }
-        
+
         .btn {
             color: #333;
             background-color: #ccc;
@@ -189,7 +189,7 @@
                                                 <tr>
                                                     <td>
                                                         <h1 class="table-header">
-                                                        PENDAFTARAN AKAUN<br>SISTEM PERKHIDMATAN PENGAMBILAN BERSEPADU (IRIS)
+                                                        PENDAFTARAN AKAUN<br>SISTEM PENGAMBILAN BERSEPADU (IRIS)
                                                         </h1>
 
                                                         <br>
@@ -232,10 +232,10 @@
                                                         <br>
 
                                                         <br>
-                                                            Jika anda menghadapi masalah pada butang 'Log Masuk' sekarang, klik atau salin dan tampal url: 
-                                                                <a class="text-primary" href="{{ route('login') }}"> 
-                                                                    {{ route('login') }} 
-                                                                </a> 
+                                                            Jika anda menghadapi masalah pada butang 'Log Masuk' sekarang, klik atau salin dan tampal url:
+                                                                <a class="text-primary" href="{{ route('login') }}">
+                                                                    {{ route('login') }}
+                                                                </a>
                                                             ke dalam pelayar web anda.
                                                         <br>
 

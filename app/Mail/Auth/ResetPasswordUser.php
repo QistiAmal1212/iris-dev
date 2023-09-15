@@ -17,8 +17,8 @@ class ResetPasswordUser extends Mailable
      * @return void
      */
     public function __construct($token, $email)
-    {   
-        $this->subject = 'Pertukaran Kata Laluan Baharu Sistem Perkhidmatan Pengambilan Bersepadu (IRIS)';
+    {
+        $this->subject = 'Pertukaran Kata Laluan Baharu Sistem Pengambilan Bersepadu (IRIS)';
         $this->token = $token;
         $this->email = $email;
     }
