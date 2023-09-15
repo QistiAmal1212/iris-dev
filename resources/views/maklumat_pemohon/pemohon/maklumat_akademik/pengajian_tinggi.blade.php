@@ -116,6 +116,18 @@ data-reloadPage="false">
                 fln_pengajian_tinggi: $('#fln_pengajian_tinggi').val(),
                 tarikh_senat_pengajian_tinggi: $('#tarikh_senat_pengajian_tinggi').val(),
                 biasiswa_pengajian_tinggi: $('#biasiswa_pengajian_tinggi').val(),
+            },
+            {
+                peringkat_pengajian_tinggi: 'Peringkat Pengajian',
+                tahun_pengajian_tinggi: 'Tahun Pengajian',
+                kelayakan_pengajian_tinggi: 'Peringkat Kelulusan',
+                cgpa_pengajian_tinggi: 'CGPA',
+                institusi_pengajian_tinggi: 'Institusi',
+                nama_sijil_pengajian_tinggi: 'Nama Sijil',
+                pengkhususan_pengajian_tinggi: 'Pengkhususan/Bidang',
+                fln_pengajian_tinggi: 'Francais Luar Negara',
+                tarikh_senat_pengajian_tinggi: 'Tarikh Senat',
+                biasiswa_pengajian_tinggi: 'Biasiswa',
             }
             );">
             <i class="fa fa-save"></i> Simpan

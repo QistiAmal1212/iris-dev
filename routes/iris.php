@@ -119,6 +119,8 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::prefix('penalty')->group(function () {
             Route::post('store', 'storePenalty')->name('penalty.store');
             Route::get('list/{noPengenalan}', 'listPenalty')->name('penalty.list');
+            Route::post('update', 'updatePenalty')->name('penalty.update');
+            Route::post('delete/{idPenalty}', 'deletePenalty')->name('penalty.delete');
         });
     });
 });

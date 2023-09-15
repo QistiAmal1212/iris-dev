@@ -8,6 +8,7 @@ data-reloadPage="false">
 @csrf
 <div class="row mt-2 mb-2">
     <input type="hidden" name="skm_no_pengenalan" id="skm_no_pengenalan" value="">
+    <input type="hidden" name="id_skm" id="id_skm" value="">
 
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Gred</label>

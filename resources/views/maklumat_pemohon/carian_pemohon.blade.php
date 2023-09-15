@@ -174,7 +174,7 @@ Maklumat Pemohon
         $('#' + formID + ' select[name="' + inputID + '"]').val("Tiada Maklumat").trigger('change');
     }
 
-    function confirmSubmit(btnName, newValues) {
+    function confirmSubmit(btnName, newValues, columnHead) {
         var htmlContent = '<p>Perubahan:</p>';
 
         for (var key in originalVal) {
@@ -183,12 +183,14 @@ Maklumat Pemohon
                 if (originalVal[key] == null || originalVal[key] === '') {
                     if (newValues[key] !== 'Tiada Maklumat') {
                         if(newValues[key] !== null){
-                            htmlContent += '<p>Tiada Maklumat kepada ' + newValues[key] + '</p>';
+                            htmlContent += '<p>' + columnHead[key] + ':<br>';
+                            htmlContent += 'Tiada Maklumat kepada ' + newValues[key] + '</p>';
                         }
 
                     }
                 } else {
-                    htmlContent += '<p>' + originalVal[key] + ' kepada ' + newValues[key] + '</p>';
+                    htmlContent += '<p>' + columnHead[key] + ':<br>';
+                    htmlContent += originalVal[key] + ' kepada ' + newValues[key] + '</p>';
                 }
         }}
         }
@@ -449,7 +451,6 @@ Maklumat Pemohon
                         $('#pmrForm input[name="tahun_pmr"]').val($(row).find('td:nth-child(4)').text());
 
                     });
-                    $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
 
                     $(document).on('click', '.delete-btn', function() {
                         var id = $(this).data('id');
@@ -666,29 +667,6 @@ Maklumat Pemohon
                         $('#stamForm input[name="tahun_stam"]').val($(row).find('td:nth-child(4)').text());
 
                     });
-
-                    // $('#table-matriculation tbody').empty();
-                    // if(data.detail.matriculation.length == 0){
-                    //     var trMatriculation = '<tr><td align="center" colspan="9">*Tiada Rekod*</td></tr>';
-                    // } else {
-                    //     var trMatriculation = '';
-                    //     var bilMatriculation = 0;
-                    //     $.each(data.detail.matriculation, function (i, item) {
-                    //             bilMatriculation += 1;
-                    //             trMatriculation += '<tr>';
-                    //             trMatriculation += '<td align="center">' + bilMatriculation + '</td>'
-                    //             trMatriculation += '<td>' + item.college.name + '</td>';
-                    //             trMatriculation += '<td>' + item.course.name + '</td>';
-                    //             trMatriculation += '<td>' + item.matric_no + '</td>';
-                    //             trMatriculation += '<td>' + item.session + '</td>';
-                    //             trMatriculation += '<td>' + item.semester + '</td>';
-                    //             trMatriculation += '<td>' + item.subject.name + '</td>';
-                    //             trMatriculation += '<td>' + item.grade + '</td>';
-                    //             trMatriculation += '<td>' + item.pngk + '</td>';
-                    //             trMatriculation += '</tr>';
-                    //     });
-                    // }
-                    // $('#table-matriculation tbody').append(trMatriculation);
 
                     $('#table-matrikulasi tbody').empty();
                     $('#matrikulasiForm input[name="matrikulasi_no_pengenalan"]').val(data.detail.no_pengenalan);
@@ -1059,10 +1037,52 @@ Maklumat Pemohon
                             trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
                             trPenalty += '<td>' + item.startDate + '</td>';
                             trPenalty += '<td>' + item.endDate + '</td>';
+                            trPenalty += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                            trPenalty += '&nbsp;&nbsp;';
+                            trPenalty += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                             trPenalty += '</tr>';
                         });
                     }
                     $('#table-penalty tbody').append(trPenalty);
+
+                    $(document).on('click', '.edit-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                    $('#penaltyForm').attr('action', "{{ route('penalty.update') }}");
+                    var row = $(this).closest('tr');
+                    var id = $(this).data('id');
+                    editPenalty();
+
+                    $('#penaltyForm input[name="id_penalty"]').val(id);
+                    var subjectName = $(row).find('td:nth-child(2)').text();
+                    $('#penaltyForm select[name="penalty"] option').filter(function() {
+                        return $(this).text() === subjectName;
+                    }).prop('selected', true).trigger('change');
+                    var durationAndType = $(row).find('td:nth-child(3)').text().split(' ');
+                    var duration = durationAndType[0];
+                    var type = durationAndType[1];
+                    $('#penaltyForm select[name="penalty_duration"]').val(duration).text();
+                    $('#penaltyForm select[name="penalty_type"] option').filter(function() {
+                        return $(this).text() === type;
+                    }).prop('selected', true).trigger('change');
+                    $('#penaltyForm input[name="penalty_start"]').val($(row).find('td:nth-child(4)').text());
+                    $('#penaltyForm input[name="penalty_end"]').val($(row).find('td:nth-child(5)').text());
+
+                    });
+
+                    $(document).on('click', '.delete-btn', function() {
+                        var id = $(this).data('id');
+                        Swal.fire({
+                        title: 'Adakah anda ingin hapuskan maklumat ini?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sahkan',
+                        cancelButtonText: 'Batal',
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            penaltyDelete(id);
+                        }
+                        })
+
+                    });
 
                 },
                 error: function(data) {

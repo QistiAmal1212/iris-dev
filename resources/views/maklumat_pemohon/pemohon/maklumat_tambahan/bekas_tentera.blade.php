@@ -6,14 +6,14 @@
         </a>
     </div>
 </div>
-<form 
+<form
 id="tenteraPolisForm"
 action="{{ route('tentera-polis.update') }}"
 method="POST"
 data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
 @csrf
 <div class="row">
-    
+
     <input type="hidden" name="tentera_polis_no_pengenalan" id="tentera_polis_no_pengenalan" value="">
     {{-- <h6>
         <span class="text-muted">Kemaskini terkini: ONLINE 13/03/2023</span>
@@ -56,6 +56,11 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
             jenis_perkhidmatan_tentera_polis: $('#jenis_perkhidmatan_tentera_polis').val(),
             pangkat_tentera_polis: $('#pangkat_tentera_polis').val(),
             jenis_bekas_tentera_polis: $('#jenis_bekas_tentera_polis').val(),
+        },
+        {
+            jenis_perkhidmatan_tentera_polis: 'Kategori',
+            pangkat_tentera_polis: 'Pangkat',
+            jenis_bekas_tentera_polis: 'Jenis Penamatan Perkhidmatan',
         }
         );">
             <i class="fa fa-save"></i> Simpan

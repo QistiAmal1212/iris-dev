@@ -7,16 +7,17 @@
     </div>
 </div>
 <div class="row mt-2 mb-2">
-    
-    <form 
+
+    <form
     id="penaltyForm"
     action="{{ route('penalty.store') }}"
     method="POST"
     data-refreshFunctionName="reloadTimeline"
-    data-refreshFunctionNameIfSuccess="reloadPenalty" 
+    data-refreshFunctionNameIfSuccess="reloadPenalty"
     data-reloadPage="false">
     @csrf
     <input type="hidden" name="penalty_no_pengenalan" id="penalty_no_pengenalan" value="">
+    <input type="hidden" name="id_penalty" id="id_penalty" value="">
     <div class="row">
         <div class="col sm-12 col-md-12 col-lg-12 mb-1">
             <label class="form-label fw-bolder">Tindakan Tatatertib</label>
@@ -80,6 +81,7 @@
                         <th>Tempoh Hukuman</th>
                         <th>Tarikh Mula Hukuman</th>
                         <th>Tarikh Akhir Hukuman</th>
+                        <th>Kemaskini</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,7 +108,7 @@
         var penalty_duration = $('#penalty_duration').val();
         var penalty_type = $('#penalty_type').val();
         var penalty_start = $('#penalty_start').val();
-        
+
 
         if(penalty_duration != '' && penalty_type != '' && penalty_start != '')
         {
@@ -157,7 +159,8 @@
     }
 
     function reloadPenalty() {
-        var no_pengenalan = $('#candidate_no_pengenalan').val();
+        var no_pengenalan = $('#penalty_no_pengenalan').val();
+        $('#penaltyForm input[name="penalty_no_pengenalan"]').val(no_pengenalan);
 
         var reloadPenaltyUrl = "{{ route('penalty.list', ':replaceThis') }}"
         reloadPenaltyUrl = reloadPenaltyUrl.replace(':replaceThis', no_pengenalan);
@@ -184,14 +187,63 @@
                     trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
                     trPenalty += '<td>' + item.startDate + '</td>';
                     trPenalty += '<td>' + item.endDate + '</td>';
+                    trPenalty += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                    trPenalty += '&nbsp;&nbsp;';
+                    trPenalty += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                     trPenalty += '</tr>';
                 });
                 $('#table-penalty tbody').append(trPenalty);
+
+                $(document).on('click', '.edit-btn', function() {
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                $('#penaltyForm').attr('action', "{{ route('penalty.update') }}");
+                var row = $(this).closest('tr');
+                var id = $(this).data('id');
+                editPenalty();
+
+                $('#penaltyForm input[name="id_penalty"]').val(id);
+                var subjectName = $(row).find('td:nth-child(2)').text();
+                $('#penaltyForm select[name="penalty"] option').filter(function() {
+                    return $(this).text() === subjectName;
+                }).prop('selected', true).trigger('change');
+                var durationAndType = $(row).find('td:nth-child(3)').text().split(' ');
+                var duration = durationAndType[0];
+                var type = durationAndType[1];
+                $('#penaltyForm select[name="penalty_duration"]').val(duration).text();
+                $('#penaltyForm input[name="penalty_type"]').val(type).trigger('change');
+                $('#penaltyForm input[name="penalty_start"]').val($(row).find('td:nth-child(4)').text());
+                $('#penaltyForm input[name="penalty_end"]').val($(row).find('td:nth-child(5)').text());
+
+                });
+
+                $(document).on('click', '.delete-btn', function() {
+                    var id = $(this).data('id');
+                    Swal.fire({
+                    title: 'Adakah anda ingin hapuskan maklumat ini?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sahkan',
+                    cancelButtonText: 'Batal',
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        penaltyDelete(id);
+                    }
+                    })
+
+                });
             },
             error: function(data) {
                 //
             }
         });
+    }
+    function penaltyDelete(id){
+        var reloadPmrUrl = "{{ route('penalty.delete', ':replaceThis') }}"
+        reloadPmrUrl = reloadPmrUrl.replace(':replaceThis', id);
+        $.ajax({
+            url: reloadPmrUrl,
+            type: 'POST',
+        });
+        reloadPmr()
     }
 
 </script>

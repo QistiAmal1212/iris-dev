@@ -101,7 +101,16 @@ data-reloadPage="false">
             marital_status: $('#marital_status').val(),
             phone_number: $('#phone_number').val(),
             email: $('#email').val()
-        });">
+        },{
+            gender: 'Jantina',
+            religion: 'Agama',
+            race: 'Keturunan',
+            date_of_birth: 'Tarikh Lahir',
+            marital_status: 'Taraf Perkahwinan',
+            phone_number: 'No. Telefon',
+            email: 'Alamat Emel'
+        }
+        );">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>

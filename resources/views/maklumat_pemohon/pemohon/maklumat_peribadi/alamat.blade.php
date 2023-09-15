@@ -110,7 +110,21 @@ data-reloadPage="false">
             poscode: $('#poscode').val(),
             city: $('#city').val(),
             state: $('#state').val(),
-        });">
+        },{
+            permanent_address_1: 'Alamat Tetap(1)',
+            permanent_address_2: 'Alamat Tetap(2)',
+            permanent_address_3: 'Alamat Tetap(3)',
+            permanent_poscode: 'Poskod Alamat Tetap',
+            permanent_city: 'Bandar Alamat Tetap',
+            permanent_state: 'Negeri Alamat Tetap',
+            address_1: 'Alamat Menyurat(1)',
+            address_2: 'Alamat Menyurat(2)',
+            address_3: 'Alamat Menyurat(3)',
+            poscode: 'Poskod Alamat Menyurat',
+            city: 'Bandar Alamat Menyurat',
+            state: 'Negeri Alamat Menyurat',
+        }
+        );">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>

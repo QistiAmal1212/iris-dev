@@ -8,7 +8,7 @@ data-reloadPage="false">
 @csrf
 <div class="row mt-2 mb-2">
     <input type="hidden" name="pmr_no_pengenalan" id="pmr_no_pengenalan" value="">
-    <input type="hidden" name="pmr_id" id="pmr_id" value="">
+    <input type="hidden" name="id_pmr" id="id_pmr" value="">
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Mata Pelajaran</label>
         <select class="select2 form-control" value="" id="subjek_pmr" name="subjek_pmr">
@@ -64,6 +64,7 @@ data-reloadPage="false">
 <script>
     function reloadPmr() {
         var no_pengenalan = $('#pmr_no_pengenalan').val();
+        $('#pmrForm input[name="pmr_no_pengenalan"]').val(no_pengenalan);
 
         var reloadPmrUrl = "{{ route('pmr.list', ':replaceThis') }}"
         reloadPmrUrl = reloadPmrUrl.replace(':replaceThis', no_pengenalan);
@@ -109,7 +110,7 @@ data-reloadPage="false">
                     $('#pmrForm select[name="gred_pmr"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
                     $('#pmrForm input[name="tahun_pmr"]').val($(row).find('td:nth-child(4)').text());
                 });
-                $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
+
 
                 $(document).on('click', '.delete-btn', function() {
                     var id = $(this).data('id');
@@ -138,6 +139,6 @@ data-reloadPage="false">
             url: reloadPmrUrl,
             type: 'POST',
         });
-        reloadPmr()
+        reloadPmr();    
     }
 </script>

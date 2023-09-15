@@ -54,7 +54,13 @@ data-reloadPage="false">
             license_expiry_date: $('#license_expiry_date').val(),
             license_blacklist_status: $('#license_blacklist_status').val(),
             license_blacklist_details: $('#license_blacklist_details').val(),
-        });">
+        },{
+            license_type: 'Jenis Lesen',
+            license_expiry_date: 'Tarikh Tamat',
+            license_blacklist_status: 'Status Senarai Hitam',
+            license_blacklist_details: 'Butiran Senarai Hitam',
+        }
+        );">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>

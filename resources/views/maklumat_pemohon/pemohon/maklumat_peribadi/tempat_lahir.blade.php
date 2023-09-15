@@ -53,7 +53,12 @@ data-reloadPage="false">
             place_of_birth: $('#place_of_birth').val(),
             father_place_of_birth: $('#father_place_of_birth').val(),
             mother_place_of_birth: $('#mother_place_of_birth').val(),
-        });">
+        },{
+            place_of_birth: 'Tempat Lahir',
+            father_place_of_birth: 'Tempat Lahir Ayah',
+            mother_place_of_birth: 'Tempat Lahir Ibu',
+        }
+        );">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>

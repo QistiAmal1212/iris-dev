@@ -2015,4 +2015,62 @@ class MaklumatPemohonController extends Controller
         //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
     }
 
+    public function updatePenalty(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'penalty_no_pengenalan' => 'required|string',
+                'penalty' => 'required|string',
+                'penalty_duration' => 'required|integer',
+                'penalty_type' => 'required',
+                'penalty_start' => 'required',
+                'penalty_end' => 'required',
+            ],[
+                'penalty_no_pengenalan.required' => 'Sila isikan no kad pengenalan',
+                'penalty.required' => 'Sila pilih tindakan tatatertib',
+                'penalty_duration.required' => 'Sila isikan tempoh hukuman',
+                'penalty_type.required' => 'Sila isikan jenis tempoh hukuman',
+                'penalty_start.required' => 'Sila isikan tarikh mula hukuman',
+                'penalty_end.required' => 'Sila isikan tarikh akhir hukuman',
+            ]);
+
+            CandidatePenalty::where('id',$request->id_penalty)->update([
+                'ref_penalty_code' => $request->penalty,
+                'duration' => $request->penalty_duration,
+                'type' => $request->penalty_type,
+                'date_start' => Carbon::createFromFormat('d/m/Y', $request->penalty_start)->format('Y-m-d'),
+                'date_end' => Carbon::createFromFormat('d/m/Y', $request->penalty_end)->format('Y-m-d'),
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->penalty_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Tatatertib',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deletePenalty(Request $request){
+        $penalty = CandidatePenalty::find($request-> idPenalty);
+
+        if (!$penalty) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $penalty->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
 }

@@ -49,7 +49,13 @@ data-reloadPage="false">
                 oku_status: $('#oku_status').val(),
                 oku_category: $('#oku_category').val(),
                 oku_sub: $('#oku_sub').val(),
-            });">
+            },{
+                oku_registration_no: 'No. Pendaftaran OKU',
+                oku_status: 'Status OKU',
+                oku_category: 'Kategori OKU',
+                oku_sub: 'Sub-Kategori OKU',
+            }
+            );">
                 <i class="fa fa-save"></i> Simpan
             </button>
         </div>

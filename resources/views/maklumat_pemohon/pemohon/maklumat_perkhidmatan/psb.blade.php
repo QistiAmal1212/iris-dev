@@ -108,13 +108,22 @@ data-reloadPage="false">
     <div class="d-flex justify-content-end align-items-center my-1">
         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditExperience',
             {
-                experience_appoint_date: $('#experience_appoint_date').val(),
+                experience_appoint_date: '$('#experience_appoint_date').val()',
                 experience_position_level: $('#experience_position_level').val(),
                 experience_skim: $('#experience_skim').val(),
                 experience_start_date: $('#experience_start_date').val(),
                 experience_verify_date: $('#experience_verify_date').val(),
                 experience_department_ministry: $('#experience_department_ministry').val(),
                 experience_department_state: $('#experience_department_state').val(),
+            },
+            {
+                experience_appoint_date: 'Tarikh Lantikan Pertama',
+                experience_position_level: 'Taraf Jawatan',
+                experience_skim: 'Skim Perkhidmatan',
+                experience_start_date: 'Tarikh Lantikan',
+                experience_verify_date: 'Tarikh Pengesahan Lantikan',
+                experience_department_ministry: 'Kementerian/Jabatan',
+                experience_department_state: 'Negeri',
             }
             );"onclick="$('#btnEditExperience').trigger('click');">
             <i class="fa fa-save"></i> Simpan
