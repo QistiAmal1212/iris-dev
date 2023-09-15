@@ -32,7 +32,7 @@ data-reloadPage="false">
 
     <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
         <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" name="tahun_pengajian_tinggi" id="tahun_pengajian_tinggi" onchange="checkInput('tahun_pengajian_tinggi', 'tahun_pengajian_tinggiAlert')" disabled>
+        <input type="text" class="form-control" value="" name="tahun_pengajian_tinggi" id="tahun_pengajian_tinggi" oninput="checkInput('tahun_pengajian_tinggi', 'tahun_pengajian_tinggiAlert')" disabled>
         <div id="tahun_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
@@ -48,7 +48,7 @@ data-reloadPage="false">
 
     <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
         <label class="form-label">CGPA</label>
-        <input type="text" class="form-control" value="" name="cgpa_pengajian_tinggi" id="cgpa_pengajian_tinggi" onchange="checkInput('cgpa_pengajian_tinggi', 'cgpa_pengajian_tinggiAlert')" disabled>
+        <input type="text" class="form-control" value="" name="cgpa_pengajian_tinggi" id="cgpa_pengajian_tinggi" oninput="checkInput('cgpa_pengajian_tinggi', 'cgpa_pengajian_tinggiAlert')" disabled>
         <div id="cgpa_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
@@ -64,7 +64,7 @@ data-reloadPage="false">
 
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Nama Sijil</label>
-        <input type="text" class="form-control" value="" name="nama_sijil_pengajian_tinggi" id="nama_sijil_pengajian_tinggi" onchange="checkInput('nama_sijil_pengajian_tinggi', 'nama_sijil_pengajian_tinggiAlert')" disabled>
+        <input type="text" class="form-control" value="" name="nama_sijil_pengajian_tinggi" id="nama_sijil_pengajian_tinggi" oninput="checkInput('nama_sijil_pengajian_tinggi', 'nama_sijil_pengajian_tinggiAlert')" disabled>
         <div id="nama_sijil_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
@@ -88,7 +88,7 @@ data-reloadPage="false">
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Tarikh Senat</label>
-        <input type="text" class="form-control flatpickr" value="" name="tarikh_senat_pengajian_tinggi" id="tarikh_senat_pengajian_tinggi" onchange="checkInput('tarikh_senat_pengajian_tinggi', 'tarikh_senat_pengajian_tinggiAlert')" disabled>
+        <input type="text" class="form-control flatpickr" value="" name="tarikh_senat_pengajian_tinggi" id="tarikh_senat_pengajian_tinggi" oninput="checkInput('tarikh_senat_pengajian_tinggi', 'tarikh_senat_pengajian_tinggiAlert')" disabled>
         <div id="tarikh_senat_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
     </div>
 

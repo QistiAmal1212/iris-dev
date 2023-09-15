@@ -57,7 +57,7 @@ data-reloadPage="false">
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">Tarikh Lahir</label>
-            <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="date_of_birth" id="date_of_birth" onchange="checkInput('date_of_birth', 'date_of_birthAlert')" disabled />
+            <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="date_of_birth" id="date_of_birth" oninput="checkInput('date_of_birth', 'date_of_birthAlert')" disabled />
             <div id="date_of_birthAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
@@ -79,13 +79,13 @@ data-reloadPage="false">
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">No. Telefon</label>
-            <input type="text" class="form-control" value="" name="phone_number" id="phone_number" onchange="checkInput('phone_number', 'phone_numberAlert')" disabled>
+            <input type="text" class="form-control" value="" name="phone_number" id="phone_number" oninput="checkInput('phone_number', 'phone_numberAlert')" disabled>
             <div id="phone_numberAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">Alamat Emel</label>
-            <input type="text" class="form-control" value="" name="email" id="email" onchange="checkInput('email', 'emailAlert')" disabled>
+            <input type="text" class="form-control" value="" name="email" id="email" oninput="checkInput('email', 'emailAlert')" disabled>
             <div id="emailAlert" style="color: red; font-size: smaller;"></div>
         </div>
     </div>

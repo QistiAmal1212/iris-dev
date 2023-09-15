@@ -22,25 +22,25 @@ data-reloadPage="false">
     </h6>
     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Alamat</label>
-        <input type="text" class="form-control" value="" name="permanent_address_1" id="permanent_address_1" onchange="checkInput('permanent_address_1', 'permanent_address_1Alert')" disabled>
+        <input type="text" class="form-control" value="" name="permanent_address_1" id="permanent_address_1" oninput="checkInput('permanent_address_1', 'permanent_address_1Alert')" disabled>
         <div id="permanent_address_1Alert" style="color: red; font-size: smaller;"></div>
         <br>
-        <input type="text" class="form-control" value="" name="permanent_address_2" id="permanent_address_2" onchange="checkInput('permanent_address_2', 'permanent_address_2Alert')" disabled>
+        <input type="text" class="form-control" value="" name="permanent_address_2" id="permanent_address_2" oninput="checkInput('permanent_address_2', 'permanent_address_2Alert')" disabled>
         <div id="permanent_address_2Alert" style="color: red; font-size: smaller;"></div>
         <br>
-        <input type="text" class="form-control" value="" name="permanent_address_3" id="permanent_address_3" onchange="checkInput('permanent_address_3', 'permanent_address_3Alert')" disabled>
+        <input type="text" class="form-control" value="" name="permanent_address_3" id="permanent_address_3" oninput="checkInput('permanent_address_3', 'permanent_address_3Alert')" disabled>
         <div id="permanent_address_3Alert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Poskod</label>
-        <input type="text" class="form-control" value="" name="permanent_poscode" id="permanent_poscode" maxlength="5" oninput="onlyNumberOnInputText(this)" onchange="checkInput('permanent_poscode', 'permanent_poscodeAlert')" disabled>
+        <input type="text" class="form-control" value="" name="permanent_poscode" id="permanent_poscode" maxlength="5" oninput="onlyNumberOnInputText(this)" oninput="checkInput('permanent_poscode', 'permanent_poscodeAlert')" disabled>
         <div id="permanent_poscodeAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Bandar</label>
-        <input type="text" class="form-control" value="" name="permanent_city" id="permanent_city" onchange="checkInput('permanent_city', 'permanent_cityAlert')" disabled>
+        <input type="text" class="form-control" value="" name="permanent_city" id="permanent_city" oninput="checkInput('permanent_city', 'permanent_cityAlert')" disabled>
         <div id="permanent_cityAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
@@ -61,25 +61,25 @@ data-reloadPage="false">
     </h6>
     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Alamat</label>
-        <input type="text" class="form-control" value="" name="address_1" id="address_1" onchange="checkInput('address_1', 'address_1Alert')" disabled>
+        <input type="text" class="form-control" value="" name="address_1" id="address_1" oninput="checkInput('address_1', 'address_1Alert')" disabled>
         <div id="address_1Alert" style="color: red; font-size: smaller;"></div>
         <br>
-        <input type="text" class="form-control" value="" name="address_2" id="address_2" onchange="checkInput('address_2', 'address_2Alert')" disabled>
+        <input type="text" class="form-control" value="" name="address_2" id="address_2" oninput="checkInput('address_2', 'address_2Alert')" disabled>
         <div id="address_2Alert" style="color: red; font-size: smaller;"></div>
         <br>
-        <input type="text" class="form-control" value="" name="address_3" id="address_3" onchange="checkInput('address_3', 'address_3Alert')" disabled>
+        <input type="text" class="form-control" value="" name="address_3" id="address_3" oninput="checkInput('address_3', 'address_3Alert')" disabled>
         <div id="address_3Alert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Poskod</label>
-        <input type="text" class="form-control" value="" name="poscode" id="poscode" maxlength="5" oninput="onlyNumberOnInputText(this)" onchange="checkInput('poscode', 'poscodeAlert')" disabled>
+        <input type="text" class="form-control" value="" name="poscode" id="poscode" maxlength="5" oninput="onlyNumberOnInputText(this)" oninput="checkInput('poscode', 'poscodeAlert')" disabled>
         <div id="poscodeAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Bandar</label>
-        <input type="text" class="form-control" value="" name="city" id="city" onchange="checkInput('city', 'cityAlert')" disabled>
+        <input type="text" class="form-control" value="" name="city" id="city" oninput="checkInput('city', 'cityAlert')" disabled>
         <div id="cityAlert" style="color: red; font-size: smaller;"></div>
     </div>
 

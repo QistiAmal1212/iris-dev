@@ -27,7 +27,7 @@ data-reloadPage="false">
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Lantikan Pertama</label>
-        <input type="text" class="form-control" value="" name="experience_appoint_date" id="experience_appoint_date" onchange="checkInput('experience_appoint_date', 'experience_appoint_dateAlert')" disabled>
+        <input type="text" class="form-control" value="" name="experience_appoint_date" id="experience_appoint_date" oninput="checkInput('experience_appoint_date', 'experience_appoint_dateAlert')" disabled>
         <div id="experience_appoint_dateAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
@@ -64,13 +64,13 @@ data-reloadPage="false">
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Lantikan</label>
-        <input type="text" class="form-control" value="" name="experience_start_date" id="experience_start_date" onchange="checkInput('experience_start_date', 'experience_start_dateAlert')" disabled>
+        <input type="text" class="form-control" value="" name="experience_start_date" id="experience_start_date" oninput="checkInput('experience_start_date', 'experience_start_dateAlert')" disabled>
         <div id="experience_start_dateAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Pengesahan Lantikan</label>
-        <input type="text" class="form-control flatpickr" value="" name="experience_verify_date" id="experience_verify_date" onchange="checkInput('experience_verify_date', 'experience_verify_dateAlert')" disabled>
+        <input type="text" class="form-control flatpickr" value="" name="experience_verify_date" id="experience_verify_date" oninput="checkInput('experience_verify_date', 'experience_verify_dateAlert')" disabled>
         <div id="experience_verify_dateAlert" style="color: red; font-size: smaller;"></div>
     </div>
 

@@ -19,13 +19,13 @@ data-reloadPage="false">
     <input type="hidden" name="lesen_memandu_no_pengenalan" id="lesen_memandu_no_pengenalan" value="">
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Jenis Lesen</label>
-        <input type="text" class="form-control" value="" name="license_type" id="license_type" onchange="checkInput('license_type', 'license_typeAlert')" disabled>
+        <input type="text" class="form-control" value="" name="license_type" id="license_type" oninput="checkInput('license_type', 'license_typeAlert')" disabled>
         <div id="license_typeAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Tarikh Tamat</label>
-        <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="license_expiry_date" id="license_expiry_date" onchange="checkInput('license_expiry_date', 'license_expiry_dateAlert')" disabled />
+        <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="license_expiry_date" id="license_expiry_date" oninput="checkInput('license_expiry_date', 'license_expiry_dateAlert')" disabled />
         <div id="license_expiry_dateAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
@@ -40,7 +40,7 @@ data-reloadPage="false">
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Butiran Senarai Hitam</label>
-        <textarea rows="3" class="form-control" name="license_blacklist_details" id="license_blacklist_details" onchange="checkInput('license_blacklist_details', 'license_blacklist_detailsAlert')" disabled>
+        <textarea rows="3" class="form-control" name="license_blacklist_details" id="license_blacklist_details" oninput="checkInput('license_blacklist_details', 'license_blacklist_detailsAlert')" disabled>
         </textarea>
         <div id="license_blacklist_detailsAlert" style="color: red; font-size: smaller;"></div>
     </div>

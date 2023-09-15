@@ -155,6 +155,12 @@ Maklumat Pemohon
         } else {
             alertElement.innerHTML = "";
         }
+
+        // if (inputElement.value === "Tiada Maklumat") {
+        //         inputElement.style.color = "maroon";
+        // } else {
+        //     inputElement.style.color = "";
+        // }
     }
 
     function selectionNull(inputID, formID){
@@ -285,6 +291,7 @@ Maklumat Pemohon
 
                     $('#alamatForm input[name="permanent_address_1"]').attr('disabled', true);
                     $('#alamatForm input[name="permanent_address_1"]').val(data.detail.permanent_address_1 ? data.detail.permanent_address_1 : data_not_available);
+                    // data.detail.permanent_address_1 ? '' : $('#alamatForm input[name="permanent_address_1"]').css('color', 'maroon');
                     originalVal['permanent_address_1'] = data.detail.permanent_address_1;
                     $('#alamatForm input[name="permanent_address_2"]').attr('disabled', true);
                     $('#alamatForm input[name="permanent_address_2"]').val(data.detail.permanent_address_2 ? data.detail.permanent_address_2 : data_not_available);
