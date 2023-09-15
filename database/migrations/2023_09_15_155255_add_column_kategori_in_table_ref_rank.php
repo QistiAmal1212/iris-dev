@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ref_rank', function (Blueprint $table) {
-            $table->string('kategori')->after('name')->nullable();//D->Tentera Darat // U->Tentera Udara // L->Tentera Laut
+            $table->string('kategori')->after('name')->nullable()->comment('D->Tentera Darat, U->Tentera Udara, L->Tentera Laut');//D->Tentera Darat // U->Tentera Udara // L->Tentera Laut
         });
     }
 
