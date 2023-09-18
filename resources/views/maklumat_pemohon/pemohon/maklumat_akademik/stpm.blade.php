@@ -1,4 +1,12 @@
 <div class="row mt-2 mb-2">
+    <div class="card" id="update_stpm" style="display:none">
+        <div class="d-flex justify-content-end align-items-center my-1 ">
+            <a class="me-3 text-danger" type="button" onclick="editStpm()">
+                <i class="fa-regular fa-pen-to-square"></i>
+                Kemaskini
+            </a>
+        </div>
+    </div>
     <form
     id="stpmForm"
     action="{{ route('stpm.store') }}"
@@ -14,7 +22,7 @@
     <input type="hidden" name="id_stpm" id="id_stpm" value="">
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Mata Pelajaran</label>
-        <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm">
+        <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
             <option value=""></option>
             @foreach($subjekStpm as $subjek)
             <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
@@ -24,7 +32,7 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Gred</label>
-        <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm">
+        <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm" disabled>
             <option value=""></option>
             @foreach($gredStpm as $gred)
             <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -34,10 +42,10 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm">
+        <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm" disabled>
     </div>
 
-    <div id="button_action_stpm" style="display:block">
+    <div id="button_action_stpm" style="display:none">
         <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditStpm').trigger('click');">
@@ -65,6 +73,14 @@
     </div>
 
     <hr>
+    <div class="card" id="update_stam" style="display:none">
+        <div class="d-flex justify-content-end align-items-center my-1 ">
+            <a class="me-3 text-danger" type="button" onclick="editStam()">
+                <i class="fa-regular fa-pen-to-square"></i>
+                Kemaskini
+            </a>
+        </div>
+    </div>
     <form
     id="stamForm"
     action="{{ route('stam.store') }}"
@@ -80,7 +96,7 @@
     <input type="hidden" name="id_stam" id="id_stam" value="">
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Mata Pelajaran</label>
-        <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam">
+        <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
             <option value=""></option>
             @foreach($subjekStam as $subjek)
             <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
@@ -90,7 +106,7 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Gred</label>
-        <select class="select2 form-control" value="" id="gred_stam" name="gred_stam">
+        <select class="select2 form-control" value="" id="gred_stam" name="gred_stam" disabled>
             <option value=""></option>
             @foreach($gredStam as $gred)
             <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -100,10 +116,10 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam">
+        <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam" disabled>
     </div>
 
-    <div id="button_action_stam" style="display:block">
+    <div id="button_action_stam" style="display:none">
         <button type="button" id="btnEditStam" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditStam').trigger('click');">
@@ -131,6 +147,14 @@
     </div>
 
     <hr>
+    <div class="card" id="update_matrikulasi" style="display:none">
+        <div class="d-flex justify-content-end align-items-center my-1 ">
+            <a class="me-3 text-danger" type="button" onclick="editMatrikulasi()">
+                <i class="fa-regular fa-pen-to-square"></i>
+                Kemaskini
+            </a>
+        </div>
+    </div>
     <form
     id="matrikulasiForm"
     action="{{ route('matrikulasi.store') }}"
@@ -148,17 +172,17 @@
     <input type="hidden" name="id_matrikulasi" id="id_matrikulasi" value="">
     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Kolej Matrikulasi</label>
-        <select class="select2 form-control" value="" id="kolej_matrikulasi" name="kolej_matrikulasi">
+        <select class="select2 form-control" value="" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
             <option value=""></option>
-            @foreach($matrikulasi as $matrikulasi)
-            <option value="{{ $matrikulasi->code }}">{{ $subjek->name }}</option>
+            @foreach($kolejMatrikulasi as $kolej)
+            <option value="{{ $kolej->code }}">{{ $kolej->name }}</option>
             @endforeach
         </select>
     </div>
 
     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Jurusan</label>
-        <select class="select2 form-control" value="" id="jurusan_matrikulasi" name="jurusan_matrikulasi">
+        <select class="select2 form-control" value="" id="jurusan_matrikulasi" name="jurusan_matrikulasi" disabled>
             <option value=""></option>
             @foreach($jurusanMatrikulasi as $jurusanMatrikulasi)
             <option value="{{ $jurusanMatrikulasi->code }}">{{ $jurusanMatrikulasi->name }}</option>
@@ -168,22 +192,22 @@
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">No. Matrik</label>
-        <input type="text" class="form-control" value="" id="matrik_matrikulasi" name="matrik_matrikulasi">
+        <input type="text" class="form-control" value="" id="matrik_matrikulasi" name="matrik_matrikulasi" disabled>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Sesi</label>
-        <input type="text" class="form-control" value="" id="sesi_matrikulasi" name="sesi_matrikulasi">
+        <input type="text" class="form-control" value="" id="sesi_matrikulasi" name="sesi_matrikulasi" disabled>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Semester</label>
-        <input type="text" class="form-control" value="" id="semester_matrikulasi" name="semester_matrikulasi">
+        <input type="text" class="form-control" value="" id="semester_matrikulasi" name="semester_matrikulasi" disabled>
     </div>
 
     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Mata Pelajaran</label>
-        <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi">
+        <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
             <option value=""></option>
             @foreach($subjekMatrikulasi as $subjekMatrikulasi)
             <option value="{{ $subjekMatrikulasi->code }}">{{ $subjekMatrikulasi->name }}</option>
@@ -193,12 +217,12 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Gred</label>
-        <input type="text" class="form-control" value="" id="gred_matrikulasi" name="gred_matrikulasi">
+        <input type="text" class="form-control" value="" id="gred_matrikulasi" name="gred_matrikulasi" disabled>
     </div>
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">PNGK</label>
-        <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi">
+        <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
     </div>
 
     <div id="button_action_matrikulasi" style="display:block">
@@ -235,6 +259,13 @@
 </div>
 
 <script>
+    function editStpm() {
+        $('#stpmForm select[name="subjek_stpm"]').attr('disabled', false);
+        $('#stpmForm select[name="gred_stpm"]').attr('disabled', false);
+        $('#stpmForm input[name="tahun_stpm"]').attr('disabled', false);
+
+        $("#button_action_stpm").attr("style", "display:block");
+    }
     function reloadStpm() {
         var no_pengenalan = $('#stpm_no_pengenalan').val();
         $('#stpmForm input[name="stpm_no_pengenalan"]').val(no_pengenalan);
@@ -249,6 +280,11 @@
                 $('#stpmForm select[name="subjek_stpm"]').val('').trigger('change');
                 $('#stpmForm select[name="gred_stpm"]').val('').trigger('change');
                 $('#stpmForm input[name="tahun_stpm"]').val('');
+                $('#stpmForm select[name="subjek_stpm"]').attr('disabled', true);
+                $('#stpmForm select[name="gred_stpm"]').attr('disabled', true);
+                $('#stpmForm input[name="tahun_stpm"]').attr('disabled', true);
+
+                $("#button_action_stpm").attr("style", "display:none");
 
 
                 $('#table-stpm tbody').empty();
@@ -313,8 +349,20 @@
         $.ajax({
             url: reloadStpmUrl,
             type: 'POST',
+            async: true,
+            success: function(data){
+                reloadStpm();
+            }
         });
-        reloadStpm()
+
+    }
+
+    function editStam() {
+        $('#stamForm select[name="subjek_stam"]').attr('disabled', false);
+        $('#stamForm select[name="gred_stam"]').attr('disabled', false);
+        $('#stamForm input[name="tahun_stam"]').attr('disabled', false);
+
+        $("#button_action_stam").attr("style", "display:block");
     }
 
     function reloadStam() {
@@ -331,6 +379,11 @@
                 $('#stamForm select[name="subjek_stam"]').val('').trigger('change');
                 $('#stamForm select[name="gred_stam"]').val('').trigger('change');
                 $('#stamForm input[name="tahun_stam"]').val('');
+                $('#stamForm select[name="subjek_stam"]').attr('disabled', true);
+                $('#stamForm select[name="gred_stam"]').attr('disabled', true);
+                $('#stamForm input[name="tahun_stam"]').attr('disabled', true);
+
+                $("#button_action_stam").attr("style", "display:none");
 
 
                 $('#table-stam tbody').empty();
@@ -395,8 +448,25 @@
         $.ajax({
             url: reloadStamUrl,
             type: 'POST',
+            async: true,
+            success: function(data){
+                reloadStam();
+            }
         });
-        reloadStam()
+
+    }
+
+    function editMatrikulasi() {
+        $('#matrikulasiForm select[name="kolej_matrikulasi"]').attr('disabled', false);
+        $('#matrikulasiForm select[name="jurusan_matrikulasi"]').attr('disabled', false);
+        $('#matrikulasiForm input[name="matrik_matrikulasi"]').attr('disabled', false);
+        $('#matrikulasiForm input[name="sesi_matrikulasi"]').attr('disabled', false);
+        $('#matrikulasiForm input[name="semester_matrikulasi"]').attr('disabled', false);
+        $('#matrikulasiForm select[name="subjek_matrikulasi"]').attr('disabled', false);
+        $('#matrikulasiForm input[name="gred_matrikulasi"]').attr('disabled', false);
+        $('#matrikulasiForm input[name="pngk_matrikulasi"]').attr('disabled', false);
+
+        $("#button_action_matrikulasi").attr("style", "display:block");
     }
 
     function reloadMatrikulasi() {
@@ -418,6 +488,17 @@
                 $('#matrikulasiForm select[name="subjek_matrikulasi"]').val('').trigger('change');
                 $('#matrikulasiForm input[name="gred_matrikulasi"]').val('');
                 $('#matrikulasiForm input[name="pngk_matrikulasi"]').val('');
+
+                $('#matrikulasiForm select[name="kolej_matrikulasi"]').attr('disabled', true);
+                $('#matrikulasiForm select[name="jurusan_matrikulasi"]').attr('disabled', true);
+                $('#matrikulasiForm input[name="matrik_matrikulasi"]').attr('disabled', true);
+                $('#matrikulasiForm input[name="sesi_matrikulasi"]').attr('disabled', true);
+                $('#matrikulasiForm input[name="semester_matrikulasi"]').attr('disabled', true);
+                $('#matrikulasiForm select[name="subjek_matrikulasi"]').attr('disabled', true);
+                $('#matrikulasiForm input[name="gred_matrikulasi"]').attr('disabled', true);
+                $('#matrikulasiForm input[name="pngk_matrikulasi"]').attr('disabled', true);
+
+                $("#button_action_matrikulasi").attr("style", "display:none");
 
                 $('#table-matrikulasi tbody').empty();
                 var trMatrikulasi = '';
@@ -493,7 +574,11 @@
         $.ajax({
             url: reloadMatrikulasiUrl,
             type: 'POST',
+            async: true,
+            success: function(data){
+                reloadMatrikulasi();
+            }
         });
-        reloadMatrikulasi()
+
     }
 </script>

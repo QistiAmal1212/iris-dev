@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidate\CandidateLanguage;
 use App\Models\Candidate\CandidateLicense;
 use App\Models\Candidate\CandidateMatriculation;
 use App\Models\Candidate\CandidateOku;
+use App\Models\Candidate\CandidatePsl;
 use App\Models\Reference\KodPelbagai;
+use App\Models\Reference\Language;
 use App\Models\Reference\MatriculationSubject;
 use App\Models\Reference\Qualification;
 use App\Models\Reference\Talent;
@@ -81,13 +84,15 @@ class MaklumatPemohonController extends Controller
         $subjekStam = Subject::where('form', 6)->orderBy('name', 'asc')->get();
         $skmkod = Qualification::orderBy('name', 'asc')->get();
         $talentkod = Talent::orderBy('name', 'asc')->get();
-        $matrikulasi = Matriculation::orderBy('name', 'asc')->get();
+        $kolejMatrikulasi = Matriculation::orderBy('name', 'asc')->get();
         $jurusanMatrikulasi = MatriculationCourse::orderBy('name', 'asc')->get();
         $subjekMatrikulasi =  MatriculationSubject::orderBy('name', 'asc')->get();
         $kategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->orderBy('nama', 'asc')->get();
+        $Bahasa = Language::orderBy('name', 'asc')->get();
+        $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->orderBy('nama', 'asc')->get();
+        $jenisPeperiksaan = Qualification::orderBy('name', 'asc')->get();
 
-
-        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'matrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU' ));
+        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'kolejMatrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU', 'Bahasa', 'kategoriPenguasaan', 'jenisPeperiksaan' ));
     }
 
     public function viewMaklumatPemohon(){
@@ -481,9 +486,9 @@ class MaklumatPemohonController extends Controller
             if($candidateLesen){
                 CandidateLicense::where('no_pengenalan',$request->lesen_memandu_no_pengenalan)->update([
                     'type' => $request->license_type,
-                'expiry_date' => $request->license_expiry_date,
-                'is_blacklist' => $request->license_blacklist_status,
-                'blacklist_details' => $request->license_blacklist_details,
+                    'expiry_date' => $request->license_expiry_date,
+                    'is_blacklist' => $request->license_blacklist_status,
+                    'blacklist_details' => $request->license_blacklist_details,
                 ]);
             }else{
                 CandidateLicense::create([
@@ -1617,6 +1622,117 @@ class MaklumatPemohonController extends Controller
         return response()->json(['message' => 'Record deleted successfully'], 200);
     }
 
+    public function storeBahasa(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'nama_bahasa' => 'required|string',
+                'penguasaan_bahasa' => 'required|string',
+            ],[
+                'nama_bahasa.required' => 'Sila pilih bahasa',
+                'penguasaan_bahasa.required' => 'Sila pilih penguasaan',
+
+            ]);
+
+            CandidateLanguage::create([
+                'no_pengenalan' => $request->bahasa_no_pengenalan,
+                'ref_language_code' => $request->nama_bahasa,
+                'level' => $request->penguasaan_bahasa,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->bahasa_no_pengenalan,
+                'details' => 'Tambah Maklumat Tambahan (Bahasa)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listBahasa(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $candidateBahasa = CandidateLanguage::select(
+            )->where('no_pengenalan', $request->noPengenalan)->with(['language'])->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateBahasa]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updateBahasa(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'nama_bahasa' => 'required|string',
+                'penguasaan_bahasa' => 'required|string',
+            ],[
+                'nama_bahasa.required' => 'Sila pilih bahasa',
+                'penguasaan_bahasa.required' => 'Sila pilih penguasaan',
+
+            ]);
+
+            CandidateLanguage::where('id',$request->id_bahasa)->update([
+                'ref_language_code' => $request->nama_bahasa,
+                'level' => $request->penguasaan_bahasa,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->bahasa_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Tamabahan (Bahasa)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteBahasa(Request $request){
+        $bahasa = CandidateLanguage::find($request-> idBahasa);
+
+        if (!$bahasa) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $bahasa->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
     public function storeBakat(Request $request)
     {
         DB::beginTransaction();
@@ -1811,6 +1927,120 @@ class MaklumatPemohonController extends Controller
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
     }
+
+    public function storePsl(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'jenis_peperiksaan' => 'required|string',
+                'tarikh_peperiksaan' => 'required|string',
+            ],[
+                'jenis_peperiksaan.required' => 'Sila pilih jenis peperiksaan',
+                'tarikh_peperiksaan.required' => 'Sila pilih tarikh peperiksaan',
+
+            ]);
+
+            CandidatePsl::create([
+                'no_pengenalan' => $request->psl_no_pengenalan,
+                'ref_qualification_code' => $request->jenis_peperiksaan,
+                'exam_date' => Carbon::createFromFormat('d/m/Y', $request->tarikh_peperiksaan)->format('Y-m-d'),
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->psl_no_pengenalan,
+                'details' => 'Tambah Maklumat Pegawai Berkhidmat (PSL)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listPsl(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $candidatePsl = CandidatePsl::select(
+                '*',
+                    DB::raw("DATE_FORMAT(exam_date, '%d/%m/%Y') as examDate")
+            )->where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePsl]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+
+    public function updatePsl(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'jenis_peperiksaan' => 'required|string',
+                'tarikh_peperiksaan' => 'required|string',
+            ],[
+                'jenis_peperiksaan.required' => 'Sila pilih jenis peperiksaan',
+                'tarikh_peperiksaan.required' => 'Sila pilih tarikh peperiksaan',
+
+            ]);
+
+            CandidatePsl::where('id',$request->id_psl)->update([
+                'ref_qualification_code' => $request->jenis_peperiksaan,
+                'exam_date' => Carbon::createFromFormat('d/m/Y', $request->tarikh_peperiksaan)->format('Y-m-d'),
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->psl_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Pegawai Berkhidmat (PSL)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deletePsl(Request $request){
+        $psl = CandidatePsl::find($request-> idPsl);
+
+        if (!$psl) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $psl->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
+    }
+
 
     public function updateExperience(Request $request)
     {

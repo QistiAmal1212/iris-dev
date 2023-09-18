@@ -94,6 +94,13 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::post('delete/{idSkm}', 'deleteSkm')->name('skm.delete');
         });
 
+        Route::prefix('bahasa')->group(function () {
+            Route::post('store', 'storeBahasa')->name('bahasa.store');
+            Route::get('list/{noPengenalan}', 'listBahasa')->name('bahasa.list');
+            Route::post('update', 'updateBahasa')->name('bahasa.update');
+            Route::post('delete/{idBahasa}', 'deleteBahasa')->name('bahasa.delete');
+        });
+
         Route::prefix('bakat')->group(function () {
             Route::post('store', 'storeBakat')->name('bakat.store');
             Route::get('list/{noPengenalan}', 'listBakat')->name('bakat.list');
@@ -109,6 +116,13 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::prefix('experience')->group(function () {
             Route::post('update', 'updateExperience')->name('experience.update');
             Route::get('details/{noPengenalan}', 'experienceDetails')->name('experience.details');
+        });
+
+        Route::prefix('psl')->group(function () {
+            Route::post('store', 'storePsl')->name('psl.store');
+            Route::get('list/{noPengenalan}', 'listPsl')->name('psl.list');
+            Route::post('update', 'updatePsl')->name('psl.update');
+            Route::post('delete/{idPsl}', 'deletePsl')->name('psl.delete');
         });
 
         Route::prefix('tentera_polis')->group(function () {
