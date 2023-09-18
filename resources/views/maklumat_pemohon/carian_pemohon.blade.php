@@ -348,7 +348,7 @@ Maklumat Pemohon
                         $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', true);
                         $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expiryDate ? data.detail.license.expiryDate : data_not_available);
                         originalVal['license_expiry_date'] = data.detail.license.expiryDate;
-                        if(data.detail.license.is_blacklist) { $('#tempatLahirForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).trigger('change'); }
+                        if(data.detail.license.is_blacklist) { $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).trigger('change'); }
                         else { selectionNull('license_blacklist_status', 'lesenMemanduForm'); }
                         originalVal['license_blacklist_status'] = data.detail.license.is_blacklist;
                         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', true);
@@ -376,8 +376,9 @@ Maklumat Pemohon
                         $('#okuForm input[name="oku_status"]').attr('disabled', true);
                         $('#okuForm input[name="oku_status"]').val(data.detail.oku.status ? data.detail.oku.status : data_not_available);
                         originalVal['oku_status'] = data.detail.oku.status;
-                        $('#okuForm input[name="oku_category"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_category"]').val(data.detail.oku.category ? data.detail.oku.category : data_not_available);
+                        // $('#okuForm input[name="oku_category"]').attr('disabled', true);
+                        if(data.detail.oku.category) { $('#okuForm select[name="oku_category"]').val(data.detail.oku.category).trigger('change'); }
+                        else { selectionNull('oku_category', 'okuForm'); }
                         originalVal['oku_category'] = data.detail.oku.category;
                         $('#okuForm input[name="oku_sub"]').attr('disabled', true);
                         $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub ? data.detail.oku.sub : data_not_available);
@@ -389,8 +390,8 @@ Maklumat Pemohon
                         $('#okuForm input[name="oku_status"]').attr('disabled', true);
                         $('#okuForm input[name="oku_status"]').val(data_not_available);
                         originalVal['oku_status'] = "";
-                        $('#okuForm input[name="oku_category"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_category"]').val(data_not_available);
+                        // $('#okuForm input[name="oku_category"]').attr('disabled', true);
+                        selectionNull('oku_category', 'okuForm');
                         originalVal['oku_category'] = "";
                         $('#okuForm input[name="oku_sub"]').attr('disabled', true);
                         $('#okuForm input[name="oku_sub"]').val(data_not_available);

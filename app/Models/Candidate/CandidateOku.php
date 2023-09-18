@@ -3,6 +3,7 @@
 namespace App\Models\Candidate;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CandidateOku extends Model
 {
@@ -17,4 +18,9 @@ class CandidateOku extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function kategori()
+    {
+        return $this->belongsTo('App\Models\Reference\KodPelbagai', 'category', 'kod');
+    }
 }

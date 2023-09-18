@@ -18,4 +18,14 @@ class Specialization extends Model
         'updated_by',
         'is_active',
     ];
+
+    public function jenis()
+    {
+        return $this->belongsTo('App\Models\Reference\KodPelbagai', 'type', 'kod');
+    }
+
+    public function bidang()
+    {
+        return $this->belongsTo('App\Models\Reference\KodPelbagai', 'field', 'kod');
+    }
 }

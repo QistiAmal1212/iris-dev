@@ -30,7 +30,12 @@ data-reloadPage="false">
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">Kategori OKU</label>
-            <input type="text" class="form-control" value="" name="oku_category" id="oku_category" oninput="checkInput('oku_category', 'oku_categoryAlert')" disabled>
+            <select class="select2 form-control" name="oku_category" id="oku_category" disabled>
+                <option value=""></option>
+                @foreach($kategoriOKU as $kategori)
+                <option value="{{ $kategori->kod }}">{{ $kategori->nama }}</option>
+                @endforeach
+            </select>
             <div id="oku_categoryAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
@@ -66,7 +71,7 @@ data-reloadPage="false">
     function editOKU() {
         $('#okuForm input[name="oku_registration_no"]').attr('disabled', false);
         $('#okuForm input[name="oku_status"]').attr('disabled', false);
-        $('#okuForm input[name="oku_category"]').attr('disabled', false);
+        $('#okuForm select[name="oku_category"]').attr('disabled', false);
         $('#okuForm input[name="oku_sub"]').attr('disabled', false);
 
         $("#button_action_oku").attr("style", "display:block");
@@ -86,8 +91,8 @@ data-reloadPage="false">
                 $('#okuForm input[name="oku_registration_no"]').attr('disabled', true);
                 $('#okuForm input[name="oku_status"]').val(data.detail.oku.status);
                 $('#okuForm input[name="oku_status"]').attr('disabled', true);
-                $('#okuForm input[name="oku_category"]').val(data.detail.oku.category);
-                $('#okuForm input[name="oku_category"]').attr('disabled', true);
+                $('#okuForm select[name="oku_category"]').val(data.detail.oku.category);
+                $('#okuForm select[name="oku_category"]').attr('disabled', true);
                 $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub);
                 $('#okuForm input[name="oku_sub"]').attr('disabled', true);
 

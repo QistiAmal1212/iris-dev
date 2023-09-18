@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidate\CandidateLicense;
 use App\Models\Candidate\CandidateMatriculation;
 use App\Models\Candidate\CandidateOku;
+use App\Models\Reference\KodPelbagai;
 use App\Models\Reference\MatriculationSubject;
 use App\Models\Reference\Qualification;
 use App\Models\Reference\Talent;
@@ -83,9 +84,10 @@ class MaklumatPemohonController extends Controller
         $matrikulasi = Matriculation::orderBy('name', 'asc')->get();
         $jurusanMatrikulasi = MatriculationCourse::orderBy('name', 'asc')->get();
         $subjekMatrikulasi =  MatriculationSubject::orderBy('name', 'asc')->get();
+        $kategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->orderBy('nama', 'asc')->get();
 
 
-        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'matrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi' ));
+        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'matrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU' ));
     }
 
     public function viewMaklumatPemohon(){
@@ -474,13 +476,24 @@ class MaklumatPemohonController extends Controller
                 'license_blacklist_details.required' => 'Sila pilih butiran senarai hitam',
             ]);
 
-            CandidateLicense::updateOrCreate([
-                'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
-                'type' => $request->license_type,
+            $candidateLesen = CandidateLicense::where('no_pengenalan', $request->lesen_memandu_no_pengenalan)->first();
+
+            if($candidateLesen){
+                CandidateLicense::where('no_pengenalan',$request->lesen_memandu_no_pengenalan)->update([
+                    'type' => $request->license_type,
                 'expiry_date' => $request->license_expiry_date,
                 'is_blacklist' => $request->license_blacklist_status,
                 'blacklist_details' => $request->license_blacklist_details,
-            ]);
+                ]);
+            }else{
+                CandidateLicense::create([
+                    'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
+                    'type' => $request->license_type,
+                    'expiry_date' => $request->license_expiry_date,
+                    'is_blacklist' => $request->license_blacklist_status,
+                    'blacklist_details' => $request->license_blacklist_details,
+                ]);
+            }
 
             CandidateTimeline::create([
                 'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
@@ -545,13 +558,24 @@ class MaklumatPemohonController extends Controller
                 'oku_sub.required' => 'Sila pilih sub-kategori',
             ]);
 
-            CandidateOku::updateOrCreate([
-                'no_pengenalan' => $request->oku_no_pengenalan,
-                'no_registration' => $request->oku_registration_no,
-                'status' => $request->oku_status,
-                'category' => $request->oku_category,
-                'sub' => $request->oku_sub,
-            ]);
+            $candidateOku = CandidateOku::where('no_pengenalan', $request->oku_no_pengenalan)->first();
+
+            if($candidateOku){
+                CandidateOku::where('no_pengenalan',$request->oku_no_pengenalan)->update([
+                    'no_registration' => $request->oku_registration_no,
+                    'status' => $request->oku_status,
+                    'category' => $request->oku_category,
+                    'sub' => $request->oku_sub,
+                ]);
+            }else{
+                CandidateOku::create([
+                    'no_pengenalan' => $request->oku_no_pengenalan,
+                    'no_registration' => $request->oku_registration_no,
+                    'status' => $request->oku_status,
+                    'category' => $request->oku_category,
+                    'sub' => $request->oku_sub,
+                ]);
+            }
 
             CandidateTimeline::create([
                 'no_pengenalan' => $request->oku_no_pengenalan,
