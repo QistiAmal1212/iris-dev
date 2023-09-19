@@ -113,8 +113,8 @@ class MaklumatPemohonController extends Controller
                 'skim' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("to_date(register_date::text, 'DD/MM/YYYY') as registerDate"),
-                        DB::raw("to_date(expiry_date::text, 'DD/MM/YYYY') as expiryDate")
+                        DB::raw("to_char(register_date::DATE, 'DD/MM/YYYY') as registerDate"),
+                        DB::raw("to_char(expiry_date::DATE, 'DD/MM/YYYY') as expiryDate")
                     );
                     $query->with(['skim', 'interviewCentre']);
                 },
@@ -127,7 +127,7 @@ class MaklumatPemohonController extends Controller
                 'higherEducation' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("to_date(tarikh_senat, 'DD/MM/YYYY') as tarikhSenat")
+                        DB::raw("to_char(tarikh_senat::DATE, 'DD/MM/YYYY') as tarikhSenat")
                     );
                     $query->with(['institution', 'eligibility', 'specialization']);
                 },
