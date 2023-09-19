@@ -486,7 +486,7 @@ class MaklumatPemohonController extends Controller
             if($candidateLesen){
                 CandidateLicense::where('no_pengenalan',$request->lesen_memandu_no_pengenalan)->update([
                     'type' => $request->license_type,
-                    'expiry_date' => $request->license_expiry_date,
+                    'expiry_date' => Carbon::createFromFormat('d/m/Y', $request->license_expiry_date)->format('Y-m-d'),
                     'is_blacklist' => $request->license_blacklist_status,
                     'blacklist_details' => $request->license_blacklist_details,
                 ]);
@@ -494,7 +494,7 @@ class MaklumatPemohonController extends Controller
                 CandidateLicense::create([
                     'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
                     'type' => $request->license_type,
-                    'expiry_date' => $request->license_expiry_date,
+                    'expiry_date' => Carbon::createFromFormat('d/m/Y', $request->license_expiry_date)->format('Y-m-d'),
                     'is_blacklist' => $request->license_blacklist_status,
                     'blacklist_details' => $request->license_blacklist_details,
                 ]);
