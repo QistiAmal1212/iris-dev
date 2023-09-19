@@ -1,3 +1,11 @@
+<div class="card" id="update_pmr" style="display:none">
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3 text-danger" type="button" onclick="editPmr()">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Kemaskini
+        </a>
+    </div>
+</div>
 <form
 id="pmrForm"
 action="{{ route('pmr.store') }}"
@@ -11,7 +19,7 @@ data-reloadPage="false">
     <input type="hidden" name="id_pmr" id="id_pmr" value="">
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Mata Pelajaran</label>
-        <select class="select2 form-control" value="" id="subjek_pmr" name="subjek_pmr">
+        <select class="select2 form-control" value="" id="subjek_pmr" name="subjek_pmr" disabled>
             <option value=""></option>
             @foreach($subjekPmr as $subjek)
             <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
@@ -21,7 +29,7 @@ data-reloadPage="false">
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Gred</label>
-        <select class="select2 form-control" value="" id="gred_pmr" name="gred_pmr">
+        <select class="select2 form-control" value="" id="gred_pmr" name="gred_pmr" disabled>
             <option value=""></option>
             @foreach($gredPmr as $gred)
             <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -31,10 +39,10 @@ data-reloadPage="false">
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" id="tahun_pmr" name="tahun_pmr">
+        <input type="text" class="form-control" value="" id="tahun_pmr" name="tahun_pmr" disabled>
     </div>
 
-    <div id="button_action_pmr" style="display:block">
+    <div id="button_action_pmr" style="display:none">
         <button type="button" id="btnEditPmr" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPmr').trigger('click');">
@@ -62,8 +70,16 @@ data-reloadPage="false">
 </div>
 
 <script>
+
+    function editPmr() {
+        $('#pmrForm select[name="subjek_pmr"]').attr('disabled', false);
+        $('#pmrForm select[name="gred_pmr"]').attr('disabled', false);
+        $('#pmrForm input[name="tahun_pmr"]').attr('disabled', false);
+
+        $("#button_action_pmr").attr("style", "display:block");
+    }
     function reloadPmr() {
-        var no_pengenalan = $('#pmr_no_pengenalan').val();
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
         $('#pmrForm input[name="pmr_no_pengenalan"]').val(no_pengenalan);
 
         var reloadPmrUrl = "{{ route('pmr.list', ':replaceThis') }}"
@@ -76,6 +92,13 @@ data-reloadPage="false">
                 $('#pmrForm select[name="subjek_pmr"]').val('').trigger('change');
                 $('#pmrForm select[name="gred_pmr"]').val('').trigger('change');
                 $('#pmrForm input[name="tahun_pmr"]').val('');
+                $('#pmrForm select[name="subjek_pmr"]').attr('disabled', true);
+                $('#pmrForm select[name="gred_pmr"]').attr('disabled', true);
+                $('#pmrForm input[name="tahun_pmr"]').attr('disabled', true);
+                $('#pmrForm').attr('action', "{{ route('pmr.store')  }}");
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+
+                $("#button_action_pmr").attr("style", "display:none");
 
                 $('#table-pmr tbody').empty();
                 var trPmr = '';
@@ -138,7 +161,10 @@ data-reloadPage="false">
         $.ajax({
             url: reloadPmrUrl,
             type: 'POST',
+            async: true,
+            success: function(data){
+                reloadPmr();
+            }
         });
-        reloadPmr();    
     }
 </script>

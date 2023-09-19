@@ -19,4 +19,9 @@ class CandidateLanguage extends Model
     public function language() {
         return $this->belongsTo('App\Models\Reference\Language', 'ref_language_code', 'code');
     }
+
+    public function kategori()
+    {
+        return $this->belongsTo('App\Models\Reference\KodPelbagai', 'level', 'kod');
+    }
 }

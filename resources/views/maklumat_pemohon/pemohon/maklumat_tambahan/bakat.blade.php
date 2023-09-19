@@ -1,3 +1,11 @@
+<div class="card" id="update_bakat" style="display:none">
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3 text-danger" type="button" onclick="editBakat()">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Kemaskini
+        </a>
+    </div>
+</div>
 <form
 id="bakatForm"
 action="{{ route('bakat.store') }}"
@@ -9,9 +17,9 @@ data-reloadPage="false">
 <div class="row mt-2 mb-2">
     <input type="hidden" name="bakat_no_pengenalan" id="bakat_no_pengenalan" value="">
     <input type="hidden" name="id_bakat" id="id_bakat" value="">
-    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Bakat</label>
-        <select class="select2 form-control" value="" id="nama_bakat" name="nama_bakat">
+        <select class="select2 form-control" value="" id="nama_bakat" name="nama_bakat" disabled>
             <option value=""></option>
             @foreach($talentkod as $bakat)
             <option value="{{ $bakat->code }}">{{ $bakat->name }}</option>
@@ -19,7 +27,7 @@ data-reloadPage="false">
         </select>
     </div>
 
-    <div id="button_action_bakat" style="display:block">
+    <div id="button_action_bakat" style="display:none">
         <button type="button" id="btnEditBakat" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditBakat').trigger('click');">
@@ -44,8 +52,13 @@ data-reloadPage="false">
 </div>
 
 <script>
+    function editBakat() {
+        $('#bakatForm select[name="nama_bakat"]').attr('disabled', false);
+
+        $("#button_action_bakat").attr("style", "display:block");
+    }
     function reloadBakat() {
-        var no_pengenalan = $('#bakat_no_pengenalan').val();
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
         $('#bakatForm input[name="bakat_no_pengenalan"]').val(no_pengenalan);
 
         var reloadBakatUrl = "{{ route('bakat.list', ':replaceThis') }}"
@@ -56,7 +69,11 @@ data-reloadPage="false">
             async: true,
             success: function(data) {
                 $('#bakatForm select[name="nama_bakat"]').val('').trigger('change');
+                $('#bakatForm select[name="nama_bakat"]').attr('disabled', true);
+                $('#bakatForm').attr('action', "{{ route('bakat.store')  }}");
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
 
+                $("#button_action_bakat").attr("style", "display:block");
 
                 $('#table-talent tbody').empty();
                 var trBakat = '';
@@ -113,7 +130,10 @@ data-reloadPage="false">
         $.ajax({
             url: reloadBakatUrl,
             type: 'POST',
+            async: true,
+            success: function(data){
+                reloadBakat();
+            }
         });
-        reloadBakat()
     }
 </script>

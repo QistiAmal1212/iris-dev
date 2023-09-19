@@ -1,4 +1,12 @@
 <div class="row mt-2 mb-2">
+    <div class="card" id="update_spm" style="display:none">
+        <div class="d-flex justify-content-end align-items-center my-1 ">
+            <a class="me-3 text-danger" type="button" onclick="editSpm()">
+                <i class="fa-regular fa-pen-to-square"></i>
+                Kemaskini
+            </a>
+        </div>
+    </div>
     <form
     id="spmForm"
     action="{{ route('spm.store') }}"
@@ -14,7 +22,7 @@
     <input type="hidden" name="id_spm" id="id_spm" value="">
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Mata Pelajaran</label>
-        <select class="select2 form-control" value="" id="subjek_spm" name="subjek_spm">
+        <select class="select2 form-control" value="" id="subjek_spm" name="subjek_spm" disabled>
             <option value=""></option>
             @foreach($subjekSpm as $subjek)
             <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
@@ -24,7 +32,7 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Gred</label>
-        <select class="select2 form-control" value="" id="gred_spm" name="gred_spm">
+        <select class="select2 form-control" value="" id="gred_spm" name="gred_spm" disabled>
             <option value=""></option>
             @foreach($gredSpm as $gred)
             <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -34,10 +42,10 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" id="tahun_spm" name="tahun_spm">
+        <input type="text" class="form-control" value="" id="tahun_spm" name="tahun_spm" disabled>
     </div>
 
-    <div id="button_action_spm" style="display:block">
+    <div id="button_action_spm" style="display:none">
         <button type="button" id="btnEditSpm" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditSpm').trigger('click');">
@@ -67,6 +75,14 @@
 
     <hr>
 
+    <div class="card" id="update_spmv" style="display:none">
+        <div class="d-flex justify-content-end align-items-center my-1 ">
+            <a class="me-3 text-danger" type="button" onclick="editSpmv()">
+                <i class="fa-regular fa-pen-to-square"></i>
+                Kemaskini
+            </a>
+        </div>
+    </div>
     <form
     id="spmvForm"
     action="{{ route('spmv.store') }}"
@@ -83,7 +99,7 @@
     <input type="hidden" name="id_spmv" id="id_spmv" value="">
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Mata Pelajaran</label>
-        <select class="select2 form-control" value="" id="subjek_spmv" name="subjek_spmv">
+        <select class="select2 form-control" value="" id="subjek_spmv" name="subjek_spmv" disabled>
             <option value=""></option>
             @foreach($subjekSpmv as $subjek)
             <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
@@ -93,7 +109,7 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Gred</label>
-        <select class="select2 form-control" value="" id="gred_spmv" name="gred_spmv">
+        <select class="select2 form-control" value="" id="gred_spmv" name="gred_spmv" disabled>
             <option value=""></option>
             @foreach($gredSpmv as $gred)
             <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -103,10 +119,10 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" id="tahun_spmv" name="tahun_spmv">
+        <input type="text" class="form-control" value="" id="tahun_spmv" name="tahun_spmv" disabled>
     </div>
 
-    <div id="button_action_spmv" style="display:block">
+    <div id="button_action_spmv" style="display:none">
         <button type="button" id="btnEditSpmv" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditSpmv').trigger('click');">
@@ -135,6 +151,14 @@
 
     <hr>
 
+    <div class="card" id="update_svm" style="display:none">
+        <div class="d-flex justify-content-end align-items-center my-1 ">
+            <a class="me-3 text-danger" type="button" onclick="editSvm()">
+                <i class="fa-regular fa-pen-to-square"></i>
+                Kemaskini
+            </a>
+        </div>
+    </div>
     <form
     id="svmForm"
     action="{{ route('svm.store') }}"
@@ -150,7 +174,7 @@
     <input type="hidden" name="id_svm" id="id_svm" value="">
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Mata Pelajaran</label>
-        <select class="select2 form-control" value="" id="subjek_svm" name="subjek_svm">
+        <select class="select2 form-control" value="" id="subjek_svm" name="subjek_svm" disabled>
             <option value=""></option>
             @foreach($subjekSvm as $subjek)
             <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
@@ -160,7 +184,7 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Gred</label>
-        <select class="select2 form-control" value="" id="gred_svm" name="gred_svm">
+        <select class="select2 form-control" value="" id="gred_svm" name="gred_svm" disabled>
             <option value=""></option>
             @foreach($gredSvm as $gred)
             <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -170,10 +194,10 @@
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" id="tahun_svm" name="tahun_svm">
+        <input type="text" class="form-control" value="" id="tahun_svm" name="tahun_svm" disabled>
     </div>
 
-    <div id="button_action_svm" style="display:block">
+    <div id="button_action_svm" style="display:none">
         <button type="button" id="btnEditSvm" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditSvm').trigger('click');">
@@ -202,6 +226,13 @@
 </div>
 
 <script>
+    function editSpm() {
+        $('#spmForm select[name="subjek_spm"]').attr('disabled', false);
+        $('#spmForm select[name="gred_spm"]').attr('disabled', false);
+        $('#spmForm input[name="tahun_spm"]').attr('disabled', false);
+
+        $("#button_action_spm").attr("style", "display:block");
+    }
     function reloadSpm() {
         var no_pengenalan = $('#spm_no_pengenalan').val();
         $('#spmForm input[name="spm_no_pengenalan"]').val(no_pengenalan);
@@ -216,6 +247,11 @@
                 $('#spmForm select[name="subjek_spm"]').val('').trigger('change');
                 $('#spmForm select[name="gred_spm"]').val('').trigger('change');
                 $('#spmForm input[name="tahun_spm"]').val('');
+                $('#spmForm select[name="subjek_spm"]').attr('disabled', true);
+                $('#spmForm select[name="gred_spm"]').attr('disabled', true);
+                $('#spmForm input[name="tahun_spm"]').attr('disabled', true);
+
+                $("#button_action_spm").attr("style", "display:none");
 
 
                 $('#table-spm tbody').empty();
@@ -280,10 +316,21 @@
         $.ajax({
             url: reloadSpmUrl,
             type: 'POST',
+            async: true,
+            success: function(data){
+                reloadSpm();
+            }
         });
-        reloadSpm()
+
     }
 
+    function editSpmv() {
+        $('#spmvForm select[name="subjek_spmv"]').attr('disabled', false);
+        $('#spmvForm select[name="gred_spmv"]').attr('disabled', false);
+        $('#spmvForm input[name="tahun_spmv"]').attr('disabled', false);
+
+        $("#button_action_spmv").attr("style", "display:block");
+    }
     function reloadSpmv() {
         var no_pengenalan = $('#spmv_no_pengenalan').val();
         $('#spmvForm input[name="spmv_no_pengenalan"]').val(no_pengenalan);
@@ -299,6 +346,11 @@
                 $('#spmvForm select[name="subjek_spmv"]').val('').trigger('change');
                 $('#spmvForm select[name="gred_spmv"]').val('').trigger('change');
                 $('#spmvForm input[name="tahun_spmv"]').val('');
+                $('#spmvForm select[name="subjek_spmv"]').attr('disabled', true);
+                $('#spmvForm select[name="gred_spmv"]').attr('disabled', true);
+                $('#spmvForm input[name="tahun_spmv"]').attr('disabled', true);
+
+                $("#button_action_spmv").attr("style", "display:none");
 
 
                 $('#table-spmv tbody').empty();
@@ -363,8 +415,19 @@
         $.ajax({
             url: reloadSpmvUrl,
             type: 'POST',
+            async: true,
+            success: function(data){
+                reloadSpmv();
+            }
         });
-        reloadSpmv()
+    }
+
+    function editSvm() {
+        $('#svmForm select[name="subjek_svm"]').attr('disabled', false);
+        $('#svmForm select[name="gred_svm"]').attr('disabled', false);
+        $('#svmForm input[name="tahun_svm"]').attr('disabled', false);
+
+        $("#button_action_svm").attr("style", "display:block");
     }
 
     function reloadSvm() {
@@ -382,6 +445,11 @@
                 $('#svmForm select[name="subjek_svm"]').val('').trigger('change');
                 $('#svmForm select[name="gred_svm"]').val('').trigger('change');
                 $('#svmForm input[name="tahun_svm"]').val('');
+                $('#svmForm select[name="subjek_svm"]').attr('disabled', true);
+                $('#svmForm select[name="gred_svm"]').attr('disabled', true);
+                $('#svmForm input[name="tahun_svm"]').attr('disabled', true);
+
+                $("#button_action_svm").attr("style", "display:none");
 
 
                 $('#table-svm tbody').empty();
@@ -446,7 +514,11 @@
         $.ajax({
             url: reloadSvmUrl,
             type: 'POST',
+            async: true,
+            success: function(data){
+                reloadSvm();
+            }
         });
-        reloadSvm()
+
     }
 </script>

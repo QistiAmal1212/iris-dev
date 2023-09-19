@@ -220,6 +220,13 @@ Maklumat Pemohon
         }).then((result) => {
         if (result.isConfirmed) {
             $('#'+btnName).trigger('click');
+            // for (var key in originalVal) {
+            //     if (originalVal.hasOwnProperty(key)) {
+            //         if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+            //             originalVal[key] = newValues[key];
+            //         }
+            //     }
+            // }
         }
         })
     }
@@ -248,6 +255,17 @@ Maklumat Pemohon
                     $('#update_penalty').attr("style", "display:block");
                     $('#update_lesen_memandu').attr("style", "display:block");
                     $('#update_oku').attr("style", "display:block");
+                    $('#update_pmr').attr("style", "display:block");
+                    $('#update_skm').attr("style", "display:block");
+                    $('#update_bahasa').attr("style", "display:block");
+                    $('#update_bakat').attr("style", "display:block");
+                    $('#update_psl').attr("style", "display:block");
+                    $('#update_spm').attr("style", "display:block");
+                    $('#update_spmv').attr("style", "display:block");
+                    $('#update_svm').attr("style", "display:block");
+                    $('#update_stpm').attr("style", "display:block");
+                    $('#update_stam').attr("style", "display:block");
+                    $('#update_matrikulasi').attr("style", "display:block");
 
                     $('#candidate_name').html(data.detail.full_name);
                     $('#candidate_ic').html(data.detail.no_ic);
@@ -348,6 +366,7 @@ Maklumat Pemohon
                         $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', true);
                         $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expiryDate ? data.detail.license.expiryDate : data_not_available);
                         originalVal['license_expiry_date'] = data.detail.license.expiryDate;
+                        $('#lesenMemanduForm select[name="license_blacklist_status"]').attr('disabled', true);
                         if(data.detail.license.is_blacklist) { $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).trigger('change'); }
                         else { selectionNull('license_blacklist_status', 'lesenMemanduForm'); }
                         originalVal['license_blacklist_status'] = data.detail.license.is_blacklist;
@@ -361,6 +380,7 @@ Maklumat Pemohon
                         $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', true);
                         $('#lesenMemanduForm input[name="license_expiry_date"]').val(data_not_available);
                         originalVal['license_expiry_date'] = "";
+                        $('#lesenMemanduForm select[name="license_blacklist_status"]').attr('disabled', true);
                         selectionNull('license_blacklist_status', 'lesenMemanduForm');
                         originalVal['license_blacklist_status'] = "";
                         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', true);
@@ -376,8 +396,9 @@ Maklumat Pemohon
                         $('#okuForm input[name="oku_status"]').attr('disabled', true);
                         $('#okuForm input[name="oku_status"]').val(data.detail.oku.status ? data.detail.oku.status : data_not_available);
                         originalVal['oku_status'] = data.detail.oku.status;
-                        $('#okuForm input[name="oku_category"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_category"]').val(data.detail.oku.category ? data.detail.oku.category : data_not_available);
+                        // $('#okuForm input[name="oku_category"]').attr('disabled', true);
+                        if(data.detail.oku.category) { $('#okuForm select[name="oku_category"]').val(data.detail.oku.category).trigger('change'); }
+                        else { selectionNull('oku_category', 'okuForm'); }
                         originalVal['oku_category'] = data.detail.oku.category;
                         $('#okuForm input[name="oku_sub"]').attr('disabled', true);
                         $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub ? data.detail.oku.sub : data_not_available);
@@ -389,8 +410,8 @@ Maklumat Pemohon
                         $('#okuForm input[name="oku_status"]').attr('disabled', true);
                         $('#okuForm input[name="oku_status"]').val(data_not_available);
                         originalVal['oku_status'] = "";
-                        $('#okuForm input[name="oku_category"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_category"]').val(data_not_available);
+                        // $('#okuForm input[name="oku_category"]').attr('disabled', true);
+                        selectionNull('oku_category', 'okuForm');
                         originalVal['oku_category'] = "";
                         $('#okuForm input[name="oku_sub"]').attr('disabled', true);
                         $('#okuForm input[name="oku_sub"]').val(data_not_available);
@@ -419,6 +440,17 @@ Maklumat Pemohon
                     $('#table-skim tbody').append(trSkim);
 
                     $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
+
+                    $('#pmrForm select[name="subjek_pmr"]').val('').trigger('change');
+                    $('#pmrForm select[name="gred_pmr"]').val('').trigger('change');
+                    $('#pmrForm input[name="tahun_pmr"]').val('');
+                    $('#pmrForm select[name="subjek_pmr"]').attr('disabled', true);
+                    $('#pmrForm select[name="gred_pmr"]').attr('disabled', true);
+                    $('#pmrForm input[name="tahun_pmr"]').attr('disabled', true);
+                    $('#pmrForm').attr('action', "{{ route('pmr.store')  }}");
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+
+                    $("#button_action_pmr").attr("style", "display:none");
 
                     $('#table-pmr tbody').empty();
                     if(data.detail.pmr.length == 0){
@@ -743,8 +775,19 @@ Maklumat Pemohon
 
                     });
 
-                    $('#table-skm tbody').empty();
                     $('#skmForm input[name="skm_no_pengenalan"]').val(data.detail.no_pengenalan);
+
+                    $('#skmForm select[name="nama_skm"]').val('').trigger('change');
+                    $('#skmForm input[name="tahun_skm"]').val('');
+                    $('#skmForm select[name="nama_skm"]').attr('disabled', true);
+                    $('#skmForm input[name="tahun_skm"]').attr('disabled', true);
+                    $('#skmForm').attr('action', "{{ route('skm.store')  }}");
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+
+                    $("#button_action_skm").attr("style", "display:none");
+
+                    $('#table-skm tbody').empty();
+
                     if(data.detail.skm.length == 0){
                         var trSkm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
                     } else {
@@ -899,6 +942,17 @@ Maklumat Pemohon
                         originalVal['experience_department_state'] = '';
                     }
 
+
+                    $('#pslForm input[name="psl_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#pslForm select[name="jenis_peperiksaan"]').val('').trigger('change');
+                    $('#pslForm input[name="tarikh_peperiksaan"]').val('');
+                    $('#pslForm select[name="jenis_peperiksaan"]').attr('disabled', true);
+                    $('#pslForm input[name="tarikh_peperiksaan"]').attr('disabled', true);
+                    $('#pslForm').attr('action', "{{ route('psl.store')  }}");
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+
+                    $("#button_action_psl").attr("style", "display:none");
+
                     $('#table-psl tbody').empty();
                     if(data.detail.psl.length == 0){
                         var trPsl = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
@@ -909,13 +963,45 @@ Maklumat Pemohon
                             bilPsl += 1;
                             trPsl += '<tr>';
                             trPsl += '<td align="center">' + bilPsl + '</td>'
-                            trPsl += '<td>' + item.qualification.code + '</td>';
                             trPsl += '<td>' + item.qualification.name + '</td>';
                             trPsl += '<td>' + (item.exam_date ? item.examDate : '') + '</td>';
+                            trPsl += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                            trPsl += '&nbsp;&nbsp;';
+                            trPsl += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                             trPsl += '</tr>';
                         });
                     }
                     $('#table-psl tbody').append(trPsl);
+
+                    $(document).on('click', '.edit-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                        $('#pslForm').attr('action', "{{ route('psl.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#pslForm input[name="id_psl"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#pslForm select[name="jenis_peperiksaan"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        $('#pslForm input[name="tarikh_peperiksaan"]').val($(row).find('td:nth-child(3)').text());
+                    });
+
+
+                    $(document).on('click', '.delete-btn', function() {
+                        var id = $(this).data('id');
+                        Swal.fire({
+                        title: 'Adakah anda ingin hapuskan maklumat ini?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sahkan',
+                        cancelButtonText: 'Batal',
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            pslDelete(id);
+                        }
+                        })
+
+                    });
 
                     $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.army_police != null){
@@ -949,6 +1035,17 @@ Maklumat Pemohon
                         originalVal['jenis_bekas_tentera_polis'] = '';
                     }
 
+                    $('#bahasaForm input[name="bahasa_no_pengenalan"]').val(data.detail.no_pengenalan);
+
+                    $('#bahasaForm select[name="nama_bahasa"]').val('').trigger('change');
+                    $('#bahasaForm select[name="penguasaan_bahasa"]').val('').trigger('change');
+                    $('#bahasaForm select[name="nama_bahasa"]').attr('disabled', true);
+                    $('#bahasaForm select[name="penguasaan_bahasa"]').attr('disabled', true);
+                    $('#bahasaForm').attr('action', "{{ route('bahasa.store')  }}");
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+
+                    $("#button_action_bahasa").attr("style", "display:none");
+
                     $('#table-language tbody').empty();
                     if(data.detail.language.length == 0){
                         var trLanguage = '<tr><td align="center" colspan="3">*Tiada Rekod*</td></tr>';
@@ -956,23 +1053,57 @@ Maklumat Pemohon
                         var trLanguage = '';
                         var bilLanguage = 0;
                         $.each(data.detail.language, function (i, item) {
-                            var languageLevel = '';
-                            if(item.level == 1){
-                                languageLevel = 'BERTUTUR DAN MENULIS';
-                            } else if(item.level == 2){
-                                languageLevel = 'BERTUTUR';
-                            } else if(item.level == 3){
-                                languageLevel = 'MENULIS';
-                            }
                             bilLanguage += 1;
                             trLanguage += '<tr>';
                             trLanguage += '<td align="center">' + bilLanguage + '</td>'
                             trLanguage += '<td>' + item.language.name + '</td>';
-                            trLanguage += '<td>' + languageLevel + '</td>';
+                            trLanguage += '<td>' + item.level + '</td>';
+                            trLanguage += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                            trLanguage += '&nbsp;&nbsp;';
+                            trLanguage += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
                             trLanguage += '</tr>';
                         });
                     }
                     $('#table-language tbody').append(trLanguage);
+
+                    $(document).on('click', '.edit-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                        $('#bahasaForm').attr('action', "{{ route('bahasa.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+
+                        $('#bahasaForm input[name="id_bahasa"]').val(id);
+                        var BahasaName = $(row).find('td:nth-child(2)').text();
+                        $('#bahasaForm select[name="nama_bahasa"] option').filter(function() {
+                            return $(this).text() === BahasaName;
+                        }).prop('selected', true).trigger('change');
+                        var levelName = $(row).find('td:nth-child(3)').text();
+                        $('#bahasaForm select[name="penguasaan_bahasa"] option').filter(function() {
+                            return $(this).text() === levelName;
+                        }).prop('selected', true).trigger('change');
+                    });
+
+
+                    $(document).on('click', '.delete-btn', function() {
+                        var id = $(this).data('id');
+                        Swal.fire({
+                        title: 'Adakah anda ingin hapuskan maklumat ini?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sahkan',
+                        cancelButtonText: 'Batal',
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            bahasaDelete(id);
+                        }
+                        })
+
+                    });
+
+                    $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#bakatForm select[name="nama_bakat"]').val('').trigger('change');
+                    $('#bakatForm select[name="nama_bakat"]').attr('disabled', true);
+                    $('#bakatForm').attr('action', "{{ route('bakat.store')  }}");
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
 
                     $('#table-talent tbody').empty();
                     if(data.detail.talent.length == 0){

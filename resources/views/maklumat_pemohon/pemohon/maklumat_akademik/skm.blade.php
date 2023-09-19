@@ -1,3 +1,11 @@
+<div class="card" id="update_skm" style="display:none">
+    <div class="d-flex justify-content-end align-items-center my-1 ">
+        <a class="me-3 text-danger" type="button" onclick="editSkm()">
+            <i class="fa-regular fa-pen-to-square"></i>
+            Kemaskini
+        </a>
+    </div>
+</div>
 <form
 id="skmForm"
 action="{{ route('skm.store') }}"
@@ -12,7 +20,7 @@ data-reloadPage="false">
 
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Gred</label>
-        <select class="select2 form-control" value="" id="nama_skm" name="nama_skm">
+        <select class="select2 form-control" value="" id="nama_skm" name="nama_skm" disabled>
             <option value=""></option>
             @foreach($skmkod as $skm)
             <option value="{{ $skm->code }}">{{ $skm->name }}</option>
@@ -22,10 +30,10 @@ data-reloadPage="false">
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" id="tahun_skm" name="tahun_skm">
+        <input type="text" class="form-control" value="" id="tahun_skm" name="tahun_skm" disabled>
     </div>
 
-    <div id="button_action_skm" style="display:block">
+    <div id="button_action_skm" style="display:none">
         <button type="button" id="btnEditSkm" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditSkm').trigger('click');">
@@ -52,8 +60,14 @@ data-reloadPage="false">
 </div>
 
 <script>
+    function editSkm() {
+        $('#skmForm select[name="nama_skm"]').attr('disabled', false);
+        $('#skmForm input[name="tahun_skm"]').attr('disabled', false);
+
+        $("#button_action_skm").attr("style", "display:block");
+    }
     function reloadSkm() {
-        var no_pengenalan = $('#skm_no_pengenalan').val();
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
 
         var reloadSkmUrl = "{{ route('skm.list', ':replaceThis') }}"
         reloadSkmUrl = reloadSkmUrl.replace(':replaceThis', no_pengenalan);
@@ -65,6 +79,12 @@ data-reloadPage="false">
                 console.log(data)
                 $('#skmForm select[name="nama_skm"]').val('').trigger('change');
                 $('#skmForm input[name="tahun_skm"]').val('');
+                $('#skmForm select[name="nama_skm"]').attr('disabled', true);
+                $('#skmForm input[name="tahun_skm"]').attr('disabled', true);
+                $('#skmForm').attr('action', "{{ route('skm.store')  }}");
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+
+                $("#button_action_skm").attr("style", "display:none");
 
                 $('#table-skm tbody').empty();
                 var trSkm = '';
@@ -124,7 +144,10 @@ data-reloadPage="false">
         $.ajax({
             url: reloadSkmUrl,
             type: 'POST',
+            async: true,
+            success: function(data){
+                reloadSkm();
+            }
         });
-        reloadSkm()
     }
 </script>

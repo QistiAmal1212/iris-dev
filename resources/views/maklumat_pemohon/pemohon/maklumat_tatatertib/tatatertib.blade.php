@@ -174,6 +174,15 @@
                 $('#penaltyForm input[name="penalty_duration"]').val('');
                 $('#penaltyForm select[name="penalty_type"]').val('');
                 $('#penaltyForm input[name="penalty_start"]').val('');
+                $('#penaltyForm input[name="penalty_end"]').val('');
+                $('#penaltyForm select[name="penalty"]').attr('disabled', true);
+                $('#penaltyForm input[name="penalty_duration"]').attr('disabled', true);
+                $('#penaltyForm select[name="penalty_type"]').attr('disabled', true);
+                $('#penaltyForm input[name="penalty_start"]').attr('disabled', true);
+                $('#penaltyForm input[name="penalty_end"]').attr('disabled', true);
+                $('#penaltyForm input[name="penalty_end"]').attr('readonly', true);
+
+                $("#button_action_penalty").attr("style", "display:none");
 
                 $('#table-penalty tbody').empty();
 
@@ -209,7 +218,7 @@
                 var durationAndType = $(row).find('td:nth-child(3)').text().split(' ');
                 var duration = durationAndType[0];
                 var type = durationAndType[1];
-                $('#penaltyForm select[name="penalty_duration"]').val(duration).text();
+                $('#penaltyForm input[name="penalty_duration"]').val(duration).text();
                 $('#penaltyForm input[name="penalty_type"]').val(type).trigger('change');
                 $('#penaltyForm input[name="penalty_start"]').val($(row).find('td:nth-child(4)').text());
                 $('#penaltyForm input[name="penalty_end"]').val($(row).find('td:nth-child(5)').text());
@@ -242,8 +251,11 @@
         $.ajax({
             url: reloadPmrUrl,
             type: 'POST',
+            async: true,
+            success: function(data){
+                reloadPenalty();
+            }
         });
-        reloadPmr()
     }
 
 </script>
