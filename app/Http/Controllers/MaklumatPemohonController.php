@@ -88,7 +88,7 @@ class MaklumatPemohonController extends Controller
         $jurusanMatrikulasi = MatriculationCourse::orderBy('name', 'asc')->get();
         $subjekMatrikulasi =  MatriculationSubject::orderBy('name', 'asc')->get();
         $kategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->orderBy('nama', 'asc')->get();
-        $Bahasa = Language::orderBy('name', 'asc')->get();
+        $Bahasa = Language::orderBy('nama', 'asc')->get();
         $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->orderBy('nama', 'asc')->get();
         $jenisPeperiksaan = Qualification::orderBy('name', 'asc')->get();
 
