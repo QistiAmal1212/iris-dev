@@ -478,7 +478,7 @@ class MaklumatPemohonController extends Controller
                 'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
                 'type' => $request->license_type,
                 'expiry_date' => $request->license_expiry_date,
-                'is_blacklist' => $request->license_blacklist_status,
+                'is_blacklist' => Carbon::createFromFormat('d/m/Y', $request->license_blacklist_status)->format('Y-m-d'),
                 'blacklist_details' => $request->license_blacklist_details,
             ]);
 
