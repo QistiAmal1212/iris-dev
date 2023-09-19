@@ -15,6 +15,7 @@
     data-refreshFunctionNameIfSuccess="reloadSpm"
     data-reloadPage="false">
     @csrf
+    <div class="row mt-2 mb-2">
     <h6>
         <span class="badge badge-light-primary fw-bolder">Sijil Pelajaran Malaysia (SPM)</span>
     </h6>
@@ -48,12 +49,15 @@
     <div id="button_action_spm" style="display:none">
         <button type="button" id="btnEditSpm" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
+            <button type="button" class="btn btn-danger float-right" onclick="reloadSpm()">
+                <i class="fa fa-refresh"></i>
+            </button>&nbsp;&nbsp;
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditSpm').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
     </div>
-
+    </div>
     </form>
 
     <div class="table-responsive mb-1 mt-1">
@@ -91,7 +95,7 @@
     data-refreshFunctionNameIfSuccess="reloadSpmv"
     data-reloadPage="false">
     @csrf
-
+    <div class="row mt-2 mb-2">
     <h6>
         <span class="badge badge-light-primary fw-bolder">Sijil Pelajaran Malaysia Vokasinal (SPMV)</span>
     </h6>
@@ -125,12 +129,15 @@
     <div id="button_action_spmv" style="display:none">
         <button type="button" id="btnEditSpmv" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
+            <button type="button" class="btn btn-danger float-right" onclick="reloadSpmv()">
+                <i class="fa fa-refresh"></i>
+            </button>&nbsp;&nbsp;
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditSpmv').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
     </div>
-
+    </div>
     </form>
 
     <div class="table-responsive mb-1 mt-1">
@@ -167,6 +174,7 @@
     data-refreshFunctionNameIfSuccess="reloadSvm"
     data-reloadPage="false">
     @csrf
+    <div class="row mt-2 mb-2">
     <h6>
         <span class="badge badge-light-primary fw-bolder">Sijil Vokasinal Malaysia (SVM)</span>
     </h6>
@@ -200,12 +208,15 @@
     <div id="button_action_svm" style="display:none">
         <button type="button" id="btnEditSvm" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
+            <button type="button" class="btn btn-danger float-right" onclick="reloadSvm()">
+                <i class="fa fa-refresh"></i>
+            </button>&nbsp;&nbsp;
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditSvm').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
     </div>
-
+    </div>
     </form>
 
     <div class="table-responsive mb-1 mt-1">
@@ -250,6 +261,8 @@
                 $('#spmForm select[name="subjek_spm"]').attr('disabled', true);
                 $('#spmForm select[name="gred_spm"]').attr('disabled', true);
                 $('#spmForm input[name="tahun_spm"]').attr('disabled', true);
+                $('#spmForm').attr('action', "{{ route('spm.store')  }}");
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_spm").attr("style", "display:none");
 
@@ -258,7 +271,6 @@
                 var trSpm = '';
                 var bilSpm = 0;
                 $.each(data.detail, function(i, item) {
-                    console.log(data.detail)
                     if (item.subject != null) {
                         bilSpm += 1;
                         trSpm += '<tr>';
@@ -266,16 +278,16 @@
                         trSpm += '<td>' + item.subject.name + '</td>';
                         trSpm += '<td align="center">' + item.grade + '</td>';
                         trSpm += '<td align="center">' + item.year + '</td>';
-                        trSpm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                        trSpm += '<td align="center"><i class="fas fa-pencil text-primary editSpm-btn" data-id="' + item.id + ' "></i>';
                         trSpm += '&nbsp;&nbsp;';
-                        trSpm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                        trSpm += '<i class="fas fa-trash text-danger deleteSpm-btn" data-id="' + item.id + '"></i></td>';
                         trSpm += '</tr>';
                     }
                 });
                 $('#table-spm tbody').append(trSpm);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                $(document).on('click', '.editSpm-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#spmForm').attr('action', "{{ route('spm.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
@@ -290,7 +302,7 @@
                 });
 
 
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deleteSpm-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -299,7 +311,7 @@
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        spmDelete(id);
+                        deleteItem(id, "{{ route('spm.delete', ':replaceThis') }}", reloadSpm )
                     }
                     })
 
@@ -308,20 +320,6 @@
             error: function(data) {
             }
         });
-    }
-
-    function spmDelete(id){
-        var reloadSpmUrl = "{{ route('spm.delete', ':replaceThis') }}"
-        reloadSpmUrl = reloadSpmUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadSpmUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadSpm();
-            }
-        });
-
     }
 
     function editSpmv() {
@@ -342,13 +340,14 @@
             method: 'GET',
             async: true,
             success: function(data) {
-                console.log(data)
                 $('#spmvForm select[name="subjek_spmv"]').val('').trigger('change');
                 $('#spmvForm select[name="gred_spmv"]').val('').trigger('change');
                 $('#spmvForm input[name="tahun_spmv"]').val('');
                 $('#spmvForm select[name="subjek_spmv"]').attr('disabled', true);
                 $('#spmvForm select[name="gred_spmv"]').attr('disabled', true);
                 $('#spmvForm input[name="tahun_spmv"]').attr('disabled', true);
+                $('#spmvForm').attr('action', "{{ route('spmv.store')  }}");
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_spmv").attr("style", "display:none");
 
@@ -357,7 +356,6 @@
                 var trSpmv = '';
                 var bilSpmv = 0;
                 $.each(data.detail, function(i, item) {
-                    console.log(data.detail)
                     if (item.subject != null) {
                         bilSpmv += 1;
                         trSpmv += '<tr>';
@@ -365,16 +363,16 @@
                         trSpmv += '<td>' + item.subject.name + '</td>';
                         trSpmv += '<td align="center">' + item.grade + '</td>';
                         trSpmv += '<td align="center">' + item.year + '</td>';
-                        trSpmv += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                        trSpmv += '<td align="center"><i class="fas fa-pencil text-primary editSpmv-btn" data-id="' + item.id + ' "></i>';
                         trSpmv += '&nbsp;&nbsp;';
-                        trSpmv += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                        trSpmv += '<i class="fas fa-trash text-danger deleteSpmv-btn" data-id="' + item.id + '"></i></td>';
                         trSpmv += '</tr>';
                     }
                 });
                 $('#table-spmv tbody').append(trSpmv);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                $(document).on('click', '.editSpmv-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#spmvForm').attr('action', "{{ route('spmv.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
@@ -388,8 +386,7 @@
                     $('#spmvForm input[name="tahun_spmv"]').val($(row).find('td:nth-child(4)').text());
                 });
 
-
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deleteSpmv-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -398,26 +395,13 @@
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        spmvDelete(id);
+                        deleteItem(id, "{{ route('spmv.delete', ':replaceThis') }}", reloadSpmv )
                     }
                     })
 
                 });
             },
             error: function(data) {
-            }
-        });
-    }
-
-    function spmvDelete(id){
-        var reloadSpmvUrl = "{{ route('spmv.delete', ':replaceThis') }}"
-        reloadSpmvUrl = reloadSpmvUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadSpmvUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadSpmv();
             }
         });
     }
@@ -441,13 +425,14 @@
             method: 'GET',
             async: true,
             success: function(data) {
-                console.log(data)
                 $('#svmForm select[name="subjek_svm"]').val('').trigger('change');
                 $('#svmForm select[name="gred_svm"]').val('').trigger('change');
                 $('#svmForm input[name="tahun_svm"]').val('');
                 $('#svmForm select[name="subjek_svm"]').attr('disabled', true);
                 $('#svmForm select[name="gred_svm"]').attr('disabled', true);
                 $('#svmForm input[name="tahun_svm"]').attr('disabled', true);
+                $('#svmForm').attr('action', "{{ route('svm.store')  }}");
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_svm").attr("style", "display:none");
 
@@ -456,7 +441,6 @@
                 var trSvm = '';
                 var bilSvm = 0;
                 $.each(data.detail, function(i, item) {
-                    console.log(data.detail)
                     if (item.subject != null) {
                         bilSvm += 1;
                         trSvm += '<tr>';
@@ -464,31 +448,31 @@
                         trSvm += '<td>' + item.subject.name + '</td>';
                         trSvm += '<td align="center">' + item.grade + '</td>';
                         trSvm += '<td align="center">' + item.year + '</td>';
-                        trSvm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                        trSvm += '<td align="center"><i class="fas fa-pencil text-primary editSvm-btn" data-id="' + item.id + ' "></i>';
                         trSvm += '&nbsp;&nbsp;';
-                        trSvm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                        trSvm += '<i class="fas fa-trash text-danger deleteSvm-btn" data-id="' + item.id + '"></i></td>';
                         trSvm += '</tr>';
                     }
                 });
                 $('#table-svm tbody').append(trSvm);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                    $('#svmForm').attr('action', "{{ route('svm.update') }}");
-                    var row = $(this).closest('tr');
-                    var id = $(this).data('id');
+                $(document).on('click', '.editSvm-btn', function() {
+                        $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                        $('#svmForm').attr('action', "{{ route('svm.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
 
-                    $('#svmForm input[name="id_svm"]').val(id);
-                    var subjectName = $(row).find('td:nth-child(2)').text();
-                    $('#svmForm select[name="subjek_svm"] option').filter(function() {
-                        return $(this).text() === subjectName;
-                    }).prop('selected', true).trigger('change');
-                    $('#svmForm select[name="gred_svm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                    $('#svmForm input[name="tahun_svm"]').val($(row).find('td:nth-child(4)').text());
+                        $('#svmForm input[name="id_svm"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#svmForm select[name="subjek_svm"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        $('#svmForm select[name="gred_svm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
+                        $('#svmForm input[name="tahun_svm"]').val($(row).find('td:nth-child(4)').text());
                 });
 
 
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deleteSvm-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -497,7 +481,7 @@
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        svmDelete(id);
+                        deleteItem(id, "{{ route('svm.delete', ':replaceThis') }}", reloadSvm )
                     }
                     })
 
@@ -506,19 +490,5 @@
             error: function(data) {
             }
         });
-    }
-
-    function svmDelete(id){
-        var reloadSvmUrl = "{{ route('svm.delete', ':replaceThis') }}"
-        reloadSvmUrl = reloadSvmUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadSvmUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadSvm();
-            }
-        });
-
     }
 </script>

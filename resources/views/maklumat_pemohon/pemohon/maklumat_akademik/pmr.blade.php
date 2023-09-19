@@ -45,13 +45,17 @@ data-reloadPage="false">
     <div id="button_action_pmr" style="display:none">
         <button type="button" id="btnEditPmr" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
+            <button type="button" class="btn btn-danger float-right" onclick="reloadPmr()">
+                <i class="fa fa-refresh"></i>
+            </button>&nbsp;&nbsp;
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPmr').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
     </div>
-</form>
 </div>
+</form>
+
 
 <div class="table-responsive">
     <table class="table header_uppercase table-bordered table-hovered" id="table-pmr">
@@ -111,31 +115,30 @@ data-reloadPage="false">
                         trPmr += '<td>' + item.subject.name + '</td>';
                         trPmr += '<td align="center">' + item.grade + '</td>';
                         trPmr += '<td align="center">' + item.year + '</td>';
-                        trPmr += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                        trPmr += '<td align="center"><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i>';
                         trPmr += '&nbsp;&nbsp;';
-                        trPmr += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                        trPmr += '<i class="fas fa-trash text-danger deletePmr-btn" data-id="' + item.id + '" ></i></td>';
                         trPmr += '</tr>';
                     }
                 });
                 $('#table-pmr tbody').append(trPmr);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                    $('#pmrForm').attr('action', "{{ route('pmr.update') }}");
-                    var row = $(this).closest('tr');
-                    var id = $(this).data('id');
+                $(document).on('click', '.editPmr-btn', function() {
+                        $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                        $('#pmrForm').attr('action', "{{ route('pmr.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
 
-                    $('#pmrForm input[name="id_pmr"]').val(id);
-                    var subjectName = $(row).find('td:nth-child(2)').text();
-                    $('#pmrForm select[name="subjek_pmr"] option').filter(function() {
-                        return $(this).text() === subjectName;
-                    }).prop('selected', true).trigger('change');
-                    $('#pmrForm select[name="gred_pmr"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                    $('#pmrForm input[name="tahun_pmr"]').val($(row).find('td:nth-child(4)').text());
+                        $('#pmrForm input[name="id_pmr"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#pmrForm select[name="subjek_pmr"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        $('#pmrForm select[name="gred_pmr"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
+                        $('#pmrForm input[name="tahun_pmr"]').val($(row).find('td:nth-child(4)').text());
                 });
 
-
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deletePmr-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -144,26 +147,13 @@ data-reloadPage="false">
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        pmrDelete(id);
+                        deleteItem(id, "{{ route('pmr.delete', ':replaceThis') }}", reloadPmr )
                     }
                     })
 
                 });
             },
             error: function(data) {
-            }
-        });
-    }
-
-    function pmrDelete(id){
-        var reloadPmrUrl = "{{ route('pmr.delete', ':replaceThis') }}"
-        reloadPmrUrl = reloadPmrUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadPmrUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadPmr();
             }
         });
     }

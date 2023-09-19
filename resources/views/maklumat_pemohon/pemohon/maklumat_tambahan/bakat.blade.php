@@ -30,6 +30,9 @@ data-reloadPage="false">
     <div id="button_action_bakat" style="display:none">
         <button type="button" id="btnEditBakat" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
+            <button type="button" class="btn btn-danger float-right" onclick="reloadBakat()">
+                <i class="fa fa-refresh"></i>
+            </button>&nbsp;&nbsp;
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditBakat').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
@@ -83,15 +86,15 @@ data-reloadPage="false">
                     trBakat += '<tr>';
                     trBakat += '<td align="center">' + bilBakat + '</td>'
                     trBakat += '<td>' + item.talent.name + '</td>';
-                    trBakat += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                    trBakat += '<td align="center"><i class="fas fa-pencil text-primary editBakat-btn" data-id="' + item.id + ' " data-form="bakat"></i>';
                     trBakat += '&nbsp;&nbsp;';
-                    trBakat += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                    trBakat += '<i class="fas fa-trash text-danger deleteBakat-btn" data-id="' + item.id + '"></i></td>';
                     trBakat += '</tr>';
                 });
                 $('#table-talent tbody').append(trBakat);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                $(document).on('click', '.editBakat-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#bakatForm').attr('action', "{{ route('bakat.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
@@ -101,10 +104,11 @@ data-reloadPage="false">
                     $('#bakatForm select[name="nama_bakat"] option').filter(function() {
                         return $(this).text() === subjectName;
                     }).prop('selected', true).trigger('change');
+
                 });
 
 
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deleteBakat-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -113,26 +117,13 @@ data-reloadPage="false">
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        bakatDelete(id);
+                        deleteItem(id, "{{ route('bakat.delete', ':replaceThis') }}", reloadBakat )
                     }
                     })
 
                 });
             },
             error: function(data) {
-            }
-        });
-    }
-
-    function bakatDelete(id){
-        var reloadBakatUrl = "{{ route('bakat.delete', ':replaceThis') }}"
-        reloadBakatUrl = reloadBakatUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadBakatUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadBakat();
             }
         });
     }

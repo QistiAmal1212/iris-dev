@@ -28,7 +28,7 @@ data-reloadPage="false">
         </select>
     </div>
 
-    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+    <div class="col sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Tahun</label>
         <input type="text" class="form-control" value="" id="tahun_skm" name="tahun_skm" disabled>
     </div>
@@ -36,6 +36,9 @@ data-reloadPage="false">
     <div id="button_action_skm" style="display:none">
         <button type="button" id="btnEditSkm" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
+            <button type="button" class="btn btn-danger float-right" onclick="reloadSkm()">
+                <i class="fa fa-refresh"></i>
+            </button>&nbsp;&nbsp;
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditSkm').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
@@ -76,7 +79,6 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                console.log(data)
                 $('#skmForm select[name="nama_skm"]').val('').trigger('change');
                 $('#skmForm input[name="tahun_skm"]').val('');
                 $('#skmForm select[name="nama_skm"]').attr('disabled', true);
@@ -96,16 +98,16 @@ data-reloadPage="false">
                         trSkm += '<td align="center">' + bilSkm + '</td>';
                         trSkm += '<td>' + (item.qualification ? item.qualification.name : "Tiada Maklumat")  + '</td>';
                         trSkm += '<td align="center">' + item.year + '</td>';
-                        trSkm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                        trSkm += '<td align="center"><i class="fas fa-pencil text-primary editSkm-btn" data-id="' + item.id + ' " data-form="skm"></i>';
                         trSkm += '&nbsp;&nbsp;';
-                        trSkm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                        trSkm += '<i class="fas fa-trash text-danger deleteSkm-btn" data-id="' + item.id + '"></i></td>';
                         trSkm += '</tr>';
                     }
                 });
                 $('#table-skm tbody').append(trSkm);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                $(document).on('click', '.editSkm-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#skmForm').attr('action', "{{ route('skm.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
@@ -118,7 +120,7 @@ data-reloadPage="false">
                     $('#skmForm input[name="tahun_skm"]').val($(row).find('td:nth-child(3)').text());
                 });
 
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deleteSkm-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -127,26 +129,13 @@ data-reloadPage="false">
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        skmDelete(id);
+                        deleteItem(id, "{{ route('skm.delete', ':replaceThis') }}", reloadSkm )
                     }
                     })
 
                 });
             },
             error: function(data) {
-            }
-        });
-    }
-
-    function skmDelete(id){
-        var reloadSkmUrl = "{{ route('skm.delete', ':replaceThis') }}"
-        reloadSkmUrl = reloadSkmUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadSkmUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadSkm();
             }
         });
     }

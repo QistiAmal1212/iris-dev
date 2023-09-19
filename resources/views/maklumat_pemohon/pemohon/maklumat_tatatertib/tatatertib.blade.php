@@ -181,6 +181,8 @@
                 $('#penaltyForm input[name="penalty_start"]').attr('disabled', true);
                 $('#penaltyForm input[name="penalty_end"]').attr('disabled', true);
                 $('#penaltyForm input[name="penalty_end"]').attr('readonly', true);
+                $('#penaltyForm').attr('action', "{{ route('penalty.store')  }}");
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_penalty").attr("style", "display:none");
 
@@ -196,36 +198,35 @@
                     trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
                     trPenalty += '<td>' + item.startDate + '</td>';
                     trPenalty += '<td>' + item.endDate + '</td>';
-                    trPenalty += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                    trPenalty += '<td align="center"><i class="fas fa-pencil text-primary editPenalty-btn" data-id="' + item.id + ' " data-form="penalty"></i>';
                     trPenalty += '&nbsp;&nbsp;';
-                    trPenalty += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                    trPenalty += '<i class="fas fa-trash text-danger deletePenalty-btn" data-id="' + item.id + '"></i></td>';
                     trPenalty += '</tr>';
                 });
                 $('#table-penalty tbody').append(trPenalty);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                $('#penaltyForm').attr('action', "{{ route('penalty.update') }}");
-                var row = $(this).closest('tr');
-                var id = $(this).data('id');
-                editPenalty();
+                $(document).on('click', '.editPenalty-btn', function() {
+                        $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                        $('#penaltyForm').attr('action', "{{ route('penalty.update') }}");
+                        var row = $(this).closest('tr');
+                        var id = $(this).data('id');
+                        editPenalty();
 
-                $('#penaltyForm input[name="id_penalty"]').val(id);
-                var subjectName = $(row).find('td:nth-child(2)').text();
-                $('#penaltyForm select[name="penalty"] option').filter(function() {
-                    return $(this).text() === subjectName;
-                }).prop('selected', true).trigger('change');
-                var durationAndType = $(row).find('td:nth-child(3)').text().split(' ');
-                var duration = durationAndType[0];
-                var type = durationAndType[1];
-                $('#penaltyForm input[name="penalty_duration"]').val(duration).text();
-                $('#penaltyForm input[name="penalty_type"]').val(type).trigger('change');
-                $('#penaltyForm input[name="penalty_start"]').val($(row).find('td:nth-child(4)').text());
-                $('#penaltyForm input[name="penalty_end"]').val($(row).find('td:nth-child(5)').text());
-
+                        $('#penaltyForm input[name="id_penalty"]').val(id);
+                        var subjectName = $(row).find('td:nth-child(2)').text();
+                        $('#penaltyForm select[name="penalty"] option').filter(function() {
+                            return $(this).text() === subjectName;
+                        }).prop('selected', true).trigger('change');
+                        var durationAndType = $(row).find('td:nth-child(3)').text().split(' ');
+                        var duration = durationAndType[0];
+                        var type = durationAndType[1];
+                        $('#penaltyForm input[name="penalty_duration"]').val(duration).text();
+                        $('#penaltyForm select[name="penalty_type"]').val(type).trigger('change');
+                        $('#penaltyForm input[name="penalty_start"]').val($(row).find('td:nth-child(4)').text());
+                        $('#penaltyForm input[name="penalty_end"]').val($(row).find('td:nth-child(5)').text());
                 });
 
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deletePenalty-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -234,7 +235,7 @@
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        penaltyDelete(id);
+                        deleteItem(id, "{{ route('penalty.delete', ':replaceThis') }}", reloadPenalty )
                     }
                     })
 
@@ -242,18 +243,6 @@
             },
             error: function(data) {
                 //
-            }
-        });
-    }
-    function penaltyDelete(id){
-        var reloadPmrUrl = "{{ route('penalty.delete', ':replaceThis') }}"
-        reloadPmrUrl = reloadPmrUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadPmrUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadPenalty();
             }
         });
     }

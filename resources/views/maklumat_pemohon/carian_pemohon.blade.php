@@ -180,6 +180,19 @@ Maklumat Pemohon
         $('#' + formID + ' select[name="' + inputID + '"]').val("Tiada Maklumat").trigger('change');
     }
 
+    function deleteItem(id, itemUrl, reload){
+        var deleteUrl = itemUrl;
+        deleteUrl = deleteUrl.replace(':replaceThis', id);
+        $.ajax({
+            url: deleteUrl,
+            type: 'POST',
+            async: true,
+            success: function(data){
+                reload();
+            }
+        });
+    }
+
     function confirmSubmit(btnName, newValues, columnHead) {
         var htmlContent = '<p>Perubahan:</p>';
 
@@ -440,401 +453,36 @@ Maklumat Pemohon
                     $('#table-skim tbody').append(trSkim);
 
                     $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
-
-                    $('#pmrForm select[name="subjek_pmr"]').val('').trigger('change');
-                    $('#pmrForm select[name="gred_pmr"]').val('').trigger('change');
-                    $('#pmrForm input[name="tahun_pmr"]').val('');
-                    $('#pmrForm select[name="subjek_pmr"]').attr('disabled', true);
-                    $('#pmrForm select[name="gred_pmr"]').attr('disabled', true);
-                    $('#pmrForm input[name="tahun_pmr"]').attr('disabled', true);
-                    $('#pmrForm').attr('action', "{{ route('pmr.store')  }}");
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
-
-                    $("#button_action_pmr").attr("style", "display:none");
-
                     $('#table-pmr tbody').empty();
-                    if(data.detail.pmr.length == 0){
-                        var trPmr = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trPmr = '';
-                        var bilPmr = 0;
-                        $.each(data.detail.pmr, function (i, item) {
-                            if(item.subject != null) {
-                                bilPmr += 1;
-                                trPmr += '<tr>';
-                                trPmr += '<td align="center">' + bilPmr + '</td>';
-                                trPmr += '<td>' + item.subject.name + '</td>';
-                                trPmr += '<td align="center">' + item.grade + '</td>';
-                                trPmr += '<td align="center">' + item.year + '</td>';
-                                trPmr += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trPmr += '&nbsp;&nbsp;';
-                                trPmr += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trPmr += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-pmr tbody').append(trPmr);
+                    reloadPmr();
 
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#pmrForm').attr('action', "{{ route('pmr.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#pmrForm input[name="id_pmr"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#pmrForm select[name="subjek_pmr"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#pmrForm select[name="gred_pmr"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#pmrForm input[name="tahun_pmr"]').val($(row).find('td:nth-child(4)').text());
-
-                    });
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            pmrDelete(id);
-                        }
-                        })
-
-                    });
-
-                    $('#table-spm tbody').empty();
                     $('#spmForm input[name="spm_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.spm.length == 0){
-                        var trSpm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trSpm = '';
-                        var bilSpm = 0;
-                        $.each(data.detail.spm, function (i, item) {
-                            if(item.subject != null) {
-                                bilSpm += 1;
-                                trSpm += '<tr>';
-                                trSpm += '<td align="center">' + bilSpm + '</td>';
-                                trSpm += '<td>' + item.subject.name + '</td>';
-                                trSpm += '<td align="center">' + item.grade + '</td>';
-                                trSpm += '<td align="center">' + item.year + '</td>';
-                                trSpm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trSpm += '&nbsp;&nbsp;';
-                                trSpm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trSpm += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-spm tbody').append(trSpm);
+                    $('#table-spm tbody').empty();
+                    reloadSpm();
 
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#spmForm').attr('action', "{{ route('spm.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#spmForm input[name="id_spm"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#spmForm select[name="subjek_spm"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#spmForm select[name="gred_spm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#spmForm input[name="tahun_spm"]').val($(row).find('td:nth-child(4)').text());
-
-                    });
-
-
-                    $('#table-spmv tbody').empty();
                     $('#spmvForm input[name="spmv_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.spmv.length == 0){
-                        var trSpmv = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trSpmv = '';
-                        var bilSpmv = 0;
-                        $.each(data.detail.spmv, function (i, item) {
-                            if(item.subject != null) {
-                                bilSpmv += 1;
-                                trSpmv += '<tr>';
-                                trSpmv += '<td align="center">' + bilSpmv + '</td>';
-                                trSpmv += '<td>' + item.subject.name + '</td>';
-                                trSpmv += '<td align="center">' + item.grade + '</td>';
-                                trSpmv += '<td align="center">' + item.year + '</td>';
-                                trSpmv += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trSpmv += '&nbsp;&nbsp;';
-                                trSpmv += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trSpmv += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-spmv tbody').append(trSpmv);
+                    $('#table-spmv tbody').empty();
+                    reloadSpmv();
 
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#spmvForm').attr('action', "{{ route('spmv.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#spmvForm input[name="id_spmv"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#spmvForm select[name="subjek_spmv"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#spmvForm select[name="gred_spmv"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#spmvForm input[name="tahun_spmv"]').val($(row).find('td:nth-child(4)').text());
-
-                    });
-
-                    $('#table-svm tbody').empty();
                     $('#svmForm input[name="svm_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.svm.length == 0){
-                        var trSvm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trSvm = '';
-                        var bilSvm = 0;
-                        $.each(data.detail.svm, function (i, item) {
-                            if(item.subject != null) {
-                                bilSvm += 1;
-                                trSvm += '<tr>';
-                                trSvm += '<td align="center">' + bilSvm + '</td>';
-                                trSvm += '<td>' + item.subject.name + '</td>';
-                                trSvm += '<td align="center">' + item.grade + '</td>';
-                                trSvm += '<td align="center">' + item.year + '</td>';
-                                trSvm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trSvm += '&nbsp;&nbsp;';
-                                trSvm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trSvm += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-svm tbody').append(trSvm);
+                    $('#table-svm tbody').empty();
+                    reloadSvm();
 
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#svmForm').attr('action', "{{ route('svm.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#svmForm input[name="id_svm"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#svmForm select[name="subjek_svm"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#svmForm select[name="gred_svm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#svmForm input[name="tahun_svm"]').val($(row).find('td:nth-child(4)').text());
-
-                    });
-
-                    $('#table-stpm tbody').empty();
                     $('#stpmForm input[name="stpm_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.stpm.length == 0){
-                        var trStpm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trStpm = '';
-                        var bilStpm = 0;
-                        $.each(data.detail.stpm, function (i, item) {
-                            if(item.subject != null) {
-                                bilStpm += 1;
-                                trStpm += '<tr>';
-                                trStpm += '<td align="center">' + bilStpm + '</td>';
-                                trStpm += '<td>' + item.subject.name + '</td>';
-                                trStpm += '<td align="center">' + item.grade + '</td>';
-                                trStpm += '<td align="center">' + item.year + '</td>';
-                                trStpm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trStpm += '&nbsp;&nbsp;';
-                                trStpm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trStpm += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-stpm tbody').append(trStpm);
+                    $('#table-stpm tbody').empty();
+                    reloadStpm();
 
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#stpmForm').attr('action', "{{ route('stpm.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#stpmForm input[name="id_stpm"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#stpmForm select[name="subjek_stpm"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#stpmForm select[name="gred_stpm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#stpmForm input[name="tahun_stpm"]').val($(row).find('td:nth-child(4)').text());
-
-                    });
-
-                    $('#table-stam tbody').empty();
                     $('#stamForm input[name="stam_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.stam.length == 0){
-                        var trStam = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trStam = '';
-                        var bilStam = 0;
-                        $.each(data.detail.stam, function (i, item) {
-                            if(item.subject != null) {
-                                bilStam += 1;
-                                trStam += '<tr>';
-                                trStam += '<td align="center">' + bilStam + '</td>';
-                                trStam += '<td>' + item.subject.name + '</td>';
-                                trStam += '<td align="center">' + item.grade + '</td>';
-                                trStam += '<td align="center">' + item.year + '</td>';
-                                trStam += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trStam += '&nbsp;&nbsp;';
-                                trStam += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trStam += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-stam tbody').append(trStam);
+                    $('#table-stam tbody').empty();
+                    reloadStam();
 
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#stamForm').attr('action', "{{ route('stam.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#stamForm input[name="id_stam"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#stamForm select[name="subjek_stam"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#stamForm select[name="gred_stam"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#stamForm input[name="tahun_stam"]').val($(row).find('td:nth-child(4)').text());
-
-                    });
-
-                    $('#table-matrikulasi tbody').empty();
                     $('#matrikulasiForm input[name="matrikulasi_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.matriculation.length == 0){
-                        var trStam = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trMatrikulasi = '';
-                        var bilMatrikulasi = 0;
-                        $.each(data.detail.matriculation, function (i, item) {
-                                bilMatrikulasi += 1;
-                                trMatrikulasi += '<tr>';
-                                trMatrikulasi += '<td align="center">' + bilMatrikulasi + '</td>';
-                                trMatrikulasi += '<td>' + item.college.name + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.course.name + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.matric_no + '</td>';
-                                trMatrikulasi += '<td>' + item.session + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.semester + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.subject.name + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.grade + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.pngk + '</td>';
-                                trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trMatrikulasi += '&nbsp;&nbsp;';
-                                trMatrikulasi += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                        });
-                    }
-                    $('#table-matrikulasi tbody').append(trMatrikulasi);
-
-                    $(document).on('click', '.edit-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#matrikulasiForm').attr('action', "{{ route('matrikulasi.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#matrikulasiForm input[name="id_matrikulasi"]').val(id);
-                        var kolejName = $(row).find('td:nth-child(2)').text();
-                        $('#matrikulasiForm select[name="kolej_matrikulasi"] option').filter(function() {
-                            return $(this).text() === kolejName;
-                        }).prop('selected', true).trigger('change');
-                        var jurusanName = $(row).find('td:nth-child(3)').text();
-                        $('#matrikulasiForm select[name="jurusan_matrikulasi"] option').filter(function() {
-                            return $(this).text() === jurusanName;
-                        }).prop('selected', true).trigger('change');
-                        $('#matrikulasiForm select[name="matrik_matrikulasi"]').val($(row).find('td:nth-child(4)').text());
-                        $('#matrikulasiForm input[name="sesi_matrikulasi"]').val($(row).find('td:nth-child(5)').text());
-                        $('#matrikulasiForm input[name="semester_matrikulasi"]').val($(row).find('td:nth-child(6)').text());
-                        var subjekName = $(row).find('td:nth-child(7)').text();
-                        $('#matrikulasiForm select[name="subjek_matrikulasi"] option').filter(function() {
-                            return $(this).text() === subjekName;
-                        }).prop('selected', true).trigger('change');
-                        $('#matrikulasiForm input[name="gred_matrikulasi"]').val($(row).find('td:nth-child(8)').text());
-                        $('#matrikulasiForm input[name="pngk_matrikulasi"]').val($(row).find('td:nth-child(9)').text());
-                    });
-
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            matrikulasiDelete(id);
-                        }
-                        })
-
-                    });
+                    $('#table-matrikulasi tbody').empty();
+                    reloadMatrikulasi();
 
                     $('#skmForm input[name="skm_no_pengenalan"]').val(data.detail.no_pengenalan);
-
-                    $('#skmForm select[name="nama_skm"]').val('').trigger('change');
-                    $('#skmForm input[name="tahun_skm"]').val('');
-                    $('#skmForm select[name="nama_skm"]').attr('disabled', true);
-                    $('#skmForm input[name="tahun_skm"]').attr('disabled', true);
-                    $('#skmForm').attr('action', "{{ route('skm.store')  }}");
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
-
-                    $("#button_action_skm").attr("style", "display:none");
-
                     $('#table-skm tbody').empty();
-
-                    if(data.detail.skm.length == 0){
-                        var trSkm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trSkm = '';
-                        var bilSkm = 0;
-                        $.each(data.detail.skm, function (i, item) {
-                            bilSkm += 1;
-                            trSkm += '<tr>';
-                            trSkm += '<td align="center">' + bilSkm + '</td>';
-                            trSkm += '<td>' + (item.qualification ? item.qualification.name : "Tiada Maklumat")  + '</td>';
-                            trSkm += '<td align="center">' + item.year + '</td>';
-                            trSkm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                            trSkm += '&nbsp;&nbsp;';
-                            trSkm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                            trSkm += '</tr>';
-                        });
-                    }
-                    $('#table-skm tbody').append(trSkm);
-
-                    $(document).on('click', '.edit-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#skmForm').attr('action', "{{ route('skm.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#skmForm input[name="id_skm"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#skmForm select[name="nama_skm"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#skmForm input[name="tahun_skm"]').val($(row).find('td:nth-child(3)').text());
-                    });
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            skmDelete(id);
-                        }
-                        })
-
-                    });
+                    reloadSkm();
 
                     $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.higher_education != null) {
@@ -942,66 +590,9 @@ Maklumat Pemohon
                         originalVal['experience_department_state'] = '';
                     }
 
-
                     $('#pslForm input[name="psl_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    $('#pslForm select[name="jenis_peperiksaan"]').val('').trigger('change');
-                    $('#pslForm input[name="tarikh_peperiksaan"]').val('');
-                    $('#pslForm select[name="jenis_peperiksaan"]').attr('disabled', true);
-                    $('#pslForm input[name="tarikh_peperiksaan"]').attr('disabled', true);
-                    $('#pslForm').attr('action', "{{ route('psl.store')  }}");
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
-
-                    $("#button_action_psl").attr("style", "display:none");
-
                     $('#table-psl tbody').empty();
-                    if(data.detail.psl.length == 0){
-                        var trPsl = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trPsl = '';
-                        var bilPsl = 0;
-                        $.each(data.detail.psl, function (i, item) {
-                            bilPsl += 1;
-                            trPsl += '<tr>';
-                            trPsl += '<td align="center">' + bilPsl + '</td>'
-                            trPsl += '<td>' + item.qualification.name + '</td>';
-                            trPsl += '<td>' + (item.exam_date ? item.examDate : '') + '</td>';
-                            trPsl += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                            trPsl += '&nbsp;&nbsp;';
-                            trPsl += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                            trPsl += '</tr>';
-                        });
-                    }
-                    $('#table-psl tbody').append(trPsl);
-
-                    $(document).on('click', '.edit-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#pslForm').attr('action', "{{ route('psl.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#pslForm input[name="id_psl"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#pslForm select[name="jenis_peperiksaan"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#pslForm input[name="tarikh_peperiksaan"]').val($(row).find('td:nth-child(3)').text());
-                    });
-
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            pslDelete(id);
-                        }
-                        })
-
-                    });
+                    reloadPsl();
 
                     $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.army_police != null){
@@ -1036,191 +627,16 @@ Maklumat Pemohon
                     }
 
                     $('#bahasaForm input[name="bahasa_no_pengenalan"]').val(data.detail.no_pengenalan);
-
-                    $('#bahasaForm select[name="nama_bahasa"]').val('').trigger('change');
-                    $('#bahasaForm select[name="penguasaan_bahasa"]').val('').trigger('change');
-                    $('#bahasaForm select[name="nama_bahasa"]').attr('disabled', true);
-                    $('#bahasaForm select[name="penguasaan_bahasa"]').attr('disabled', true);
-                    $('#bahasaForm').attr('action', "{{ route('bahasa.store')  }}");
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
-
-                    $("#button_action_bahasa").attr("style", "display:none");
-
                     $('#table-language tbody').empty();
-                    if(data.detail.language.length == 0){
-                        var trLanguage = '<tr><td align="center" colspan="3">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trLanguage = '';
-                        var bilLanguage = 0;
-                        $.each(data.detail.language, function (i, item) {
-                            bilLanguage += 1;
-                            trLanguage += '<tr>';
-                            trLanguage += '<td align="center">' + bilLanguage + '</td>'
-                            trLanguage += '<td>' + item.language.name + '</td>';
-                            trLanguage += '<td>' + item.level + '</td>';
-                            trLanguage += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                            trLanguage += '&nbsp;&nbsp;';
-                            trLanguage += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                            trLanguage += '</tr>';
-                        });
-                    }
-                    $('#table-language tbody').append(trLanguage);
-
-                    $(document).on('click', '.edit-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#bahasaForm').attr('action', "{{ route('bahasa.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#bahasaForm input[name="id_bahasa"]').val(id);
-                        var BahasaName = $(row).find('td:nth-child(2)').text();
-                        $('#bahasaForm select[name="nama_bahasa"] option').filter(function() {
-                            return $(this).text() === BahasaName;
-                        }).prop('selected', true).trigger('change');
-                        var levelName = $(row).find('td:nth-child(3)').text();
-                        $('#bahasaForm select[name="penguasaan_bahasa"] option').filter(function() {
-                            return $(this).text() === levelName;
-                        }).prop('selected', true).trigger('change');
-                    });
-
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            bahasaDelete(id);
-                        }
-                        })
-
-                    });
+                    reloadBahasa();
 
                     $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    $('#bakatForm select[name="nama_bakat"]').val('').trigger('change');
-                    $('#bakatForm select[name="nama_bakat"]').attr('disabled', true);
-                    $('#bakatForm').attr('action', "{{ route('bakat.store')  }}");
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
-
                     $('#table-talent tbody').empty();
-                    if(data.detail.talent.length == 0){
-                        var trBakat = '<tr><td align="center" colspan="2">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trBakat = '';
-                        var bilBakat = 0;
-                        $.each(data.detail.talent, function (i, item) {
-                            bilBakat += 1;
-                            trBakat += '<tr>';
-                            trBakat += '<td align="center">' + bilBakat + '</td>'
-                            trBakat += '<td>' + item.talent.name + '</td>';
-                            trBakat += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                            trBakat += '&nbsp;&nbsp;';
-                            trBakat += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                            trBakat += '</tr>';
-                        });
-                    }
-                    $('#table-talent tbody').append(trBakat);
+                    reloadBakat();
 
-                    $(document).on('click', '.edit-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#bakatForm').attr('action', "{{ route('bakat.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#bakatForm input[name="id_bakat"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#bakatForm select[name="nama_bakat"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                    });
-                    $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            bakatDelete(id);
-                        }
-                        })
-
-                    });
-
-                    $('#penaltyForm select[name="penalty"]').attr('disabled', true);
-                    $('#penaltyForm input[name="penalty_duration"]').attr('disabled', true);
-                    $('#penaltyForm select[name="penalty_type"]').attr('disabled', true);
-                    $('#penaltyForm input[name="penalty_start"]').attr('disabled', true);
-                    $('#penaltyForm input[name="penalty_end"]').attr('disabled', true);
-                    $('#penaltyForm input[name="penalty_end"]').attr('readonly', false);
                     $('#penaltyForm input[name="penalty_no_pengenalan"]').val(data.detail.no_pengenalan);
-
                     $('#table-penalty tbody').empty();
-                    if(data.detail.penalty.length == 0){
-                        var trPenalty = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trPenalty = '';
-                        var bilPenalty = 0;
-                        $.each(data.detail.penalty, function (i, item) {
-                            bilPenalty += 1;
-                            trPenalty += '<tr>';
-                            trPenalty += '<td align="center">' + bilPenalty + '</td>'
-                            trPenalty += '<td>' + item.penalty.name + '</td>';
-                            trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
-                            trPenalty += '<td>' + item.startDate + '</td>';
-                            trPenalty += '<td>' + item.endDate + '</td>';
-                            trPenalty += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                            trPenalty += '&nbsp;&nbsp;';
-                            trPenalty += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                            trPenalty += '</tr>';
-                        });
-                    }
-                    $('#table-penalty tbody').append(trPenalty);
-
-                    $(document).on('click', '.edit-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                    $('#penaltyForm').attr('action', "{{ route('penalty.update') }}");
-                    var row = $(this).closest('tr');
-                    var id = $(this).data('id');
-                    editPenalty();
-
-                    $('#penaltyForm input[name="id_penalty"]').val(id);
-                    var subjectName = $(row).find('td:nth-child(2)').text();
-                    $('#penaltyForm select[name="penalty"] option').filter(function() {
-                        return $(this).text() === subjectName;
-                    }).prop('selected', true).trigger('change');
-                    var durationAndType = $(row).find('td:nth-child(3)').text().split(' ');
-                    var duration = durationAndType[0];
-                    var type = durationAndType[1];
-                    $('#penaltyForm select[name="penalty_duration"]').val(duration).text();
-                    $('#penaltyForm select[name="penalty_type"] option').filter(function() {
-                        return $(this).text() === type;
-                    }).prop('selected', true).trigger('change');
-                    $('#penaltyForm input[name="penalty_start"]').val($(row).find('td:nth-child(4)').text());
-                    $('#penaltyForm input[name="penalty_end"]').val($(row).find('td:nth-child(5)').text());
-
-                    });
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            penaltyDelete(id);
-                        }
-                        })
-
-                    });
+                    reloadPenalty();
 
                 },
                 error: function(data) {

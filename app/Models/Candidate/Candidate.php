@@ -35,7 +35,7 @@ class Candidate extends Model
         'permanent_address_3',
         'permanent_poscode',
         'permanent_city',
-        'permanenet_ref_state_code',
+        'permanent_ref_state_code',
         'date_of_birth',
         'place_of_birth',
         'father_place_of_birth',
@@ -83,7 +83,7 @@ class Candidate extends Model
     public function psl() {
         return $this->hasMany('App\Models\Candidate\CandidatePsl', 'no_pengenalan', 'no_pengenalan');
     }
-    
+
     public function armyPolice() {
         return $this->hasOne('App\Models\Candidate\CandidateArmyPolice', 'no_pengenalan', 'no_pengenalan');
     }

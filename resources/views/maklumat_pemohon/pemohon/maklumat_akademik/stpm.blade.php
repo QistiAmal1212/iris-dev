@@ -15,6 +15,7 @@
     data-refreshFunctionNameIfSuccess="reloadStpm"
     data-reloadPage="false">
     @csrf
+    <div class="row mt-2 mb-2">
     <h6>
         <span class="badge badge-light-primary fw-bolder">Sijil Tinggi Persekolahan Malaysia (STPM)</span>
     </h6>
@@ -48,12 +49,15 @@
     <div id="button_action_stpm" style="display:none">
         <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
+            <button type="button" class="btn btn-danger float-right" onclick="reloadStpm()">
+                <i class="fa fa-refresh"></i>
+            </button>&nbsp;&nbsp;
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditStpm').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
     </div>
-
+    </div>
     </form>
 
     <div class="table-responsive mb-1 mt-1">
@@ -89,6 +93,7 @@
     data-refreshFunctionNameIfSuccess="reloadStam"
     data-reloadPage="false">
     @csrf
+    <div class="row mt-2 mb-2">
     <h6>
         <span class="badge badge-light-primary fw-bolder">Sijil Tinggi Agama Malaysia (STAM)</span>
     </h6>
@@ -122,12 +127,15 @@
     <div id="button_action_stam" style="display:none">
         <button type="button" id="btnEditStam" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
+            <button type="button" class="btn btn-danger float-right" onclick="reloadStam()">
+                <i class="fa fa-refresh"></i>
+            </button>&nbsp;&nbsp;
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditStam').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
     </div>
-
+    </div>
     </form>
 
     <div class="table-responsive mb-1 mt-1">
@@ -163,7 +171,7 @@
     data-refreshFunctionNameIfSuccess="reloadMatrikulasi"
     data-reloadPage="false">
     @csrf
-
+    <div class="row mt-2 mb-2">
     <h6>
         <span class="badge badge-light-primary fw-bolder">Sijil Matrikulasi</span>
     </h6>
@@ -225,15 +233,18 @@
         <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
     </div>
 
-    <div id="button_action_matrikulasi" style="display:block">
+    <div id="button_action_matrikulasi" style="display:none">
         <button type="button" id="btnEditMatrikulasi" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
+            <button type="button" class="btn btn-danger float-right" onclick="reloadMatrikulasi()">
+                <i class="fa fa-refresh"></i>
+            </button>&nbsp;&nbsp;
             <button type="button" class="btn btn-success float-right" onclick="$('#btnEditMatrikulasi').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
     </div>
-
+    </div>
     </form>
 
     <div class="table-responsive mb-1 mt-1">
@@ -277,12 +288,15 @@
             method: 'GET',
             async: true,
             success: function(data) {
+                console.log(data)
                 $('#stpmForm select[name="subjek_stpm"]').val('').trigger('change');
                 $('#stpmForm select[name="gred_stpm"]').val('').trigger('change');
                 $('#stpmForm input[name="tahun_stpm"]').val('');
                 $('#stpmForm select[name="subjek_stpm"]').attr('disabled', true);
                 $('#stpmForm select[name="gred_stpm"]').attr('disabled', true);
                 $('#stpmForm input[name="tahun_stpm"]').attr('disabled', true);
+                $('#stpmForm').attr('action', "{{ route('stpm.store')  }}");
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_stpm").attr("style", "display:none");
 
@@ -291,7 +305,6 @@
                 var trStpm = '';
                 var bilStpm = 0;
                 $.each(data.detail, function(i, item) {
-                    console.log(data.detail)
                     if (item.subject != null) {
                         bilStpm += 1;
                         trStpm += '<tr>';
@@ -299,16 +312,16 @@
                         trStpm += '<td>' + item.subject.name + '</td>';
                         trStpm += '<td align="center">' + item.grade + '</td>';
                         trStpm += '<td align="center">' + item.year + '</td>';
-                        trStpm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                        trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
                         trStpm += '&nbsp;&nbsp;';
-                        trStpm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                        trStpm += '<i class="fas fa-trash text-danger deleteStpm-btn" data-id="' + item.id + '"></i></td>';
                         trStpm += '</tr>';
                     }
                 });
                 $('#table-stpm tbody').append(trStpm);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                $(document).on('click', '.editStpm-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#stpmForm').attr('action', "{{ route('stpm.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
@@ -320,10 +333,11 @@
                     }).prop('selected', true).trigger('change');
                     $('#stpmForm select[name="gred_stpm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
                     $('#stpmForm input[name="tahun_stpm"]').val($(row).find('td:nth-child(4)').text());
+
                 });
 
 
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deleteStpm-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -332,7 +346,7 @@
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        stpmDelete(id);
+                        deleteItem(id, "{{ route('stpm.delete', ':replaceThis') }}", reloadStpm )
                     }
                     })
 
@@ -341,20 +355,6 @@
             error: function(data) {
             }
         });
-    }
-
-    function stpmDelete(id){
-        var reloadStpmUrl = "{{ route('stpm.delete', ':replaceThis') }}"
-        reloadStpmUrl = reloadStpmUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadStpmUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadStpm();
-            }
-        });
-
     }
 
     function editStam() {
@@ -382,6 +382,8 @@
                 $('#stamForm select[name="subjek_stam"]').attr('disabled', true);
                 $('#stamForm select[name="gred_stam"]').attr('disabled', true);
                 $('#stamForm input[name="tahun_stam"]').attr('disabled', true);
+                $('#stamForm').attr('action', "{{ route('stam.store')  }}");
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_stam").attr("style", "display:none");
 
@@ -390,7 +392,6 @@
                 var trStam = '';
                 var bilStam = 0;
                 $.each(data.detail, function(i, item) {
-                    console.log(data.detail)
                     if (item.subject != null) {
                         bilStam += 1;
                         trStam += '<tr>';
@@ -398,16 +399,16 @@
                         trStam += '<td>' + item.subject.name + '</td>';
                         trStam += '<td align="center">' + item.grade + '</td>';
                         trStam += '<td align="center">' + item.year + '</td>';
-                        trStam += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                        trStam += '<td align="center"><i class="fas fa-pencil text-primary editStam-btn" data-id="' + item.id + ' " data-form="stam"></i>';
                         trStam += '&nbsp;&nbsp;';
-                        trStam += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                        trStam += '<i class="fas fa-trash text-danger deleteStam-btn" data-id="' + item.id + '"></i></td>';
                         trStam += '</tr>';
                     }
                 });
                 $('#table-stam tbody').append(trStam);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                $(document).on('click', '.editStam-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#stamForm').attr('action', "{{ route('stam.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
@@ -422,7 +423,7 @@
                 });
 
 
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deleteStam-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -431,7 +432,7 @@
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        stamDelete(id);
+                        deleteItem(id, "{{ route('stam.delete', ':replaceThis') }}", reloadStam )
                     }
                     })
 
@@ -440,20 +441,6 @@
             error: function(data) {
             }
         });
-    }
-
-    function stamDelete(id){
-        var reloadStamUrl = "{{ route('stam.delete', ':replaceThis') }}"
-        reloadStamUrl = reloadStamUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadStamUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadStam();
-            }
-        });
-
     }
 
     function editMatrikulasi() {
@@ -498,6 +485,9 @@
                 $('#matrikulasiForm input[name="gred_matrikulasi"]').attr('disabled', true);
                 $('#matrikulasiForm input[name="pngk_matrikulasi"]').attr('disabled', true);
 
+                $('#matrikulasiForm').attr('action', "{{ route('matrikulasi.store')  }}");
+                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+
                 $("#button_action_matrikulasi").attr("style", "display:none");
 
                 $('#table-matrikulasi tbody').empty();
@@ -515,14 +505,14 @@
                         trMatrikulasi += '<td align="center">' + item.subject.name + '</td>';
                         trMatrikulasi += '<td align="center">' + item.grade + '</td>';
                         trMatrikulasi += '<td align="center">' + item.pngk + '</td>';
-                        trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
+                        trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary editMatrikulasi-btn" data-id="' + item.id + ' " data-form="matrikulasi"></i>';
                         trMatrikulasi += '&nbsp;&nbsp;';
-                        trMatrikulasi += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                        trMatrikulasi += '<i class="fas fa-trash text-danger deleteMatrikulasi-btn" data-id="' + item.id + '"></i></td>';
                 });
                 $('#table-matrikulasi tbody').append(trMatrikulasi);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                $(document).on('click', '.editMatrikulasi-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#matrikulasiForm').attr('action', "{{ route('matrikulasi.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
@@ -536,7 +526,7 @@
                     $('#matrikulasiForm select[name="jurusan_matrikulasi"] option').filter(function() {
                         return $(this).text() === jurusanName;
                     }).prop('selected', true).trigger('change');
-                    $('#matrikulasiForm select[name="matrik_matrikulasi"]').val($(row).find('td:nth-child(4)').text());
+                    $('#matrikulasiForm input[name="matrik_matrikulasi"]').val($(row).find('td:nth-child(4)').text());
                     $('#matrikulasiForm input[name="sesi_matrikulasi"]').val($(row).find('td:nth-child(5)').text());
                     $('#matrikulasiForm input[name="semester_matrikulasi"]').val($(row).find('td:nth-child(6)').text());
                     var subjekName = $(row).find('td:nth-child(7)').text();
@@ -548,7 +538,7 @@
                 });
 
 
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deleteMatrikulasi-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -557,7 +547,7 @@
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        matrikulasiDelete(id);
+                        deleteItem(id, "{{ route('matrikulasi.delete', ':replaceThis') }}", reloadMatrikulasi )
                     }
                     })
 
@@ -566,19 +556,5 @@
             error: function(data) {
             }
         });
-    }
-
-    function matrikulasiDelete(id){
-        var reloadMatrikulasiUrl = "{{ route('matrikulasi.delete', ':replaceThis') }}"
-        reloadMatrikulasiUrl = reloadMatrikulasiUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadMatrikulasiUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadMatrikulasi();
-            }
-        });
-
     }
 </script>
