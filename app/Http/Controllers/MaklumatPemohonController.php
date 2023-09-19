@@ -351,13 +351,13 @@ class MaklumatPemohonController extends Controller
                 'permanent_address_3' => $request->permanent_address_3,
                 'permanent_poscode' => $request->permanent_poscode,
                 'permanent_city' => $request->permanent_city,
-                'permanent_state' => $request->permanent_state,
+                'permanent_ref_state_code' => $request->permanent_state,
                 'address_1' => $request->address_1,
                 'address_2' => $request->address_2,
                 'address_3' => $request->address_3,
                 'poscode' => $request->poscode,
                 'city' => $request->city,
-                'state' => $request->state,
+                'ref_state_code' => $request->state,
             ]);
 
             CandidateTimeline::create([
