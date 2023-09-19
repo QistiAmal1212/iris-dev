@@ -113,7 +113,7 @@ class MaklumatPemohonController extends Controller
                 'license' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("to_char(expiry_date::DATE, 'DD/MM/YYYY') as expiryDate")
+                        DB::raw("to_date(expiry_date, 'DD/MM/YYYY') as expiryDate")
                     );
                 },
                 'oku',
@@ -528,7 +528,7 @@ class MaklumatPemohonController extends Controller
                 'license' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("to_char(expiry_date::DATE, 'DD/MM/YYYY') as expiryDate")
+                        DB::raw("to_date(expiry_date, 'DD/MM/YYYY') as expiryDate")
                     );
                 },
             ])->first();
