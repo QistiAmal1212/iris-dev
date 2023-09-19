@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Race extends Model
 {
-    protected $table = 'ref_race';
+    protected $table = 'ruj_keturunan';
 
     protected $fillable = [
-        'code',
-        'name',
+        'kod',
+        'nama',
         'status_bumiputera',
-        'pemerolehan_code',
-        'group',
+        'no_pemerolehan',
+        'kump',
         'created_by',
         'updated_by',
-        'is_active',
+        'sah_yt',
     ];
 }

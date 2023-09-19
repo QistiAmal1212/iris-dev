@@ -93,7 +93,7 @@ class QualificationController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_qualification,code',
+                'code' => 'required|string|unique:ruj_kelulusan,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -177,7 +177,7 @@ class QualificationController extends Controller
             $log->data_old = json_encode($qualification);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_qualification,code,'.$qualificationId,
+                'code' => 'required|string|unique:ruj_kelulusan,code,'.$qualificationId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

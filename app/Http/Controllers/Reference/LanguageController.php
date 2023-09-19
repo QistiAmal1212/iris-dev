@@ -44,11 +44,11 @@ class LanguageController extends Controller
         $language = Language::all();
         if ($request->ajax()) {
             return Datatables::of($language)
-                ->editColumn('code', function ($language){
-                    return $language->code;
+                ->editColumn('kod', function ($language){
+                    return $language->kod;
                 })
-                ->editColumn('name', function ($language) {
-                    return $language->name;
+                ->editColumn('nama', function ($language) {
+                    return $language->nama;
                 })
                 ->editColumn('action', function ($language) use ($accessDelete) {
                     $button = "";
@@ -57,7 +57,7 @@ class LanguageController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="languageForm('.$language->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($language->is_active) {
+                        if($language->sah_yt) {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$language->id.'" onclick="toggleActive('.$language->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$language->id.'" onclick="toggleActive('.$language->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -80,7 +80,7 @@ class LanguageController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_language,code',
+                'code' => 'required|string|unique:ruj_bahasa,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -89,8 +89,8 @@ class LanguageController extends Controller
             ]);
 
             Language::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
+                'kod' => $request->code,
+                'nama' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -135,7 +135,7 @@ class LanguageController extends Controller
             $language = Language::find($languageId);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_language,code,'.$languageId,
+                'code' => 'required|string|unique:ruj_bahasa,kod,'.$languageId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -144,8 +144,8 @@ class LanguageController extends Controller
             ]);
 
             $language->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
+                'kod' => $request->code,
+                'nama' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
@@ -167,10 +167,10 @@ class LanguageController extends Controller
             $languageId = $request->languageId;
             $language = Language::find($languageId);
 
-            $is_active = $language->is_active;
+            $sah_yt = $language->sah_yt;
 
             $language->update([
-                'is_active' => !$is_active,
+                'sah_yt' => !$sah_yt,
             ]);
 
             DB::commit();

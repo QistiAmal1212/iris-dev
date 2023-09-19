@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('pemerolehan_code')->comment('Link with table pemerolehan column code')->nullable();
             $table->string('poscode')->nullable();
             $table->string('city')->nullable();
-            $table->string('department_ministry_code')->comment('Link with code ref_department_ministry')->nullable();
+            $table->string('department_ministry_code')->nullable();
             $table->string('name_2')->nullable();
             $table->string('name_3')->nullable();
             $table->string('email')->nullable();

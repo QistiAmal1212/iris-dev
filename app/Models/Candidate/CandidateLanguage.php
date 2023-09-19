@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CandidateLanguage extends Model
 {
-    protected $table = 'candidate_language';
+    protected $table = 'calon_bahasa';
 
     protected $fillable = [
     	'no_pengenalan',
@@ -17,7 +17,7 @@ class CandidateLanguage extends Model
     ];
 
     public function language() {
-        return $this->belongsTo('App\Models\Reference\Language', 'ref_language_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Language', 'ref_language_code', 'kod');
     }
 
     public function kategori()

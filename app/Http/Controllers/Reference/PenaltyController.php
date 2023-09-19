@@ -93,7 +93,7 @@ class PenaltyController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_penalty,code',
+                'code' => 'required|string|unique:ruj_tatatertib,code',
                 'name' => 'required|string',
                 'category' => 'required|string',
             ],[
@@ -178,7 +178,7 @@ class PenaltyController extends Controller
             $log->data_old = json_encode($penalty);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_penalty,code,'.$penaltyId,
+                'code' => 'required|string|unique:ruj_tatatertib,code,'.$penaltyId,
                 'name' => 'required|string',
                 'category' => 'required|string',
             ],[

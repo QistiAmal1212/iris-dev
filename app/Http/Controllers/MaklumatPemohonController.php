@@ -54,7 +54,7 @@ class MaklumatPemohonController extends Controller
 
     public function searchPemohon ()
     {
-        $departmentMinistries = DepartmentMinistry::orderBy('name', 'asc')->get();
+        $departmentMinistries = DepartmentMinistry::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
         $eligibilities = Eligibility::all();
         $genders = Gender::all();
         $gredPmr = GredMatapelajaran::where('tkt', 3)->orderBy('susunan', 'asc')->get();
@@ -66,14 +66,14 @@ class MaklumatPemohonController extends Controller
         $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
         $jenisBekasTenteraPolis = JenisBekasTenteraPolis::all();
         $jenisPerkhidmatan = JenisPerkhidmatan::all();
-        $maritalStatuses = MaritalStatus::all();
+        $maritalStatuses = MaritalStatus::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
         $penalties = Penalty::all();
         $peringkatPengajian = PeringkatPengajian::all();
         $positionLevels = PositionLevel::orderBy('name', 'asc')->get();
-        $races = Race::all();
+        $races = Race::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
         $ranks = Rank::all();
-        $religions = Religion::all();
-        $states = State::orderBy('name', 'asc')->get();
+        $religions = Religion::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $states = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
         $skims = Skim::orderBy('name', 'asc')->get();
         $specializations = Specialization::orderBy('name', 'asc')->get();
         $subjekPmr = Subject::where('form', 3)->orderBy('name', 'asc')->get();
@@ -229,11 +229,11 @@ class MaklumatPemohonController extends Controller
             $candidate = Candidate::where('no_pengenalan', $request->personal_no_pengenalan)->first();
 
             $request->validate([
-                'gender' => 'required|string|exists:ref_gender,code',
-                'religion' => 'required|string|exists:ref_religion,code',
-                'race' => 'required|string|exists:ref_race,code',
+                'gender' => 'required|string|exists:ruj_jantina,code',
+                'religion' => 'required|string|exists:ruj_agama,kod',
+                'race' => 'required|string|exists:ruj_keturunan,kod',
                 'date_of_birth' => 'required',
-                'marital_status' => 'required|required|exists:ref_marital_status,code',
+                'marital_status' => 'required|required|exists:ruj_taraf_kahwin,kod',
                 'phone_number' => 'required',
                 'email' => 'required|email:rfc,dns',
             ],[
@@ -619,8 +619,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_pmr' => 'required|string|exists:ref_subject,code',
-                'gred_pmr' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_pmr' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_pmr' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_pmr' => 'required|string',
             ],[
                 'subjek_pmr.required' => 'Sila pilih subjek pmr',
@@ -739,8 +739,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_spm' => 'required|string|exists:ref_subject,code',
-                'gred_spm' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_spm' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_spm' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_spm' => 'required|string',
             ],[
                 'subjek_spm.required' => 'Sila pilih subjek spm',
@@ -860,8 +860,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_spmv' => 'required|string|exists:ref_subject,code',
-                'gred_spmv' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_spmv' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_spmv' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_spmv' => 'required|string',
             ],[
                 'subjek_spmv.required' => 'Sila pilih subjek spmv',
@@ -981,8 +981,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_svm' => 'required|string|exists:ref_subject,code',
-                'gred_svm' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_svm' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_svm' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_svm' => 'required|string',
             ],[
                 'subjek_svm.required' => 'Sila pilih subjek svm',
@@ -1102,8 +1102,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_stpm' => 'required|string|exists:ref_subject,code',
-                'gred_stpm' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_stpm' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_stpm' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_stpm' => 'required|string',
             ],[
                 'subjek_stpm.required' => 'Sila pilih subjek stpm',
@@ -1223,8 +1223,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_stam' => 'required|string|exists:ref_subject,code',
-                'gred_stam' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_stam' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_stam' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_stam' => 'required|string',
             ],[
                 'subjek_stam.required' => 'Sila pilih subjek stam',
@@ -1483,7 +1483,7 @@ class MaklumatPemohonController extends Controller
 
         return response()->json(['message' => 'Record deleted successfully'], 200);
     }
-
+    
     public function storeSkm(Request $request)
     {
         DB::beginTransaction();
@@ -1814,13 +1814,13 @@ class MaklumatPemohonController extends Controller
             $candidate = CandidateHigherEducation::where('no_pengenalan', $request->pengajian_tinggi_no_pengenalan)->first();
 
             $request->validate([
-                'peringkat_pengajian_tinggi' => 'required|string|exists:ref_peringkat_pengajian,id',
+                'peringkat_pengajian_tinggi' => 'required|string|exists:ruj_peringkat_pengajian,id',
                 'tahun_pengajian_tinggi' => 'required|string',
-                'kelayakan_pengajian_tinggi' => 'required|string|exists:ref_eligibility,code',
+                'kelayakan_pengajian_tinggi' => 'required|string|exists:ruj_kelayakan,code',
                 'cgpa_pengajian_tinggi' => 'required|string',
-                'institusi_pengajian_tinggi' => 'required|string|exists:ref_institution,code',
+                'institusi_pengajian_tinggi' => 'required|string|exists:ruj_institusi,code',
                 'nama_sijil_pengajian_tinggi' => 'required|string',
-                'pengkhususan_pengajian_tinggi' => 'required|string|exists:ref_specialization,code',
+                'pengkhususan_pengajian_tinggi' => 'required|string|exists:ruj_pengkhususan,code',
                 'fln_pengajian_tinggi' => 'required|integer|digits_between:1,2',
                 'tarikh_senat_pengajian_tinggi' => 'required',
                 'biasiswa_pengajian_tinggi' => 'required|boolean',
@@ -2020,11 +2020,11 @@ class MaklumatPemohonController extends Controller
 
             $request->validate([
                 'experience_appoint_date' => 'required',
-                'experience_position_level' => 'required|string|exists:ref_position_level,code',
-                'experience_skim' => 'required|string|exists:ref_skim,code',
+                'experience_position_level' => 'required|string|exists:ruj_taraf_jawatan,code',
+                'experience_skim' => 'required|string|exists:ruj_skim,code',
                 'experience_start_date' => 'required',
                 'experience_verify_date' => 'required',
-                'experience_department_ministry' => 'required|string|exists:ref_department_ministry,code',
+                'experience_department_ministry' => 'required|string|exists:ruj_kem_jabatan,kod',
                 'experience_department_state' => 'required|string|exists:ref_state,code',
             ],[
                 'experience_appoint_date.required' => 'Sila pilih tarikh lantikan pertama',
@@ -2104,9 +2104,9 @@ class MaklumatPemohonController extends Controller
             $candidate = CandidateArmyPolice::where('no_pengenalan', $request->tentera_polis_no_pengenalan)->first();
 
             $request->validate([
-                'jenis_perkhidmatan_tentera_polis' => 'required|string|exists:ref_jenis_perkhidmatan,id',
-                'pangkat_tentera_polis' => 'required|string|exists:ref_rank,code',
-                'jenis_bekas_tentera_polis' => 'required|string|exists:ref_jenis_bekas_tentera_polis,code',
+                'jenis_perkhidmatan_tentera_polis' => 'required|string|exists:ruj_jenis_perkhidmatan,id',
+                'pangkat_tentera_polis' => 'required|string|exists:ruj_pangkat,code',
+                'jenis_bekas_tentera_polis' => 'required|string|exists:ruj_jenis_bekas_tentera_polis,code',
             ],[
                 'jenis_perkhidmatan_tentera_polis.required' => 'Sila pilih jenis penamatan perkhidmatan',
                 'jenis_perkhidmatan_tentera_polis.exists' => 'Tiada rekod jenis penamatan perkhidmatan yang dipilih',
@@ -2168,7 +2168,7 @@ class MaklumatPemohonController extends Controller
 
             $request->validate([
                 'penalty_no_pengenalan' => 'required|string|exists:candidate,no_pengenalan',
-                'penalty' => 'required|string|exists:ref_penalty,code',
+                'penalty' => 'required|string|exists:ruj_tatatertib,code',
                 'penalty_duration' => 'required|integer',
                 'penalty_type' => 'required',
                 'penalty_start' => 'required',

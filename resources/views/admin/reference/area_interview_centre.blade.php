@@ -95,16 +95,16 @@
                 }
             },
             {
-                data: "code",
-                name: "code",
+                data: "kod",
+                name: "kod",
                 className : "text-centre",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
             },
             {
-                data: "name",
-                name: "name",
+                data: "nama",
+                name: "nama",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -174,8 +174,8 @@
                     url2 = url2.replace(':replaceThis', area_interview_centre_id);
 
                     $('#areaInterviewCentreForm').attr('action',url2 );
-                    $('#areaInterviewCentreForm input[name="code"]').val(data.detail.code);
-                    $('#areaInterviewCentreForm input[name="name"]').val(data.detail.name);
+                    $('#areaInterviewCentreForm input[name="code"]').val(data.detail.kod);
+                    $('#areaInterviewCentreForm input[name="name"]').val(data.detail.nama);
                     $('#areaInterviewCentreForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Kawasan Pusat Temuduga');
