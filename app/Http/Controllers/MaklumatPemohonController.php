@@ -2045,7 +2045,7 @@ class MaklumatPemohonController extends Controller
                 'ref_position_level_code' => $request->experience_position_level,
                 'ref_skim_code' => $request->experience_skim,
                 'date_start' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
-                'date_end' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
+                'date_verify' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
                 'ref_department_ministry_code' => $request->experience_department_ministry,
                 'state_department' => $request->experience_department_state,
 
