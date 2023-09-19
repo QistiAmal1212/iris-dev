@@ -165,8 +165,8 @@ class MaklumatPemohonController extends Controller
                 'penalty' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("to_date(date_start, 'DD/MM/YYYY') as startDate"),
-                        DB::raw("to_date(date_end, 'DD/MM/YYYY') as endDate")
+                        DB::raw("to_char(date_start::DATE, 'DD/MM/YYYY') as startDate"),
+                        DB::raw("to_char(date_end::DATE, 'DD/MM/YYYY') as endDate")
                     );
                     $query->with(['penalty']);
                 },
