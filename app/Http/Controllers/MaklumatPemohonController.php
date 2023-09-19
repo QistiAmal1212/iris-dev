@@ -505,7 +505,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->lesen_memandu_no_pengenalan)
+            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)
             ->with([
                 'license' => function ($query) {
                     $query->select(
@@ -576,7 +576,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->oku_no_pengenalan)
+            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)
             ->with([
                 'oku',
             ])->first();
