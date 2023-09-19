@@ -59,7 +59,7 @@ class UserController extends Controller
             }
         }
 
-        $departmentMinistry = DepartmentMinistry::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $departmentMinistry = DepartmentMinistry::all();
         $skim = Skim::all();
 
         if(request()->route()->getname() == 'admin.internalUser' || request()->route()->getname() == 'admin.externalUser'){
@@ -105,7 +105,7 @@ class UserController extends Controller
                 }
                 if($request->department_ministry){
                     $users->whereHas('department_ministry', function ($query) use ($request) {
-                        $query->where('kod', $request->department_ministry);
+                        $query->where('code', $request->department_ministry);
                     });
                 }
                 if($request->skim){
@@ -135,7 +135,7 @@ class UserController extends Controller
                         return $users->no_ic;
                     })
                     ->editColumn('department_ministry', function ($users) use ($type) {
-                        return ($users->ref_department_ministry_code != null) ? $users->department_ministry->nama : null;
+                        return ($users->ref_department_ministry_code != null) ? $users->department_ministry->name : null;
                     })
                     ->editColumn('skim', function ($users) use ($type) {
                         return ($users->ref_skim_code != null) ? $users->skim->name : null;
@@ -229,8 +229,8 @@ class UserController extends Controller
                 'full_name' => 'required|string',
                 'email' => 'required|email|unique:users,email',
                 'phone_number' => 'required',
-                'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
-                'skim_code' => 'required|exists:ruj_skim,code',
+                'department_ministry_code' => 'required|exists:ref_department_ministry,code',
+                'skim_code' => 'required|exists:ref_skim,code',
                 'password' => [
                     'required',
                     'string',
@@ -307,7 +307,7 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $permissions = Permission::all();
-        $departments = DepartmentMinistry::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $departments = DepartmentMinistry::all();
         $skims = Skim::all();
 
         $internalRoleArr = Role::where('is_internal', 1)->pluck('name')->toArray();
@@ -344,7 +344,7 @@ class UserController extends Controller
                 'full_name' => 'required|string',
                 'email' => 'required|email|unique:users,email,'.$id_used,
                 'phone_number' => 'required',
-                'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
+                'department_ministry_code' => 'required|exists:ref_department_ministry,code',
                 'skim_code' => 'required|exists:ref_skim,code',
                 'roles' => 'required',
             ],[

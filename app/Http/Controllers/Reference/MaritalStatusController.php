@@ -44,11 +44,11 @@ class MaritalStatusController extends Controller
         $maritalStatus = MaritalStatus::all();
         if ($request->ajax()) {
             return Datatables::of($maritalStatus)
-                ->editColumn('kod', function ($maritalStatus){
-                    return $maritalStatus->kod;
+                ->editColumn('code', function ($maritalStatus){
+                    return $maritalStatus->code;
                 })
-                ->editColumn('nama', function ($maritalStatus) {
-                    return $maritalStatus->nama;
+                ->editColumn('name', function ($maritalStatus) {
+                    return $maritalStatus->name;
                 })
                 ->editColumn('action', function ($maritalStatus) use ($accessDelete) {
                     $button = "";
@@ -57,7 +57,7 @@ class MaritalStatusController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="maritalStatusForm('.$maritalStatus->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($maritalStatus->sah_yt) {
+                        if($maritalStatus->is_active) {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$maritalStatus->id.'" onclick="toggleActive('.$maritalStatus->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$maritalStatus->id.'" onclick="toggleActive('.$maritalStatus->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -80,7 +80,7 @@ class MaritalStatusController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_taraf_kahwin,kod',
+                'code' => 'required|string|unique:ref_marital_status,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -89,8 +89,8 @@ class MaritalStatusController extends Controller
             ]);
 
             MaritalStatus::create([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -135,7 +135,7 @@ class MaritalStatusController extends Controller
             $maritalStatus = MaritalStatus::find($maritalStatusId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_taraf_kahwin,kod,'.$maritalStatusId,
+                'code' => 'required|string|unique:ref_marital_status,code,'.$maritalStatusId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -144,8 +144,8 @@ class MaritalStatusController extends Controller
             ]);
 
             $maritalStatus->update([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
@@ -167,10 +167,10 @@ class MaritalStatusController extends Controller
             $maritalStatusId = $request->maritalStatusId;
             $maritalStatus = MaritalStatus::find($maritalStatusId);
 
-            $sah_yt = $maritalStatus->sah_yt;
+            $is_active = $maritalStatus->is_active;
 
             $maritalStatus->update([
-                'sah_yt' => !$sah_yt,
+                'is_active' => !$is_active,
             ]);
 
             DB::commit();

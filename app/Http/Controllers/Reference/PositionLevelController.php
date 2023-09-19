@@ -80,7 +80,7 @@ class PositionLevelController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_taraf_jawatan,code',
+                'code' => 'required|string|unique:ref_position_level,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -135,7 +135,7 @@ class PositionLevelController extends Controller
             $positionLevel = PositionLevel::find($positionLevelId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_taraf_jawatan,code,'.$positionLevelId,
+                'code' => 'required|string|unique:ref_position_level,code,'.$positionLevelId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

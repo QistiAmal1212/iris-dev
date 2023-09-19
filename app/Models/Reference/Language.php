@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Language extends Model
 {
-    protected $table = 'ruj_bahasa';
+    protected $table = 'ref_language';
 
     protected $fillable = [
-        'kod',
-        'nama',
-        'no_pemerolehan',
+        'code',
+        'name',
+        'pemerolehan_code',
         'created_by',
         'updated_by',
-        'sah_yt',
+        'is_active',
     ];
 }

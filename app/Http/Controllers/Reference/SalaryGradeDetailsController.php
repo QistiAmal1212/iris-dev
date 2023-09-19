@@ -90,12 +90,13 @@ class salaryGradeDetailsController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string',
+                'code' => 'required|string|unique:ref_salary_grade_details,ref_salary_grade_code',
                 'level' => 'required|string',
                 'year' => 'required|string',
                 'amount' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
+                'code.unique' => 'Kod telah diambil',
                 'level.required' => 'Sila isikan tahap gred gaji',
                 'year.required' => 'Sila isikan tahun',
                 'amount.required' => 'Sila isikan jumlah',
@@ -149,12 +150,13 @@ class salaryGradeDetailsController extends Controller
             $salaryGradeDetails = SalaryGradeDetails::find($salaryGradeDetailsId);
 
             $request->validate([
-                'code' => 'required|string',
+                'code' => 'required|string|unique:ref_salary_grade_details,ref_salary_grade_code,'.$salaryGradeDetailsId,
                 'level' => 'required|string',
                 'year' => 'required|string',
                 'amount' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
+                'code.unique' => 'Kod telah diambil',
                 'level.required' => 'Sila isikan tahap gred gaji',
                 'year.required' => 'Sila isikan tahun',
                 'amount.required' => 'Sila isikan jumlah',

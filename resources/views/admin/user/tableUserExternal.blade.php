@@ -16,7 +16,7 @@
         <select class="select2 form-control" id="role" name="role">
             <option value=""></option>
             @foreach ($externalUsers as $externalUser)
-                <option value="{{ $externalUser->id }}">{{ $externalUser->name }}</option>
+                <option value={{ $externalUser->id }}>{{ $externalUser->name }}</option>
             @endforeach
         </select>
     </div>
@@ -26,7 +26,7 @@
         <select class="select2 form-control" id="department_ministry" name="department_ministry" >
             <option value=""></option>
             @foreach($departmentMinistry as $department)
-            <option value="{{ $department->kod }}">{{ $department->nama }}</option>
+            <option value="{{ $department->code }}">{{ $department->name }}</option>
             @endforeach
         </select>
     </div>

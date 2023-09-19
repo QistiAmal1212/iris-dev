@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class JenisBekasTenteraPolis extends Model
 {
-    protected $table = 'ruj_jenis_bekas_tentera_polis';
+    protected $table = 'ref_jenis_bekas_tentera_polis';
 
     protected $fillable = [
         'code',

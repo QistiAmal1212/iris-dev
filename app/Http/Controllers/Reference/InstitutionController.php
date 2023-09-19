@@ -80,7 +80,7 @@ class InstitutionController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_institusi,code',
+                'code' => 'required|string|unique:ref_institution,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -135,7 +135,7 @@ class InstitutionController extends Controller
             $institution = Institution::find($institutionId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_institusi,code,'.$institutionId,
+                'code' => 'required|string|unique:ref_institution,code,'.$institutionId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

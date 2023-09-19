@@ -90,16 +90,16 @@
                     }
                 },
                 {
-                    data: "kod",
-                    name: "kod",
+                    data: "code",
+                    name: "code",
                     className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
                 },
                 {
-                    data: "nama",
-                    name: "nama",
+                    data: "name",
+                    name: "name",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -171,8 +171,8 @@
                         url2 = url2.replace(':replaceThis', race_id);
 
                         $('#raceForm').attr('action', url2);
-                        $('#raceForm input[name="code"]').val(data.detail.kod);
-                        $('#raceForm input[name="name"]').val(data.detail.nama);
+                        $('#raceForm input[name="code"]').val(data.detail.code);
+                        $('#raceForm input[name="name"]').val(data.detail.name);
 
                         $('#raceForm input[name="code"]').prop('readonly', true);
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CandidateProfessional extends Model
 {
-    protected $table = 'calon_profesional';
+    protected $table = 'candidate_professional';
 
     protected $fillable = [
     	'no_pengenalan',

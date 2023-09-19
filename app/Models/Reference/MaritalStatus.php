@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class MaritalStatus extends Model
 {
-    protected $table = 'ruj_taraf_kahwin';
+    protected $table = 'ref_marital_status';
 
     protected $fillable = [
-        'kod',
-        'nama',
+        'code',
+        'name',
         'created_by',
         'updated_by',
-        'sah_yt',
+        'is_active',
     ];
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SalaryGradeDetails extends Model
 {
-    protected $table = 'ruj_gred_gaji_det';
+    protected $table = 'ref_salary_grade_details';
 
     protected $fillable = [
         'ref_salary_grade_code',

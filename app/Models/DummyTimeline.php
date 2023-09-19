@@ -1,20 +1,24 @@
 <?php
 
-namespace App\Models\Candidate;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CandidateTimeline extends Model
+class DummyTimeline extends Model
 {
-    protected $table = 'candidate_timeline';
+    protected $table = 'dummy_timeline';
 
     protected $fillable = [
-        'no_pengenalan',
+        'dummy_penalty_id',
         'details',
-        'activity_type_id',
         'created_by',
         'updated_by',
     ];
+
+    public function penalty()
+    {
+        return $this->belongsTo('App\Models\Reference\Penalty', 'dummy_penalty_id', 'id');
+    }
 
     public function created_user()
     {

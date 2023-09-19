@@ -93,7 +93,7 @@ class SpecializationController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pengkhususan,code',
+                'code' => 'required|string|unique:ref_specialization,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -177,7 +177,7 @@ class SpecializationController extends Controller
             $log->data_old = json_encode($specialization);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pengkhususan,code,'.$specializationId,
+                'code' => 'required|string|unique:ref_specialization,code,'.$specializationId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

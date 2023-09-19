@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rank extends Model
 {
-    protected $table = 'ruj_pangkat';
+    protected $table = 'ref_rank';
 
     protected $fillable = [
         'code',

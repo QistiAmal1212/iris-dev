@@ -49,7 +49,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="permanent_state" id="permanent_state" disabled>
             <option value=""></option>
             @foreach($states as $state)
-            <option value="{{ $state->kod }}">{{ $state->nama }}</option>
+            <option value="{{ $state->code }}">{{ $state->name }}</option>
             @endforeach
         </select>
         <div id="permanent_stateAlert" style="color: red; font-size: smaller;"></div>
@@ -88,7 +88,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="state" id="state" disabled>
             <option value=""></option>
             @foreach($states as $state)
-            <option value="{{ $state->kod }}">{{ $state->nama }}</option>
+            <option value="{{ $state->code }}">{{ $state->name }}</option>
             @endforeach
         </select>
         <div id="stateAlert" style="color: red; font-size: smaller;"></div>

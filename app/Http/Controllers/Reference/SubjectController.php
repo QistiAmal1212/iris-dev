@@ -93,7 +93,7 @@ class SubjectController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_matapelajaran,code',
+                'code' => 'required|string|unique:ref_subject,code',
                 'name' => 'required|string',
                 'form' => 'required|numeric|min:1|max:6',
             ],[
@@ -183,7 +183,7 @@ class SubjectController extends Controller
             $log->data_old = json_encode($subject);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_matapelajaran,code,'.$subjectId,
+                'code' => 'required|string|unique:ref_subject,code,'.$subjectId,
                 'name' => 'required|string',
                 'form' => 'required|numeric|min:1|max:6',
             ],[

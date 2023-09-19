@@ -84,7 +84,7 @@ class EligibilityController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelayakan,code',
+                'code' => 'required|string|unique:ref_eligibility,code',
                 'name' => 'required|string',
                 'ref_skim_code' => 'required|string',
                 'equivalent' => 'required|string',
@@ -147,7 +147,7 @@ class EligibilityController extends Controller
             $eligibility = Eligibility::find($eligibilityId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelayakan,code,'.$eligibilityId,
+                'code' => 'required|string|unique:ref_eligibility,code,'.$eligibilityId,
                 'name' => 'required|string',
                 'ref_skim_code' => 'required|string',
                 'equivalent' => 'required|string',

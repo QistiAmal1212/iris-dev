@@ -57,11 +57,11 @@ class ReligionController extends Controller
             $log->save();
 
             return Datatables::of($religion)
-                ->editColumn('kod', function ($religion){
-                    return $religion->kod;
+                ->editColumn('code', function ($religion){
+                    return $religion->code;
                 })
-                ->editColumn('nama', function ($religion) {
-                    return $religion->nama;
+                ->editColumn('name', function ($religion) {
+                    return $religion->name;
                 })
                 ->editColumn('action', function ($religion) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class ReligionController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="religionForm('.$religion->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($religion->sah_yt) {
+                        if($religion->is_active) {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$religion->id.'" onclick="toggleActive('.$religion->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$religion->id.'" onclick="toggleActive('.$religion->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -93,7 +93,7 @@ class ReligionController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_agama,kod',
+                'code' => 'required|string|unique:ref_religion,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -102,8 +102,8 @@ class ReligionController extends Controller
             ]);
 
             $religion = Religion::create([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -177,7 +177,7 @@ class ReligionController extends Controller
             $log->data_old = json_encode($religion);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_agama,kod,'.$religionId,
+                'code' => 'required|string|unique:ref_religion,code,'.$religionId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -186,8 +186,8 @@ class ReligionController extends Controller
             ]);
 
             $religion->update([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
@@ -217,10 +217,10 @@ class ReligionController extends Controller
             $religionId = $request->religionId;
             $religion = Religion::find($religionId);
 
-            $sah_yt = $religion->sah_yt;
+            $is_active = $religion->is_active;
 
             $religion->update([
-                'sah_yt' => !$sah_yt,
+                'is_active' => !$is_active,
             ]);
 
             DB::commit();

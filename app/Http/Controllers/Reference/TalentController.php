@@ -93,7 +93,7 @@ class TalentController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_bakat,code',
+                'code' => 'required|string|unique:ref_talent,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -177,7 +177,7 @@ class TalentController extends Controller
             $log->data_old = json_encode($talent);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_bakat,code,'.$talentId,
+                'code' => 'required|string|unique:ref_talent,code,'.$talentId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

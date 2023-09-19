@@ -44,11 +44,11 @@ class DepartmentMinistryController extends Controller
         $departmentMinistry = DepartmentMinistry::all();
         if ($request->ajax()) {
             return Datatables::of($departmentMinistry)
-                ->editColumn('kod', function ($departmentMinistry){
-                    return $departmentMinistry->kod;
+                ->editColumn('code', function ($departmentMinistry){
+                    return $departmentMinistry->code;
                 })
-                ->editColumn('nama', function ($departmentMinistry) {
-                    return $departmentMinistry->nama;
+                ->editColumn('name', function ($departmentMinistry) {
+                    return $departmentMinistry->name;
                 })
                 ->editColumn('action', function ($departmentMinistry) use ($accessDelete) {
                     $button = "";
@@ -57,7 +57,7 @@ class DepartmentMinistryController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="departmentMinistryForm('.$departmentMinistry->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($departmentMinistry->sah_yt) {
+                        if($departmentMinistry->is_active) {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$departmentMinistry->id.'" onclick="toggleActive('.$departmentMinistry->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$departmentMinistry->id.'" onclick="toggleActive('.$departmentMinistry->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -80,7 +80,7 @@ class DepartmentMinistryController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kem_jabatan,kod',
+                'code' => 'required|string|unique:ref_department_ministry,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -89,8 +89,8 @@ class DepartmentMinistryController extends Controller
             ]);
 
             DepartmentMinistry::create([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -135,7 +135,7 @@ class DepartmentMinistryController extends Controller
             $departmentMinistry = DepartmentMinistry::find($departmentMinistryId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kem_jabatan,kod,'.$departmentMinistryId,
+                'code' => 'required|string|unique:ref_department_ministry,code,'.$departmentMinistryId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -144,8 +144,8 @@ class DepartmentMinistryController extends Controller
             ]);
 
             $departmentMinistry->update([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
@@ -167,10 +167,10 @@ class DepartmentMinistryController extends Controller
             $departmentMinistryId = $request->departmentMinistryId;
             $departmentMinistry = DepartmentMinistry::find($departmentMinistryId);
 
-            $sah_yt = $departmentMinistry->sah_yt;
+            $is_active = $departmentMinistry->is_active;
 
             $departmentMinistry->update([
-                'sah_yt' => !$sah_yt,
+                'is_active' => !$is_active,
             ]);
 
             DB::commit();

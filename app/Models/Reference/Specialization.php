@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Specialization extends Model
 {
-    protected $table = 'ruj_pengkhususan';
+    protected $table = 'ref_specialization';
 
     protected $fillable = [
         'code',

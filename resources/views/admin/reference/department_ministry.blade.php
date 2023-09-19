@@ -95,16 +95,16 @@
                 }
             },
             {
-                data: "kod",
-                name: "kod",
+                data: "code",
+                name: "code",
                 className : "text-center",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
             },
             {
-                data: "nama",
-                name: "nama",
+                data: "name",
+                name: "name",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -174,8 +174,8 @@
                     url2 = url2.replace(':replaceThis', department_ministry_id);
 
                     $('#departmentMinistryForm').attr('action',url2 );
-                    $('#departmentMinistryForm input[name="code"]').val(data.detail.kod);
-                    $('#departmentMinistryForm input[name="name"]').val(data.detail.nama);
+                    $('#departmentMinistryForm input[name="code"]').val(data.detail.code);
+                    $('#departmentMinistryForm input[name="name"]').val(data.detail.name);
                     $('#departmentMinistryForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Kementerian');

@@ -94,16 +94,16 @@
                 }
             },
             {
-                data: "kod",
-                name: "kod",
+                data: "code",
+                name: "code",
                 className : "text-center",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
             },
             {
-                data: "nama",
-                name: "nama",
+                data: "name",
+                name: "name",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -173,17 +173,17 @@
                     url2 = url2.replace(':replaceThis', language_id);
 
                     $('#languageForm').attr('action',url2 );
-                    $('#languageForm input[name="code"]').val(data.detail.kod);
-                    $('#languageForm input[name="name"]').val(data.detail.nama);
+                    $('#languageForm input[name="code"]').val(data.detail.code);
+                    $('#languageForm input[name="name"]').val(data.detail.name);
 
                     $('#languageForm input[name="code"]').prop('readonly', true);
 
-                        // $('#languageForm input[name="code"]').css({
-                        //     'background-color': '#f0f0f0',
-                        //     'color': '#666',
-                        //     'border': '1px solid #ccc',
-                        //     'cursor': 'not-allowed'
-                        // });
+                        $('#languageForm input[name="code"]').css({
+                            'background-color': '#f0f0f0',
+                            'color': '#666',
+                            'border': '1px solid #ccc',
+                            'cursor': 'not-allowed'
+                        });
 
                     $('#title-role').html('Kemaskini Bahasa');
 

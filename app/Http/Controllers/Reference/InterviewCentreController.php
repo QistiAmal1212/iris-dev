@@ -43,9 +43,9 @@ class InterviewCentreController extends Controller
             }
         }
 
-        $areaInterviewCentre = AreaInterviewCentre::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $areaInterviewCentre = AreaInterviewCentre::all();
 
-        $states = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $state = State::all();
 
         $interviewCentre = InterviewCentre::all();
         if ($request->ajax()) {
@@ -78,7 +78,7 @@ class InterviewCentreController extends Controller
         }
 
         //pass
-        return view('admin.reference.interview_centre', compact('accessAdd', 'accessUpdate', 'accessDelete', 'areaInterviewCentre', 'states'));
+        return view('admin.reference.interview_centre', compact('accessAdd', 'accessUpdate', 'accessDelete', 'areaInterviewCentre', 'state'));
     }
 
     public function store(Request $request)
@@ -87,25 +87,23 @@ class InterviewCentreController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pusat_temuduga,kod',
+                'code' => 'required|string|unique:ref_interview_centre,code',
                 'name' => 'required|string',
-                'ref_area_code' => 'required|string|exists:ruj_kawasan_pst_td,kod',
-                'ref_state_code' => 'required|string|exists:ruj_negeri,kod',
+                'ref_area_code' => 'required|string',
+                'ref_state_code' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan pusat temuduga',
-                'ref_area_code.required' => 'Sila isikan kawasan pusat temuduga',
-                'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
-                'ref_state_code.required' => 'Sila isikan negeri',
-                'ref_state_code.exists' => 'Tiada rekod negeri yang dipilih',
+                'name.required' => 'Sila isikan pangkat',
+                'ref_area_code.required' => 'Sila isikan kod kawasan',
+                'ref_state_code.required' => 'Sila isikan kod negeri',
             ]);
 
             InterviewCentre::create([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'kod_ruj_kawasan_pst_td' => $request->ref_area_code,
-                'kod_ruj_negeri' => strtoupper($request->ref_state_code),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
+                'ref_area_interview_centre_code' => $request->ref_area_code,
+                'ref_state_code' => strtoupper($request->ref_state_code),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -149,25 +147,23 @@ class InterviewCentreController extends Controller
             $interviewCentre = InterviewCentre::find($interviewCentreId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pusat_temuduga,kod,'.$interviewCentreId,
+                'code' => 'required|string|unique:ref_interview_centre,code,'.$interviewCentreId,
                 'name' => 'required|string',
-                'ref_area_code' => 'required|string|exists:ruj_kawasan_pst_td,kod',
-                'ref_state_code' => 'required|string|exists:ruj_negeri,kod',
+                'ref_area_code' => 'required|string',
+                'ref_state_code' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan pusat temuduga',
-                'ref_area_code.required' => 'Sila isikan kawasan pusat temuduga',
-                'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
-                'ref_state_code.required' => 'Sila isikan negeri',
-                'ref_state_code.exists' => 'Tiada rekod negeri yang dipilih',
+                'name.required' => 'Sila isikan pangkat',
+                'ref_area_code.required' => 'Sila isikan kod kawasan',
+                'ref_state_code.required' => 'Sila isikan kod negeri',
             ]);
 
             $interviewCentre->update([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'kod_ruj_kawasan_pst_td' => $request->ref_area_code,
-                'kod_ruj_negeri' => strtoupper($request->ref_state_code),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
+                'ref_area_interview_centre_code' => $request->ref_area_code,
+                'ref_state_code' => strtoupper($request->ref_state_code),
                 'updated_by' => auth()->user()->id,
             ]);
 
@@ -189,10 +185,10 @@ class InterviewCentreController extends Controller
             $interviewCentreId = $request->interviewCentreId;
             $interviewCentre = InterviewCentre::find($interviewCentreId);
 
-            $sah_yt = $interviewCentre->sah_yt;
+            $is_active = $interviewCentre->is_active;
 
             $interviewCentre->update([
-                'sah_yt' => !$sah_yt,
+                'is_active' => !$is_active,
             ]);
 
             DB::commit();

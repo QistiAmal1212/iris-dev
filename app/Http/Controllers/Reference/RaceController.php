@@ -57,11 +57,11 @@ class RaceController extends Controller
             $log->save();
 
             return Datatables::of($race)
-                ->editColumn('kod', function ($race){
-                    return $race->kod;
+                ->editColumn('code', function ($race){
+                    return $race->code;
                 })
-                ->editColumn('nama', function ($race) {
-                    return $race->nama;
+                ->editColumn('name', function ($race) {
+                    return $race->name;
                 })
                 ->editColumn('action', function ($race) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class RaceController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="raceForm('.$race->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($race->sah_yt) {
+                        if($race->is_active) {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -93,7 +93,7 @@ class RaceController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_keturunan,kod',
+                'code' => 'required|string|unique:ref_race,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -102,8 +102,8 @@ class RaceController extends Controller
             ]);
 
             $race = Race::create([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -177,7 +177,7 @@ class RaceController extends Controller
             $log->data_old = json_encode($race);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_keturunan,kod,'.$raceId,
+                'code' => 'required|string|unique:ref_race,code,'.$raceId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -186,8 +186,8 @@ class RaceController extends Controller
             ]);
 
             $race->update([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
@@ -217,10 +217,10 @@ class RaceController extends Controller
             $raceId = $request->raceId;
             $race = Race::find($raceId);
 
-            $sah_yt = $race->sah_yt;
+            $is_active = $race->is_active;
 
             $race->update([
-                'sah_yt' => !$sah_yt,
+                'is_active' => !$is_active,
             ]);
 
             DB::commit();

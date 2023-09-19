@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LevelJKK extends Model
 {
-    protected $table = 'ruj_tingkatan_jkk';
+    protected $table = 'ref_level_jkk';
 
     protected $fillable = [
         'code',

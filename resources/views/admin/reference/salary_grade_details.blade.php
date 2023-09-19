@@ -58,6 +58,7 @@
     </div>
 
     @include('admin.reference.salaryGradeDetailsForm')
+    @include('admin.reference.salaryGradeDetailsEditForm')
 @endsection
 
 @section('script')
@@ -149,7 +150,7 @@
                 $('#salaryGradeDetailsForm').attr('action',
                     '{{ route('admin.reference.salary-grade-details.store') }}');
 
-                $('#salaryGradeDetailsForm select[name="code"]').val("").trigger('change');
+                $('#salaryGradeDetailsForm input[name="code"]').val("");
                 $('#salaryGradeDetailsForm input[name="level"]').val("");
                 $('#salaryGradeDetailsForm input[name="year"]').val("");
                 $('#salaryGradeDetailsForm input[name="amount"]').val("");
@@ -164,6 +165,10 @@
 
                 salaryGradeDetailsFormModal.show();
             } else {
+                salaryGradeDetailsFormModal = new bootstrap.Modal(document.getElementById(
+                    'salaryGradeDetailsEditFormModal'), {
+                        keyboard: false
+                    });
                 url = "{{ route('admin.reference.salary-grade-details.edit', ':replaceThis') }}"
                 url = url.replace(':replaceThis', id);
                 $.ajax({
@@ -180,7 +185,7 @@
                         url2 = url2.replace(':replaceThis', salary_grade_id);
 
                         $('#salaryGradeDetailsForm').attr('action', url2);
-                        $('#salaryGradeDetailsForm select[name="code"]').val(data.detail.ref_salary_grade_code).trigger('change');
+                        $('#salaryGradeDetailsForm input[name="code"]').val(data.detail.ref_salary_grade_code);
                         $('#salaryGradeDetailsForm input[name="level"]').val(data.detail.level);
                         $('#salaryGradeDetailsForm input[name="year"]').val(data.detail.year);
                         $('#salaryGradeDetailsForm input[name="amount"]').val(data.detail.amount);

@@ -86,7 +86,7 @@ class MatriculationSubjectController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_subjek_matrikulasi,code',
+                'code' => 'required|string|unique:ref_matriculation_subject,code',
                 'name' => 'required|string',
                 'credit' => 'required|numeric',
                 'semester' => 'required|numeric',
@@ -149,7 +149,7 @@ class MatriculationSubjectController extends Controller
             $matriculationSubject = MatriculationSubject::find($matriculationSubjectId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_subjek_matrikulasi,code,'.$matriculationSubjectId,
+                'code' => 'required|string|unique:ref_matriculation_subject,code,'.$matriculationSubjectId,
                 'name' => 'required|string',
                 'credit' => 'required|numeric',
                 'semester' => 'required|numeric',

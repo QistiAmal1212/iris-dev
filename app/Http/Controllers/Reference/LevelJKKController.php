@@ -80,7 +80,7 @@ class LevelJKKController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tingkatan_jkk,code',
+                'code' => 'required|string|unique:ref_level_JKK,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -135,7 +135,7 @@ class LevelJKKController extends Controller
             $levelJKK = LevelJKK::find($levelJKKId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tingkatan_jkk,code,'.$levelJKKId,
+                'code' => 'required|string|unique:ref_level_JKK,code,'.$levelJKKId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

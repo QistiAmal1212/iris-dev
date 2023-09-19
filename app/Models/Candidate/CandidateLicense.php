@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CandidateLicense extends Model
 {
-    protected $table = 'calon_lesen';
+    protected $table = 'candidate_license';
 
     protected $fillable = [
     	'no_pengenalan',

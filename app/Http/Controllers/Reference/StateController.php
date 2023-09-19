@@ -57,11 +57,11 @@ class StateController extends Controller
             $log->save();
 
             return Datatables::of($state)
-                ->editColumn('kod', function ($state){
-                    return $state->kod;
+                ->editColumn('code', function ($state){
+                    return $state->code;
                 })
-                ->editColumn('nama', function ($state) {
-                    return $state->nama;
+                ->editColumn('name', function ($state) {
+                    return $state->name;
                 })
                 ->editColumn('action', function ($state) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class StateController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="stateForm('.$state->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($state->sah_yt) {
+                        if($state->is_active) {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$state->id.'" onclick="toggleActive('.$state->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$state->id.'" onclick="toggleActive('.$state->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -93,7 +93,7 @@ class StateController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_negeri,kod',
+                'code' => 'required|string|unique:ref_state,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -102,8 +102,8 @@ class StateController extends Controller
             ]);
 
             $state = State::create([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -177,7 +177,7 @@ class StateController extends Controller
             $log->data_old = json_encode($state);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_negeri,kod,'.$stateId,
+                'code' => 'required|string|unique:ref_state,code,'.$stateId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -186,8 +186,8 @@ class StateController extends Controller
             ]);
 
             $state->update([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
@@ -217,10 +217,10 @@ class StateController extends Controller
             $stateId = $request->stateId;
             $state = State::find($stateId);
 
-            $sah_yt = $state->sah_yt;
+            $is_active = $state->is_active;
 
             $state->update([
-                'sah_yt' => !$sah_yt,
+                'is_active' => !$is_active,
             ]);
 
             DB::commit();

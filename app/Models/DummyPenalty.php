@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Models\Candidate;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CandidatePenalty extends Model
+class DummyPenalty extends Model
 {
-    protected $table = 'candidate_penalty';
+    protected $table = 'dummy_penalty';
 
     protected $fillable = [
-        'no_pengenalan',
         'ref_penalty_code',
-        'duration',
+    	'name',
         'type',
+        'duration',
         'date_start',
         'date_end',
-        'created_by',
-        'updated_by',
     ];
 
     public function penalty()

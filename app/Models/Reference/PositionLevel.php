@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PositionLevel extends Model
 {
-    protected $table = 'ruj_taraf_jawatan';
+    protected $table = 'ref_position_level';
 
     protected $fillable = [
         'code',

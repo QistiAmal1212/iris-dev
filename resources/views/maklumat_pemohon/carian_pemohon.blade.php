@@ -433,7 +433,7 @@ Maklumat Pemohon
                             trSkim += '<td>' + item.skim.name + '</td>';
                             trSkim += '<td>' + (item.register_date ? item.register_date : '') + '</td>';
                             trSkim += '<td>' + (item.expiry_date ? item.expiry_date : '') + '</td>';
-                            trSkim += '<td>' + (item.interview_centre ? item.interview_centre.nama : '') + '</td>';
+                            trSkim += '<td>' + (item.interview_centre ? item.interview_centre.name : '') + '</td>';
                             trSkim += '</tr>';
                         });
                 }
@@ -545,6 +545,7 @@ Maklumat Pemohon
                         $('#spmForm input[name="tahun_spm"]').val($(row).find('td:nth-child(4)').text());
 
                     });
+
 
                     $('#table-spmv tbody').empty();
                     $('#spmvForm input[name="spmv_no_pengenalan"]').val(data.detail.no_pengenalan);
@@ -757,6 +758,7 @@ Maklumat Pemohon
                         $('#matrikulasiForm input[name="gred_matrikulasi"]').val($(row).find('td:nth-child(8)').text());
                         $('#matrikulasiForm input[name="pngk_matrikulasi"]').val($(row).find('td:nth-child(9)').text());
                     });
+
 
                     $(document).on('click', '.delete-btn', function() {
                         var id = $(this).data('id');
@@ -1054,16 +1056,11 @@ Maklumat Pemohon
                             bilLanguage += 1;
                             trLanguage += '<tr>';
                             trLanguage += '<td align="center">' + bilLanguage + '</td>'
-<<<<<<< Updated upstream
                             trLanguage += '<td>' + item.language.name + '</td>';
                             trLanguage += '<td>' + item.level + '</td>';
                             trLanguage += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
                             trLanguage += '&nbsp;&nbsp;';
                             trLanguage += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-=======
-                            trLanguage += '<td>' + item.language.nama + '</td>';
-                            trLanguage += '<td>' + languageLevel + '</td>';
->>>>>>> Stashed changes
                             trLanguage += '</tr>';
                         });
                     }
@@ -1128,7 +1125,7 @@ Maklumat Pemohon
                     $('#table-talent tbody').append(trBakat);
 
                     $(document).on('click', '.edit-btn', function() {
-                        $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                         $('#bakatForm').attr('action', "{{ route('bakat.update') }}");
                         var row = $(this).closest('tr');
                         var id = $(this).data('id');
@@ -1187,26 +1184,27 @@ Maklumat Pemohon
                     $('#table-penalty tbody').append(trPenalty);
 
                     $(document).on('click', '.edit-btn', function() {
-                        $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#penaltyForm').attr('action', "{{ route('penalty.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-                        editPenalty();
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                    $('#penaltyForm').attr('action', "{{ route('penalty.update') }}");
+                    var row = $(this).closest('tr');
+                    var id = $(this).data('id');
+                    editPenalty();
 
-                        $('#penaltyForm input[name="id_penalty"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#penaltyForm select[name="penalty"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        var durationAndType = $(row).find('td:nth-child(3)').text().split(' ');
-                        var duration = durationAndType[0];
-                        var type = durationAndType[1];
-                        $('#penaltyForm select[name="penalty_duration"]').val(duration).text();
-                        $('#penaltyForm select[name="penalty_type"] option').filter(function() {
-                            return $(this).text() === type;
-                        }).prop('selected', true).trigger('change');
-                        $('#penaltyForm input[name="penalty_start"]').val($(row).find('td:nth-child(4)').text());
-                        $('#penaltyForm input[name="penalty_end"]').val($(row).find('td:nth-child(5)').text());
+                    $('#penaltyForm input[name="id_penalty"]').val(id);
+                    var subjectName = $(row).find('td:nth-child(2)').text();
+                    $('#penaltyForm select[name="penalty"] option').filter(function() {
+                        return $(this).text() === subjectName;
+                    }).prop('selected', true).trigger('change');
+                    var durationAndType = $(row).find('td:nth-child(3)').text().split(' ');
+                    var duration = durationAndType[0];
+                    var type = durationAndType[1];
+                    $('#penaltyForm select[name="penalty_duration"]').val(duration).text();
+                    $('#penaltyForm select[name="penalty_type"] option').filter(function() {
+                        return $(this).text() === type;
+                    }).prop('selected', true).trigger('change');
+                    $('#penaltyForm input[name="penalty_start"]').val($(row).find('td:nth-child(4)').text());
+                    $('#penaltyForm input[name="penalty_end"]').val($(row).find('td:nth-child(5)').text());
+
                     });
 
                     $(document).on('click', '.delete-btn', function() {

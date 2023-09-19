@@ -80,7 +80,7 @@ class SalaryGradeController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_gred_gaji_hdr,code',
+                'code' => 'required|string|unique:ref_salary_grade,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -135,7 +135,7 @@ class SalaryGradeController extends Controller
             $salaryGrade = SalaryGrade::find($salaryGradeId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_gred_gaji_hdr,code,'.$salaryGradeId,
+                'code' => 'required|string|unique:ref_salary_grade,code,'.$salaryGradeId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

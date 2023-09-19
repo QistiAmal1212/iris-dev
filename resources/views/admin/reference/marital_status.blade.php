@@ -94,16 +94,16 @@
                 }
             },
             {
-                data: "kod",
-                name: "kod",
+                data: "code",
+                name: "code",
                 className : "text-center",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
             },
             {
-                data: "nama",
-                name: "nama",
+                data: "name",
+                name: "name",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -173,8 +173,8 @@
                     url2 = url2.replace(':replaceThis', marital_status_id);
 
                     $('#maritalStatusForm').attr('action',url2 );
-                    $('#maritalStatusForm input[name="code"]').val(data.detail.kod);
-                    $('#maritalStatusForm input[name="name"]').val(data.detail.nama);
+                    $('#maritalStatusForm input[name="code"]').val(data.detail.code);
+                    $('#maritalStatusForm input[name="name"]').val(data.detail.name);
                     $('#maritalStatusForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Taraf Perkahwinan');

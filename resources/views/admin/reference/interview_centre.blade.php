@@ -91,16 +91,16 @@
                     }
                 },
                 {
-                    data: "kod",
-                    name: "kod",
+                    data: "code",
+                    name: "code",
                     className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
                 },
                 {
-                    data: "nama",
-                    name: "nama",
+                    data: "name",
+                    name: "name",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -145,8 +145,8 @@
 
                 $('#interviewCentreForm input[name="code"]').val("");
                 $('#interviewCentreForm input[name="name"]').val("");
-                $('#interviewCentreForm select[name="ref_area_code"]').val("").trigger('change');
-                $('#interviewCentreForm select[name="ref_state_code"]').val("").trigger('change');
+                $('#interviewCentreForm select[name="ref_area_code"]').val("");
+                $('#interviewCentreForm input[name="ref_state_code"]').val("");
                 $('#interviewCentreForm input[name="code"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Pusat Temuduga');
@@ -175,10 +175,10 @@
                         url2 = url2.replace(':replaceThis', salary_grade_id);
 
                         $('#interviewCentreForm').attr('action', url2);
-                        $('#interviewCentreForm input[name="code"]').val(data.detail.kod);
-                        $('#interviewCentreForm input[name="name"]').val(data.detail.nama);
-                        $('#interviewCentreForm select[name="ref_area_code"]').val(data.detail.kod_ruj_kawasan_pst_td).trigger('change');
-                        $('#interviewCentreForm select[name="ref_state_code"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#interviewCentreForm input[name="code"]').val(data.detail.code);
+                        $('#interviewCentreForm input[name="name"]').val(data.detail.name);
+                        $('#interviewCentreForm select[name="ref_area_code"]').val(data.detail.ref_area_interview_centre_code);
+                        $('#interviewCentreForm input[name="ref_state_code"]').val(data.detail.ref_state_code);
                         $('#interviewCentreForm input[name="code"]').prop('readonly', true);
 
                         $('#title-role').html('Kemaskini Pusat Temuduga');
