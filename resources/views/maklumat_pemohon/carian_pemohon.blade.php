@@ -364,8 +364,8 @@ Maklumat Pemohon
                         $('#lesenMemanduForm input[name="license_type"]').val(data.detail.license.type ? data.detail.license.type : data_not_available);
                         originalVal['license_type'] = data.detail.license.type;
                         $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', true);
-                        $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expiryDate ? data.detail.license.expiryDate : data_not_available);
-                        originalVal['license_expiry_date'] = data.detail.license.expiryDate;
+                        $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expirydate ? data.detail.license.expirydate : data_not_available);
+                        originalVal['license_expiry_date'] = data.detail.license.expirydate;
                         $('#lesenMemanduForm select[name="license_blacklist_status"]').attr('disabled', true);
                         if(data.detail.license.is_blacklist) { $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).trigger('change'); }
                         else { selectionNull('license_blacklist_status', 'lesenMemanduForm'); }
