@@ -1054,16 +1054,11 @@ Maklumat Pemohon
                             bilLanguage += 1;
                             trLanguage += '<tr>';
                             trLanguage += '<td align="center">' + bilLanguage + '</td>'
-<<<<<<< Updated upstream
                             trLanguage += '<td>' + item.language.name + '</td>';
                             trLanguage += '<td>' + item.level + '</td>';
                             trLanguage += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
                             trLanguage += '&nbsp;&nbsp;';
                             trLanguage += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-=======
-                            trLanguage += '<td>' + item.language.nama + '</td>';
-                            trLanguage += '<td>' + languageLevel + '</td>';
->>>>>>> Stashed changes
                             trLanguage += '</tr>';
                         });
                     }
