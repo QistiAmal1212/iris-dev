@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CandidateTimeline extends Model
 {
-    protected $table = 'candidate_timeline';
+    protected $table = 'calon_garis_masa';
 
     protected $fillable = [
         'no_pengenalan',

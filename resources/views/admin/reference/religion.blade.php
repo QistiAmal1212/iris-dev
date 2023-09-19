@@ -95,16 +95,16 @@
                 }
             },
             {
-                data: "code",
-                name: "code",
+                data: "kod",
+                name: "kod",
                 className : "text-center",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
             },
             {
-                data: "name",
-                name: "name",
+                data: "nama",
+                name: "nama",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -174,8 +174,8 @@
                     url2 = url2.replace(':replaceThis', religion_id);
 
                     $('#religionForm').attr('action',url2 );
-                    $('#religionForm input[name="code"]').val(data.detail.code);
-                    $('#religionForm input[name="name"]').val(data.detail.name);
+                    $('#religionForm input[name="code"]').val(data.detail.kod);
+                    $('#religionForm input[name="name"]').val(data.detail.nama);
 
                     $('#religionForm input[name="code"]').prop('readonly', true);
 

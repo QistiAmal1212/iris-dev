@@ -95,16 +95,16 @@
                 }
             },
             {
-                data: "code",
-                name: "code",
+                data: "kod",
+                name: "kod",
                 className : "text-center",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
             },
             {
-                data: "name",
-                name: "name",
+                data: "nama",
+                name: "nama",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -174,8 +174,8 @@
                     url2 = url2.replace(':replaceThis', state_id);
 
                     $('#stateForm').attr('action',url2 );
-                    $('#stateForm input[name="code"]').val(data.detail.code);
-                    $('#stateForm input[name="name"]').val(data.detail.name);
+                    $('#stateForm input[name="code"]').val(data.detail.kod);
+                    $('#stateForm input[name="name"]').val(data.detail.nama);
                     $('#stateForm input[name="code"]').prop('readonly', true);
 
 

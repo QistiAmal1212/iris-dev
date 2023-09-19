@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CandidateHigherEducation extends Model
 {
-    protected $table = 'candidate_higher_education';
+    protected $table = 'calon_pengajian_tinggi';
 
     protected $fillable = [
     	'no_pengenalan',

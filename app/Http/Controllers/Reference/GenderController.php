@@ -80,7 +80,7 @@ class GenderController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_gender,code',
+                'code' => 'required|string|unique:ruj_jantina,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -135,7 +135,7 @@ class GenderController extends Controller
             $gender = Gender::find($genderId);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_gender,code,'.$genderId,
+                'code' => 'required|string|unique:ruj_jantina,code,'.$genderId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

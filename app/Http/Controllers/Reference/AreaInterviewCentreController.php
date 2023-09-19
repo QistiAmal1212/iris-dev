@@ -44,11 +44,11 @@ class AreaInterviewCentreController extends Controller
         $areaInterviewCentre = AreaInterviewCentre::all();
         if ($request->ajax()) {
             return Datatables::of($areaInterviewCentre)
-                ->editColumn('code', function ($areaInterviewCentre){
-                    return $areaInterviewCentre->code;
+                ->editColumn('kod', function ($areaInterviewCentre){
+                    return $areaInterviewCentre->kod;
                 })
-                ->editColumn('name', function ($areaInterviewCentre) {
-                    return $areaInterviewCentre->name;
+                ->editColumn('nama', function ($areaInterviewCentre) {
+                    return $areaInterviewCentre->nama;
                 })
                 ->editColumn('action', function ($areaInterviewCentre) use ($accessDelete) {
                     $button = "";
@@ -57,7 +57,7 @@ class AreaInterviewCentreController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="areaInterviewCentreForm('.$areaInterviewCentre->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($areaInterviewCentre->is_active) {
+                        if($areaInterviewCentre->sah_yt) {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$areaInterviewCentre->id.'" onclick="toggleActive('.$areaInterviewCentre->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$areaInterviewCentre->id.'" onclick="toggleActive('.$areaInterviewCentre->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -80,17 +80,18 @@ class AreaInterviewCentreController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_area_interview_centre,code',
+                'code' => 'required|string|unique:ruj_kawasan_pst_td,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kawasa pusat temuduga',
+                'name.required' => 'Sila isikan kawasan pusat temuduga',
             ]);
 
             AreaInterviewCentre::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
+                'kod' => $request->code,
+                'nama' => strtoupper($request->name),
+                'kawasan_induk' => 1,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -135,17 +136,17 @@ class AreaInterviewCentreController extends Controller
             $areaInterviewCentre = AreaInterviewCentre::find($areaInterviewCentreId);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_area_interview_centre,code,'.$areaInterviewCentreId,
+                'code' => 'required|string|unique:ruj_kawasan_pst_td,kod,'.$areaInterviewCentreId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kawasa pusat temuduga',
+                'name.required' => 'Sila isikan kawasan pusat temuduga',
             ]);
 
             $areaInterviewCentre->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
+                'kod' => $request->code,
+                'nama' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
@@ -167,10 +168,10 @@ class AreaInterviewCentreController extends Controller
             $areaInterviewCentreId = $request->areaInterviewCentreId;
             $areaInterviewCentre = AreaInterviewCentre::find($areaInterviewCentreId);
 
-            $is_active = $areaInterviewCentre->is_active;
+            $sah_yt = $areaInterviewCentre->sah_yt;
 
             $areaInterviewCentre->update([
-                'is_active' => !$is_active,
+                'sah_yt' => !$sah_yt,
             ]);
 
             DB::commit();

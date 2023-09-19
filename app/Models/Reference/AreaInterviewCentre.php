@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class AreaInterviewCentre extends Model
 {
-    protected $table = 'ref_area_interview_centre';
+    protected $table = 'ruj_kawasan_pst_td';
 
     protected $fillable = [
-        'code',
-        'name',
+        'kod',
+        'nama',
+        'kawasan_induk',
         'created_by',
         'updated_by',
-        'is_active',
+        'sah_yt',
     ];
 }

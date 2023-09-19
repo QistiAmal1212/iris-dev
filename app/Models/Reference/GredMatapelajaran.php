@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GredMatapelajaran extends Model
 {
-    protected $table = 'ref_gred_matapelajaran';
+    protected $table = 'ruj_gred_matapelajaran';
 
     protected $fillable = [
         'gred',

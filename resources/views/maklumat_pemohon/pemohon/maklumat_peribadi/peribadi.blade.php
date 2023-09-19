@@ -38,7 +38,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="religion" id="religion" disabled>
                 <option value=""></option>
                 @foreach($religions as $religion)
-                <option value="{{ $religion->code }}">{{ $religion->name }}</option>
+                <option value="{{ $religion->kod }}">{{ $religion->nama }}</option>
                 @endforeach
             </select>
             <div id="religionAlert" style="color: red; font-size: smaller;"></div>
@@ -49,7 +49,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="race" id="race" disabled>
                 <option value=""></option>
                 @foreach($races as $race)
-                <option value="{{ $race->code }}">{{ $race->name }}</option>
+                <option value="{{ $race->kod }}">{{ $race->nama }}</option>
                 @endforeach
             </select>
             <div id="raceAlert" style="color: red; font-size: smaller;"></div>
@@ -71,7 +71,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="marital_status" id="marital_status" disabled>
                 <option value=""></option>
                 @foreach($maritalStatuses as $maritalStatus)
-                <option value="{{ $maritalStatus->code }}">{{ $maritalStatus->name }}</option>
+                <option value="{{ $maritalStatus->kod }}">{{ $maritalStatus->nama }}</option>
                 @endforeach
             </select>
             <div id="marital_statusAlert" style="color: red; font-size: smaller;"></div>
