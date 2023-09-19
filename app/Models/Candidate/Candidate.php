@@ -35,7 +35,7 @@ class Candidate extends Model
         'permanent_address_3',
         'permanent_poscode',
         'permanent_city',
-        'permanenet_ref_state_code',
+        'permanent_ref_state_code',
         'date_of_birth',
         'place_of_birth',
         'father_place_of_birth',
