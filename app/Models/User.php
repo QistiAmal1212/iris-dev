@@ -85,7 +85,7 @@ class User extends Authenticatable
 
     public function department_ministry()
     {
-        return $this->belongsTo('App\Models\Reference\DepartmentMinistry', 'ref_department_ministry_code', 'code');
+        return $this->belongsTo('App\Models\Reference\DepartmentMinistry', 'ref_department_ministry_code', 'kod');
     }
 
     public function skim()

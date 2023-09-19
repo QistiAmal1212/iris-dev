@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Religion extends Model
 {
-    protected $table = 'ref_religion';
+    protected $table = 'ruj_agama';
 
     protected $fillable = [
-        'code',
-        'name',
+        'kod',
+        'nama',
         'created_by',
         'updated_by',
-        'is_active',
+        'sah_yt',
     ];
 }

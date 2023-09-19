@@ -6,20 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class DepartmentMinistry extends Model
 {
-    protected $table = 'ref_department_ministry';
+    protected $table = 'ruj_kem_jabatan';
 
     protected $fillable = [
-        'code',
-        'name',
-        'address_1',
-        'address_2',
-        'address_3',
-        'poscode',
-        'city',
-        'email',
-        'phone_number',
+        'kod',
+        'nama',
+        'alamat_1',
+        'alamat_2',
+        'alamat_3',
+        'poskod',
+        'bandar',
+        'emel',
+        'no_tel',
         'created_by',
         'updated_by',
-        'is_active',
+        'sah_yt',
     ];
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CandidateExperience extends Model
 {
-    protected $table = 'candidate_experience';
+    protected $table = 'calon_pengalaman';
 
     protected $fillable = [
     	'no_pengenalan',
@@ -52,11 +52,11 @@ class CandidateExperience extends Model
     }
 
     public function departmentMinistry() {
-        return $this->belongsTo('App\Models\Reference\DepartmentMinistry', 'ref_department_ministry_code', 'code');
+        return $this->belongsTo('App\Models\Reference\DepartmentMinistry', 'ref_department_ministry_code', 'kod');
     }
 
     public function stateDepartment() {
-        return $this->belongsTo('App\Models\Reference\State', 'state_department', 'code');
+        return $this->belongsTo('App\Models\Reference\State', 'state_department', 'kod');
     }
 
     public function skim() {
@@ -64,7 +64,7 @@ class CandidateExperience extends Model
     }
 
     public function state() {
-        return $this->belongsTo('App\Models\Reference\State', 'ref_state_code', 'code');
+        return $this->belongsTo('App\Models\Reference\State', 'ref_state_code', 'kod');
     }
 
 }

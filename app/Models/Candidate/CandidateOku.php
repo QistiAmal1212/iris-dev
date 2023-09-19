@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CandidateOku extends Model
 {
-    protected $table = 'candidate_oku';
+    protected $table = 'calon_oku';
 
     protected $fillable = [
     	'no_pengenalan',
