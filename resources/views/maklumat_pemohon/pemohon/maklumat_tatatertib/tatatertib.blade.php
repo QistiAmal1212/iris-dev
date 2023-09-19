@@ -194,8 +194,8 @@
                     trPenalty += '<td align="center">' + bilPenalty + '</td>'
                     trPenalty += '<td>' + item.penalty.name + '</td>';
                     trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
-                    trPenalty += '<td>' + item.start_date + '</td>';
-                    trPenalty += '<td>' + item.end_date + '</td>';
+                    trPenalty += '<td>' + item.date_start + '</td>';
+                    trPenalty += '<td>' + item.date_end + '</td>';
                     trPenalty += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
                     trPenalty += '&nbsp;&nbsp;';
                     trPenalty += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
