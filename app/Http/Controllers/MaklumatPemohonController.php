@@ -155,14 +155,14 @@ class MaklumatPemohonController extends Controller
             $candidate->license->expiry_date = Carbon::parse($candidate->license->expiry_date)->format('d/m/Y');
 
             foreach($candidate->skim as $skim){
-                $skim->register_date = Carbon::parse($skim->register_date)->format('d/m/Y');
-                $skim->expiry_date = Carbon::parse($skim->expiry_date)->format('d/m/Y');
+                $skim->register_date = ($skim->register_date != null) ? Carbon::parse($skim->register_date)->format('d/m/Y') : null;
+                $skim->expiry_date = ($skim->expiry_date != null) ? Carbon::parse($skim->expiry_date)->format('d/m/Y') : null;
             }
 
             $candidate->higherEducation->tarikh_senat = Carbon::parse($candidate->higherEducation->tarikh_senat)->format('d/m/Y');
 
             foreach($candidate->professional as $professional){
-                $professional->date = Carbon::parse($professional->date)->format('d/m/Y');
+                $professional->date = ($professional->date != null) ? Carbon::parse($professional->date)->format('d/m/Y') : null;
             }
 
             $candidate->experience->date_appoint = Carbon::parse($candidate->experience->date_appoint)->format('d/m/Y');
@@ -171,12 +171,12 @@ class MaklumatPemohonController extends Controller
             $candidate->experience->date_end = Carbon::parse($candidate->experience->date_end)->format('d/m/Y');
 
             foreach($candidate->psl as $psl){
-                $psl->exam_date = Carbon::parse($psl->exam_date)->format('d/m/Y');
+                $psl->exam_date = ($psl->exam_date != null) ? Carbon::parse($psl->exam_date)->format('d/m/Y') : null;
             }
             
             foreach($candidate->penalty as $penalty){
-                $penalty->date_start = Carbon::parse($penalty->date_start)->format('d/m/Y');
-                $penalty->date_end = Carbon::parse($penalty->date_end)->format('d/m/Y');
+                $penalty->date_start = ($penalty->date_start != null) ? Carbon::parse($penalty->date_start)->format('d/m/Y') : null;
+                $penalty->date_end = ($penalty->date_end != null) ? Carbon::parse($penalty->date_end)->format('d/m/Y') : null;
             }
 
             $candidate->pmr = $candidate->schoolResult()->with('subject')->whereHas('subject', function ($query) {
@@ -1944,7 +1944,7 @@ class MaklumatPemohonController extends Controller
             $candidatePsl = CandidatePsl::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
 
             foreach($candidatePsl as $psl){
-                $psl->exam_date = Carbon::parse($psl->exam_date)->format('d/m/Y');
+                $psl->exam_date = ($psl->exam_date != null) ? Carbon::parse($psl->exam_date)->format('d/m/Y') : null;
             }
 
             // if(!$candidate) {
@@ -2220,8 +2220,8 @@ class MaklumatPemohonController extends Controller
             $candidatePenalty = CandidatePenalty::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
 
             foreach($candidatePenalty as $penalty){
-                $penalty->date_start = Carbon::parse($penalty->date_start)->format('d/m/Y');
-                $penalty->date_end = Carbon::parse($penalty->date_end)->format('d/m/Y');
+                $penalty->date_start = ($penalty->date_start != null) ? Carbon::parse($penalty->date_start)->format('d/m/Y') : null;
+                $penalty->date_end = ($penalty->date_end != null) ? Carbon::parse($penalty->date_end)->format('d/m/Y') : null;
             }
 
             // if(!$candidate) {
