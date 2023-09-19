@@ -113,8 +113,8 @@ class MaklumatPemohonController extends Controller
                 'skim' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("to_date(register_date, 'DD/MM/YYYY') as registerDate"),
-                        DB::raw("to_date(expiry_date, 'DD/MM/YYYY') as expiryDate")
+                        DB::raw("to_date(register_date::text, 'DD/MM/YYYY') as registerDate"),
+                        DB::raw("to_date(expiry_date::text, 'DD/MM/YYYY') as expiryDate")
                     );
                     $query->with(['skim', 'interviewCentre']);
                 },
