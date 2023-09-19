@@ -141,7 +141,7 @@ class MaklumatPemohonController extends Controller
                 'experience' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("to_date(date_appoint, 'DD/MM/YYYY') as dateAppoint"),
+                        DB::raw("to_char(date_appoint::DATE, 'DD/MM/YYYY') as dateAppoint"),
                         DB::raw("to_date(date_start, 'DD/MM/YYYY') as dateStart"),
                         DB::raw("to_date(date_verify, 'DD/MM/YYYY') as dateVerify"),
                     );
