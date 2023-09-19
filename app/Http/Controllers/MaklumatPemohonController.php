@@ -106,15 +106,15 @@ class MaklumatPemohonController extends Controller
                 'license' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
+                        DB::raw("to_date(expiry_date, 'DD/MM/YYYY') as expiryDate")
                     );
                 },
                 'oku',
                 'skim' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("DATE_FORMAT(register_date, '%d/%m/%Y') as registerDate"),
-                        DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
+                        DB::raw("to_date(register_date, 'DD/MM/YYYY) as registerDate"),
+                        DB::raw("to_date(expiry_date, 'DD/MM/YYYY') as expiryDate")
                     );
                     $query->with(['skim', 'interviewCentre']);
                 },
@@ -127,29 +127,29 @@ class MaklumatPemohonController extends Controller
                 'higherEducation' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("DATE_FORMAT(tarikh_senat, '%d/%m/%Y') as tarikhSenat")
+                        DB::raw("to_date(tarikh_senat, 'DD/MM/YYYY') as tarikhSenat")
                     );
                     $query->with(['institution', 'eligibility', 'specialization']);
                 },
                 'professional' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("DATE_FORMAT(date, '%d/%m/%Y') as newDate")
+                        DB::raw("to_date(date, 'DD/MM/YYYY') as newDate")
                     );
                     $query->with(['specialization']);
                 },
                 'experience' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("DATE_FORMAT(date_appoint, '%d/%m/%Y') as dateAppoint"),
-                        DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as dateStart"),
-                        DB::raw("DATE_FORMAT(date_verify, '%d/%m/%Y') as dateVerify"),
+                        DB::raw("to_date(date_appoint, 'DD/MM/YYYY') as dateAppoint"),
+                        DB::raw("to_date(date_start, 'DD/MM/YYYY') as dateStart"),
+                        DB::raw("to_date(date_verify, 'DD/MM/YYYY') as dateVerify"),
                     );
                 },
                 'psl' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("DATE_FORMAT(exam_date, '%d/%m/%Y') as examDate")
+                        DB::raw("to_date(exam_date, 'DD/MM/YYYY') as examDate")
                     );
                     $query->with(['qualification']);
                 },
@@ -165,8 +165,8 @@ class MaklumatPemohonController extends Controller
                 'penalty' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as startDate"),
-                        DB::raw("DATE_FORMAT(date_end, '%d/%m/%Y') as endDate")
+                        DB::raw("to_date(date_start, 'DD/MM/YYYY') as startDate"),
+                        DB::raw("to_date(date_end, 'DD/MM/YYYY') as endDate")
                     );
                     $query->with(['penalty']);
                 },
@@ -510,7 +510,7 @@ class MaklumatPemohonController extends Controller
                 'license' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
+                        DB::raw("to_date(expiry_date, 'DD/MM/YYYY') as expiryDate")
                     );
                 },
             ])->first();
@@ -646,7 +646,7 @@ class MaklumatPemohonController extends Controller
 
             $candidatePmr = CandidateSchoolResult::select(
                 '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
             )->where('no_pengenalan', $request->noPengenalan)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '3');
             })->get();
@@ -770,7 +770,7 @@ class MaklumatPemohonController extends Controller
 
             $candidateSpm = CandidateSchoolResult::select(
                 '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
             )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
@@ -894,7 +894,7 @@ class MaklumatPemohonController extends Controller
 
             $candidateSpmv = CandidateSchoolResult::select(
                 '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
             )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 3)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
@@ -1018,7 +1018,7 @@ class MaklumatPemohonController extends Controller
 
             $candidateSvm = CandidateSchoolResult::select(
                 '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
             )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
@@ -1142,7 +1142,7 @@ class MaklumatPemohonController extends Controller
 
             $candidateStpm = CandidateSchoolResult::select(
                 '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
             )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
@@ -1266,7 +1266,7 @@ class MaklumatPemohonController extends Controller
 
             $candidateStam = CandidateSchoolResult::select(
                 '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
             )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
@@ -1527,7 +1527,7 @@ class MaklumatPemohonController extends Controller
         try {
             $candidateSkm = CandidateSkm::select(
                 '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
+                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
             )->where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
 
             // if(!$candidate) {
@@ -1771,7 +1771,7 @@ class MaklumatPemohonController extends Controller
 
             $candidateHigherEducation = CandidateHigherEducation::select(
                 '*',
-                DB::raw("DATE_FORMAT(tarikh_senat, '%d/%m/%Y') as tarikhSenat"),
+                DB::raw("to_date(tarikh_senat, 'DD/MM/YYYY') as tarikhSenat"),
             )->where('no_pengenalan', $request->noPengenalan)->first();
 
             // if(!$candidate) {
@@ -1853,9 +1853,9 @@ class MaklumatPemohonController extends Controller
 
             $candidateExperience = CandidateExperience::select(
                 '*',
-                DB::raw("DATE_FORMAT(date_appoint, '%d/%m/%Y') as dateAppoint"),
-                DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as dateStart"),
-                DB::raw("DATE_FORMAT(date_verify, '%d/%m/%Y') as dateVerify"),
+                DB::raw("to_date(date_appoint, 'DD/MM/YYYY') as dateAppoint"),
+                DB::raw("to_date(date_start, 'DD/MM/YYYY') as dateStart"),
+                DB::raw("to_date(date_verify, 'DD/MM/YYYY') as dateVerify"),
             )->where('no_pengenalan', $request->noPengenalan)->first();
 
             // if(!$candidate) {
@@ -1995,8 +1995,8 @@ class MaklumatPemohonController extends Controller
 
             $candidatePenalty = CandidatePenalty::select(
                 '*',
-                DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as startDate"),
-                DB::raw("DATE_FORMAT(date_end, '%d/%m/%Y') as endDate")
+                DB::raw("to_date(date_start, 'DD/MM/YYYY') as startDate"),
+                DB::raw("to_date(date_end, 'DD/MM/YYYY') as endDate")
             )->where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
 
             // if(!$candidate) {
