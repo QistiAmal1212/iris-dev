@@ -149,7 +149,7 @@ class MaklumatPemohonController extends Controller
                 'psl' => function ($query) {
                     $query->select(
                         '*',
-                        DB::raw("to_date(exam_date, 'DD/MM/YYYY') as examDate")
+                        DB::raw("to_char(exam_date::DATE, 'DD/MM/YYYY') as examDate")
                     );
                     $query->with(['qualification']);
                 },
