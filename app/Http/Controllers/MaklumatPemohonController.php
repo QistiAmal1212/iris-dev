@@ -110,19 +110,9 @@ class MaklumatPemohonController extends Controller
                 $query->where('no_ic', $no_ic)->orWhere('no_ic_old', $no_ic);
             })
             ->with([
-                'license' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("to_char(expiry_date::DATE, 'DD/MM/YYYY') as expiryDate")
-                    );
-                },
+                'license',
                 'oku',
                 'skim' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("to_char(register_date::DATE, 'DD/MM/YYYY') as registerDate"),
-                        DB::raw("to_char(expiry_date::DATE, 'DD/MM/YYYY') as expiryDate")
-                    );
                     $query->with(['skim', 'interviewCentre']);
                 },
                 'matriculation' => function ($query) {
@@ -132,32 +122,13 @@ class MaklumatPemohonController extends Controller
                     $query->with(['qualification']);
                 },
                 'higherEducation' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("to_char(tarikh_senat::DATE, 'DD/MM/YYYY') as tarikhSenat")
-                    );
                     $query->with(['institution', 'eligibility', 'specialization']);
                 },
                 'professional' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("to_date(date, 'DD/MM/YYYY') as newDate")
-                    );
                     $query->with(['specialization']);
                 },
-                'experience' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("to_char(date_appoint::DATE, 'DD/MM/YYYY') as dateAppoint"),
-                        DB::raw("to_date(date_start, 'DD/MM/YYYY') as dateStart"),
-                        DB::raw("to_date(date_verify, 'DD/MM/YYYY') as dateVerify"),
-                    );
-                },
+                'experience',
                 'psl' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("to_char(exam_date::DATE, 'DD/MM/YYYY') as examDate")
-                    );
                     $query->with(['qualification']);
                 },
                 'armyPolice' => function ($query) {
@@ -170,11 +141,6 @@ class MaklumatPemohonController extends Controller
                     $query->with(['talent']);
                 },
                 'penalty' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("to_char(date_start::DATE, 'DD/MM/YYYY') as startDate"),
-                        DB::raw("to_char(date_end::DATE, 'DD/MM/YYYY') as endDate")
-                    );
                     $query->with(['penalty']);
                 },
                 'timeline',
@@ -185,6 +151,33 @@ class MaklumatPemohonController extends Controller
             }
 
             $candidate->date_of_birth = Carbon::parse($candidate->date_of_birth)->format('d/m/Y');
+
+            $candidate->license->expiry_date = Carbon::parse($candidate->license->expiry_date)->format('d/m/Y');
+
+            foreach($candidate->skim as $skim){
+                $skim->register_date = Carbon::parse($skim->register_date)->format('d/m/Y');
+                $skim->expiry_date = Carbon::parse($skim->expiry_date)->format('d/m/Y');
+            }
+
+            $candidate->higherEducation->tarikh_senat = Carbon::parse($candidate->higherEducation->tarikh_senat)->format('d/m/Y');
+
+            foreach($candidate->professional as $professional){
+                $professional->date = Carbon::parse($professional->date)->format('d/m/Y');
+            }
+
+            $candidate->experience->date_appoint = Carbon::parse($candidate->experience->date_appoint)->format('d/m/Y');
+            $candidate->experience->date_start = Carbon::parse($candidate->experience->date_start)->format('d/m/Y');
+            $candidate->experience->date_verify = Carbon::parse($candidate->experience->date_verify)->format('d/m/Y');
+            $candidate->experience->date_end = Carbon::parse($candidate->experience->date_end)->format('d/m/Y');
+
+            foreach($candidate->psl as $psl){
+                $psl->exam_date = Carbon::parse($psl->exam_date)->format('d/m/Y');
+            }
+            
+            foreach($candidate->penalty as $penalty){
+                $penalty->date_start = Carbon::parse($penalty->date_start)->format('d/m/Y');
+                $penalty->date_end = Carbon::parse($penalty->date_end)->format('d/m/Y');
+            }
 
             $candidate->pmr = $candidate->schoolResult()->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '3');
@@ -525,16 +518,13 @@ class MaklumatPemohonController extends Controller
 
             $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)
             ->with([
-                'license' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("to_char(expiry_date::DATE, 'DD/MM/YYYY') as expiryDate")
-                    );
-                },
+                'license'
             ])->first();
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+
+            $candidate->license->expiry_date = Carbon::parse($candidate->license->expiry_date)->format('d/m/Y');
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
@@ -1889,13 +1879,12 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateHigherEducation = CandidateHigherEducation::select(
-                '*',
-                DB::raw("to_char(tarikh_senat::DATE, 'DD/MM/YYYY') as tarikhSenat"),
-            )->where('no_pengenalan', $request->noPengenalan)->first();
+            $candidateHigherEducation = CandidateHigherEducation::where('no_pengenalan', $request->noPengenalan)->first();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+
+            $candidateHigherEducation->tarikh_senat = Carbon::parse($candidateHigherEducation->tarikh_senat)->format('d/m/Y');
             // }
 
             //DB::commit();
@@ -1952,10 +1941,11 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidatePsl = CandidatePsl::select(
-                '*',
-                    DB::raw("DATE_FORMAT(exam_date, '%d/%m/%Y') as examDate")
-            )->where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+            $candidatePsl = CandidatePsl::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+
+            foreach($candidatePsl as $psl){
+                $psl->exam_date = Carbon::parse($psl->exam_date)->format('d/m/Y');
+            }
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -2021,7 +2011,6 @@ class MaklumatPemohonController extends Controller
         return response()->json(['message' => 'Record deleted successfully'], 200);
     }
 
-
     public function updateExperience(Request $request)
     {
         DB::beginTransaction();
@@ -2085,12 +2074,13 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateExperience = CandidateExperience::select(
-                '*',
-                DB::raw("to_char(date_appoint::DATE, 'DD/MM/YYYY') as dateAppoint"),
-                DB::raw("to_date(date_start, 'DD/MM/YYYY') as dateStart"),
-                DB::raw("to_date(date_verify, 'DD/MM/YYYY') as dateVerify"),
-            )->where('no_pengenalan', $request->noPengenalan)->first();
+            $candidateExperience = CandidateExperience::where('no_pengenalan', $request->noPengenalan)->first();
+
+            $candidateExperience->date_appoint = Carbon::parse($candidateExperience->date_appoint)->format('d/m/Y');
+            $candidateExperience->date_start = Carbon::parse($candidateExperience->date_start)->format('d/m/Y');
+            $candidateExperience->date_verify = Carbon::parse($candidateExperience->date_verify)->format('d/m/Y');
+            $candidateExperience->date_end = Carbon::parse($candidateExperience->date_end)->format('d/m/Y');
+
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -2227,11 +2217,12 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidatePenalty = CandidatePenalty::select(
-                '*',
-                DB::raw("to_char(date_start::DATE, 'DD/MM/YYYY') as startDate"),
-                DB::raw("to_char(date_end::DATE, 'DD/MM/YYYY') as endDate")
-            )->where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
+            $candidatePenalty = CandidatePenalty::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
+
+            foreach($candidatePenalty as $penalty){
+                $penalty->date_start = Carbon::parse($penalty->date_start)->format('d/m/Y');
+                $penalty->date_end = Carbon::parse($penalty->date_end)->format('d/m/Y');
+            }
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);

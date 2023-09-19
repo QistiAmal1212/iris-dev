@@ -364,8 +364,8 @@ Maklumat Pemohon
                         $('#lesenMemanduForm input[name="license_type"]').val(data.detail.license.type ? data.detail.license.type : data_not_available);
                         originalVal['license_type'] = data.detail.license.type;
                         $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', true);
-                        $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expirydate ? data.detail.license.expirydate : data_not_available);
-                        originalVal['license_expiry_date'] = data.detail.license.expirydate;
+                        $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expiry_date ? data.detail.license.expiry_date : data_not_available);
+                        originalVal['license_expiry_date'] = data.detail.license.expiry_date;
                         $('#lesenMemanduForm select[name="license_blacklist_status"]').attr('disabled', true);
                         if(data.detail.license.is_blacklist) { $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).trigger('change'); }
                         else { selectionNull('license_blacklist_status', 'lesenMemanduForm'); }
@@ -431,7 +431,7 @@ Maklumat Pemohon
                             trSkim += '<td align="center">' + bilSkim + '</td>'
                             trSkim += '<td>' + item.ref_skim_code + '</td>'
                             trSkim += '<td>' + item.skim.name + '</td>';
-                            trSkim += '<td>' + (item.register_date ? item.registerDate : '') + '</td>';
+                            trSkim += '<td>' + (item.register_date ? item.register_date : '') + '</td>';
                             trSkim += '<td>' + (item.expiry_date ? item.expiry_date : '') + '</td>';
                             trSkim += '<td>' + (item.interview_centre ? item.interview_centre.name : '') + '</td>';
                             trSkim += '</tr>';
@@ -859,8 +859,8 @@ Maklumat Pemohon
                         if(data.detail.higher_education.ins_fln) { $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').val(data.detail.higher_education.ins_fln).trigger('change'); }
                         else { selectionNull('fln_pengajian_tinggi', 'pengajianTinggiForm'); }
                         originalVal['fln_pengajian_tinggi'] = data.detail.higher_education.ins_fln;
-                        $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val(data.detail.higher_education.tarikhSenat ? data.detail.higher_education.tarikhSenat : data_not_available);
-                        originalVal['tarikh_senat_pengajian_tinggi'] = data.detail.higher_education.tarikhSenat;
+                        $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val(data.detail.higher_education.tarikh_senat ? data.detail.higher_education.tarikh_senat : data_not_available);
+                        originalVal['tarikh_senat_pengajian_tinggi'] = data.detail.higher_education.tarikh_senat;
                         if(data.detail.higher_education.biasiswa) { $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val(data.detail.higher_education.biasiswa).trigger('change'); }
                         else { selectionNull('biasiswa_pengajian_tinggi', 'pengajianTinggiForm'); }
                         originalVal['biasiswa_pengajian_tinggi'] = data.detail.higher_education.biasiswa;
@@ -899,7 +899,7 @@ Maklumat Pemohon
                             trProfessional += '<td align="center">' + bilProfessional + '</td>'
                             trProfessional += '<td>' + (item.member_no ? item.member_no : '') + '</td>';
                             trProfessional += '<td>' + (item.specialization ? item.specialization.name : '') + '</td>';
-                            trProfessional += '<td>' + (item.date ? item.newDate : '') + '</td>';
+                            trProfessional += '<td>' + (item.date ? item.date : '') + '</td>';
                             trProfessional += '</tr>';
                         });
                     }
@@ -907,18 +907,18 @@ Maklumat Pemohon
 
                     $('#experienceForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.experience != null) {
-                        $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.experience.dateAppoint ? data.detail.experience.dateAppoint : data_not_available);
-                        originalVal['experience_appoint_date'] = data.detail.experience.dateAppoint;
+                        $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.experience.date_appoint ? data.detail.experience.date_appoint : data_not_available);
+                        originalVal['experience_appoint_date'] = data.detail.experience.date_appoint;
                         if(data.detail.experience.ref_position_level_code) { $('#experienceForm select[name="experience_position_level"]').val(data.detail.experience.ref_position_level_code).trigger('change'); }
                         else { selectionNull('experience_position_level', 'experienceForm'); }
                         originalVal['experience_position_level'] = data.detail.experience.ref_position_level_code;
                         if(data.detail.experience.ref_skim_code) { $('#experienceForm select[name="experience_skim"]').val(data.detail.experience.ref_skim_code).trigger('change'); }
                         else { selectionNull('experience_skim', 'experienceForm'); }
                         originalVal['experience_skim'] = data.detail.experience.ref_skim_code;
-                        $('#experienceForm input[name="experience_start_date"]').val(data.detail.experience.dateStart ? data.detail.experience.dateStart : data_not_available);
-                        originalVal['experience_start_date'] = data.detail.experience.dateStart;
-                        $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.dateVerify ? data.detail.experience.dateVerify : data_not_available);
-                        originalVal['experience_verify_date'] = data.detail.experience.dateVerify;
+                        $('#experienceForm input[name="experience_start_date"]').val(data.detail.experience.date_start ? data.detail.experience.date_start : data_not_available);
+                        originalVal['experience_start_date'] = data.detail.experience.date_start;
+                        $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.date_verify ? data.detail.experience.date_verify : data_not_available);
+                        originalVal['experience_verify_date'] = data.detail.experience.date_verify;
                         if(data.detail.experience.ref_department_ministry_code) { $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.experience.ref_department_ministry_code).trigger('change'); }
                         else { selectionNull('experience_department_ministry', 'experienceForm'); }
                         originalVal['experience_department_ministry'] = data.detail.experience.ref_department_ministry_code;
@@ -964,7 +964,7 @@ Maklumat Pemohon
                             trPsl += '<tr>';
                             trPsl += '<td align="center">' + bilPsl + '</td>'
                             trPsl += '<td>' + item.qualification.name + '</td>';
-                            trPsl += '<td>' + (item.exam_date ? item.examDate : '') + '</td>';
+                            trPsl += '<td>' + (item.exam_date ? item.exam_date : '') + '</td>';
                             trPsl += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
                             trPsl += '&nbsp;&nbsp;';
                             trPsl += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
@@ -1173,8 +1173,8 @@ Maklumat Pemohon
                             trPenalty += '<td align="center">' + bilPenalty + '</td>'
                             trPenalty += '<td>' + item.penalty.name + '</td>';
                             trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
-                            trPenalty += '<td>' + item.startDate + '</td>';
-                            trPenalty += '<td>' + item.endDate + '</td>';
+                            trPenalty += '<td>' + item.start_date + '</td>';
+                            trPenalty += '<td>' + item.end_date + '</td>';
                             trPenalty += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
                             trPenalty += '&nbsp;&nbsp;';
                             trPenalty += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';

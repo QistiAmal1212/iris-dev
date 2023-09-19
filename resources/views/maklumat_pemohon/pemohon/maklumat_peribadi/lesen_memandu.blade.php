@@ -89,7 +89,7 @@ data-reloadPage="false">
             success: function(data) {
                 $('#lesenMemanduForm input[name="license_type"]').val(data.detail.license.type);
                 $('#lesenMemanduForm input[name="license_type"]').attr('disabled', true);
-                $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expirydate);
+                $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expiry_date);
                 $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', true);
                 $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).trigger('change');
                 $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).attr('disabled', true);
