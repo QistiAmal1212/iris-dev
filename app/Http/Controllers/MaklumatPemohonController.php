@@ -644,10 +644,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidatePmr = CandidateSchoolResult::select(
-                '*',
-                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->with('subject')->whereHas('subject', function ($query) {
+            $candidatePmr = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '3');
             })->get();
 
@@ -768,10 +765,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateSpm = CandidateSchoolResult::select(
-                '*',
-                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
+            $candidateSpm = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -892,10 +886,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateSpmv = CandidateSchoolResult::select(
-                '*',
-                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 3)->with('subject')->whereHas('subject', function ($query) {
+            $candidateSpmv = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 3)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -1016,10 +1007,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateSvm = CandidateSchoolResult::select(
-                '*',
-                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
+            $candidateSvm = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -1140,10 +1128,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateStpm = CandidateSchoolResult::select(
-                '*',
-                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
+            $candidateStpm = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -1264,10 +1249,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateStam = CandidateSchoolResult::select(
-                '*',
-                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
+            $candidateStam = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -1482,6 +1464,7 @@ class MaklumatPemohonController extends Controller
 
         return response()->json(['message' => 'Record deleted successfully'], 200);
     }
+
     public function storeSkm(Request $request)
     {
         DB::beginTransaction();
@@ -1525,10 +1508,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidateSkm = CandidateSkm::select(
-                '*',
-                DB::raw("to_date(year, 'DD/MM/YYYY') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+            $candidateSkm = CandidateSkm::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -1771,7 +1751,7 @@ class MaklumatPemohonController extends Controller
 
             $candidateHigherEducation = CandidateHigherEducation::select(
                 '*',
-                DB::raw("to_date(tarikh_senat, 'DD/MM/YYYY') as tarikhSenat"),
+                DB::raw("to_char(tarikh_senat::DATE, 'DD/MM/YYYY') as tarikhSenat"),
             )->where('no_pengenalan', $request->noPengenalan)->first();
 
             // if(!$candidate) {
@@ -1853,7 +1833,7 @@ class MaklumatPemohonController extends Controller
 
             $candidateExperience = CandidateExperience::select(
                 '*',
-                DB::raw("to_date(date_appoint, 'DD/MM/YYYY') as dateAppoint"),
+                DB::raw("to_char(date_appoint::DATE, 'DD/MM/YYYY') as dateAppoint"),
                 DB::raw("to_date(date_start, 'DD/MM/YYYY') as dateStart"),
                 DB::raw("to_date(date_verify, 'DD/MM/YYYY') as dateVerify"),
             )->where('no_pengenalan', $request->noPengenalan)->first();
@@ -1995,8 +1975,8 @@ class MaklumatPemohonController extends Controller
 
             $candidatePenalty = CandidatePenalty::select(
                 '*',
-                DB::raw("to_date(date_start, 'DD/MM/YYYY') as startDate"),
-                DB::raw("to_date(date_end, 'DD/MM/YYYY') as endDate")
+                DB::raw("to_char(date_start::DATE, 'DD/MM/YYYY') as startDate"),
+                DB::raw("to_char(date_end::DATE, 'DD/MM/YYYY') as endDate")
             )->where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
 
             // if(!$candidate) {
