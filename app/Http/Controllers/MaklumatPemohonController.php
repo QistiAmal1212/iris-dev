@@ -152,24 +152,31 @@ class MaklumatPemohonController extends Controller
 
             $candidate->date_of_birth = Carbon::parse($candidate->date_of_birth)->format('d/m/Y');
 
-            $candidate->license->expiry_date = ($candidate->license->expiry_date != null) ? Carbon::parse($candidate->license->expiry_date)->format('d/m/Y') : null;
+            if($candidate->license){
+                $candidate->license->expiry_date = ($candidate->license->expiry_date != null) ? Carbon::parse($candidate->license->expiry_date)->format('d/m/Y') : null;
+            }
 
             foreach($candidate->skim as $skim){
                 $skim->register_date = ($skim->register_date != null) ? Carbon::parse($skim->register_date)->format('d/m/Y') : null;
                 $skim->expiry_date = ($skim->expiry_date != null) ? Carbon::parse($skim->expiry_date)->format('d/m/Y') : null;
             }
 
-            $candidate->higherEducation->tarikh_senat = ($candidate->higherEducation->tarikh_senat != null) ? Carbon::parse($candidate->higherEducation->tarikh_senat)->format('d/m/Y') : null;
+            if($candidate->higherEducation) {
+                $candidate->higherEducation->tarikh_senat = ($candidate->higherEducation->tarikh_senat != null) ? Carbon::parse($candidate->higherEducation->tarikh_senat)->format('d/m/Y') : null;
+            }
 
             foreach($candidate->professional as $professional){
                 $professional->date = ($professional->date != null) ? Carbon::parse($professional->date)->format('d/m/Y') : null;
             }
 
-            $candidate->experience->date_appoint = ($candidate->experience->date_appoint != null) ? Carbon::parse($candidate->experience->date_appoint)->format('d/m/Y') : null;
-            $candidate->experience->date_start = ($candidate->experience->date_start != null) ? Carbon::parse($candidate->experience->date_start)->format('d/m/Y') : null;
-            $candidate->experience->date_verify = ($candidate->experience->date_verify != null) ? Carbon::parse($candidate->experience->date_verify)->format('d/m/Y') : null;
-            $candidate->experience->date_end = ($candidate->experience->date_end) ? Carbon::parse($candidate->experience->date_end)->format('d/m/Y') : null;
+            if($candidate->experience){
 
+                $candidate->experience->date_appoint = ($candidate->experience->date_appoint != null) ? Carbon::parse($candidate->experience->date_appoint)->format('d/m/Y') : null;
+                $candidate->experience->date_start = ($candidate->experience->date_start != null) ? Carbon::parse($candidate->experience->date_start)->format('d/m/Y') : null;
+                $candidate->experience->date_verify = ($candidate->experience->date_verify != null) ? Carbon::parse($candidate->experience->date_verify)->format('d/m/Y') : null;
+                $candidate->experience->date_end = ($candidate->experience->date_end != null) ? Carbon::parse($candidate->experience->date_end)->format('d/m/Y') : null;
+
+            }
             foreach($candidate->psl as $psl){
                 $psl->exam_date = ($psl->exam_date != null) ? Carbon::parse($psl->exam_date)->format('d/m/Y') : null;
             }
