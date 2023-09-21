@@ -52,7 +52,7 @@ data-reloadPage="false">
             <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditOKU', {
                 oku_registration_no: $('#oku_registration_no').val(),
                 oku_status: $('#oku_status').val(),
-                oku_category: $('#oku_category').val(),
+                oku_category: $('#oku_category').find(':selected').text(),
                 oku_sub: $('#oku_sub').val(),
             },{
                 oku_registration_no: 'No. Pendaftaran OKU',

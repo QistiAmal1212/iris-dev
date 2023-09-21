@@ -52,7 +52,7 @@ data-reloadPage="false">
         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditLesenMemandu', {
             license_type: $('#license_type').val(),
             license_expiry_date: $('#license_expiry_date').val(),
-            license_blacklist_status: $('#license_blacklist_status').val(),
+            license_blacklist_status: $('#license_blacklist_status').find(':selected').text(),
             license_blacklist_details: $('#license_blacklist_details').val(),
         },{
             license_type: 'Jenis Lesen',

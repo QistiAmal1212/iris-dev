@@ -106,16 +106,16 @@ data-reloadPage="false">
     <div class="d-flex justify-content-end align-items-center my-1">
         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditPengajianTinggi',
             {
-                peringkat_pengajian_tinggi: $('#peringkat_pengajian_tinggi').val(),
+                peringkat_pengajian_tinggi: $('#peringkat_pengajian_tinggi').find(':selected').text(),
                 tahun_pengajian_tinggi: $('#tahun_pengajian_tinggi').val(),
-                kelayakan_pengajian_tinggi: $('#kelayakan_pengajian_tinggi').val(),
+                kelayakan_pengajian_tinggi: $('#kelayakan_pengajian_tinggi').find(':selected').text(),
                 cgpa_pengajian_tinggi: $('#cgpa_pengajian_tinggi').val(),
-                institusi_pengajian_tinggi: $('#institusi_pengajian_tinggi').val(),
+                institusi_pengajian_tinggi: $('#institusi_pengajian_tinggi').find(':selected').text(),
                 nama_sijil_pengajian_tinggi: $('#nama_sijil_pengajian_tinggi').val(),
-                pengkhususan_pengajian_tinggi: $('#pengkhususan_pengajian_tinggi').val(),
-                fln_pengajian_tinggi: $('#fln_pengajian_tinggi').val(),
+                pengkhususan_pengajian_tinggi: $('#pengkhususan_pengajian_tinggi').find(':selected').text(),
+                fln_pengajian_tinggi: $('#fln_pengajian_tinggi').find(':selected').text(),
                 tarikh_senat_pengajian_tinggi: $('#tarikh_senat_pengajian_tinggi').val(),
-                biasiswa_pengajian_tinggi: $('#biasiswa_pengajian_tinggi').val(),
+                biasiswa_pengajian_tinggi: $('#biasiswa_pengajian_tinggi').find(':selected').text(),
             },
             {
                 peringkat_pengajian_tinggi: 'Peringkat Pengajian',

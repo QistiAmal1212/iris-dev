@@ -50,9 +50,9 @@ data-reloadPage="false">
     <button type="button" id="btnEditTempatLahir" hidden onclick="generalFormSubmit(this);"></button>
     <div class="d-flex justify-content-end align-items-center my-1">
         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditTempatLahir', {
-            place_of_birth: $('#place_of_birth').val(),
-            father_place_of_birth: $('#father_place_of_birth').val(),
-            mother_place_of_birth: $('#mother_place_of_birth').val(),
+            place_of_birth: $('#place_of_birth').find(':selected').text(),
+            father_place_of_birth: $('#father_place_of_birth').find(':selected').text(),
+            mother_place_of_birth: $('#mother_place_of_birth').find(':selected').text(),
         },{
             place_of_birth: 'Tempat Lahir',
             father_place_of_birth: 'Tempat Lahir Ayah',

@@ -288,7 +288,6 @@
             method: 'GET',
             async: true,
             success: function(data) {
-                console.log(data)
                 $('#stpmForm select[name="subjek_stpm"]').val('').trigger('change');
                 $('#stpmForm select[name="gred_stpm"]').val('').trigger('change');
                 $('#stpmForm input[name="tahun_stpm"]').val('');

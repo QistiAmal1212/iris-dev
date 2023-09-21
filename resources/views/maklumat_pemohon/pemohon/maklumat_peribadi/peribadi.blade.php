@@ -94,11 +94,11 @@ data-reloadPage="false">
     <button type="button" id="btnEditPersonal" hidden onclick="generalFormSubmit(this);"></button>
     <div class="d-flex justify-content-end align-items-center my-1">
         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditPersonal', {
-            gender: $('#gender').val(),
-            religion: $('#religion').val(),
-            race: $('#race').val(),
+            gender: $('#gender').find(':selected').text(),
+            religion: $('#religion').find(':selected').text(),
+            race: $('#race').find(':selected').text(),
             date_of_birth: $('#date_of_birth').val(),
-            marital_status: $('#marital_status').val(),
+            marital_status: $('#marital_status').find(':selected').text(),
             phone_number: $('#phone_number').val(),
             email: $('#email').val()
         },{

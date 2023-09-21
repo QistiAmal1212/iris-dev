@@ -187,7 +187,7 @@
                         </div>
                         <div id="menu-three" class="content" role="tabpanel" aria-labelledby="menu-three-trigger">
                             <div class="content-header">
-                            <h5 class="mb-0">Menu [Level 2]</h5>
+                            <h5 class="mb-0">Menu [Level 3]</h5>
                             </div>
 
                             <div class="col-md-12 col-12">

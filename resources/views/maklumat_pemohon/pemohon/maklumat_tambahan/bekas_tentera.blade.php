@@ -53,9 +53,9 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
     <div class="d-flex justify-content-end align-items-center my-1">
         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditTenteraPolis',
         {
-            jenis_perkhidmatan_tentera_polis: $('#jenis_perkhidmatan_tentera_polis').val(),
-            pangkat_tentera_polis: $('#pangkat_tentera_polis').val(),
-            jenis_bekas_tentera_polis: $('#jenis_bekas_tentera_polis').val(),
+            jenis_perkhidmatan_tentera_polis: $('#jenis_perkhidmatan_tentera_polis').find(':selected').text(),
+            pangkat_tentera_polis: $('#pangkat_tentera_polis').find(':selected').text(),
+            jenis_bekas_tentera_polis: $('#jenis_bekas_tentera_polis').find(':selected').text(),
         },
         {
             jenis_perkhidmatan_tentera_polis: 'Kategori',
