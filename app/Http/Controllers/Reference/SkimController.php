@@ -80,7 +80,7 @@ class SkimController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_skim,code',
+                'code' => 'required|string|unique:ruj_skim,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -135,7 +135,7 @@ class SkimController extends Controller
             $skim = Skim::find($skimId);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_skim,code,'.$skimId,
+                'code' => 'required|string|unique:ruj_skim,code,'.$skimId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

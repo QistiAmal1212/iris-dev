@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Skim extends Model
 {
-    protected $table = 'ref_skim';
+    protected $table = 'ruj_skim';
 
     protected $fillable = [
         'code',

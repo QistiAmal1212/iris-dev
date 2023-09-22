@@ -34,24 +34,28 @@
                         </div>
                         <div class="col-md-4 col-12">
                             <div class="form-group">
-                                <label class="form-label" for="ref_area_code">Kod Kawasan <span class="text text-danger">*</span>
+                                <label class="form-label" for="ref_area_code">Kawasan Pusat Temuduga <span class="text text-danger">*</span>
                                 </label>
                                 <select class="form-control" name="ref_area_code" id="ref_area_code" required>
                                     <option value="">Sila Pilih:-</option>
                                     @foreach ($areaInterviewCentre as $area)
-                                        <option value="{{ $area->code }}">{{ $area->code }}</option>
+                                    <option value="{{ $area->kod }}">{{ $area->nama }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label" for="ref_state_code">Kod Negeri
+                                <label class="form-label" for="ref_state_code">Negeri
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="ref_state_code" name="ref_state_code" value=""
-                                        class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <select id="ref_state_code" name="ref_state_code" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($states as $state)
+                                        <option value="{{ $state->kod }}">{{ $state->nama }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

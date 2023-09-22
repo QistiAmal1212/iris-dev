@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
-    protected $table = 'ref_state';
+    protected $table = 'ruj_negeri';
 
     protected $fillable = [
-        'code',
-        'name',
+        'kod',
+        'nama',
         'created_by',
         'updated_by',
-        'is_active',
+        'sah_yt',
     ];
 }

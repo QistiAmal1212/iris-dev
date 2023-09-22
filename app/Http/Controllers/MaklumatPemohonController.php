@@ -54,7 +54,7 @@ class MaklumatPemohonController extends Controller
 
     public function searchPemohon ()
     {
-        $departmentMinistries = DepartmentMinistry::orderBy('name', 'asc')->get();
+        $departmentMinistries = DepartmentMinistry::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
         $eligibilities = Eligibility::all();
         $genders = Gender::all();
         $gredPmr = GredMatapelajaran::where('tkt', 3)->orderBy('susunan', 'asc')->get();
@@ -66,14 +66,14 @@ class MaklumatPemohonController extends Controller
         $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
         $jenisBekasTenteraPolis = JenisBekasTenteraPolis::all();
         $jenisPerkhidmatan = JenisPerkhidmatan::all();
-        $maritalStatuses = MaritalStatus::all();
+        $maritalStatuses = MaritalStatus::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
         $penalties = Penalty::all();
         $peringkatPengajian = PeringkatPengajian::all();
         $positionLevels = PositionLevel::orderBy('name', 'asc')->get();
-        $races = Race::all();
+        $races = Race::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
         $ranks = Rank::all();
-        $religions = Religion::all();
-        $states = State::orderBy('name', 'asc')->get();
+        $religions = Religion::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $states = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
         $skims = Skim::orderBy('name', 'asc')->get();
         $specializations = Specialization::orderBy('name', 'asc')->get();
         $subjekPmr = Subject::where('form', 3)->orderBy('name', 'asc')->get();
@@ -88,7 +88,7 @@ class MaklumatPemohonController extends Controller
         $jurusanMatrikulasi = MatriculationCourse::orderBy('name', 'asc')->get();
         $subjekMatrikulasi =  MatriculationSubject::orderBy('name', 'asc')->get();
         $kategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->orderBy('nama', 'asc')->get();
-        $Bahasa = Language::orderBy('name', 'asc')->get();
+        $Bahasa = Language::orderBy('nama', 'asc')->get();
         $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->orderBy('nama', 'asc')->get();
         $jenisPeperiksaan = Qualification::orderBy('name', 'asc')->get();
 
@@ -110,19 +110,9 @@ class MaklumatPemohonController extends Controller
                 $query->where('no_ic', $no_ic)->orWhere('no_ic_old', $no_ic);
             })
             ->with([
-                'license' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
-                    );
-                },
+                'license',
                 'oku',
                 'skim' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("DATE_FORMAT(register_date, '%d/%m/%Y') as registerDate"),
-                        DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
-                    );
                     $query->with(['skim', 'interviewCentre']);
                 },
                 'matriculation' => function ($query) {
@@ -132,32 +122,13 @@ class MaklumatPemohonController extends Controller
                     $query->with(['qualification']);
                 },
                 'higherEducation' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("DATE_FORMAT(tarikh_senat, '%d/%m/%Y') as tarikhSenat")
-                    );
                     $query->with(['institution', 'eligibility', 'specialization']);
                 },
                 'professional' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("DATE_FORMAT(date, '%d/%m/%Y') as newDate")
-                    );
                     $query->with(['specialization']);
                 },
-                'experience' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("DATE_FORMAT(date_appoint, '%d/%m/%Y') as dateAppoint"),
-                        DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as dateStart"),
-                        DB::raw("DATE_FORMAT(date_verify, '%d/%m/%Y') as dateVerify"),
-                    );
-                },
+                'experience',
                 'psl' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("DATE_FORMAT(exam_date, '%d/%m/%Y') as examDate")
-                    );
                     $query->with(['qualification']);
                 },
                 'armyPolice' => function ($query) {
@@ -170,11 +141,6 @@ class MaklumatPemohonController extends Controller
                     $query->with(['talent']);
                 },
                 'penalty' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as startDate"),
-                        DB::raw("DATE_FORMAT(date_end, '%d/%m/%Y') as endDate")
-                    );
                     $query->with(['penalty']);
                 },
                 'timeline',
@@ -185,6 +151,40 @@ class MaklumatPemohonController extends Controller
             }
 
             $candidate->date_of_birth = Carbon::parse($candidate->date_of_birth)->format('d/m/Y');
+
+            if($candidate->license){
+                $candidate->license->expiry_date = ($candidate->license->expiry_date != null) ? Carbon::parse($candidate->license->expiry_date)->format('d/m/Y') : null;
+            }
+
+            foreach($candidate->skim as $skim){
+                $skim->register_date = ($skim->register_date != null) ? Carbon::parse($skim->register_date)->format('d/m/Y') : null;
+                $skim->expiry_date = ($skim->expiry_date != null) ? Carbon::parse($skim->expiry_date)->format('d/m/Y') : null;
+            }
+
+            if($candidate->higherEducation) {
+                $candidate->higherEducation->tarikh_senat = ($candidate->higherEducation->tarikh_senat != null) ? Carbon::parse($candidate->higherEducation->tarikh_senat)->format('d/m/Y') : null;
+            }
+
+            foreach($candidate->professional as $professional){
+                $professional->date = ($professional->date != null) ? Carbon::parse($professional->date)->format('d/m/Y') : null;
+            }
+
+            if($candidate->experience){
+
+                $candidate->experience->date_appoint = ($candidate->experience->date_appoint != null) ? Carbon::parse($candidate->experience->date_appoint)->format('d/m/Y') : null;
+                $candidate->experience->date_start = ($candidate->experience->date_start != null) ? Carbon::parse($candidate->experience->date_start)->format('d/m/Y') : null;
+                $candidate->experience->date_verify = ($candidate->experience->date_verify != null) ? Carbon::parse($candidate->experience->date_verify)->format('d/m/Y') : null;
+                $candidate->experience->date_end = ($candidate->experience->date_end != null) ? Carbon::parse($candidate->experience->date_end)->format('d/m/Y') : null;
+
+            }
+            foreach($candidate->psl as $psl){
+                $psl->exam_date = ($psl->exam_date != null) ? Carbon::parse($psl->exam_date)->format('d/m/Y') : null;
+            }
+            
+            foreach($candidate->penalty as $penalty){
+                $penalty->date_start = ($penalty->date_start != null) ? Carbon::parse($penalty->date_start)->format('d/m/Y') : null;
+                $penalty->date_end = ($penalty->date_end != null) ? Carbon::parse($penalty->date_end)->format('d/m/Y') : null;
+            }
 
             $candidate->pmr = $candidate->schoolResult()->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '3');
@@ -236,11 +236,11 @@ class MaklumatPemohonController extends Controller
             $candidate = Candidate::where('no_pengenalan', $request->personal_no_pengenalan)->first();
 
             $request->validate([
-                'gender' => 'required|string|exists:ref_gender,code',
-                'religion' => 'required|string|exists:ref_religion,code',
-                'race' => 'required|string|exists:ref_race,code',
+                'gender' => 'required|string|exists:ruj_jantina,code',
+                'religion' => 'required|string|exists:ruj_agama,kod',
+                'race' => 'required|string|exists:ruj_keturunan,kod',
                 'date_of_birth' => 'required',
-                'marital_status' => 'required|required|exists:ref_marital_status,code',
+                'marital_status' => 'required|required|exists:ruj_taraf_kahwin,kod',
                 'phone_number' => 'required',
                 'email' => 'required|email:rfc,dns',
             ],[
@@ -486,7 +486,7 @@ class MaklumatPemohonController extends Controller
             if($candidateLesen){
                 CandidateLicense::where('no_pengenalan',$request->lesen_memandu_no_pengenalan)->update([
                     'type' => $request->license_type,
-                    'expiry_date' => $request->license_expiry_date,
+                    'expiry_date' => Carbon::createFromFormat('d/m/Y', $request->license_expiry_date)->format('Y-m-d'),
                     'is_blacklist' => $request->license_blacklist_status,
                     'blacklist_details' => $request->license_blacklist_details,
                 ]);
@@ -494,7 +494,7 @@ class MaklumatPemohonController extends Controller
                 CandidateLicense::create([
                     'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
                     'type' => $request->license_type,
-                    'expiry_date' => $request->license_expiry_date,
+                    'expiry_date' => Carbon::createFromFormat('d/m/Y', $request->license_expiry_date)->format('Y-m-d'),
                     'is_blacklist' => $request->license_blacklist_status,
                     'blacklist_details' => $request->license_blacklist_details,
                 ]);
@@ -523,18 +523,15 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->lesen_memandu_no_pengenalan)
+            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)
             ->with([
-                'license' => function ($query) {
-                    $query->select(
-                        '*',
-                        DB::raw("DATE_FORMAT(expiry_date, '%d/%m/%Y') as expiryDate")
-                    );
-                },
+                'license'
             ])->first();
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+
+            $candidate->license->expiry_date = ($candidate->license->expiry_date != null) ? Carbon::parse($candidate->license->expiry_date)->format('d/m/Y') : null;
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
@@ -605,7 +602,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->oku_no_pengenalan)
+            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)
             ->with([
                 'oku',
             ])->first();
@@ -629,8 +626,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_pmr' => 'required|string|exists:ref_subject,code',
-                'gred_pmr' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_pmr' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_pmr' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_pmr' => 'required|string',
             ],[
                 'subjek_pmr.required' => 'Sila pilih subjek pmr',
@@ -673,10 +670,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidatePmr = CandidateSchoolResult::select(
-                '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->with('subject')->whereHas('subject', function ($query) {
+            $candidatePmr = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '3');
             })->get();
 
@@ -752,8 +746,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_spm' => 'required|string|exists:ref_subject,code',
-                'gred_spm' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_spm' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_spm' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_spm' => 'required|string',
             ],[
                 'subjek_spm.required' => 'Sila pilih subjek spm',
@@ -797,10 +791,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateSpm = CandidateSchoolResult::select(
-                '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
+            $candidateSpm = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -876,8 +867,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_spmv' => 'required|string|exists:ref_subject,code',
-                'gred_spmv' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_spmv' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_spmv' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_spmv' => 'required|string',
             ],[
                 'subjek_spmv.required' => 'Sila pilih subjek spmv',
@@ -921,10 +912,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateSpmv = CandidateSchoolResult::select(
-                '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 3)->with('subject')->whereHas('subject', function ($query) {
+            $candidateSpmv = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 3)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -1000,8 +988,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_svm' => 'required|string|exists:ref_subject,code',
-                'gred_svm' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_svm' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_svm' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_svm' => 'required|string',
             ],[
                 'subjek_svm.required' => 'Sila pilih subjek svm',
@@ -1045,10 +1033,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateSvm = CandidateSchoolResult::select(
-                '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
+            $candidateSvm = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -1124,8 +1109,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_stpm' => 'required|string|exists:ref_subject,code',
-                'gred_stpm' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_stpm' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_stpm' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_stpm' => 'required|string',
             ],[
                 'subjek_stpm.required' => 'Sila pilih subjek stpm',
@@ -1169,10 +1154,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateStpm = CandidateSchoolResult::select(
-                '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
+            $candidateStpm = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -1248,8 +1230,8 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'subjek_stam' => 'required|string|exists:ref_subject,code',
-                'gred_stam' => 'required|string|exists:ref_gred_matapelajaran,gred',
+                'subjek_stam' => 'required|string|exists:ruj_matapelajaran,code',
+                'gred_stam' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_stam' => 'required|string',
             ],[
                 'subjek_stam.required' => 'Sila pilih subjek stam',
@@ -1293,10 +1275,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateStam = CandidateSchoolResult::select(
-                '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
+            $candidateStam = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -1510,6 +1489,7 @@ class MaklumatPemohonController extends Controller
 
         return response()->json(['message' => 'Record deleted successfully'], 200);
     }
+    
     public function storeSkm(Request $request)
     {
         DB::beginTransaction();
@@ -1553,10 +1533,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidateSkm = CandidateSkm::select(
-                '*',
-                DB::raw("DATE_FORMAT(year, '%d/%m/%Y') as newYear"),
-            )->where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+            $candidateSkm = CandidateSkm::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -1843,13 +1820,13 @@ class MaklumatPemohonController extends Controller
             $candidate = CandidateHigherEducation::where('no_pengenalan', $request->pengajian_tinggi_no_pengenalan)->first();
 
             $request->validate([
-                'peringkat_pengajian_tinggi' => 'required|string|exists:ref_peringkat_pengajian,id',
+                'peringkat_pengajian_tinggi' => 'required|string|exists:ruj_peringkat_pengajian,id',
                 'tahun_pengajian_tinggi' => 'required|string',
-                'kelayakan_pengajian_tinggi' => 'required|string|exists:ref_eligibility,code',
+                'kelayakan_pengajian_tinggi' => 'required|string|exists:ruj_kelayakan,code',
                 'cgpa_pengajian_tinggi' => 'required|string',
-                'institusi_pengajian_tinggi' => 'required|string|exists:ref_institution,code',
+                'institusi_pengajian_tinggi' => 'required|string|exists:ruj_institusi,code',
                 'nama_sijil_pengajian_tinggi' => 'required|string',
-                'pengkhususan_pengajian_tinggi' => 'required|string|exists:ref_specialization,code',
+                'pengkhususan_pengajian_tinggi' => 'required|string|exists:ruj_pengkhususan,code',
                 'fln_pengajian_tinggi' => 'required|integer|digits_between:1,2',
                 'tarikh_senat_pengajian_tinggi' => 'required',
                 'biasiswa_pengajian_tinggi' => 'required|boolean',
@@ -1908,13 +1885,12 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateHigherEducation = CandidateHigherEducation::select(
-                '*',
-                DB::raw("DATE_FORMAT(tarikh_senat, '%d/%m/%Y') as tarikhSenat"),
-            )->where('no_pengenalan', $request->noPengenalan)->first();
+            $candidateHigherEducation = CandidateHigherEducation::where('no_pengenalan', $request->noPengenalan)->first();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+
+            $candidateHigherEducation->tarikh_senat = ($candidateHigherEducation->tarikh_senat != null) ? Carbon::parse($candidateHigherEducation->tarikh_senat)->format('d/m/Y') : null;
             // }
 
             //DB::commit();
@@ -1971,10 +1947,11 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidatePsl = CandidatePsl::select(
-                '*',
-                    DB::raw("DATE_FORMAT(exam_date, '%d/%m/%Y') as examDate")
-            )->where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+            $candidatePsl = CandidatePsl::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+
+            foreach($candidatePsl as $psl){
+                $psl->exam_date = ($psl->exam_date != null) ? Carbon::parse($psl->exam_date)->format('d/m/Y') : null;
+            }
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -2040,7 +2017,6 @@ class MaklumatPemohonController extends Controller
         return response()->json(['message' => 'Record deleted successfully'], 200);
     }
 
-
     public function updateExperience(Request $request)
     {
         DB::beginTransaction();
@@ -2050,11 +2026,11 @@ class MaklumatPemohonController extends Controller
 
             $request->validate([
                 'experience_appoint_date' => 'required',
-                'experience_position_level' => 'required|string|exists:ref_position_level,code',
-                'experience_skim' => 'required|string|exists:ref_skim,code',
+                'experience_position_level' => 'required|string|exists:ruj_taraf_jawatan,code',
+                'experience_skim' => 'required|string|exists:ruj_skim,code',
                 'experience_start_date' => 'required',
                 'experience_verify_date' => 'required',
-                'experience_department_ministry' => 'required|string|exists:ref_department_ministry,code',
+                'experience_department_ministry' => 'required|string|exists:ruj_kem_jabatan,kod',
                 'experience_department_state' => 'required|string|exists:ref_state,code',
             ],[
                 'experience_appoint_date.required' => 'Sila pilih tarikh lantikan pertama',
@@ -2075,7 +2051,7 @@ class MaklumatPemohonController extends Controller
                 'ref_position_level_code' => $request->experience_position_level,
                 'ref_skim_code' => $request->experience_skim,
                 'date_start' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
-                'date_end' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
+                'date_verify' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
                 'ref_department_ministry_code' => $request->experience_department_ministry,
                 'state_department' => $request->experience_department_state,
 
@@ -2104,12 +2080,13 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateExperience = CandidateExperience::select(
-                '*',
-                DB::raw("DATE_FORMAT(date_appoint, '%d/%m/%Y') as dateAppoint"),
-                DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as dateStart"),
-                DB::raw("DATE_FORMAT(date_verify, '%d/%m/%Y') as dateVerify"),
-            )->where('no_pengenalan', $request->noPengenalan)->first();
+            $candidateExperience = CandidateExperience::where('no_pengenalan', $request->noPengenalan)->first();
+
+            $candidateExperience->date_appoint = ($candidateExperience->date_appoint != null) ? Carbon::parse($candidateExperience->date_appoint)->format('d/m/Y') : null;
+            $candidateExperience->date_start = ($candidateExperience->date_start != null) ? Carbon::parse($candidateExperience->date_start)->format('d/m/Y') : null;
+            $candidateExperience->date_verify = ($candidateExperience->date_verify != null) ? Carbon::parse($candidateExperience->date_verify)->format('d/m/Y') : null;
+            $candidateExperience->date_end = ($candidateExperience->date_end != null) ? Carbon::parse($candidateExperience->date_end)->format('d/m/Y') : null;
+
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -2133,9 +2110,9 @@ class MaklumatPemohonController extends Controller
             $candidate = CandidateArmyPolice::where('no_pengenalan', $request->tentera_polis_no_pengenalan)->first();
 
             $request->validate([
-                'jenis_perkhidmatan_tentera_polis' => 'required|string|exists:ref_jenis_perkhidmatan,id',
-                'pangkat_tentera_polis' => 'required|string|exists:ref_rank,code',
-                'jenis_bekas_tentera_polis' => 'required|string|exists:ref_jenis_bekas_tentera_polis,code',
+                'jenis_perkhidmatan_tentera_polis' => 'required|string|exists:ruj_jenis_perkhidmatan,id',
+                'pangkat_tentera_polis' => 'required|string|exists:ruj_pangkat,code',
+                'jenis_bekas_tentera_polis' => 'required|string|exists:ruj_jenis_bekas_tentera_polis,code',
             ],[
                 'jenis_perkhidmatan_tentera_polis.required' => 'Sila pilih jenis penamatan perkhidmatan',
                 'jenis_perkhidmatan_tentera_polis.exists' => 'Tiada rekod jenis penamatan perkhidmatan yang dipilih',
@@ -2197,7 +2174,7 @@ class MaklumatPemohonController extends Controller
 
             $request->validate([
                 'penalty_no_pengenalan' => 'required|string|exists:candidate,no_pengenalan',
-                'penalty' => 'required|string|exists:ref_penalty,code',
+                'penalty' => 'required|string|exists:ruj_tatatertib,code',
                 'penalty_duration' => 'required|integer',
                 'penalty_type' => 'required',
                 'penalty_start' => 'required',
@@ -2246,11 +2223,12 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidatePenalty = CandidatePenalty::select(
-                '*',
-                DB::raw("DATE_FORMAT(date_start, '%d/%m/%Y') as startDate"),
-                DB::raw("DATE_FORMAT(date_end, '%d/%m/%Y') as endDate")
-            )->where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
+            $candidatePenalty = CandidatePenalty::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
+
+            foreach($candidatePenalty as $penalty){
+                $penalty->date_start = ($penalty->date_start != null) ? Carbon::parse($penalty->date_start)->format('d/m/Y') : null;
+                $penalty->date_end = ($penalty->date_end != null) ? Carbon::parse($penalty->date_end)->format('d/m/Y') : null;
+            }
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);

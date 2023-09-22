@@ -93,7 +93,7 @@ class RankController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_rank,code',
+                'code' => 'required|string|unique:ruj_pangkat,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -177,7 +177,7 @@ class RankController extends Controller
             $log->data_old = json_encode($rank);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_rank,code,'.$rankId,
+                'code' => 'required|string|unique:ruj_pangkat,code,'.$rankId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

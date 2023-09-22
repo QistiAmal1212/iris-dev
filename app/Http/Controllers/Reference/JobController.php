@@ -80,7 +80,7 @@ class JobController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_job,code',
+                'code' => 'required|string|unique:ruj_pekerjaan,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -135,7 +135,7 @@ class JobController extends Controller
             $job = Job::find($jobId);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_job,code,'.$jobId,
+                'code' => 'required|string|unique:ruj_pekerjaan,code,'.$jobId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

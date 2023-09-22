@@ -99,8 +99,8 @@ data-reloadPage="false">
                         trPsl += '<tr>';
                         trPsl += '<td align="center">' + bilPsl + '</td>'
                         trPsl += '<td>' + item.qualification.name + '</td>';
-                        trPsl += '<td>' + (item.exam_date ? item.examDate : '') + '</td>';
-                        trPsl += '<td align="center"><i class="fas fa-pencil text-primary editPsl-btn" data-id="' + item.id + ' " data-form="psl"></i>';
+                        trPsl += '<td>' + (item.exam_date ? item.exam_date : '') + '</td>';
+                        trPsl += '<td align="center"><i class="fas fa-pencil text-primary editPsl-btn" data-id="' + item.id + ' "></i>';
                         trPsl += '&nbsp;&nbsp;';
                         trPsl += '<i class="fas fa-trash text-danger deletePsl-btn" data-id="' + item.id + '"></i></td>';
                         trPsl += '</tr>';

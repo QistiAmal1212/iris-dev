@@ -80,7 +80,7 @@ class MatriculationController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ref_matriculation,code',
+                'code' => 'required|string|unique:ruj_matrikulasi,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -135,7 +135,7 @@ class MatriculationController extends Controller
             $matriculation = Matriculation::find($matriculationId);
 
             $request->validate([
-                'code' => 'required|string|unique:ref_matriculation,code,'.$matriculationId,
+                'code' => 'required|string|unique:ruj_matrikulasi,code,'.$matriculationId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

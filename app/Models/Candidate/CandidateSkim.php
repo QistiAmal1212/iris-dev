@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CandidateSkim extends Model
 {
-    protected $table = 'candidate_skim';
+    protected $table = 'calon_skim';
 
     protected $fillable = [
     	'no_pengenalan',
@@ -28,6 +28,6 @@ class CandidateSkim extends Model
     }
 
     public function interviewCentre(){
-        return $this->belongsTo('App\Models\Reference\InterviewCentre', 'ref_interview_centre_code', 'code');
+        return $this->belongsTo('App\Models\Reference\InterviewCentre', 'ref_interview_centre_code', 'kod');
     }
 }

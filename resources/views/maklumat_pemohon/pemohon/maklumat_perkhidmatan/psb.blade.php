@@ -27,7 +27,7 @@ data-reloadPage="false">
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Lantikan Pertama</label>
-        <input type="text" class="form-control" value="" name="experience_appoint_date" id="experience_appoint_date" oninput="checkInput('experience_appoint_date', 'experience_appoint_dateAlert')" disabled>
+        <input type="text" class="form-control flatpickr" value="" name="experience_appoint_date" id="experience_appoint_date" oninput="checkInput('experience_appoint_date', 'experience_appoint_dateAlert')" disabled>
         <div id="experience_appoint_dateAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
@@ -64,7 +64,7 @@ data-reloadPage="false">
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
         <label class="form-label">Tarikh Lantikan</label>
-        <input type="text" class="form-control" value="" name="experience_start_date" id="experience_start_date" oninput="checkInput('experience_start_date', 'experience_start_dateAlert')" disabled>
+        <input type="text" class="form-control flatpickr" value="" name="experience_start_date" id="experience_start_date" oninput="checkInput('experience_start_date', 'experience_start_dateAlert')" disabled>
         <div id="experience_start_dateAlert" style="color: red; font-size: smaller;"></div>
     </div>
 
@@ -83,7 +83,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="experience_department_ministry" id="experience_department_ministry" disabled>
             <option value=""></option>
             @foreach($departmentMinistries as $departmentMinistry)
-            <option value="{{ $departmentMinistry->code }}">{{ $departmentMinistry->name }}</option>
+            <option value="{{ $departmentMinistry->kod }}">{{ $departmentMinistry->nama }}</option>
             @endforeach
         </select>
     </div>
@@ -93,7 +93,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="experience_department_state" id="experience_department_state" disabled>
             <option value=""></option>
             @foreach($states as $state)
-            <option value="{{ $state->code }}">{{ $state->name }}</option>
+            <option value="{{ $state->kod }}">{{ $state->nama }}</option>
             @endforeach
         </select>
     </div>
@@ -154,15 +154,15 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.dateAppoint);
+                $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.date_appoint);
                 $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
                 $('#experienceForm select[name="experience_position_level"]').val(data.detail.ref_position_level_code).trigger('change');
                 $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
                 $('#experienceForm select[name="experience_skim"]').val(data.detail.ref_skim_code).trigger('change');
                 $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
-                $('#experienceForm input[name="experience_start_date"]').val(data.detail.dateStart);
+                $('#experienceForm input[name="experience_start_date"]').val(data.detail.date_start);
                 $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
-                $('#experienceForm input[name="experience_verify_date"]').val(data.detail.dateVerify);
+                $('#experienceForm input[name="experience_verify_date"]').val(data.detail.date_verify);
                 $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
                 $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.ref_department_ministry_code).trigger('change');
                 $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);

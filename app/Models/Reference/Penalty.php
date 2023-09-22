@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Penalty extends Model
 {
-    protected $table = 'ref_penalty';
+    protected $table = 'ruj_tatatertib';
 
     protected $fillable = [
         'code',
