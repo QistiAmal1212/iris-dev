@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('candidate_oku', function (Blueprint $table) {
             $table->id();
             $table->string('no_pengenalan')->unique();
+            $table->string('kecacatan_calon')->nullable();
             $table->string('no_registration')->unique();
             $table->string('category')->nullable();
             $table->string('sub')->nullable();

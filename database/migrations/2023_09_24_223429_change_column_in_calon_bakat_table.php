@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('ref_interview_centre', function (Blueprint $table) {
-            $table->string('ref_area_interview_centre_code')->nullable()->change();
+        Schema::table('calon_bakat', function (Blueprint $table) {
+            $table->renameColumn('ref_talent_code', 'bakat');
+            $table->renameColumn('detail', 'bakat_detail');
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('ref_interview_centre', function (Blueprint $table) {
-            $table->string('ref_area_interview_centre_code')->nullable(false)->change();
+        Schema::table('calon_bakat', function (Blueprint $table) {
+            $table->renameColumn('bakat', 'ref_talent_code');
+            $table->renameColumn('bakat_detail', 'detail');
         });
     }
 };

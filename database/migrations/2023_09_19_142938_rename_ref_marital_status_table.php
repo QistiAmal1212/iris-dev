@@ -27,7 +27,7 @@ return new class extends Migration
         Schema::table('ruj_taraf_kahwin', function (Blueprint $table) {
             $table->renameColumn('kod', 'code');
             $table->renameColumn('nama', 'name');
-            $table->renameColumn('sah_yt', '');
+            $table->renameColumn('sah_yt', 'is_active');
         });
         Schema::rename('ruj_taraf_kahwin', 'ref_marital_status');
     }
