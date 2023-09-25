@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('candidate_talent', function (Blueprint $table) {
             $table->id();
             $table->string('no_pengenalan');
+            $table->string('ref_talent_code');
             $table->string('detail')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->comment('Last Update User')->nullable();
             $table->timestamps();
 
             $table->foreign('no_pengenalan')->references('no_pengenalan')->on('candidate')->onDelete('no action')->onUpdate('cascade');
+            $table->foreign('ref_talent_code')->references('code')->on('ref_talent')->onDelete('no action')->onUpdate('cascade');
         });
     }
 

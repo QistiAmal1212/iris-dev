@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('examination_no')->nullable()->change();
             $table->string('open_result')->nullable()->change();
             $table->string('year')->nullable()->change();
+            $table->string('ref_subject_tkt')->nullable()->change();
             $table->string('ref_subject_code')->nullable()->change();
             $table->string('grade')->nullable()->change();
             $table->string('certificate_rank')->nullable()->change();
