@@ -17,6 +17,7 @@ class CandidateSchoolResult extends Model
         'ref_subject_code',
         'grade',
         'certificate_rank',
+        'ref_subject_tkt',
         'created_by',
         'updated_by',
     ];

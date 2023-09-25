@@ -108,6 +108,11 @@ data-reloadPage="false">
                 });
                 $('#table-psl tbody').append(trPsl);
 
+                if($('#table-psl tbody').is(':empty')){
+                    var trPsl = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    $('#table-psl tbody').append(trPsl);
+                }
+
                 $(document).on('click', '.editPsl-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#pslForm').attr('action', "{{ route('psl.update') }}");

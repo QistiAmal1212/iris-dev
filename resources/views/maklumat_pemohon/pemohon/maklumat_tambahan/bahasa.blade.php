@@ -107,6 +107,11 @@ data-reloadPage="false">
                 });
                 $('#table-language tbody').append(trLanguage);
 
+                if($('#table-language tbody').is(':empty')){
+                    var trLanguage = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-language tbody').append(trLanguage);
+                }
+
                 $(document).on('click', '.editBahasa-btn', function() {
                         $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                         $('#bahasaForm').attr('action', "{{ route('bahasa.update') }}");

@@ -205,6 +205,11 @@
                 });
                 $('#table-penalty tbody').append(trPenalty);
 
+                if($('#table-penalty tbody').is(':empty')){
+                    var trPenalty = '<tr><td align="center" colspan="6">*Tiada Rekod*</td></tr>';
+                    $('#table-penalty tbody').append(trPenalty);
+                }
+
                 $(document).on('click', '.editPenalty-btn', function() {
                         $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                         $('#penaltyForm').attr('action', "{{ route('penalty.update') }}");

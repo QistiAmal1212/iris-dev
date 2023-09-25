@@ -106,6 +106,11 @@ data-reloadPage="false">
                 });
                 $('#table-skm tbody').append(trSkm);
 
+                if($('#table-skm tbody').is(':empty')){
+                    var trSkm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    $('#table-skm tbody').append(trSkm);
+                }
+
                 $(document).on('click', '.editSkm-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#skmForm').attr('action', "{{ route('skm.update') }}");

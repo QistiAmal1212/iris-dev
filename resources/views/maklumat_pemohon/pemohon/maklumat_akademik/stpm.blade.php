@@ -319,6 +319,11 @@
                 });
                 $('#table-stpm tbody').append(trStpm);
 
+                if($('#table-stpm tbody').is(':empty')){
+                    var trStpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-stpm tbody').append(trStpm);
+                }
+
                 $(document).on('click', '.editStpm-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#stpmForm').attr('action', "{{ route('stpm.update') }}");
@@ -365,7 +370,7 @@
     }
 
     function reloadStam() {
-        var no_pengenalan = $('#stam_no_pengenalan').val();
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
         $('#stamForm input[name="stam_no_pengenalan"]').val(no_pengenalan);
 
         var reloadStamUrl = "{{ route('stam.list', ':replaceThis') }}"
@@ -405,6 +410,11 @@
                     }
                 });
                 $('#table-stam tbody').append(trStam);
+
+                if($('#table-stam tbody').is(':empty')){
+                    var trStam = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-stam tbody').append(trStam);
+                }
 
                 $(document).on('click', '.editStam-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
@@ -509,6 +519,11 @@
                         trMatrikulasi += '<i class="fas fa-trash text-danger deleteMatrikulasi-btn" data-id="' + item.id + '"></i></td>';
                 });
                 $('#table-matrikulasi tbody').append(trMatrikulasi);
+
+                if($('#table-matrikulasi tbody').is(':empty')){
+                    var trMatrikulasi = '<tr><td align="center" colspan="10">*Tiada Rekod*</td></tr>';
+                    $('#table-matrikulasi tbody').append(trMatrikulasi);
+                }
 
                 $(document).on('click', '.editMatrikulasi-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');

@@ -12,6 +12,7 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::get('maklumat-pemohon','viewMaklumatPemohon')->name('maklumat_pemohon');
         Route::post('get-candidate-details', 'getCandidateDetails')->name('get-candidate-details');
         Route::get('timeline/{noPengenalan}', 'listTimeline')->name('timeline.list');
+        Route::post('calon-cadangan', 'calonCadangan')->name('get_suggestions');
 
         Route::prefix('personal')->group(function () {
             Route::post('update', 'updatePersonal')->name('personal.update');

@@ -76,7 +76,7 @@ data-reloadPage="false">
                 $('#bakatForm').attr('action', "{{ route('bakat.store')  }}");
                 $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
 
-                $("#button_action_bakat").attr("style", "display:block");
+                $("#button_action_bakat").attr("style", "display:none");
 
                 $('#table-talent tbody').empty();
                 var trBakat = '';
@@ -92,6 +92,11 @@ data-reloadPage="false">
                     trBakat += '</tr>';
                 });
                 $('#table-talent tbody').append(trBakat);
+
+                if($('#table-talent tbody').is(':empty')){
+                    var trTalent = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-talent tbody').append(trTalent);
+                }
 
                 $(document).on('click', '.editBakat-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');

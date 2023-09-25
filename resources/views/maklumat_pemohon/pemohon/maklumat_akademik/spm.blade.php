@@ -286,6 +286,11 @@
                 });
                 $('#table-spm tbody').append(trSpm);
 
+                if($('#table-spm tbody').is(':empty')){
+                    var trSpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-spm tbody').append(trSpm);
+                }
+
                 $(document).on('click', '.editSpm-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#spmForm').attr('action', "{{ route('spm.update') }}");
@@ -371,6 +376,11 @@
                 });
                 $('#table-spmv tbody').append(trSpmv);
 
+                if($('#table-spmv tbody').is(':empty')){
+                    var trSpmv = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-spmv tbody').append(trSpmv);
+                }
+
                 $(document).on('click', '.editSpmv-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#spmvForm').attr('action', "{{ route('spmv.update') }}");
@@ -455,6 +465,11 @@
                     }
                 });
                 $('#table-svm tbody').append(trSvm);
+
+                if($('#table-svm tbody').is(':empty')){
+                    var trSvm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-svm tbody').append(trSvm);
+                }
 
                 $(document).on('click', '.editSvm-btn', function() {
                         $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');

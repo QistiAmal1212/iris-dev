@@ -52,6 +52,17 @@ class MaklumatPemohonController extends Controller
         $this->middleware('auth');
     }
 
+    public function calonCadangan(Request $request){
+        $inputValue = $request->input('input_value');
+        $suggestions = Candidate::where(function($query) use ($inputValue) {
+            $query->where('no_ic', 'ILIKE', '%' . $inputValue . '%')
+                  ->orWhere('no_ic_old', 'ILIKE', '%' . $inputValue . '%')
+                  ->orWhere('full_name', 'ILIKE', '%' . $inputValue . '%');
+        })->get();
+
+        return response()->json($suggestions);
+    }
+
     public function searchPemohon ()
     {
         $departmentMinistries = DepartmentMinistry::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
@@ -180,7 +191,7 @@ class MaklumatPemohonController extends Controller
             foreach($candidate->psl as $psl){
                 $psl->exam_date = ($psl->exam_date != null) ? Carbon::parse($psl->exam_date)->format('d/m/Y') : null;
             }
-            
+
             foreach($candidate->penalty as $penalty){
                 $penalty->date_start = ($penalty->date_start != null) ? Carbon::parse($penalty->date_start)->format('d/m/Y') : null;
                 $penalty->date_end = ($penalty->date_end != null) ? Carbon::parse($penalty->date_end)->format('d/m/Y') : null;
@@ -643,6 +654,7 @@ class MaklumatPemohonController extends Controller
                 'ref_subject_code' => $request->subjek_pmr,
                 'grade' => $request->gred_pmr,
                 'year' => $request->tahun_pmr,
+                'ref_subject_tkt'=> 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -764,6 +776,7 @@ class MaklumatPemohonController extends Controller
                 'grade' => $request->gred_spm,
                 'year' => $request->tahun_spm,
                 'certificate_type' => 1,
+                'ref_subject_tkt'=> 5,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -885,6 +898,7 @@ class MaklumatPemohonController extends Controller
                 'grade' => $request->gred_spmv,
                 'year' => $request->tahun_spmv,
                 'certificate_type' => 3,
+                'ref_subject_tkt'=> 5,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -1006,6 +1020,7 @@ class MaklumatPemohonController extends Controller
                 'grade' => $request->gred_svm,
                 'year' => $request->tahun_svm,
                 'certificate_type' => 5,
+                'ref_subject_tkt'=> 5,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -1127,6 +1142,7 @@ class MaklumatPemohonController extends Controller
                 'grade' => $request->gred_stpm,
                 'year' => $request->tahun_stpm,
                 'certificate_type' => 1,
+                'ref_subject_tkt'=> 6,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -1155,7 +1171,7 @@ class MaklumatPemohonController extends Controller
         try {
 
             $candidateStpm = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 1)->with('subject')->whereHas('subject', function ($query) {
-                $query->where('form', '5');
+                $query->where('form', '6');
             })->get();
 
             // if(!$candidate) {
@@ -1248,6 +1264,7 @@ class MaklumatPemohonController extends Controller
                 'grade' => $request->gred_stam,
                 'year' => $request->tahun_stam,
                 'certificate_type' => 5,
+                'ref_subject_tkt'=> 6,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -1276,7 +1293,7 @@ class MaklumatPemohonController extends Controller
         try {
 
             $candidateStam = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('certificate_type', 5)->with('subject')->whereHas('subject', function ($query) {
-                $query->where('form', '5');
+                $query->where('form', '6');
             })->get();
 
             // if(!$candidate) {
@@ -1489,7 +1506,7 @@ class MaklumatPemohonController extends Controller
 
         return response()->json(['message' => 'Record deleted successfully'], 200);
     }
-    
+
     public function storeSkm(Request $request)
     {
         DB::beginTransaction();

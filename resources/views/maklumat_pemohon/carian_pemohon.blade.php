@@ -10,6 +10,29 @@ Maklumat Pemohon
 @endsection
 
 @section('content')
+<style>
+    .suggestions-container {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        max-height: 50vh;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        display: none;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .suggestion {
+        padding: 7px;
+        border-bottom: 1px solid #ccc;
+    }
+
+</style>
 <section id="faq-search-filter">
     <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}')">
         <div class="card-body text-center">
@@ -23,9 +46,13 @@ Maklumat Pemohon
                     </div>
 
                     {{-- Search form --}}
-                        <input type="text" class="form-control" id="search_ic" placeholder="No. Kad Pegenalan Calon" maxlength="12"/>
+                        <input type="text" class="form-control" id="search_ic" placeholder="No. Kad Pegenalan Calon" oninput="getSuggestions(this.value)"/>
+                        <input type="text" class="form-control" id="selected_ic" hidden/>
                         <button class="btn btn-primary waves-effect" type="button" onclick="searchCandidate()">Cari</button>
+
+                        <div class="suggestions-container"></div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -245,7 +272,13 @@ Maklumat Pemohon
     }
 
     function searchCandidate() {
-        var search_ic = $('#search_ic').val();
+        var searvh_ic = '';
+        if($('#search_ic').val().length <= 12){
+            search_ic = $('#search_ic').val();
+        }else{
+            search_ic = $('#selected_ic').val();
+        }
+
 
         if(search_ic == ''){
             Swal.fire('Gagal', 'Sila isikan no kad pengenalan', 'error');
@@ -258,6 +291,8 @@ Maklumat Pemohon
                     no_ic : search_ic
                 },
                 success: function(data) {
+                    var container = $('.suggestions-container');
+                    container.hide();
                     $('#update_alamat').attr("style", "display:block");
                     $('#update_personal').attr("style", "display:block");
                     $('#update_tempat_lahir').attr("style", "display:block");
@@ -825,5 +860,49 @@ Maklumat Pemohon
         reloadUrl = reloadUrl.replace(':replaceThis', no_pengenalan);
         $('#candidate_timeline').load(reloadUrl)
     }
+
+    function getSuggestions(inputValue) {
+        if(inputValue.length > 0){
+            $.ajax({
+        url: '{{ route("get_suggestions") }}',
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            input_value: inputValue
+        },
+        success: function(data) {
+            displaySuggestions(data)
+        },
+        error: function(error) {
+            console.error('Error fetching suggestions:', error);
+        }
+    });
+        }else{
+            $('.suggestions-container').hide();
+        }
+
+}
+
+function displaySuggestions(suggestions) {
+    var container = $('.suggestions-container');
+    container.empty();
+    if (suggestions.length > 0) {
+        suggestions.forEach(function(suggestion) {
+            container.append('<div class="suggestion" data-value="'+ suggestion.no_ic +'">' + suggestion.full_name + '</div>');
+        });
+        container.show();
+    } else {
+        container.append('<div class="suggestion"> Tiada Carian </div>');
+        container.show();
+    }
+}
+
+$(document).on('click', '.suggestion', function() {
+    var suggestionValue = $(this).data('value');
+    var suggestionText = $(this).text();
+    $('#selected_ic').val(suggestionValue);
+    $('#search_ic').val(suggestionText);
+    $('.suggestions-container').hide();
+});
 </script>
 @endsection

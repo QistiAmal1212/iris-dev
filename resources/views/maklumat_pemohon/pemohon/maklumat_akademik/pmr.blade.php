@@ -123,6 +123,11 @@ data-reloadPage="false">
                 });
                 $('#table-pmr tbody').append(trPmr);
 
+                if($('#table-pmr tbody').is(':empty')){
+                    var trPmr = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-pmr tbody').append(trPmr);
+                }
+
                 $(document).on('click', '.editPmr-btn', function() {
                         $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                         $('#pmrForm').attr('action', "{{ route('pmr.update') }}");
