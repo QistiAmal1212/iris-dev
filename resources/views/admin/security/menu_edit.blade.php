@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Menu</h5>
+                <h5 class="modal-title">Kemas Kini Menu</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -36,7 +36,7 @@
                             @if($menu->module_id != null && $menu->type == 'Web')
                             style="diplay:block"
                             @else
-                            style="display:none" 
+                            style="display:none"
                             @endif
                             >
                                 <div class="form-group">
@@ -62,12 +62,12 @@
                                 </div>
                             </div>
 
-                            <div id="div_parent" 
+                            <div id="div_parent"
                             class="col-md-6 col-12"
                             @if($menu->level != 1)
                             style="diplay:block"
                             @else
-                            style="display:none" 
+                            style="display:none"
                             @endif
                             >
                                 <div class="form-group">
@@ -75,11 +75,11 @@
                                     <select class="form-control" name="menu_link" id="menu_link" required>
                                         <option value="">Sila Pilih:-</option>
                                         @if($menu->level == 2)
-                                        @php   
+                                        @php
                                         $listMenu = $menuLevel2;
                                         @endphp
                                         @else if($menu->level == 3)
-                                        @php   
+                                        @php
                                         $listMenu = $menuLevel3;
                                         @endphp
                                         @endif
@@ -107,6 +107,14 @@
                                     </div>
                                 </div>
                             </div> -->
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="turutan">Turutan <span class="text text-danger">*</span> </label>
+                                    <div class="input-group">
+                                        <input type="text" id="turutan" name="turutan" value="{{ $menu->sequence }}" class="form-control" placeholder="Turutan" required>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                         <button type="button" id="btnCreateMenu" hidden onclick="generalFormSubmit(this);"></button>
