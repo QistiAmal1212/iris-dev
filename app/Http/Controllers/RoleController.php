@@ -107,7 +107,11 @@ class RoleController extends Controller
                         //$button .= '<a class="btn btn-xs btn-default" onclick="viewOnlyForm('.$roles->id.')"> <i class="fas fa-eye text-seconday"></i> ';
 
                         //edit role
-                        $button .= '<a class="btn btn-xs btn-default" onclick="viewForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'edit\')" data-toggle="tooltip" data-placement="top" title="kemas kini"> <i class="fas fa-pencil text-primary"></i> ';
+
+                        if($accessDelete){
+                            $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'duplicate\')" data-toggle="tooltip" data-placement="top" title="salin"> <i class="fas fa-clone text-primary"></i> ';
+                        }
 
                         //delete role
                         // $button .= '<a class="btn btn-xs btn-default" title="" onclick="$(`#rolesDeleteButton_'.$roles->id.'`).trigger(`click`);" > <i class="fas fa-trash text-danger"></i> </a>';
@@ -190,7 +194,7 @@ class RoleController extends Controller
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
-            
+
         } catch (\Throwable $e) {
 
             DB::rollback();

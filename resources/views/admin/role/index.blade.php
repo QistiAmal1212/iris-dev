@@ -149,6 +149,13 @@
 
 @section('script')
 <script>
+    var action = '';
+    //ACTION FORM
+    function actionForm(id, FormAction){
+        action= FormAction;
+        viewForm(id);
+    }
+
     $(function() {
         var table = $('#RoleList').DataTable({
             orderCellsTop: true,
@@ -308,7 +315,7 @@
             $('#menu-two').removeClass('active dstepper-block');
             $('#menu-three').removeClass('active dstepper-block');
 
-            $('#title-role').html('Add Role');
+            $('#title-role').html('Tambah Peranan');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -330,8 +337,12 @@
                     // console.log(data);
                     id_used = data.detail.id;
                     // console.log(id_used);
-                    url2 = "{{route('role.updateRole',':replaceThis')}}"
-                    url2 = url2.replace(':replaceThis',id_used);
+                    if(action==='edit'){
+                        url2 = "{{route('role.updateRole',':replaceThis')}}"
+                        url2 = url2.replace(':replaceThis',id_used);
+                    }else{
+                        url2 = "{{route('role.store')}}"
+                    }
 
                     $('#roleForm').attr('action',url2 );
                     $('#roleForm input[name="role_name"]').val(data.detail.name);
@@ -362,7 +373,12 @@
                     $('#menu-two').removeClass('active dstepper-block');
                     $('#menu-three').removeClass('active dstepper-block');
 
-                    $('#title-role').html('Edit Role');
+
+                    if(action==='edit'){
+                        $('#title-role').html('Kemas Kini Peranan');
+                    }else{
+                        $('#title-role').html('Menyalin Peranan');
+                    }
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);
