@@ -139,11 +139,21 @@
             contentType: false,
             processData: false,
             success: function(data) {
+                $('#addUsersRoleForm input[name="id_role"]').val(id);
                 $('#td_name').html(':&nbsp;&nbsp;'+data.detail.name);
                 $('#td_display_name').html(':&nbsp;&nbsp;'+data.detail.display_name);
                 $('#td_description').html(':&nbsp;&nbsp;'+data.detail.description);
                 $('#td_is_internal').html(':&nbsp;&nbsp;'+data.detail.internalType);
                 $('#td_count').html(':&nbsp;&nbsp;'+data.detail.totalCount);
+
+                data.detail.availableUsers.forEach(function(user) {
+                    $('#select2-multiple').append($('<option>', {
+                        value: user.id,
+                        text: user.name
+                    }));
+                });
+
+                $('#select2-multiple').select2();
 
             },
         });

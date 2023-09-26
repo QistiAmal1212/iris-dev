@@ -51,6 +51,27 @@
                     </center>
                 </div>
                 <hr>
+                <div>
+                    <form action="{{ route('admin.group-role.addUserRole') }}" method="POST" id="addUsersRoleForm"
+                    data-reloadPage="true">
+                    @csrf
+                    <input id="id_role" name="id_role" value="" hidden>
+                    <div class="fw-bolder">Tambah Penguna</div><br>
+                    <div class="row">
+                        <div class="col-md-8 col-12">
+                            <label class="form-label"> Pilih Pengguna: </label>
+                            <select class="select2 form-select" name="roles[]" id="select2-multiple" multiple>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="button" id="btn_submit" hidden onclick="generalFormSubmit(this);"></button><span></span>
+                    <button type="button" id="btn_fake" class="btn btn-primary" onclick="$('#btn_submit').trigger('click');">
+                        Tambah
+                    </button>
+                </form>
+                </div>
+                <hr>
                 <div class="table-responsive">
                     <table class="table header_uppercase table-bordered" id="table-list-users">
                         <thead>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\UserHasRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -78,6 +80,7 @@ class GroupRoleController extends Controller
     {
         $role = Role::find($request->roleId);
         $users = $role->users;
+
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -132,6 +135,10 @@ class GroupRoleController extends Controller
 
             $role = Role::find($request->roleId);
 
+            $availableUsers = User::whereNotIn('id', $role->users->pluck('id'))->get();
+
+            $role->availableUsers = $availableUsers;
+
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.group-role')->firstOrFail()->id;
             $log->activity_type_id = 2;
@@ -157,6 +164,45 @@ class GroupRoleController extends Controller
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $role]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function storeUserRole(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'roles' => 'required|array',
+            ],[
+                'roles.required' => 'Sila pilih pengguna',
+            ]);
+
+            foreach ($request->input('roles') as $user) {
+                $userRole = User::find($user);
+
+                $userRole->roles()->attach($request->id_role);
+                // UserHasRole::create([
+                //     'role_id' => $request->id_role,
+                //     'user_id' => $user,
+                // ]);
+            }
+
+            // CandidateTimeline::create([
+            //     'no_pengenalan' => $request->pmr_no_pengenalan,
+            //     'details' => 'Tambah Maklumat Akademik (PT3/PMR/SRP)',
+            //     'activity_type_id' => 3,
+            //     'created_by' => auth()->user()->id,
+            //     'updated_by' => auth()->user()->id,
+            // ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
 
         } catch (\Throwable $e) {
 

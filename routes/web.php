@@ -126,6 +126,7 @@ Route::prefix('admin')->group(function () {
 
         Route::get('edit/{roleId}', [GroupRoleController::class, 'edit'])->name('admin.group-role.edit');
         Route::get('getRole/{roleId}', [GroupRoleController::class, 'getRole'])->name('admin.group-role.getRole');
+        Route::post('addUserRole', [GroupRoleController::class, 'storeUserRole'])->name('admin.group-role.addUserRole');
     });
 
     Route::prefix('settings')->group(function () {
