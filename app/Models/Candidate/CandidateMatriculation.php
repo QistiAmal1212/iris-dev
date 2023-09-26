@@ -10,29 +10,29 @@ class CandidateMatriculation extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'year',
-        'matric_no',
-        'type',
-        'ref_matriculation_course_code',
-        'session',
+        'tahun_lulus',
+        'no_matrik',
+        'jenis_sijil',
+        'jurusan',
+        'sesi',
         'semester',
-        'ref_matriculation_code',
-        'ref_matriculation_subject_code',
-        'grade',
+        'kolej',
+        'kod_subjek',
+        'gred',
         'pngk',
         'created_by',
         'updated_by',
     ];
 
     public function course(){
-        return $this->belongsTo('App\Models\Reference\MatriculationCourse', 'ref_matriculation_course_code', 'code');
+        return $this->belongsTo('App\Models\Reference\MatriculationCourse', 'jurusan', 'code');
     }
 
     public function college(){
-        return $this->belongsTo('App\Models\Reference\Matriculation', 'ref_matriculation_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Matriculation', 'kolej', 'code');
     }
 
     public function subject(){
-        return $this->belongsTo('App\Models\Reference\MatriculationSubject', 'ref_matriculation_subject_code', 'code');
+        return $this->belongsTo('App\Models\Reference\MatriculationSubject', 'kod_subjek', 'code');
     }
 }

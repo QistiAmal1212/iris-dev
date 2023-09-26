@@ -159,29 +159,29 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#alamatForm input[name="permanent_address_1"]').val(data.detail.permanent_address_1);
+                $('#alamatForm input[name="permanent_address_1"]').val(data.detail.alamat_1_tetap);
                 $('#alamatForm input[name="permanent_address_1"]').attr('disabled', true);
-                $('#alamatForm input[name="permanent_address_2"]').val(data.detail.permanent_address_2);
+                $('#alamatForm input[name="permanent_address_2"]').val(data.detail.alamat_2_tetap);
                 $('#alamatForm input[name="permanent_address_2"]').attr('disabled', true);
-                $('#alamatForm input[name="permanent_address_3"]').val(data.detail.permanent_address_3);
+                $('#alamatForm input[name="permanent_address_3"]').val(data.detail.alamat_3_tetap);
                 $('#alamatForm input[name="permanent_address_3"]').attr('disabled', true);
-                $('#alamatForm input[name="permanent_poscode"]').val(data.detail.permanent_poscode);
+                $('#alamatForm input[name="permanent_poscode"]').val(data.detail.poskod_tetap);
                 $('#alamatForm input[name="permanent_poscode"]').attr('disabled', true);
-                $('#alamatForm input[name="permanent_city"]').val(data.detail.permanent_city);
+                $('#alamatForm input[name="permanent_city"]').val(data.detail.bandar_tetap);
                 $('#alamatForm input[name="permanent_city"]').attr('disabled', true);
-                $('#alamatForm select[name="permanent_state"]').val(data.detail.permanent_ref_state_code).trigger('change');
+                $('#alamatForm select[name="permanent_state"]').val(data.detail.tempat_tinggal_tetap).trigger('change');
                 $('#alamatForm select[name="permanent_state"]').attr('disabled', true);
-                $('#alamatForm input[name="address_1"]').val(data.detail.address_1);
+                $('#alamatForm input[name="address_1"]').val(data.detail.alamat_1);
                 $('#alamatForm input[name="address_1"]').attr('disabled', true);
-                $('#alamatForm input[name="address_2"]').val(data.detail.address_2);
+                $('#alamatForm input[name="address_2"]').val(data.detail.alamat_2);
                 $('#alamatForm input[name="address_2"]').attr('disabled', true);
-                $('#alamatForm input[name="address_3"]').val(data.detail.address_3);
+                $('#alamatForm input[name="address_3"]').val(data.detail.alamat_3);
                 $('#alamatForm input[name="address_3"]').attr('disabled', true);
-                $('#alamatForm input[name="poscode"]').val(data.detail.poscode);
+                $('#alamatForm input[name="poscode"]').val(data.detail.poskod);
                 $('#alamatForm input[name="poscode"]').attr('disabled', true);
-                $('#alamatForm input[name="city"]').val(data.detail.city);
+                $('#alamatForm input[name="city"]').val(data.detail.bandar);
                 $('#alamatForm input[name="city"]').attr('disabled', true);
-                $('#alamatForm select[name="state"]').val(data.detail.ref_state_code).trigger('change');
+                $('#alamatForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change');
                 $('#alamatForm select[name="state"]').attr('disabled', true);
 
                 $("#button_action_alamat").attr("style", "display:none");

@@ -84,12 +84,12 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.place_of_birth).trigger('change');
-                $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.place_of_birth).attr('disabled', true);
-                $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.father_place_of_birth).trigger('change');
-                $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.father_place_of_birth).attr('disabled', true);
-                $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.mother_place_of_birth).trigger('change');
-                $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.mother_place_of_birth).attr('disabled', true);
+                $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.tempat_lahir).trigger('change');
+                $('#tempatLahirForm select[name="place_of_birth"]').attr('disabled', true);
+                $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.tempat_lahir_bapa).trigger('change');
+                $('#tempatLahirForm select[name="father_place_of_birth"]').attr('disabled', true);
+                $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.tempat_lahir_ibu).trigger('change');
+                $('#tempatLahirForm select[name="mother_place_of_birth"]').attr('disabled', true);
 
                 $("#button_action_tempat_lahir").attr("style", "display:none");
             },

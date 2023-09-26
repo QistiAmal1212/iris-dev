@@ -87,13 +87,13 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#okuForm input[name="oku_registration_no"]').val(data.detail.oku.no_registration);
+                $('#okuForm input[name="oku_registration_no"]').val(data.detail.oku.no_daftar_jkm);
                 $('#okuForm input[name="oku_registration_no"]').attr('disabled', true);
-                $('#okuForm input[name="oku_status"]').val(data.detail.oku.status);
+                $('#okuForm input[name="oku_status"]').val(data.detail.oku.status_oku);
                 $('#okuForm input[name="oku_status"]').attr('disabled', true);
-                $('#okuForm select[name="oku_category"]').val(data.detail.oku.category);
+                $('#okuForm select[name="oku_category"]').val(data.detail.oku.kategori_oku);
                 $('#okuForm select[name="oku_category"]').attr('disabled', true);
-                $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub);
+                $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub_oku);
                 $('#okuForm input[name="oku_sub"]').attr('disabled', true);
 
                 $("#button_action_oku").attr("style", "display:none");

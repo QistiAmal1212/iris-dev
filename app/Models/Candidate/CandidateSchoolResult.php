@@ -10,19 +10,27 @@ class CandidateSchoolResult extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'certificate_type',
-        'examination_no',
-        'open_result',
-        'year',
-        'ref_subject_code',
-        'grade',
-        'certificate_rank',
-        'ref_subject_tkt',
+        'jenis_sijil',
+        'angka_giliran',
+        'kep_terbuka',
+        'tahun',
+        'mpel_tkt',
+        'mpel_kod',
+        'gred',
+        'pangkat_sijil',
         'created_by',
         'updated_by',
     ];
 
-    public function subject(){
-        return $this->belongsTo('App\Models\Reference\Subject', 'ref_subject_code', 'code');
+    public function subjectForm3(){
+        return $this->belongsTo('App\Models\Reference\Subject', 'mpel_kod', 'code')->where('form', 3);
+    }
+
+    public function subjectForm5(){
+        return $this->belongsTo('App\Models\Reference\Subject', 'mpel_kod', 'code')->where('form', 5);
+    }
+
+    public function subjectForm6(){
+        return $this->belongsTo('App\Models\Reference\Subject', 'mpel_kod', 'code')->where('form', 6);
     }
 }

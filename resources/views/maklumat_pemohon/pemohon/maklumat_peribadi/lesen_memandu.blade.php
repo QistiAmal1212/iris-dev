@@ -87,13 +87,13 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#lesenMemanduForm input[name="license_type"]').val(data.detail.license.type);
+                $('#lesenMemanduForm input[name="license_type"]').val(data.detail.license.jenis_lesen);
                 $('#lesenMemanduForm input[name="license_type"]').attr('disabled', true);
-                $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expiry_date);
+                $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.tempoh_tamat);
                 $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', true);
-                $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).trigger('change');
-                $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).attr('disabled', true);
-                $('#lesenMemanduForm textarea[name="license_blacklist_details"]').val(data.detail.license.blacklist_details);
+                $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.status_senaraihitam).trigger('change');
+                $('#lesenMemanduForm select[name="license_blacklist_status"]').attr('disabled', true);
+                $('#lesenMemanduForm textarea[name="license_blacklist_details"]').val(data.detail.license.msg_senaraihitam);
                 $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', true);
 
                 $("#button_action_lesen_memandu").attr("style", "display:none");

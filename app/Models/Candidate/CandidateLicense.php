@@ -10,10 +10,10 @@ class CandidateLicense extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'type',
-        'expiry_date',
-        'is_blacklist',
-        'blacklist_details',
+        'jenis_lesen',
+        'tempoh_tamat',
+        'status_senaraihitam',
+        'msg_senaraihitam',
         'created_by',
         'updated_by',
     ];

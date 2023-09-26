@@ -304,13 +304,13 @@
                 var trStpm = '';
                 var bilStpm = 0;
                 $.each(data.detail, function(i, item) {
-                    if (item.subject != null) {
+                    if (item.subject_form6 != null) {
                         bilStpm += 1;
                         trStpm += '<tr>';
                         trStpm += '<td align="center">' + bilStpm + '</td>';
-                        trStpm += '<td>' + item.subject.name + '</td>';
-                        trStpm += '<td align="center">' + item.grade + '</td>';
-                        trStpm += '<td align="center">' + item.year + '</td>';
+                        trStpm += '<td>' + item.subject_form6.name + '</td>';
+                        trStpm += '<td align="center">' + item.gred + '</td>';
+                        trStpm += '<td align="center">' + item.tahun + '</td>';
                         trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
                         trStpm += '&nbsp;&nbsp;';
                         trStpm += '<i class="fas fa-trash text-danger deleteStpm-btn" data-id="' + item.id + '"></i></td>';
@@ -396,13 +396,13 @@
                 var trStam = '';
                 var bilStam = 0;
                 $.each(data.detail, function(i, item) {
-                    if (item.subject != null) {
+                    if (item.subject_form6 != null) {
                         bilStam += 1;
                         trStam += '<tr>';
                         trStam += '<td align="center">' + bilStam + '</td>';
-                        trStam += '<td>' + item.subject.name + '</td>';
-                        trStam += '<td align="center">' + item.grade + '</td>';
-                        trStam += '<td align="center">' + item.year + '</td>';
+                        trStam += '<td>' + item.subject_form6.name + '</td>';
+                        trStam += '<td align="center">' + item.gred + '</td>';
+                        trStam += '<td align="center">' + item.tahun + '</td>';
                         trStam += '<td align="center"><i class="fas fa-pencil text-primary editStam-btn" data-id="' + item.id + ' " data-form="stam"></i>';
                         trStam += '&nbsp;&nbsp;';
                         trStam += '<i class="fas fa-trash text-danger deleteStam-btn" data-id="' + item.id + '"></i></td>';
@@ -508,11 +508,11 @@
                         trMatrikulasi += '<td align="center">' + bilMatrikulasi + '</td>';
                         trMatrikulasi += '<td>' + item.college.name + '</td>';
                         trMatrikulasi += '<td align="center">' + item.course.name + '</td>';
-                        trMatrikulasi += '<td align="center">' + item.matric_no + '</td>';
-                        trMatrikulasi += '<td>' + item.session + '</td>';
+                        trMatrikulasi += '<td align="center">' + item.no_matrik + '</td>';
+                        trMatrikulasi += '<td>' + item.sesi + '</td>';
                         trMatrikulasi += '<td align="center">' + item.semester + '</td>';
                         trMatrikulasi += '<td align="center">' + item.subject.name + '</td>';
-                        trMatrikulasi += '<td align="center">' + item.grade + '</td>';
+                        trMatrikulasi += '<td align="center">' + item.gred + '</td>';
                         trMatrikulasi += '<td align="center">' + item.pngk + '</td>';
                         trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary editMatrikulasi-btn" data-id="' + item.id + ' " data-form="matrikulasi"></i>';
                         trMatrikulasi += '&nbsp;&nbsp;';

@@ -10,13 +10,13 @@ class CandidateTalent extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'ref_talent_code',
-        'detail',
+        'bakat',
+        'bakat_detail',
         'created_by',
         'updated_by',
     ];
 
     public function talent() {
-        return $this->belongsTo('App\Models\Reference\Talent', 'ref_talent_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Talent', 'bakat', 'code');
     }
 }

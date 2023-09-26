@@ -195,9 +195,9 @@
                     trPenalty += '<tr>';
                     trPenalty += '<td align="center">' + bilPenalty + '</td>'
                     trPenalty += '<td>' + item.penalty.name + '</td>';
-                    trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
-                    trPenalty += '<td>' + item.date_start + '</td>';
-                    trPenalty += '<td>' + item.date_end + '</td>';
+                    trPenalty += '<td>' + item.tempoh + ' ' + item.jenis + '</td>';
+                    trPenalty += '<td>' + item.tarikh_mula + '</td>';
+                    trPenalty += '<td>' + item.tarikh_tamat + '</td>';
                     trPenalty += '<td align="center"><i class="fas fa-pencil text-primary editPenalty-btn" data-id="' + item.id + ' "></i>';
                     trPenalty += '&nbsp;&nbsp;';
                     trPenalty += '<i class="fas fa-trash text-danger deletePenalty-btn" data-id="' + item.id + '"></i></td>';
