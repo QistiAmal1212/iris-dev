@@ -165,7 +165,7 @@ class MaklumatPemohonController extends Controller
             $candidate->tarikh_lahir = ($candidate->tarikh_lahir != null) ? Carbon::parse($candidate->tarikh_lahir)->format('d/m/Y') : null;
 
             if($candidate->license){
-                $candidate->license->tempoh_tamat = ($candidate->license->tempoh_tamat != null) ? Carbon::parse($candidate->license->tempoh_tamat)->format('d/m/Y') : null;
+                //$candidate->license->tempoh_tamat = ($candidate->license->tempoh_tamat != null) ? Carbon::parse($candidate->license->tempoh_tamat)->format('d/m/Y') : null;
             }
 
             foreach($candidate->skim as $skim){
@@ -500,7 +500,8 @@ class MaklumatPemohonController extends Controller
             if($candidateLesen){
                 CandidateLicense::where('no_pengenalan',$request->lesen_memandu_no_pengenalan)->update([
                     'jenis_lesen' => $request->license_type,
-                    'tempoh_tamat' => Carbon::createFromFormat('d/m/Y', $request->license_expiry_date)->format('Y-m-d'),
+                    //'tempoh_tamat' => Carbon::createFromFormat('d/m/Y', $request->license_expiry_date)->format('Y-m-d'),
+                    'tempoh_tamat' => $request->license_expiry_date,
                     'status_senaraihitam' => $request->license_blacklist_status,
                     'msg_senaraihitam' => $request->license_blacklist_details,
                 ]);
@@ -508,7 +509,8 @@ class MaklumatPemohonController extends Controller
                 CandidateLicense::create([
                     'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
                     'jenis_lesen' => $request->license_type,
-                    'tempoh_tamat' => Carbon::createFromFormat('d/m/Y', $request->license_expiry_date)->format('Y-m-d'),
+                    //'tempoh_tamat' => Carbon::createFromFormat('d/m/Y', $request->license_expiry_date)->format('Y-m-d'),
+                    'tempoh_tamat' => $request->license_expiry_date,
                     'status_senaraihitam' => $request->license_blacklist_status,
                     'msg_senaraihitam' => $request->license_blacklist_details,
                 ]);
@@ -545,7 +547,7 @@ class MaklumatPemohonController extends Controller
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
 
-            $candidate->license->tempoh_tamat = ($candidate->license->tempoh_tamat != null) ? Carbon::parse($candidate->license->tempoh_tamat)->format('d/m/Y') : null;
+            //$candidate->license->tempoh_tamat = ($candidate->license->tempoh_tamat != null) ? Carbon::parse($candidate->license->tempoh_tamat)->format('d/m/Y') : null;
 
             //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
