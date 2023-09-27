@@ -190,23 +190,23 @@ data-reloadPage="false">
             success: function(data) {
                 $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').val(data.detail.peringkat_pengajian).trigger('change');
                 $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').attr('disabled', true);
-                $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val(data.detail.year);
+                $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val(data.detail.tahun_lulus);
                 $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').attr('disabled', true);
-                $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').val(data.detail.ref_eligibility_code).trigger('change');
+                $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').val(data.detail.kod_ruj_kelayakan).trigger('change');
                 $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').attr('disabled', true);
                 $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').val(data.detail.cgpa);
                 $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').attr('disabled', true);
-                $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').val(data.detail.ref_institution_code).trigger('change');
+                $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').val(data.detail.kod_ruj_institusi).trigger('change');
                 $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').attr('disabled', true);
                 $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').val(data.detail.nama_sijil);
                 $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').attr('disabled', true);
-                $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val(data.detail.ref_specialization_code).trigger('change');
+                $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val(data.detail.kod_ruj_pengkhususan).trigger('change');
                 $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').attr('disabled', true);
                 $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').val(data.detail.ins_fln).trigger('change');
                 $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').attr('disabled', true);
                 $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val(data.detail.tarikh_senat);
                 $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').attr('disabled', true);
-                $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val(data.detail.biasiswa).trigger('change');
+                $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val((data.detail.biasiswa == true) ? 1 : 0).trigger('change');
                 $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').attr('disabled', true);
 
                 $("#button_action_pengajian_tinggi").attr("style", "display:none");

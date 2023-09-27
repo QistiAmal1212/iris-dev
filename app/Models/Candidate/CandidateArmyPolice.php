@@ -10,22 +10,22 @@ class CandidateArmyPolice extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'status',
-        'start_date',
-        'end_date',
-        'verify_date',
-        'ref_rank_code',
-        'no_id',
-        'salary',
-        'pension',
-        'reward',
-        'type_army_police',
-        'type_service', 
+        'status_pkhidmat',
+        'tarikh_mula',
+        'tarikh_tamat',
+        'tarikh_disahkan',
+        'pangkat_tentera_polis',
+        'no_tentera_polis',
+        'gaji_tentera',
+        'pencen',
+        'ganjaran',
+        'jenis_bekas_tentera',
+        'jenis_pkhidmat', 
         'created_by',
         'updated_by',
     ];
 
     public function rank() {
-        return $this->belongsTo('App\Models\Reference\Rank', 'ref_rank_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Rank', 'pangkat_tentera_polis', 'code');
     }
 }

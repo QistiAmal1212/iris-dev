@@ -108,13 +108,13 @@ data-reloadPage="false">
                 var trPmr = '';
                 var bilPmr = 0;
                 $.each(data.detail, function(i, item) {
-                    if (item.subject != null) {
+                    if (item.subject_form3 != null) {
                         bilPmr += 1;
                         trPmr += '<tr>';
                         trPmr += '<td align="center">' + bilPmr + '</td>';
-                        trPmr += '<td>' + item.subject.name + '</td>';
-                        trPmr += '<td align="center">' + item.grade + '</td>';
-                        trPmr += '<td align="center">' + item.year + '</td>';
+                        trPmr += '<td>' + item.subject_form3.name + '</td>';
+                        trPmr += '<td align="center">' + item.gred + '</td>';
+                        trPmr += '<td align="center">' + item.tahun + '</td>';
                         trPmr += '<td align="center"><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i>';
                         trPmr += '&nbsp;&nbsp;';
                         trPmr += '<i class="fas fa-trash text-danger deletePmr-btn" data-id="' + item.id + '" ></i></td>';

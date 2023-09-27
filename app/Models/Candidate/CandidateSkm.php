@@ -10,13 +10,13 @@ class CandidateSkm extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'ref_qualification_code',
-        'year',
+        'kod_ruj_kelulusan',
+        'tahun_lulus',
         'created_by',
         'updated_by',
     ];
 
     public function qualification() {
-        return $this->belongsTo('App\Models\Reference\Qualification', 'ref_qualification_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Qualification', 'kod_ruj_kelulusan', 'code');
     }
 }

@@ -10,61 +10,61 @@ class CandidateExperience extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'ref_job_code',
-        'indicator',
-        'job_sector',
-        'ref_position_level_code',
-        'ref_salary_grade_code',
-        'ref_level_jkk_code',
-        'service_group',
-        'date_appoint',
-        'date_start',
-        'date_verify',
-        'date_end',
-        'ref_department_ministry_code',
-        'property',
-        'state_department',
-        'salary_scale',
-        'monthly_salary',
-        'salary_movement',
-        'ref_skim_code',
-        'ref_state_code',
-        'date_end_contract',
-        'working_district',
+        'kod_ruj_pekerjaan',
+        'pen1_indicator',
+        'sektor_pekerjaan',
+        'taraf_jawatan',
+        'kod_ruj_gred_gaji',
+        'kod_ruj_tingkatan_jkk',
+        'kump_pkhidmat',
+        'tarikh_lantik',
+        'tarikh_mula',
+        'tarikh_disahkan',
+        'tarikh_tamat',
+        'ruj_kem_jabatan',
+        'harta',
+        'negeri_jabatan',
+        'tangga_gaji',
+        'gaji_bulanan',
+        'pergerakan_gaji',
+        'kod_ruj_skim',
+        'kod_ruj_negeri',
+        'tarikh_tamat_kontrak',
+        'daerah_bertugas',
         'created_by',
         'updated_by',
     ];
 
     public function job() {
-        return $this->belongsTo('App\Models\Reference\Job', 'ref_position_level_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Job', 'kod_ruj_pekerjaan', 'code');
     }
 
     public function positionLevel() {
-        return $this->belongsTo('App\Models\Reference\PositionLevel', 'ref_position_level_code', 'code');
+        return $this->belongsTo('App\Models\Reference\PositionLevel', 'taraf_jawatan', 'code');
     }
 
     public function salaryGrade() {
-        return $this->belongsTo('App\Models\Reference\SalaryGrade', 'ref_salary_grade_code', 'code');
+        return $this->belongsTo('App\Models\Reference\SalaryGrade', 'kod_ruj_gred_gaji', 'code');
     }
 
     public function levelJkk() {
-        return $this->belongsTo('App\Models\Reference\LevelJKK', 'ref_level_jkk_code', 'code');
+        return $this->belongsTo('App\Models\Reference\LevelJKK', 'kod_ruj_tingkatan_jkk', 'code');
     }
 
     public function departmentMinistry() {
-        return $this->belongsTo('App\Models\Reference\DepartmentMinistry', 'ref_department_ministry_code', 'kod');
+        return $this->belongsTo('App\Models\Reference\DepartmentMinistry', 'ruj_kem_jabatan', 'kod');
     }
 
     public function stateDepartment() {
-        return $this->belongsTo('App\Models\Reference\State', 'state_department', 'kod');
+        return $this->belongsTo('App\Models\Reference\State', 'negeri_jabatan', 'kod');
     }
 
     public function skim() {
-        return $this->belongsTo('App\Models\Reference\Skim', 'ref_skim_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Skim', 'kod_ruj_skim', 'code');
     }
 
     public function state() {
-        return $this->belongsTo('App\Models\Reference\State', 'ref_state_code', 'kod');
+        return $this->belongsTo('App\Models\Reference\State', 'kod_ruj_negeri', 'kod');
     }
 
 }

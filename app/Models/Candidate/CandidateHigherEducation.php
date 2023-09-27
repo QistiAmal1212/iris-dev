@@ -10,10 +10,10 @@ class CandidateHigherEducation extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'ref_institution_code',
-        'ref_eligibility_code',
-        'ref_specialization_code',
-        'year',
+        'kod_ruj_institusi',
+        'kod_ruj_kelayakan',
+        'kod_ruj_pengkhususan',
+        'tahun_lulus',
         'cgpa',
         'peringkat_pengajian',
         'nama_sijil',
@@ -25,14 +25,14 @@ class CandidateHigherEducation extends Model
     ];
 
     public function institution() {
-        return $this->belongsTo('App\Models\Reference\Institution', 'ref_institution_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Institution', 'kod_ruj_institusi', 'code');
     }
 
     public function eligibility() {
-        return $this->belongsTo('App\Models\Reference\Eligibility', 'ref_eligibility_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Eligibility', 'kod_ruj_kelayakan', 'code');
     }
 
     public function specialization() {
-        return $this->belongsTo('App\Models\Reference\Specialization', 'ref_specialization_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Specialization', 'kod_ruj_pengkhususan', 'code');
     }
 }

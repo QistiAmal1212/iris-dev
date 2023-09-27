@@ -10,18 +10,18 @@ class CandidateLanguage extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'ref_language_code',
-        'level',
+        'jenis_bahasa',
+        'penguasaan',
         'created_by',
         'updated_by',
     ];
 
     public function language() {
-        return $this->belongsTo('App\Models\Reference\Language', 'ref_language_code', 'kod');
+        return $this->belongsTo('App\Models\Reference\Language', 'jenis_bahasa', 'kod');
     }
 
     public function kategori()
     {
-        return $this->belongsTo('App\Models\Reference\KodPelbagai', 'level', 'kod');
+        return $this->belongsTo('App\Models\Reference\KodPelbagai', 'penguasaan', 'kod')->where('kategori', 'PENGUASAAN BAHASA');
     }
 }

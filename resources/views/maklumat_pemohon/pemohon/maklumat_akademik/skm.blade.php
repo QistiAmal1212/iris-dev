@@ -97,7 +97,7 @@ data-reloadPage="false">
                         trSkm += '<tr>';
                         trSkm += '<td align="center">' + bilSkm + '</td>';
                         trSkm += '<td>' + (item.qualification ? item.qualification.name : "Tiada Maklumat")  + '</td>';
-                        trSkm += '<td align="center">' + item.year + '</td>';
+                        trSkm += '<td align="center">' + item.tahun_lulus + '</td>';
                         trSkm += '<td align="center"><i class="fas fa-pencil text-primary editSkm-btn" data-id="' + item.id + ' " data-form="skm"></i>';
                         trSkm += '&nbsp;&nbsp;';
                         trSkm += '<i class="fas fa-trash text-danger deleteSkm-btn" data-id="' + item.id + '"></i></td>';

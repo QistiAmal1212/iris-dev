@@ -154,19 +154,19 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.date_appoint);
+                $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.tarikh_lantik);
                 $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
-                $('#experienceForm select[name="experience_position_level"]').val(data.detail.ref_position_level_code).trigger('change');
+                $('#experienceForm select[name="experience_position_level"]').val(data.detail.taraf_jawatan).trigger('change');
                 $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
-                $('#experienceForm select[name="experience_skim"]').val(data.detail.ref_skim_code).trigger('change');
+                $('#experienceForm select[name="experience_skim"]').val(data.detail.kod_ruj_skim).trigger('change');
                 $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
-                $('#experienceForm input[name="experience_start_date"]').val(data.detail.date_start);
+                $('#experienceForm input[name="experience_start_date"]').val(data.detail.tarikh_mula);
                 $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
-                $('#experienceForm input[name="experience_verify_date"]').val(data.detail.date_verify);
+                $('#experienceForm input[name="experience_verify_date"]').val(data.detail.tarikh_disahkan);
                 $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
-                $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.ref_department_ministry_code).trigger('change');
+                $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.ruj_kem_jabatan).trigger('change');
                 $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
-                $('#experienceForm select[name="experience_department_state"]').val(data.detail.state_department).trigger('change');
+                $('#experienceForm select[name="experience_department_state"]').val(data.detail.negeri_jabatan).trigger('change');
                 $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
 
                 $("#button_action_experience").attr("style", "display:none");

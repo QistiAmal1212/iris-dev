@@ -10,24 +10,25 @@ class CandidateSkim extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'type',
-        'register_date',
-        'ref_skim_code',
-        'group_no',
-        'serial_no',
-        'ref_interview_centre_code',
+        'jenis_lantikan',
+        'tarikh_daftar',
+        'kod_ruj_skim',
+        'no_kelompok',
+        'no_siri',
+        'pusat_td_pilihan',
         'status',
         'tmp_status',
-        'expiry_date',
+        'tarikh_luput',
         'created_by',
         'updated_by',
+        'sah_yt'
     ];
 
     public function skim(){
-        return $this->belongsTo('App\Models\Reference\Skim', 'ref_skim_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Skim', 'kod_ruj_skim', 'code');
     }
 
     public function interviewCentre(){
-        return $this->belongsTo('App\Models\Reference\InterviewCentre', 'ref_interview_centre_code', 'kod');
+        return $this->belongsTo('App\Models\Reference\InterviewCentre', 'pusat_td_pilihan', 'kod');
     }
 }

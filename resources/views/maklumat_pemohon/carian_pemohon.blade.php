@@ -315,8 +315,8 @@ Maklumat Pemohon
                     $('#update_stam').attr("style", "display:block");
                     $('#update_matrikulasi').attr("style", "display:block");
 
-                    $('#candidate_name').html(data.detail.full_name);
-                    $('#candidate_ic').html(data.detail.no_ic);
+                    $('#candidate_name').html(data.detail.nama_penuh);
+                    $('#candidate_ic').html(data.detail.no_kp_baru);
                     $('#candidate_no_pengenalan').val(data.detail.no_pengenalan);
 
                     var timelineUrl = "{{ route('timeline.list', ':replaceThis') }}"
@@ -324,103 +324,103 @@ Maklumat Pemohon
                     $('#candidate_timeline').load(timelineUrl)
 
                     $('#personalForm select[name="gender"]').attr('disabled', true);
-                    if(data.detail.ref_gender_code) { $('#personalForm select[name="gender"]').val(data.detail.ref_gender_code).trigger('change'); }
+                    if(data.detail.kod_ruj_jantina) { $('#personalForm select[name="gender"]').val(data.detail.kod_ruj_jantina).trigger('change'); }
                     else { selectionNull('gender', 'personalForm');}
                     originalVal['gender'] = $('#personalForm select[name="gender"]').find(':selected').text();
                     $('#personalForm select[name="religion"]').attr('disabled', true);
-                    if(data.detail.ref_religion_code) { $('#personalForm select[name="religion"]').val(data.detail.ref_religion_code).trigger('change'); }
+                    if(data.detail.kod_ruj_agama) { $('#personalForm select[name="religion"]').val(data.detail.kod_ruj_agama).trigger('change'); }
                     else { selectionNull('religion', 'personalForm'); }
                     originalVal['religion'] = $('#personalForm select[name="religion"]').find(':selected').text();
                     $('#personalForm select[name="race"]').attr('disabled', true);
-                    if(data.detail.ref_race_code) { $('#personalForm select[name="race"]').val(data.detail.ref_race_code).trigger('change'); }
+                    if(data.detail.kod_ruj_keturunan) { $('#personalForm select[name="race"]').val(data.detail.kod_ruj_keturunan).trigger('change'); }
                     else { selectionNull('race', 'personalForm'); }
                     originalVal['race'] = $('#personalForm select[name="race"]').find(':selected').text();
 
                     $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
-                    $('#personalForm input[name="date_of_birth"]').val(data.detail.date_of_birth ? data.detail.date_of_birth : data_not_available);
-                    originalVal['date_of_birth'] = data.detail.date_of_birth;
+                    $('#personalForm input[name="date_of_birth"]').val(data.detail.tarikh_lahir ? data.detail.tarikh_lahir : data_not_available);
+                    originalVal['date_of_birth'] = data.detail.tarikh_lahir;
 
                     $('#personalForm select[name="marital_status"]').attr('disabled', true);
-                    if(data.detail.ref_marital_status_code) { $('#personalForm select[name="marital_status"]').val(data.detail.ref_marital_status_code).trigger('change'); }
+                    if(data.detail.kod_ruj_status_kahwin) { $('#personalForm select[name="marital_status"]').val(data.detail.kod_ruj_status_kahwin).trigger('change'); }
                     else { selectionNull('marital_status', 'personalForm'); }
                     originalVal['marital_status'] = $('#personalForm select[name="marital_status"]').find(':selected').text();
 
                     $('#personalForm input[name="phone_number"]').attr('disabled', true);
-                     $('#personalForm input[name="phone_number"]').val(data.detail.phone_number ? data.detail.phone_number : data_not_available);
-                    originalVal['phone_number'] = data.detail.phone_number;
+                     $('#personalForm input[name="phone_number"]').val(data.detail.no_tel ? data.detail.no_tel : data_not_available);
+                    originalVal['phone_number'] = data.detail.no_tel;
 
                     $('#personalForm input[name="email"]').attr('disabled', true);
-                    $('#personalForm input[name="email"]').val(data.detail.email ? data.detail.email : data_not_available);
-                    originalVal['email'] = data.detail.email;
+                    $('#personalForm input[name="email"]').val(data.detail.emel ? data.detail.emel : data_not_available);
+                    originalVal['email'] = data.detail.emel;
 
                     $('#personalForm input[name="personal_no_pengenalan"]').val(data.detail.no_pengenalan);
 
                     $('#alamatForm input[name="permanent_address_1"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_address_1"]').val(data.detail.permanent_address_1 ? data.detail.permanent_address_1 : data_not_available);
+                    $('#alamatForm input[name="permanent_address_1"]').val(data.detail.alamat_1_tetap ? data.detail.alamat_1_tetap : data_not_available);
                     // data.detail.permanent_address_1 ? '' : $('#alamatForm input[name="permanent_address_1"]').css('color', 'maroon');
-                    originalVal['permanent_address_1'] = data.detail.permanent_address_1;
+                    originalVal['permanent_address_1'] = data.detail.alamat_1_tetap;
                     $('#alamatForm input[name="permanent_address_2"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_address_2"]').val(data.detail.permanent_address_2 ? data.detail.permanent_address_2 : data_not_available);
-                    originalVal['permanent_address_2'] = data.detail.permanent_address_2;
+                    $('#alamatForm input[name="permanent_address_2"]').val(data.detail.alamat_2_tetap ? data.detail.alamat_2_tetap : data_not_available);
+                    originalVal['permanent_address_2'] = data.detail.alamat_2_tetap;
                     $('#alamatForm input[name="permanent_address_3"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_address_3"]').val(data.detail.permanent_address_3 ? data.detail.permanent_address_3 : data_not_available);
-                    originalVal['permanent_address_3'] = data.detail.permanent_address_3;
+                    $('#alamatForm input[name="permanent_address_3"]').val(data.detail.alamat_3_tetap ? data.detail.alamat_3_tetap : data_not_available);
+                    originalVal['permanent_address_3'] = data.detail.alamat_3_tetap;
                     $('#alamatForm input[name="permanent_poscode"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_poscode"]').val(data.detail.permanent_poscode ? data.detail.permanent_poscode : data_not_available);
-                    originalVal['permanent_poscode'] = data.detail.permanent_poscode;
+                    $('#alamatForm input[name="permanent_poscode"]').val(data.detail.poskod_tetap ? data.detail.poskod_tetap : data_not_available);
+                    originalVal['permanent_poscode'] = data.detail.poskod_tetap;
                     $('#alamatForm input[name="permanent_city"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_city"]').val(data.detail.permanent_city ? data.detail.permanent_city : data_not_available);
-                    originalVal['permanent_city'] = data.detail.permanent_city;
+                    $('#alamatForm input[name="permanent_city"]').val(data.detail.bandar_tetap ? data.detail.bandar_tetap : data_not_available);
+                    originalVal['permanent_city'] = data.detail.bandar_tetap;
                     $('#alamatForm select[name="permanent_state"]').attr('disabled', true);
-                    if(data.detail.permanent_ref_state_code) { $('#alamatForm select[name="permanent_state"]').val(data.detail.permanent_ref_state_code).trigger('change'); }
+                    if(data.detail.tempat_tinggal_tetap) { $('#alamatForm select[name="permanent_state"]').val(data.detail.tempat_tinggal_tetap).trigger('change'); }
                     else { selectionNull('permanent_state', 'alamatForm'); }
                     originalVal['permanent_state'] = $('#alamatForm select[name="permanent_state"]').find(':selected').text();
                     $('#alamatForm input[name="address_1"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_1"]').val(data.detail.address_1 ? data.detail.address_1 : data_not_available);
-                    originalVal['address_1'] = data.detail.address_1;
+                    $('#alamatForm input[name="address_1"]').val(data.detail.alamat_1 ? data.detail.alamat_1 : data_not_available);
+                    originalVal['address_1'] = data.detail.alamat_1;
                     $('#alamatForm input[name="address_2"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_2"]').val(data.detail.address_2 ? data.detail.address_2 : data_not_available);
-                    originalVal['address_2'] = data.detail.address_2;
+                    $('#alamatForm input[name="address_2"]').val(data.detail.alamat_2 ? data.detail.alamat_2 : data_not_available);
+                    originalVal['address_2'] = data.detail.alamat_2;
                     $('#alamatForm input[name="address_3"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_3"]').val(data.detail.address_3 ? data.detail.address_3 : data_not_available);
-                    originalVal['address_3'] = data.detail.address_3;
+                    $('#alamatForm input[name="address_3"]').val(data.detail.alamat_3 ? data.detail.alamat_3 : data_not_available);
+                    originalVal['address_3'] = data.detail.alamat_3;
                     $('#alamatForm input[name="poscode"]').attr('disabled', true);
-                    $('#alamatForm input[name="poscode"]').val(data.detail.poscode ? data.detail.poscode : data_not_available);
-                    originalVal['poscode'] = data.detail.poscode;
+                    $('#alamatForm input[name="poscode"]').val(data.detail.poskod ? data.detail.poskod : data_not_available);
+                    originalVal['poscode'] = data.detail.poskod;
                     $('#alamatForm input[name="city"]').attr('disabled', true);
-                    $('#alamatForm input[name="city"]').val(data.detail.city ? data.detail.city : data_not_available);
-                    originalVal['city'] = data.detail.city;
+                    $('#alamatForm input[name="city"]').val(data.detail.bandar ? data.detail.bandar : data_not_available);
+                    originalVal['city'] = data.detail.bandar;
                     $('#alamatForm select[name="state"]').attr('disabled', true);
-                    if(data.detail.ref_state_code) { $('#alamatForm select[name="state"]').val(data.detail.ref_state_code).trigger('change'); }
+                    if(data.detail.tempat_tinggal) { $('#alamatForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change'); }
                     else { selectionNull('state', 'alamatForm'); }
                     originalVal['state'] = $('#alamatForm select[name="state"]').find(':selected').text();
                     $('#alamatForm input[name="alamat_no_pengenalan"]').val(data.detail.no_pengenalan);
 
-                    if(data.detail.place_of_birth) { $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.place_of_birth).trigger('change'); }
+                    if(data.detail.tempat_lahir) { $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.tempat_lahir).trigger('change'); }
                     else { selectionNull('place_of_birth', 'tempatLahirForm'); }
                     originalVal['place_of_birth'] = $('#tempatLahirForm select[name="place_of_birth"]').find(':selected').text();
-                    if(data.detail.father_place_of_birth) { $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.father_place_of_birth).trigger('change'); }
+                    if(data.detail.tempat_lahir_bapa) { $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.tempat_lahir_bapa).trigger('change'); }
                     else { selectionNull('father_place_of_birth', 'tempatLahirForm'); }
                     originalVal['father_place_of_birth'] = $('#tempatLahirForm select[name="father_place_of_birth"]').find(':selected').text();
-                    if(data.detail.mother_place_of_birth) { $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.mother_place_of_birth).trigger('change'); }
+                    if(data.detail.tempat_lahir_ibu) { $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.tempat_lahir_ibu).trigger('change'); }
                     else { selectionNull('mother_place_of_birth', 'tempatLahirForm'); }
                     originalVal['mother_place_of_birth'] = $('#tempatLahirForm select[name="mother_place_of_birth"]').find(':selected').text();
                     $('#tempatLahirForm input[name="tempat_lahir_no_pengenalan"]').val(data.detail.no_pengenalan);
 
                     if(data.detail.license != null) {
                         $('#lesenMemanduForm input[name="license_type"]').attr('disabled', true);
-                        $('#lesenMemanduForm input[name="license_type"]').val(data.detail.license.type ? data.detail.license.type : data_not_available);
-                        originalVal['license_type'] = data.detail.license.type;
+                        $('#lesenMemanduForm input[name="license_type"]').val(data.detail.license.jenis_lesen ? data.detail.license.jenis_lesen : data_not_available);
+                        originalVal['license_type'] = data.detail.license.jenis_lesen;
                         $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', true);
-                        $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expiry_date ? data.detail.license.expiry_date : data_not_available);
-                        originalVal['license_expiry_date'] = data.detail.license.expiry_date;
+                        $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.tempoh_tamat ? data.detail.license.tempoh_tamat : data_not_available);
+                        originalVal['license_expiry_date'] = data.detail.license.tempoh_tamat;
                         $('#lesenMemanduForm select[name="license_blacklist_status"]').attr('disabled', true);
-                        if(data.detail.license.is_blacklist) { $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).trigger('change'); }
+                        if(data.detail.license.status_senaraihitam) { $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.status_senaraihitam).trigger('change'); }
                         else { selectionNull('license_blacklist_status', 'lesenMemanduForm'); }
                         originalVal['license_blacklist_status'] = $('#lesenMemanduForm select[name="license_blacklist_status"]').find(':selected').text();
                         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', true);
-                        $('#lesenMemanduForm textarea[name="license_blacklist_details"]').val(data.detail.license.blacklist_details ? data.detail.license.blacklist_details : data_not_available);
-                        originalVal['license_blacklist_details'] = data.detail.license.blacklist_details;
+                        $('#lesenMemanduForm textarea[name="license_blacklist_details"]').val(data.detail.license.msg_senaraihitam ? data.detail.license.msg_senaraihitam : data_not_available);
+                        originalVal['license_blacklist_details'] = data.detail.license.msg_senaraihitam;
                     }else{
                         $('#lesenMemanduForm input[name="license_type"]').attr('disabled', true);
                         $('#lesenMemanduForm input[name="license_type"]').val(data_not_available);
@@ -439,18 +439,18 @@ Maklumat Pemohon
 
                     if(data.detail.oku != null) {
                         $('#okuForm input[name="oku_registration_no"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_registration_no"]').val(data.detail.oku.no_registration ? data.detail.oku.no_registration : data_not_available);
-                        originalVal['oku_registration_no'] = data.detail.oku.no_registration;
+                        $('#okuForm input[name="oku_registration_no"]').val(data.detail.oku.no_daftar_jkm ? data.detail.oku.no_daftar_jkm : data_not_available);
+                        originalVal['oku_registration_no'] = data.detail.oku.no_daftar_jkm;
                         $('#okuForm input[name="oku_status"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_status"]').val(data.detail.oku.status ? data.detail.oku.status : data_not_available);
-                        originalVal['oku_status'] = data.detail.oku.status;
+                        $('#okuForm input[name="oku_status"]').val(data.detail.oku.status_oku ? data.detail.oku.status_oku : data_not_available);
+                        originalVal['oku_status'] = data.detail.oku.status_oku;
                         // $('#okuForm input[name="oku_category"]').attr('disabled', true);
-                        if(data.detail.oku.category) { $('#okuForm select[name="oku_category"]').val(data.detail.oku.category).trigger('change'); }
+                        if(data.detail.oku.kategori_oku) { $('#okuForm select[name="oku_category"]').val(data.detail.oku.kategori_oku).trigger('change'); }
                         else { selectionNull('oku_category', 'okuForm'); }
                         originalVal['oku_category'] = $('#okuForm select[name="oku_category"]').find(':selected').text();
                         $('#okuForm input[name="oku_sub"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub ? data.detail.oku.sub : data_not_available);
-                        originalVal['oku_sub'] = data.detail.oku.sub;
+                        $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub_oku ? data.detail.oku.sub_oku : data_not_available);
+                        originalVal['oku_sub'] = data.detail.oku.sub_oku;
                     }else{
                         $('#okuForm input[name="oku_registration_no"]').attr('disabled', true);
                         $('#okuForm input[name="oku_registration_no"]').val(data_not_available);
@@ -477,66 +477,83 @@ Maklumat Pemohon
                             bilSkim += 1;
                             trSkim += '<tr>';
                             trSkim += '<td align="center">' + bilSkim + '</td>'
-                            trSkim += '<td>' + item.ref_skim_code + '</td>'
+                            trSkim += '<td>' + item.kod_ruj_skim + '</td>'
                             trSkim += '<td>' + item.skim.name + '</td>';
-                            trSkim += '<td>' + (item.register_date ? item.register_date : '') + '</td>';
-                            trSkim += '<td>' + (item.expiry_date ? item.expiry_date : '') + '</td>';
+                            trSkim += '<td>' + (item.tarikh_daftar ? item.tarikh_daftar : '') + '</td>';
+                            trSkim += '<td>' + (item.tarikh_luput ? item.tarikh_luput : '') + '</td>';
                             trSkim += '<td>' + (item.interview_centre ? item.interview_centre.nama : '') + '</td>';
                             trSkim += '</tr>';
                         });
-                }
+                    }
+
                     $('#table-skim tbody').append(trSkim);
 
                     $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-pmr tbody').empty();
-                    reloadPmr();
+                    if(data.detail.pmr != null){
+                        reloadPmr();
+                    }
 
                     $('#spmForm input[name="spm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-spm tbody').empty();
-                    reloadSpm();
+                    if(data.detail.spm != null){
+                        reloadSpm();
+                    }
 
                     $('#spmvForm input[name="spmv_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-spmv tbody').empty();
-                    reloadSpmv();
+                    if(data.detail.spmv != null){
+                        reloadSpmv();
+                    }
 
                     $('#svmForm input[name="svm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-svm tbody').empty();
-                    reloadSvm();
+                    if(data.detail.svm != null){
+                        reloadSvm();
+                    }
 
                     $('#stpmForm input[name="stpm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-stpm tbody').empty();
-                    reloadStpm();
+                    if(data.detail.stpm != null){
+                        reloadStpm();
+                    }
 
                     $('#stamForm input[name="stam_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-stam tbody').empty();
-                    reloadStam();
+                    if(data.detail.stam != null){
+                        reloadStam();
+                    }
 
                     $('#matrikulasiForm input[name="matrikulasi_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-matrikulasi tbody').empty();
-                    reloadMatrikulasi();
+                    if(data.detail.matriculation != null){
+                        reloadMatrikulasi();
+                    }
 
                     $('#skmForm input[name="skm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-skm tbody').empty();
-                    reloadSkm();
+                    if(data.detail.skm != null){
+                        reloadSkm();
+                    }
 
                     $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.higher_education != null) {
                         if(data.detail.higher_education.peringkat_pengajian) { $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').val(data.detail.higher_education.peringkat_pengajian).trigger('change'); }
                         else { selectionNull('peringkat_pengajian_tinggi', 'pengajianTinggiForm'); }
                         originalVal['peringkat_pengajian_tinggi'] = $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').find(':selected').text();
-                        $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val(data.detail.higher_education.year ? data.detail.higher_education.year : data_not_available);
-                        originalVal['tahun_pengajian_tinggi'] = data.detail.higher_education.year;
-                        if(data.detail.higher_education.ref_eligibility_code) { $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').val(data.detail.higher_education.ref_eligibility_code).trigger('change'); }
+                        $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val(data.detail.higher_education.tahun_lulus ? data.detail.higher_education.tahun_lulus : data_not_available);
+                        originalVal['tahun_pengajian_tinggi'] = data.detail.higher_education.tahun_lulus;
+                        if(data.detail.higher_education.kod_ruj_kelayakan) { $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').val(data.detail.higher_education.kod_ruj_kelayakan).trigger('change'); }
                         else { selectionNull('kelayakan_pengajian_tinggi', 'pengajianTinggiForm'); }
                         originalVal['kelayakan_pengajian_tinggi'] = $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').find(':selected').text();
                         $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').val(data.detail.higher_education.cgpa ? data.detail.higher_education.cgpa : data_not_available);
                         originalVal['cgpa_pengajian_tinggi'] = data.detail.higher_education.cgpa;
-                        if(data.detail.higher_education.ref_institution_code) { $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').val(data.detail.higher_education.ref_institution_code).trigger('change'); }
+                        if(data.detail.higher_education.kod_ruj_institusi) { $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').val(data.detail.higher_education.kod_ruj_institusi).trigger('change'); }
                         else { selectionNull('institusi_pengajian_tinggi', 'pengajianTinggiForm'); }
                         originalVal['institusi_pengajian_tinggi'] = $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').find(':selected').text();
                         $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').val(data.detail.higher_education.nama_sijil ? data.detail.higher_education.nama_sijil : data_not_available);
-                        originalVal['nama_sijil_pengajian_tinggi'] = data.detail.higher_education.nama_sijil;
-                        if(data.detail.higher_education.ref_specialization_code) { $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val(data.detail.higher_education.ref_specialization_code).trigger('change'); }
+                        originalVal['kod_ruj_pengkhususan'] = data.detail.higher_education.nama_sijil;
+                        if(data.detail.higher_education.kod_ruj_pengkhususan) { $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val(data.detail.higher_education.kod_ruj_pengkhususan).trigger('change'); }
                         else { selectionNull('pengkhususan_pengajian_tinggi', 'pengajianTinggiForm'); }
                         originalVal['pengkhususan_pengajian_tinggi'] = $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').find(':selected').text();
                         if(data.detail.higher_education.ins_fln) { $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').val(data.detail.higher_education.ins_fln).trigger('change'); }
@@ -544,7 +561,7 @@ Maklumat Pemohon
                         originalVal['fln_pengajian_tinggi'] = $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').find(':selected').text();
                         $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val(data.detail.higher_education.tarikh_senat ? data.detail.higher_education.tarikh_senat : data_not_available);
                         originalVal['tarikh_senat_pengajian_tinggi'] = data.detail.higher_education.tarikh_senat;
-                        if(data.detail.higher_education.biasiswa) { $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val(data.detail.higher_education.biasiswa).trigger('change'); }
+                        if(data.detail.higher_education.biasiswa != null) { $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val((data.detail.higher_education.biasiswa == true) ? 1 : 0).trigger('change'); }
                         else { selectionNull('biasiswa_pengajian_tinggi', 'pengajianTinggiForm'); }
                         originalVal['biasiswa_pengajian_tinggi'] = $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').find(':selected').text();
                     }else{
@@ -580,9 +597,9 @@ Maklumat Pemohon
                             bilProfessional += 1;
                             trProfessional += '<tr>';
                             trProfessional += '<td align="center">' + bilProfessional + '</td>'
-                            trProfessional += '<td>' + (item.member_no ? item.member_no : '') + '</td>';
-                            trProfessional += '<td>' + (item.specialization ? item.specialization.name : '') + '</td>';
-                            trProfessional += '<td>' + (item.date ? item.date : '') + '</td>';
+                            trProfessional += '<td>' + (item.no_ahli ? item.no_ahli : '') + '</td>';
+                            trProfessional += '<td>' + (item.qualification ? item.qualification.name : '') + '</td>';
+                            trProfessional += '<td>' + (item.tarikh ? item.tarikh : '') + '</td>';
                             trProfessional += '</tr>';
                         });
                     }
@@ -590,22 +607,22 @@ Maklumat Pemohon
 
                     $('#experienceForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.experience != null) {
-                        $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.experience.date_appoint ? data.detail.experience.date_appoint : data_not_available);
-                        originalVal['experience_appoint_date'] = data.detail.experience.date_appoint;
-                        if(data.detail.experience.ref_position_level_code) { $('#experienceForm select[name="experience_position_level"]').val(data.detail.experience.ref_position_level_code).trigger('change'); }
+                        $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.experience.tarikh_lantik ? data.detail.experience.tarikh_lantik : data_not_available);
+                        originalVal['experience_appoint_date'] = data.detail.experience.tarikh_lantik;
+                        if(data.detail.experience.taraf_jawatan) { $('#experienceForm select[name="experience_position_level"]').val(data.detail.experience.taraf_jawatan).trigger('change'); }
                         else { selectionNull('experience_position_level', 'experienceForm'); }
                         originalVal['experience_position_level'] = $('#experienceForm select[name="experience_position_level"]').find(':selected').text();
-                        if(data.detail.experience.ref_skim_code) { $('#experienceForm select[name="experience_skim"]').val(data.detail.experience.ref_skim_code).trigger('change'); }
+                        if(data.detail.experience.kod_ruj_skim) { $('#experienceForm select[name="experience_skim"]').val(data.detail.experience.kod_ruj_skim).trigger('change'); }
                         else { selectionNull('experience_skim', 'experienceForm'); }
                         originalVal['experience_skim'] = $('#experienceForm select[name="experience_skim"]').find(':selected').text();
-                        $('#experienceForm input[name="experience_start_date"]').val(data.detail.experience.date_start ? data.detail.experience.date_start : data_not_available);
-                        originalVal['experience_start_date'] = data.detail.experience.date_start;
-                        $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.date_verify ? data.detail.experience.date_verify : data_not_available);
-                        originalVal['experience_verify_date'] = data.detail.experience.date_verify;
-                        if(data.detail.experience.ref_department_ministry_code) { $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.experience.ref_department_ministry_code).trigger('change'); }
+                        $('#experienceForm input[name="experience_start_date"]').val(data.detail.experience.tarikh_mula ? data.detail.experience.tarikh_mula : data_not_available);
+                        originalVal['experience_start_date'] = data.detail.experience.tarikh_mula;
+                        $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.tarikh_disahkan ? data.detail.experience.tarikh_disahkan : data_not_available);
+                        originalVal['experience_verify_date'] = data.detail.experience.tarikh_disahkan;
+                        if(data.detail.experience.ruj_kem_jabatan) { $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.experience.ruj_kem_jabatan).trigger('change'); }
                         else { selectionNull('experience_department_ministry', 'experienceForm'); }
                         originalVal['experience_department_ministry'] = $('#experienceForm select[name="experience_department_ministry"]').find(':selected').text();
-                        if(data.detail.experience.state_department) { $('#experienceForm select[name="experience_department_state"]').val(data.detail.experience.state_department).trigger('change'); }
+                        if(data.detail.experience.negeri_jabatan) { $('#experienceForm select[name="experience_department_state"]').val(data.detail.experience.negeri_jabatan).trigger('change'); }
                         else { selectionNull('experience_department_state', 'experienceForm'); }
                         originalVal['experience_department_state'] = $('#experienceForm select[name="experience_department_state"]').find(':selected').text();
                     }else{
@@ -627,26 +644,28 @@ Maklumat Pemohon
 
                     $('#pslForm input[name="psl_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-psl tbody').empty();
-                    reloadPsl();
+                    if(data.detail.psl != null){
+                        reloadPsl();
+                    }
 
                     $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.army_police != null){
-                        if(data.detail.army_police.type_service) {
-                            $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.army_police.type_service).trigger('change');
+                        if(data.detail.army_police.jenis_pkhidmat) {
+                            $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.army_police.jenis_pkhidmat).trigger('change');
                         }
                         else {
                             selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm');
                         }
                         originalVal['jenis_perkhidmatan_tentera_polis'] = $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').find(':selected').text();
-                        if(data.detail.army_police.ref_rank_code) {
-                            $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.army_police.ref_rank_code).trigger('change');
+                        if(data.detail.army_police.pangkat_tentera_polis) {
+                            $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.army_police.pangkat_tentera_polis).trigger('change');
                         }
                         else {
                             selectionNull('pangkat_tentera_polis', 'tenteraPolisForm');
                         }
                         originalVal['pangkat_tentera_polis'] = $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').find(':selected').text();
-                        if(data.detail.army_police.type_army_police) {
-                            $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.army_police.type_army_police).trigger('change');
+                        if(data.detail.army_police.jenis_bekas_tentera) {
+                            $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.army_police.jenis_bekas_tentera).trigger('change');
                         }
                         else {
                             selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm');
@@ -663,15 +682,21 @@ Maklumat Pemohon
 
                     $('#bahasaForm input[name="bahasa_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-language tbody').empty();
-                    reloadBahasa();
+                    if(data.detail.language != null){
+                        reloadBahasa();
+                    }
 
                     $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-talent tbody').empty();
-                    reloadBakat();
+                    if(data.detail.talent != null){
+                        reloadBakat();
+                    }
 
                     $('#penaltyForm input[name="penalty_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-penalty tbody').empty();
-                    reloadPenalty();
+                    if(data.detail.penalty != null){
+                        reloadPenalty();
+                    }
 
                 },
                 error: function(data) {
@@ -884,11 +909,18 @@ Maklumat Pemohon
 }
 
 function displaySuggestions(suggestions) {
+    
+    var dataValue;
     var container = $('.suggestions-container');
     container.empty();
     if (suggestions.length > 0) {
         suggestions.forEach(function(suggestion) {
-            container.append('<div class="suggestion" data-value="'+ suggestion.no_ic +'">' + suggestion.full_name + '</div>');
+            if(suggestion.no_kp_baru != null){
+                dataValue = suggestion.no_kp_baru;
+            } else {
+                dataValue = suggestion.no_kp_lama;
+            }
+            container.append('<div class="suggestion" data-value="'+ dataValue +'">' + suggestion.nama_penuh + '</div>');
         });
         container.show();
     } else {

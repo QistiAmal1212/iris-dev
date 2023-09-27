@@ -88,11 +88,11 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.type_service).trigger('change');
+                $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.jenis_pkhidmat).trigger('change');
                 $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').attr('disabled', true);
-                $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.ref_rank_code).trigger('change');
+                $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.pangkat_tentera_polis).trigger('change');
                 $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);
-                $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.type_army_police).trigger('change');
+                $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.jenis_bekas_tentera).trigger('change');
                 $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', true);
             },
             error: function(data) {

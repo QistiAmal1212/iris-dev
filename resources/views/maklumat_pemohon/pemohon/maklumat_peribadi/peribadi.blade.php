@@ -140,19 +140,19 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#personalForm select[name="gender"]').val(data.detail.ref_gender_code).trigger('change');
+                $('#personalForm select[name="gender"]').val(data.detail.kod_ruj_jantina).trigger('change');
                 $('#personalForm select[name="gender"]').attr('disabled', true);
-                $('#personalForm select[name="religion"]').val(data.detail.ref_religion_code).trigger('change');
+                $('#personalForm select[name="religion"]').val(data.detail.kod_ruj_agama).trigger('change');
                 $('#personalForm select[name="religion"]').attr('disabled', true);
-                $('#personalForm select[name="race"]').val(data.detail.ref_race_code).trigger('change');
+                $('#personalForm select[name="race"]').val(data.detail.kod_ruj_keturunan).trigger('change');
                 $('#personalForm select[name="race"]').attr('disabled', true);
-                $('#personalForm input[name="date_of_birth"]').val(data.detail.date_of_birth);
+                $('#personalForm input[name="date_of_birth"]').val(data.detail.tarikh_lahir);
                 $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
-                $('#personalForm select[name="marital_status"]').val(data.detail.ref_marital_status_code).trigger('change');
+                $('#personalForm select[name="marital_status"]').val(data.detail.kod_ruj_status_kahwin).trigger('change');
                 $('#personalForm select[name="marital_status"]').attr('disabled', true);
-                $('#personalForm input[name="phone_number"]').val(data.detail.phone_number);
+                $('#personalForm input[name="phone_number"]').val(data.detail.no_tel);
                 $('#personalForm input[name="phone_number"]').attr('disabled', true);
-                $('#personalForm input[name="email"]').val(data.detail.email);
+                $('#personalForm input[name="email"]').val(data.detail.emel);
                 $('#personalForm input[name="email"]').attr('disabled', true);
 
                 $("#button_action_personal").attr("style", "display:none");

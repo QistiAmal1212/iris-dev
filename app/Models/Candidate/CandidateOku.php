@@ -11,10 +11,10 @@ class CandidateOku extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'no_registration',
-        'status',
-        'category',
-        'sub',
+        'no_daftar_jkm',
+        'status_oku',
+        'kategori_oku',
+        'sub_oku',
         'created_by',
         'updated_by',
     ];
