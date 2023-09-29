@@ -11,7 +11,7 @@ Maklumat Pemohon
 
 @section('content')
 <style>
-    .suggestions-container {
+    /* .suggestions-container {
         position: absolute;
         top: 100%;
         left: 0;
@@ -30,7 +30,7 @@ Maklumat Pemohon
     .suggestion {
         padding: 7px;
         border-bottom: 1px solid #ccc;
-    }
+    } */
 
 </style>
 <section id="faq-search-filter">
@@ -39,16 +39,22 @@ Maklumat Pemohon
             <h2 class="text-primary">Carian Maklumat Pemohon</h2>
             <p class="card-text mb-2">Isikan no. kad pengenalan calon dan tekan butang Cari</p>
 
+            <div>
+                <button class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_nama')" >Carian Menggunakan Nama</button>
+                <button class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Pengenalan</button>
+            </div><br>
+
+
             <div class="faq-search-input">
                 <div class="input-group input-group-merge">
-                    <div class="input-group-text">
+                    <div class="input-group-text" id="search-icon">
                         <i data-feather="search"></i>
                     </div>
 
                     {{-- Search form --}}
-                        <input type="text" class="form-control" id="search_ic" placeholder="No. Kad Pegenalan Calon" oninput="getSuggestions(this.value)"/>
-                        <input type="text" class="form-control" id="selected_ic" hidden/>
-                        <button class="btn btn-primary waves-effect" type="button" onclick="searchCandidate()">Cari</button>
+                        <input type="text" class="form-control" id="search_ic" placeholder="" disabled/>
+                        <input type="text" class="form-control" id="pilihan_carian" value="" hidden/>
+                        <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" disabled>Cari</button>
 
                         <div class="suggestions-container"></div>
                 </div>
@@ -166,6 +172,23 @@ Maklumat Pemohon
 
 @section('script')
 <script>
+    function selectSearch(btnValue){
+        $('#pilihan_carian').val(btnValue);
+        $('#search-icon').attr('disabled', false);
+        $('#search_ic').attr('disabled', false);
+        $('#button_cari').attr('disabled', false);
+
+        if(btnValue == 'carian_nama'){
+            $('#search_ic').attr('placeholder', ' Nama Calon');
+            $('#search_ic').attr('minlength', '3');
+            $('#search_ic').removeAttr('maxlength');
+        }else{
+            $('#search_ic').attr('placeholder', ' No. Kad Pegenalan Calon');
+            $('#search_ic').attr('maxlength', '12');
+            $('#search_ic').removeAttr('minlength');
+        }
+    }
+
     var originalVal = {};
     var data_not_available = "Tiada Maklumat";
 
@@ -272,13 +295,9 @@ Maklumat Pemohon
     }
 
     function searchCandidate() {
-        var searvh_ic = '';
-        if($('#search_ic').val().length <= 12){
-            search_ic = $('#search_ic').val();
-        }else{
-            search_ic = $('#selected_ic').val();
-        }
+        search_ic = $('#search_ic').val();
 
+        pilihan_carian = $('#pilihan_carian').val();
 
         if(search_ic == ''){
             Swal.fire('Gagal', 'Sila isikan no kad pengenalan', 'error');
@@ -288,7 +307,8 @@ Maklumat Pemohon
                 method: 'POST',
                 async: true,
                 data : {
-                    no_ic : search_ic
+                    no_ic : search_ic,
+                    pilihan_carian : pilihan_carian
                 },
                 success: function(data) {
                     var container = $('.suggestions-container');
@@ -909,7 +929,7 @@ Maklumat Pemohon
 }
 
 function displaySuggestions(suggestions) {
-    
+
     var dataValue;
     var container = $('.suggestions-container');
     container.empty();

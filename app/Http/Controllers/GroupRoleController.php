@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\UserHasRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -187,19 +186,7 @@ class GroupRoleController extends Controller
                 $userRole = User::find($user);
 
                 $userRole->roles()->attach($request->id_role);
-                // UserHasRole::create([
-                //     'role_id' => $request->id_role,
-                //     'user_id' => $user,
-                // ]);
             }
-
-            // CandidateTimeline::create([
-            //     'no_pengenalan' => $request->pmr_no_pengenalan,
-            //     'details' => 'Tambah Maklumat Akademik (PT3/PMR/SRP)',
-            //     'activity_type_id' => 3,
-            //     'created_by' => auth()->user()->id,
-            //     'updated_by' => auth()->user()->id,
-            // ]);
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
