@@ -105,7 +105,7 @@ class MaklumatPemohonController extends Controller
 
         $nama = $request->search_nama;
 
-        $candidate = Candidate::where('nama_penuh', 'ILIKE', '%' . $nama . '%')->get();
+        $candidate = Candidate::where('nama_penuh', 'ILIKE', '%' . $nama . '%');
 
         if ($request->ajax()) {
 
