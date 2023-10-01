@@ -43,6 +43,8 @@ use App\Models\Candidate\CandidateTalent;
 use App\Models\Candidate\CandidateTimeline;
 use App\Models\Reference\Matriculation;
 use App\Models\Reference\MatriculationCourse;
+use Yajra\DataTables\Contracts\DataTable;
+use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
 
 class MaklumatPemohonController extends Controller
@@ -50,18 +52,6 @@ class MaklumatPemohonController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
-
-    public function calonCadangan(Request $request) 
-    {
-        $inputValue = $request->input('input_value');
-        $suggestions = Candidate::where(function($query) use ($inputValue) {
-            $query->where('no_kp_baru', 'ILIKE', '%' . $inputValue . '%')
-                  ->orWhere('no_kp_lama', 'ILIKE', '%' . $inputValue . '%')
-                  ->orWhere('nama_penuh', 'ILIKE', '%' . $inputValue . '%');
-        })->get();
-
-        return response()->json($suggestions);
     }
 
     public function searchPemohon ()
@@ -109,6 +99,56 @@ class MaklumatPemohonController extends Controller
 
     public function viewMaklumatPemohon(){
         return view('maklumat_pemohon.index_pemohon');
+    }
+
+    public function listCarian(Request $request){
+
+        $nama = $request->search_nama;
+
+        $candidate = Candidate::where('nama_penuh', 'ILIKE', '%' . $nama . '%')->get();
+
+        if ($request->ajax()) {
+
+            // $log = new LogSystem;
+            // $log->module_id = MasterModule::where('code', 'admin.group-role')->firstOrFail()->id;
+            // $log->activity_type_id = 1;
+            // $log->description = "Lihat Senarai Pengguna [".$role->name."]";
+            // $log->data_old = $users;
+            // $log->url = $request->fullUrl();
+            // $log->method = strtoupper($request->method());
+            // $log->ip_address = $request->ip();
+            // $log->created_by_user_id = auth()->id();
+            // $log->save();
+
+            return Datatables::of($candidate)
+                ->editColumn('no_kp_baru', function ($candidate) {
+                    return $candidate->no_kp_baru;
+                })
+                ->editColumn('no_kp_lama', function ($candidate) {
+                    return $candidate->no_kp_lama;
+                })
+                ->editColumn('nama_penuh', function ($candidate) {
+                    return $candidate->nama_penuh;
+                })
+                ->editColumn('action', function ($candidate) {
+                    if($candidate->no_kp_baru != null){
+                        $ic = $candidate->no_kp_baru;
+                    } else {
+                        $ic = $candidate->no_kp_lama;
+                    }
+
+                    $button = "";
+
+                    $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
+
+                    $button .= '<a class="btn btn-xs btn-default" onclick="searchCandidate('.$ic.')"> <i class="fas fa-pencil text-primary"></i> ';
+
+                    $button .= '</div>';
+
+                    return $button;
+                })
+                ->make(true);
+        }
     }
 
     public function getCandidateDetails(Request $request)

@@ -41,20 +41,21 @@ Maklumat Pemohon
 
             <div>
                 <button class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_nama')" >Carian Menggunakan Nama</button>
-                <button class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Pengenalan</button>
+                <button class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Kad Pengenalan</button>
             </div><br>
 
 
             <div class="faq-search-input">
                 <div class="input-group input-group-merge">
-                    <div class="input-group-text" id="search-icon">
+                    <div class="input-group-text" id="search-icon" hidden>
                         <i data-feather="search"></i>
                     </div>
 
                     {{-- Search form --}}
-                        <input type="text" class="form-control" id="search_ic" placeholder="" disabled/>
+                        <input type="text" class="form-control" id="search_ic" placeholder="" hidden/>
                         <input type="text" class="form-control" id="pilihan_carian" value="" hidden/>
-                        <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" disabled>Cari</button>
+                        <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" hidden>Cari</button>
+                        <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
 
                         <div class="suggestions-container"></div>
                 </div>
@@ -65,6 +66,30 @@ Maklumat Pemohon
 </section>
 
 <hr>
+
+<div id="divCarian" style="display:none">
+    <div class="card">
+        <div class="card-header">
+            Carian Pemohon
+            <a data-bs-toggle="collapse" href="#listPemohon"><i data-feather="chevron-down"></i></a>
+        </div>
+        <div class="card-body" id="listPemohon">
+            <div class="table-responsive">
+                <table class="table header_uppercase table-bordered" id="table-carian">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>No Kad Pengenalan Baru</th>
+                            <th>No Kad Pengenalan Lama</th>
+                            <th>Nama Penuh</th>
+                            <th>Lihat Maklumat</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-12 order-1 order-lg-1">
@@ -174,18 +199,26 @@ Maklumat Pemohon
 <script>
     function selectSearch(btnValue){
         $('#pilihan_carian').val(btnValue);
-        $('#search-icon').attr('disabled', false);
-        $('#search_ic').attr('disabled', false);
-        $('#button_cari').attr('disabled', false);
+        $('#search-icon').attr('hidden', false);
+        $('#search_ic').attr('hidden', false);
 
         if(btnValue == 'carian_nama'){
+            $('#button_cari').attr('hidden', true);
+            $('#btn_carian').attr('hidden', false);
             $('#search_ic').attr('placeholder', ' Nama Calon');
             $('#search_ic').attr('minlength', '3');
             $('#search_ic').removeAttr('maxlength');
+            $("#divCarian").attr("style", "display:block");
         }else{
+            // $('#table-carian').DataTable().destroy();
+            // $("#table-carian > tbody").html("");
+
+            $('#button_cari').attr('hidden', false);
+            $('#btn_carian').attr('hidden', true);
             $('#search_ic').attr('placeholder', ' No. Kad Pegenalan Calon');
             $('#search_ic').attr('maxlength', '12');
             $('#search_ic').removeAttr('minlength');
+            $("#divCarian").attr("style", "display:none");
         }
     }
 
@@ -294,10 +327,99 @@ Maklumat Pemohon
         })
     }
 
-    function searchCandidate() {
-        search_ic = $('#search_ic').val();
+    function carianPemohon() {
+        search_nama = $('#search_ic').val();
 
-        pilihan_carian = $('#pilihan_carian').val();
+        if(search_nama == ''){
+            Swal.fire('Gagal', 'Sila isikan nama', 'error');
+        } else if (search_nama.length < 3){
+            Swal.fire('Gagal', 'Sila isikan sekurang-kurangnya 3 huruf', 'error');
+        } else {
+            url = "{{ route('list-carian') }}";
+
+            var tableList;
+
+            tableList = $('#table-carian').DataTable().destroy();
+
+            tableList = $('#table-carian').DataTable({
+                orderCellsTop: true,
+                colReorder: false,
+                pageLength: 10,
+                processing: true,
+                serverSide: true, //enable if data is large (more than 50,000)
+                ajax: {
+                    url: url,
+                    cache: false,
+                    data : {
+                        search_nama : search_nama
+                    }
+                },
+                columns: [
+                    {
+                        defaultContent: '',
+                        orderable: false,
+                        searchable: false,
+                        className : "text-center",
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: "no_kp_baru",
+                        name: "no_kp_baru",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "no_kp_lama",
+                        name: "no_kp_lama",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "nama_penuh",
+                        name: "nama_penuh",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "action",
+                        name: "action",
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                searching: false,
+                lengthChange: false,
+                language : {
+                    emptyTable : "Tiada data tersedia",
+                    info : "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+                    infoEmpty : "Menunjukkan 0 hingga 0 daripada 0 entri",
+                    infoFiltered : "(Ditapis dari _MAX_ entri)",
+                    search : "Cari:",
+                    zeroRecords : "Tiada rekod yang ditemui",
+                    paginate : {
+                        first : "Pertama",
+                        last : "Terakhir",
+                        next : "Seterusnya",
+                        previous : "Sebelumnya"
+                    },
+                    lengthMenu : "Lihat _MENU_ entri",
+                }
+            });
+        }
+    }
+
+    searchCandidate = function(carian = null) {
+
+        if(carian === null){
+            search_ic = $('#search_ic').val();
+        } else {
+            search_ic = carian
+        }
 
         if(search_ic == ''){
             Swal.fire('Gagal', 'Sila isikan no kad pengenalan', 'error');
@@ -308,7 +430,6 @@ Maklumat Pemohon
                 async: true,
                 data : {
                     no_ic : search_ic,
-                    pilihan_carian : pilihan_carian
                 },
                 success: function(data) {
                     var container = $('.suggestions-container');
@@ -905,56 +1026,5 @@ Maklumat Pemohon
         reloadUrl = reloadUrl.replace(':replaceThis', no_pengenalan);
         $('#candidate_timeline').load(reloadUrl)
     }
-
-    function getSuggestions(inputValue) {
-        if(inputValue.length > 0){
-            $.ajax({
-        url: '{{ route("get_suggestions") }}',
-        type: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}',
-            input_value: inputValue
-        },
-        success: function(data) {
-            displaySuggestions(data)
-        },
-        error: function(error) {
-            console.error('Error fetching suggestions:', error);
-        }
-    });
-        }else{
-            $('.suggestions-container').hide();
-        }
-
-}
-
-function displaySuggestions(suggestions) {
-
-    var dataValue;
-    var container = $('.suggestions-container');
-    container.empty();
-    if (suggestions.length > 0) {
-        suggestions.forEach(function(suggestion) {
-            if(suggestion.no_kp_baru != null){
-                dataValue = suggestion.no_kp_baru;
-            } else {
-                dataValue = suggestion.no_kp_lama;
-            }
-            container.append('<div class="suggestion" data-value="'+ dataValue +'">' + suggestion.nama_penuh + '</div>');
-        });
-        container.show();
-    } else {
-        container.append('<div class="suggestion"> Tiada Carian </div>');
-        container.show();
-    }
-}
-
-$(document).on('click', '.suggestion', function() {
-    var suggestionValue = $(this).data('value');
-    var suggestionText = $(this).text();
-    $('#selected_ic').val(suggestionValue);
-    $('#search_ic').val(suggestionText);
-    $('.suggestions-container').hide();
-});
 </script>
 @endsection
