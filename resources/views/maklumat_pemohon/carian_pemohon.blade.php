@@ -40,21 +40,21 @@ Maklumat Pemohon
             <p class="card-text mb-2">Isikan no. kad pengenalan calon dan tekan butang Cari</p>
 
             <div>
-                <button class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_nama')" >Carian Menggunakan Nama</button>
-                <button class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Kad Pengenalan</button>
+                <button id="btn-selectkp" class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Kad Pengenalan</button>
+                <button id="btn-selectname" class="btn btn-secondary waves-effect" type="button" onclick="selectSearch('carian_nama')" >Carian Menggunakan Nama</button>
             </div><br>
 
 
             <div class="faq-search-input">
                 <div class="input-group input-group-merge">
-                    <div class="input-group-text" id="search-icon" hidden>
+                    <div class="input-group-text" id="search-icon">
                         <i data-feather="search"></i>
                     </div>
 
                     {{-- Search form --}}
-                        <input type="text" class="form-control" id="search_ic" placeholder="" hidden/>
-                        <input type="text" class="form-control" id="pilihan_carian" value="" hidden/>
-                        <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" hidden>Cari</button>
+                        <input type="text" class="form-control" id="search_ic" maxlength="12" placeholder=" No. Kad Pegenalan Calon"/>
+                        <input type="text" class="form-control" id="pilihan_carian" value="carian_kp" hidden/>
+                        <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" >Cari</button>
                         <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
 
                         <div class="suggestions-container"></div>
@@ -78,11 +78,11 @@ Maklumat Pemohon
                 <table class="table header_uppercase table-bordered" id="table-carian">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th width="10%">#</th>
                             <th>No Kad Pengenalan Baru</th>
-                            <th>No Kad Pengenalan Lama</th>
-                            <th>Nama Penuh</th>
-                            <th>Lihat Maklumat</th>
+                            {{-- <th>No Kad Pengenalan Lama</th> --}}
+                            <th width="55%">Nama Penuh</th>
+                            <th width="15%">Lihat Maklumat</th>
                         </tr>
                     </thead>
                 </table>
@@ -199,10 +199,10 @@ Maklumat Pemohon
 <script>
     function selectSearch(btnValue){
         $('#pilihan_carian').val(btnValue);
-        $('#search-icon').attr('hidden', false);
-        $('#search_ic').attr('hidden', false);
 
         if(btnValue == 'carian_nama'){
+            $('#btn-selectkp').removeClass('btn-primary').addClass('btn-secondary');
+            $('#btn-selectname').removeClass('btn-secondary').addClass('btn-primary');
             $('#button_cari').attr('hidden', true);
             $('#btn_carian').attr('hidden', false);
             $('#search_ic').attr('placeholder', ' Nama Calon');
@@ -212,7 +212,8 @@ Maklumat Pemohon
         }else{
             // $('#table-carian').DataTable().destroy();
             // $("#table-carian > tbody").html("");
-
+            $('#btn-selectname').removeClass('btn-primary').addClass('btn-secondary');
+            $('#btn-selectkp').removeClass('btn-secondary').addClass('btn-primary');
             $('#button_cari').attr('hidden', false);
             $('#btn_carian').attr('hidden', true);
             $('#search_ic').attr('placeholder', ' No. Kad Pegenalan Calon');
@@ -367,13 +368,6 @@ Maklumat Pemohon
                     {
                         data: "no_kp_baru",
                         name: "no_kp_baru",
-                        render: function(data, type, row) {
-                            return $("<div/>").html(data).text();
-                        }
-                    },
-                    {
-                        data: "no_kp_lama",
-                        name: "no_kp_lama",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();
                         }

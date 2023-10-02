@@ -105,7 +105,7 @@ class MaklumatPemohonController extends Controller
 
         $nama = $request->search_nama;
 
-        $candidate = Candidate::where('nama_penuh', 'ILIKE', '%' . $nama . '%');
+        $candidate = Candidate::where('nama_penuh', 'ILIKE', '%' . $nama . '%')->whereNotNull('no_kp_baru');
 
         if ($request->ajax()) {
 
@@ -124,18 +124,11 @@ class MaklumatPemohonController extends Controller
                 ->editColumn('no_kp_baru', function ($candidate) {
                     return $candidate->no_kp_baru;
                 })
-                ->editColumn('no_kp_lama', function ($candidate) {
-                    return $candidate->no_kp_lama;
-                })
                 ->editColumn('nama_penuh', function ($candidate) {
                     return $candidate->nama_penuh;
                 })
                 ->editColumn('action', function ($candidate) {
-                    if($candidate->no_kp_baru != null){
-                        $ic = $candidate->no_kp_baru;
-                    } else {
-                        $ic = $candidate->no_kp_lama;
-                    }
+                    $ic = "'$candidate->no_kp_baru'";
 
                     $button = "";
 
@@ -159,7 +152,7 @@ class MaklumatPemohonController extends Controller
         try {
 
             $candidate = Candidate::where(function ($query) use ($no_ic) {
-                $query->where('no_kp_baru', $no_ic)->orWhere('no_kp_lama', $no_ic);
+                $query->where('no_kp_baru', $no_ic);
             })
             ->with([
                 'license',
