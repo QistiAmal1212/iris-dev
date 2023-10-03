@@ -11,6 +11,7 @@ use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Reference\KodPelbagaiController;
 use App\Http\Controllers\Reference\SalaryGradeDetailsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\GroupRoleController;
@@ -356,6 +357,22 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{eligibilityId}', [EligibilityController::class, 'edit'])->name('admin.reference.eligibility.edit');
             Route::post('update/{eligibilityId}', [EligibilityController::class, 'update'])->name('admin.reference.eligibility.update');
             Route::post('toggleActive/{eligibilityId}', [EligibilityController::class, 'toggleActive'])->name('admin.reference.eligibility.toggleActive');
+        });
+
+        Route::prefix('kodpelbagai')->group(function () {
+            Route::get('/', [KodPelbagaiController::class, 'index'])->name('admin.reference.kodpelbagai');
+            Route::post('create', [KodPelbagaiController::class, 'store'])->name('admin.reference.kodpelbagai.store');
+            Route::get('edit/{kodpelbagaiId}', [KodPelbagaiController::class, 'edit'])->name('admin.reference.kodpelbagai.edit');
+            Route::post('update/{kodpelbagaiId}', [KodPelbagaiController::class, 'update'])->name('admin.reference.kodpelbagai.update');
+            Route::post('toggleActive/{kodpelbagaiId}', [KodPelbagaiController::class, 'toggleActive'])->name('admin.reference.kodpelbagai.toggleActive');
+        });
+
+        Route::prefix('bekastentera')->group(function () {
+            Route::get('/', [KodPelbagaiController::class, 'index'])->name('admin.reference.bekastentera');
+            Route::post('create', [KodPelbagaiController::class, 'store'])->name('admin.reference.bekastentera.store');
+            Route::get('edit/{bekastenteraId}', [KodPelbagaiController::class, 'edit'])->name('admin.reference.bekastentera.edit');
+            Route::post('update/{bekastenteraId}', [KodPelbagaiController::class, 'update'])->name('admin.reference.bekastentera.update');
+            Route::post('toggleActive/{bekastenteraId}', [KodPelbagaiController::class, 'toggleActive'])->name('admin.reference.bekastentera.toggleActive');
         });
 
     });

@@ -63,7 +63,7 @@ class InterviewCentreController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="interviewCentreForm('.$interviewCentre->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($interviewCentre->is_active) {
+                        if($interviewCentre->sah_yt) {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$interviewCentre->id.'" onclick="toggleActive('.$interviewCentre->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$interviewCentre->id.'" onclick="toggleActive('.$interviewCentre->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';

@@ -292,7 +292,7 @@
             $('#roleForm input[name="role_name"]').val("");
             $('#roleForm textarea[name="role_description"]').val("");
             $('#roleForm input[name="role_display"]').val("");
-            $('#roleForm select[name="role_level"]').val("");
+            $('#roleForm select[name="role_level"]').val("").trigger('change');
             $('#roleForm select[name="access_function[]"]').val("").trigger('change');
             $("#level_one").attr("onchange","showListMenu('one')");
             $('#roleForm select[name="level_one[]"]').val("").trigger('change');
@@ -348,7 +348,7 @@
                     $('#roleForm input[name="role_name"]').val(data.detail.name);
                     $('#roleForm textarea[name="role_description"]').val(data.detail.description);
                     $('#roleForm input[name="role_display"]').val(data.detail.display_name);
-                    $('#roleForm select[name="role_level"]').val(data.detail.is_internal);
+                    $('#roleForm select[name="role_level"]').val(data.detail.is_internal? 1 : 0).trigger('change');
                     $('#roleForm select[name="access_function[]"]').val(data.detail.listFunction).trigger('change');
                     $("#level_one").attr("onchange","showListMenu('one', "+data.detail.id+")");
                     $('#roleForm select[name="level_one[]"]').val(data.detail.levelOne).trigger('change');
