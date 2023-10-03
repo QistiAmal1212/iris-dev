@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Subjek
+    Matapelajaran
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-    <li class="breadcrumb-item"><a>Subjek</a>
+    <li class="breadcrumb-item"><a>Matapelajaran</a>
     </li>
 @endsection
 
@@ -42,10 +42,10 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Subjek</h4>
+        <h4 class="card-title">Senarai Matapelajaran</h4>
         @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="subjectForm()">
-            <i class="fa-solid fa-add"></i> Tambah Subjek
+            <i class="fa-solid fa-add"></i> Tambah Matapelajaran
         </button>
         @endif
     </div>
@@ -57,7 +57,8 @@
                     <tr>
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
-                        <th>Subjek</th>
+                        <th>Matapelajaran</th>
+                        <th width="10%">Tingkatan</th>
                         <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
@@ -109,6 +110,14 @@
                 }
             },
             {
+                data: "form",
+                name: "form",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
                 data: 'action',
                 name: 'action',
                 orderable: false,
@@ -148,7 +157,7 @@
             $('#subjectForm input[name="form"]').val("");
             $('#subjectForm input[name="code"]').prop('readonly', false);
 
-            $('#title-role').html('Tambah Subjek');
+            $('#title-role').html('Tambah Matapelajaran');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -180,7 +189,7 @@
 
                     $('#subjectForm input[name="code"]').prop('readonly', true);
 
-                    $('#title-role').html('Kemaskini Subjek');
+                    $('#title-role').html('Kemaskini Matapelajaran');
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);

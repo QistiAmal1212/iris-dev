@@ -48,7 +48,7 @@ class PenaltyController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Penalti";
+            $log->description = "Lihat Senarai Tatatertib";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -62,6 +62,9 @@ class PenaltyController extends Controller
                 })
                 ->editColumn('name', function ($penalty) {
                     return $penalty->name;
+                })
+                ->editColumn('kategori', function ($penalty) {
+                    return $penalty->category;
                 })
                 ->editColumn('action', function ($penalty) use ($accessDelete) {
                     $button = "";
@@ -99,7 +102,7 @@ class PenaltyController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan penalti',
+                'name.required' => 'Sila isikan tatatertib',
                 'category.required' => 'Sila isikan kategori',
             ]);
 
@@ -114,7 +117,7 @@ class PenaltyController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Penalti";
+            $log->description = "Tambah Tatatertib";
             $log->data_new = json_encode($penalty);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -146,7 +149,7 @@ class PenaltyController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Penalti";
+            $log->description = "Lihat Maklumat Tatatertib";
             $log->data_new = json_encode($penalty);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -174,7 +177,7 @@ class PenaltyController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Penalti";
+            $log->description = "Kemaskini Maklumat Tatatertib";
             $log->data_old = json_encode($penalty);
 
             $request->validate([
@@ -184,7 +187,7 @@ class PenaltyController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan penalti',
+                'name.required' => 'Sila isikan tatatertib',
                 'category.required' => 'Sila isikan kategori',
             ]);
 

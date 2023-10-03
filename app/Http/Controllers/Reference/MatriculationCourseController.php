@@ -85,7 +85,7 @@ class MatriculationCourseController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan nama kursus matrikulasi',
+                'name.required' => 'Sila isikan nama jurusan matrikulasi',
             ]);
 
             MatriculationCourse::create([
@@ -140,7 +140,7 @@ class MatriculationCourseController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan nama kursus matrikulasi',
+                'name.required' => 'Sila isikan nama jurusan matrikulasi',
             ]);
 
             $matriculationCourse->update([

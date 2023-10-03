@@ -85,7 +85,7 @@ class LevelJKKController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan tahap JKK',
+                'name.required' => 'Sila isikan tingkatan JKK',
             ]);
 
             LevelJKK::create([
@@ -140,7 +140,7 @@ class LevelJKKController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan tahap JKK',
+                'name.required' => 'Sila isikan tingkatan JKK',
             ]);
 
             $levelJKK->update([

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Kursus Matrikulasi
+    Jurusan Matrikulasi
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-    <li class="breadcrumb-item"><a>Kursus Matrikulasi</a>
+    <li class="breadcrumb-item"><a>Jurusan Matrikulasi</a>
     </li>
 @endsection
 
@@ -42,10 +42,10 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Kursus Matrikulasi</h4>
+        <h4 class="card-title">Senarai Jurusan Matrikulasi</h4>
         @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="matriculationCourseForm()">
-            <i class="fa-solid fa-add"></i> Tambah Kursus Matrikulasi
+            <i class="fa-solid fa-add"></i> Tambah Jurusan Matrikulasi
         </button>
         @endif
     </div>
@@ -58,7 +58,7 @@
                     <tr>
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
-                        <th>Kursus Matrikulasi</th>
+                        <th>Jurusan Matrikulasi</th>
                         <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
@@ -148,7 +148,7 @@
             $('#matriculationCourseForm input[name="name"]').val("");
             $('#matriculationCourseForm input[name="code"]').prop('readonly', false);
 
-            $('#title-role').html('Tambah Kursus Matrikulasi');
+            $('#title-role').html('Tambah Jurusan Matrikulasi');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -179,7 +179,7 @@
                     $('#matriculationCourseForm input[name="code"]').prop('readonly', true);
 
 
-                    $('#title-role').html('Kemaskini Kursus Matrikulasi');
+                    $('#title-role').html('Kemaskini Jurusan Matrikulasi');
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);

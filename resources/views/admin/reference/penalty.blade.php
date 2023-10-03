@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Penalti
+    Tatatertib
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-    <li class="breadcrumb-item"><a>Penalti</a>
+    <li class="breadcrumb-item"><a>Tatatertib</a>
     </li>
 @endsection
 
@@ -42,10 +42,10 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Penalti</h4>
+        <h4 class="card-title">Senarai Tatatertib</h4>
         @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="penaltyForm()">
-            <i class="fa-solid fa-add"></i> Tambah Penalti
+            <i class="fa-solid fa-add"></i> Tambah Tatatertib
         </button>
         @endif
     </div>
@@ -57,7 +57,8 @@
                     <tr>
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
-                        <th>Penalti</th>
+                        <th>Tatatertib</th>
+                        <th>Kategori</th>
                         <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
@@ -109,6 +110,14 @@
                 }
             },
             {
+                data: "kategori",
+                name: "kategori",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
                 data: 'action',
                 name: 'action',
                 orderable: false,
@@ -148,7 +157,7 @@
             $('#penaltyForm input[name="category"]').val("");
             $('#penaltyForm input[name="code"]').prop('readonly', false);
 
-            $('#title-role').html('Tambah Penalti');
+            $('#title-role').html('Tambah Tatatertib');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -180,7 +189,7 @@
                     $('#penaltyForm input[name="code"]').prop('readonly', true);
 
 
-                    $('#title-role').html('Kemaskini Penalti');
+                    $('#title-role').html('Kemaskini Tatatertib');
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);

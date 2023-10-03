@@ -48,7 +48,7 @@ class SubjectController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Subjek";
+            $log->description = "Lihat Senarai Matapelajaran";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -62,6 +62,9 @@ class SubjectController extends Controller
                 })
                 ->editColumn('name', function ($subject) {
                     return $subject->name;
+                })
+                ->editColumn('form', function ($subject) {
+                    return $subject->form;
                 })
                 ->editColumn('action', function ($subject) use ($accessDelete) {
                     $button = "";
@@ -117,7 +120,7 @@ class SubjectController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Subjek";
+            $log->description = "Tambah Matapelajaran";
             $log->data_new = json_encode($subject);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -149,7 +152,7 @@ class SubjectController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Subjek";
+            $log->description = "Lihat Maklumat Matapelajaran";
             $log->data_new = json_encode($subject);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -179,7 +182,7 @@ class SubjectController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Subjek";
+            $log->description = "Kemaskini Maklumat Matapelajaran";
             $log->data_old = json_encode($subject);
 
             $request->validate([
