@@ -625,51 +625,35 @@ Maklumat Pemohon
 
                     $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-pmr tbody').empty();
-                    if(data.detail.pmr != null){
-                        reloadPmr();
-                    }
+                    reloadPmr();
 
                     $('#spmForm input[name="spm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-spm tbody').empty();
-                    if(data.detail.spm != null){
-                        reloadSpm();
-                    }
+                    reloadSpm();
 
                     $('#spmvForm input[name="spmv_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-spmv tbody').empty();
-                    if(data.detail.spmv != null){
-                        reloadSpmv();
-                    }
+                    reloadSpmv();
 
                     $('#svmForm input[name="svm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-svm tbody').empty();
-                    if(data.detail.svm != null){
-                        reloadSvm();
-                    }
+                    reloadSvm();
 
                     $('#stpmForm input[name="stpm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-stpm tbody').empty();
-                    if(data.detail.stpm != null){
-                        reloadStpm();
-                    }
+                    reloadStpm();
 
                     $('#stamForm input[name="stam_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-stam tbody').empty();
-                    if(data.detail.stam != null){
-                        reloadStam();
-                    }
+                    reloadStam();
 
                     $('#matrikulasiForm input[name="matrikulasi_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-matrikulasi tbody').empty();
-                    if(data.detail.matriculation != null){
-                        reloadMatrikulasi();
-                    }
+                    reloadMatrikulasi();
 
                     $('#skmForm input[name="skm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-skm tbody').empty();
-                    if(data.detail.skm != null){
-                        reloadSkm();
-                    }
+                    reloadSkm();
 
                     $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.higher_education != null) {
@@ -779,9 +763,7 @@ Maklumat Pemohon
 
                     $('#pslForm input[name="psl_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-psl tbody').empty();
-                    if(data.detail.psl != null){
-                        reloadPsl();
-                    }
+                    reloadPsl();
 
                     $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.army_police != null){
@@ -817,21 +799,16 @@ Maklumat Pemohon
 
                     $('#bahasaForm input[name="bahasa_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-language tbody').empty();
-                    if(data.detail.language != null){
-                        reloadBahasa();
-                    }
+                    reloadBahasa();
+                    
 
                     $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-talent tbody').empty();
-                    if(data.detail.talent != null){
-                        reloadBakat();
-                    }
+                    reloadBakat();
 
                     $('#penaltyForm input[name="penalty_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-penalty tbody').empty();
-                    if(data.detail.penalty != null){
-                        reloadPenalty();
-                    }
+                    reloadPenalty();
 
                 },
                 error: function(data) {

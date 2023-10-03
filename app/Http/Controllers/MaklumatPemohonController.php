@@ -201,11 +201,6 @@ class MaklumatPemohonController extends Controller
                 //$candidate->license->tempoh_tamat = ($candidate->license->tempoh_tamat != null) ? Carbon::parse($candidate->license->tempoh_tamat)->format('d/m/Y') : null;
             }
 
-            foreach($candidate->skim as $skim){
-                $skim->tarikh_daftar = ($skim->tarikh_daftar != null) ? Carbon::parse($skim->tarikh_daftar)->format('d/m/Y') : null;
-                $skim->tarikh_luput = ($skim->tarikh_luput != null) ? Carbon::parse($skim->tarikh_luput)->format('d/m/Y') : null;
-            }
-
             if($candidate->higherEducation) {
                 $candidate->higherEducation->tarikh_senat = ($candidate->higherEducation->tarikh_senat != null) ? Carbon::parse($candidate->higherEducation->tarikh_senat)->format('d/m/Y') : null;
             }
@@ -221,42 +216,6 @@ class MaklumatPemohonController extends Controller
                 $candidate->experience->tarikh_disahkan = ($candidate->experience->tarikh_disahkan != null) ? Carbon::parse($candidate->experience->tarikh_disahkan)->format('d/m/Y') : null;
                 $candidate->experience->tarikh_tamat = ($candidate->experience->tarikh_tamat != null) ? Carbon::parse($candidate->experience->tarikh_tamat)->format('d/m/Y') : null;
 
-            }
-            foreach($candidate->psl as $psl){
-                $psl->tarikh_exam = ($psl->tarikh_exam != null) ? Carbon::parse($psl->tarikh_exam)->format('d/m/Y') : null;
-            }
-
-            foreach($candidate->penalty as $penalty){
-                $penalty->tarikh_mula = ($penalty->tarikh_mula != null) ? Carbon::parse($penalty->tarikh_mula)->format('d/m/Y') : null;
-                $penalty->tarikh_tamat = ($penalty->tarikh_tamat != null) ? Carbon::parse($penalty->tarikh_tamat)->format('d/m/Y') : null;
-            }
-
-            if($candidate->schoolResult){
-                $candidate->pmr = $candidate->schoolResult()->with('subjectForm3')->where('mpel_tkt', 3)->whereHas('subjectForm3', function ($query) {
-                    $query->where('form', '3');
-                })->get();
-
-                //Jenis Sijil Form 5 : 1 - SPM, 3 - SPMV, 5 - SVM
-                $candidate->spm = $candidate->schoolResult()->where('jenis_sijil', 1)->where('mpel_tkt', 5)->with('subjectForm5')->whereHas('subjectForm5', function ($query) {
-                    $query->where('form', '5');
-                })->get();
-
-                $candidate->spmv = $candidate->schoolResult()->where('jenis_sijil', 3)->where('mpel_tkt', 5)->with('subjectForm5')->whereHas('subjectForm5', function ($query) {
-                    $query->where('form', '5');
-                })->get();
-
-                $candidate->svm = $candidate->schoolResult()->where('jenis_sijil', 5)->where('mpel_tkt', 5)->with('subjectForm5')->whereHas('subjectForm5', function ($query) {
-                    $query->where('form', '5');
-                })->get();
-
-                //Jenis Sijil Form 6 : 1 - STPM, 2- STP, 3 - HSC, 4 - X Pakai, 5 - STAM
-                $candidate->stpm = $candidate->schoolResult()->where('jenis_sijil', 1)->where('mpel_tkt', 6)->with('subjectForm6')->whereHas('subjectForm6', function ($query) {
-                    $query->where('form', '6');
-                })->get();
-
-                $candidate->stam = $candidate->schoolResult()->where('jenis_sijil', 5)->where('mpel_tkt', 6)->with('subjectForm6')->whereHas('subjectForm6', function ($query) {
-                    $query->where('form', '6');
-                })->get();
             }
 
             //DB::commit();
