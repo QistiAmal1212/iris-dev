@@ -16,47 +16,47 @@
     data-reloadPage="false">
     @csrf
     <div class="row mt-2 mb-2">
-    <h6>
-        <span class="badge badge-light-primary fw-bolder">Sijil Tinggi Persekolahan Malaysia (STPM)</span>
-    </h6>
-    <input type="hidden" name="stpm_no_pengenalan" id="stpm_no_pengenalan" value="">
-    <input type="hidden" name="id_stpm" id="id_stpm" value="">
-    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-        <label class="form-label">Mata Pelajaran</label>
-        <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
-            <option value=""></option>
-            @foreach($subjekStpm as $subjek)
-            <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-        <label class="form-label">Gred</label>
-        <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm" disabled>
-            <option value=""></option>
-            @foreach($gredStpm as $gred)
-            <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-        <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm" disabled>
-    </div>
-
-    <div id="button_action_stpm" style="display:none">
-        <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
-        <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-danger float-right" onclick="reloadStpm()">
-                <i class="fa fa-refresh"></i>
-            </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditStpm').trigger('click');">
-                <i class="fa fa-save"></i> Tambah
-            </button>
+        <h6>
+            <span class="badge badge-light-primary fw-bolder">Sijil Tinggi Persekolahan Malaysia (STPM)</span>
+        </h6>
+        <input type="hidden" name="stpm_no_pengenalan" id="stpm_no_pengenalan" value="">
+        <input type="hidden" name="id_stpm" id="id_stpm" value="">
+        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+            <label class="form-label">Mata Pelajaran</label>
+            <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
+                <option value=""></option>
+                @foreach($subjekStpm as $subjek)
+                <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                @endforeach
+            </select>
         </div>
-    </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+            <label class="form-label">Gred</label>
+            <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm" disabled>
+                <option value=""></option>
+                @foreach($gredStpm as $gred)
+                <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+            <label class="form-label">Tahun</label>
+            <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm" disabled>
+        </div>
+
+        <div id="button_action_stpm" style="display:none">
+            <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
+            <div class="d-flex justify-content-end align-items-center my-1">
+                <button type="button" class="btn btn-danger float-right" onclick="reloadStpm()">
+                    <i class="fa fa-refresh"></i>
+                </button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-success float-right" id="btnSaveStpm" onclick="$('#btnEditStpm').trigger('click');">
+                    <i class="fa fa-save"></i> Tambah
+                </button>
+            </div>
+        </div>
     </div>
     </form>
 
@@ -94,47 +94,47 @@
     data-reloadPage="false">
     @csrf
     <div class="row mt-2 mb-2">
-    <h6>
-        <span class="badge badge-light-primary fw-bolder">Sijil Tinggi Agama Malaysia (STAM)</span>
-    </h6>
-    <input type="hidden" name="stam_no_pengenalan" id="stam_no_pengenalan" value="">
-    <input type="hidden" name="id_stam" id="id_stam" value="">
-    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-        <label class="form-label">Mata Pelajaran</label>
-        <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
-            <option value=""></option>
-            @foreach($subjekStam as $subjek)
-            <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-        <label class="form-label">Gred</label>
-        <select class="select2 form-control" value="" id="gred_stam" name="gred_stam" disabled>
-            <option value=""></option>
-            @foreach($gredStam as $gred)
-            <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-        <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam" disabled>
-    </div>
-
-    <div id="button_action_stam" style="display:none">
-        <button type="button" id="btnEditStam" hidden onclick="generalFormSubmit(this);"></button>
-        <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-danger float-right" onclick="reloadStam()">
-                <i class="fa fa-refresh"></i>
-            </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditStam').trigger('click');">
-                <i class="fa fa-save"></i> Tambah
-            </button>
+        <h6>
+            <span class="badge badge-light-primary fw-bolder">Sijil Tinggi Agama Malaysia (STAM)</span>
+        </h6>
+        <input type="hidden" name="stam_no_pengenalan" id="stam_no_pengenalan" value="">
+        <input type="hidden" name="id_stam" id="id_stam" value="">
+        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+            <label class="form-label">Mata Pelajaran</label>
+            <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
+                <option value=""></option>
+                @foreach($subjekStam as $subjek)
+                <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                @endforeach
+            </select>
         </div>
-    </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+            <label class="form-label">Gred</label>
+            <select class="select2 form-control" value="" id="gred_stam" name="gred_stam" disabled>
+                <option value=""></option>
+                @foreach($gredStam as $gred)
+                <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+            <label class="form-label">Tahun</label>
+            <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam" disabled>
+        </div>
+
+        <div id="button_action_stam" style="display:none">
+            <button type="button" id="btnEditStam" hidden onclick="generalFormSubmit(this);"></button>
+            <div class="d-flex justify-content-end align-items-center my-1">
+                <button type="button" class="btn btn-danger float-right" onclick="reloadStam()">
+                    <i class="fa fa-refresh"></i>
+                </button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-success float-right" id="btnSaveStam" onclick="$('#btnEditStam').trigger('click');">
+                    <i class="fa fa-save"></i> Tambah
+                </button>
+            </div>
+        </div>
     </div>
     </form>
 
@@ -172,78 +172,78 @@
     data-reloadPage="false">
     @csrf
     <div class="row mt-2 mb-2">
-    <h6>
-        <span class="badge badge-light-primary fw-bolder">Sijil Matrikulasi</span>
-    </h6>
+        <h6>
+            <span class="badge badge-light-primary fw-bolder">Sijil Matrikulasi</span>
+        </h6>
 
-    <input type="hidden" name="matrikulasi_no_pengenalan" id="matrikulasi_no_pengenalan" value="">
-    <input type="hidden" name="id_matrikulasi" id="id_matrikulasi" value="">
-    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
-        <label class="form-label">Kolej Matrikulasi</label>
-        <select class="select2 form-control" value="" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
-            <option value=""></option>
-            @foreach($kolejMatrikulasi as $kolej)
-            <option value="{{ $kolej->code }}">{{ $kolej->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
-        <label class="form-label">Jurusan</label>
-        <select class="select2 form-control" value="" id="jurusan_matrikulasi" name="jurusan_matrikulasi" disabled>
-            <option value=""></option>
-            @foreach($jurusanMatrikulasi as $jurusanMatrikulasi)
-            <option value="{{ $jurusanMatrikulasi->code }}">{{ $jurusanMatrikulasi->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">No. Matrik</label>
-        <input type="text" class="form-control" value="" id="matrik_matrikulasi" name="matrik_matrikulasi" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Sesi</label>
-        <input type="text" class="form-control" value="" id="sesi_matrikulasi" name="sesi_matrikulasi" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Semester</label>
-        <input type="text" class="form-control" value="" id="semester_matrikulasi" name="semester_matrikulasi" disabled>
-    </div>
-
-    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Mata Pelajaran</label>
-        <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
-            <option value=""></option>
-            @foreach($subjekMatrikulasi as $subjekMatrikulasi)
-            <option value="{{ $subjekMatrikulasi->code }}">{{ $subjekMatrikulasi->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-        <label class="form-label">Gred</label>
-        <input type="text" class="form-control" value="" id="gred_matrikulasi" name="gred_matrikulasi" disabled>
-    </div>
-
-    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-        <label class="form-label">PNGK</label>
-        <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
-    </div>
-
-    <div id="button_action_matrikulasi" style="display:none">
-        <button type="button" id="btnEditMatrikulasi" hidden onclick="generalFormSubmit(this);"></button>
-        <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-danger float-right" onclick="reloadMatrikulasi()">
-                <i class="fa fa-refresh"></i>
-            </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditMatrikulasi').trigger('click');">
-                <i class="fa fa-save"></i> Tambah
-            </button>
+        <input type="hidden" name="matrikulasi_no_pengenalan" id="matrikulasi_no_pengenalan" value="">
+        <input type="hidden" name="id_matrikulasi" id="id_matrikulasi" value="">
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+            <label class="form-label">Kolej Matrikulasi</label>
+            <select class="select2 form-control" value="" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
+                <option value=""></option>
+                @foreach($kolejMatrikulasi as $kolej)
+                <option value="{{ $kolej->code }}">{{ $kolej->name }}</option>
+                @endforeach
+            </select>
         </div>
-    </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+            <label class="form-label">Jurusan</label>
+            <select class="select2 form-control" value="" id="jurusan_matrikulasi" name="jurusan_matrikulasi" disabled>
+                <option value=""></option>
+                @foreach($jurusanMatrikulasi as $jurusanMatrikulasi)
+                <option value="{{ $jurusanMatrikulasi->code }}">{{ $jurusanMatrikulasi->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label">No. Matrik</label>
+            <input type="text" class="form-control" value="" id="matrik_matrikulasi" name="matrik_matrikulasi" disabled>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label">Sesi</label>
+            <input type="text" class="form-control" value="" id="sesi_matrikulasi" name="sesi_matrikulasi" disabled>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label">Semester</label>
+            <input type="text" class="form-control" value="" id="semester_matrikulasi" name="semester_matrikulasi" disabled>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label">Mata Pelajaran</label>
+            <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
+                <option value=""></option>
+                @foreach($subjekMatrikulasi as $subjekMatrikulasi)
+                <option value="{{ $subjekMatrikulasi->code }}">{{ $subjekMatrikulasi->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+            <label class="form-label">Gred</label>
+            <input type="text" class="form-control" value="" id="gred_matrikulasi" name="gred_matrikulasi" disabled>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+            <label class="form-label">PNGK</label>
+            <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
+        </div>
+
+        <div id="button_action_matrikulasi" style="display:none">
+            <button type="button" id="btnEditMatrikulasi" hidden onclick="generalFormSubmit(this);"></button>
+            <div class="d-flex justify-content-end align-items-center my-1">
+                <button type="button" class="btn btn-danger float-right" onclick="reloadMatrikulasi()">
+                    <i class="fa fa-refresh"></i>
+                </button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-success float-right" id="btnSaveMatrikulasi" onclick="$('#btnEditMatrikulasi').trigger('click');">
+                    <i class="fa fa-save"></i> Tambah
+                </button>
+            </div>
+        </div>
     </div>
     </form>
 
@@ -277,6 +277,7 @@
 
         $("#button_action_stpm").attr("style", "display:block");
     }
+
     function reloadStpm() {
         var no_pengenalan = $('#stpm_no_pengenalan').val();
         $('#stpmForm input[name="stpm_no_pengenalan"]').val(no_pengenalan);
@@ -295,7 +296,7 @@
                 $('#stpmForm select[name="gred_stpm"]').attr('disabled', true);
                 $('#stpmForm input[name="tahun_stpm"]').attr('disabled', true);
                 $('#stpmForm').attr('action', "{{ route('stpm.store')  }}");
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+                $('#btnSaveStpm').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_stpm").attr("style", "display:none");
 
@@ -387,7 +388,7 @@
                 $('#stamForm select[name="gred_stam"]').attr('disabled', true);
                 $('#stamForm input[name="tahun_stam"]').attr('disabled', true);
                 $('#stamForm').attr('action', "{{ route('stam.store')  }}");
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+                $('#btnSaveStam').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_stam").attr("style", "display:none");
 
@@ -495,7 +496,7 @@
                 $('#matrikulasiForm input[name="pngk_matrikulasi"]').attr('disabled', true);
 
                 $('#matrikulasiForm').attr('action', "{{ route('matrikulasi.store')  }}");
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+                $('#btnSaveMatrikulasi').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_matrikulasi").attr("style", "display:none");
 

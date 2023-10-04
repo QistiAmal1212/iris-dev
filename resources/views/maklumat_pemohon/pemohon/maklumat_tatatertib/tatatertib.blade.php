@@ -62,7 +62,7 @@
             <a class="me-3" type="button" id="reset" href="#">
                 <span class="text-danger"> Set Semula </span>
             </a>
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnAddPenalty').trigger('click');">
+            <button type="button" class="btn btn-success float-right" id="btnSavePenalty" onclick="$('#btnAddPenalty').trigger('click');">
                 <i class="fa fa-save"></i> Simpan
             </button>
         </div>
@@ -182,7 +182,7 @@
                 $('#penaltyForm input[name="penalty_end"]').attr('disabled', true);
                 $('#penaltyForm input[name="penalty_end"]').attr('readonly', true);
                 $('#penaltyForm').attr('action', "{{ route('penalty.store')  }}");
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+                $('#btnSavePenalty').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_penalty").attr("style", "display:none");
 

@@ -39,7 +39,7 @@ data-reloadPage="false">
             <button type="button" class="btn btn-danger float-right" onclick="reloadPsl()">
                 <i class="fa fa-refresh"></i>
             </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPsl').trigger('click');">
+            <button type="button" class="btn btn-success float-right" id="btnSavePsl" onclick="$('#btnEditPsl').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
@@ -87,7 +87,7 @@ data-reloadPage="false">
                 $('#pslForm select[name="jenis_peperiksaan"]').attr('disabled', true);
                 $('#pslForm input[name="tarikh_peperiksaan"]').attr('disabled', true);
                 $('#pslForm').attr('action', "{{ route('psl.store')  }}");
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+                $('#btnSavePsl').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_psl").attr("style", "display:none");
 

@@ -48,7 +48,7 @@ data-reloadPage="false">
             <button type="button" class="btn btn-danger float-right" onclick="reloadPmr()">
                 <i class="fa fa-refresh"></i>
             </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPmr').trigger('click');">
+            <button type="button" class="btn btn-success float-right" id="btnSavePmr" onclick="$('#btnEditPmr').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
@@ -100,7 +100,7 @@ data-reloadPage="false">
                 $('#pmrForm select[name="gred_pmr"]').attr('disabled', true);
                 $('#pmrForm input[name="tahun_pmr"]').attr('disabled', true);
                 $('#pmrForm').attr('action', "{{ route('pmr.store')  }}");
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+                $('#btnSavePmr').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_pmr").attr("style", "display:none");
 
