@@ -1,28 +1,28 @@
 @extends('layouts.app')
 
 @section('header')
-    Daerah
+    Senarai Cuti
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('msg.home') }}</a></li>
-    <li class="breadcrumb-item"><a>Daerah</a>
+    <li class="breadcrumb-item"><a>Senarai Cuti</a>
     </li>
 @endsection
 
 @section('content')
     <style>
-        #table-daerah thead th {
+        #table-senaraicuti thead th {
             vertical-align: middle;
             text-align: center;
         }
 
-        #table-daerah tbody {
+        #table-senaraicuti tbody {
             vertical-align: middle;
             /* text-align: center; */
         }
 
-        #table-daerah {
+        #table-senaraicuti {
             width: 100% !important;
             /* word-wrap: break-word; */
         }
@@ -41,24 +41,22 @@
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Senarai Daerah</h4>
+            <h4 class="card-title">Senarai Senarai Cuti</h4>
             @if ($accessAdd)
-                <button type="button" class="btn btn-primary btn-md float-right" onclick="daerahForm()">
-                    <i class="fa-solid fa-add"></i> Tambah Daerah
+                <button type="button" class="btn btn-primary btn-md float-right" onclick="senaraicutiForm()">
+                    <i class="fa-solid fa-add"></i> Tambah Senarai Cuti
                 </button>
             @endif
         </div>
         <hr>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table header_uppercase table-bordered" id="table-daerah">
+                <table class="table header_uppercase table-bordered" id="table-senaraicuti">
                     <thead>
                         <tr>
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
-                            <th>Daerah</th>
-                            <th width="15%">Kod Bahagian</th>
-                            <th width="15%">Kod Negeri</th>
+                            <th>Senarai Cuti</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -67,12 +65,12 @@
         </div>
     </div>
 
-    @include('admin.reference.daerahForm')
+    @include('admin.reference.senaraicutiForm')
 @endsection
 
 @section('script')
     <script>
-        var table = $('#table-daerah').DataTable({
+        var table = $('#table-senaraicuti').DataTable({
             orderCellsTop: true,
             colReorder: false,
             pageLength: 25,
@@ -107,22 +105,6 @@
                     }
                 },
                 {
-                    data: "kod_bah",
-                    name: "kod_bah",
-                    className: "text-center",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
-                    data: "kod_neg",
-                    name: "kod_neg",
-                    className: "text-center",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -147,9 +129,9 @@
             }
         });
 
-        daerahForm = function(id = null) {
-            var daerahFormModal;
-            daerahFormModal = new bootstrap.Modal(document.getElementById('daerahFormModal'), {
+        senaraicutiForm = function(id = null) {
+            var senaraicutiFormModal;
+            senaraicutiFormModal = new bootstrap.Modal(document.getElementById('senaraicutiFormModal'), {
                 keyboard: false
             });
 
@@ -158,14 +140,13 @@
 
             event.preventDefault();
             if (id === null) {
-                $('#daerahForm').attr('action', '{{ route('admin.reference.daerah.store') }}');
-                $('#daerahForm input[name="code"]').val("");
-                $('#daerahForm input[name="name"]').val("");
-                $('#daerahForm select[name="kod_ruj_bahagian"]').val("").trigger('change');
-                $('#daerahForm select[name="kod_ruj_negeri"]').val("").trigger('change');
-                $('#daerahForm input[name="code"]').prop('readonly', false);
+                $('#senaraicutiForm').attr('action', '{{ route('admin.reference.senaraicuti.store') }}');
+                $('#senaraicutiForm input[name="code"]').val("");
+                $('#senaraicutiForm input[name="name"]').val("");
+                $('#senaraicutiForm input[name="kategori"]').val("");
+                $('#senaraicutiForm input[name="code"]').prop('readonly', false);
 
-                $('#title-role').html('Tambah Daerah');
+                $('#title-role').html('Tambah Senarai Cuti');
 
                 if (accessAdd == '') {
                     $('#btn_fake').attr('hidden', true);
@@ -173,9 +154,9 @@
                     $('#btn_fake').attr('hidden', false);
                 }
 
-                daerahFormModal.show();
+                senaraicutiFormModal.show();
             } else {
-                url = "{{ route('admin.reference.daerah.edit', ':replaceThis') }}"
+                url = "{{ route('admin.reference.senaraicuti.edit', ':replaceThis') }}"
                 url = url.replace(':replaceThis', id);
                 $.ajax({
                     url: url,
@@ -185,20 +166,19 @@
                     processData: false,
                     success: function(data) {
                         // console.log(data);
-                        daerah_id = data.detail.id;
+                        senaraicuti_id = data.detail.id;
                         // console.log(id_used);
-                        url2 = "{{ route('admin.reference.daerah.update', ':replaceThis') }}"
-                        url2 = url2.replace(':replaceThis', daerah_id);
+                        url2 = "{{ route('admin.reference.senaraicuti.update', ':replaceThis') }}"
+                        url2 = url2.replace(':replaceThis', senaraicuti_id);
 
-                        $('#daerahForm').attr('action', url2);
-                        $('#daerahForm input[name="code"]').val(data.detail.kod);
-                        $('#daerahForm input[name="name"]').val(data.detail.nama);
-                        $('#daerahForm select[name="kod_ruj_bahagian"]').val(data.detail.kod_ruj_bahagian).trigger('change');
-                        $('#daerahForm select[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#senaraicutiForm').attr('action', url2);
+                        $('#senaraicutiForm input[name="code"]').val(data.detail.kod);
+                        $('#senaraicutiForm input[name="name"]').val(data.detail.nama);
+                        $('#senaraicutiForm input[name="kategori"]').val(data.detail.kategori);
 
-                        $('#daerahForm input[name="code"]').prop('readonly', true);
+                        $('#senaraicutiForm input[name="code"]').prop('readonly', true);
 
-                        $('#title-role').html('Kemaskini Daerah');
+                        $('#title-role').html('Kemaskini Senarai Cuti');
 
                         if (accessUpdate == '') {
                             $('#btn_fake').attr('hidden', true);
@@ -206,15 +186,15 @@
                             $('#btn_fake').attr('hidden', false);
                         }
 
-                        daerahFormModal.show();
+                        senaraicutiFormModal.show();
                     },
                 });
             }
         };
 
-        function toggleActive(daerahId) {
-            var url = "{{ route('admin.reference.daerah.toggleActive', ':replaceThis') }}"
-            url = url.replace(':replaceThis', daerahId);
+        function toggleActive(senaraicutiId) {
+            var url = "{{ route('admin.reference.senaraicuti.toggleActive', ':replaceThis') }}"
+            url = url.replace(':replaceThis', senaraicutiId);
 
             $.ajax({
                 url: url,
@@ -222,7 +202,7 @@
                 success: function(data) {
                     if (data.success) {
                         // Toggle the button class and icon
-                        var button = document.querySelector('[data-id="' + daerahId + '"]');
+                        var button = document.querySelector('[data-id="' + senaraicutiId + '"]');
                         button.classList.toggle('activate');
                         button.classList.toggle('deactivate');
 

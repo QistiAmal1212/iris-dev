@@ -1,28 +1,28 @@
 @extends('layouts.app')
 
 @section('header')
-    Daerah
+    Status
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('msg.home') }}</a></li>
-    <li class="breadcrumb-item"><a>Daerah</a>
+    <li class="breadcrumb-item"><a>Status</a>
     </li>
 @endsection
 
 @section('content')
     <style>
-        #table-daerah thead th {
+        #table-status thead th {
             vertical-align: middle;
             text-align: center;
         }
 
-        #table-daerah tbody {
+        #table-status tbody {
             vertical-align: middle;
             /* text-align: center; */
         }
 
-        #table-daerah {
+        #table-status {
             width: 100% !important;
             /* word-wrap: break-word; */
         }
@@ -41,24 +41,23 @@
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Senarai Daerah</h4>
+            <h4 class="card-title">Senarai Status</h4>
             @if ($accessAdd)
-                <button type="button" class="btn btn-primary btn-md float-right" onclick="daerahForm()">
-                    <i class="fa-solid fa-add"></i> Tambah Daerah
+                <button type="button" class="btn btn-primary btn-md float-right" onclick="statusForm()">
+                    <i class="fa-solid fa-add"></i> Tambah Status
                 </button>
             @endif
         </div>
         <hr>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table header_uppercase table-bordered" id="table-daerah">
+                <table class="table header_uppercase table-bordered" id="table-status">
                     <thead>
                         <tr>
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
-                            <th>Daerah</th>
-                            <th width="15%">Kod Bahagian</th>
-                            <th width="15%">Kod Negeri</th>
+                            <th>Status</th>
+                            <th>Diskripsi</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -67,12 +66,12 @@
         </div>
     </div>
 
-    @include('admin.reference.daerahForm')
+    @include('admin.reference.statusForm')
 @endsection
 
 @section('script')
     <script>
-        var table = $('#table-daerah').DataTable({
+        var table = $('#table-status').DataTable({
             orderCellsTop: true,
             colReorder: false,
             pageLength: 25,
@@ -107,16 +106,8 @@
                     }
                 },
                 {
-                    data: "kod_bah",
-                    name: "kod_bah",
-                    className: "text-center",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
-                    data: "kod_neg",
-                    name: "kod_neg",
+                    data: "diskripsi",
+                    name: "diskripsi",
                     className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
@@ -147,9 +138,9 @@
             }
         });
 
-        daerahForm = function(id = null) {
-            var daerahFormModal;
-            daerahFormModal = new bootstrap.Modal(document.getElementById('daerahFormModal'), {
+        statusForm = function(id = null) {
+            var statusFormModal;
+            statusFormModal = new bootstrap.Modal(document.getElementById('statusFormModal'), {
                 keyboard: false
             });
 
@@ -158,14 +149,13 @@
 
             event.preventDefault();
             if (id === null) {
-                $('#daerahForm').attr('action', '{{ route('admin.reference.daerah.store') }}');
-                $('#daerahForm input[name="code"]').val("");
-                $('#daerahForm input[name="name"]').val("");
-                $('#daerahForm select[name="kod_ruj_bahagian"]').val("").trigger('change');
-                $('#daerahForm select[name="kod_ruj_negeri"]').val("").trigger('change');
-                $('#daerahForm input[name="code"]').prop('readonly', false);
+                $('#statusForm').attr('action', '{{ route('admin.reference.status.store') }}');
+                $('#statusForm input[name="code"]').val("");
+                $('#statusForm input[name="name"]').val("");
+                $('#statusForm input[name="diskripsi"]').val("");
+                $('#statusForm input[name="code"]').prop('readonly', false);
 
-                $('#title-role').html('Tambah Daerah');
+                $('#title-role').html('Tambah Status');
 
                 if (accessAdd == '') {
                     $('#btn_fake').attr('hidden', true);
@@ -173,9 +163,9 @@
                     $('#btn_fake').attr('hidden', false);
                 }
 
-                daerahFormModal.show();
+                statusFormModal.show();
             } else {
-                url = "{{ route('admin.reference.daerah.edit', ':replaceThis') }}"
+                url = "{{ route('admin.reference.status.edit', ':replaceThis') }}"
                 url = url.replace(':replaceThis', id);
                 $.ajax({
                     url: url,
@@ -185,20 +175,19 @@
                     processData: false,
                     success: function(data) {
                         // console.log(data);
-                        daerah_id = data.detail.id;
+                        status_id = data.detail.id;
                         // console.log(id_used);
-                        url2 = "{{ route('admin.reference.daerah.update', ':replaceThis') }}"
-                        url2 = url2.replace(':replaceThis', daerah_id);
+                        url2 = "{{ route('admin.reference.status.update', ':replaceThis') }}"
+                        url2 = url2.replace(':replaceThis', status_id);
 
-                        $('#daerahForm').attr('action', url2);
-                        $('#daerahForm input[name="code"]').val(data.detail.kod);
-                        $('#daerahForm input[name="name"]').val(data.detail.nama);
-                        $('#daerahForm select[name="kod_ruj_bahagian"]').val(data.detail.kod_ruj_bahagian).trigger('change');
-                        $('#daerahForm select[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#statusForm').attr('action', url2);
+                        $('#statusForm input[name="code"]').val(data.detail.kod);
+                        $('#statusForm input[name="name"]').val(data.detail.nama);
+                        $('#statusForm input[name="diskripsi"]').val(data.detail.diskripsi);
 
-                        $('#daerahForm input[name="code"]').prop('readonly', true);
+                        $('#statusForm input[name="code"]').prop('readonly', true);
 
-                        $('#title-role').html('Kemaskini Daerah');
+                        $('#title-role').html('Kemaskini Status');
 
                         if (accessUpdate == '') {
                             $('#btn_fake').attr('hidden', true);
@@ -206,15 +195,15 @@
                             $('#btn_fake').attr('hidden', false);
                         }
 
-                        daerahFormModal.show();
+                        statusFormModal.show();
                     },
                 });
             }
         };
 
-        function toggleActive(daerahId) {
-            var url = "{{ route('admin.reference.daerah.toggleActive', ':replaceThis') }}"
-            url = url.replace(':replaceThis', daerahId);
+        function toggleActive(statusId) {
+            var url = "{{ route('admin.reference.status.toggleActive', ':replaceThis') }}"
+            url = url.replace(':replaceThis', statusId);
 
             $.ajax({
                 url: url,
@@ -222,7 +211,7 @@
                 success: function(data) {
                     if (data.success) {
                         // Toggle the button class and icon
-                        var button = document.querySelector('[data-id="' + daerahId + '"]');
+                        var button = document.querySelector('[data-id="' + statusId + '"]');
                         button.classList.toggle('activate');
                         button.classList.toggle('deactivate');
 

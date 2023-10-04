@@ -12,9 +12,16 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Reference\BahagianController;
+use App\Http\Controllers\Reference\CutiAwamController;
 use App\Http\Controllers\Reference\DaerahController;
+use App\Http\Controllers\Reference\KelayakanSetarafController;
 use App\Http\Controllers\Reference\KodPelbagaiController;
 use App\Http\Controllers\Reference\SalaryGradeDetailsController;
+use App\Http\Controllers\Reference\SebabTolakController;
+use App\Http\Controllers\Reference\SenaraiCutiController;
+use App\Http\Controllers\Reference\StatusController;
+use App\Http\Controllers\Reference\SuruhanjayaController;
+use App\Http\Controllers\Reference\ZonTelefonController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\GroupRoleController;
 use App\Http\Controllers\SettingsController;
@@ -394,12 +401,68 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{daerahId}', [DaerahController::class, 'toggleActive'])->name('admin.reference.daerah.toggleActive');
         });
 
-        Route::prefix('daerah')->group(function () {
-            Route::get('/', [DaerahController::class, 'index'])->name('admin.reference.daerah');
-            Route::post('create', [DaerahController::class, 'store'])->name('admin.reference.daerah.store');
-            Route::get('edit/{daerahId}', [DaerahController::class, 'edit'])->name('admin.reference.daerah.edit');
-            Route::post('update/{daerahId}', [DaerahController::class, 'update'])->name('admin.reference.daerah.update');
-            Route::post('toggleActive/{daerahId}', [DaerahController::class, 'toggleActive'])->name('admin.reference.daerah.toggleActive');
+        Route::prefix('senarai_cuti')->group(function () {
+            Route::get('/', [SenaraiCutiController::class, 'index'])->name('admin.reference.senaraicuti');
+            Route::post('create', [SenaraiCutiController::class, 'store'])->name('admin.reference.senaraicuti.store');
+            Route::get('edit/{senaraicutiId}', [SenaraiCutiController::class, 'edit'])->name('admin.reference.senaraicuti.edit');
+            Route::post('update/{senaraicutiId}', [SenaraiCutiController::class, 'update'])->name('admin.reference.senaraicuti.update');
+            Route::post('toggleActive/{senaraicutiId}', [SenaraiCutiController::class, 'toggleActive'])->name('admin.reference.senaraicuti.toggleActive');
+        });
+
+        Route::prefix('cuti_awam')->group(function () {
+            Route::get('/', [CutiAwamController::class, 'index'])->name('admin.reference.cutiawam');
+            Route::post('create', [CutiAwamController::class, 'store'])->name('admin.reference.cutiawam.store');
+            Route::get('edit/{cutiawamId}', [CutiAwamController::class, 'edit'])->name('admin.reference.cutiawam.edit');
+            Route::post('update/{cutiawamId}', [CutiAwamController::class, 'update'])->name('admin.reference.cutiawam.update');
+            Route::post('toggleActive/{cutiawamId}', [CutiAwamController::class, 'toggleActive'])->name('admin.reference.cutiawam.toggleActive');
+        });
+
+        Route::prefix('suruhanjaya')->group(function () {
+            Route::get('/', [SuruhanjayaController::class, 'index'])->name('admin.reference.suruhanjaya');
+            Route::post('create', [SuruhanjayaController::class, 'store'])->name('admin.reference.suruhanjaya.store');
+            Route::get('edit/{suruhanjayaId}', [SuruhanjayaController::class, 'edit'])->name('admin.reference.suruhanjaya.edit');
+            Route::post('update/{suruhanjayaId}', [SuruhanjayaController::class, 'update'])->name('admin.reference.suruhanjaya.update');
+            Route::post('toggleActive/{suruhanjayaId}', [SuruhanjayaController::class, 'toggleActive'])->name('admin.reference.suruhanjaya.toggleActive');
+        });
+
+        Route::prefix('penaja')->group(function () {
+            Route::get('/', [SuruhanjayaController::class, 'index'])->name('admin.reference.penaja');
+            Route::post('create', [SuruhanjayaController::class, 'store'])->name('admin.reference.penaja.store');
+            Route::get('edit/{penajaId}', [SuruhanjayaController::class, 'edit'])->name('admin.reference.penaja.edit');
+            Route::post('update/{penajaId}', [SuruhanjayaController::class, 'update'])->name('admin.reference.penaja.update');
+            Route::post('toggleActive/{penajaId}', [SuruhanjayaController::class, 'toggleActive'])->name('admin.reference.penaja.toggleActive');
+        });
+
+        Route::prefix('status')->group(function () {
+            Route::get('/', [StatusController::class, 'index'])->name('admin.reference.status');
+            Route::post('create', [StatusController::class, 'store'])->name('admin.reference.status.store');
+            Route::get('edit/{statusId}', [StatusController::class, 'edit'])->name('admin.reference.status.edit');
+            Route::post('update/{statusId}', [StatusController::class, 'update'])->name('admin.reference.status.update');
+            Route::post('toggleActive/{statusId}', [StatusController::class, 'toggleActive'])->name('admin.reference.status.toggleActive');
+        });
+
+        Route::prefix('sebab_tolak')->group(function () {
+            Route::get('/', [SebabTolakController::class, 'index'])->name('admin.reference.sebabtolak');
+            Route::post('create', [SebabTolakController::class, 'store'])->name('admin.reference.sebabtolak.store');
+            Route::get('edit/{sebabtolakId}', [SebabTolakController::class, 'edit'])->name('admin.reference.sebabtolak.edit');
+            Route::post('update/{sebabtolakId}', [SebabTolakController::class, 'update'])->name('admin.reference.sebabtolak.update');
+            Route::post('toggleActive/{sebabtolakId}', [SebabTolakController::class, 'toggleActive'])->name('admin.reference.sebabtolak.toggleActive');
+        });
+
+        Route::prefix('zon_telefon')->group(function () {
+            Route::get('/', [ZonTelefonController::class, 'index'])->name('admin.reference.zontelefon');
+            Route::post('create', [ZonTelefonController::class, 'store'])->name('admin.reference.zontelefon.store');
+            Route::get('edit/{zontelefonId}', [ZonTelefonController::class, 'edit'])->name('admin.reference.zontelefon.edit');
+            Route::post('update/{zontelefonId}', [ZonTelefonController::class, 'update'])->name('admin.reference.zontelefon.update');
+            Route::post('toggleActive/{zontelefonId}', [ZonTelefonController::class, 'toggleActive'])->name('admin.reference.zontelefon.toggleActive');
+        });
+
+        Route::prefix('kelayakan_setaraf')->group(function () {
+            Route::get('/', [KelayakanSetarafController::class, 'index'])->name('admin.reference.kelayakansetaraf');
+            Route::post('create', [ZonTelefonController::class, 'store'])->name('admin.reference.kelayakansetaraf.store');
+            Route::get('edit/{kelayakansetarafId}', [ZonTelefonController::class, 'edit'])->name('admin.reference.kelayakansetaraf.edit');
+            Route::post('update/{kelayakansetarafId}', [ZonTelefonController::class, 'update'])->name('admin.reference.kelayakansetaraf.update');
+            Route::post('toggleActive/{kelayakansetarafId}', [ZonTelefonController::class, 'toggleActive'])->name('admin.reference.kelayakansetaraf.toggleActive');
         });
 
     });

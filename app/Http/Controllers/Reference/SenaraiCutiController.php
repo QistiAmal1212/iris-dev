@@ -3,19 +3,19 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
-use App\Models\LogSystem;
-use App\Models\Reference\KodPelbagai;
+use App\Models\Reference\SenaraiCuti;
 use Illuminate\Http\Request;
+use App\Models\LogSystem;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use App\Models\Master\MasterModule;
 
-class KodPelbagaiController extends Controller
+class SenaraiCutiController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->module = MasterModule::where('code', 'admin.reference.kodpelbagai')->first();
+        $this->module = MasterModule::where('code', 'admin.reference.senaraicuti')->first();
         $this->menu = $this->module->menu;
     }
 
@@ -42,29 +42,38 @@ class KodPelbagaiController extends Controller
             }
         }
 
-        $kodpelbagai = KodPelbagai::all();
+        $senaraicuti = SenaraiCuti::all();
         if ($request->ajax()) {
-            return Datatables::of($kodpelbagai)
-                ->editColumn('kod', function ($kodpelbagai){
-                    return $kodpelbagai->kod;
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.senaraicuti')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai SenaraiCuti";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            return Datatables::of($senaraicuti)
+                ->editColumn('kod', function ($senaraicuti){
+                    return $senaraicuti->kod;
                 })
-                ->editColumn('nama', function ($kodpelbagai) {
-                    return $kodpelbagai->nama;
+                ->editColumn('nama', function ($senaraicuti) {
+                    return $senaraicuti->nama;
                 })
-                ->editColumn('kategori', function ($kodpelbagai) {
-                    return $kodpelbagai->kategori;
-                })
-                ->editColumn('action', function ($kodpelbagai) use ($accessDelete) {
+                ->editColumn('action', function ($senaraicuti) use ($accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="kodpelbagaiForm('.$kodpelbagai->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="senaraicutiForm('.$senaraicuti->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($kodpelbagai->sah_yt == "Y") {
-                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$kodpelbagai->id.'" onclick="toggleActive('.$kodpelbagai->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        if($senaraicuti->sah_yt) {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$senaraicuti->id.'" onclick="toggleActive('.$senaraicuti->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
-                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$kodpelbagai->id.'" onclick="toggleActive('.$kodpelbagai->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$senaraicuti->id.'" onclick="toggleActive('.$senaraicuti->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
                     }
                     $button .= '</div>';
@@ -75,7 +84,7 @@ class KodPelbagaiController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.kodpelbagai', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.senarai_cuti', compact('accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function store(Request $request)
@@ -84,30 +93,29 @@ class KodPelbagaiController extends Controller
         try {
 
             $request->validate([
-                'kod' => 'required|string|unique:ruj_kod_pelbagai,kod',
+                'code' => 'required|string|unique:ruj_senarai_cuti,kod',
+                'name' => 'required|string',
                 'kategori' => 'required|string',
-                'nama' => 'required|string',
             ],[
-                'kod.required' => 'Sila isikan kod',
-                'kod.unique' => 'Kod telah diambil',
-                'kategori.required' => 'Sila isikan nama kategori',
-                'nama.required' => 'Sila isikan nama kod pelbagai',
+                'code.required' => 'Sila isikan kod',
+                'code.unique' => 'Kod telah diambil',
+                'name.required' => 'Sila isikan cuti',
+                'kategori.required' => 'Sila isikan kategori',
             ]);
 
-            $kodpelbagai = KodPelbagai::create([
-                'kod' => $request->kod,
+            $senaraicuti = SenaraiCuti::create([
+                'kod' => $request->code,
+                'nama' => strtoupper($request->name),
                 'kategori' => strtoupper($request->kategori),
-                'nama' => strtoupper($request->nama),
-                'sah_yt' => "Y",
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.kodpelbagai')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.senaraicuti')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Kod Pelbagai";
-            $log->data_new = json_encode($kodpelbagai);
+            $log->description = "Tambah Senarai Cuti";
+            $log->data_new = json_encode($senaraicuti);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -130,23 +138,25 @@ class KodPelbagaiController extends Controller
         DB::beginTransaction();
         try {
 
-            $kodpelbagai = KodPelbagai::find($request->kodpelbagaiId);
+            $senaraicuti = SenaraiCuti::find($request->senaraicutiId);
 
-            if (!$kodpelbagai) {
+            if (!$senaraicuti) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
-                $log = new LogSystem;
-                $log->module_id = MasterModule::where('code', 'admin.reference.kodpelbagai')->firstOrFail()->id;
-                $log->activity_type_id = 2;
-                $log->description = "Lihat Maklumat Kod Pelbagai";
-                $log->data_new = json_encode($kodpelbagai);
-                $log->url = $request->fullUrl();
-                $log->method = strtoupper($request->method());
-                $log->ip_address = $request->ip();
-                $log->created_by_user_id = auth()->id();
-                $log->save();
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.senaraicuti')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Senarai Cuti";
+            $log->data_new = json_encode($senaraicuti);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $kodpelbagai]);
+            DB::commit();
+
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $senaraicuti]);
 
         } catch (\Throwable $e) {
 
@@ -160,35 +170,35 @@ class KodPelbagaiController extends Controller
         DB::beginTransaction();
         try {
 
-            $kodpelbagaiId = $request->kodpelbagaiId;
-            $kodpelbagai = KodPelbagai::find($kodpelbagaiId);
+            $senaraicutiId = $request->senaraicutiId;
+            $senaraicuti = SenaraiCuti::find($senaraicutiId);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.kodpelbagai')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.senaraicuti')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Kod Pelbagai";
-            $log->data_old = json_encode($kodpelbagai);
+            $log->description = "Kemaskini Maklumat Senarai Cuti";
+            $log->data_old = json_encode($senaraicuti);
 
             $request->validate([
-                'kod' => 'required|string|unique:ruj_kod_pelbagai,kod,'.$kodpelbagaiId,
+                'code' => 'required|string|unique:ruj_senarai_cuti,kod,'.$senaraicutiId,
+                'name' => 'required|string',
                 'kategori' => 'required|string',
-                'nama' => 'required|string',
             ],[
-                'kod.required' => 'Sila isikan kod',
-                'kod.unique' => 'Kod telah diambil',
-                'kategori.required' => 'Sila isikan nama kategori',
-                'nama.required' => 'Sila isikan nama kod pelbagai',
+                'code.required' => 'Sila isikan kod',
+                'code.unique' => 'Kod telah diambil',
+                'name.required' => 'Sila isikan cuti',
+                'kategori.required' => 'Sila isikan kategori',
             ]);
 
-            $kodpelbagai->update([
-                'kod' => $request->kod,
+            $senaraicuti->update([
+                'kod' => $request->code,
+                'nama' => strtoupper($request->name),
                 'kategori' => strtoupper($request->kategori),
-                'nama' => strtoupper($request->nama),
                 'updated_by' => auth()->user()->id,
             ]);
 
-            $kodpelbagaiNewData = KodPelbagai::find($kodpelbagaiId);
-            $log->data_new = json_encode($kodpelbagaiNewData);
+            $senaraicutiNewData = senaraicuti::find($senaraicutiId);
+            $log->data_new = json_encode($senaraicutiNewData);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -210,19 +220,13 @@ class KodPelbagaiController extends Controller
         DB::beginTransaction();
         try {
 
-            $kodpelbagaiId = $request->kodpelbagaiId;
-            $kodpelbagai = KodPelbagai::find($kodpelbagaiId);
+            $senaraicutiId = $request->senaraicutiId;
+            $senaraicuti = SenaraiCuti::find($senaraicutiId);
 
-            $sah_yt = $kodpelbagai->sah_yt;
+            $sah_yt = $senaraicuti->sah_yt;
 
-            if($sah_yt == "Y"){
-                $sah_yt = "T";
-            }else{
-                $sah_yt = "Y";
-            }
-
-            $kodpelbagai->update([
-                'sah_yt' => $sah_yt,
+            $senaraicuti->update([
+                'sah_yt' => !$sah_yt,
             ]);
 
             DB::commit();

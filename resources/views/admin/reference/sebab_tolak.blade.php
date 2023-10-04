@@ -1,28 +1,28 @@
 @extends('layouts.app')
 
 @section('header')
-    Daerah
+    Sebab Tolak
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('msg.home') }}</a></li>
-    <li class="breadcrumb-item"><a>Daerah</a>
+    <li class="breadcrumb-item"><a>Sebab Tolak</a>
     </li>
 @endsection
 
 @section('content')
     <style>
-        #table-daerah thead th {
+        #table-sebabtolak thead th {
             vertical-align: middle;
             text-align: center;
         }
 
-        #table-daerah tbody {
+        #table-sebabtolak tbody {
             vertical-align: middle;
             /* text-align: center; */
         }
 
-        #table-daerah {
+        #table-sebabtolak {
             width: 100% !important;
             /* word-wrap: break-word; */
         }
@@ -41,24 +41,22 @@
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Senarai Daerah</h4>
+            <h4 class="card-title">Senarai Sebab Tolak</h4>
             @if ($accessAdd)
-                <button type="button" class="btn btn-primary btn-md float-right" onclick="daerahForm()">
-                    <i class="fa-solid fa-add"></i> Tambah Daerah
+                <button type="button" class="btn btn-primary btn-md float-right" onclick="sebabtolakForm()">
+                    <i class="fa-solid fa-add"></i> Tambah Sebab Tolak
                 </button>
             @endif
         </div>
         <hr>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table header_uppercase table-bordered" id="table-daerah">
+                <table class="table header_uppercase table-bordered" id="table-sebabtolak">
                     <thead>
                         <tr>
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
-                            <th>Daerah</th>
-                            <th width="15%">Kod Bahagian</th>
-                            <th width="15%">Kod Negeri</th>
+                            <th>Sebab Tolak</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -67,12 +65,12 @@
         </div>
     </div>
 
-    @include('admin.reference.daerahForm')
+    @include('admin.reference.sebabtolakForm')
 @endsection
 
 @section('script')
     <script>
-        var table = $('#table-daerah').DataTable({
+        var table = $('#table-sebabtolak').DataTable({
             orderCellsTop: true,
             colReorder: false,
             pageLength: 25,
@@ -107,22 +105,6 @@
                     }
                 },
                 {
-                    data: "kod_bah",
-                    name: "kod_bah",
-                    className: "text-center",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
-                    data: "kod_neg",
-                    name: "kod_neg",
-                    className: "text-center",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
-                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -147,9 +129,9 @@
             }
         });
 
-        daerahForm = function(id = null) {
-            var daerahFormModal;
-            daerahFormModal = new bootstrap.Modal(document.getElementById('daerahFormModal'), {
+        sebabtolakForm = function(id = null) {
+            var sebabtolakFormModal;
+            sebabtolakFormModal = new bootstrap.Modal(document.getElementById('sebabtolakFormModal'), {
                 keyboard: false
             });
 
@@ -158,14 +140,12 @@
 
             event.preventDefault();
             if (id === null) {
-                $('#daerahForm').attr('action', '{{ route('admin.reference.daerah.store') }}');
-                $('#daerahForm input[name="code"]').val("");
-                $('#daerahForm input[name="name"]').val("");
-                $('#daerahForm select[name="kod_ruj_bahagian"]').val("").trigger('change');
-                $('#daerahForm select[name="kod_ruj_negeri"]').val("").trigger('change');
-                $('#daerahForm input[name="code"]').prop('readonly', false);
+                $('#sebabtolakForm').attr('action', '{{ route('admin.reference.sebabtolak.store') }}');
+                $('#sebabtolakForm input[name="code"]').val("");
+                $('#sebabtolakForm input[name="name"]').val("");
+                $('#sebabtolakForm input[name="code"]').prop('readonly', false);
 
-                $('#title-role').html('Tambah Daerah');
+                $('#title-role').html('Tambah Sebab Tolak');
 
                 if (accessAdd == '') {
                     $('#btn_fake').attr('hidden', true);
@@ -173,9 +153,9 @@
                     $('#btn_fake').attr('hidden', false);
                 }
 
-                daerahFormModal.show();
+                sebabtolakFormModal.show();
             } else {
-                url = "{{ route('admin.reference.daerah.edit', ':replaceThis') }}"
+                url = "{{ route('admin.reference.sebabtolak.edit', ':replaceThis') }}"
                 url = url.replace(':replaceThis', id);
                 $.ajax({
                     url: url,
@@ -185,20 +165,18 @@
                     processData: false,
                     success: function(data) {
                         // console.log(data);
-                        daerah_id = data.detail.id;
+                        sebabtolak_id = data.detail.id;
                         // console.log(id_used);
-                        url2 = "{{ route('admin.reference.daerah.update', ':replaceThis') }}"
-                        url2 = url2.replace(':replaceThis', daerah_id);
+                        url2 = "{{ route('admin.reference.sebabtolak.update', ':replaceThis') }}"
+                        url2 = url2.replace(':replaceThis', sebabtolak_id);
 
-                        $('#daerahForm').attr('action', url2);
-                        $('#daerahForm input[name="code"]').val(data.detail.kod);
-                        $('#daerahForm input[name="name"]').val(data.detail.nama);
-                        $('#daerahForm select[name="kod_ruj_bahagian"]').val(data.detail.kod_ruj_bahagian).trigger('change');
-                        $('#daerahForm select[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#sebabtolakForm').attr('action', url2);
+                        $('#sebabtolakForm input[name="code"]').val(data.detail.kod);
+                        $('#sebabtolakForm input[name="name"]').val(data.detail.nama);
 
-                        $('#daerahForm input[name="code"]').prop('readonly', true);
+                        $('#sebabtolakForm input[name="code"]').prop('readonly', true);
 
-                        $('#title-role').html('Kemaskini Daerah');
+                        $('#title-role').html('Kemaskini Sebab Tolak');
 
                         if (accessUpdate == '') {
                             $('#btn_fake').attr('hidden', true);
@@ -206,15 +184,15 @@
                             $('#btn_fake').attr('hidden', false);
                         }
 
-                        daerahFormModal.show();
+                        sebabtolakFormModal.show();
                     },
                 });
             }
         };
 
-        function toggleActive(daerahId) {
-            var url = "{{ route('admin.reference.daerah.toggleActive', ':replaceThis') }}"
-            url = url.replace(':replaceThis', daerahId);
+        function toggleActive(sebabtolakId) {
+            var url = "{{ route('admin.reference.sebabtolak.toggleActive', ':replaceThis') }}"
+            url = url.replace(':replaceThis', sebabtolakId);
 
             $.ajax({
                 url: url,
@@ -222,7 +200,7 @@
                 success: function(data) {
                     if (data.success) {
                         // Toggle the button class and icon
-                        var button = document.querySelector('[data-id="' + daerahId + '"]');
+                        var button = document.querySelector('[data-id="' + sebabtolakId + '"]');
                         button.classList.toggle('activate');
                         button.classList.toggle('deactivate');
 

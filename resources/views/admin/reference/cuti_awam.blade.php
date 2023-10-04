@@ -1,28 +1,28 @@
 @extends('layouts.app')
 
 @section('header')
-    Daerah
+    Cuti Awam
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('msg.home') }}</a></li>
-    <li class="breadcrumb-item"><a>Daerah</a>
+    <li class="breadcrumb-item"><a>Cuti Awam</a>
     </li>
 @endsection
 
 @section('content')
     <style>
-        #table-daerah thead th {
+        #table-cutiawam thead th {
             vertical-align: middle;
             text-align: center;
         }
 
-        #table-daerah tbody {
+        #table-cutiawam tbody {
             vertical-align: middle;
             /* text-align: center; */
         }
 
-        #table-daerah {
+        #table-cutiawam {
             width: 100% !important;
             /* word-wrap: break-word; */
         }
@@ -41,23 +41,23 @@
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Senarai Daerah</h4>
+            <h4 class="card-title">Senarai Cuti Awam</h4>
             @if ($accessAdd)
-                <button type="button" class="btn btn-primary btn-md float-right" onclick="daerahForm()">
-                    <i class="fa-solid fa-add"></i> Tambah Daerah
+                <button type="button" class="btn btn-primary btn-md float-right" onclick="cutiawamForm()">
+                    <i class="fa-solid fa-add"></i> Tambah Cuti Awam
                 </button>
             @endif
         </div>
         <hr>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table header_uppercase table-bordered" id="table-daerah">
+                <table class="table header_uppercase table-bordered" id="table-cutiawam">
                     <thead>
                         <tr>
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
-                            <th>Daerah</th>
-                            <th width="15%">Kod Bahagian</th>
+                            <th>Cuti Awam</th>
+                            <th width="15%">Kod Cuti</th>
                             <th width="15%">Kod Negeri</th>
                             <th width="10%">Tindakan</th>
                         </tr>
@@ -67,12 +67,12 @@
         </div>
     </div>
 
-    @include('admin.reference.daerahForm')
+    @include('admin.reference.cutiawamForm')
 @endsection
 
 @section('script')
     <script>
-        var table = $('#table-daerah').DataTable({
+        var table = $('#table-cutiawam').DataTable({
             orderCellsTop: true,
             colReorder: false,
             pageLength: 25,
@@ -107,8 +107,8 @@
                     }
                 },
                 {
-                    data: "kod_bah",
-                    name: "kod_bah",
+                    data: "kod_cuti",
+                    name: "kod_cuti",
                     className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
@@ -147,9 +147,9 @@
             }
         });
 
-        daerahForm = function(id = null) {
-            var daerahFormModal;
-            daerahFormModal = new bootstrap.Modal(document.getElementById('daerahFormModal'), {
+        cutiawamForm = function(id = null) {
+            var cutiawamFormModal;
+            cutiawamFormModal = new bootstrap.Modal(document.getElementById('cutiawamFormModal'), {
                 keyboard: false
             });
 
@@ -158,14 +158,14 @@
 
             event.preventDefault();
             if (id === null) {
-                $('#daerahForm').attr('action', '{{ route('admin.reference.daerah.store') }}');
-                $('#daerahForm input[name="code"]').val("");
-                $('#daerahForm input[name="name"]').val("");
-                $('#daerahForm select[name="kod_ruj_bahagian"]').val("").trigger('change');
-                $('#daerahForm select[name="kod_ruj_negeri"]').val("").trigger('change');
-                $('#daerahForm input[name="code"]').prop('readonly', false);
+                $('#cutiawamForm').attr('action', '{{ route('admin.reference.cutiawam.store') }}');
+                $('#cutiawamForm input[name="code"]').val("");
+                $('#cutiawamForm input[name="name"]').val("");
+                $('#cutiawamForm select[name="kod_ruj_senarai_cuti"]').val("").trigger('change');
+                $('#cutiawamForm select[name="kod_ruj_negeri"]').val("").trigger('change');
+                $('#cutiawamForm input[name="code"]').prop('readonly', false);
 
-                $('#title-role').html('Tambah Daerah');
+                $('#title-role').html('Tambah Cuti Awam');
 
                 if (accessAdd == '') {
                     $('#btn_fake').attr('hidden', true);
@@ -173,9 +173,9 @@
                     $('#btn_fake').attr('hidden', false);
                 }
 
-                daerahFormModal.show();
+                cutiawamFormModal.show();
             } else {
-                url = "{{ route('admin.reference.daerah.edit', ':replaceThis') }}"
+                url = "{{ route('admin.reference.cutiawam.edit', ':replaceThis') }}"
                 url = url.replace(':replaceThis', id);
                 $.ajax({
                     url: url,
@@ -185,20 +185,20 @@
                     processData: false,
                     success: function(data) {
                         // console.log(data);
-                        daerah_id = data.detail.id;
+                        cutiawam_id = data.detail.id;
                         // console.log(id_used);
-                        url2 = "{{ route('admin.reference.daerah.update', ':replaceThis') }}"
-                        url2 = url2.replace(':replaceThis', daerah_id);
+                        url2 = "{{ route('admin.reference.cutiawam.update', ':replaceThis') }}"
+                        url2 = url2.replace(':replaceThis', cutiawam_id);
 
-                        $('#daerahForm').attr('action', url2);
-                        $('#daerahForm input[name="code"]').val(data.detail.kod);
-                        $('#daerahForm input[name="name"]').val(data.detail.nama);
-                        $('#daerahForm select[name="kod_ruj_bahagian"]').val(data.detail.kod_ruj_bahagian).trigger('change');
-                        $('#daerahForm select[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#cutiawamForm').attr('action', url2);
+                        $('#cutiawamForm input[name="code"]').val(data.detail.kod);
+                        $('#cutiawamForm input[name="name"]').val(data.detail.nama);
+                        $('#cutiawamForm select[name="kod_ruj_senarai_cuti"]').val(data.detail.kod_ruj_senarai_cuti).trigger('change');
+                        $('#cutiawamForm select[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri).trigger('change');
 
-                        $('#daerahForm input[name="code"]').prop('readonly', true);
+                        $('#cutiawamForm input[name="code"]').prop('readonly', true);
 
-                        $('#title-role').html('Kemaskini Daerah');
+                        $('#title-role').html('Kemaskini Cuti Awam');
 
                         if (accessUpdate == '') {
                             $('#btn_fake').attr('hidden', true);
@@ -206,15 +206,15 @@
                             $('#btn_fake').attr('hidden', false);
                         }
 
-                        daerahFormModal.show();
+                        cutiawamFormModal.show();
                     },
                 });
             }
         };
 
-        function toggleActive(daerahId) {
-            var url = "{{ route('admin.reference.daerah.toggleActive', ':replaceThis') }}"
-            url = url.replace(':replaceThis', daerahId);
+        function toggleActive(cutiawamId) {
+            var url = "{{ route('admin.reference.cutiawam.toggleActive', ':replaceThis') }}"
+            url = url.replace(':replaceThis', cutiawamId);
 
             $.ajax({
                 url: url,
@@ -222,7 +222,7 @@
                 success: function(data) {
                     if (data.success) {
                         // Toggle the button class and icon
-                        var button = document.querySelector('[data-id="' + daerahId + '"]');
+                        var button = document.querySelector('[data-id="' + cutiawamId + '"]');
                         button.classList.toggle('activate');
                         button.classList.toggle('deactivate');
 
