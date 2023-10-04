@@ -15,12 +15,20 @@ use App\Http\Controllers\Reference\BahagianController;
 use App\Http\Controllers\Reference\CutiAwamController;
 use App\Http\Controllers\Reference\DaerahController;
 use App\Http\Controllers\Reference\KelayakanSetarafController;
+use App\Http\Controllers\Reference\KetuaPerkhidmatanController;
 use App\Http\Controllers\Reference\KodPelbagaiController;
+use App\Http\Controllers\Reference\KumpulanJKKController;
+use App\Http\Controllers\Reference\KumpulanSSMController;
+use App\Http\Controllers\Reference\NegaraController;
+use App\Http\Controllers\Reference\NegeriJPNController;
+use App\Http\Controllers\Reference\RulingController;
 use App\Http\Controllers\Reference\SalaryGradeDetailsController;
 use App\Http\Controllers\Reference\SebabTolakController;
 use App\Http\Controllers\Reference\SenaraiCutiController;
+use App\Http\Controllers\Reference\SkimPerkhidmatanController;
 use App\Http\Controllers\Reference\StatusController;
 use App\Http\Controllers\Reference\SuruhanjayaController;
+use App\Http\Controllers\Reference\TawaranKursusController;
 use App\Http\Controllers\Reference\ZonTelefonController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\GroupRoleController;
@@ -459,10 +467,74 @@ Route::prefix('admin')->group(function () {
 
         Route::prefix('kelayakan_setaraf')->group(function () {
             Route::get('/', [KelayakanSetarafController::class, 'index'])->name('admin.reference.kelayakansetaraf');
-            Route::post('create', [ZonTelefonController::class, 'store'])->name('admin.reference.kelayakansetaraf.store');
-            Route::get('edit/{kelayakansetarafId}', [ZonTelefonController::class, 'edit'])->name('admin.reference.kelayakansetaraf.edit');
-            Route::post('update/{kelayakansetarafId}', [ZonTelefonController::class, 'update'])->name('admin.reference.kelayakansetaraf.update');
-            Route::post('toggleActive/{kelayakansetarafId}', [ZonTelefonController::class, 'toggleActive'])->name('admin.reference.kelayakansetaraf.toggleActive');
+            Route::post('create', [KelayakanSetarafController::class, 'store'])->name('admin.reference.kelayakansetaraf.store');
+            Route::get('edit/{kelayakansetarafId}', [KelayakanSetarafController::class, 'edit'])->name('admin.reference.kelayakansetaraf.edit');
+            Route::post('update/{kelayakansetarafId}', [KelayakanSetarafController::class, 'update'])->name('admin.reference.kelayakansetaraf.update');
+            Route::post('toggleActive/{kelayakansetarafId}', [KelayakanSetarafController::class, 'toggleActive'])->name('admin.reference.kelayakansetaraf.toggleActive');
+        });
+
+        Route::prefix('ketua_perkhidmatan')->group(function () {
+            Route::get('/', [KetuaPerkhidmatanController::class, 'index'])->name('admin.reference.ketuaperkhidmatan');
+            Route::post('create', [KetuaPerkhidmatanController::class, 'store'])->name('admin.reference.ketuaperkhidmatan.store');
+            Route::get('edit/{ketuaperkhidmatanId}', [KetuaPerkhidmatanController::class, 'edit'])->name('admin.reference.ketuaperkhidmatan.edit');
+            Route::post('update/{ketuaperkhidmatanId}', [KetuaPerkhidmatanController::class, 'update'])->name('admin.reference.ketuaperkhidmatan.update');
+            Route::post('toggleActive/{ketuaperkhidmatanId}', [KetuaPerkhidmatanController::class, 'toggleActive'])->name('admin.reference.ketuaperkhidmatan.toggleActive');
+        });
+
+        Route::prefix('kumpulan_jkk')->group(function () {
+            Route::get('/', [KumpulanJKKController::class, 'index'])->name('admin.reference.kumpulanjkk');
+            Route::post('create', [KumpulanJKKController::class, 'store'])->name('admin.reference.kumpulanjkk.store');
+            Route::get('edit/{kumpulanjkkId}', [KumpulanJKKController::class, 'edit'])->name('admin.reference.kumpulanjkk.edit');
+            Route::post('update/{kumpulanjkkId}', [KumpulanJKKController::class, 'update'])->name('admin.reference.kumpulanjkk.update');
+            Route::post('toggleActive/{kumpulanjkkId}', [KumpulanJKKController::class, 'toggleActive'])->name('admin.reference.kumpulanjkk.toggleActive');
+        });
+
+        Route::prefix('negara')->group(function () {
+            Route::get('/', [NegaraController::class, 'index'])->name('admin.reference.negara');
+            Route::post('create', [NegaraController::class, 'store'])->name('admin.reference.negara.store');
+            Route::get('edit/{negaraId}', [NegaraController::class, 'edit'])->name('admin.reference.negara.edit');
+            Route::post('update/{negaraId}', [NegaraController::class, 'update'])->name('admin.reference.negara.update');
+            Route::post('toggleActive/{negaraId}', [NegaraController::class, 'toggleActive'])->name('admin.reference.negara.toggleActive');
+        });
+
+        Route::prefix('kumpulan_ssm')->group(function () {
+            Route::get('/', [KumpulanSSMController::class, 'index'])->name('admin.reference.kumpulanssm');
+            Route::post('create', [KumpulanSSMController::class, 'store'])->name('admin.reference.kumpulanssm.store');
+            Route::get('edit/{kumpulanssmId}', [KumpulanSSMController::class, 'edit'])->name('admin.reference.kumpulanssm.edit');
+            Route::post('update/{kumpulanssmId}', [KumpulanSSMController::class, 'update'])->name('admin.reference.kumpulanssm.update');
+            Route::post('toggleActive/{kumpulanssmId}', [KumpulanSSMController::class, 'toggleActive'])->name('admin.reference.kumpulanssm.toggleActive');
+        });
+
+        Route::prefix('tawaran_kursus')->group(function () {
+            Route::get('/', [TawaranKursusController::class, 'index'])->name('admin.reference.tawarankursus');
+            Route::post('create', [TawaranKursusController::class, 'store'])->name('admin.reference.tawarankursus.store');
+            Route::get('edit/{tawarankursusId}', [TawaranKursusController::class, 'edit'])->name('admin.reference.tawarankursus.edit');
+            Route::post('update/{tawarankursusId}', [TawaranKursusController::class, 'update'])->name('admin.reference.tawarankursus.update');
+            Route::post('toggleActive/{tawarankursusId}', [TawaranKursusController::class, 'toggleActive'])->name('admin.reference.tawarankursus.toggleActive');
+        });
+
+        Route::prefix('ruling')->group(function () {
+            Route::get('/', [RulingController::class, 'index'])->name('admin.reference.ruling');
+            Route::post('create', [RulingController::class, 'store'])->name('admin.reference.ruling.store');
+            Route::get('edit/{rulingId}', [RulingController::class, 'edit'])->name('admin.reference.ruling.edit');
+            Route::post('update/{rulingId}', [RulingController::class, 'update'])->name('admin.reference.ruling.update');
+            Route::post('toggleActive/{rulingId}', [RulingController::class, 'toggleActive'])->name('admin.reference.ruling.toggleActive');
+        });
+
+        Route::prefix('negeri_jpn')->group(function () {
+            Route::get('/', [NegeriJPNController::class, 'index'])->name('admin.reference.negerijpn');
+            Route::post('create', [NegeriJPNController::class, 'store'])->name('admin.reference.negerijpn.store');
+            Route::get('edit/{negerijpnId}', [NegeriJPNController::class, 'edit'])->name('admin.reference.negerijpn.edit');
+            Route::post('update/{negerijpnId}', [NegeriJPNController::class, 'update'])->name('admin.reference.negerijpn.update');
+            Route::post('toggleActive/{negerijpnId}', [NegeriJPNController::class, 'toggleActive'])->name('admin.reference.negerijpn.toggleActive');
+        });
+
+        Route::prefix('skim_perkhidmatan')->group(function () {
+            Route::get('/', [SkimPerkhidmatanController::class, 'index'])->name('admin.reference.skimperkhidmatan');
+            Route::post('create', [SkimPerkhidmatanController::class, 'store'])->name('admin.reference.skimperkhidmatan.store');
+            Route::get('edit/{skimperkhidmatanId}', [SkimPerkhidmatanController::class, 'edit'])->name('admin.reference.skimperkhidmatan.edit');
+            Route::post('update/{skimperkhidmatanId}', [SkimPerkhidmatanController::class, 'update'])->name('admin.reference.skimperkhidmatan.update');
+            Route::post('toggleActive/{skimperkhidmatanId}', [SkimPerkhidmatanController::class, 'toggleActive'])->name('admin.reference.skimperkhidmatan.toggleActive');
         });
 
     });
