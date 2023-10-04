@@ -45,6 +45,7 @@ class Candidate extends Model
         'bantuan',
         'biasiswa_p',
         'nom_daftar_bantuan',
+        'pusat_temuduga'
     ];
 
     public function license() {
@@ -105,5 +106,9 @@ class Candidate extends Model
 
     public function timeline() {
         return $this->hasMany('App\Models\Candidate\CandidateTimeline', 'no_pengenalan', 'no_pengenalan');
+    }
+
+    public function interviewCentre(){
+        return $this->belongsTo('App\Models\Reference\InterviewCentre', 'pusat_temuduga', 'kod');
     }
 }

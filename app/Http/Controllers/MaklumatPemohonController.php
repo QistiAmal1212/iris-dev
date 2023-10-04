@@ -19,6 +19,7 @@ use App\Models\Reference\Eligibility;
 use App\Models\Reference\Gender;
 use App\Models\Reference\GredMatapelajaran;
 use App\Models\Reference\Institution;
+use App\Models\Reference\InterviewCentre;
 use App\Models\Reference\JenisBekasTenteraPolis;
 use App\Models\Reference\JenisPerkhidmatan;
 use App\Models\Reference\MaritalStatus;
@@ -73,6 +74,7 @@ class MaklumatPemohonController extends Controller
         $peringkatPengajian = PeringkatPengajian::all();
         $positionLevels = PositionLevel::orderBy('name', 'asc')->get();
         $races = Race::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $pusatTemuduga = InterviewCentre::all();
         $ranks = Rank::all();
         $religions = Religion::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
         $states = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
@@ -94,7 +96,7 @@ class MaklumatPemohonController extends Controller
         $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->orderBy('nama', 'asc')->get();
         $jenisPeperiksaan = Qualification::orderBy('name', 'asc')->get();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'kolejMatrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU', 'Bahasa', 'kategoriPenguasaan', 'jenisPeperiksaan' ));
+        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'pusatTemuduga', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'kolejMatrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU', 'Bahasa', 'kategoriPenguasaan', 'jenisPeperiksaan' ));
     }
 
     public function viewMaklumatPemohon(){
@@ -158,8 +160,9 @@ class MaklumatPemohonController extends Controller
                 'license',
                 'oku',
                 'skim' => function ($query) {
-                    $query->with(['skim', 'interviewCentre']);
+                    $query->with(['skim']);
                 },
+                'interviewCentre',
                 'matriculation' => function ($query) {
                     $query->with(['course', 'college', 'subject']);
                 },
@@ -199,6 +202,11 @@ class MaklumatPemohonController extends Controller
 
             if($candidate->license){
                 //$candidate->license->tempoh_tamat = ($candidate->license->tempoh_tamat != null) ? Carbon::parse($candidate->license->tempoh_tamat)->format('d/m/Y') : null;
+            }
+
+            foreach($candidate->skim as $skim){
+                $skim->tarikh_daftar = ($skim->tarikh_daftar != null) ? Carbon::parse($skim->tarikh_daftar)->format('d/m/Y') : null;
+                $skim->tarikh_luput = ($skim->tarikh_luput != null) ? Carbon::parse($skim->tarikh_luput)->format('d/m/Y') : null;
             }
 
             if($candidate->higherEducation) {
@@ -614,6 +622,63 @@ class MaklumatPemohonController extends Controller
             ->with([
                 'oku',
             ])->first();
+            if(!$candidate) {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            }
+
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidate]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function updatePusatTemuduga(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = Candidate::where('no_pengenalan', $request->pusat_temuduga_no_pengenalan)->first();
+
+            $request->validate([
+                'pusat_temuduga' => 'required|string|exists:ruj_pusat_temuduga,kod',
+            ],[
+                'pusat_temuduga.required' => 'Sila pilih pusat temuduga',
+                'pusat_temuduga.exists' => 'Tiada rekod pusat temuduga yang dipilih',
+            ]);
+
+            $candidate->update([
+                'pusat_temuduga' => $request->pusat_temuduga,
+            ]);
+
+            CandidateTimeline::create([
+                'no_pengenalan' => $request->pusat_temuduga_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Skim (Pusat Temuduga)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function pusatTemudugaDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)->first();
+
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
