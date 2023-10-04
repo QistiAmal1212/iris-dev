@@ -431,6 +431,7 @@ Maklumat Pemohon
                     $('#update_alamat').attr("style", "display:block");
                     $('#update_personal').attr("style", "display:block");
                     $('#update_tempat_lahir').attr("style", "display:block");
+                    $('#update_pusat_temuduga').attr("style", "display:block");
                     $('#update_pmr').attr("style", "display:block");
                     $('#update_pengajian_tinggi').attr("style", "display:block");
                     $('#update_experience').attr("style", "display:block");
@@ -481,7 +482,7 @@ Maklumat Pemohon
                     originalVal['marital_status'] = $('#personalForm select[name="marital_status"]').find(':selected').text();
 
                     $('#personalForm input[name="phone_number"]').attr('disabled', true);
-                     $('#personalForm input[name="phone_number"]').val(data.detail.no_tel ? data.detail.no_tel : data_not_available);
+                    $('#personalForm input[name="phone_number"]').val(data.detail.no_tel ? data.detail.no_tel : data_not_available);
                     originalVal['phone_number'] = data.detail.no_tel;
 
                     $('#personalForm input[name="email"]').attr('disabled', true);
@@ -602,6 +603,16 @@ Maklumat Pemohon
                     }
                     $('#okuForm input[name="oku_no_pengenalan"]').val(data.detail.no_pengenalan);
 
+                    $('#pusatTemudugaForm input[name="pusat_temuduga_no_pengenalan"]').val(data.detail.no_pengenalan)
+                    $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
+
+                    if(data.detail.pusat_temuduga) { 
+                        $('#pusatTemudugaForm select[name="pusat_temuduga"]').val(data.detail.pusat_temuduga).trigger('change');
+                    } else {
+                        selectionNull('pusat_temuduga', 'pusatTemudugaForm');
+                    }
+                    originalVal['pusat_temuduga'] = $('#pusatTemudugaForm select[name="pusat_temuduga"]').find(':selected').text();
+
                     $('#table-skim tbody').empty();
                     if(data.detail.skim.length == 0){
                         var trSkim = '<tr><td align="center" colspan="6">*Tiada Rekod*</td></tr>';
@@ -616,7 +627,6 @@ Maklumat Pemohon
                             trSkim += '<td>' + item.skim.name + '</td>';
                             trSkim += '<td>' + (item.tarikh_daftar ? item.tarikh_daftar : '') + '</td>';
                             trSkim += '<td>' + (item.tarikh_luput ? item.tarikh_luput : '') + '</td>';
-                            trSkim += '<td>' + (item.interview_centre ? item.interview_centre.nama : '') + '</td>';
                             trSkim += '</tr>';
                         });
                     }
@@ -816,6 +826,7 @@ Maklumat Pemohon
                     $('#update_personal').attr("style", "display:none");
                     $('#update_alamat').attr("style", "display:none");
                     $('#update_tempat_lahir').attr("style", "display:none");
+                    $('#update_pusat_temuduga').attr("style", "display:none");
                     $('#update_pmr').attr("style", "display:none");
                     $('#update_pengajian_tinggi').attr("style", "display:none");
                     $('#update_experience').attr("style", "display:none");
@@ -827,6 +838,7 @@ Maklumat Pemohon
                     $("#button_action_personal").attr("style", "display:none");
                     $("#button_action_alamat").attr("style", "display:none");
                     $("#button_action_tempat_lahir").attr("style", "display:none");
+                    $("#button_action_pusat_temuduga").attr("style", "display:none");
                     $("#button_action_pmr").attr("style", "display:none");
                     $("#button_action_pengajian_tinggi").attr("style", "display:none");
                     $("#button_action_experience").attr("style", "display:none");
@@ -892,6 +904,9 @@ Maklumat Pemohon
                     $('#oku_status').val('');
                     $('#oku_category').val('');
                     $('#oku_sub').val('');
+
+                    $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
+                    $('#pusatTemudugaForm select[name="pusat_temuduga"]').val('').trigger('change');
 
                     $('#table-skim tbody').empty();
 

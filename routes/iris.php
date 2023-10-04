@@ -39,6 +39,11 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('details/{noPengenalan}', 'OKUDetails')->name('oku.details');
         });
 
+        Route::prefix('pusat_temuduga')->group(function () {
+            Route::post('update', 'updatePusatTemuduga')->name('pusat-temuduga.update');
+            Route::get('details/{noPengenalan}', 'pusatTemudugaDetails')->name('pusat-temuduga.details');
+        });
+
         Route::prefix('pmr')->group(function () {
             Route::post('store', 'storePmr')->name('pmr.store');
             Route::get('list/{noPengenalan}', 'listPmr')->name('pmr.list');
