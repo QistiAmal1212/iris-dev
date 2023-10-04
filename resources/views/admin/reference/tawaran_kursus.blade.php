@@ -106,6 +106,14 @@
                     }
                 },
                 {
+                    data: "diskripsi",
+                    name: "diskripsi",
+                    className: "text-center",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,

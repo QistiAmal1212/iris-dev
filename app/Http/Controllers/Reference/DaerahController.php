@@ -124,6 +124,7 @@ class DaerahController extends Controller
                 'nama' => strtoupper($request->name),
                 'kod_ruj_bahagian' => $request->kod_ruj_bahagian,
                 'kod_ruj_negeri' => $request->kod_ruj_negeri,
+                'sah_yt' => true,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);

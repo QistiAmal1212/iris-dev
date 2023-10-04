@@ -186,7 +186,7 @@ class TawaranKursusController extends Controller
             $log->data_old = json_encode($tawarankursus);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tawarankursus,kod,'.$tawarankursusId,
+                'code' => 'required|string|unique:ruj_tawaran_kursus,kod,'.$tawarankursusId,
                 'name' => 'required|string',
                 'jenis' => 'required|string',
                 'diskripsi' => 'required|string',
