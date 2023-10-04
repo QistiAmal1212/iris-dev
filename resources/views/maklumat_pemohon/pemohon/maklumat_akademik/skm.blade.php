@@ -39,7 +39,7 @@ data-reloadPage="false">
             <button type="button" class="btn btn-danger float-right" onclick="reloadSkm()">
                 <i class="fa fa-refresh"></i>
             </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditSkm').trigger('click');">
+            <button type="button" class="btn btn-success float-right" id="btnSaveSkm" onclick="$('#btnEditSkm').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
@@ -84,7 +84,7 @@ data-reloadPage="false">
                 $('#skmForm select[name="nama_skm"]').attr('disabled', true);
                 $('#skmForm input[name="tahun_skm"]').attr('disabled', true);
                 $('#skmForm').attr('action', "{{ route('skm.store')  }}");
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+                $('#btnSaveSkm').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_skm").attr("style", "display:none");
 

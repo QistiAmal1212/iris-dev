@@ -42,7 +42,7 @@ data-reloadPage="false">
             <button type="button" class="btn btn-danger float-right" onclick="reloadBahasa()">
                 <i class="fa fa-refresh"></i>
             </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditBahasa').trigger('click');">
+            <button type="button" class="btn btn-success float-right" id="btnSaveBahasa" onclick="$('#btnEditBahasa').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
@@ -87,7 +87,7 @@ data-reloadPage="false">
                 $('#bahasaForm select[name="nama_bahasa"]').attr('disabled', true);
                 $('#bahasaForm select[name="penguasaan_bahasa"]').attr('disabled', true);
                 $('#bahasaForm').attr('action', "{{ route('bahasa.store')  }}");
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+                $('#btnSaveBahasa').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_bahasa").attr("style", "display:none");
 

@@ -33,7 +33,7 @@ data-reloadPage="false">
             <button type="button" class="btn btn-danger float-right" onclick="reloadBakat()">
                 <i class="fa fa-refresh"></i>
             </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditBakat').trigger('click');">
+            <button type="button" class="btn btn-success float-right" id="btnSaveBakat" onclick="$('#btnEditBakat').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
@@ -74,7 +74,7 @@ data-reloadPage="false">
                 $('#bakatForm select[name="nama_bakat"]').val('').trigger('change');
                 $('#bakatForm select[name="nama_bakat"]').attr('disabled', true);
                 $('#bakatForm').attr('action', "{{ route('bakat.store')  }}");
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+                $('#btnSaveBakat').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_bakat").attr("style", "display:none");
 
