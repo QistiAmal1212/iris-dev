@@ -11,6 +11,8 @@ use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Reference\BahagianController;
+use App\Http\Controllers\Reference\DaerahController;
 use App\Http\Controllers\Reference\KodPelbagaiController;
 use App\Http\Controllers\Reference\SalaryGradeDetailsController;
 use App\Http\Controllers\RoleController;
@@ -33,6 +35,7 @@ use App\Http\Controllers\Reference\QualificationController;
 use App\Http\Controllers\Reference\RaceController;
 use App\Http\Controllers\Reference\GenderController;
 use App\Http\Controllers\Reference\InterviewCentreController;
+use App\Http\Controllers\Reference\JenisBekasTenteraPolisController;
 use App\Http\Controllers\Reference\JobController;
 use App\Http\Controllers\Reference\LanguageController;
 use App\Http\Controllers\Reference\LevelJKKController;
@@ -359,7 +362,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{eligibilityId}', [EligibilityController::class, 'toggleActive'])->name('admin.reference.eligibility.toggleActive');
         });
 
-        Route::prefix('kodpelbagai')->group(function () {
+        Route::prefix('kod_pelbagai')->group(function () {
             Route::get('/', [KodPelbagaiController::class, 'index'])->name('admin.reference.kodpelbagai');
             Route::post('create', [KodPelbagaiController::class, 'store'])->name('admin.reference.kodpelbagai.store');
             Route::get('edit/{kodpelbagaiId}', [KodPelbagaiController::class, 'edit'])->name('admin.reference.kodpelbagai.edit');
@@ -367,12 +370,36 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{kodpelbagaiId}', [KodPelbagaiController::class, 'toggleActive'])->name('admin.reference.kodpelbagai.toggleActive');
         });
 
-        Route::prefix('bekastentera')->group(function () {
-            Route::get('/', [KodPelbagaiController::class, 'index'])->name('admin.reference.bekastentera');
-            Route::post('create', [KodPelbagaiController::class, 'store'])->name('admin.reference.bekastentera.store');
-            Route::get('edit/{bekastenteraId}', [KodPelbagaiController::class, 'edit'])->name('admin.reference.bekastentera.edit');
-            Route::post('update/{bekastenteraId}', [KodPelbagaiController::class, 'update'])->name('admin.reference.bekastentera.update');
-            Route::post('toggleActive/{bekastenteraId}', [KodPelbagaiController::class, 'toggleActive'])->name('admin.reference.bekastentera.toggleActive');
+        Route::prefix('bekas_tentera')->group(function () {
+            Route::get('/', [JenisBekasTenteraPolisController::class, 'index'])->name('admin.reference.bekastentera');
+            Route::post('create', [JenisBekasTenteraPolisController::class, 'store'])->name('admin.reference.bekastentera.store');
+            Route::get('edit/{bekastenteraId}', [JenisBekasTenteraPolisController::class, 'edit'])->name('admin.reference.bekastentera.edit');
+            Route::post('update/{bekastenteraId}', [JenisBekasTenteraPolisController::class, 'update'])->name('admin.reference.bekastentera.update');
+            Route::post('toggleActive/{bekastenteraId}', [JenisBekasTenteraPolisController::class, 'toggleActive'])->name('admin.reference.bekastentera.toggleActive');
+        });
+
+        Route::prefix('bahagian')->group(function () {
+            Route::get('/', [BahagianController::class, 'index'])->name('admin.reference.bahagian');
+            Route::post('create', [BahagianController::class, 'store'])->name('admin.reference.bahagian.store');
+            Route::get('edit/{bahagianId}', [BahagianController::class, 'edit'])->name('admin.reference.bahagian.edit');
+            Route::post('update/{bahagianId}', [BahagianController::class, 'update'])->name('admin.reference.bahagian.update');
+            Route::post('toggleActive/{bahagianId}', [BahagianController::class, 'toggleActive'])->name('admin.reference.bahagian.toggleActive');
+        });
+
+        Route::prefix('daerah')->group(function () {
+            Route::get('/', [DaerahController::class, 'index'])->name('admin.reference.daerah');
+            Route::post('create', [DaerahController::class, 'store'])->name('admin.reference.daerah.store');
+            Route::get('edit/{daerahId}', [DaerahController::class, 'edit'])->name('admin.reference.daerah.edit');
+            Route::post('update/{daerahId}', [DaerahController::class, 'update'])->name('admin.reference.daerah.update');
+            Route::post('toggleActive/{daerahId}', [DaerahController::class, 'toggleActive'])->name('admin.reference.daerah.toggleActive');
+        });
+
+        Route::prefix('daerah')->group(function () {
+            Route::get('/', [DaerahController::class, 'index'])->name('admin.reference.daerah');
+            Route::post('create', [DaerahController::class, 'store'])->name('admin.reference.daerah.store');
+            Route::get('edit/{daerahId}', [DaerahController::class, 'edit'])->name('admin.reference.daerah.edit');
+            Route::post('update/{daerahId}', [DaerahController::class, 'update'])->name('admin.reference.daerah.update');
+            Route::post('toggleActive/{daerahId}', [DaerahController::class, 'toggleActive'])->name('admin.reference.daerah.toggleActive');
         });
 
     });

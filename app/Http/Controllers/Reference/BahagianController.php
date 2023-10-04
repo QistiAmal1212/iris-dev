@@ -6,16 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Reference\Race;
+use App\Models\Reference\Bahagian;
 use Yajra\DataTables\DataTables;
 use App\Models\Master\MasterModule;
 
-class RaceController extends Controller
+class BahagianController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->module = MasterModule::where('code', 'admin.reference.race')->first();
+        $this->module = MasterModule::where('code', 'admin.reference.bahagian')->first();
         $this->menu = $this->module->menu;
     }
 
@@ -42,13 +42,13 @@ class RaceController extends Controller
             }
         }
 
-        $race = Race::all();
+        $bahagian = Bahagian::all();
         if ($request->ajax()) {
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.bahagian')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Keturunan";
+            $log->description = "Lihat Senarai Bahagian";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -56,24 +56,24 @@ class RaceController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($race)
-                ->editColumn('kod', function ($race){
-                    return $race->kod;
+            return Datatables::of($bahagian)
+                ->editColumn('kod', function ($bahagian){
+                    return $bahagian->kod;
                 })
-                ->editColumn('nama', function ($race) {
-                    return $race->nama;
+                ->editColumn('nama', function ($bahagian) {
+                    return $bahagian->nama;
                 })
-                ->editColumn('action', function ($race) use ($accessDelete) {
+                ->editColumn('action', function ($bahagian) use ($accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="raceForm('.$race->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="bahagianForm('.$bahagian->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($race->sah_yt) {
-                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        if($bahagian->sah_yt) {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$bahagian->id.'" onclick="toggleActive('.$bahagian->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
-                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$bahagian->id.'" onclick="toggleActive('.$bahagian->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
                     }
                     $button .= '</div>';
@@ -84,7 +84,7 @@ class RaceController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.race', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.bahagian', compact('accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function store(Request $request)
@@ -93,15 +93,15 @@ class RaceController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_keturunan,kod',
+                'code' => 'required|string|unique:ruj_bahagian,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan keturunan',
+                'name.required' => 'Sila isikan bahagian',
             ]);
 
-            $race = Race::create([
+            $bahagian = Bahagian::create([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
@@ -109,10 +109,10 @@ class RaceController extends Controller
             ]);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.bahagian')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Keturunan";
-            $log->data_new = json_encode($race);
+            $log->description = "Tambah Bahagian";
+            $log->data_new = json_encode($bahagian);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -135,16 +135,16 @@ class RaceController extends Controller
         DB::beginTransaction();
         try {
 
-            $race = Race::find($request->raceId);
+            $bahagian = Bahagian::find($request->bahagianId);
 
-            if (!$race) {
+            if (!$bahagian) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.bahagian')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Keturunan";
-            $log->data_new = json_encode($race);
+            $log->description = "Lihat Maklumat Bahagian";
+            $log->data_new = json_encode($bahagian);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -153,7 +153,7 @@ class RaceController extends Controller
 
             DB::commit();
 
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $race]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $bahagian]);
 
         } catch (\Throwable $e) {
 
@@ -167,32 +167,32 @@ class RaceController extends Controller
         DB::beginTransaction();
         try {
 
-            $raceId = $request->raceId;
-            $race = Race::find($raceId);
+            $bahagianId = $request->bahagianId;
+            $bahagian = Bahagian::find($bahagianId);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.bahagian')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Keturunan";
-            $log->data_old = json_encode($race);
+            $log->description = "Kemaskini Maklumat Bahagian";
+            $log->data_old = json_encode($bahagian);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_keturunan,kod,'.$raceId,
+                'code' => 'required|string|unique:ruj_bahagian,kod,'.$bahagianId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan keturunan',
+                'name.required' => 'Sila isikan bahagian',
             ]);
 
-            $race->update([
+            $bahagian->update([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
-            $raceNewData = Race::find($raceId);
-            $log->data_new = json_encode($raceNewData);
+            $bahagianNewData = bahagian::find($bahagianId);
+            $log->data_new = json_encode($bahagianNewData);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -214,12 +214,12 @@ class RaceController extends Controller
         DB::beginTransaction();
         try {
 
-            $raceId = $request->raceId;
-            $race = Race::find($raceId);
+            $bahagianId = $request->bahagianId;
+            $bahagian = Bahagian::find($bahagianId);
 
-            $sah_yt = $race->sah_yt;
+            $sah_yt = $bahagian->sah_yt;
 
-            $race->update([
+            $bahagian->update([
                 'sah_yt' => !$sah_yt,
             ]);
 

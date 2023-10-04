@@ -10,6 +10,7 @@ class JenisPerkhidmatan extends Model
 
     protected $fillable = [
         'name',
+        'sah_yt',
         'created_by',
         'updated_by',
     ];

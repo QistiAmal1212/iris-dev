@@ -4,18 +4,20 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\Bahagian;
+use App\Models\Reference\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Reference\Race;
+use App\Models\Reference\Daerah;
 use Yajra\DataTables\DataTables;
 use App\Models\Master\MasterModule;
 
-class RaceController extends Controller
+class DaerahController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->module = MasterModule::where('code', 'admin.reference.race')->first();
+        $this->module = MasterModule::where('code', 'admin.reference.daerah')->first();
         $this->menu = $this->module->menu;
     }
 
@@ -42,13 +44,17 @@ class RaceController extends Controller
             }
         }
 
-        $race = Race::all();
+        $bahagian = Bahagian::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+
+        $negeri = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+
+        $daerah = Daerah::all();
         if ($request->ajax()) {
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.daerah')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Keturunan";
+            $log->description = "Lihat Senarai Daerah";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -56,24 +62,30 @@ class RaceController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($race)
-                ->editColumn('kod', function ($race){
-                    return $race->kod;
+            return Datatables::of($daerah)
+                ->editColumn('kod', function ($daerah){
+                    return $daerah->kod;
                 })
-                ->editColumn('nama', function ($race) {
-                    return $race->nama;
+                ->editColumn('nama', function ($daerah) {
+                    return $daerah->nama;
                 })
-                ->editColumn('action', function ($race) use ($accessDelete) {
+                ->editColumn('kod_bah', function ($daerah) {
+                    return $daerah->kod_ruj_bahagian;
+                })
+                ->editColumn('kod_neg', function ($daerah) {
+                    return $daerah->kod_ruj_negeri;
+                })
+                ->editColumn('action', function ($daerah) use ($accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="raceForm('.$race->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="daerahForm('.$daerah->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($race->sah_yt) {
-                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        if($daerah->sah_yt) {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$daerah->id.'" onclick="toggleActive('.$daerah->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
-                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$daerah->id.'" onclick="toggleActive('.$daerah->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
                     }
                     $button .= '</div>';
@@ -84,7 +96,7 @@ class RaceController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.race', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.daerah', compact('accessAdd', 'accessUpdate', 'accessDelete', 'bahagian', 'negeri'));
     }
 
     public function store(Request $request)
@@ -93,26 +105,34 @@ class RaceController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_keturunan,kod',
+                'code' => 'required|string|unique:ruj_daerah,kod',
                 'name' => 'required|string',
+                'kod_ruj_bahagian' => 'required|string|exists:ruj_bahagian,kod',
+                'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan keturunan',
+                'name.required' => 'Sila isikan daerah',
+                'kod_ruj_bahagian.required' => 'Sila isikan bahagian',
+                'kod_ruj_bahagian.exists' => 'Tiada rekod bahagian yang dipilih',
+                'kod_ruj_negeri.required' => 'Sila isikan negeri',
+                'kod_ruj_negeri.exists' => 'Tiada rekod negeri yang dipilih',
             ]);
 
-            $race = Race::create([
+            $daerah = Daerah::create([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
+                'kod_ruj_bahagian' => $request->kod_ruj_bahagian,
+                'kod_ruj_negeri' => $request->kod_ruj_negeri,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.daerah')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Keturunan";
-            $log->data_new = json_encode($race);
+            $log->description = "Tambah Daerah";
+            $log->data_new = json_encode($daerah);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -135,16 +155,16 @@ class RaceController extends Controller
         DB::beginTransaction();
         try {
 
-            $race = Race::find($request->raceId);
+            $daerah = Daerah::find($request->daerahId);
 
-            if (!$race) {
+            if (!$daerah) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.daerah')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Keturunan";
-            $log->data_new = json_encode($race);
+            $log->description = "Lihat Maklumat Daerah";
+            $log->data_new = json_encode($daerah);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -153,7 +173,7 @@ class RaceController extends Controller
 
             DB::commit();
 
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $race]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $daerah]);
 
         } catch (\Throwable $e) {
 
@@ -167,32 +187,40 @@ class RaceController extends Controller
         DB::beginTransaction();
         try {
 
-            $raceId = $request->raceId;
-            $race = Race::find($raceId);
+            $daerahId = $request->daerahId;
+            $daerah = Daerah::find($daerahId);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.daerah')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Keturunan";
-            $log->data_old = json_encode($race);
+            $log->description = "Kemaskini Maklumat Daerah";
+            $log->data_old = json_encode($daerah);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_keturunan,kod,'.$raceId,
+                'code' => 'required|string|unique:ruj_daerah,kod,'.$daerahId,
                 'name' => 'required|string',
+                'kod_ruj_bahagian' => 'required|string|exists:ruj_bahagian,kod',
+                'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan keturunan',
+                'name.required' => 'Sila isikan daerah',
+                'kod_ruj_bahagian.required' => 'Sila isikan bahagian',
+                'kod_ruj_bahagian.exists' => 'Tiada rekod bahagian yang dipilih',
+                'kod_ruj_negeri.required' => 'Sila isikan negeri',
+                'kod_ruj_negeri.exists' => 'Tiada rekod negeri yang dipilih',
             ]);
 
-            $race->update([
+            $daerah->update([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
+                'kod_ruj_bahagian' => $request->kod_ruj_bahagian,
+                'kod_ruj_negeri' => $request->kod_ruj_negeri,
                 'updated_by' => auth()->user()->id,
             ]);
 
-            $raceNewData = Race::find($raceId);
-            $log->data_new = json_encode($raceNewData);
+            $daerahNewData = daerah::find($daerahId);
+            $log->data_new = json_encode($daerahNewData);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -214,12 +242,12 @@ class RaceController extends Controller
         DB::beginTransaction();
         try {
 
-            $raceId = $request->raceId;
-            $race = Race::find($raceId);
+            $daerahId = $request->daerahId;
+            $daerah = Daerah::find($daerahId);
 
-            $sah_yt = $race->sah_yt;
+            $sah_yt = $daerah->sah_yt;
 
-            $race->update([
+            $daerah->update([
                 'sah_yt' => !$sah_yt,
             ]);
 

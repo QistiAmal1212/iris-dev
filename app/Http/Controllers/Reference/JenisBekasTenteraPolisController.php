@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Master\MasterModule;
+use App\Models\Reference\JenisBekasTenteraPolis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Reference\Race;
 use Yajra\DataTables\DataTables;
-use App\Models\Master\MasterModule;
 
-class RaceController extends Controller
+class JenisBekasTenteraPolisController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->module = MasterModule::where('code', 'admin.reference.race')->first();
+        $this->module = MasterModule::where('code', 'admin.reference.bekastentera')->first();
         $this->menu = $this->module->menu;
     }
 
@@ -42,11 +42,11 @@ class RaceController extends Controller
             }
         }
 
-        $race = Race::all();
+        $bekastentera = JenisBekasTenteraPolis::all();
         if ($request->ajax()) {
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.bekastentera')->firstOrFail()->id;
             $log->activity_type_id = 1;
             $log->description = "Lihat Senarai Keturunan";
             $log->data_old = json_encode($request->input());
@@ -56,24 +56,24 @@ class RaceController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($race)
-                ->editColumn('kod', function ($race){
-                    return $race->kod;
+            return Datatables::of($bekastentera)
+                ->editColumn('kod', function ($bekastentera){
+                    return $bekastentera->code;
                 })
-                ->editColumn('nama', function ($race) {
-                    return $race->nama;
+                ->editColumn('nama', function ($bekastentera) {
+                    return $bekastentera->name;
                 })
-                ->editColumn('action', function ($race) use ($accessDelete) {
+                ->editColumn('action', function ($bekastentera) use ($accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="raceForm('.$race->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="bekastenteraForm('.$bekastentera->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($race->sah_yt) {
-                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        if($bekastentera->sah_yt) {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$bekastentera->id.'" onclick="toggleActive('.$bekastentera->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
-                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$bekastentera->id.'" onclick="toggleActive('.$bekastentera->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
                     }
                     $button .= '</div>';
@@ -84,7 +84,7 @@ class RaceController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.race', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.bekastentera', compact('accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function store(Request $request)
@@ -93,7 +93,7 @@ class RaceController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_keturunan,kod',
+                'code' => 'required|string|unique:ruj_jenis_bekas_tentera_polis,code',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -101,18 +101,18 @@ class RaceController extends Controller
                 'name.required' => 'Sila isikan keturunan',
             ]);
 
-            $race = Race::create([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+            $bekastentera = JenisBekasTenteraPolis::create([
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.bekastentera')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Keturunan";
-            $log->data_new = json_encode($race);
+            $log->description = "Tambah Jenis Bekas Tentera/Polis";
+            $log->data_new = json_encode($bekastentera);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -135,16 +135,16 @@ class RaceController extends Controller
         DB::beginTransaction();
         try {
 
-            $race = Race::find($request->raceId);
+            $bekastentera = JenisBekasTenteraPolis::find($request->bekastenteraId);
 
-            if (!$race) {
+            if (!$bekastentera) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.bekastentera')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Keturunan";
-            $log->data_new = json_encode($race);
+            $log->description = "Lihat Maklumat Jenis Bekas Tentera/Polis";
+            $log->data_new = json_encode($bekastentera);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -153,7 +153,7 @@ class RaceController extends Controller
 
             DB::commit();
 
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $race]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $bekastentera]);
 
         } catch (\Throwable $e) {
 
@@ -167,17 +167,17 @@ class RaceController extends Controller
         DB::beginTransaction();
         try {
 
-            $raceId = $request->raceId;
-            $race = Race::find($raceId);
+            $bekastenteraId = $request->bekastenteraId;
+            $bekastentera = JenisBekasTenteraPolis::find($bekastenteraId);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.race')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.bekastentera')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Keturunan";
-            $log->data_old = json_encode($race);
+            $log->description = "Kemaskini Maklumat Jenis Bekas Tentera/Polis";
+            $log->data_old = json_encode($bekastentera);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_keturunan,kod,'.$raceId,
+                'code' => 'required|string|unique:ruj_jenis_bekas_tentera_polis,code,'.$bekastenteraId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -185,14 +185,14 @@ class RaceController extends Controller
                 'name.required' => 'Sila isikan keturunan',
             ]);
 
-            $race->update([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+            $bekastentera->update([
+                'code' => $request->code,
+                'name' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
-            $raceNewData = Race::find($raceId);
-            $log->data_new = json_encode($raceNewData);
+            $bekastenteraNewData = JenisBekasTenteraPolis::find($bekastenteraId);
+            $log->data_new = json_encode($bekastenteraNewData);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -214,12 +214,12 @@ class RaceController extends Controller
         DB::beginTransaction();
         try {
 
-            $raceId = $request->raceId;
-            $race = Race::find($raceId);
+            $bekastenteraId = $request->bekastenteraId;
+            $bekastentera = JenisBekasTenteraPolis::find($bekastenteraId);
 
-            $sah_yt = $race->sah_yt;
+            $sah_yt = $bekastentera->sah_yt;
 
-            $race->update([
+            $bekastentera->update([
                 'sah_yt' => !$sah_yt,
             ]);
 
