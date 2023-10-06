@@ -1,271 +1,486 @@
-<div class="row mt-2 mb-2">
-    <div class="card" id="update_stpm" style="display:none">
-        <div class="d-flex justify-content-end align-items-center my-1 ">
-            <a class="me-3 text-danger" type="button" onclick="editStpm()">
-                <i class="fa-regular fa-pen-to-square"></i>
-                Kemaskini
-            </a>
+<div class="bs-stepper vertical vertical-wizard">
+    <div class="bs-stepper-header">
+        <div class="step" data-target="#academic-stpm-info" role="tab" id="academic-stpm-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    STPM
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Sijil Tinggi Persekolahan Malaysia
+                    </span>
+                </span>
+            </button>
+        </div>
+
+        <hr>
+
+        <div class="step" data-target="#academic-stam-info" role="tab" id="academic-stam-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    STAM
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Sijil Tinggi Agama Malaysia
+                    </span>
+                </span>
+            </button>
+        </div>
+
+        <hr>
+
+        <div class="step" data-target="#academic-matrik-info" role="tab" id="academic-matrik-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    KM
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Sijil Matrikulasi
+                    </span>
+                </span>
+            </button>
         </div>
     </div>
-    <form
-    id="stpmForm"
-    action="{{ route('stpm.store') }}"
-    method="POST"
-    data-refreshFunctionName="reloadTimeline"
-    data-refreshFunctionNameIfSuccess="reloadStpm"
-    data-reloadPage="false">
-    @csrf
-    <div class="row mt-2 mb-2">
-        <h6>
-            <span class="badge badge-light-primary fw-bolder">Sijil Tinggi Persekolahan Malaysia (STPM)</span>
-        </h6>
-        <input type="hidden" name="stpm_no_pengenalan" id="stpm_no_pengenalan" value="">
-        <input type="hidden" name="id_stpm" id="id_stpm" value="">
-        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-            <label class="form-label">Mata Pelajaran</label>
-            <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
-                <option value=""></option>
-                @foreach($subjekStpm as $subjek)
-                <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
-                @endforeach
-            </select>
-        </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Gred</label>
-            <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm" disabled>
-                <option value=""></option>
-                @foreach($gredStpm as $gred)
-                <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                @endforeach
-            </select>
-        </div>
+    <div class="bs-stepper-content">
+        {{-- STPM --}}
+        <div id="academic-stpm-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-stpm-info-trigger">
+            <div class="accordion" id="accordion_stpm">
+                {{-- RESULT STPM --}}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading_result_stpm">
+                        <button class="accordion-button fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#result_stpm" aria-expanded="true" aria-controls="result_stpm">
+                            Sijil Tinggi Persekolahan Malaysia
+                        </button>
+                    </h2>
+                    <div id="result_stpm" class="accordion-collapse collapse show" aria-labelledby="heading_result_stpm" data-bs-parent="#accordion_stpm">
+                        <div class="accordion-body">
+                            <div class="d-flex justify-content-end align-items-center mb-1" id="update_stpm" style="display:none">
+                                <a class="me-3 text-danger" type="button" onclick="editStpm()">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    Kemaskini
+                                </a>
+                            </div>
+                            <form id="stpmForm" action="{{ route('stpm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadStpm" data-reloadPage="false">
+                                @csrf
+                                <div class="row">
+                                    <input type="hidden" name="stpm_no_pengenalan" id="stpm_no_pengenalan" value="">
+                                    <input type="hidden" name="id_stpm" id="id_stpm" value="">
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Tahun</label>
-            <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm" disabled>
-        </div>
+                                    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                                        <label class="form-label">Mata Pelajaran</label>
+                                        <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
+                                            <option value="" hidden>Mata Pelajaran</option>
+                                                @foreach($subjekStpm as $subjek)
+                                                    <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
 
-        <div id="button_action_stpm" style="display:none">
-            <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
-            <div class="d-flex justify-content-end align-items-center my-1">
-                <button type="button" class="btn btn-danger float-right" onclick="reloadStpm()">
-                    <i class="fa fa-refresh"></i>
-                </button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success float-right" id="btnSaveStpm" onclick="$('#btnEditStpm').trigger('click');">
-                    <i class="fa fa-save"></i> Tambah
-                </button>
+                                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                                        <label class="form-label">Gred</label>
+                                        <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm" disabled>
+                                            <option value="" hidden>Gred</option>
+                                                @foreach($gredStpm as $gred)
+                                                    <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                                        <label class="form-label">Tahun</label>
+                                        <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm" disabled>
+                                    </div>
+
+                                    <div id="button_action_stpm" style="display:none">
+                                        <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
+                                        <div class="d-flex justify-content-end align-items-center my-1">
+                                            <button type="button" class="btn btn-danger me-1" onclick="reloadStpm()">
+                                                <i class="fa fa-refresh"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-success float-right" id="btnSaveStpm" onclick="$('#btnEditStpm').trigger('click');">
+                                                <i class="fa fa-save"></i> Tambah
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="table-responsive mb-1 mt-1">
+                                <table class="table header_uppercase table-bordered table-hovered" id="table-stpm">
+                                    <thead>
+                                        <tr>
+                                            <th>Bil.</th>
+                                            <th>Mata Pelajaran</th>
+                                            <th>Gred</th>
+                                            <th>Tahun</th>
+                                            <th>Kemaskini</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- STPM HISTORY --}}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading_history_stpm">
+                        <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_stpm" aria-expanded="false" aria-controls="history_stpm">
+                            Jejak Audit [Sijil Tinggi Persekolahan Malaysia]
+                        </button>
+                    </h2>
+                    <div id="history_stpm" class="accordion-collapse collapse" aria-labelledby="heading_history_stpm" data-bs-parent="#accordion_stpm">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                                    <label class="form-label">Tarikh Mula</label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                                    <label class="form-label">Tarikh Akhir</label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <a class="me-3" type="button" id="reset" href="#">
+                                        <span class="text-danger"> Set Semula </span>
+                                    </a>
+                                    <button type="submit" class="btn btn-success float-right">
+                                        <i class="fa fa-search"></i> Cari
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive mb-1 mt-1">
+                                <table class="table header_uppercase table-bordered table-hovered">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Kod</th>
+                                            <th>Mata Pelajaran</th>
+                                            <th>Gred</th>
+                                            <th>Tahun</th>
+                                            <th>Status</th>
+                                            <th>Tarikh</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    </form>
 
-    <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-stpm">
-            <thead>
-                <tr>
-                    <th>Bil.</th>
-                    <th>Mata Pelajaran</th>
-                    <th>Gred</th>
-                    <th>Tahun</th>
-                    <th>Kemaskini</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+        {{-- STAM --}}
+        <div id="academic-stam-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-stam-info-trigger">
+            <div class="accordion" id="accordion_stam">
+                {{-- RESULT STAM --}}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading_result_stam">
+                        <button class="accordion-button fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#result_stam" aria-expanded="true" aria-controls="result_stam">
+                            Sijil Tinggi Agama Malaysia
+                        </button>
+                    </h2>
+                    <div id="result_stam" class="accordion-collapse collapse show" aria-labelledby="heading_result_stam" data-bs-parent="#accordion_stam">
+                        <div class="accordion-body">
+                            <div class="d-flex justify-content-end align-items-center mb-1" id="update_stam" style="display:none">
+                                <a class="me-3 text-danger" type="button" onclick="editStam()">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    Kemaskini
+                                </a>
+                            </div>
 
-    <hr>
-    <div class="card" id="update_stam" style="display:none">
-        <div class="d-flex justify-content-end align-items-center my-1 ">
-            <a class="me-3 text-danger" type="button" onclick="editStam()">
-                <i class="fa-regular fa-pen-to-square"></i>
-                Kemaskini
-            </a>
-        </div>
-    </div>
-    <form
-    id="stamForm"
-    action="{{ route('stam.store') }}"
-    method="POST"
-    data-refreshFunctionName="reloadTimeline"
-    data-refreshFunctionNameIfSuccess="reloadStam"
-    data-reloadPage="false">
-    @csrf
-    <div class="row mt-2 mb-2">
-        <h6>
-            <span class="badge badge-light-primary fw-bolder">Sijil Tinggi Agama Malaysia (STAM)</span>
-        </h6>
-        <input type="hidden" name="stam_no_pengenalan" id="stam_no_pengenalan" value="">
-        <input type="hidden" name="id_stam" id="id_stam" value="">
-        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-            <label class="form-label">Mata Pelajaran</label>
-            <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
-                <option value=""></option>
-                @foreach($subjekStam as $subjek)
-                <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
-                @endforeach
-            </select>
-        </div>
+                            <form id="stamForm" action="{{ route('stam.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadStam" data-reloadPage="false">
+                                @csrf
+                                <div class="row">
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Gred</label>
-            <select class="select2 form-control" value="" id="gred_stam" name="gred_stam" disabled>
-                <option value=""></option>
-                @foreach($gredStam as $gred)
-                <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                @endforeach
-            </select>
-        </div>
+                                    <input type="hidden" name="stam_no_pengenalan" id="stam_no_pengenalan" value="">
+                                    <input type="hidden" name="id_stam" id="id_stam" value="">
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Tahun</label>
-            <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam" disabled>
-        </div>
+                                    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                                        <label class="form-label">Mata Pelajaran</label>
+                                        <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
+                                            <option value="" hidden>Mata Pelajaran</option>
+                                                @foreach($subjekStam as $subjek)
+                                                    <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
 
-        <div id="button_action_stam" style="display:none">
-            <button type="button" id="btnEditStam" hidden onclick="generalFormSubmit(this);"></button>
-            <div class="d-flex justify-content-end align-items-center my-1">
-                <button type="button" class="btn btn-danger float-right" onclick="reloadStam()">
-                    <i class="fa fa-refresh"></i>
-                </button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success float-right" id="btnSaveStam" onclick="$('#btnEditStam').trigger('click');">
-                    <i class="fa fa-save"></i> Tambah
-                </button>
+                                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                                        <label class="form-label">Gred</label>
+                                        <select class="select2 form-control" value="" id="gred_stam" name="gred_stam" disabled>
+                                            <option value="" hidden>Gred</option>
+                                                @foreach($gredStam as $gred)
+                                                    <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                                        <label class="form-label">Tahun</label>
+                                        <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam" disabled>
+                                    </div>
+
+                                    <div id="button_action_stam" style="display:none">
+                                        <button type="button" id="btnEditStam" hidden onclick="generalFormSubmit(this);"></button>
+                                        <div class="d-flex justify-content-end align-items-center my-1">
+                                            <button type="button" class="btn btn-danger me-1" onclick="reloadStam()">
+                                                <i class="fa fa-refresh"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-success float-right" id="btnSaveStam" onclick="$('#btnEditStam').trigger('click');">
+                                                <i class="fa fa-save"></i> Tambah
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="table-responsive mb-1 mt-1">
+                                <table class="table header_uppercase table-bordered table-hovered" id="table-stam">
+                                    <thead>
+                                        <tr>
+                                            <th>Bil.</th>
+                                            <th>Mata Pelajaran</th>
+                                            <th>Gred</th>
+                                            <th>Tahun</th>
+                                            <th>Kemaskini</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- STAM HISTORY --}}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading_history_stam">
+                        <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_stam" aria-expanded="false" aria-controls="history_stam">
+                            Jejak Audit [Sijil Tinggi Agama Malaysia]
+                        </button>
+                    </h2>
+                    <div id="history_stam" class="accordion-collapse collapse" aria-labelledby="heading_history_stam" data-bs-parent="#accordion_stam">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                                    <label class="form-label">Tarikh Mula</label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                                    <label class="form-label">Tarikh Akhir</label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <a class="me-3" type="button" id="reset" href="#">
+                                        <span class="text-danger"> Set Semula </span>
+                                    </a>
+                                    <button type="submit" class="btn btn-success float-right">
+                                        <i class="fa fa-search"></i> Cari
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive mb-1 mt-1">
+                                <table class="table header_uppercase table-bordered table-hovered">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Kod</th>
+                                            <th>Mata Pelajaran</th>
+                                            <th>Gred</th>
+                                            <th>Tahun</th>
+                                            <th>Status</th>
+                                            <th>Tarikh</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    </form>
 
-    <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-stam">
-            <thead>
-                <tr>
-                    <th>Bil.</th>
-                    <th>Mata Pelajaran</th>
-                    <th>Gred</th>
-                    <th>Tahun</th>
-                    <th>Kemaskini</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+        {{-- MATRIK --}}
+        <div id="academic-matrik-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-matrik-info-trigger">
+            <div class="accordion" id="accordion_matrik">
+                {{-- RESULT MATRIK --}}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading_result_matrik">
+                        <button class="accordion-button fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#result_matrik" aria-expanded="true" aria-controls="result_matrik">
+                            Sijil Matrikulasi
+                        </button>
+                    </h2>
+                    <div id="result_matrik" class="accordion-collapse collapse show" aria-labelledby="heading_result_matrik" data-bs-parent="#accordion_matrik">
+                        <div class="accordion-body">
+                            <div class="d-flex justify-content-end align-items-center mb-1" id="update_matrikulasi" style="display:none">
+                                <a class="me-3 text-danger" type="button" onclick="editMatrikulasi()">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    Kemaskini
+                                </a>
+                            </div>
 
-    <hr>
-    <div class="card" id="update_matrikulasi" style="display:none">
-        <div class="d-flex justify-content-end align-items-center my-1 ">
-            <a class="me-3 text-danger" type="button" onclick="editMatrikulasi()">
-                <i class="fa-regular fa-pen-to-square"></i>
-                Kemaskini
-            </a>
-        </div>
-    </div>
-    <form
-    id="matrikulasiForm"
-    action="{{ route('matrikulasi.store') }}"
-    method="POST"
-    data-refreshFunctionName="reloadTimeline"
-    data-refreshFunctionNameIfSuccess="reloadMatrikulasi"
-    data-reloadPage="false">
-    @csrf
-    <div class="row mt-2 mb-2">
-        <h6>
-            <span class="badge badge-light-primary fw-bolder">Sijil Matrikulasi</span>
-        </h6>
+                            <form id="matrikulasiForm" action="{{ route('matrikulasi.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadMatrikulasi" data-reloadPage="false">
+                                @csrf
+                                <div class="row">
+                                    <input type="hidden" name="matrikulasi_no_pengenalan" id="matrikulasi_no_pengenalan" value="">
+                                    <input type="hidden" name="id_matrikulasi" id="id_matrikulasi" value="">
 
-        <input type="hidden" name="matrikulasi_no_pengenalan" id="matrikulasi_no_pengenalan" value="">
-        <input type="hidden" name="id_matrikulasi" id="id_matrikulasi" value="">
-        <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
-            <label class="form-label">Kolej Matrikulasi</label>
-            <select class="select2 form-control" value="" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
-                <option value=""></option>
-                @foreach($kolejMatrikulasi as $kolej)
-                <option value="{{ $kolej->code }}">{{ $kolej->name }}</option>
-                @endforeach
-            </select>
-        </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                                        <label class="form-label">Kolej Matrikulasi</label>
+                                        <select class="select2 form-control" value="" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
+                                            <option value="" hidden>Kolej Matrikulasi</option>
+                                                @foreach($kolejMatrikulasi as $kolej)
+                                                    <option value="{{ $kolej->code }}">{{ $kolej->name }}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
 
-        <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
-            <label class="form-label">Jurusan</label>
-            <select class="select2 form-control" value="" id="jurusan_matrikulasi" name="jurusan_matrikulasi" disabled>
-                <option value=""></option>
-                @foreach($jurusanMatrikulasi as $jurusanMatrikulasi)
-                <option value="{{ $jurusanMatrikulasi->code }}">{{ $jurusanMatrikulasi->name }}</option>
-                @endforeach
-            </select>
-        </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                                        <label class="form-label">Jurusan</label>
+                                        <select class="select2 form-control" value="" id="jurusan_matrikulasi" name="jurusan_matrikulasi" disabled>
+                                            <option value="" hidden>Jurusan</option>
+                                                @foreach($jurusanMatrikulasi as $jurusanMatrikulasi)
+                                                    <option value="{{ $jurusanMatrikulasi->code }}">{{ $jurusanMatrikulasi->name }}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-            <label class="form-label">No. Matrik</label>
-            <input type="text" class="form-control" value="" id="matrik_matrikulasi" name="matrik_matrikulasi" disabled>
-        </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                                        <label class="form-label">No. Matrik</label>
+                                        <input type="text" class="form-control" value="" id="matrik_matrikulasi" name="matrik_matrikulasi" disabled>
+                                    </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-            <label class="form-label">Sesi</label>
-            <input type="text" class="form-control" value="" id="sesi_matrikulasi" name="sesi_matrikulasi" disabled>
-        </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                                        <label class="form-label">Sesi</label>
+                                        <input type="text" class="form-control" value="" id="sesi_matrikulasi" name="sesi_matrikulasi" disabled>
+                                    </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-            <label class="form-label">Semester</label>
-            <input type="text" class="form-control" value="" id="semester_matrikulasi" name="semester_matrikulasi" disabled>
-        </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                                        <label class="form-label">Semester</label>
+                                        <input type="text" class="form-control" value="" id="semester_matrikulasi" name="semester_matrikulasi" disabled>
+                                    </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-            <label class="form-label">Mata Pelajaran</label>
-            <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
-                <option value=""></option>
-                @foreach($subjekMatrikulasi as $subjekMatrikulasi)
-                <option value="{{ $subjekMatrikulasi->code }}">{{ $subjekMatrikulasi->name }}</option>
-                @endforeach
-            </select>
-        </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                                        <label class="form-label">Mata Pelajaran</label>
+                                        <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
+                                            <option value="" hidden>Mata Pelajaran</option>
+                                                @foreach($subjekMatrikulasi as $subjekMatrikulasi)
+                                                    <option value="{{ $subjekMatrikulasi->code }}">{{ $subjekMatrikulasi->name }}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Gred</label>
-            <input type="text" class="form-control" value="" id="gred_matrikulasi" name="gred_matrikulasi" disabled>
-        </div>
+                                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                                        <label class="form-label">Gred</label>
+                                        <input type="text" class="form-control" value="" id="gred_matrikulasi" name="gred_matrikulasi" disabled>
+                                    </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">PNGK</label>
-            <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
-        </div>
+                                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                                        <label class="form-label">PNGK</label>
+                                        <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
+                                    </div>
 
-        <div id="button_action_matrikulasi" style="display:none">
-            <button type="button" id="btnEditMatrikulasi" hidden onclick="generalFormSubmit(this);"></button>
-            <div class="d-flex justify-content-end align-items-center my-1">
-                <button type="button" class="btn btn-danger float-right" onclick="reloadMatrikulasi()">
-                    <i class="fa fa-refresh"></i>
-                </button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success float-right" id="btnSaveMatrikulasi" onclick="$('#btnEditMatrikulasi').trigger('click');">
-                    <i class="fa fa-save"></i> Tambah
-                </button>
+                                    <div id="button_action_matrikulasi" style="display:none">
+                                        <button type="button" id="btnEditMatrikulasi" hidden onclick="generalFormSubmit(this);"></button>
+                                        <div class="d-flex justify-content-end align-items-center my-1">
+                                            <button type="button" class="btn btn-danger me-1" onclick="reloadMatrikulasi()">
+                                                <i class="fa fa-refresh"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-success float-right" id="btnSaveMatrikulasi" onclick="$('#btnEditMatrikulasi').trigger('click');">
+                                                <i class="fa fa-save"></i> Tambah
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="table-responsive mb-1 mt-1">
+                                <table class="table header_uppercase table-bordered table-hovered" id="table-matrikulasi">
+                                    <thead>
+                                        <tr>
+                                            <th>Bil.</th>
+                                            <th>Kolej</th>
+                                            <th>Jurusan</th>
+                                            <th>No Matrik</th>
+                                            <th>Sesi</th>
+                                            <th>Semester</th>
+                                            <th>Mata Pelajaran</th>
+                                            <th>Gred</th>
+                                            <th>PNGK</th>
+                                            <th>Kemaskini</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- MATRIK HISTORY --}}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading_history_matrik">
+                        <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_matrik" aria-expanded="false" aria-controls="history_matrik">
+                            Jejak Audit [Sijil Vokasional Malaysia]
+                        </button>
+                    </h2>
+                    <div id="history_matrik" class="accordion-collapse collapse" aria-labelledby="heading_history_matrik" data-bs-parent="#accordion_matrik">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                                    <label class="form-label">Tarikh Mula</label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                                    <label class="form-label">Tarikh Akhir</label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <a class="me-3" type="button" id="reset" href="#">
+                                        <span class="text-danger"> Set Semula </span>
+                                    </a>
+                                    <button type="submit" class="btn btn-success float-right">
+                                        <i class="fa fa-search"></i> Cari
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive mb-1 mt-1">
+                                <table class="table header_uppercase table-bordered table-hovered">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Kod</th>
+                                            <th>Mata Pelajaran</th>
+                                            <th>Gred</th>
+                                            <th>Tahun</th>
+                                            <th>Status</th>
+                                            <th>Tarikh</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    </form>
-
-    <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-matrikulasi">
-            <thead>
-                <tr>
-                    <th>Bil.</th>
-                    <th>Kolej</th>
-                    <th>Jurusan</th>
-                    <th>No Matrik</th>
-                    <th>Sesi</th>
-                    <th>Semester</th>
-                    <th>Mata Pelajaran</th>
-                    <th>Gred</th>
-                    <th>PNGK</th>
-                    <th>Kemaskini</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </div>
 </div>
 

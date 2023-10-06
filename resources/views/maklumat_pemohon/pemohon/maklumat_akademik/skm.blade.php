@@ -1,65 +1,118 @@
-<div class="card" id="update_skm" style="display:none">
-    <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" onclick="editSkm()">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Kemaskini
-        </a>
-    </div>
-</div>
-<form
-id="skmForm"
-action="{{ route('skm.store') }}"
-method="POST"
-data-refreshFunctionName="reloadTimeline"
-data-refreshFunctionNameIfSuccess="reloadSkm"
-data-reloadPage="false">
-@csrf
-<div class="row mt-2 mb-2">
-    <input type="hidden" name="skm_no_pengenalan" id="skm_no_pengenalan" value="">
-    <input type="hidden" name="id_skm" id="id_skm" value="">
-
-    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-        <label class="form-label">Gred</label>
-        <select class="select2 form-control" value="" id="nama_skm" name="nama_skm" disabled>
-            <option value=""></option>
-            @foreach($skmkod as $skm)
-            <option value="{{ $skm->code }}">{{ $skm->name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Tahun</label>
-        <input type="text" class="form-control" value="" id="tahun_skm" name="tahun_skm" disabled>
-    </div>
-
-    <div id="button_action_skm" style="display:none">
-        <button type="button" id="btnEditSkm" hidden onclick="generalFormSubmit(this);"></button>
-        <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-danger float-right" onclick="reloadSkm()">
-                <i class="fa fa-refresh"></i>
-            </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" id="btnSaveSkm" onclick="$('#btnEditSkm').trigger('click');">
-                <i class="fa fa-save"></i> Tambah
+<div class="accordion" id="accordion_skm">
+    {{-- Sijil Kemahiran (SKM) --}}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading_skm_info">
+            <button class="accordion-button fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#skm_info" aria-expanded="true" aria-controls="skm_info">
+                Sijil Kemahiran (SKM)
             </button>
+        </h2>
+        <div id="skm_info" class="accordion-collapse collapse show" aria-labelledby="heading_skm_info" data-bs-parent="#accordion_skm">
+            <div class="accordion-body">
+                <div class="d-flex justify-content-end align-items-center mb-1" id="update_skm" style="display:none">
+                    <a class="me-3 text-danger" type="button" onclick="editSkm()">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Kemaskini
+                    </a>
+                </div>
+
+                <form id="skmForm" action="{{ route('skm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSkm" data-reloadPage="false">
+                    @csrf
+                    <div class="row">
+                        <input type="hidden" name="skm_no_pengenalan" id="skm_no_pengenalan" value="">
+                        <input type="hidden" name="id_skm" id="id_skm" value="">
+
+                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                            <label class="form-label">Gred</label>
+                            <select class="select2 form-control" value="" id="nama_skm" name="nama_skm" disabled>
+                                <option value="" hidden>Gred</option>
+                                    @foreach($skmkod as $skm)
+                                        <option value="{{ $skm->code }}">{{ $skm->name }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_skm" name="tahun_skm" disabled>
+                        </div>
+
+                        <div id="button_action_skm" style="display:none">
+                            <button type="button" id="btnEditSkm" hidden onclick="generalFormSubmit(this);"></button>
+                            <div class="d-flex justify-content-end align-items-center my-1">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadSkm()">
+                                    <i class="fa fa-refresh"></i>
+                                </button>
+                                <button type="button" class="btn btn-success float-right" id="btnSaveSkm" onclick="$('#btnEditSkm').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive mt-1 mb-1">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-skm">
+                        <thead>
+                            <tr>
+                                <th>Bil.</th>
+                                <th>Kelulusan</th>
+                                <th>Tahun</th>
+                                <th>Kemaskini</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</form>
-</div>
 
-<div class="table-responsive">
-    <table class="table header_uppercase table-bordered table-hovered" id="table-skm">
-        <thead>
-            <tr>
-                <th>Bil.</th>
-                <th>Kelulusan</th>
-                <th>Tahun</th>
-                <th>Kemaskini</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    {{-- Sijil Kemahiran (SKM) HISTORY --}}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading_history_skm">
+            <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_skm" aria-expanded="false" aria-controls="history_skm">
+                Jejak Audit [Sijil Kemahiran (SKM)]
+            </button>
+        </h2>
+        <div id="history_skm" class="accordion-collapse collapse" aria-labelledby="heading_history_skm" data-bs-parent="#accordion_skm">
+            <div class="accordion-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                        <label class="form-label">Tarikh Mula</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                        <label class="form-label">Tarikh Akhir</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a class="me-3" type="button" id="reset" href="#">
+                            <span class="text-danger"> Set Semula </span>
+                        </a>
+                        <button type="submit" class="btn btn-success float-right">
+                            <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive mb-1 mt-1">
+                    <table class="table header_uppercase table-bordered table-hovered">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Maklumat</th>
+                                <th>Status</th>
+                                <th>Tarikh</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
