@@ -19,13 +19,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label" for="name">Cuti Awam
+                                <label class="form-label" for="tarikh_cuti">Cuti Awam
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="name" name="name" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="tarikh_cuti" id="tarikh_cuti"/>
                                 </div>
                             </div>
                         </div>

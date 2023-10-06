@@ -56,9 +56,9 @@
                         <tr>
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
-                            <th>Cuti Awam</th>
-                            <th width="15%">Kod Cuti</th>
-                            <th width="15%">Kod Negeri</th>
+                            <th>Tarikh Cuti</th>
+                            <th>Kod Cuti</th>
+                            <th>Kod Negeri</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -100,8 +100,8 @@
                     }
                 },
                 {
-                    data: "nama",
-                    name: "nama",
+                    data: "tarikh_cuti",
+                    name: "tarikh_cuti",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -160,7 +160,7 @@
             if (id === null) {
                 $('#cutiawamForm').attr('action', '{{ route('admin.reference.cutiawam.store') }}');
                 $('#cutiawamForm input[name="code"]').val("");
-                $('#cutiawamForm input[name="name"]').val("");
+                $('#cutiawamForm input[name="tarikh_cuti"]').val("");
                 $('#cutiawamForm select[name="kod_ruj_senarai_cuti"]').val("").trigger('change');
                 $('#cutiawamForm select[name="kod_ruj_negeri"]').val("").trigger('change');
                 $('#cutiawamForm input[name="code"]').prop('readonly', false);
@@ -192,7 +192,7 @@
 
                         $('#cutiawamForm').attr('action', url2);
                         $('#cutiawamForm input[name="code"]').val(data.detail.kod);
-                        $('#cutiawamForm input[name="name"]').val(data.detail.nama);
+                        $('#cutiawamForm input[name="tarikh_cuti"]').val(data.detail.tarikh_cuti);
                         $('#cutiawamForm select[name="kod_ruj_senarai_cuti"]').val(data.detail.kod_ruj_senarai_cuti).trigger('change');
                         $('#cutiawamForm select[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri).trigger('change');
 

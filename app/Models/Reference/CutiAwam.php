@@ -11,7 +11,7 @@ class CutiAwam extends Model
 
     protected $fillable = [
         'kod',
-        'nama',
+        'tarikh_cuti',
         'kod_ruj_negeri',
         'kod_ruj_senarai_cuti',
         'created_by',

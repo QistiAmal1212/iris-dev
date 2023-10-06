@@ -101,7 +101,7 @@ class EligibilityController extends Controller
             Eligibility::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
-                'ref_area_code' => $request->ref_skim_code,
+                'ref_skim_code' => $request->ref_skim_code,
                 'equivalent' => strtoupper($request->equivalent),
                 'rank' => strtoupper($request->rank),
                 'created_by' => auth()->user()->id,
@@ -164,7 +164,7 @@ class EligibilityController extends Controller
             $eligibility->update([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
-                'ref_area_code' => $request->ref_skim_code,
+                'ref_skim_code' => $request->ref_skim_code,
                 'equivalent' => strtoupper($request->equivalent),
                 'rank' => strtoupper($request->rank),
                 'created_by' => auth()->user()->id,

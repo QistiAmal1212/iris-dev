@@ -41,7 +41,7 @@ class SalaryGradeController extends Controller
             }
         }
 
-        $salaryGrade = SalaryGrade::all();
+        $salaryGrade = SalaryGrade::orderBy('code')->get();
         if ($request->ajax()) {
             return Datatables::of($salaryGrade)
                 ->editColumn('code', function ($salaryGrade){

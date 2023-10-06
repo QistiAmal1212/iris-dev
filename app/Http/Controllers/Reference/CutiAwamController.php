@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
 use App\Models\Reference\State;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use App\Models\Master\MasterModule;
@@ -54,7 +55,7 @@ class CutiAwamController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.cutiawam')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai CutiAwam";
+            $log->description = "Lihat Senarai Cuti Awam";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -66,8 +67,8 @@ class CutiAwamController extends Controller
                 ->editColumn('kod', function ($cutiawam){
                     return $cutiawam->kod;
                 })
-                ->editColumn('nama', function ($cutiawam) {
-                    return $cutiawam->nama;
+                ->editColumn('tarikh_cuti', function ($cutiawam) {
+                    return $cutiawam->tarikh_cuti = Carbon::parse($cutiawam->tarikh_cuti)->format('d/m/Y');
                 })
                 ->editColumn('kod_cuti', function ($cutiawam) {
                     return $cutiawam->kod_ruj_senarai_cuti;
@@ -106,13 +107,13 @@ class CutiAwamController extends Controller
 
             $request->validate([
                 'code' => 'required|string|unique:ruj_cuti_awam,kod',
-                'name' => 'required|string',
+                'tarikh_cuti' => 'required|string',
                 'kod_ruj_senarai_cuti' => 'required|string|exists:ruj_senarai_cuti,kod',
                 'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan cutiawam',
+                'tarikh_cuti.required' => 'Sila isikan cutiawam',
                 'kod_ruj_senarai_cuti.required' => 'Sila isikan senarai cuti',
                 'kod_ruj_senarai_cuti.exists' => 'Tiada rekod senarai cuti yang dipilih',
                 'kod_ruj_negeri.required' => 'Sila isikan negeri',
@@ -121,7 +122,7 @@ class CutiAwamController extends Controller
 
             $cutiawam = CutiAwam::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'tarikh_cuti' => Carbon::createFromFormat('d/m/Y', $request->tarikh_cuti)->format('Y-m-d'),
                 'kod_ruj_senarai_cuti' => $request->kod_ruj_senarai_cuti,
                 'kod_ruj_negeri' => $request->kod_ruj_negeri,
                 'created_by' => auth()->user()->id,
@@ -156,6 +157,8 @@ class CutiAwamController extends Controller
         try {
 
             $cutiawam = CutiAwam::find($request->cutiawamId);
+
+            $cutiawam->tarikh_cuti = Carbon::parse($cutiawam->tarikh_cuti)->format('d/m/Y');
 
             if (!$cutiawam) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -198,13 +201,13 @@ class CutiAwamController extends Controller
 
             $request->validate([
                 'code' => 'required|string|unique:ruj_cuti_awam,kod,'.$cutiawamId,
-                'name' => 'required|string',
+                'tarikh_cuti' => 'required|string',
                 'kod_ruj_senarai_cuti' => 'required|string|exists:ruj_senarai_cuti,kod',
                 'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan cutiawam',
+                'tarikh_cuti.required' => 'Sila isikan cutiawam',
                 'kod_ruj_senarai_cuti.required' => 'Sila isikan senarai cuti',
                 'kod_ruj_senarai_cuti.exists' => 'Tiada rekod senarai cuti yang dipilih',
                 'kod_ruj_negeri.required' => 'Sila isikan negeri',
@@ -213,7 +216,7 @@ class CutiAwamController extends Controller
 
             $cutiawam->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'tarikh_cuti' => Carbon::createFromFormat('d/m/Y', $request->tarikh_cuti)->format('Y-m-d'),
                 'kod_ruj_senarai_cuti' => $request->kod_ruj_senarai_cuti,
                 'kod_ruj_negeri' => $request->kod_ruj_negeri,
                 'updated_by' => auth()->user()->id,
