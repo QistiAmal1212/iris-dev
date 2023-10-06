@@ -106,6 +106,7 @@ class MaklumatPemohonController extends Controller
     public function listCarian(Request $request){
 
         $nama = $request->search_nama;
+
         // $candidate = Candidate::where('nama_penuh', 'ILIKE', '%' . $nama . '%')->whereNotNull('no_kp_baru');
         // function created in the db and calling the same here
         $candidate = DB::select('SELECT * FROM get_calon_by_name(?)', [$nama]);
@@ -115,7 +116,6 @@ class MaklumatPemohonController extends Controller
                 unset($candidate[$key]);
             }
         }
-
         if ($request->ajax()) {
 
             // $log = new LogSystem;

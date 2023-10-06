@@ -199,7 +199,8 @@ Maklumat Pemohon
 <script>
     function selectSearch(btnValue){
         $('#pilihan_carian').val(btnValue);
-
+        reset();
+        $('#search_ic').val('');
         if(btnValue == 'carian_nama'){
             $('#btn-selectkp').removeClass('btn-primary').addClass('btn-secondary');
             $('#btn-selectname').removeClass('btn-secondary').addClass('btn-primary');
@@ -1011,6 +1012,189 @@ Maklumat Pemohon
         var reloadUrl = "{{ route('timeline.list', ':replaceThis') }}"
         reloadUrl = reloadUrl.replace(':replaceThis', no_pengenalan);
         $('#candidate_timeline').load(reloadUrl)
+    }
+    function reset() {
+        $('#table-carian').DataTable().destroy();
+        $("#table-carian > tbody").html("");
+
+        $('#candidate_name').html('');
+        $('#candidate_ic').html('');
+        $('#candidate_no_pengenalan').val('');
+
+        $('#update_personal').attr("style", "display:none");
+        $('#update_alamat').attr("style", "display:none");
+        $('#update_tempat_lahir').attr("style", "display:none");
+        $('#update_pusat_temuduga').attr("style", "display:none");
+        $('#update_pmr').attr("style", "display:none");
+        $('#update_pengajian_tinggi').attr("style", "display:none");
+        $('#update_experience').attr("style", "display:none");
+        $('#update_tentera_polis').attr("style", "display:none");
+        $('#update_penalty').attr("style", "display:none");
+        $('#update_lesen_memandu').attr("style", "display:none");
+        $('#update_oku').attr("style", "display:none");
+
+        $("#button_action_personal").attr("style", "display:none");
+        $("#button_action_alamat").attr("style", "display:none");
+        $("#button_action_tempat_lahir").attr("style", "display:none");
+        $("#button_action_pusat_temuduga").attr("style", "display:none");
+        $("#button_action_pmr").attr("style", "display:none");
+        $("#button_action_pengajian_tinggi").attr("style", "display:none");
+        $("#button_action_experience").attr("style", "display:none");
+        $("#button_action_tentera_polis").attr("style", "display:none");
+        $("#button_action_penalty").attr("style", "display:none");
+
+        $('#personalForm select[name="gender"]').attr('disabled', true);
+        $('#personalForm select[name="gender"]').val('').trigger('change');
+        $('#personalForm select[name="religion"]').attr('disabled', true);
+        $('#personalForm select[name="religion"]').val('').trigger('change');
+        $('#personalForm select[name="race"]').attr('disabled', true);
+        $('#personalForm select[name="race"]').val('').trigger('change');
+        $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
+        $('#personalForm input[name="date_of_birth"]').val('');
+        $('#personalForm select[name="marital_status"]').attr('disabled', true);
+        $('#personalForm select[name="marital_status"]').val('').trigger('change');
+        $('#personalForm input[name="phone_number"]').attr('disabled', true);
+        $('#personalForm input[name="phone_number"]').val('');
+        $('#personalForm input[name="email"]').attr('disabled', true);
+        $('#personalForm input[name="email"]').val('');
+        $('#personalForm input[name="personal_no_pengenalan"]').val('');
+
+        $('#alamatForm input[name="permanent_address_1"]').attr('disabled', true);
+        $('#alamatForm input[name="permanent_address_1"]').val('');
+        $('#alamatForm input[name="permanent_address_2"]').attr('disabled', true);
+        $('#alamatForm input[name="permanent_address_2"]').val('');
+        $('#alamatForm input[name="permanent_address_3"]').attr('disabled', true);
+        $('#alamatForm input[name="permanent_address_3"]').val('');
+        $('#alamatForm input[name="permanent_poscode"]').attr('disabled', true);
+        $('#alamatForm input[name="permanent_poscode"]').val('');
+        $('#alamatForm input[name="permanent_city"]').attr('disabled', true);
+        $('#alamatForm input[name="permanent_city"]').val('');
+        $('#alamatForm select[name="permanent_state"]').attr('disabled', true);
+        $('#alamatForm select[name="permanent_state"]').val('').trigger('change');
+        $('#alamatForm input[name="address_1"]').attr('disabled', true);
+        $('#alamatForm input[name="address_1"]').val('');
+        $('#alamatForm input[name="address_2"]').attr('disabled', true);
+        $('#alamatForm input[name="address_2"]').val('');
+        $('#alamatForm input[name="address_3"]').attr('disabled', true);
+        $('#alamatForm input[name="address_3"]').val('');
+        $('#alamatForm input[name="poscode"]').attr('disabled', true);
+        $('#alamatForm input[name="poscode"]').val('');
+        $('#alamatForm input[name="city"]').attr('disabled', true);
+        $('#alamatForm input[name="city"]').val('');
+        $('#alamatForm select[name="state"]').attr('disabled', true);
+        $('#alamatForm select[name="state"]').val('').trigger('change');
+        $('#alamatForm input[name="alamat_no_pengenalan"]').val('');
+
+        $('#tempatLahirForm select[name="place_of_birth"]').attr('disabled', true);
+        $('#tempatLahirForm select[name="place_of_birth"]').val('').trigger('change');
+        $('#tempatLahirForm select[name="father_place_of_birth"]').attr('disabled', true);
+        $('#tempatLahirForm select[name="father_place_of_birth"]').val('').trigger('change');
+        $('#tempatLahirForm select[name="mother_place_of_birth"]').attr('disabled', true);
+        $('#tempatLahirForm select[name="mother_place_of_birth"]').val('').trigger('change');
+        $('#tempatLahirForm input[name="tempat_lahir_no_pengenalan"]').val('');
+
+        $('#license_type').val('');
+        $('#license_expiry_date').val('');
+        $('#license_blacklist_status').val('').trigger('change');
+        $('#license_blacklist_details').val('');
+
+        $('#oku_registration_no').val('');
+        $('#oku_status').val('');
+        $('#oku_category').val('');
+        $('#oku_sub').val('');
+
+        $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
+        $('#pusatTemudugaForm select[name="pusat_temuduga"]').val('').trigger('change');
+
+        $('#table-skim tbody').empty();
+
+        $('#pmrForm select[name="subjek_pmr"]').attr('disabled', true);
+        $('#pmrForm select[name="subjek_pmr"]').val('').trigger('change');
+        $('#pmrForm select[name="gred_pmr"]').attr('disabled', true);
+        $('#pmrForm select[name="gred_pmr"]').val('').trigger('change');
+        $('#pmrForm input[name="tahun_pmr"]').attr('disabled', true);
+        $('#pmrForm input[name="tahun_pmr"]').val('');
+        $('#pmrForm input[name="pmr_no_pengenalan"]').val('');
+
+        $('#table-pmr tbody').empty();
+
+        $('#table-spm tbody').empty();
+
+        $('#table-spmv tbody').empty();
+
+        $('#table-svm tbody').empty();
+
+        $('#table-stpm tbody').empty();
+
+        $('#table-stam tbody').empty();
+
+        $('#table-matriculation tbody').empty();
+
+        $('#table-skm tbody').empty();
+
+        $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val('');
+        $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').val('');
+        $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').val('');
+        $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val('');
+        $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val('');
+
+        $('#table-professional tbody').empty();
+
+        $('#experienceForm input[name="experience_appoint_date"]').val('');
+        $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
+        $('#experienceForm select[name="experience_position_level"]').val('').trigger('change');
+        $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
+        $('#experienceForm select[name="experience_skim"]').val('').trigger('change');
+        $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
+        $('#experienceForm input[name="experience_start_date"]').val('');
+        $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
+        $('#experienceForm input[name="experience_verify_date"]').val('');
+        $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
+        $('#experienceForm select[name="experience_department_ministry"]').val('').trigger('change');
+        $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
+        $('#experienceForm select[name="experience_department_state"]').val('').trigger('change');
+        $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
+        $('#experienceForm input[name="experience_no_pengenalan"]').val('');
+
+        $('#table-psl tbody').empty();
+
+        $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val('').trigger('change');
+        $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').attr('disabled', true);
+        $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val('').trigger('change');
+        $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);
+        $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val('').trigger('change');
+        $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', true);
+        $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val('');
+
+        $('#table-language tbody').empty();
+
+        $('#table-talent tbody').empty();
+
+        $('#penaltyForm select[name="penalty"]').attr('disabled', true);
+        $('#penaltyForm input[name="penalty_duration"]').attr('disabled', true);
+        $('#penaltyForm select[name="penalty_type"]').attr('disabled', true);
+        $('#penaltyForm input[name="penalty_start"]').attr('disabled', true);
+        $('#penaltyForm input[name="penalty_end"]').attr('disabled', true);
+        $('#penaltyForm input[name="penalty_end"]').attr('readonly', false);
+        $('#penaltyForm input[name="penalty_no_pengenalan"]').val('');
+
+        $('#table-penalty tbody').empty();
     }
 </script>
 @endsection
