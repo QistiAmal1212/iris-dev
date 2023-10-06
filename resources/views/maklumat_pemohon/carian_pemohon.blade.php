@@ -476,26 +476,27 @@ Maklumat Pemohon
                     if(data.detail.tempat_tinggal_tetap) { $('#alamatForm select[name="permanent_state"]').val(data.detail.tempat_tinggal_tetap).trigger('change'); }
                     else { selectionNull('permanent_state', 'alamatForm'); }
                     originalVal['permanent_state'] = $('#alamatForm select[name="permanent_state"]').find(':selected').text();
-                    $('#alamatForm input[name="address_1"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_1"]').val(data.detail.alamat_1 ? data.detail.alamat_1 : data_not_available);
+                    $('#alamatsuratForm input[name="address_1"]').attr('disabled', true);
+                    $('#alamatsuratForm input[name="address_1"]').val(data.detail.alamat_1 ? data.detail.alamat_1 : data_not_available);
                     originalVal['address_1'] = data.detail.alamat_1;
-                    $('#alamatForm input[name="address_2"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_2"]').val(data.detail.alamat_2 ? data.detail.alamat_2 : data_not_available);
+                    $('#alamatsuratForm input[name="address_2"]').attr('disabled', true);
+                    $('#alamatsuratForm input[name="address_2"]').val(data.detail.alamat_2 ? data.detail.alamat_2 : data_not_available);
                     originalVal['address_2'] = data.detail.alamat_2;
-                    $('#alamatForm input[name="address_3"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_3"]').val(data.detail.alamat_3 ? data.detail.alamat_3 : data_not_available);
+                    $('#alamatsuratForm input[name="address_3"]').attr('disabled', true);
+                    $('#alamatsuratForm input[name="address_3"]').val(data.detail.alamat_3 ? data.detail.alamat_3 : data_not_available);
                     originalVal['address_3'] = data.detail.alamat_3;
-                    $('#alamatForm input[name="poscode"]').attr('disabled', true);
-                    $('#alamatForm input[name="poscode"]').val(data.detail.poskod ? data.detail.poskod : data_not_available);
+                    $('#alamatsuratForm input[name="poscode"]').attr('disabled', true);
+                    $('#alamatsuratForm input[name="poscode"]').val(data.detail.poskod ? data.detail.poskod : data_not_available);
                     originalVal['poscode'] = data.detail.poskod;
-                    $('#alamatForm input[name="city"]').attr('disabled', true);
-                    $('#alamatForm input[name="city"]').val(data.detail.bandar ? data.detail.bandar : data_not_available);
+                    $('#alamatsuratForm input[name="city"]').attr('disabled', true);
+                    $('#alamatsuratForm input[name="city"]').val(data.detail.bandar ? data.detail.bandar : data_not_available);
                     originalVal['city'] = data.detail.bandar;
-                    $('#alamatForm select[name="state"]').attr('disabled', true);
-                    if(data.detail.tempat_tinggal) { $('#alamatForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change'); }
-                    else { selectionNull('state', 'alamatForm'); }
-                    originalVal['state'] = $('#alamatForm select[name="state"]').find(':selected').text();
+                    $('#alamatsuratForm select[name="state"]').attr('disabled', true);
+                    if(data.detail.tempat_tinggal) { $('#alamatsuratForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change'); }
+                    else { selectionNull('state', 'alamatsuratForm'); }
+                    originalVal['state'] = $('#alamatsuratForm select[name="state"]').find(':selected').text();
                     $('#alamatForm input[name="alamat_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#alamatsuratForm input[name="alamat_no_pengenalan"]').val(data.detail.no_pengenalan);
 
                     if(data.detail.tempat_lahir) { $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.tempat_lahir).trigger('change'); }
                     else { selectionNull('place_of_birth', 'tempatLahirForm'); }
@@ -700,39 +701,41 @@ Maklumat Pemohon
                     $('#table-professional tbody').append(trProfessional);
 
                     $('#experienceForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#experienceHForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#experienceBForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.experience != null) {
                         $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.experience.tarikh_lantik ? data.detail.experience.tarikh_lantik : data_not_available);
                         originalVal['experience_appoint_date'] = data.detail.experience.tarikh_lantik;
                         if(data.detail.experience.taraf_jawatan) { $('#experienceForm select[name="experience_position_level"]').val(data.detail.experience.taraf_jawatan).trigger('change'); }
                         else { selectionNull('experience_position_level', 'experienceForm'); }
                         originalVal['experience_position_level'] = $('#experienceForm select[name="experience_position_level"]').find(':selected').text();
-                        if(data.detail.experience.kod_ruj_skim) { $('#experienceForm select[name="experience_skim"]').val(data.detail.experience.kod_ruj_skim).trigger('change'); }
-                        else { selectionNull('experience_skim', 'experienceForm'); }
-                        originalVal['experience_skim'] = $('#experienceForm select[name="experience_skim"]').find(':selected').text();
-                        $('#experienceForm input[name="experience_start_date"]').val(data.detail.experience.tarikh_mula ? data.detail.experience.tarikh_mula : data_not_available);
+                        if(data.detail.experience.kod_ruj_skim) { $('#experienceHForm select[name="experience_skim"]').val(data.detail.experience.kod_ruj_skim).trigger('change'); }
+                        else { selectionNull('experience_skim', 'experienceHForm'); }
+                        originalVal['experience_skim'] = $('#experienceHForm select[name="experience_skim"]').find(':selected').text();
+                        $('#experienceHForm input[name="experience_start_date"]').val(data.detail.experience.tarikh_mula ? data.detail.experience.tarikh_mula : data_not_available);
                         originalVal['experience_start_date'] = data.detail.experience.tarikh_mula;
-                        $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.tarikh_disahkan ? data.detail.experience.tarikh_disahkan : data_not_available);
+                        $('#experienceHForm input[name="experience_verify_date"]').val(data.detail.experience.tarikh_disahkan ? data.detail.experience.tarikh_disahkan : data_not_available);
                         originalVal['experience_verify_date'] = data.detail.experience.tarikh_disahkan;
-                        if(data.detail.experience.ruj_kem_jabatan) { $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.experience.ruj_kem_jabatan).trigger('change'); }
+                        if(data.detail.experience.ruj_kem_jabatan) { $('#experienceBForm select[name="experience_department_ministry"]').val(data.detail.experience.ruj_kem_jabatan).trigger('change'); }
                         else { selectionNull('experience_department_ministry', 'experienceForm'); }
-                        originalVal['experience_department_ministry'] = $('#experienceForm select[name="experience_department_ministry"]').find(':selected').text();
-                        if(data.detail.experience.negeri_jabatan) { $('#experienceForm select[name="experience_department_state"]').val(data.detail.experience.negeri_jabatan).trigger('change'); }
-                        else { selectionNull('experience_department_state', 'experienceForm'); }
-                        originalVal['experience_department_state'] = $('#experienceForm select[name="experience_department_state"]').find(':selected').text();
+                        originalVal['experience_department_ministry'] = $('#experienceBForm select[name="experience_department_ministry"]').find(':selected').text();
+                        if(data.detail.experience.negeri_jabatan) { $('#experienceBForm select[name="experience_department_state"]').val(data.detail.experience.negeri_jabatan).trigger('change'); }
+                        else { selectionNull('experience_department_state', 'experienceBForm'); }
+                        originalVal['experience_department_state'] = $('#experienceBForm select[name="experience_department_state"]').find(':selected').text();
                     }else{
                         $('#experienceForm input[name="experience_appoint_date"]').val(data_not_available);
                         originalVal['experience_appoint_date'] = '';
                         selectionNull('experience_position_level', 'experienceForm');
                         originalVal['experience_position_level'] = '';
-                        selectionNull('experience_skim', 'experienceForm');
+                        selectionNull('experience_skim', 'experienceHForm');
                         originalVal['experience_skim'] = '';
-                        $('#experienceForm input[name="experience_start_date"]').val(data_not_available);
+                        $('#experienceHForm input[name="experience_start_date"]').val(data_not_available);
                         originalVal['experience_start_date'] = '';
-                        $('#experienceForm input[name="experience_verify_date"]').val(data_not_available);
+                        $('#experienceHForm input[name="experience_verify_date"]').val(data_not_available);
                         originalVal['experience_verify_date'] = '';
-                        selectionNull('experience_department_ministry', 'experienceForm');
+                        selectionNull('experience_department_ministry', 'experienceBForm');
                         originalVal['experience_department_ministry'] = '';
-                        selectionNull('experience_department_state', 'experienceForm');
+                        selectionNull('experience_department_state', 'experienceBForm');
                         originalVal['experience_department_state'] = '';
                     }
 
@@ -927,16 +930,16 @@ Maklumat Pemohon
                     $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
                     $('#experienceForm select[name="experience_position_level"]').val('').trigger('change');
                     $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
-                    $('#experienceForm select[name="experience_skim"]').val('').trigger('change');
-                    $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
-                    $('#experienceForm input[name="experience_start_date"]').val('');
-                    $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
-                    $('#experienceForm input[name="experience_verify_date"]').val('');
-                    $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
-                    $('#experienceForm select[name="experience_department_ministry"]').val('').trigger('change');
-                    $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
-                    $('#experienceForm select[name="experience_department_state"]').val('').trigger('change');
-                    $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
+                    $('#experienceHForm select[name="experience_skim"]').val('').trigger('change');
+                    $('#experienceHForm select[name="experience_skim"]').attr('disabled', true);
+                    $('#experienceHForm input[name="experience_start_date"]').val('');
+                    $('#experienceHForm input[name="experience_start_date"]').attr('disabled', true);
+                    $('#experienceHForm input[name="experience_verify_date"]').val('');
+                    $('#experienceHForm input[name="experience_verify_date"]').attr('disabled', true);
+                    $('#experienceBForm select[name="experience_department_ministry"]').val('').trigger('change');
+                    $('#experienceBForm select[name="experience_department_ministry"]').attr('disabled', true);
+                    $('#experienceBForm select[name="experience_department_state"]').val('').trigger('change');
+                    $('#experienceBForm select[name="experience_department_state"]').attr('disabled', true);
                     $('#experienceForm input[name="experience_no_pengenalan"]').val('');
 
                     $('#table-psl tbody').empty();
@@ -1125,16 +1128,16 @@ Maklumat Pemohon
         $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
         $('#experienceForm select[name="experience_position_level"]').val('').trigger('change');
         $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
-        $('#experienceForm select[name="experience_skim"]').val('').trigger('change');
-        $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
-        $('#experienceForm input[name="experience_start_date"]').val('');
-        $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
-        $('#experienceForm input[name="experience_verify_date"]').val('');
-        $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
-        $('#experienceForm select[name="experience_department_ministry"]').val('').trigger('change');
-        $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
-        $('#experienceForm select[name="experience_department_state"]').val('').trigger('change');
-        $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
+        $('#experienceHForm select[name="experience_skim"]').val('').trigger('change');
+        $('#experienceHForm select[name="experience_skim"]').attr('disabled', true);
+        $('#experienceHForm input[name="experience_start_date"]').val('');
+        $('#experienceHForm input[name="experience_start_date"]').attr('disabled', true);
+        $('#experienceHForm input[name="experience_verify_date"]').val('');
+        $('#experienceHForm input[name="experience_verify_date"]').attr('disabled', true);
+        $('#experienceBForm select[name="experience_department_ministry"]').val('').trigger('change');
+        $('#experienceBForm select[name="experience_department_ministry"]').attr('disabled', true);
+        $('#experienceBForm select[name="experience_department_state"]').val('').trigger('change');
+        $('#experienceBForm select[name="experience_department_state"]').attr('disabled', true);
         $('#experienceForm input[name="experience_no_pengenalan"]').val('');
 
         $('#table-psl tbody').empty();

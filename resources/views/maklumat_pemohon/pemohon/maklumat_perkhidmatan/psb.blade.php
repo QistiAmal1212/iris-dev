@@ -90,6 +90,31 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div id="button_action_experience" style="display:none">
+                                    <button type="button" id="btnEditExperience" hidden onclick="generalFormSubmit(this);"></button>
+                                    <div class="d-flex justify-content-end align-items-center my-1">
+                                        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditExperience', {
+                                            experience_appoint_date: $('#experience_appoint_date').val(),
+                                            experience_position_level: $('#experience_position_level').find(':selected').text(),
+                                            // experience_skim: $('#experience_skim').find(':selected').text(),
+                                            // experience_start_date: $('#experience_start_date').val(),
+                                            // experience_verify_date: $('#experience_verify_date').val(),
+                                            // experience_department_ministry: $('#experience_department_ministry').find(':selected').text(),
+                                            // experience_department_state: $('#experience_department_state').find(':selected').text(),
+                                        },{
+                                            experience_appoint_date: 'Tarikh Lantikan Pertama',
+                                            experience_position_level: 'Taraf Jawatan',
+                                            // experience_skim: 'Skim Perkhidmatan',
+                                            // experience_start_date: 'Tarikh Lantikan',
+                                            // experience_verify_date: 'Tarikh Pengesahan Lantikan',
+                                            // experience_department_ministry: 'Kementerian/Jabatan',
+                                            // experience_department_state: 'Negeri',
+                                        }
+                                        );">
+                                            <i class="fa fa-save"></i> Simpan
+                                        </button>
+                                    </div>
+                                </div>
                             </form> {{-- TUTUP FORM DISINI --}}
                         </div>
                     </div>
@@ -158,14 +183,14 @@
                         <div class="accordion-body">
                             {{-- Button kemaskini perkhidmatan hakiki --}}
                             <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
-                                <a class="me-3 text-danger" type="button" onclick="">
+                                <a class="me-3 text-danger" type="button" onclick="editExperienceH()">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                     Kemaskini
                                 </a>
                             </div>
 
                             {{-- Form perkhidmatan hakiki --}}
-                            <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                            <form id="experienceHForm" action="{{ route('experienceH.update') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadExperienceH" data-reloadPage="false">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-10 col-md-10 col-lg-10 mb-1">
@@ -193,6 +218,31 @@
                                         <label class="form-label">Tarikh Pengesahan Lantikan</label>
                                         <input type="text" class="form-control flatpickr" value="" name="experience_verify_date" id="experience_verify_date" oninput="checkInput('experience_verify_date', 'experience_verify_dateAlert')" disabled>
                                         <div id="experience_verify_dateAlert" style="color: red; font-size: smaller;"></div>
+                                    </div>
+                                </div>
+                                <div id="button_action_experienceH" style="display:none">
+                                    <button type="button" id="btnEditExperienceH" hidden onclick="generalFormSubmit(this);"></button>
+                                    <div class="d-flex justify-content-end align-items-center my-1">
+                                        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditExperienceH', {
+                                            // experience_appoint_date: $('#experience_appoint_date').val(),
+                                            // experience_position_level: $('#experience_position_level').find(':selected').text(),
+                                            experience_skim: $('#experience_skim').find(':selected').text(),
+                                            experience_start_date: $('#experience_start_date').val(),
+                                            experience_verify_date: $('#experience_verify_date').val(),
+                                            // experience_department_ministry: $('#experience_department_ministry').find(':selected').text(),
+                                            // experience_department_state: $('#experience_department_state').find(':selected').text(),
+                                        },{
+                                            // experience_appoint_date: 'Tarikh Lantikan Pertama',
+                                            // experience_position_level: 'Taraf Jawatan',
+                                            experience_skim: 'Skim Perkhidmatan',
+                                            experience_start_date: 'Tarikh Lantikan',
+                                            experience_verify_date: 'Tarikh Pengesahan Lantikan',
+                                            // experience_department_ministry: 'Kementerian/Jabatan',
+                                            // experience_department_state: 'Negeri',
+                                        }
+                                        );">
+                                            <i class="fa fa-save"></i> Simpan
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -263,14 +313,14 @@
                         <div class="accordion-body">
                             {{-- Button kemaskini tempat bertugas --}}
                             <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
-                                <a class="me-3 text-danger" type="button" onclick="">
+                                <a class="me-3 text-danger" type="button" onclick="editExperienceB()">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                     Kemaskini
                                 </a>
                             </div>
 
                             {{-- Form tempat bertugas --}}
-                            <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                            <form id="experienceBForm" action="{{ route('experienceB.update') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadExperienceB" data-reloadPage="false">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
@@ -296,6 +346,31 @@
                                     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
                                         <label class="form-label">Daerah</label>
                                         <input type="text" class="form-control" value="" disabled>
+                                    </div>
+                                </div>
+                                <div id="button_action_experienceB" style="display:none">
+                                    <button type="button" id="btnEditExperienceB" hidden onclick="generalFormSubmit(this);"></button>
+                                    <div class="d-flex justify-content-end align-items-center my-1">
+                                        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditExperienceB', {
+                                            // experience_appoint_date: $('#experience_appoint_date').val(),
+                                            // experience_position_level: $('#experience_position_level').find(':selected').text(),
+                                            // experience_skim: $('#experience_skim').find(':selected').text(),
+                                            // experience_start_date: $('#experience_start_date').val(),
+                                            // experience_verify_date: $('#experience_verify_date').val(),
+                                            experience_department_ministry: $('#experience_department_ministry').find(':selected').text(),
+                                            experience_department_state: $('#experience_department_state').find(':selected').text(),
+                                        },{
+                                            // experience_appoint_date: 'Tarikh Lantikan Pertama',
+                                            // experience_position_level: 'Taraf Jawatan',
+                                            // experience_skim: 'Skim Perkhidmatan',
+                                            // experience_start_date: 'Tarikh Lantikan',
+                                            // experience_verify_date: 'Tarikh Pengesahan Lantikan',
+                                            experience_department_ministry: 'Kementerian/Jabatan',
+                                            experience_department_state: 'Negeri',
+                                        }
+                                        );">
+                                            <i class="fa fa-save"></i> Simpan
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -355,42 +430,18 @@
 </div>
 
 {{-- IDK WHERE TO PASTE THIS --}}
-<div id="button_action_experience" style="display:none">
-    <button type="button" id="btnEditExperience" hidden onclick="generalFormSubmit(this);"></button>
-    <div class="d-flex justify-content-end align-items-center my-1">
-        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditExperience', {
-            experience_appoint_date: $('#experience_appoint_date').val(),
-            experience_position_level: $('#experience_position_level').find(':selected').text(),
-            experience_skim: $('#experience_skim').find(':selected').text(),
-            experience_start_date: $('#experience_start_date').val(),
-            experience_verify_date: $('#experience_verify_date').val(),
-            experience_department_ministry: $('#experience_department_ministry').find(':selected').text(),
-            experience_department_state: $('#experience_department_state').find(':selected').text(),
-        },{
-            experience_appoint_date: 'Tarikh Lantikan Pertama',
-            experience_position_level: 'Taraf Jawatan',
-            experience_skim: 'Skim Perkhidmatan',
-            experience_start_date: 'Tarikh Lantikan',
-            experience_verify_date: 'Tarikh Pengesahan Lantikan',
-            experience_department_ministry: 'Kementerian/Jabatan',
-            experience_department_state: 'Negeri',
-        }
-        );">
-            <i class="fa fa-save"></i> Simpan
-        </button>
-    </div>
-</div>
+
 
 <script>
 
     function editExperience() {
         $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', false);
         $('#experienceForm select[name="experience_position_level"]').attr('disabled', false);
-        $('#experienceForm select[name="experience_skim"]').attr('disabled', false);
-        $('#experienceForm input[name="experience_start_date"]').attr('disabled', false);
-        $('#experienceForm input[name="experience_verify_date"]').attr('disabled', false);
-        $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', false);
-        $('#experienceForm select[name="experience_department_state"]').attr('disabled', false);
+        // $('#experienceForm select[name="experience_skim"]').attr('disabled', false);
+        // $('#experienceForm input[name="experience_start_date"]').attr('disabled', false);
+        // $('#experienceForm input[name="experience_verify_date"]').attr('disabled', false);
+        // $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', false);
+        // $('#experienceForm select[name="experience_department_state"]').attr('disabled', false);
 
         $("#button_action_experience").attr("style", "display:block");
     }
@@ -409,18 +460,108 @@
                 $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
                 $('#experienceForm select[name="experience_position_level"]').val(data.detail.taraf_jawatan).trigger('change');
                 $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
-                $('#experienceForm select[name="experience_skim"]').val(data.detail.kod_ruj_skim).trigger('change');
-                $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
-                $('#experienceForm input[name="experience_start_date"]').val(data.detail.tarikh_mula);
-                $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
-                $('#experienceForm input[name="experience_verify_date"]').val(data.detail.tarikh_disahkan);
-                $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
-                $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.ruj_kem_jabatan).trigger('change');
-                $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
-                $('#experienceForm select[name="experience_department_state"]').val(data.detail.negeri_jabatan).trigger('change');
-                $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
+                // $('#experienceForm select[name="experience_skim"]').val(data.detail.kod_ruj_skim).trigger('change');
+                // $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
+                // $('#experienceForm input[name="experience_start_date"]').val(data.detail.tarikh_mula);
+                // $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
+                // $('#experienceForm input[name="experience_verify_date"]').val(data.detail.tarikh_disahkan);
+                // $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
+                // $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.ruj_kem_jabatan).trigger('change');
+                // $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
+                // $('#experienceForm select[name="experience_department_state"]').val(data.detail.negeri_jabatan).trigger('change');
+                // $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
 
                 $("#button_action_experience").attr("style", "display:none");
+            },
+            error: function(data) {
+                //
+            }
+        });
+    }
+
+    function editExperienceH() {
+        // $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', false);
+        // $('#experienceForm select[name="experience_position_level"]').attr('disabled', false);
+        $('#experienceHForm select[name="experience_skim"]').attr('disabled', false);
+        $('#experienceHForm input[name="experience_start_date"]').attr('disabled', false);
+        $('#experienceHForm input[name="experience_verify_date"]').attr('disabled', false);
+        // $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', false);
+        // $('#experienceForm select[name="experience_department_state"]').attr('disabled', false);
+
+        $("#button_action_experienceH").attr("style", "display:block");
+    }
+
+    function reloadExperienceH() {
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
+
+        var reloadExperienceUrl = "{{ route('experienceH.details', ':replaceThis') }}"
+        reloadExperienceUrl = reloadExperienceUrl.replace(':replaceThis', no_pengenalan);
+        $.ajax({
+            url: reloadExperienceUrl,
+            method: 'GET',
+            async: true,
+            success: function(data) {
+                // $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.tarikh_lantik);
+                // $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
+                // $('#experienceForm select[name="experience_position_level"]').val(data.detail.taraf_jawatan).trigger('change');
+                // $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
+                $('#experienceHForm select[name="experience_skim"]').val(data.detail.kod_ruj_skim).trigger('change');
+                $('#experienceHForm select[name="experience_skim"]').attr('disabled', true);
+                $('#experienceHForm input[name="experience_start_date"]').val(data.detail.tarikh_mula);
+                $('#experienceHForm input[name="experience_start_date"]').attr('disabled', true);
+                $('#experienceHForm input[name="experience_verify_date"]').val(data.detail.tarikh_disahkan);
+                $('#experienceHForm input[name="experience_verify_date"]').attr('disabled', true);
+                // $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.ruj_kem_jabatan).trigger('change');
+                // $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
+                // $('#experienceForm select[name="experience_department_state"]').val(data.detail.negeri_jabatan).trigger('change');
+                // $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
+
+                $("#button_action_experienceH").attr("style", "display:none");
+            },
+            error: function(data) {
+                //
+            }
+        });
+    }
+
+    function editExperienceB() {
+        // $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', false);
+        // $('#experienceForm select[name="experience_position_level"]').attr('disabled', false);
+        // $('#experienceForm select[name="experience_skim"]').attr('disabled', false);
+        // $('#experienceForm input[name="experience_start_date"]').attr('disabled', false);
+        // $('#experienceForm input[name="experience_verify_date"]').attr('disabled', false);
+        $('#experienceBForm select[name="experience_department_ministry"]').attr('disabled', false);
+        $('#experienceBForm select[name="experience_department_state"]').attr('disabled', false);
+
+        $("#button_action_experienceB").attr("style", "display:block");
+    }
+
+    function reloadExperienceB() {
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
+
+        var reloadExperienceUrl = "{{ route('experienceB.details', ':replaceThis') }}"
+        reloadExperienceUrl = reloadExperienceUrl.replace(':replaceThis', no_pengenalan);
+        $.ajax({
+            url: reloadExperienceUrl,
+            method: 'GET',
+            async: true,
+            success: function(data) {
+                // $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.tarikh_lantik);
+                // $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
+                // $('#experienceForm select[name="experience_position_level"]').val(data.detail.taraf_jawatan).trigger('change');
+                // $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
+                // $('#experienceForm select[name="experience_skim"]').val(data.detail.kod_ruj_skim).trigger('change');
+                // $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
+                // $('#experienceForm input[name="experience_start_date"]').val(data.detail.tarikh_mula);
+                // $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
+                // $('#experienceForm input[name="experience_verify_date"]').val(data.detail.tarikh_disahkan);
+                // $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
+                $('#experienceBForm select[name="experience_department_ministry"]').val(data.detail.ruj_kem_jabatan).trigger('change');
+                $('#experienceBForm select[name="experience_department_ministry"]').attr('disabled', true);
+                $('#experienceBForm select[name="experience_department_state"]').val(data.detail.negeri_jabatan).trigger('change');
+                $('#experienceBForm select[name="experience_department_state"]').attr('disabled', true);
+
+                $("#button_action_experienceB").attr("style", "display:none");
             },
             error: function(data) {
                 //

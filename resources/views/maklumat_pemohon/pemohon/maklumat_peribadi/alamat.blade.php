@@ -70,7 +70,7 @@
 
                                     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
                                         <label class="form-label">Poskod</label>
-                                        <input type="text" class="form-control" value="" name="permanent_poscode" id="permanent_poscode" maxlength="5" oninput="onlyNumberOnInputText(this)" oninput="checkInput('permanent_poscode', 'permanent_poscodeAlert')" disabled>
+                                        <input type="text" class="form-control" value="" name="permanent_poscode" id="permanent_poscode" maxlength="5" oninput="onlyNumberOnInputText(this); checkInput('permanent_poscode', 'permanent_poscodeAlert')" disabled>
                                         <div id="permanent_poscodeAlert" style="color: red; font-size: smaller;"></div>
                                     </div>
 
@@ -89,6 +89,41 @@
                                             @endforeach
                                         </select>
                                         <div id="permanent_stateAlert" style="color: red; font-size: smaller;"></div>
+                                    </div>
+                                </div>
+                                <div id="button_action_alamat" style="display:none">
+                                    <button type="button" id="btnEditAlamat" hidden onclick="generalFormSubmit(this);"></button>
+                                    <div class="d-flex justify-content-end align-items-center my-1">
+                                        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditAlamat', {
+                                            permanent_address_1: $('#permanent_address_1').val(),
+                                            permanent_address_2: $('#permanent_address_2').val(),
+                                            permanent_address_3: $('#permanent_address_3').val(),
+                                            permanent_poscode: $('#permanent_poscode').val(),
+                                            permanent_city: $('#permanent_city').val(),
+                                            permanent_state: $('#permanent_state').find(':selected').text(),
+                                            // address_1: $('#address_1').val(),
+                                            // address_2: $('#address_2').val(),
+                                            // address_3: $('#address_3').val(),
+                                            // poscode: $('#poscode').val(),
+                                            // city: $('#city').val(),
+                                            // state: $('#state').find(':selected').text(),
+                                        },{
+                                            permanent_address_1: 'Alamat Tetap(1)',
+                                            permanent_address_2: 'Alamat Tetap(2)',
+                                            permanent_address_3: 'Alamat Tetap(3)',
+                                            permanent_poscode: 'Poskod Alamat Tetap',
+                                            permanent_city: 'Bandar Alamat Tetap',
+                                            permanent_state: 'Negeri Alamat Tetap',
+                                            // address_1: 'Alamat Menyurat(1)',
+                                            // address_2: 'Alamat Menyurat(2)',
+                                            // address_3: 'Alamat Menyurat(3)',
+                                            // poscode: 'Poskod Alamat Menyurat',
+                                            // city: 'Bandar Alamat Menyurat',
+                                            // state: 'Negeri Alamat Menyurat',
+                                        }
+                                        );">
+                                            <i class="fa fa-save"></i> Simpan
+                                        </button>
                                     </div>
                                 </div>
                             </form> {{-- TUTUP FORM SINI --}}
@@ -160,14 +195,14 @@
 
                             {{-- Button kemaskini alamat surat menyurat --}}
                             <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
-                                <a class="me-3 text-danger" type="button" onclick="">
+                                <a class="me-3 text-danger" type="button" onclick="editAlamatTetap()">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                     Kemaskini
                                 </a>
                             </div>
 
                             {{-- Form alamat surat menyurat --}}
-                            <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                            <form id="alamatsuratForm" action="{{ route('alamat-surat.update') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadAlamatTetap" data-reloadPage="false">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
@@ -186,7 +221,7 @@
 
                                     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
                                         <label class="form-label">Poskod</label>
-                                        <input type="text" class="form-control" value="" name="poscode" id="poscode" maxlength="5" oninput="onlyNumberOnInputText(this)" oninput="checkInput('poscode', 'poscodeAlert')" disabled>
+                                        <input type="text" class="form-control" value="" name="poscode" id="poscode" maxlength="5" oninput="onlyNumberOnInputText(this); checkInput('poscode', 'poscodeAlert')"  disabled>
                                         <div id="poscodeAlert" style="color: red; font-size: smaller;"></div>
                                     </div>
 
@@ -205,6 +240,41 @@
                                                 @endforeach
                                         </select>
                                         <div id="stateAlert" style="color: red; font-size: smaller;"></div>
+                                    </div>
+                                </div>
+                                <div id="button_action_alamat_tetap" style="display:none">
+                                    <button type="button" id="btnEditAlamatTetap" hidden onclick="generalFormSubmit(this);"></button>
+                                    <div class="d-flex justify-content-end align-items-center my-1">
+                                        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditAlamatTetap', {
+                                            // permanent_address_1: $('#permanent_address_1').val(),
+                                            // permanent_address_2: $('#permanent_address_2').val(),
+                                            // permanent_address_3: $('#permanent_address_3').val(),
+                                            // permanent_poscode: $('#permanent_poscode').val(),
+                                            // permanent_city: $('#permanent_city').val(),
+                                            // permanent_state: $('#permanent_state').find(':selected').text(),
+                                            address_1: $('#address_1').val(),
+                                            address_2: $('#address_2').val(),
+                                            address_3: $('#address_3').val(),
+                                            poscode: $('#poscode').val(),
+                                            city: $('#city').val(),
+                                            state: $('#state').find(':selected').text(),
+                                        },{
+                                            // permanent_address_1: 'Alamat Tetap(1)',
+                                            // permanent_address_2: 'Alamat Tetap(2)',
+                                            // permanent_address_3: 'Alamat Tetap(3)',
+                                            // permanent_poscode: 'Poskod Alamat Tetap',
+                                            // permanent_city: 'Bandar Alamat Tetap',
+                                            // permanent_state: 'Negeri Alamat Tetap',
+                                            address_1: 'Alamat Menyurat(1)',
+                                            address_2: 'Alamat Menyurat(2)',
+                                            address_3: 'Alamat Menyurat(3)',
+                                            poscode: 'Poskod Alamat Menyurat',
+                                            city: 'Bandar Alamat Menyurat',
+                                            state: 'Negeri Alamat Menyurat',
+                                        }
+                                        );">
+                                            <i class="fa fa-save"></i> Simpan
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -264,41 +334,6 @@
 </div>
 
 {{-- IDK WHERE TO PASTE THIS --}}
-<div id="button_action_alamat" style="display:none">
-    <button type="button" id="btnEditAlamat" hidden onclick="generalFormSubmit(this);"></button>
-    <div class="d-flex justify-content-end align-items-center my-1">
-        <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditAlamat', {
-            permanent_address_1: $('#permanent_address_1').val(),
-            permanent_address_2: $('#permanent_address_2').val(),
-            permanent_address_3: $('#permanent_address_3').val(),
-            permanent_poscode: $('#permanent_poscode').val(),
-            permanent_city: $('#permanent_city').val(),
-            permanent_state: $('#permanent_state').find(':selected').text(),
-            address_1: $('#address_1').val(),
-            address_2: $('#address_2').val(),
-            address_3: $('#address_3').val(),
-            poscode: $('#poscode').val(),
-            city: $('#city').val(),
-            state: $('#state').find(':selected').text(),
-        },{
-            permanent_address_1: 'Alamat Tetap(1)',
-            permanent_address_2: 'Alamat Tetap(2)',
-            permanent_address_3: 'Alamat Tetap(3)',
-            permanent_poscode: 'Poskod Alamat Tetap',
-            permanent_city: 'Bandar Alamat Tetap',
-            permanent_state: 'Negeri Alamat Tetap',
-            address_1: 'Alamat Menyurat(1)',
-            address_2: 'Alamat Menyurat(2)',
-            address_3: 'Alamat Menyurat(3)',
-            poscode: 'Poskod Alamat Menyurat',
-            city: 'Bandar Alamat Menyurat',
-            state: 'Negeri Alamat Menyurat',
-        }
-        );">
-            <i class="fa fa-save"></i> Simpan
-        </button>
-    </div>
-</div>
 
 <script>
     function editAlamat() {
@@ -308,12 +343,12 @@
         $('#alamatForm input[name="permanent_poscode"]').attr('disabled', false);
         $('#alamatForm input[name="permanent_city"]').attr('disabled', false);
         $('#alamatForm select[name="permanent_state"]').attr('disabled', false);
-        $('#alamatForm input[name="address_1"]').attr('disabled', false);
-        $('#alamatForm input[name="address_2"]').attr('disabled', false);
-        $('#alamatForm input[name="address_3"]').attr('disabled', false);
-        $('#alamatForm input[name="poscode"]').attr('disabled', false);
-        $('#alamatForm input[name="city"]').attr('disabled', false);
-        $('#alamatForm select[name="state"]').attr('disabled', false);
+        // $('#alamatForm input[name="address_1"]').attr('disabled', false);
+        // $('#alamatForm input[name="address_2"]').attr('disabled', false);
+        // $('#alamatForm input[name="address_3"]').attr('disabled', false);
+        // $('#alamatForm input[name="poscode"]').attr('disabled', false);
+        // $('#alamatForm input[name="city"]').attr('disabled', false);
+        // $('#alamatForm select[name="state"]').attr('disabled', false);
 
         $("#button_action_alamat").attr("style", "display:block");
     }
@@ -340,20 +375,80 @@
                 $('#alamatForm input[name="permanent_city"]').attr('disabled', true);
                 $('#alamatForm select[name="permanent_state"]').val(data.detail.tempat_tinggal_tetap).trigger('change');
                 $('#alamatForm select[name="permanent_state"]').attr('disabled', true);
-                $('#alamatForm input[name="address_1"]').val(data.detail.alamat_1);
-                $('#alamatForm input[name="address_1"]').attr('disabled', true);
-                $('#alamatForm input[name="address_2"]').val(data.detail.alamat_2);
-                $('#alamatForm input[name="address_2"]').attr('disabled', true);
-                $('#alamatForm input[name="address_3"]').val(data.detail.alamat_3);
-                $('#alamatForm input[name="address_3"]').attr('disabled', true);
-                $('#alamatForm input[name="poscode"]').val(data.detail.poskod);
-                $('#alamatForm input[name="poscode"]').attr('disabled', true);
-                $('#alamatForm input[name="city"]').val(data.detail.bandar);
-                $('#alamatForm input[name="city"]').attr('disabled', true);
-                $('#alamatForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change');
-                $('#alamatForm select[name="state"]').attr('disabled', true);
+                // $('#alamatForm input[name="address_1"]').val(data.detail.alamat_1);
+                // $('#alamatForm input[name="address_1"]').attr('disabled', true);
+                // $('#alamatForm input[name="address_2"]').val(data.detail.alamat_2);
+                // $('#alamatForm input[name="address_2"]').attr('disabled', true);
+                // $('#alamatForm input[name="address_3"]').val(data.detail.alamat_3);
+                // $('#alamatForm input[name="address_3"]').attr('disabled', true);
+                // $('#alamatForm input[name="poscode"]').val(data.detail.poskod);
+                // $('#alamatForm input[name="poscode"]').attr('disabled', true);
+                // $('#alamatForm input[name="city"]').val(data.detail.bandar);
+                // $('#alamatForm input[name="city"]').attr('disabled', true);
+                // $('#alamatForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change');
+                // $('#alamatForm select[name="state"]').attr('disabled', true);
 
                 $("#button_action_alamat").attr("style", "display:none");
+            },
+            error: function(data) {
+                //
+            }
+        });
+    }
+
+    function editAlamatTetap() {
+        // $('#alamatForm input[name="permanent_address_1"]').attr('disabled', false);
+        // $('#alamatForm input[name="permanent_address_2"]').attr('disabled', false);
+        // $('#alamatForm input[name="permanent_address_3"]').attr('disabled', false);
+        // $('#alamatForm input[name="permanent_poscode"]').attr('disabled', false);
+        // $('#alamatForm input[name="permanent_city"]').attr('disabled', false);
+        // $('#alamatForm select[name="permanent_state"]').attr('disabled', false);
+        $('#alamatsuratForm input[name="address_1"]').attr('disabled', false);
+        $('#alamatsuratForm input[name="address_2"]').attr('disabled', false);
+        $('#alamatsuratForm input[name="address_3"]').attr('disabled', false);
+        $('#alamatsuratForm input[name="poscode"]').attr('disabled', false);
+        $('#alamatsuratForm input[name="city"]').attr('disabled', false);
+        $('#alamatsuratForm select[name="state"]').attr('disabled', false);
+
+        $("#button_action_alamat_tetap").attr("style", "display:block");
+    }
+
+    function reloadAlamatTetap() {
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
+
+        var reloadAlamatUrl = "{{ route('alamat-surat.details', ':replaceThis') }}"
+        reloadAlamatUrl = reloadAlamatUrl.replace(':replaceThis', no_pengenalan);
+        $.ajax({
+            url: reloadAlamatUrl,
+            method: 'GET',
+            async: true,
+            success: function(data) {
+                // $('#alamatForm input[name="permanent_address_1"]').val(data.detail.alamat_1_tetap);
+                // $('#alamatForm input[name="permanent_address_1"]').attr('disabled', true);
+                // $('#alamatForm input[name="permanent_address_2"]').val(data.detail.alamat_2_tetap);
+                // $('#alamatForm input[name="permanent_address_2"]').attr('disabled', true);
+                // $('#alamatForm input[name="permanent_address_3"]').val(data.detail.alamat_3_tetap);
+                // $('#alamatForm input[name="permanent_address_3"]').attr('disabled', true);
+                // $('#alamatForm input[name="permanent_poscode"]').val(data.detail.poskod_tetap);
+                // $('#alamatForm input[name="permanent_poscode"]').attr('disabled', true);
+                // $('#alamatForm input[name="permanent_city"]').val(data.detail.bandar_tetap);
+                // $('#alamatForm input[name="permanent_city"]').attr('disabled', true);
+                // $('#alamatForm select[name="permanent_state"]').val(data.detail.tempat_tinggal_tetap).trigger('change');
+                // $('#alamatForm select[name="permanent_state"]').attr('disabled', true);
+                $('#alamatsuratForm input[name="address_1"]').val(data.detail.alamat_1);
+                $('#alamatsuratForm input[name="address_1"]').attr('disabled', true);
+                $('#alamatsuratForm input[name="address_2"]').val(data.detail.alamat_2);
+                $('#alamatsuratForm input[name="address_2"]').attr('disabled', true);
+                $('#alamatsuratForm input[name="address_3"]').val(data.detail.alamat_3);
+                $('#alamatsuratForm input[name="address_3"]').attr('disabled', true);
+                $('#alamatsuratForm input[name="poscode"]').val(data.detail.poskod);
+                $('#alamatsuratForm input[name="poscode"]').attr('disabled', true);
+                $('#alamatsuratForm input[name="city"]').val(data.detail.bandar);
+                $('#alamatsuratForm input[name="city"]').attr('disabled', true);
+                $('#alamatsuratForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change');
+                $('#alamatsuratForm select[name="state"]').attr('disabled', true);
+
+                $("#button_action_alamat_tetap").attr("style", "display:none");
             },
             error: function(data) {
                 //
