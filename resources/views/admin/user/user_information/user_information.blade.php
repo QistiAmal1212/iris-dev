@@ -14,6 +14,14 @@ Maklumat Profil
 @endsection
 
 @section('content')
+@error('change_password')
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <div class="alert-body">
+            {{ $message }}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@enderror
 <div class="row">
     <div class="col-md-4 col-lg-4 col-xl-4 col-12">
         <div class="card">
@@ -132,6 +140,8 @@ Maklumat Profil
     </div>
 </div>
 @endsection
+
+
 
 @section('vendor-script')
   <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
