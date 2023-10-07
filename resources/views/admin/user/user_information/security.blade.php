@@ -7,7 +7,7 @@
         data-refreshFunctionNameIfSuccess="resetInput" data-refreshFunctionName="resetOnlyCaptcha"
         data-swal="Password updated successfully.">
         @csrf
-        
+
         <div class="card-body" id="divChangePassword">
             <div class="alert alert-warning mb-2" role="alert">
                 <h6 class="alert-heading">
@@ -15,7 +15,7 @@
                     Pastikan keperluan ini dipenuhi:
                 </h6>
                 <div class="alert-body fw-normal">
-                    Minimum panjang kata laluan adalah 8 huruf, kombinasi antara huruf besar dan kecil, karakter & nombor.
+                    Minimum panjang kata laluan adalah 12 huruf, kombinasi antara huruf besar dan kecil, karakter & nombor.
                 </div>
             </div>
 

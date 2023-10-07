@@ -60,6 +60,15 @@
                                 tabindex="1" required/>
                         </div> --}}
 
+                        @error('active')
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div class="alert-body">
+                                    {{ $message }}
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @enderror
+
                         @error('no_ic')
                             <div class="alert alert-danger alert-dismissible" role="alert">
                                 <div class="alert-body">

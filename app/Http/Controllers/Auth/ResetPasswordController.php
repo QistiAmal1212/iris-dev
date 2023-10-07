@@ -64,7 +64,7 @@ class ResetPasswordController extends Controller
         return [
             'token' => 'required',
             'email' => 'required|email',
-            'password' => ['required', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/', 'confirmed'],
+            'password' => ['required', 'min:12', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/', 'confirmed'],
         ];
     }
 
@@ -72,7 +72,7 @@ class ResetPasswordController extends Controller
     {
         return [
             'password.required' => 'Sila isikan kata laluan',
-            'password.min' => 'Kata laluan mestilah sekurang-kurangnya 8 aksara',
+            'password.min' => 'Kata laluan mestilah sekurang-kurangnya 12 aksara',
             'password.regex' => 'Kata laluan tidak sah',
             'password.confirmed' => 'Pengesahan kata laluan tidak sepadan',
         ];

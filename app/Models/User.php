@@ -31,8 +31,11 @@ class User extends Authenticatable
         'password',
         'ref_department_ministry_code',
         'ref_skim_code',
-        'last_activity',
-        'last_change_password'
+        'last_login',
+        'last_change_password',
+        'login_failed_counter',
+        'is_blocked',
+        'is_active'
     ];
 
     /**
