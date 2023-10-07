@@ -104,53 +104,25 @@ class MaklumatPemohonController extends Controller
     }
 
     public function listCarian(Request $request){
-
         $nama = $request->search_nama;
-
-        // $candidate = Candidate::where('nama_penuh', 'ILIKE', '%' . $nama . '%')->whereNotNull('no_kp_baru');
-        // function created in the db and calling the same here
-        $candidate = DB::select('SELECT * FROM get_calon_by_name(?)', [$nama]);
-
-        foreach ($candidate as $key => $value) {
-            if (!isset($value->no_kp_baru)) {
-                unset($candidate[$key]);
-            }
+        if (!isset($request->page)) {
+            $count = DB::select("SELECT count(*) FROM calon WHERE nama_penuh ilike ?", ['%'.$nama.'%']);
+            $total_pages = $count[0]->count/10;
+            $total_pages = round($total_pages);
+        } else {
+            $total_pages = $request->total_pages;
         }
-        if ($request->ajax()) {
 
-            // $log = new LogSystem;
-            // $log->module_id = MasterModule::where('code', 'admin.group-role')->firstOrFail()->id;
-            // $log->activity_type_id = 1;
-            // $log->description = "Lihat Senarai Pengguna [".$role->name."]";
-            // $log->data_old = $users;
-            // $log->url = $request->fullUrl();
-            // $log->method = strtoupper($request->method());
-            // $log->ip_address = $request->ip();
-            // $log->created_by_user_id = auth()->id();
-            // $log->save();
+        
+        $offset = $request->input('page', 1)*10 - 10; 
+        $currentPage = $request->input('page', 1);
+        $previousPage = $currentPage-1;
+        $nextPage = $currentPage+1;
+        $sql = "SELECT no_kp_baru, nama_penuh FROM calon WHERE nama_penuh ilike ? OFFSET ? LIMIT ?";
 
-            return Datatables::of($candidate)
-                ->editColumn('no_kp_baru', function ($candidate) {
-                    return $candidate->no_kp_baru;
-                })
-                ->editColumn('nama_penuh', function ($candidate) {
-                    return $candidate->nama_penuh;
-                })
-                ->editColumn('action', function ($candidate) {
-                    $ic = "'$candidate->no_kp_baru'";
-
-                    $button = "";
-
-                    $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
-
-                    $button .= '<a class="btn btn-xs btn-default" onclick="searchCandidate('.$ic.')"> <i class="fas fa-pencil text-primary"></i> ';
-
-                    $button .= '</div>';
-
-                    return $button;
-                })
-                ->make(true);
-        }
+        $candidate = DB::select($sql, ['%' . $nama . '%', $offset, 10]);
+        
+        return view('maklumat_pemohon.list', compact('total_pages', 'candidate', 'previousPage', 'nextPage', 'currentPage'));
     }
 
     public function getCandidateDetails(Request $request)
