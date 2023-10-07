@@ -4,18 +4,19 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\KodPelbagai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Reference\Bahagian;
 use Yajra\DataTables\DataTables;
 use App\Models\Master\MasterModule;
+use App\Models\Reference\JenisOkuJKM;
 
-class BahagianController extends Controller
+class JenisOkuJKMController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->module = MasterModule::where('code', 'admin.reference.bahagian')->first();
+        $this->module = MasterModule::where('code', 'admin.reference.jenisoku')->first();
         $this->menu = $this->module->menu;
     }
 
@@ -42,13 +43,15 @@ class BahagianController extends Controller
             }
         }
 
-        $bahagian = Bahagian::all();
+        $KaategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('nama', 'asc')->get();
+
+        $jenisoku = JenisOkuJKM::all();
         if ($request->ajax()) {
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.bahagian')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jenisoku')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Bahagian";
+            $log->description = "Lihat Senarai Jenis OKU JKM";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -56,24 +59,24 @@ class BahagianController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($bahagian)
-                ->editColumn('kod', function ($bahagian){
-                    return $bahagian->kod;
+            return Datatables::of($jenisoku)
+                ->editColumn('kod', function ($jenisoku){
+                    return $jenisoku->kod;
                 })
-                ->editColumn('nama', function ($bahagian) {
-                    return $bahagian->nama;
+                ->editColumn('nama', function ($jenisoku) {
+                    return $jenisoku->nama;
                 })
-                ->editColumn('action', function ($bahagian) use ($accessDelete) {
+                ->editColumn('action', function ($jenisoku) use ($accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="bahagianForm('.$bahagian->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="jenisokuForm('.$jenisoku->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($bahagian->sah_yt) {
-                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$bahagian->id.'" onclick="toggleActive('.$bahagian->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        if($jenisoku->sah_yt) {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$jenisoku->id.'" onclick="toggleActive('.$jenisoku->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
-                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$bahagian->id.'" onclick="toggleActive('.$bahagian->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$jenisoku->id.'" onclick="toggleActive('.$jenisoku->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
                     }
                     $button .= '</div>';
@@ -84,7 +87,7 @@ class BahagianController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.bahagian', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.jenisoku', compact('accessAdd', 'accessUpdate', 'accessDelete', 'KaategoriOKU'));
     }
 
     public function store(Request $request)
@@ -93,15 +96,15 @@ class BahagianController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_bahagian,kod',
+                'code' => 'required|string|unique:ruj_jenisoku,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan bahagian',
+                'name.required' => 'Sila isikan jenisoku',
             ]);
 
-            $bahagian = Bahagian::create([
+            $jenisoku = JenisOkuJKM::create([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
                 'created_by' => auth()->user()->id,
@@ -109,10 +112,10 @@ class BahagianController extends Controller
             ]);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.bahagian')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jenisoku')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Bahagian";
-            $log->data_new = json_encode($bahagian);
+            $log->description = "Tambah Jenis OKU JKM";
+            $log->data_new = json_encode($jenisoku);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -135,16 +138,16 @@ class BahagianController extends Controller
         DB::beginTransaction();
         try {
 
-            $bahagian = Bahagian::find($request->bahagianId);
+            $jenisoku = JenisOkuJKM::find($request->jenisokuId);
 
-            if (!$bahagian) {
+            if (!$jenisoku) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.bahagian')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jenisoku')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Bahagian";
-            $log->data_new = json_encode($bahagian);
+            $log->description = "Lihat Maklumat Jenis OKU JKM";
+            $log->data_new = json_encode($jenisoku);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -153,7 +156,7 @@ class BahagianController extends Controller
 
             DB::commit();
 
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $bahagian]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $jenisoku]);
 
         } catch (\Throwable $e) {
 
@@ -167,32 +170,32 @@ class BahagianController extends Controller
         DB::beginTransaction();
         try {
 
-            $bahagianId = $request->bahagianId;
-            $bahagian = Bahagian::find($bahagianId);
+            $jenisokuId = $request->jenisokuId;
+            $jenisoku = JenisOkuJKM::find($jenisokuId);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.bahagian')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jenisoku')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Bahagian";
-            $log->data_old = json_encode($bahagian);
+            $log->description = "Kemaskini Maklumat Jenis OKU JKM";
+            $log->data_old = json_encode($jenisoku);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_bahagian,kod,'.$bahagianId,
+                'code' => 'required|string|unique:ruj_jenisoku,kod,'.$jenisokuId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan bahagian',
+                'name.required' => 'Sila isikan jenisoku',
             ]);
 
-            $bahagian->update([
+            $jenisoku->update([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
-            $bahagianNewData = Bahagian::find($bahagianId);
-            $log->data_new = json_encode($bahagianNewData);
+            $jenisokuNewData = JenisOkuJKM::find($jenisokuId);
+            $log->data_new = json_encode($jenisokuNewData);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -214,12 +217,12 @@ class BahagianController extends Controller
         DB::beginTransaction();
         try {
 
-            $bahagianId = $request->bahagianId;
-            $bahagian = Bahagian::find($bahagianId);
+            $jenisokuId = $request->jenisokuId;
+            $jenisoku = JenisOkuJKM::find($jenisokuId);
 
-            $sah_yt = $bahagian->sah_yt;
+            $sah_yt = $jenisoku->sah_yt;
 
-            $bahagian->update([
+            $jenisoku->update([
                 'sah_yt' => !$sah_yt,
             ]);
 

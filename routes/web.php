@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Reference\BahagianController;
 use App\Http\Controllers\Reference\CutiAwamController;
 use App\Http\Controllers\Reference\DaerahController;
+use App\Http\Controllers\Reference\JenisOkuJKMController;
 use App\Http\Controllers\Reference\KelayakanSetarafController;
 use App\Http\Controllers\Reference\KetuaPerkhidmatanController;
 use App\Http\Controllers\Reference\KodPelbagaiController;
@@ -535,6 +536,16 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{skimperkhidmatanId}', [SkimPerkhidmatanController::class, 'edit'])->name('admin.reference.skimperkhidmatan.edit');
             Route::post('update/{skimperkhidmatanId}', [SkimPerkhidmatanController::class, 'update'])->name('admin.reference.skimperkhidmatan.update');
             Route::post('toggleActive/{skimperkhidmatanId}', [SkimPerkhidmatanController::class, 'toggleActive'])->name('admin.reference.skimperkhidmatan.toggleActive');
+        });
+
+        Route::prefix('sub_oku')->group(function () {
+            Route::get('/', [JenisOkuJKMController::class, 'index'])->name('admin.reference.jenisoku');
+            Route::post('create', [JenisOkuJKMController::class, 'store'])->name('admin.reference.jenisoku.store');
+            Route::get('edit/{jenisokuId}', [JenisOkuJKMController::class, 'edit'])->name('admin.reference.jenisoku.edit');
+            Route::post('update/{jenisokuId}', [JenisOkuJKMController::class, 'update'])->name('admin.reference.jenisoku.update');
+            Route::post('toggleActive/{
+
+            }', [JenisOkuJKMController::class, 'toggleActive'])->name('admin.reference.jenisoku.toggleActive');
         });
 
     });

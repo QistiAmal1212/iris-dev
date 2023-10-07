@@ -9,6 +9,7 @@ use App\Models\LogSystem;
 use App\Models\Master\MasterModule;
 use App\Models\Master\MasterActivityType;
 use App\Notifications\NewUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -372,7 +373,7 @@ class UserController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Pengguna [".$user->name."]";
             $log->data_old = json_encode($user);
-            
+
             $user->update([
                 'name' => $request->full_name,
                 'no_ic' => $request->ic_number,
@@ -470,13 +471,18 @@ class UserController extends Controller
                 'captcha' => 'CAPTCHA validation failed, try again.',
             ]);
 
-            if (Hash::check($request->reset_password_old, auth()->user()->password)) {
 
-                User::whereId(auth()->user()->id)->update(['password' => Hash::make($request->reset_password_new)]);
+            $lastChangePassword = auth()->user()->last_change_password;
+
+            // Check if last password change was more than a month ago
+            if ($lastChangePassword && now()->diffInDays($lastChangePassword) >= 180) {
+                User::whereId(auth()->user()->id)->update([
+                    'password' => Hash::make($request->reset_password_new),
+                    'last_change_password' => now(),
+                ]);
                 $user = auth()->user();
-
             } else {
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Wrong Current Password'], 404);
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Kata Laluan hanya boleh diubah setiap 6 bulan'], 404);
             }
 
         } catch (Throwable $e) {
