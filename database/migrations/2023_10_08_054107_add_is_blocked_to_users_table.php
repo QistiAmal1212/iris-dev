@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dateTime('last_login')->nullable();
+            $table->boolean('is_blocked')->default(false);
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('last_login');
+            $table->dropColumn('is_blocked');
         });
     }
 };

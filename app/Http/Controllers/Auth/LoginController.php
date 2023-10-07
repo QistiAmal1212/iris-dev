@@ -64,6 +64,17 @@ class LoginController extends Controller
 
     protected function authenticated($request, $user)
     {
+        if (!$user->is_active) {
+            auth()->logout();
+            return redirect()->route('login')->withErrors(["active" => "Akaun anda sudah tidak aktif"]);
+        }
+        if ($user->is_blocked) {
+            auth()->logout();
+            return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat"]);
+        }
+        $user->last_login = now();
+        $user->save();
+
         $log = new LogSystem;
         $log->module_id = 1;
         $log->activity_type_id = 6;
@@ -85,6 +96,27 @@ class LoginController extends Controller
         }
         // Cookie::make('no_ic', $user->no_ic, 525600);
         // Cookie::make('password', $request->password, 525600);
+    }
+
+    protected function sendFailedLoginResponse(Request $request){
+        $user = User::where('no_ic', $request->no_ic)->first();
+
+        if($user){
+            $user->login_failed_counter += 1;
+
+            if($user->login_failed_counter >= 5){
+                $user->is_blocked = true;
+                $user->save();
+            }
+            if ($user->is_blocked) {
+                auth()->logout();
+                return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat"]);
+            }
+
+            $user->save();
+
+        }
+        return redirect()->route('login')->withErrors(["active" => "Kata Laluan Salah"]);
     }
 
     /**
