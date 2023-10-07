@@ -102,7 +102,7 @@
                     @if($accessAdd)
                     <div class="d-flex justify-content-end align-items-center">
                         <button type="button" class="btn btn-primary btn-md float-right" onclick="viewUserForm()">
-                            <i class="fa-solid fa-add"></i> 
+                            <i class="fa-solid fa-add"></i>
                             Tambah Pengguna
                         </button>
                     </div>
