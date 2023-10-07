@@ -74,18 +74,8 @@ Maklumat Pemohon
             <a data-bs-toggle="collapse" href="#listPemohon"><i data-feather="chevron-down"></i></a>
         </div>
         <div class="card-body" id="listPemohon">
-            <div class="table-responsive">
-                <table class="table header_uppercase table-bordered" id="table-carian">
-                    <thead>
-                        <tr>
-                            <th width="10%">#</th>
-                            <th>No Kad Pengenalan Baru</th>
-                            {{-- <th>No Kad Pengenalan Lama</th> --}}
-                            <th width="55%">Nama Penuh</th>
-                            <th width="15%">Lihat Maklumat</th>
-                        </tr>
-                    </thead>
-                </table>
+            <div class="table-responsive" id="append-data">
+                
             </div>
         </div>
     </div>
@@ -337,75 +327,41 @@ Maklumat Pemohon
         } else if (search_nama.length < 3){
             Swal.fire('Gagal', 'Sila isikan sekurang-kurangnya 3 huruf', 'error');
         } else {
-            url = "{{ route('list-carian') }}";
-
-            var tableList;
-
-            tableList = $('#table-carian').DataTable().destroy();
-
-            tableList = $('#table-carian').DataTable({
-                orderCellsTop: true,
-                colReorder: false,
-                pageLength: 10,
-                processing: true,
-                serverSide: true, //enable if data is large (more than 50,000)
-                ajax: {
-                    url: url,
-                    cache: false,
-                    data : {
-                        search_nama : search_nama
-                    }
+            $.ajax({
+                url: "{{ route('list-carian') }}",
+                method: 'GET',
+                async: true,
+                data : {
+                    search_nama : search_nama,
                 },
-                columns: [
-                    {
-                        defaultContent: '',
-                        orderable: false,
-                        searchable: false,
-                        className : "text-center",
-                        render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        data: "no_kp_baru",
-                        name: "no_kp_baru",
-                        render: function(data, type, row) {
-                            return $("<div/>").html(data).text();
-                        }
-                    },
-                    {
-                        data: "nama_penuh",
-                        name: "nama_penuh",
-                        render: function(data, type, row) {
-                            return $("<div/>").html(data).text();
-                        }
-                    },
-                    {
-                        data: "action",
-                        name: "action",
-                        orderable: false,
-                        searchable: false
-                    },
-                ],
-                searching: false,
-                lengthChange: false,
-                language : {
-                    emptyTable : "Tiada data tersedia",
-                    info : "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
-                    infoEmpty : "Menunjukkan 0 hingga 0 daripada 0 entri",
-                    infoFiltered : "(Ditapis dari _MAX_ entri)",
-                    search : "Cari:",
-                    zeroRecords : "Tiada rekod yang ditemui",
-                    paginate : {
-                        first : "Pertama",
-                        last : "Terakhir",
-                        next : "Seterusnya",
-                        previous : "Sebelumnya"
-                    },
-                    lengthMenu : "Lihat _MENU_ entri",
+                success: function(data) {
+                    $('#append-data').empty(); 
+                    $('#append-data').append(data);
                 }
             });
         }
+    }
+    function updatePage(id, total_pages) {
+        if (id == total_pages) {
+            return false;
+        }
+        if (id == 0) {
+            return false;
+        }
+        $.ajax({
+            url: "{{ route('list-carian') }}",
+            method: 'GET',
+            async: true,
+            data : {
+                search_nama : search_nama,
+                page: id,
+                total_pages: total_pages
+            },
+            success: function(data) {
+                $('#append-data').empty();
+                $('#append-data').append(data);
+            }
+        });
     }
 
     searchCandidate = function(carian = null) {
@@ -1014,8 +970,9 @@ Maklumat Pemohon
         $('#candidate_timeline').load(reloadUrl)
     }
     function reset() {
-        $('#table-carian').DataTable().destroy();
-        $("#table-carian > tbody").html("");
+        // $('#table-carian').DataTable().destroy();
+        // $("#table-carian > tbody").html("");
+        $('#append-data').empty(); 
 
         $('#candidate_name').html('');
         $('#candidate_ic').html('');
