@@ -34,7 +34,7 @@
 	<td>{{$index}}</td>
 	<td>{{ $user->no_kp_baru }}</td>
 	<td>{{ $user->nama_penuh }}</td>
-	<td><div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action"><a class='btn btn-xs btn-default' onclick="searchCandidate({{$user->no_kp_baru}})"> <i class="fas fa-pencil text-primary"></i></div> </td>
+	<td><div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action"><a class='btn btn-xs btn-default' onclick="searchCandidate('{{$user->no_kp_baru}}')"> <i class="fas fa-pencil text-primary"></i></div> </td>
 </tr>
 @endforeach
 </tbody>
