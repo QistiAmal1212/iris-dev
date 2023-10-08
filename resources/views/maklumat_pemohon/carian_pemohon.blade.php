@@ -85,7 +85,7 @@ Maklumat Pemohon
                 </div>
                 <div class="mt-2">
                     <h5 class="fw-bolder">Emel:</h5>
-                    <p class="card-text" id=""></p>
+                    <p class="card-text" id="candidate_email"></p>
                 </div>
                 <div class="mt-2">
                     <h5 class="fw-bolder">Alamat:</h5>
@@ -461,7 +461,8 @@ Maklumat Pemohon
                     $('#candidate_name').html(data.detail.nama_penuh);
                     $('#candidate_ic').html(data.detail.no_kp_baru);
                     $('#candidate_no_pengenalan').val(data.detail.no_pengenalan);
-
+                    $('$candidate_email').val(data.detail.emel ? data.detail.emel : data_not_available);
+                    
                     var timelineUrl = "{{ route('timeline.list', ':replaceThis') }}"
                     timelineUrl = timelineUrl.replace(':replaceThis', data.detail.no_pengenalan);
                     $('#candidate_timeline').load(timelineUrl)
