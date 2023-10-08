@@ -15,7 +15,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-wrap" id="baseVerticalLeft-tab2" data-bs-toggle="tab" aria-controls="tabVerticalLeft2" href="#tabVerticalLeft2" role="tab" aria-selected="false">
-                        Jejak Audit
+                        Jejak Audit ok
                     </a>
                 </li>
             </ul>

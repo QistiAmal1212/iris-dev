@@ -1,3 +1,4 @@
+@if ($total_pages > 1)
 <div class="btn-group" style="float: right;">
   <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
     Page {{$currentPage}}
@@ -8,6 +9,7 @@
    	@endfor
   </ul>
 </div>
+@endif
 <br>
 <br>
 <br>
@@ -39,7 +41,7 @@
 @endforeach
 </tbody>
 </table>
-
+@if ($total_pages > 1)
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
     <li class="page-item">
@@ -50,3 +52,4 @@
     </li>
   </ul>
 </nav>
+@endif
