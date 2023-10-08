@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class ResetPasswordController extends Controller
     public function __construct(HasherContract $hasher)
     {
         $this->hasher = $hasher;
-        $this->expired = config('auth.passwords.'.config('auth.defaults.passwords').'.expire') * 60; //60seconds x 60 minutes
+        $this->expired = config('auth.passwords.'.config('auth.defaults.passwords').'.expire') * 5; //60seconds x 5 minutes
     }
 
     public function showResetForm(Request $request)
@@ -76,6 +77,20 @@ class ResetPasswordController extends Controller
             'password.regex' => 'Kata laluan tidak sah',
             'password.confirmed' => 'Pengesahan kata laluan tidak sepadan',
         ];
+    }
+
+    protected function sendResetResponse(Request $request, $response)
+    {
+        //update after reset password
+        $user = User::where('email',$request->email)->first();
+        $user->update([
+            'last_login' => now(),
+            'last_change_password' => now(),
+            'is_blocked' => false,
+            'is_active' => 1,
+        ]);
+
+        return redirect()->to('/home');
     }
 
     /**
