@@ -39,7 +39,7 @@ $configData = Helper::applClasses();
 
                 </center>
 
-                <form method="POST" action="{{ route('password.email') }}">
+                <form method="POST" action="{{ route('password.email') }}" onsubmit="return checkBlockedStatus()">
                     @csrf
                     <div class="mb-1">
                         <label class="form-label" for="forgot-password-email">Emel</label>
@@ -53,6 +53,12 @@ $configData = Helper::applClasses();
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
+                    <div id="block-alert" class="alert alert-danger alert-dismissible d-none">
+                        <div class="alert-body">
+                               Akaun anda telah disekat. Sila minta Admin untuk reset kata laluan
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     @if(Session::has('status'))
                         <div class="alert alert-success">
                             <ul>
@@ -78,6 +84,22 @@ $configData = Helper::applClasses();
         </div>
     </div>
 </div>
+<script>
+    function checkBlockedStatus() {
+        var email = document.getElementById('forgot-password-email').value;
+        fetch('/check-email-blocked/' + email)
+            .then(response => response.json())
+            .then(data => {
+                if (data.blocked) {
+                    document.getElementById('blocked-alert').classList.remove('d-none');
+                    return false;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+
+        return true;
+    }
+</script>
 @endsection
 
 @section('vendor-script')

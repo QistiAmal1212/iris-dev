@@ -37,6 +37,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CaptchaController;
+use App\Http\Controllers\CheckEmailController;
 use App\Http\Controllers\Reference\AreaInterviewCentreController;
 use App\Http\Controllers\Security\MenuController;
 use App\Http\Controllers\Reference\StateController;
@@ -106,6 +107,8 @@ Route::controller(LoginController::class)->group(function () {
 Route::get('reload-captcha', [CaptchaController::class, 'reloadCaptcha'])->name('reload.captcha');
 
 Route::get('home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/check-email-blocked/{email}', [CheckEmailController::class, 'checkEmailBlocked'])->name('check-email-blocked');
 
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
