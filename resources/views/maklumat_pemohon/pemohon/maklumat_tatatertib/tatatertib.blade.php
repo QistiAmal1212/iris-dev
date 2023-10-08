@@ -92,11 +92,11 @@
 
     {{-- Maklumat Tatatertib HISTORY --}}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_history_tatatertib">
+        <!-- <h2 class="accordion-header" id="heading_history_tatatertib">
             <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_tatatertib" aria-expanded="false" aria-controls="history_tatatertib">
                 Jejak Audit [Maklumat Tatatertib]
             </button>
-        </h2>
+        </h2> -->
         <div id="history_tatatertib" class="accordion-collapse collapse" aria-labelledby="heading_history_tatatertib" data-bs-parent="#accordion_tatatertib">
             <div class="accordion-body">
                 <div class="row">

@@ -78,11 +78,11 @@
 
     {{-- Kurang Upaya (OKU) HISTORY --}}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_history_oku">
+        <!-- <h2 class="accordion-header" id="heading_history_oku">
             <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_oku" aria-expanded="false" aria-controls="history_oku">
                 Jejak Audit [Kurang Upaya (OKU)]
             </button>
-        </h2>
+        </h2> -->
         <div id="history_oku" class="accordion-collapse collapse" aria-labelledby="heading_history_oku" data-bs-parent="#accordion_oku_info">
             <div class="accordion-body">
                 <div class="row">

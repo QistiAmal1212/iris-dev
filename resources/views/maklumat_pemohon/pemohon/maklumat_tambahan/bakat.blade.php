@@ -64,11 +64,11 @@
 
     {{-- Bakat HISTORY --}}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_history_bakat">
+      <!--   <h2 class="accordion-header" id="heading_history_bakat">
             <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_bakat" aria-expanded="false" aria-controls="history_bakat">
                 Jejak Audit [Bakat]
             </button>
-        </h2>
+        </h2> -->
         <div id="history_bakat" class="accordion-collapse collapse" aria-labelledby="heading_history_bakat" data-bs-parent="#accordion_bakat">
             <div class="accordion-body">
                 <div class="row">

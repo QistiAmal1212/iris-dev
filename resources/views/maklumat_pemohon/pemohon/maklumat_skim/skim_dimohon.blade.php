@@ -67,11 +67,11 @@
 
     {{-- Skim Dimohon HISTORY --}}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_history_skim">
+        <!-- <h2 class="accordion-header" id="heading_history_skim">
             <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_skim" aria-expanded="false" aria-controls="history_skim">
                 Jejak Audit [Skim Dimohon]
             </button>
-        </h2>
+        </h2> -->
         <div id="history_skim" class="accordion-collapse collapse" aria-labelledby="heading_history_skim" data-bs-parent="#accordion_skim_dimohon">
             <div class="accordion-body">
                 <div class="row">
