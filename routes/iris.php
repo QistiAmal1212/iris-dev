@@ -24,6 +24,11 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('details/{noPengenalan}', 'alamatDetails')->name('alamat.details');
         });
 
+        Route::prefix('alamat_surat')->group(function () {
+            Route::post('update', 'updateAlamatSurat')->name('alamat-surat.update');
+            Route::get('details/{noPengenalan}', 'alamatsuratDetails')->name('alamat-surat.details');
+        });
+
         Route::prefix('tempat_lahir')->group(function () {
             Route::post('update', 'updateTempatLahir')->name('tempat-lahir.update');
             Route::get('details/{noPengenalan}', 'tempatLahirDetails')->name('tempat-lahir.details');
@@ -122,6 +127,16 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::prefix('experience')->group(function () {
             Route::post('update', 'updateExperience')->name('experience.update');
             Route::get('details/{noPengenalan}', 'experienceDetails')->name('experience.details');
+        });
+
+        Route::prefix('experience-hakiki')->group(function () {
+            Route::post('update', 'updateExperienceHakiki')->name('experienceH.update');
+            Route::get('details/{noPengenalan}', 'experienceDetailsHakiki')->name('experienceH.details');
+        });
+
+        Route::prefix('experience-bertugas')->group(function () {
+            Route::post('update', 'updateExperienceBertugas')->name('experienceB.update');
+            Route::get('details/{noPengenalan}', 'experienceDetailsBertugas')->name('experienceB.details');
         });
 
         Route::prefix('psl')->group(function () {

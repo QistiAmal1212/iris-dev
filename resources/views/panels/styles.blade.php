@@ -103,6 +103,7 @@
         width: 16.667% !important;
     }
 
+
     /*- Make table able to scroll horizontally --*/
     .tableWrapper {
         display: block;
@@ -135,6 +136,7 @@
             div .input-group {
                 width: 576px;
                 margin: 0 auto;
+                height: auto;
             }
         }
     }

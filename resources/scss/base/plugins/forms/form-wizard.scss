@@ -1,18 +1,18 @@
 @import '../../bootstrap-extended/include'; // Bootstrap includes
 @import '../../components/include'; // Components includes
 
-$header-padding-y: 1.5rem;
-$header-padding-x: 1.5rem;
-$content-padding-x: 1.5rem;
-$content-padding-y: 1.5rem;
+$header-padding-y: 1rem;
+$header-padding-x: 1rem;
+$content-padding-x: 1rem;
+$content-padding-y: 1rem;
 $trigger-padding-vertical: 1rem;
 $step-box-height: 38px;
 $step-box-width: 38px;
 
 .bs-stepper {
-  background-color: $white;
-  box-shadow: $box-shadow;
-  border-radius: 0.5rem;
+//   background-color: $white;
+//   box-shadow: $box-shadow;
+//   border-radius: 0.5rem;
 
   .bs-stepper-header {
     padding: $header-padding-y $header-padding-x;

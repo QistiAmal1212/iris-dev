@@ -1,71 +1,128 @@
-<div class="card" id="update_oku" style="display:none">
-    <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" onclick="editOKU()">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Kemaskini
-        </a>
+<div class="accordion" id="accordion_oku_info">
+    {{-- Kurang Upaya (OKU) --}}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading_oku_info">
+            <button class="accordion-button fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#oku_info" aria-expanded="true" aria-controls="oku_info">
+                Kurang Upaya (OKU)
+            </button>
+        </h2>
+        <div id="oku_info" class="accordion-collapse collapse show" aria-labelledby="heading_oku_info" data-bs-parent="#accordion_oku_info">
+            <div class="accordion-body">
+
+
+                <div class="d-flex justify-content-end align-items-center mb-1" id="update_oku" style="display:none">
+                    <a class="me-3 text-danger" type="button" onclick="editOKU()">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Kemaskini
+                    </a>
+                </div>
+
+                <form id="okuForm" action="{{ route('oku.update') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadOKU" data-reloadPage="false">
+                    @csrf
+                    <div class="row">
+                        <input type="hidden" name="oku_no_pengenalan" id="oku_no_pengenalan" value="">
+
+                        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                            <label class="form-label">No. Pendaftaran OKU</label>
+                            <input type="text" class="form-control" value="" name="oku_registration_no" id="oku_registration_no" oninput="checkInput('oku_registration_no', 'oku_registration_noAlert')" disabled>
+                            <div id="oku_registration_noAlert" style="color: red; font-size: smaller;"></div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                            <label class="form-label">Status OKU</label>
+                            <input type="text" class="form-control" value="" name="oku_status" id="oku_status" oninput="checkInput('oku_status', 'oku_statusAlert')" disabled>
+                            <div id="oku_statusAlert" style="color: red; font-size: smaller;"></div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                            <label class="form-label">Kategori OKU</label>
+                            <select class="select2 form-control" name="oku_category" id="oku_category" disabled>
+                                <option value="" hidden>Kategori OKU</option>
+                                    @foreach($kategoriOKU as $kategori)
+                                        <option value="{{ $kategori->kod }}">{{ $kategori->nama }}</option>
+                                    @endforeach
+                            </select>
+                            <div id="oku_categoryAlert" style="color: red; font-size: smaller;"></div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                            <label class="form-label">Sub- Kategori OKU</label>
+                            <input type="text" class="form-control" value="" name="oku_sub" id="oku_sub" oninput="checkInput('oku_sub', 'oku_subAlert')" disabled>
+                            <div id="oku_subAlert" style="color: red; font-size: smaller;"></div>
+                        </div>
+                    </div>
+
+                    <div id="button_action_oku" style="display:none">
+                        <button type="button" id="btnEditOKU" hidden onclick="generalFormSubmit(this);"></button>
+                        <div class="d-flex justify-content-end align-items-center my-1">
+                            <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditOKU', {
+                                oku_registration_no: $('#oku_registration_no').val(),
+                                oku_status: $('#oku_status').val(),
+                                oku_category: $('#oku_category').find(':selected').text(),
+                                oku_sub: $('#oku_sub').val(),
+                            },{
+                                oku_registration_no: 'No. Pendaftaran OKU',
+                                oku_status: 'Status OKU',
+                                oku_category: 'Kategori OKU',
+                                oku_sub: 'Sub-Kategori OKU',
+                            }
+                            );">
+                                <i class="fa fa-save"></i> Simpan
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{-- Kurang Upaya (OKU) HISTORY --}}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading_history_oku">
+            <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_oku" aria-expanded="false" aria-controls="history_oku">
+                Jejak Audit [Kurang Upaya (OKU)]
+            </button>
+        </h2>
+        <div id="history_oku" class="accordion-collapse collapse" aria-labelledby="heading_history_oku" data-bs-parent="#accordion_oku_info">
+            <div class="accordion-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                        <label class="form-label">Tarikh Mula</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                        <label class="form-label">Tarikh Akhir</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a class="me-3" type="button" id="reset" href="#">
+                            <span class="text-danger"> Set Semula </span>
+                        </a>
+                        <button type="submit" class="btn btn-success float-right">
+                            <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive mb-1 mt-1">
+                    <table class="table header_uppercase table-bordered table-hovered">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Maklumat</th>
+                                <th>Status</th>
+                                <th>Tarikh</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<form
-id="okuForm"
-action="{{ route('oku.update') }}"
-method="POST"
-data-refreshFunctionName="reloadTimeline"
-data-refreshFunctionNameIfSuccess="reloadOKU"
-data-reloadPage="false">
-@csrf
-    <div class="row">
-        <input type="hidden" name="oku_no_pengenalan" id="oku_no_pengenalan" value="">
-        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-            <label class="form-label">No. Pendaftaran OKU</label>
-            <input type="text" class="form-control" value="" name="oku_registration_no" id="oku_registration_no" oninput="checkInput('oku_registration_no', 'oku_registration_noAlert')" disabled>
-            <div id="oku_registration_noAlert" style="color: red; font-size: smaller;"></div>
-        </div>
-
-        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-            <label class="form-label">Status OKU</label>
-            <input type="text" class="form-control" value="" name="oku_status" id="oku_status" oninput="checkInput('oku_status', 'oku_statusAlert')" disabled>
-            <div id="oku_statusAlert" style="color: red; font-size: smaller;"></div>
-        </div>
-
-        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-            <label class="form-label">Kategori OKU</label>
-            <select class="select2 form-control" name="oku_category" id="oku_category" disabled>
-                <option value=""></option>
-                @foreach($kategoriOKU as $kategori)
-                <option value="{{ $kategori->kod }}">{{ $kategori->nama }}</option>
-                @endforeach
-            </select>
-            <div id="oku_categoryAlert" style="color: red; font-size: smaller;"></div>
-        </div>
-
-        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-            <label class="form-label">Sub- Kategori OKU</label>
-            <input type="text" class="form-control" value="" name="oku_sub" id="oku_sub" oninput="checkInput('oku_sub', 'oku_subAlert')" disabled>
-            <div id="oku_subAlert" style="color: red; font-size: smaller;"></div>
-        </div>
-    </div>
-
-    <div id="button_action_oku" style="display:none">
-        <button type="button" id="btnEditOKU" hidden onclick="generalFormSubmit(this);"></button>
-        <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditOKU', {
-                oku_registration_no: $('#oku_registration_no').val(),
-                oku_status: $('#oku_status').val(),
-                oku_category: $('#oku_category').find(':selected').text(),
-                oku_sub: $('#oku_sub').val(),
-            },{
-                oku_registration_no: 'No. Pendaftaran OKU',
-                oku_status: 'Status OKU',
-                oku_category: 'Kategori OKU',
-                oku_sub: 'Sub-Kategori OKU',
-            }
-            );">
-                <i class="fa fa-save"></i> Simpan
-            </button>
-        </div>
-    </div>
-</form>
 
 <script>
     function editOKU() {
@@ -104,4 +161,3 @@ data-reloadPage="false">
         });
     }
 </script>
-

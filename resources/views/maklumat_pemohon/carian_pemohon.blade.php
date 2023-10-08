@@ -31,47 +31,80 @@ Maklumat Pemohon
         padding: 7px;
         border-bottom: 1px solid #ccc;
     } */
-
 </style>
-<section id="faq-search-filter">
-    <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}')">
-        <div class="card-body text-center">
-            <h2 class="text-primary">Carian Maklumat Pemohon</h2>
-            <p class="card-text mb-2">Isikan no. kad pengenalan calon dan tekan butang Cari</p>
 
-            <div>
-                <button id="btn-selectkp" class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Kad Pengenalan</button>
-                <button id="btn-selectname" class="btn btn-secondary waves-effect" type="button" onclick="selectSearch('carian_nama')" >Carian Menggunakan Nama</button>
-            </div><br>
+<div class="row match-height">
+    <div class="col-sm-12 col-md-6 col-lg-8 col-12">
+        <section id="faq-search-filter">
+            <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}')">
+                <div class="card-body text-center">
+                    <h2 class="text-primary">Carian Maklumat Pemohon</h2>
+                    <p class="card-text mb-2">Isikan maklumat calon dan tekan butang Cari</p>
 
-
-            <div class="faq-search-input">
-                <div class="input-group input-group-merge">
-                    <div class="input-group-text" id="search-icon">
-                        <i data-feather="search"></i>
+                    <div class="mb-1">
+                        <button id="btn-selectkp" class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Kad Pengenalan</button>
+                        <button id="btn-selectname" class="btn btn-secondary waves-effect" type="button" onclick="selectSearch('carian_nama')" >Carian Menggunakan Nama</button>
                     </div>
 
-                    {{-- Search form --}}
-                        <input type="text" class="form-control" id="search_ic" maxlength="12" placeholder=" No. Kad Pegenalan Calon"/>
-                        <input type="text" class="form-control" id="pilihan_carian" value="carian_kp" hidden/>
-                        <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" >Cari</button>
-                        <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
 
-                        <div class="suggestions-container"></div>
+                    <div class="faq-search-input">
+                        <div class="input-group input-group-merge">
+                            <div class="input-group-text" id="search-icon">
+                                <i data-feather="search"></i>
+                            </div>
+
+                            {{-- Search form --}}
+                                <input type="text" class="form-control" id="search_ic" maxlength="12" placeholder=" No. Kad Pegenalan Calon"/>
+                                <input type="text" class="form-control" id="pilihan_carian" value="carian_kp" hidden/>
+                                <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" >Cari</button>
+                                <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
+
+                                <div class="suggestions-container"></div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </section>
+    </div>
 
+
+    <div class="col-sm-12 col-md-6 col-lg-4 col-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title fw-bolder">Maklumat Permohonan</p>
+                <hr>
+
+                {{-- Maklumat Pemohon [Nama dan No KP] --}}
+                <div class="mt-2">
+                    <h5 class="fw-bolder">Nama Pemohon:</h5>
+                    <p class="card-text" id="candidate_name"></p>
+                </div>
+                <div class="mt-2">
+                    <h5 class="fw-bolder">No Kad Pengenalan:</h5>
+                    <p class="card-text" id="candidate_ic"></p>
+                </div>
+                <div class="mt-2">
+                    <h5 class="fw-bolder">Emel:</h5>
+                    <p class="card-text" id="candidate_email"></p>
+                </div>
+                <div class="mt-2">
+                    <h5 class="fw-bolder">Alamat:</h5>
+                    <p class="card-text" id=""></p>
+                </div>
+                <input type="hidden" id="candidate_no_pengenalan" name="candidate_no_pengenalan" value="">
             </div>
         </div>
     </div>
-</section>
+</div>
 
 <hr>
 
 <div id="divCarian" style="display:none">
     <div class="card">
         <div class="card-header">
-            Carian Pemohon
-            <a data-bs-toggle="collapse" href="#listPemohon"><i data-feather="chevron-down"></i></a>
+            <a data-bs-toggle="collapse" href="#listPemohon">
+                <i data-feather="chevron-down"></i>
+            </a>
         </div>
         <div class="card-body" id="listPemohon">
             <div class="table-responsive" id="append-data">
@@ -81,101 +114,86 @@ Maklumat Pemohon
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-12 order-1 order-lg-1">
-        <div class="card">
-            <div class="card-body">
-                <p class="card-title fw-bolder">Maklumat Permohonan</p>
-                <hr>
+<ul class="nav nav-tabs tabs-show" style="display: none;">
+  <li class="nav-item">
+    <a class="nav-link main active" onclick="changePage('main')" aria-current="page">Main</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link jejak" onclick="changePage('jejak')">Jejak Audit</a>
+  </li>
+</ul>
 
-                {{-- Maklumat Pemohon [Nama dan No KP] --}}
-                <div class="mt-2">
-                    <h5 class="fw-bolder">Nama Pemohon:</h5>
-                    <p class="card-text" id="candidate_name">
-                    </p>
+<div class="card">
+    <div class="card-body">
+        <div class="">
+            <ul class="nav nav-pills nav-justified" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link fw-bolder text-wrap active" id="peribadi-tab" data-bs-toggle="tab" href="#peribadi" aria-controls="peribadi" role="tab" aria-selected="true">
+                        Maklumat <br> Peribadi
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link fw-bolder text-wrap" id="skim-tab" data-bs-toggle="tab" href="#skim" aria-controls="skim" role="tab" aria-selected="true">
+                        Maklumat <br> Skim
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link fw-bolder text-wrap" id="akademik-tab" data-bs-toggle="tab" href="#akademik" aria-controls="akademik" role="tab" aria-selected="true">
+                        Maklumat <br> Akademik
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link fw-bolder text-wrap" id="perkhidmatan-tab" data-bs-toggle="tab" href="#perkhidmatan" aria-controls="perkhidmatan" role="tab" aria-selected="true">
+                        Pegawai <br> Berkhidmat
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link fw-bolder text-wrap" id="tambahan-tab" data-bs-toggle="tab" href="#tambahan" aria-controls="tambahan" role="tab" aria-selected="true">
+                        Maklumat <br> Tambahan
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link fw-bolder text-wrap" id="tatatertib-tab" data-bs-toggle="tab" href="#tatatertib" aria-controls="tatatertib" role="tab" aria-selected="true">
+                        Maklumat <br> Tatatertib
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link fw-bolder text-wrap" id="garismasa-tab" data-bs-toggle="tab" href="#garismasa" aria-controls="garismasa" role="tab" aria-selected="true">
+                        Garis Masa <br> Permohonan
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="peribadi" role="tabpanel" aria-labelledby="peribadi-tab">
+                    <hr>
+                    @include('maklumat_pemohon.pemohon.maklumat_peribadi')
                 </div>
-                <div class="mt-2">
-                    <h5 class="fw-bolder">No Kad Pengenalan:</h5>
-                    <p class="card-text" id="candidate_ic">
-                    </p>
+                <div class="tab-pane fade" id="skim" role="tabpanel" aria-labelledby="skim-tab">
+                    <hr>
+                    @include('maklumat_pemohon.pemohon.maklumat_skim')
                 </div>
-                <input type="hidden" id="candidate_no_pengenalan" name="candidate_no_pengenalan" value="">
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <p class="card-title fw-bolder">Garis Masa Permohonan</p>
-                <hr>
-                <div id="candidate_timeline">
-                {{-- TIMELINE PERMOHONAN --}}
-
+                <div class="tab-pane fade" id="akademik" role="tabpanel" aria-labelledby="akademik-tab">
+                    <hr>
+                    @include('maklumat_pemohon.pemohon.maklumat_akademik')
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-9 col-md-9 col-sm-12 order-2 order-lg-2">
-        <div class="card">
-            <div class="card-body">
-                <div class="">
-                    <ul class="nav nav-pills nav-justified" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link fw-bolder active" id="peribadi-tab" data-bs-toggle="tab" href="#peribadi" aria-controls="peribadi" role="tab" aria-selected="true">
-                                Maklumat <br> Peribadi
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link fw-bolder" id="skim-tab" data-bs-toggle="tab" href="#skim" aria-controls="skim" role="tab" aria-selected="true">
-                                Maklumat <br> Skim
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link fw-bolder" id="akademik-tab" data-bs-toggle="tab" href="#akademik" aria-controls="akademik" role="tab" aria-selected="true">
-                                Maklumat <br> Akademik
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link fw-bolder" id="perkhidmatan-tab" data-bs-toggle="tab" href="#perkhidmatan" aria-controls="perkhidmatan" role="tab" aria-selected="true">
-                                Pegawai <br> Berkhidmat
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link fw-bolder" id="tambahan-tab" data-bs-toggle="tab" href="#tambahan" aria-controls="tambahan" role="tab" aria-selected="true">
-                                Maklumat <br> Tambahan
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link fw-bolder" id="tatatertib-tab" data-bs-toggle="tab" href="#tatatertib" aria-controls="tatatertib" role="tab" aria-selected="true">
-                                Maklumat <br> Tatatertib
-                            </a>
-                        </li>
-                    </ul>
-
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="peribadi" role="tabpanel" aria-labelledby="peribadi-tab">
-                            <hr>
-                            @include('maklumat_pemohon.pemohon.maklumat_peribadi')
-                        </div>
-                        <div class="tab-pane fade" id="skim" role="tabpanel" aria-labelledby="skim-tab">
-                            <hr>
-                            @include('maklumat_pemohon.pemohon.maklumat_skim')
-                        </div>
-                        <div class="tab-pane fade" id="akademik" role="tabpanel" aria-labelledby="akademik-tab">
-                            <hr>
-                            @include('maklumat_pemohon.pemohon.maklumat_akademik')
-                        </div>
-                        <div class="tab-pane fade" id="perkhidmatan" role="tabpanel" aria-labelledby="perkhidmatan-tab">
-                            <hr>
-                            @include('maklumat_pemohon.pemohon.maklumat_perkhidmatan')
-                        </div>
-                        <div class="tab-pane fade" id="tambahan" role="tabpanel" aria-labelledby="tambahan-tab">
-                            <hr>
-                            @include('maklumat_pemohon.pemohon.maklumat_tambahan')
-                        </div>
-                        <div class="tab-pane fade" id="tatatertib" role="tabpanel" aria-labelledby="tatatertib-tab">
-                            <hr>
-                            @include('maklumat_pemohon.pemohon.maklumat_tatatertib.tatatertib')
+                <div class="tab-pane fade" id="perkhidmatan" role="tabpanel" aria-labelledby="perkhidmatan-tab">
+                    <hr>
+                    @include('maklumat_pemohon.pemohon.maklumat_perkhidmatan')
+                </div>
+                <div class="tab-pane fade" id="tambahan" role="tabpanel" aria-labelledby="tambahan-tab">
+                    <hr>
+                    @include('maklumat_pemohon.pemohon.maklumat_tambahan')
+                </div>
+                <div class="tab-pane fade" id="tatatertib" role="tabpanel" aria-labelledby="tatatertib-tab">
+                    <hr>
+                    @include('maklumat_pemohon.pemohon.maklumat_tatatertib.tatatertib')
+                </div>
+                <div class="tab-pane fade" id="garismasa" role="tabpanel" aria-labelledby="garismasa-tab">
+                    <hr>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="candidate_timeline"></div>
                         </div>
                     </div>
                 </div>
@@ -183,6 +201,7 @@ Maklumat Pemohon
         </div>
     </div>
 </div>
+<input type="hidden" id="calon_number" value="">
 @endsection
 
 @section('script')
@@ -216,6 +235,7 @@ Maklumat Pemohon
 
     var originalVal = {};
     var data_not_available = "Tiada Maklumat";
+    var current_search_no = '';
 
     function checkInput(inputId, alertId) {
         var inputElement = document.getElementById(inputId);
@@ -236,6 +256,24 @@ Maklumat Pemohon
         // } else {
         //     inputElement.style.color = "";
         // }
+    }
+    
+    function changePage(type) {
+         reset();
+        // var searchtype = $('#pilihan_carian').val(btnValue);
+        var serachtype = $('#search_ic').val();
+        if(type == 'jejak') {
+            $(".main").removeClass("active");
+            $(".jejak").addClass("active");
+        } else {
+            $(".jejak").removeClass("active");
+            $(".main").addClass("active");
+        }
+        if ($.isNumeric(serachtype)) {
+            searchCandidate($('#search_ic').val());
+        } else {
+            searchCandidate($('#calon_number').val());
+        }
     }
 
     function selectionNull(inputID, formID){
@@ -366,12 +404,22 @@ Maklumat Pemohon
 
     searchCandidate = function(carian = null) {
 
+        if ($('.jejak').hasClass('active')) {
+            type = 'jejak';
+        } else {
+            type = null;
+        }
+      
+        if (carian != null && $.isNumeric(carian)){
+            $('#calon_number').val(carian);
+        }
+
         if(carian === null){
             search_ic = $('#search_ic').val();
         } else {
             search_ic = carian
         }
-
+            
         if(search_ic == ''){
             Swal.fire('Gagal', 'Sila isikan no kad pengenalan', 'error');
         } else {
@@ -381,8 +429,10 @@ Maklumat Pemohon
                 async: true,
                 data : {
                     no_ic : search_ic,
+                    type: type
                 },
                 success: function(data) {
+                    $('.tabs-show').show();
                     var container = $('.suggestions-container');
                     container.hide();
                     $('#update_alamat').attr("style", "display:block");
@@ -411,7 +461,8 @@ Maklumat Pemohon
                     $('#candidate_name').html(data.detail.nama_penuh);
                     $('#candidate_ic').html(data.detail.no_kp_baru);
                     $('#candidate_no_pengenalan').val(data.detail.no_pengenalan);
-
+                    $('$candidate_email').val(data.detail.emel ? data.detail.emel : data_not_available);
+                    
                     var timelineUrl = "{{ route('timeline.list', ':replaceThis') }}"
                     timelineUrl = timelineUrl.replace(':replaceThis', data.detail.no_pengenalan);
                     $('#candidate_timeline').load(timelineUrl)
@@ -468,26 +519,27 @@ Maklumat Pemohon
                     if(data.detail.tempat_tinggal_tetap) { $('#alamatForm select[name="permanent_state"]').val(data.detail.tempat_tinggal_tetap).trigger('change'); }
                     else { selectionNull('permanent_state', 'alamatForm'); }
                     originalVal['permanent_state'] = $('#alamatForm select[name="permanent_state"]').find(':selected').text();
-                    $('#alamatForm input[name="address_1"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_1"]').val(data.detail.alamat_1 ? data.detail.alamat_1 : data_not_available);
+                    $('#alamatsuratForm input[name="address_1"]').attr('disabled', true);
+                    $('#alamatsuratForm input[name="address_1"]').val(data.detail.alamat_1 ? data.detail.alamat_1 : data_not_available);
                     originalVal['address_1'] = data.detail.alamat_1;
-                    $('#alamatForm input[name="address_2"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_2"]').val(data.detail.alamat_2 ? data.detail.alamat_2 : data_not_available);
+                    $('#alamatsuratForm input[name="address_2"]').attr('disabled', true);
+                    $('#alamatsuratForm input[name="address_2"]').val(data.detail.alamat_2 ? data.detail.alamat_2 : data_not_available);
                     originalVal['address_2'] = data.detail.alamat_2;
-                    $('#alamatForm input[name="address_3"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_3"]').val(data.detail.alamat_3 ? data.detail.alamat_3 : data_not_available);
+                    $('#alamatsuratForm input[name="address_3"]').attr('disabled', true);
+                    $('#alamatsuratForm input[name="address_3"]').val(data.detail.alamat_3 ? data.detail.alamat_3 : data_not_available);
                     originalVal['address_3'] = data.detail.alamat_3;
-                    $('#alamatForm input[name="poscode"]').attr('disabled', true);
-                    $('#alamatForm input[name="poscode"]').val(data.detail.poskod ? data.detail.poskod : data_not_available);
+                    $('#alamatsuratForm input[name="poscode"]').attr('disabled', true);
+                    $('#alamatsuratForm input[name="poscode"]').val(data.detail.poskod ? data.detail.poskod : data_not_available);
                     originalVal['poscode'] = data.detail.poskod;
-                    $('#alamatForm input[name="city"]').attr('disabled', true);
-                    $('#alamatForm input[name="city"]').val(data.detail.bandar ? data.detail.bandar : data_not_available);
+                    $('#alamatsuratForm input[name="city"]').attr('disabled', true);
+                    $('#alamatsuratForm input[name="city"]').val(data.detail.bandar ? data.detail.bandar : data_not_available);
                     originalVal['city'] = data.detail.bandar;
-                    $('#alamatForm select[name="state"]').attr('disabled', true);
-                    if(data.detail.tempat_tinggal) { $('#alamatForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change'); }
-                    else { selectionNull('state', 'alamatForm'); }
-                    originalVal['state'] = $('#alamatForm select[name="state"]').find(':selected').text();
+                    $('#alamatsuratForm select[name="state"]').attr('disabled', true);
+                    if(data.detail.tempat_tinggal) { $('#alamatsuratForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change'); }
+                    else { selectionNull('state', 'alamatsuratForm'); }
+                    originalVal['state'] = $('#alamatsuratForm select[name="state"]').find(':selected').text();
                     $('#alamatForm input[name="alamat_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#alamatsuratForm input[name="alamat_no_pengenalan"]').val(data.detail.no_pengenalan);
 
                     if(data.detail.tempat_lahir) { $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.tempat_lahir).trigger('change'); }
                     else { selectionNull('place_of_birth', 'tempatLahirForm'); }
@@ -563,7 +615,7 @@ Maklumat Pemohon
                     $('#pusatTemudugaForm input[name="pusat_temuduga_no_pengenalan"]').val(data.detail.no_pengenalan)
                     $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
 
-                    if(data.detail.pusat_temuduga) { 
+                    if(data.detail.pusat_temuduga) {
                         $('#pusatTemudugaForm select[name="pusat_temuduga"]').val(data.detail.pusat_temuduga).trigger('change');
                     } else {
                         selectionNull('pusat_temuduga', 'pusatTemudugaForm');
@@ -692,39 +744,41 @@ Maklumat Pemohon
                     $('#table-professional tbody').append(trProfessional);
 
                     $('#experienceForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#experienceHForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#experienceBForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.experience != null) {
                         $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.experience.tarikh_lantik ? data.detail.experience.tarikh_lantik : data_not_available);
                         originalVal['experience_appoint_date'] = data.detail.experience.tarikh_lantik;
                         if(data.detail.experience.taraf_jawatan) { $('#experienceForm select[name="experience_position_level"]').val(data.detail.experience.taraf_jawatan).trigger('change'); }
                         else { selectionNull('experience_position_level', 'experienceForm'); }
                         originalVal['experience_position_level'] = $('#experienceForm select[name="experience_position_level"]').find(':selected').text();
-                        if(data.detail.experience.kod_ruj_skim) { $('#experienceForm select[name="experience_skim"]').val(data.detail.experience.kod_ruj_skim).trigger('change'); }
-                        else { selectionNull('experience_skim', 'experienceForm'); }
-                        originalVal['experience_skim'] = $('#experienceForm select[name="experience_skim"]').find(':selected').text();
-                        $('#experienceForm input[name="experience_start_date"]').val(data.detail.experience.tarikh_mula ? data.detail.experience.tarikh_mula : data_not_available);
+                        if(data.detail.experience.kod_ruj_skim) { $('#experienceHForm select[name="experience_skim"]').val(data.detail.experience.kod_ruj_skim).trigger('change'); }
+                        else { selectionNull('experience_skim', 'experienceHForm'); }
+                        originalVal['experience_skim'] = $('#experienceHForm select[name="experience_skim"]').find(':selected').text();
+                        $('#experienceHForm input[name="experience_start_date"]').val(data.detail.experience.tarikh_mula ? data.detail.experience.tarikh_mula : data_not_available);
                         originalVal['experience_start_date'] = data.detail.experience.tarikh_mula;
-                        $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.tarikh_disahkan ? data.detail.experience.tarikh_disahkan : data_not_available);
+                        $('#experienceHForm input[name="experience_verify_date"]').val(data.detail.experience.tarikh_disahkan ? data.detail.experience.tarikh_disahkan : data_not_available);
                         originalVal['experience_verify_date'] = data.detail.experience.tarikh_disahkan;
-                        if(data.detail.experience.ruj_kem_jabatan) { $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.experience.ruj_kem_jabatan).trigger('change'); }
+                        if(data.detail.experience.ruj_kem_jabatan) { $('#experienceBForm select[name="experience_department_ministry"]').val(data.detail.experience.ruj_kem_jabatan).trigger('change'); }
                         else { selectionNull('experience_department_ministry', 'experienceForm'); }
-                        originalVal['experience_department_ministry'] = $('#experienceForm select[name="experience_department_ministry"]').find(':selected').text();
-                        if(data.detail.experience.negeri_jabatan) { $('#experienceForm select[name="experience_department_state"]').val(data.detail.experience.negeri_jabatan).trigger('change'); }
-                        else { selectionNull('experience_department_state', 'experienceForm'); }
-                        originalVal['experience_department_state'] = $('#experienceForm select[name="experience_department_state"]').find(':selected').text();
+                        originalVal['experience_department_ministry'] = $('#experienceBForm select[name="experience_department_ministry"]').find(':selected').text();
+                        if(data.detail.experience.negeri_jabatan) { $('#experienceBForm select[name="experience_department_state"]').val(data.detail.experience.negeri_jabatan).trigger('change'); }
+                        else { selectionNull('experience_department_state', 'experienceBForm'); }
+                        originalVal['experience_department_state'] = $('#experienceBForm select[name="experience_department_state"]').find(':selected').text();
                     }else{
                         $('#experienceForm input[name="experience_appoint_date"]').val(data_not_available);
                         originalVal['experience_appoint_date'] = '';
                         selectionNull('experience_position_level', 'experienceForm');
                         originalVal['experience_position_level'] = '';
-                        selectionNull('experience_skim', 'experienceForm');
+                        selectionNull('experience_skim', 'experienceHForm');
                         originalVal['experience_skim'] = '';
-                        $('#experienceForm input[name="experience_start_date"]').val(data_not_available);
+                        $('#experienceHForm input[name="experience_start_date"]').val(data_not_available);
                         originalVal['experience_start_date'] = '';
-                        $('#experienceForm input[name="experience_verify_date"]').val(data_not_available);
+                        $('#experienceHForm input[name="experience_verify_date"]').val(data_not_available);
                         originalVal['experience_verify_date'] = '';
-                        selectionNull('experience_department_ministry', 'experienceForm');
+                        selectionNull('experience_department_ministry', 'experienceBForm');
                         originalVal['experience_department_ministry'] = '';
-                        selectionNull('experience_department_state', 'experienceForm');
+                        selectionNull('experience_department_state', 'experienceBForm');
                         originalVal['experience_department_state'] = '';
                     }
 
@@ -767,7 +821,7 @@ Maklumat Pemohon
                     $('#bahasaForm input[name="bahasa_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-language tbody').empty();
                     reloadBahasa();
-                    
+
 
                     $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-talent tbody').empty();
@@ -919,16 +973,16 @@ Maklumat Pemohon
                     $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
                     $('#experienceForm select[name="experience_position_level"]').val('').trigger('change');
                     $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
-                    $('#experienceForm select[name="experience_skim"]').val('').trigger('change');
-                    $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
-                    $('#experienceForm input[name="experience_start_date"]').val('');
-                    $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
-                    $('#experienceForm input[name="experience_verify_date"]').val('');
-                    $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
-                    $('#experienceForm select[name="experience_department_ministry"]').val('').trigger('change');
-                    $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
-                    $('#experienceForm select[name="experience_department_state"]').val('').trigger('change');
-                    $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
+                    $('#experienceHForm select[name="experience_skim"]').val('').trigger('change');
+                    $('#experienceHForm select[name="experience_skim"]').attr('disabled', true);
+                    $('#experienceHForm input[name="experience_start_date"]').val('');
+                    $('#experienceHForm input[name="experience_start_date"]').attr('disabled', true);
+                    $('#experienceHForm input[name="experience_verify_date"]').val('');
+                    $('#experienceHForm input[name="experience_verify_date"]').attr('disabled', true);
+                    $('#experienceBForm select[name="experience_department_ministry"]').val('').trigger('change');
+                    $('#experienceBForm select[name="experience_department_ministry"]').attr('disabled', true);
+                    $('#experienceBForm select[name="experience_department_state"]').val('').trigger('change');
+                    $('#experienceBForm select[name="experience_department_state"]').attr('disabled', true);
                     $('#experienceForm input[name="experience_no_pengenalan"]').val('');
 
                     $('#table-psl tbody').empty();
@@ -972,8 +1026,11 @@ Maklumat Pemohon
     function reset() {
         // $('#table-carian').DataTable().destroy();
         // $("#table-carian > tbody").html("");
-        $('#append-data').empty(); 
-
+        var serachtype = $('#search_ic').val();
+        if ($.isNumeric(serachtype)) {
+            $('#append-data').empty(); 
+            $('.tabs-show').hide();
+        }
         $('#candidate_name').html('');
         $('#candidate_ic').html('');
         $('#candidate_no_pengenalan').val('');
@@ -1117,16 +1174,16 @@ Maklumat Pemohon
         $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
         $('#experienceForm select[name="experience_position_level"]').val('').trigger('change');
         $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
-        $('#experienceForm select[name="experience_skim"]').val('').trigger('change');
-        $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
-        $('#experienceForm input[name="experience_start_date"]').val('');
-        $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
-        $('#experienceForm input[name="experience_verify_date"]').val('');
-        $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
-        $('#experienceForm select[name="experience_department_ministry"]').val('').trigger('change');
-        $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
-        $('#experienceForm select[name="experience_department_state"]').val('').trigger('change');
-        $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
+        $('#experienceHForm select[name="experience_skim"]').val('').trigger('change');
+        $('#experienceHForm select[name="experience_skim"]').attr('disabled', true);
+        $('#experienceHForm input[name="experience_start_date"]').val('');
+        $('#experienceHForm input[name="experience_start_date"]').attr('disabled', true);
+        $('#experienceHForm input[name="experience_verify_date"]').val('');
+        $('#experienceHForm input[name="experience_verify_date"]').attr('disabled', true);
+        $('#experienceBForm select[name="experience_department_ministry"]').val('').trigger('change');
+        $('#experienceBForm select[name="experience_department_ministry"]').attr('disabled', true);
+        $('#experienceBForm select[name="experience_department_state"]').val('').trigger('change');
+        $('#experienceBForm select[name="experience_department_state"]').attr('disabled', true);
         $('#experienceForm input[name="experience_no_pengenalan"]').val('');
 
         $('#table-psl tbody').empty();
