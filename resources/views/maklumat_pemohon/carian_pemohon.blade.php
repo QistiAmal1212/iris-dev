@@ -67,6 +67,7 @@ Maklumat Pemohon
         </section>
     </div>
 
+
     <div class="col-sm-12 col-md-6 col-lg-4 col-12">
         <div class="card">
             <div class="card-body">
@@ -112,6 +113,15 @@ Maklumat Pemohon
         </div>
     </div>
 </div>
+
+<ul class="nav nav-tabs tabs-show" style="display: none;">
+  <li class="nav-item">
+    <a class="nav-link main active" onclick="changePage('main')" aria-current="page">Main</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link jejak" onclick="changePage('jejak')">Jejak Audit</a>
+  </li>
+</ul>
 
 <div class="card">
     <div class="card-body">
@@ -191,6 +201,7 @@ Maklumat Pemohon
         </div>
     </div>
 </div>
+<input type="hidden" id="calon_number" value="">
 @endsection
 
 @section('script')
@@ -224,6 +235,7 @@ Maklumat Pemohon
 
     var originalVal = {};
     var data_not_available = "Tiada Maklumat";
+    var current_search_no = '';
 
     function checkInput(inputId, alertId) {
         var inputElement = document.getElementById(inputId);
@@ -244,6 +256,24 @@ Maklumat Pemohon
         // } else {
         //     inputElement.style.color = "";
         // }
+    }
+    
+    function changePage(type) {
+         reset();
+        // var searchtype = $('#pilihan_carian').val(btnValue);
+        var serachtype = $('#search_ic').val();
+        if(type == 'jejak') {
+            $(".main").removeClass("active");
+            $(".jejak").addClass("active");
+        } else {
+            $(".jejak").removeClass("active");
+            $(".main").addClass("active");
+        }
+        if ($.isNumeric(serachtype)) {
+            searchCandidate($('#search_ic').val());
+        } else {
+            searchCandidate($('#calon_number').val());
+        }
     }
 
     function selectionNull(inputID, formID){
@@ -374,12 +404,22 @@ Maklumat Pemohon
 
     searchCandidate = function(carian = null) {
 
+        if ($('.jejak').hasClass('active')) {
+            type = 'jejak';
+        } else {
+            type = null;
+        }
+      
+        if (carian != null && $.isNumeric(carian)){
+            $('#calon_number').val(carian);
+        }
+
         if(carian === null){
             search_ic = $('#search_ic').val();
         } else {
             search_ic = carian
         }
-
+            
         if(search_ic == ''){
             Swal.fire('Gagal', 'Sila isikan no kad pengenalan', 'error');
         } else {
@@ -389,8 +429,10 @@ Maklumat Pemohon
                 async: true,
                 data : {
                     no_ic : search_ic,
+                    type: type
                 },
                 success: function(data) {
+                    $('.tabs-show').show();
                     var container = $('.suggestions-container');
                     container.hide();
                     $('#update_alamat').attr("style", "display:block");
@@ -983,8 +1025,11 @@ Maklumat Pemohon
     function reset() {
         // $('#table-carian').DataTable().destroy();
         // $("#table-carian > tbody").html("");
-        $('#append-data').empty(); 
-
+        var serachtype = $('#search_ic').val();
+        if ($.isNumeric(serachtype)) {
+            $('#append-data').empty(); 
+            $('.tabs-show').hide();
+        }
         $('#candidate_name').html('');
         $('#candidate_ic').html('');
         $('#candidate_no_pengenalan').val('');
