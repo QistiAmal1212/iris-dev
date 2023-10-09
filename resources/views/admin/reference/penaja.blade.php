@@ -57,6 +57,7 @@
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
                             <th>Penaja</th>
+                            <th>Jenis</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -100,6 +101,14 @@
                 {
                     data: "nama",
                     name: "nama",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "jenis",
+                    name: "jenis",
+                    className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }

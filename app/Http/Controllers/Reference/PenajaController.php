@@ -63,6 +63,9 @@ class PenajaController extends Controller
                 ->editColumn('nama', function ($penaja) {
                     return $penaja->nama;
                 })
+                ->editColumn('jenis', function ($penaja) {
+                    return $penaja->jenis;
+                })
                 ->editColumn('action', function ($penaja) use ($accessDelete) {
                     $button = "";
 
