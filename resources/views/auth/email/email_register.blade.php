@@ -216,7 +216,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>Kementerian</td>
-                                                                <td>:&nbsp;&nbsp;{{ $user->department_ministry->name }}</td>
+                                                                <td>:&nbsp;&nbsp;{{ $user->department_ministry->nama }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Jawatan</td>
