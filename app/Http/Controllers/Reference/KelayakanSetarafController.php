@@ -42,7 +42,7 @@ class KelayakanSetarafController extends Controller
             }
         }
 
-        $kelayakansetaraf = KelayakanSetaraf::all();
+        $kelayakansetaraf = KelayakanSetaraf::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

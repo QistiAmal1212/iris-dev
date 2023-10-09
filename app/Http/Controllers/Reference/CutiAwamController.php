@@ -49,7 +49,7 @@ class CutiAwamController extends Controller
 
         $negeri = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        $cutiawam = CutiAwam::all();
+        $cutiawam = CutiAwam::orderBy('tarikh_cuti', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

@@ -42,7 +42,7 @@ class RulingController extends Controller
             }
         }
 
-        $ruling = Ruling::all();
+        $ruling = Ruling::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

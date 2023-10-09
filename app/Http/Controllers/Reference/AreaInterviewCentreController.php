@@ -41,7 +41,7 @@ class AreaInterviewCentreController extends Controller
             }
         }
 
-        $areaInterviewCentre = AreaInterviewCentre::all();
+        $areaInterviewCentre = AreaInterviewCentre::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($areaInterviewCentre)
                 ->editColumn('kod', function ($areaInterviewCentre){

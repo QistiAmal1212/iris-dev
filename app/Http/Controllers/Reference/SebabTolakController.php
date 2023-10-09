@@ -42,7 +42,7 @@ class SebabTolakController extends Controller
             }
         }
 
-        $sebabtolak = SebabTolak::all();
+        $sebabtolak = SebabTolak::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

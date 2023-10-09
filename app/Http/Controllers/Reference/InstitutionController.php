@@ -41,7 +41,7 @@ class InstitutionController extends Controller
             }
         }
 
-        $institution = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
+        $institution = Institution::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($institution)
                 ->editColumn('code', function ($institution){

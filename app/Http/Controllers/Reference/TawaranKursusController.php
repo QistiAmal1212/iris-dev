@@ -42,7 +42,7 @@ class TawaranKursusController extends Controller
             }
         }
 
-        $tawarankursus = TawaranKursus::all();
+        $tawarankursus = TawaranKursus::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

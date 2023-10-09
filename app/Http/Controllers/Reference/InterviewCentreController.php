@@ -47,14 +47,14 @@ class InterviewCentreController extends Controller
 
         $states = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        $interviewCentre = InterviewCentre::all();
+        $interviewCentre = InterviewCentre::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($interviewCentre)
                 ->editColumn('code', function ($interviewCentre){
-                    return $interviewCentre->code;
+                    return $interviewCentre->kod;
                 })
                 ->editColumn('name', function ($interviewCentre) {
-                    return $interviewCentre->name;
+                    return $interviewCentre->nama;
                 })
                 ->editColumn('action', function ($interviewCentre) use ($accessDelete) {
                     $button = "";

@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\JelasUrusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Reference\State;
 use Yajra\DataTables\DataTables;
 use App\Models\Master\MasterModule;
 
-class StateController extends Controller
+class JelasUrusanController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->module = MasterModule::where('code', 'admin.reference.state')->first();
+        $this->module = MasterModule::where('code', 'admin.reference.jelasurusan')->first();
         $this->menu = $this->module->menu;
     }
 
@@ -42,13 +42,13 @@ class StateController extends Controller
             }
         }
 
-        $state = State::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $jelasurusan = JelasUrusan::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jelasurusan')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Negeri";
+            $log->description = "Lihat Senarai Jelas Urusan";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -56,24 +56,24 @@ class StateController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($state)
-                ->editColumn('kod', function ($state){
-                    return $state->kod;
+            return Datatables::of($jelasurusan)
+                ->editColumn('kod', function ($jelasurusan){
+                    return $jelasurusan->kod;
                 })
-                ->editColumn('nama', function ($state) {
-                    return $state->nama;
+                ->editColumn('nama', function ($jelasurusan) {
+                    return $jelasurusan->nama;
                 })
-                ->editColumn('action', function ($state) use ($accessDelete) {
+                ->editColumn('action', function ($jelasurusan) use ($accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="stateForm('.$state->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="jelasurusanForm('.$jelasurusan->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($state->sah_yt) {
-                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$state->id.'" onclick="toggleActive('.$state->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        if($jelasurusan->sah_yt=="Y") {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$jelasurusan->id.'" onclick="toggleActive('.$jelasurusan->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
-                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$state->id.'" onclick="toggleActive('.$state->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$jelasurusan->id.'" onclick="toggleActive('.$jelasurusan->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
                     }
                     $button .= '</div>';
@@ -84,7 +84,7 @@ class StateController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.state', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.jelasurusan', compact('accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function store(Request $request)
@@ -93,26 +93,27 @@ class StateController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_negeri,kod',
+                'code' => 'required|string|unique:ruj_jelas_urusan,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan negeri',
+                'name.required' => 'Sila isikan jelas urusan',
             ]);
 
-            $state = State::create([
+            $jelasurusan = JelasUrusan::create([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
+                'sah_yt'=> "Y",
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jelasurusan')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Negeri";
-            $log->data_new = json_encode($state);
+            $log->description = "Tambah Jelas Urusan";
+            $log->data_new = json_encode($jelasurusan);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -135,16 +136,16 @@ class StateController extends Controller
         DB::beginTransaction();
         try {
 
-            $state = State::find($request->stateId);
+            $jelasurusan = JelasUrusan::find($request->jelasurusanId);
 
-            if (!$state) {
+            if (!$jelasurusan) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jelasurusan')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Negeri";
-            $log->data_new = json_encode($state);
+            $log->description = "Lihat Maklumat Jelas Urusan";
+            $log->data_new = json_encode($jelasurusan);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -153,7 +154,7 @@ class StateController extends Controller
 
             DB::commit();
 
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $state]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $jelasurusan]);
 
         } catch (\Throwable $e) {
 
@@ -167,32 +168,32 @@ class StateController extends Controller
         DB::beginTransaction();
         try {
 
-            $stateId = $request->stateId;
-            $state = State::find($stateId);
+            $jelasurusanId = $request->jelasurusanId;
+            $jelasurusan = JelasUrusan::find($jelasurusanId);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jelasurusan')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Negeri";
-            $log->data_old = json_encode($state);
+            $log->description = "Kemaskini Maklumat Jelas Urusan";
+            $log->data_old = json_encode($jelasurusan);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_negeri,kod,'.$stateId,
+                'code' => 'required|string|unique:ruj_jelas_urusan,kod,'.$jelasurusanId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan negeri',
+                'name.required' => 'Sila isikan jelas urusan',
             ]);
 
-            $state->update([
+            $jelasurusan->update([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
-            $stateNewData = State::find($stateId);
-            $log->data_new = json_encode($stateNewData);
+            $jelasurusanNewData = JelasUrusan::find($jelasurusanId);
+            $log->data_new = json_encode($jelasurusanNewData);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -214,13 +215,19 @@ class StateController extends Controller
         DB::beginTransaction();
         try {
 
-            $stateId = $request->stateId;
-            $state = State::find($stateId);
+            $jelasurusanId = $request->jelasurusanId;
+            $jelasurusan = JelasUrusan::find($jelasurusanId);
 
-            $sah_yt = $state->sah_yt;
+            $sah_yt = $jelasurusan->sah_yt;
 
-            $state->update([
-                'sah_yt' => !$sah_yt,
+            if($sah_yt == "Y"){
+                $sah_yt = "T";
+            }else{
+                $sah_yt = "Y";
+            }
+
+            $jelasurusan->update([
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

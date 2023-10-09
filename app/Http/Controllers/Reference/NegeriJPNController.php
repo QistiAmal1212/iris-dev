@@ -45,7 +45,7 @@ class NegeriJPNController extends Controller
 
         $negeri = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        $negerijpn = NegeriJPN::all();
+        $negerijpn = NegeriJPN::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

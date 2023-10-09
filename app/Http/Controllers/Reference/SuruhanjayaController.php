@@ -42,7 +42,7 @@ class SuruhanjayaController extends Controller
             }
         }
 
-        $suruhanjaya = Suruhanjaya::all();
+        $suruhanjaya = Suruhanjaya::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

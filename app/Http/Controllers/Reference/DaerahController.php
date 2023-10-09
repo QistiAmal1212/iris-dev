@@ -48,7 +48,7 @@ class DaerahController extends Controller
 
         $negeri = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        $daerah = Daerah::all();
+        $daerah = Daerah::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

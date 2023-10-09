@@ -42,9 +42,9 @@ class salaryGradeDetailsController extends Controller
             }
         }
 
-        $salaryGrade = SalaryGrade::all();
+        $salaryGrade = SalaryGrade::where('is_active', true);
 
-        $salaryGradeDetails = SalaryGradeDetails::all();
+        $salaryGradeDetails = SalaryGradeDetails::orderBy('ref_salary_grade_code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($salaryGradeDetails)
                 ->editColumn('ref_salary_grade_code', function ($salaryGradeDetails){

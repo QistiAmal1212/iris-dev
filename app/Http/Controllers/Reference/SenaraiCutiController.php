@@ -42,7 +42,7 @@ class SenaraiCutiController extends Controller
             }
         }
 
-        $senaraicuti = SenaraiCuti::all();
+        $senaraicuti = SenaraiCuti::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
