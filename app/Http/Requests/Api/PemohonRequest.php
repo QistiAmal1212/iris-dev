@@ -26,14 +26,13 @@ class PemohonRequest extends ApiRequest
         if ($routeName == 'pemohon.store') {
             $rules = [
                 'nama_penuh' => 'required|string',
-                'no_kp' => 'required|string|unique:calon,no_kp_baru',
+                'no_kp' => 'required|string',
                 'emel' => 'required|email',
                 'no_tel' => 'required|string',
                 'tarikh_lahir' => 'required|date_format:Y-m-d',
                 'jantina' => 'required|string',
                 'agama' => 'required|string',
                 'keturunan' => 'required|string',
-                //'kewarganegaraan' => 'required|string',
                 'status_kahwin' => 'required|string',
                 'tempat_lahir' => 'required|string',
                 'tempat_lahir_bapa' => 'required|string',
