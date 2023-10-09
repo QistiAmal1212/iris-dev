@@ -97,7 +97,7 @@
                         <div class="card-body text-sm-end text-center ps-sm-0">
                             <!-- <a onclick="viewRoleForm()" class="stretched-link text-nowrap add-new-role"> -->
                             <a onclick="viewForm()" class="stretched-link text-nowrap add-new-role">
-                                <span class="btn btn-primary mb-1">Tambah Perananan</span>
+                                <span class="btn btn-primary mb-1">Tambah Peranan</span>
                             </a>
                             <p class="mb-0 text-muted">Tambah peranan, jika peranan belum wujud.</p>
                         </div>

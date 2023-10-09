@@ -121,7 +121,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Batal</button>
                 @if($accessUpdate)
                 <button type="button" id="btnUpdateFake" class="btn btn-primary" onclick="$('#btnCreateMenu').trigger('click');">{{__('msg.submit')}}</button>
                 @endif

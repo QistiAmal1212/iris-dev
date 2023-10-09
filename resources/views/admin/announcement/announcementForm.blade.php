@@ -77,7 +77,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
                 <button type="button" id="btnannouncementAdd" class="btn btn-success" onclick="$('#btnannouncementSubmit').trigger('click');">{{__('msg.submit')}}</button>
             </div>
         </div>
