@@ -41,7 +41,7 @@ class GenderController extends Controller
             }
         }
 
-        $gender = Gender::all();
+        $gender = Gender::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($gender)
                 ->editColumn('code', function ($gender){

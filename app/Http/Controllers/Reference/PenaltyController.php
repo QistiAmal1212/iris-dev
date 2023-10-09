@@ -42,7 +42,7 @@ class PenaltyController extends Controller
             }
         }
 
-        $penalty = Penalty::all();
+        $penalty = Penalty::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

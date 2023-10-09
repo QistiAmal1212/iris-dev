@@ -41,7 +41,7 @@ class DepartmentMinistryController extends Controller
             }
         }
 
-        $departmentMinistry = DepartmentMinistry::all();
+        $departmentMinistry = DepartmentMinistry::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($departmentMinistry)
                 ->editColumn('kod', function ($departmentMinistry){

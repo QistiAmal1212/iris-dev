@@ -42,7 +42,7 @@ class SkimPerkhidmatanController extends Controller
             }
         }
 
-        $skimperkhidmatan = SkimPerkhidmatan::all();
+        $skimperkhidmatan = SkimPerkhidmatan::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

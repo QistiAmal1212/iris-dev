@@ -42,7 +42,7 @@ class RaceController extends Controller
             }
         }
 
-        $race = Race::all();
+        $race = Race::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

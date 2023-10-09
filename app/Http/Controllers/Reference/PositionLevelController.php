@@ -41,7 +41,7 @@ class PositionLevelController extends Controller
             }
         }
 
-        $positionLevel = PositionLevel::all();
+        $positionLevel = PositionLevel::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($positionLevel)
                 ->editColumn('code', function ($positionLevel){

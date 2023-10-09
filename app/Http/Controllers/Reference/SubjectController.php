@@ -42,7 +42,7 @@ class SubjectController extends Controller
             }
         }
 
-        $subject = Subject::all();
+        $subject = Subject::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

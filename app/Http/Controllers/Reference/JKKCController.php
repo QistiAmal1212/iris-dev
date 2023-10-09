@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\JKKC;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Reference\State;
 use Yajra\DataTables\DataTables;
 use App\Models\Master\MasterModule;
 
-class StateController extends Controller
+class JKKCController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->module = MasterModule::where('code', 'admin.reference.state')->first();
+        $this->module = MasterModule::where('code', 'admin.reference.jkkc')->first();
         $this->menu = $this->module->menu;
     }
 
@@ -42,13 +42,13 @@ class StateController extends Controller
             }
         }
 
-        $state = State::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $jkkc = JKKC::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jkkc')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Negeri";
+            $log->description = "Lihat Senarai Skim Kumpulan Perkhidmatan C ";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -56,24 +56,21 @@ class StateController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($state)
-                ->editColumn('kod', function ($state){
-                    return $state->kod;
+            return Datatables::of($jkkc)
+                ->editColumn('kod', function ($jkkc){
+                    return $jkkc->kod;
                 })
-                ->editColumn('nama', function ($state) {
-                    return $state->nama;
-                })
-                ->editColumn('action', function ($state) use ($accessDelete) {
+                ->editColumn('action', function ($jkkc) use ($accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="stateForm('.$state->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="jkkcForm('.$jkkc->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($state->sah_yt) {
-                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$state->id.'" onclick="toggleActive('.$state->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        if($jkkc->sah_yt=="Y") {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$jkkc->id.'" onclick="toggleActive('.$jkkc->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
-                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$state->id.'" onclick="toggleActive('.$state->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$jkkc->id.'" onclick="toggleActive('.$jkkc->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
                     }
                     $button .= '</div>';
@@ -84,7 +81,7 @@ class StateController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.state', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.jkkc', compact('accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function store(Request $request)
@@ -93,26 +90,24 @@ class StateController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_negeri,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|unique:ruj_skim_jkkc_sijil,kod',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan negeri',
             ]);
 
-            $state = State::create([
+            $jkkc = JKKC::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'sah_yt'=> "Y",
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jkkc')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Negeri";
-            $log->data_new = json_encode($state);
+            $log->description = "Tambah JKKC";
+            $log->data_new = json_encode($jkkc);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -135,16 +130,16 @@ class StateController extends Controller
         DB::beginTransaction();
         try {
 
-            $state = State::find($request->stateId);
+            $jkkc = JKKC::find($request->jkkcId);
 
-            if (!$state) {
+            if (!$jkkc) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jkkc')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Negeri";
-            $log->data_new = json_encode($state);
+            $log->description = "Lihat Maklumat Skim Kumpulan Perkhidmatan C ";
+            $log->data_new = json_encode($jkkc);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -153,7 +148,7 @@ class StateController extends Controller
 
             DB::commit();
 
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $state]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $jkkc]);
 
         } catch (\Throwable $e) {
 
@@ -167,32 +162,29 @@ class StateController extends Controller
         DB::beginTransaction();
         try {
 
-            $stateId = $request->stateId;
-            $state = State::find($stateId);
+            $jkkcId = $request->jkkcId;
+            $jkkc = JKKC::find($jkkcId);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.state')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jkkc')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Negeri";
-            $log->data_old = json_encode($state);
+            $log->description = "Kemaskini Maklumat Skim Kumpulan Perkhidmatan C ";
+            $log->data_old = json_encode($jkkc);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_negeri,kod,'.$stateId,
-                'name' => 'required|string',
+                'code' => 'required|string|unique:ruj_skim_jkkc_sijil,kod,'.$jkkcId,
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan negeri',
             ]);
 
-            $state->update([
+            $jkkc->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
                 'updated_by' => auth()->user()->id,
             ]);
 
-            $stateNewData = State::find($stateId);
-            $log->data_new = json_encode($stateNewData);
+            $jkkcNewData = JKKC::find($jkkcId);
+            $log->data_new = json_encode($jkkcNewData);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -214,13 +206,19 @@ class StateController extends Controller
         DB::beginTransaction();
         try {
 
-            $stateId = $request->stateId;
-            $state = State::find($stateId);
+            $jkkcId = $request->jkkcId;
+            $jkkc = JKKC::find($jkkcId);
 
-            $sah_yt = $state->sah_yt;
+            $sah_yt = $jkkc->sah_yt;
 
-            $state->update([
-                'sah_yt' => !$sah_yt,
+            if($sah_yt == "Y"){
+                $sah_yt = "T";
+            }else{
+                $sah_yt = "Y";
+            }
+
+            $jkkc->update([
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

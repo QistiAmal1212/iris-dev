@@ -41,7 +41,7 @@ class SalaryGradeController extends Controller
             }
         }
 
-        $salaryGrade = SalaryGrade::orderBy('code')->get();
+        $salaryGrade = SalaryGrade::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($salaryGrade)
                 ->editColumn('code', function ($salaryGrade){

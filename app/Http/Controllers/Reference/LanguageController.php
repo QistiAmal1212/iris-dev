@@ -41,7 +41,7 @@ class LanguageController extends Controller
             }
         }
 
-        $language = Language::all();
+        $language = Language::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($language)
                 ->editColumn('kod', function ($language){

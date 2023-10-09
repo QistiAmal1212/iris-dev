@@ -41,7 +41,7 @@ class MaritalStatusController extends Controller
             }
         }
 
-        $maritalStatus = MaritalStatus::all();
+        $maritalStatus = MaritalStatus::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($maritalStatus)
                 ->editColumn('kod', function ($maritalStatus){

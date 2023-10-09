@@ -42,7 +42,7 @@ class QualificationController extends Controller
             }
         }
 
-        $qualification = Qualification::all();
+        $qualification = Qualification::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

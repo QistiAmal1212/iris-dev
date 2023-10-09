@@ -43,9 +43,9 @@ class JenisOkuJKMController extends Controller
             }
         }
 
-        $KaategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('nama', 'asc')->get();
+        $KategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('nama', 'asc')->get();
 
-        $jenisoku = JenisOkuJKM::all();
+        $jenisoku = JenisOkuJKM::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -66,6 +66,10 @@ class JenisOkuJKMController extends Controller
                 ->editColumn('nama', function ($jenisoku) {
                     return $jenisoku->nama;
                 })
+                ->editColumn('sub', function ($jenisoku) {
+                    if($jenisoku->sub_oku) return $jenisoku->sub_oku;
+                    else return "-";
+                })
                 ->editColumn('action', function ($jenisoku) use ($accessDelete) {
                     $button = "";
 
@@ -73,7 +77,7 @@ class JenisOkuJKMController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="jenisokuForm('.$jenisoku->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($jenisoku->sah_yt) {
+                        if($jenisoku->sah_yt=="Y") {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$jenisoku->id.'" onclick="toggleActive('.$jenisoku->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$jenisoku->id.'" onclick="toggleActive('.$jenisoku->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -87,7 +91,7 @@ class JenisOkuJKMController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.jenisoku', compact('accessAdd', 'accessUpdate', 'accessDelete', 'KaategoriOKU'));
+        return view('admin.reference.jenisoku', compact('accessAdd', 'accessUpdate', 'accessDelete', 'KategoriOKU'));
     }
 
     public function store(Request $request)
@@ -96,17 +100,21 @@ class JenisOkuJKMController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenisoku,kod',
+                'code' => 'required|string|unique:ruj_jenis_oku_jkm,kod',
                 'name' => 'required|string',
+                'sub' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan jenisoku',
+                'name.required' => 'Sila isikan jenis oku',
+                'sub.required' => 'Sila isikan sub oku',
             ]);
 
             $jenisoku = JenisOkuJKM::create([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
+                'sub_oku' => strtoupper($request->sub),
+                'sah_yt' => "Y",
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -180,17 +188,20 @@ class JenisOkuJKMController extends Controller
             $log->data_old = json_encode($jenisoku);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenisoku,kod,'.$jenisokuId,
+                'code' => 'required|string|unique:ruj_jenis_oku_jkm,kod,'.$jenisokuId,
                 'name' => 'required|string',
+                'sub' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan jenisoku',
+                'name.required' => 'Sila isikan jenis oku',
+                'sub.required' => 'Sila isikan sub oku',
             ]);
 
             $jenisoku->update([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
+                'sub_oku' => strtoupper($request->sub),
                 'updated_by' => auth()->user()->id,
             ]);
 
@@ -222,8 +233,14 @@ class JenisOkuJKMController extends Controller
 
             $sah_yt = $jenisoku->sah_yt;
 
+            if($sah_yt == "Y"){
+                $sah_yt = "T";
+            }else{
+                $sah_yt = "Y";
+            }
+
             $jenisoku->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

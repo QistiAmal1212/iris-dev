@@ -42,7 +42,7 @@ class NegaraController extends Controller
             }
         }
 
-        $negara = Negara::all();
+        $negara = Negara::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

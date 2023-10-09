@@ -42,7 +42,7 @@ class ReligionController extends Controller
             }
         }
 
-        $religion = Religion::all();
+        $religion = Religion::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
