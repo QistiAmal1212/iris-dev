@@ -589,11 +589,11 @@ class PemohonController extends ApiController
                 }
             }
 
-            //DB::commit();
+            DB::commit();
             $response = config('status.status_codes.success');
         } catch (Exception $e) {
         //} catch (\Throwable $e) {
-            //DB::rollBack();
+            DB::rollBack();
             Log::error('Store Pemohon API Error: ' . $e);
 
             $response = config('status.status_codes.internal_server_error');
