@@ -11,17 +11,22 @@ use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Reference\AhliSuruhanjayaController;
 use App\Http\Controllers\Reference\BahagianController;
 use App\Http\Controllers\Reference\CutiAwamController;
 use App\Http\Controllers\Reference\DaerahController;
+use App\Http\Controllers\Reference\JelasUrusanController;
 use App\Http\Controllers\Reference\JenisOkuJKMController;
+use App\Http\Controllers\Reference\JKKCController;
 use App\Http\Controllers\Reference\KelayakanSetarafController;
 use App\Http\Controllers\Reference\KetuaPerkhidmatanController;
+use App\Http\Controllers\Reference\KlasifikasiPerkhidmatanController;
 use App\Http\Controllers\Reference\KodPelbagaiController;
 use App\Http\Controllers\Reference\KumpulanJKKController;
 use App\Http\Controllers\Reference\KumpulanSSMController;
 use App\Http\Controllers\Reference\NegaraController;
 use App\Http\Controllers\Reference\NegeriJPNController;
+use App\Http\Controllers\Reference\PenajaController;
 use App\Http\Controllers\Reference\RulingController;
 use App\Http\Controllers\Reference\SalaryGradeDetailsController;
 use App\Http\Controllers\Reference\SebabTolakController;
@@ -37,6 +42,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CaptchaController;
+use App\Http\Controllers\CheckEmailController;
 use App\Http\Controllers\Reference\AreaInterviewCentreController;
 use App\Http\Controllers\Security\MenuController;
 use App\Http\Controllers\Reference\StateController;
@@ -106,6 +112,8 @@ Route::controller(LoginController::class)->group(function () {
 Route::get('reload-captcha', [CaptchaController::class, 'reloadCaptcha'])->name('reload.captcha');
 
 Route::get('home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/check-email-blocked/{email}', [CheckEmailController::class, 'checkEmailBlocked'])->name('check-email-blocked');
 
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
@@ -435,11 +443,11 @@ Route::prefix('admin')->group(function () {
         });
 
         Route::prefix('penaja')->group(function () {
-            Route::get('/', [SuruhanjayaController::class, 'index'])->name('admin.reference.penaja');
-            Route::post('create', [SuruhanjayaController::class, 'store'])->name('admin.reference.penaja.store');
-            Route::get('edit/{penajaId}', [SuruhanjayaController::class, 'edit'])->name('admin.reference.penaja.edit');
-            Route::post('update/{penajaId}', [SuruhanjayaController::class, 'update'])->name('admin.reference.penaja.update');
-            Route::post('toggleActive/{penajaId}', [SuruhanjayaController::class, 'toggleActive'])->name('admin.reference.penaja.toggleActive');
+            Route::get('/', [PenajaController::class, 'index'])->name('admin.reference.penaja');
+            Route::post('create', [PenajaController::class, 'store'])->name('admin.reference.penaja.store');
+            Route::get('edit/{penajaId}', [PenajaController::class, 'edit'])->name('admin.reference.penaja.edit');
+            Route::post('update/{penajaId}', [PenajaController::class, 'update'])->name('admin.reference.penaja.update');
+            Route::post('toggleActive/{penajaId}', [PenajaController::class, 'toggleActive'])->name('admin.reference.penaja.toggleActive');
         });
 
         Route::prefix('status')->group(function () {
@@ -543,9 +551,39 @@ Route::prefix('admin')->group(function () {
             Route::post('create', [JenisOkuJKMController::class, 'store'])->name('admin.reference.jenisoku.store');
             Route::get('edit/{jenisokuId}', [JenisOkuJKMController::class, 'edit'])->name('admin.reference.jenisoku.edit');
             Route::post('update/{jenisokuId}', [JenisOkuJKMController::class, 'update'])->name('admin.reference.jenisoku.update');
-            Route::post('toggleActive/{
+            Route::post('toggleActive/{jenisokuId}', [JenisOkuJKMController::class, 'toggleActive'])->name('admin.reference.jenisoku.toggleActive');
+        });
 
-            }', [JenisOkuJKMController::class, 'toggleActive'])->name('admin.reference.jenisoku.toggleActive');
+        Route::prefix('jelas_urusan')->group(function () {
+            Route::get('/', [JelasUrusanController::class, 'index'])->name('admin.reference.jelasurusan');
+            Route::post('create', [JelasUrusanController::class, 'store'])->name('admin.reference.jelasurusan.store');
+            Route::get('edit/{jelasurusanId}', [JelasUrusanController::class, 'edit'])->name('admin.reference.jelasurusan.edit');
+            Route::post('update/{jelasurusanId}', [JelasUrusanController::class, 'update'])->name('admin.reference.jelasurusan.update');
+            Route::post('toggleActive/{jelasurusanId}', [JelasUrusanController::class, 'toggleActive'])->name('admin.reference.jelasurusan.toggleActive');
+        });
+
+        Route::prefix('klasifikasi_perkhidmatan')->group(function () {
+            Route::get('/', [KlasifikasiPerkhidmatanController::class, 'index'])->name('admin.reference.klasifikasiperkhidmatan');
+            Route::post('create', [KlasifikasiPerkhidmatanController::class, 'store'])->name('admin.reference.klasifikasiperkhidmatan.store');
+            Route::get('edit/{klasifikasiperkhidmatanId}', [KlasifikasiPerkhidmatanController::class, 'edit'])->name('admin.reference.klasifikasiperkhidmatan.edit');
+            Route::post('update/{klasifikasiperkhidmatanId}', [KlasifikasiPerkhidmatanController::class, 'update'])->name('admin.reference.klasifikasiperkhidmatan.update');
+            Route::post('toggleActive/{klasifikasiperkhidmatanId}', [KlasifikasiPerkhidmatanController::class, 'toggleActive'])->name('admin.reference.klasifikasiperkhidmatan.toggleActive');
+        });
+
+        Route::prefix('skim_kumpulan_perkhidmatan_c')->group(function () {
+            Route::get('/', [JKKCController::class, 'index'])->name('admin.reference.jkkc');
+            Route::post('create', [JKKCController::class, 'store'])->name('admin.reference.jkkc.store');
+            Route::get('edit/{jkkcId}', [JKKCController::class, 'edit'])->name('admin.reference.jkkc.edit');
+            Route::post('update/{jkkcId}', [JKKCController::class, 'update'])->name('admin.reference.jkkc.update');
+            Route::post('toggleActive/{jkkcId}', [JKKCController::class, 'toggleActive'])->name('admin.reference.jkkc.toggleActive');
+        });
+
+        Route::prefix('ahli_suruhanjaya')->group(function () {
+            Route::get('/', [AhliSuruhanjayaController::class, 'index'])->name('admin.reference.ahlisuruhanjaya');
+            Route::post('create', [AhliSuruhanjayaController::class, 'store'])->name('admin.reference.ahlisuruhanjaya.store');
+            Route::get('edit/{ahlisuruhanjayaId}', [AhliSuruhanjayaController::class, 'edit'])->name('admin.reference.ahlisuruhanjaya.edit');
+            Route::post('update/{ahlisuruhanjayaId}', [AhliSuruhanjayaController::class, 'update'])->name('admin.reference.ahlisuruhanjaya.update');
+            Route::post('toggleActive/{ahlisuruhanjayaId}', [AhliSuruhanjayaController::class, 'toggleActive'])->name('admin.reference.ahlisuruhanjaya.toggleActive');
         });
 
     });

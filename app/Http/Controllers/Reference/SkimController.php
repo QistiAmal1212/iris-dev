@@ -41,7 +41,7 @@ class SkimController extends Controller
             }
         }
 
-        $skim = Skim::all();
+        $skim = Skim::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($skim)
                 ->editColumn('code', function ($skim){

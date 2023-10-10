@@ -73,13 +73,20 @@ class LoginController extends Controller
             return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat"]);
         }
         if($user->last_change_password==null){
+            $user->login_failed_counter = 0;
+            $user->last_login = now();
+            $user->save();
             return redirect()->to('/admin/user/' . $user->id)->withErrors(["change_password" => "Kata Laluan perlu ditukar untuk kali pertama"]);
         }
         $today= now();
         $lastUpdate = $user->last_change_password;
         if($today->diffInDays($lastUpdate)>1){
+            $user->login_failed_counter = 0;
+            $user->last_login = now();
+            $user->save();
             return redirect()->to('/admin/user/' . $user->id)->withErrors(["change_password" => "Kata Laluan perlu ditukar setiap 6 bulan"]);
         }
+        $user->login_failed_counter = 0;
         $user->last_login = now();
         $user->save();
 

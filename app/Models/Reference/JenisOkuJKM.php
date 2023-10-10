@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class JenisOkuJKM extends Model
 {
-    protected $table = 'ruj_bahagian';
+    protected $table = 'ruj_jenis_oku_jkm';
 
     protected $fillable = [
         'kod',
@@ -17,5 +17,5 @@ class JenisOkuJKM extends Model
         'updated_by',
         'sah_yt',
     ];
-    
+
 }

@@ -42,7 +42,7 @@ class BahagianController extends Controller
             }
         }
 
-        $bahagian = Bahagian::all();
+        $bahagian = Bahagian::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

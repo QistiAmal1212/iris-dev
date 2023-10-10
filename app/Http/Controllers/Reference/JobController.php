@@ -41,7 +41,7 @@ class JobController extends Controller
             }
         }
 
-        $job = Job::all();
+        $job = Job::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($job)
                 ->editColumn('code', function ($job){

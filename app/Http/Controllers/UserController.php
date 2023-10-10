@@ -172,6 +172,10 @@ class UserController extends Controller
                             //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                             $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
                         }
+                        if($accessDelete){
+                            $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="confirmResetPassword(' . "'$users->email'" . ')"data-toggle="tooltip" data-placement="top" title="reset kata laluan"> <i class="fas fa-arrow-right text-primary"></i>  ';
+                        }
+
                         $button .= "</div>";
 
                         return $button;

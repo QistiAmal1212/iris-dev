@@ -114,7 +114,7 @@ return [
     | Letak apa apa berkaitan dengan tindakan pengguna
     |
     */
-    'submit' => 'Hantar',
+    'submit' => 'Simpan',
     'save' => 'Simpan',
     'approve' => 'Lulus',
     'disapprove' => 'Tidak Lulus',

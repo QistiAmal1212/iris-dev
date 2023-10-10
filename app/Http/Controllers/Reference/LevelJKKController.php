@@ -41,7 +41,7 @@ class LevelJKKController extends Controller
             }
         }
 
-        $levelJKK = LevelJKK::all();
+        $levelJKK = LevelJKK::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($levelJKK)
                 ->editColumn('code', function ($levelJKK){

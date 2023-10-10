@@ -42,7 +42,7 @@ class TalentController extends Controller
             }
         }
 
-        $talent = Talent::all();
+        $talent = Talent::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

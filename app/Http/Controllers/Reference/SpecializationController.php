@@ -42,7 +42,7 @@ class SpecializationController extends Controller
             }
         }
 
-        $specialization = Specialization::all();
+        $specialization = Specialization::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

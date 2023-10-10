@@ -42,7 +42,7 @@ class PenajaController extends Controller
             }
         }
 
-        $penaja = Penaja::all();
+        $penaja = Penaja::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -62,6 +62,9 @@ class PenajaController extends Controller
                 })
                 ->editColumn('nama', function ($penaja) {
                     return $penaja->nama;
+                })
+                ->editColumn('jenis', function ($penaja) {
+                    return $penaja->jenis;
                 })
                 ->editColumn('action', function ($penaja) use ($accessDelete) {
                     $button = "";

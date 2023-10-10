@@ -42,7 +42,7 @@ class KumpulanSSMController extends Controller
             }
         }
 
-        $kumpulanssm = KumpulanSSM::all();
+        $kumpulanssm = KumpulanSSM::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
