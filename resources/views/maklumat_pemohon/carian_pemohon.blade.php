@@ -89,7 +89,7 @@ Maklumat Pemohon
                 </div>
                 <div class="mt-2">
                     <h5 class="fw-bolder">Alamat:</h5>
-                    <p class="card-text" id=""></p>
+                    <p class="card-text" id="candidate_address"></p>
                 </div>
                 <input type="hidden" id="candidate_no_pengenalan" name="candidate_no_pengenalan" value="">
             </div>
@@ -461,8 +461,17 @@ Maklumat Pemohon
                     $('#candidate_name').html(data.detail.nama_penuh);
                     $('#candidate_ic').html(data.detail.no_kp_baru);
                     $('#candidate_no_pengenalan').val(data.detail.no_pengenalan);
-                    $('$candidate_email').val(data.detail.emel ? data.detail.emel : data_not_available);
-                    
+                    $('#candidate_email').html(data.detail.emel ? data.detail.emel : data_not_available);
+                    //address
+                    var address = data.detail.alamat_1_tetap;
+                    if (data.detail.alamat_2_tetap) {
+                        address = address+','+data.detail.alamat_2_tetap
+                    }
+                    if (data.detail.alamat_3_tetap) {
+                        address = address+','+data.detail.alamat_3_tetap;
+                    }
+                    address = address+','+data.detail.poskod_tetap+','+data.detail.bandar_tetap;
+                    $('#candidate_address').html(address);
                     var timelineUrl = "{{ route('timeline.list', ':replaceThis') }}"
                     timelineUrl = timelineUrl.replace(':replaceThis', data.detail.no_pengenalan);
                     $('#candidate_timeline').load(timelineUrl)
@@ -1031,8 +1040,12 @@ Maklumat Pemohon
             $('#append-data').empty(); 
             $('.tabs-show').hide();
         }
+        $(".main").addClass("active");
+        $(".jejak").removeClass("active");
         $('#candidate_name').html('');
         $('#candidate_ic').html('');
+        $('#candidate_email').html('');
+        $('#candidate_address').html('');
         $('#candidate_no_pengenalan').val('');
 
         $('#update_personal').attr("style", "display:none");

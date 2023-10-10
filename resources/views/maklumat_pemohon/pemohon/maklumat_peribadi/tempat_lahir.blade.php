@@ -76,11 +76,11 @@
 
     {{-- Tempat Lahir HISTORY --}}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_history_birth_place">
+        <!-- <h2 class="accordion-header" id="heading_history_birth_place">
             <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_birth_place" aria-expanded="false" aria-controls="history_birth_place">
                 Jejak Audit [Tempat Lahir]
             </button>
-        </h2>
+        </h2> -->
         <div id="history_birth_place" class="accordion-collapse collapse" aria-labelledby="heading_history_birth_place" data-bs-parent="#accordion_birth_place">
             <div class="accordion-body">
                 <div class="row">

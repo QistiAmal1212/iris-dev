@@ -128,11 +128,11 @@
 
                 {{-- STPM HISTORY --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_stpm">
+                   <!--  <h2 class="accordion-header" id="heading_history_stpm">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_stpm" aria-expanded="false" aria-controls="history_stpm">
                             Jejak Audit [Sijil Tinggi Persekolahan Malaysia]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_stpm" class="accordion-collapse collapse" aria-labelledby="heading_history_stpm" data-bs-parent="#accordion_stpm">
                         <div class="accordion-body">
                             <div class="row">
@@ -263,11 +263,11 @@
 
                 {{-- STAM HISTORY --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_stam">
+                    <<!-- h2 class="accordion-header" id="heading_history_stam">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_stam" aria-expanded="false" aria-controls="history_stam">
                             Jejak Audit [Sijil Tinggi Agama Malaysia]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_stam" class="accordion-collapse collapse" aria-labelledby="heading_history_stam" data-bs-parent="#accordion_stam">
                         <div class="accordion-body">
                             <div class="row">
@@ -432,11 +432,11 @@
 
                 {{-- MATRIK HISTORY --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_matrik">
+                  <!--   <h2 class="accordion-header" id="heading_history_matrik">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_matrik" aria-expanded="false" aria-controls="history_matrik">
                             Jejak Audit [Sijil Vokasional Malaysia]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_matrik" class="accordion-collapse collapse" aria-labelledby="heading_history_matrik" data-bs-parent="#accordion_matrik">
                         <div class="accordion-body">
                             <div class="row">

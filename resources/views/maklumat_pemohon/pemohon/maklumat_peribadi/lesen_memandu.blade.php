@@ -76,11 +76,11 @@
 
     {{-- Lesen Memandu HISTORY --}}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_history_lesen">
+        <!-- <h2 class="accordion-header" id="heading_history_lesen">
             <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_lesen" aria-expanded="false" aria-controls="history_lesen">
                 Jejak Audit [Lesen Memandu]
             </button>
-        </h2>
+        </h2> -->
         <div id="history_lesen" class="accordion-collapse collapse" aria-labelledby="heading_history_lesen" data-bs-parent="#accordion_lesen_memandu">
             <div class="accordion-body">
                 <div class="row">

@@ -79,11 +79,11 @@
 
     {{-- Maklumat Bekas Tentera HISTORY --}}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_history_tentera">
+        <<!-- h2 class="accordion-header" id="heading_history_tentera">
             <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_tentera" aria-expanded="false" aria-controls="history_tentera">
                 Jejak Audit [Maklumat Bekas Tentera]
             </button>
-        </h2>
+        </h2> -->
         <div id="history_tentera" class="accordion-collapse collapse" aria-labelledby="heading_history_tentera" data-bs-parent="#accordion_tentera">
             <div class="accordion-body">
                 <div class="row">

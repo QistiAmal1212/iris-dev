@@ -69,11 +69,11 @@
 
     {{-- Sijil Kemahiran (SKM) HISTORY --}}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_history_skm">
+        <!-- <h2 class="accordion-header" id="heading_history_skm">
             <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_skm" aria-expanded="false" aria-controls="history_skm">
                 Jejak Audit [Sijil Kemahiran (SKM)]
             </button>
-        </h2>
+        </h2> -->
         <div id="history_skm" class="accordion-collapse collapse" aria-labelledby="heading_history_skm" data-bs-parent="#accordion_skm">
             <div class="accordion-body">
                 <div class="row">

@@ -75,11 +75,11 @@
 
     {{-- Kebolehan Bahasa HISTORY --}}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_history_bahasa">
+       <!--  <h2 class="accordion-header" id="heading_history_bahasa">
             <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_bahasa" aria-expanded="false" aria-controls="history_bahasa">
                 Jejak Audit [Kebolehan Bahasa]
             </button>
-        </h2>
+        </h2> -->
         <div id="history_bahasa" class="accordion-collapse collapse" aria-labelledby="heading_history_bahasa" data-bs-parent="#accordion_kebolehan_bahasa">
             <div class="accordion-body">
                 <div class="row">

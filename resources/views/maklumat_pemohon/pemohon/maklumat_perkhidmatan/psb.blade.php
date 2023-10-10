@@ -122,11 +122,11 @@
 
                 {{-- PSB/PSL HISTORY --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_psb">
+                   <!--  <h2 class="accordion-header" id="heading_history_psb">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_psb" aria-expanded="false" aria-controls="history_psb">
                             Jejak Audit [PSB/PSL]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_psb" class="accordion-collapse collapse" aria-labelledby="heading_history_psb" data-bs-parent="#accordion_psb_psl">
                         <div class="accordion-body">
                             <div class="row">
@@ -252,11 +252,11 @@
 
                 {{-- Perkhidmatan Sekarang (Hakiki) HISTORY --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_hakiki">
+                    <!-- <h2 class="accordion-header" id="heading_history_hakiki">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_hakik" aria-expanded="false" aria-controls="history_hakik">
                             Jejak Audit [Perkhidmatan Sekarang (Hakiki)]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_hakik" class="accordion-collapse collapse" aria-labelledby="heading_history_hakiki" data-bs-parent="#accordion_perkhidmatan_hakiki">
                         <div class="accordion-body">
                             <div class="row">
@@ -380,11 +380,11 @@
 
                 {{-- Tempat Bertugas Terkini HISTORY --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_tempat_bertugas">
+                   <!--  <h2 class="accordion-header" id="heading_history_tempat_bertugas">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_tempat_bertugas" aria-expanded="false" aria-controls="history_tempat_bertugas">
                             Jejak Audit [Tempat Bertugas Terkini]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_tempat_bertugas" class="accordion-collapse collapse" aria-labelledby="heading_history_tempat_bertugas" data-bs-parent="#accordion_tempat_bertugas">
                         <div class="accordion-body">
                             <div class="row">

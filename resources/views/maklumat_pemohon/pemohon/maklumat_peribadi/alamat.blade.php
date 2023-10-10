@@ -133,11 +133,11 @@
 
                 {{-- HISTORY ALAMAT TETAP --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_stpm">
+                 <!--    <h2 class="accordion-header" id="heading_history_stpm">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_stpm" aria-expanded="false" aria-controls="history_stpm">
                             Jejak Audit [Alamat Tetap]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_stpm" class="accordion-collapse collapse" aria-labelledby="heading_history_stpm" data-bs-parent="#accordion_stpm">
                         <div class="accordion-body">
                             <div class="row">
@@ -284,11 +284,11 @@
 
                 {{-- HISTORY ALAMAT SURAT MENYURAT --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_stam">
+                    <!-- <h2 class="accordion-header" id="heading_history_stam">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_stam" aria-expanded="false" aria-controls="history_stam">
                             Jejak Audit [Alamat Surat Menyurat]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_stam" class="accordion-collapse collapse" aria-labelledby="heading_history_stam" data-bs-parent="#accordion_stam">
                         <div class="accordion-body">
                             <div class="row">

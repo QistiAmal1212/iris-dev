@@ -144,11 +144,11 @@
 
     {{-- Pengajian Tinggi HISTORY --}}
     <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_history_ipt">
+        <!-- <h2 class="accordion-header" id="heading_history_ipt">
             <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_ipt" aria-expanded="false" aria-controls="history_ipt">
                 Jejak Audit [Pengajian Tinggi]
             </button>
-        </h2>
+        </h2> -->
         <div id="history_ipt" class="accordion-collapse collapse" aria-labelledby="heading_history_ipt" data-bs-parent="#accordion_ipt">
             <div class="accordion-body">
                 <div class="row">

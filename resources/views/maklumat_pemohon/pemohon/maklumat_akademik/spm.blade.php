@@ -151,11 +151,11 @@
 
                 {{-- SPM HISTORY --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_spm">
+                   <!--  <h2 class="accordion-header" id="heading_history_spm">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_spm" aria-expanded="false" aria-controls="history_spm">
                             Jejak Audit [Sijil Pelajaran Malaysia]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_spm" class="accordion-collapse collapse" aria-labelledby="heading_history_spm" data-bs-parent="#accordion_spm">
                         <div class="accordion-body">
                             <div class="row">
@@ -288,11 +288,11 @@
 
                 {{-- SPMV HISTORY --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_spmv">
+                    <!-- <h2 class="accordion-header" id="heading_history_spmv">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_spmv" aria-expanded="false" aria-controls="history_spmv">
                             Jejak Audit [Sijil Pelajaran Malaysia Vokasional]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_spmv" class="accordion-collapse collapse" aria-labelledby="heading_history_spmv" data-bs-parent="#accordion_spmv">
                         <div class="accordion-body">
                             <div class="row">
@@ -425,11 +425,11 @@
 
                 {{-- SPMV HISTORY --}}
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading_history_svm">
+                    <!-- <h2 class="accordion-header" id="heading_history_svm">
                         <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_svm" aria-expanded="false" aria-controls="history_svm">
                             Jejak Audit [Sijil Vokasional Malaysia]
                         </button>
-                    </h2>
+                    </h2> -->
                     <div id="history_svm" class="accordion-collapse collapse" aria-labelledby="heading_history_svm" data-bs-parent="#accordion_svm">
                         <div class="accordion-body">
                             <div class="row">
