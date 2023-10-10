@@ -42,7 +42,7 @@ class ZonTelefonController extends Controller
             }
         }
 
-        $zontelefon = ZonTelefon::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $zontelefon = ZonTelefon::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

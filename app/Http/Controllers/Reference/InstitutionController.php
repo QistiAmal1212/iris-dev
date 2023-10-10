@@ -45,7 +45,6 @@ class InstitutionController extends Controller
 
         $negara = Negara::where('sah_yt', true)->orderBy('nama','asc')->get();
 
-        $institution = Institution::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.institution')->firstOrFail()->id;
@@ -58,12 +57,28 @@ class InstitutionController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($institution)
+            $institution = Institution::orderBy('code', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $institution->where('ref_country_code', $request->activity_type_id);
+            }
+
+            if ($request->module_id && $request->module_id != "Lihat Semua") {
+                $institution->where('type', $request->module_id);
+            }
+
+            return Datatables::of($institution->get())
                 ->editColumn('code', function ($institution){
                     return $institution->code;
                 })
                 ->editColumn('name', function ($institution) {
                     return $institution->name;
+                })
+                ->editColumn('neg', function ($institution) {
+                    return $institution->ref_country_code;
+                })
+                ->editColumn('jenis', function ($institution) {
+                    return $institution->type;
                 })
                 ->editColumn('action', function ($institution) use ($accessDelete) {
                     $button = "";

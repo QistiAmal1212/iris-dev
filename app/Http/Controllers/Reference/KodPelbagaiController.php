@@ -42,7 +42,7 @@ class KodPelbagaiController extends Controller
             }
         }
 
-        $kodpelbagai = KodPelbagai::orderBy('kategori', 'asc')->orderBy('nama', 'asc')->get();
+        $kodpelbagai = KodPelbagai::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($kodpelbagai)
                 ->editColumn('kod', function ($kodpelbagai){

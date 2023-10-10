@@ -42,7 +42,7 @@ class DepartmentMinistryController extends Controller
             }
         }
 
-        $departmentMinistry = DepartmentMinistry::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $departmentMinistry = DepartmentMinistry::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

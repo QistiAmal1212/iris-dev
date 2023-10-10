@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="diskripsi">Diskripsi
                                     <span class="text text-danger">*</span>

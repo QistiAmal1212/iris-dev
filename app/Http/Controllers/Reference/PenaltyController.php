@@ -42,7 +42,7 @@ class PenaltyController extends Controller
             }
         }
 
-        $penalty = Penalty::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
+
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -56,7 +56,13 @@ class PenaltyController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($penalty)
+            $penalty = Penalty::orderBy('code', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $penalty->where('category', $request->activity_type_id);
+            }
+
+            return Datatables::of($penalty->get())
                 ->editColumn('code', function ($penalty){
                     return $penalty->code;
                 })

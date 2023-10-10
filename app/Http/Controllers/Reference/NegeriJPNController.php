@@ -45,7 +45,6 @@ class NegeriJPNController extends Controller
 
         $negeri = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        $negerijpn = NegeriJPN::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -59,7 +58,13 @@ class NegeriJPNController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($negerijpn)
+            $negerijpn = NegeriJPN::orderBy('kod', 'asc');
+            if($request->activity_type_id && $request->activity_type_id != "Lihat Semua"){
+                $negerijpn->where('kod',$request->activity_type_id);
+            }
+
+
+            return Datatables::of($negerijpn->get())
                 ->editColumn('kod', function ($negerijpn){
                     return $negerijpn->kod;
                 })
@@ -99,15 +104,15 @@ class NegeriJPNController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_negeri_jpn,kod',
+                'code' => 'required|string|exists:ruj_negeri,kod',
                 'name' => 'required|string',
-                'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
+                'kod_ruj_negeri' => 'required|string|unique:ruj_negeri_jpn,kod_ruj_negeri',
             ],[
                 'code.required' => 'Sila isikan kod',
-                'code.unique' => 'Kod telah diambil',
+                'code.exist' => 'Tiada rekod negeri yang dipilih',
                 'name.required' => 'Sila isikan negeri jpn',
                 'kod_ruj_negeri.required' => 'Sila isikan negeri',
-                'kod_ruj_negeri.exists' => 'Tiada rekod negeri yang dipilih',
+                'kod_ruj_negeri.unique' => 'Kod telah diambil',
             ]);
 
             $negerijpn = NegeriJPN::create([
@@ -187,15 +192,15 @@ class NegeriJPNController extends Controller
             $log->data_old = json_encode($negerijpn);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_negeri_jpn,kod,'.$negerijpnId,
+                'code' => 'required|string|exists:ruj_negeri,kod',
                 'name' => 'required|string',
-                'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
+                'kod_ruj_negeri' => 'required|string|unique:ruj_negeri_jpn,kod_ruj_negeri,'.$negerijpnId,
             ],[
                 'code.required' => 'Sila isikan kod',
-                'code.unique' => 'Kod telah diambil',
+                'code.exist' => 'Tiada rekod negeri yang dipilih',
                 'name.required' => 'Sila isikan negerijpn',
                 'kod_ruj_negeri.required' => 'Sila isikan negeri',
-                'kod_ruj_negeri.exists' => 'Tiada rekod negeri yang dipilih',
+                'kod_ruj_negeri.unique' => 'Kod telah diambil',
             ]);
 
             $negerijpn->update([

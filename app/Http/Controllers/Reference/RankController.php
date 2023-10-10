@@ -42,7 +42,7 @@ class RankController extends Controller
             }
         }
 
-        $rank = Rank::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
+        $rank = Rank::orderBy('code', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

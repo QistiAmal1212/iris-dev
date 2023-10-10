@@ -45,7 +45,7 @@ class SpecializationController extends Controller
 
         $jenis = KodPelbagai::where('kategori', 'JENIS PENGKHUSUSAN')->orderBy('kod', 'asc')->get();
         $bidang = KodPelbagai::where('kategori', 'BIDANG PENGKHUSUSAN')->orderBy('kod', 'asc')->get();
-        $specialization = Specialization::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
+
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -59,12 +59,28 @@ class SpecializationController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($specialization)
+            $specialization = Specialization::orderBy('code', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $specialization->where('type', $request->activity_type_id);
+            }
+
+            if ($request->module_id && $request->module_id != "Lihat Semua") {
+                $specialization->where('field', $request->module_id);
+            }
+
+            return Datatables::of($specialization->get())
                 ->editColumn('code', function ($specialization){
                     return $specialization->code;
                 })
                 ->editColumn('name', function ($specialization) {
                     return $specialization->name;
+                })
+                ->editColumn('type', function ($specialization) {
+                    return $specialization->type;
+                })
+                ->editColumn('field', function ($specialization) {
+                    return $specialization->field;
                 })
                 ->editColumn('action', function ($specialization) use ($accessDelete) {
                     $button = "";

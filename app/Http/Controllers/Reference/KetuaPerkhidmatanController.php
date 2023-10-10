@@ -42,7 +42,7 @@ class KetuaPerkhidmatanController extends Controller
             }
         }
 
-        $ketuaperkhidmatan = KetuaPerkhidmatan::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $ketuaperkhidmatan = KetuaPerkhidmatan::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

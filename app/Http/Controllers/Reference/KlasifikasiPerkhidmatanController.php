@@ -42,7 +42,7 @@ class KlasifikasiPerkhidmatanController extends Controller
             }
         }
 
-        $klasifikasiperkhidmatan = KlasifikasiPerkhidmatan::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $klasifikasiperkhidmatan = KlasifikasiPerkhidmatan::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

@@ -42,7 +42,6 @@ class SubjectController extends Controller
             }
         }
 
-        $subject = Subject::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -56,7 +55,13 @@ class SubjectController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($subject)
+            $subject = Subject::orderBy('code', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $subject->where('form', $request->activity_type_id);
+            }
+
+            return Datatables::of($subject->get())
                 ->editColumn('code', function ($subject){
                     return $subject->code;
                 })

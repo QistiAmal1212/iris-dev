@@ -49,7 +49,7 @@ class CutiAwamController extends Controller
 
         $negeri = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        $cutiawam = CutiAwam::orderBy('tarikh_cuti', 'asc')->orderBy('kod', 'asc')->get();
+
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -63,7 +63,17 @@ class CutiAwamController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($cutiawam)
+            $cutiawam = CutiAwam::orderBy('kod', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $cutiawam->where('kod_ruj_senarai_cuti', $request->activity_type_id);
+            }
+
+            if ($request->module_id && $request->module_id != "Lihat Semua") {
+                $cutiawam->where('kod_ruj_negeri', $request->module_id);
+            }
+
+            return Datatables::of($cutiawam->get())
                 ->editColumn('kod', function ($cutiawam){
                     return $cutiawam->kod;
                 })

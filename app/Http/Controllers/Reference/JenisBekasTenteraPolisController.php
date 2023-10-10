@@ -42,7 +42,7 @@ class JenisBekasTenteraPolisController extends Controller
             }
         }
 
-        $bekastentera = JenisBekasTenteraPolis::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
+        $bekastentera = JenisBekasTenteraPolis::orderBy('code', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

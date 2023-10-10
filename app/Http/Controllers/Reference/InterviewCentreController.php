@@ -47,9 +47,14 @@ class InterviewCentreController extends Controller
 
         $states = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        $interviewCentre = InterviewCentre::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
-            return Datatables::of($interviewCentre)
+            $interviewCentre = InterviewCentre::orderBy('kod', 'asc');
+
+            if ($request->module_id && $request->module_id != "Lihat Semua") {
+                $interviewCentre->where('kod_ruj_negeri', $request->module_id);
+            }
+
+            return Datatables::of($interviewCentre->get())
                 ->editColumn('code', function ($interviewCentre){
                     return $interviewCentre->kod;
                 })

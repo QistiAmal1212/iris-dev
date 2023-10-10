@@ -42,7 +42,7 @@ class PenajaController extends Controller
             }
         }
 
-        $penaja = Penaja::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $penaja = Penaja::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

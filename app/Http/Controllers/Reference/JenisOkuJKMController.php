@@ -45,7 +45,7 @@ class JenisOkuJKMController extends Controller
 
         $KategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('nama', 'asc')->get();
 
-        $jenisoku = JenisOkuJKM::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -59,7 +59,13 @@ class JenisOkuJKMController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($jenisoku)
+            $jenisoku = JenisOkuJKM::orderBy('kod', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $jenisoku->where('nama', $request->activity_type_id);
+            }
+
+            return Datatables::of($jenisoku->get())
                 ->editColumn('kod', function ($jenisoku){
                     return $jenisoku->kod;
                 })

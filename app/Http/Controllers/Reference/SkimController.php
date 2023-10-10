@@ -48,9 +48,13 @@ class SkimController extends Controller
         $skim_pkh = SkimPerkhidmatan::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
         $kump_jkk = KumpulanJKK::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        $skim = Skim::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
-            return Datatables::of($skim)
+            $skim = Skim::orderBy('code', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $skim->where('KUMP_PKHIDMAT_JKK', $request->activity_type_id);
+            }
+            return Datatables::of($skim->get())
                 ->editColumn('code', function ($skim){
                     return $skim->code;
                 })

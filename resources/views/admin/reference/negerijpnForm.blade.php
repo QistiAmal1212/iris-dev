@@ -15,7 +15,12 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="code" name="code" value="" class="form-control" required>
+                                    <select id="code" name="code" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($negeri as $neg)
+                                        <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->nama }} </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -35,12 +40,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <select id="kod_ruj_negeri" name="kod_ruj_negeri" class="form-control" required>
-                                        <option value="">Sila Pilih:-</option>
-                                        @foreach ($negeri as $neg)
-                                        <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->nama }} </option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" id="kod_ruj_negeri" name="kod_ruj_negeri" value="" class="form-control" required>
                                 </div>
                             </div>
                         </div>

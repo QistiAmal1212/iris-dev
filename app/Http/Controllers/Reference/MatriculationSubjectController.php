@@ -41,7 +41,7 @@ class MatriculationSubjectController extends Controller
             }
         }
 
-        $matriculationSubject = MatriculationSubject::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
+        $matriculationSubject = MatriculationSubject::orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($matriculationSubject)
                 ->editColumn('code', function ($matriculationSubject){

@@ -50,6 +50,26 @@
         </div>
         <hr>
         <div class="card-body">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <label class="form-label" for="code">Carian Negeri</label>
+                        <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
+                            <option value="Lihat Semua" selected>Lihat Semua</option>
+                            @foreach ($negeri as $neg)
+                            <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->nama }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end align-items-center my-1 ">
+                    <button type="submit" class="btn btn-success float-right">
+                        <i class="fa fa-search"></i> Cari
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
             <div class="table-responsive">
                 <table class="table header_uppercase table-bordered" id="table-negerijpn">
                     <thead>
@@ -70,7 +90,7 @@
 @endsection
 
 @section('script')
-    <script>
+    <script type="text/javascript">
         var table = $('#table-negerijpn').DataTable({
             orderCellsTop: true,
             colReorder: false,
@@ -138,6 +158,88 @@
             }
         });
 
+        $('body').on('submit','#form-search',function(e){
+
+            e.preventDefault();
+
+            var form = $("#form-search");
+
+            if(!form.valid()){
+                return false;
+            }
+            var table;
+
+            table = $('#table-negerijpn').DataTable().destroy();
+
+            console.log(table)
+
+            table = $('#table-negerijpn').DataTable({
+                orderCellsTop: true,
+                colReorder: false,
+                pageLength: 25,
+                processing: true,
+                serverSide: true,
+                processing: true,
+                deferRender: true,
+                ajax: form.attr('action')+"?"+form.serialize(),
+                columns: [{
+                        defaultContent: '',
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: "kod",
+                        name: "kod",
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "nama",
+                        name: "nama",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "kod_neg",
+                        name: "kod_neg",
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+
+                ],
+                language: {
+                    emptyTable: "Tiada data tersedia",
+                    info: "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+                    infoEmpty: "Menunjukkan 0 hingga 0 daripada 0 entri",
+                    infoFiltered: "(Ditapis dari _MAX_ entri)",
+                    search: "Cari:",
+                    zeroRecords: "Tiada rekod yang ditemui",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Seterusnya",
+                        previous: "Sebelumnya"
+                    },
+                    lengthMenu: "Lihat _MENU_ entri",
+                }
+            });
+            });
+
         negerijpnForm = function(id = null) {
             var negerijpnFormModal;
             negerijpnFormModal = new bootstrap.Modal(document.getElementById('negerijpnFormModal'), {
@@ -150,9 +252,10 @@
             event.preventDefault();
             if (id === null) {
                 $('#negerijpnForm').attr('action', '{{ route('admin.reference.negerijpn.store') }}');
-                $('#negerijpnForm input[name="code"]').val("");
+                $('#negerijpnForm select[name="code"]').val("").trigger('change');
                 $('#negerijpnForm input[name="name"]').val("");
-                $('#negerijpnForm select[name="kod_ruj_negeri"]').val("").trigger('change');
+                $('#negerijpnForm input[name="kod_ruj_negeri"]').val("");
+
                 $('#negerijpnForm input[name="code"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Negeri JPN');
@@ -181,9 +284,9 @@
                         url2 = url2.replace(':replaceThis', negerijpn_id);
 
                         $('#negerijpnForm').attr('action', url2);
-                        $('#negerijpnForm input[name="code"]').val(data.detail.kod);
+                        $('#negerijpnForm select[name="code"]').val(data.detail.kod).trigger('change');
                         $('#negerijpnForm input[name="name"]').val(data.detail.nama);
-                        $('#negerijpnForm select[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#negerijpnForm input[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri);
 
                         $('#negerijpnForm input[name="code"]').prop('readonly', true);
 

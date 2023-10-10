@@ -44,7 +44,7 @@ class EligibilityController extends Controller
 
         $skim = Skim::all();
 
-        $eligibility = Eligibility::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
+        $eligibility = Eligibility::orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($eligibility)
                 ->editColumn('code', function ($eligibility){

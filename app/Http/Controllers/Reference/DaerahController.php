@@ -48,7 +48,6 @@ class DaerahController extends Controller
 
         $negeri = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        $daerah = Daerah::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -62,7 +61,17 @@ class DaerahController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($daerah)
+            $daerah = Daerah::orderBy('kod', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $daerah->where('kod_ruj_bahagian', $request->activity_type_id);
+            }
+
+            if ($request->module_id && $request->module_id != "Lihat Semua") {
+                $daerah->where('kod_ruj_negeri', $request->module_id);
+            }
+
+            return Datatables::of($daerah->get())
                 ->editColumn('kod', function ($daerah){
                     return $daerah->kod;
                 })

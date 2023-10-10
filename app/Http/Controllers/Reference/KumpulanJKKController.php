@@ -42,7 +42,7 @@ class KumpulanJKKController extends Controller
             }
         }
 
-        $kumpulanjkk = KumpulanJKK::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $kumpulanjkk = KumpulanJKK::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

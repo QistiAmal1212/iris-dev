@@ -42,7 +42,7 @@ class StateController extends Controller
             }
         }
 
-        $state = State::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $state = State::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

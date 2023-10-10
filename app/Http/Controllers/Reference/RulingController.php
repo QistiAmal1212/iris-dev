@@ -42,7 +42,6 @@ class RulingController extends Controller
             }
         }
 
-        $ruling = Ruling::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -56,7 +55,13 @@ class RulingController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($ruling)
+            $ruling = Ruling::orderBy('kod', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $ruling->where('status', $request->activity_type_id);
+            }
+
+            return Datatables::of($ruling->get())
                 ->editColumn('kod', function ($ruling){
                     return $ruling->kod;
                 })

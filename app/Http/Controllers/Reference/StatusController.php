@@ -42,7 +42,7 @@ class StatusController extends Controller
             }
         }
 
-        $status = Status::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $status = Status::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

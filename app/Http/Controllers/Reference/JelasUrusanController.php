@@ -42,7 +42,7 @@ class JelasUrusanController extends Controller
             }
         }
 
-        $jelasurusan = JelasUrusan::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $jelasurusan = JelasUrusan::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

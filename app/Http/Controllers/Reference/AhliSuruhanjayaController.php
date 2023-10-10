@@ -42,7 +42,7 @@ class AhliSuruhanjayaController extends Controller
             }
         }
 
-        $ahlisuruhanjaya = AhliSuruhanjaya::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
+        $ahlisuruhanjaya = AhliSuruhanjaya::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
