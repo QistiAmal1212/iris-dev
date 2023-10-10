@@ -1,140 +1,78 @@
-<div class="accordion" id="accordion_tatatertib">
-    {{-- Maklumat Tatatertib --}}
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_tatatertib_info">
-            <button class="accordion-button fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#tatatertib_info" aria-expanded="true" aria-controls="tatatertib_info">
-                Maklumat Tatatertib
-            </button>
-        </h2>
-        <div id="tatatertib_info" class="accordion-collapse collapse show" aria-labelledby="heading_tatatertib_info" data-bs-parent="#accordion_tatatertib">
-            <div class="accordion-body">
+<div class="d-flex justify-content-end align-items-center mb-1" id="update_penalty" style="display:none">
+    <a class="me-3 text-danger" type="button" onclick="editPenalty()">
+        <i class="fa-regular fa-pen-to-square"></i>
+        Kemaskini
+    </a>
+</div>
 
-                <div class="d-flex justify-content-end align-items-center mb-1" id="update_penalty" style="display:none">
-                    <a class="me-3 text-danger" type="button" onclick="editPenalty()">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Kemaskini
-                    </a>
-                </div>
+<form id="penaltyForm" action="{{ route('penalty.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadPenalty" data-reloadPage="false">
+    @csrf
+    <div class="row">
+        <input type="hidden" name="penalty_no_pengenalan" id="penalty_no_pengenalan" value="">
+        <input type="hidden" name="id_penalty" id="id_penalty" value="">
 
-                <form id="penaltyForm" action="{{ route('penalty.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadPenalty" data-reloadPage="false">
-                    @csrf
-                    <div class="row">
-                        <input type="hidden" name="penalty_no_pengenalan" id="penalty_no_pengenalan" value="">
-                        <input type="hidden" name="id_penalty" id="id_penalty" value="">
+        <div class="col sm-12 col-md-12 col-lg-12 mb-1">
+            <label class="form-label fw-bolder">Tindakan Tatatertib</label>
+            <select class="form-select select2" name="penalty" id="penalty" disabled>
+                <option value="" hidden>Tindakan Tatatertib</option>
+                    @foreach($penalties as $penalty)
+                        <option value="{{ $penalty->code }}">{{ $penalty->name }}</option>
+                    @endforeach
+            </select>
+        </div>
 
-                        <div class="col sm-12 col-md-12 col-lg-12 mb-1">
-                            <label class="form-label fw-bolder">Tindakan Tatatertib</label>
-                            <select class="form-select select2" name="penalty" id="penalty" disabled>
-                                <option value="" hidden>Tindakan Tatatertib</option>
-                                    @foreach($penalties as $penalty)
-                                        <option value="{{ $penalty->code }}">{{ $penalty->name }}</option>
-                                    @endforeach
-                            </select>
-                        </div>
+        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label fw-bolder">Tarikh Mula Hukuman</label>
+            <input type="text" class="form-control flatpickr" name="penalty_start" id="penalty_start" disabled onchange="calculatePenalty()">
+        </div>
 
-                        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
-                            <label class="form-label fw-bolder">Tarikh Mula Hukuman</label>
-                            <input type="text" class="form-control flatpickr" name="penalty_start" id="penalty_start" disabled onchange="calculatePenalty()">
-                        </div>
+        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label fw-bolder">Tarikh Akhir Hukuman</label>
+            <input type="text" class="form-control" name="penalty_end" id="penalty_end" disabled>
+        </div>
 
-                        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
-                            <label class="form-label fw-bolder">Tarikh Akhir Hukuman</label>
-                            <input type="text" class="form-control" name="penalty_end" id="penalty_end" disabled>
-                        </div>
+        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label fw-bolder">Tempoh Hukuman</label>
+            <div class="input-group">
+                <input type="number" id ="penalty_duration" name="penalty_duration" class="form-control" disabled oninput="calculatePenalty()">
+                <select class="form-control" name="penalty_type" id="penalty_type" disabled onchange="calculatePenalty()">
+                    <option value="" hidden>Tempoh Hukuman</option>
+                    <option value="Tahun">Tahun</option>
+                    <option value="Bulan">Bulan</option>
+                    <option value="Hari">Hari</option>
+                </select>
+            </div>
+        </div>
 
-                        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
-                            <label class="form-label fw-bolder">Tempoh Hukuman</label>
-                            <div class="input-group">
-                                <input type="number" id ="penalty_duration" name="penalty_duration" class="form-control" disabled oninput="calculatePenalty()">
-                                <select class="form-control" name="penalty_type" id="penalty_type" disabled onchange="calculatePenalty()">
-                                    <option value="" hidden>Tempoh Hukuman</option>
-                                    <option value="Tahun">Tahun</option>
-                                    <option value="Bulan">Bulan</option>
-                                    <option value="Hari">Hari</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div id="button_action_penalty" style="display:none">
-                            <button type="button" id="btnAddPenalty" hidden onclick="generalFormSubmit(this);"></button>
-                            <div class="d-flex justify-content-end align-items-center my-1">
-                                <a class="me-3" type="button" id="reset" href="#">
-                                    <span class="text-danger"> Set Semula </span>
-                                </a>
-                                <button type="button" class="btn btn-success float-right" id="btnSavePenalty" onclick="$('#btnAddPenalty').trigger('click');">
-                                    <i class="fa fa-save"></i> Simpan
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                <div id="div_table_penalty">
-                    <div class="table-responsive mb-1 mt-1">
-                        <table class="table header_uppercase table-bordered table-hovered" id="table-penalty">
-                            <thead>
-                                <tr>
-                                    <th>Bil.</th>
-                                    <th>Tindakan Tatatertib</th>
-                                    <th>Tempoh Hukuman</th>
-                                    <th>Tarikh Mula Hukuman</th>
-                                    <th>Tarikh Akhir Hukuman</th>
-                                    <th>Kemaskini</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
+        <div id="button_action_penalty" style="display:none">
+            <button type="button" id="btnAddPenalty" hidden onclick="generalFormSubmit(this);"></button>
+            <div class="d-flex justify-content-end align-items-center my-1">
+                <a class="me-3" type="button" id="reset" href="#">
+                    <span class="text-danger"> Set Semula </span>
+                </a>
+                <button type="button" class="btn btn-success float-right" id="btnSavePenalty" onclick="$('#btnAddPenalty').trigger('click');">
+                    <i class="fa fa-save"></i> Simpan
+                </button>
             </div>
         </div>
     </div>
+</form>
 
-    {{-- Maklumat Tatatertib HISTORY --}}
-    <div class="accordion-item">
-        <!-- <h2 class="accordion-header" id="heading_history_tatatertib">
-            <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_tatatertib" aria-expanded="false" aria-controls="history_tatatertib">
-                Jejak Audit [Maklumat Tatatertib]
-            </button>
-        </h2> -->
-        <div id="history_tatatertib" class="accordion-collapse collapse" aria-labelledby="heading_history_tatatertib" data-bs-parent="#accordion_tatatertib">
-            <div class="accordion-body">
-                <div class="row">
-                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-                        <label class="form-label">Tarikh Mula</label>
-                        <input type="text" class="form-control">
-                    </div>
-
-                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-                        <label class="form-label">Tarikh Akhir</label>
-                        <input type="text" class="form-control">
-                    </div>
-
-                    <div class="d-flex justify-content-end align-items-center">
-                        <a class="me-3" type="button" id="reset" href="#">
-                            <span class="text-danger"> Set Semula </span>
-                        </a>
-                        <button type="submit" class="btn btn-success float-right">
-                            <i class="fa fa-search"></i> Cari
-                        </button>
-                    </div>
-                </div>
-
-                <div class="table-responsive mb-1 mt-1">
-                    <table class="table header_uppercase table-bordered table-hovered">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Maklumat</th>
-                                <th>Status</th>
-                                <th>Tarikh</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+<div id="div_table_penalty">
+    <div class="table-responsive mb-1 mt-1">
+        <table class="table header_uppercase table-bordered table-hovered" id="table-penalty">
+            <thead>
+                <tr>
+                    <th>Bil.</th>
+                    <th>Tindakan Tatatertib</th>
+                    <th>Tempoh Hukuman</th>
+                    <th>Tarikh Mula Hukuman</th>
+                    <th>Tarikh Akhir Hukuman</th>
+                    <th>Kemaskini</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 </div>
 

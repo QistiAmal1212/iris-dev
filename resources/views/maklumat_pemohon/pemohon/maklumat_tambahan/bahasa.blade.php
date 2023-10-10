@@ -1,124 +1,62 @@
-<div class="accordion" id="accordion_kebolehan_bahasa">
-    {{-- Kebolehan Bahasa --}}
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="heading_bahasa">
-            <button class="accordion-button fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#kebolehan_bahasa" aria-expanded="true" aria-controls="kebolehan_bahasa">
-                Kebolehan Bahasa
-            </button>
-        </h2>
-        <div id="kebolehan_bahasa" class="accordion-collapse collapse show" aria-labelledby="heading_bahasa" data-bs-parent="#accordion_kebolehan_bahasa">
-            <div class="accordion-body">
+<div class="d-flex justify-content-end align-items-center mb-1" id="update_bahasa" style="display:none">
+    <a class="me-3 text-danger" type="button" onclick="editBahasa()">
+        <i class="fa-regular fa-pen-to-square"></i>
+        Kemaskini
+    </a>
+</div>
 
-                <div class="d-flex justify-content-end align-items-center mb-1" id="update_bahasa" style="display:none">
-                    <a class="me-3 text-danger" type="button" onclick="editBahasa()">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Kemaskini
-                    </a>
-                </div>
+<form id="bahasaForm" action="{{ route('bahasa.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadBahasa" data-reloadPage="false">
+    @csrf
+    <div class="row">
+        <input type="hidden" name="bahasa_no_pengenalan" id="bahasa_no_pengenalan" value="">
+        <input type="hidden" name="id_bahasa" id="id_bahasa" value="">
 
-                <form id="bahasaForm" action="{{ route('bahasa.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadBahasa" data-reloadPage="false">
-                    @csrf
-                    <div class="row">
-                        <input type="hidden" name="bahasa_no_pengenalan" id="bahasa_no_pengenalan" value="">
-                        <input type="hidden" name="id_bahasa" id="id_bahasa" value="">
+        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+            <label class="form-label">Bahasa</label>
+            <select class="select2 form-control" value="" id="nama_bahasa" name="nama_bahasa" disabled>
+                <option value="" hidden>Bahasa</option>
+                    @foreach($Bahasa as $bahasa)
+                        <option value="{{ $bahasa->kod }}">{{ $bahasa->nama }}</option>
+                    @endforeach
+            </select>
+        </div>
 
-                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-                            <label class="form-label">Bahasa</label>
-                            <select class="select2 form-control" value="" id="nama_bahasa" name="nama_bahasa" disabled>
-                                <option value="" hidden>Bahasa</option>
-                                    @foreach($Bahasa as $bahasa)
-                                        <option value="{{ $bahasa->kod }}">{{ $bahasa->nama }}</option>
-                                    @endforeach
-                            </select>
-                        </div>
-                        
-                        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
-                            <label class="form-label">Penguasaan</label>
-                            <select class="select2 form-control" value="" id="penguasaan_bahasa" name="penguasaan_bahasa" disabled>
-                                <option value="" hidden>Penguasaan</option>
-                                    @foreach($kategoriPenguasaan as $penguasaan)
-                                        <option value="{{ $penguasaan->kod }}">{{ $penguasaan->nama }}</option>
-                                    @endforeach
-                            </select>
-                        </div>
+        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label">Penguasaan</label>
+            <select class="select2 form-control" value="" id="penguasaan_bahasa" name="penguasaan_bahasa" disabled>
+                <option value="" hidden>Penguasaan</option>
+                    @foreach($kategoriPenguasaan as $penguasaan)
+                        <option value="{{ $penguasaan->kod }}">{{ $penguasaan->nama }}</option>
+                    @endforeach
+            </select>
+        </div>
 
-                        <div id="button_action_bahasa" style="display:none">
-                            <button type="button" id="btnEditBahasa" hidden onclick="generalFormSubmit(this);"></button>
-                            <div class="d-flex justify-content-end align-items-center my-1">
-                                <button type="button" class="btn btn-danger me-1" onclick="reloadBahasa()">
-                                    <i class="fa fa-refresh"></i>
-                                </button>
-                                <button type="button" class="btn btn-success float-right" id="btnSaveBahasa" onclick="$('#btnEditBahasa').trigger('click');">
-                                    <i class="fa fa-save"></i> Tambah
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                <div class="table-responsive mb-1 mt-1">
-                    <table class="table header_uppercase table-bordered table-hovered" id="table-language">
-                        <thead>
-                            <tr>
-                                <th>Bil.</th>
-                                <th>Bahasa</th>
-                                <th>Penguasaan Bahasa</th>
-                                <th>Kemaskini</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
+        <div id="button_action_bahasa" style="display:none">
+            <button type="button" id="btnEditBahasa" hidden onclick="generalFormSubmit(this);"></button>
+            <div class="d-flex justify-content-end align-items-center my-1">
+                <button type="button" class="btn btn-danger me-1" onclick="reloadBahasa()">
+                    <i class="fa fa-refresh"></i>
+                </button>
+                <button type="button" class="btn btn-success float-right" id="btnSaveBahasa" onclick="$('#btnEditBahasa').trigger('click');">
+                    <i class="fa fa-save"></i> Tambah
+                </button>
             </div>
         </div>
     </div>
+</form>
 
-    {{-- Kebolehan Bahasa HISTORY --}}
-    <div class="accordion-item">
-       <!--  <h2 class="accordion-header" id="heading_history_bahasa">
-            <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_bahasa" aria-expanded="false" aria-controls="history_bahasa">
-                Jejak Audit [Kebolehan Bahasa]
-            </button>
-        </h2> -->
-        <div id="history_bahasa" class="accordion-collapse collapse" aria-labelledby="heading_history_bahasa" data-bs-parent="#accordion_kebolehan_bahasa">
-            <div class="accordion-body">
-                <div class="row">
-                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-                        <label class="form-label">Tarikh Mula</label>
-                        <input type="text" class="form-control">
-                    </div>
-
-                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-                        <label class="form-label">Tarikh Akhir</label>
-                        <input type="text" class="form-control">
-                    </div>
-
-                    <div class="d-flex justify-content-end align-items-center">
-                        <a class="me-3" type="button" id="reset" href="#">
-                            <span class="text-danger"> Set Semula </span>
-                        </a>
-                        <button type="submit" class="btn btn-success float-right">
-                            <i class="fa fa-search"></i> Cari
-                        </button>
-                    </div>
-                </div>
-
-                <div class="table-responsive mb-1 mt-1">
-                    <table class="table header_uppercase table-bordered table-hovered">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Maklumat</th>
-                                <th>Status</th>
-                                <th>Tarikh</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="table-responsive mb-1 mt-1">
+    <table class="table header_uppercase table-bordered table-hovered" id="table-language">
+        <thead>
+            <tr>
+                <th>Bil.</th>
+                <th>Bahasa</th>
+                <th>Penguasaan Bahasa</th>
+                <th>Kemaskini</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 </div>
 
 <script>

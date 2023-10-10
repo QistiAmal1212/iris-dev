@@ -34,33 +34,69 @@ Maklumat Pemohon
 </style>
 
 <div class="row match-height">
-    <div class="col-sm-12 col-md-6 col-lg-8 col-12">
+    <div class="col-sm-12 col-md-6 col-lg-6 col-12">
         <section id="faq-search-filter">
-            <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}')">
-                <div class="card-body text-center">
-                    <h2 class="text-primary">Carian Maklumat Pemohon</h2>
-                    <p class="card-text mb-2">Isikan maklumat calon dan tekan butang Cari</p>
+            <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}');">
+                <div class="card-body">
+                    <div class="text-center">
+                        <h2 class="text-primary">Carian Maklumat Pemohon</h2>
+                        <p class="card-text mb-2">Isikan maklumat calon dan tekan butang Cari</p>
 
-                    <div class="mb-1">
-                        <button id="btn-selectkp" class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Kad Pengenalan</button>
-                        <button id="btn-selectname" class="btn btn-secondary waves-effect" type="button" onclick="selectSearch('carian_nama')" >Carian Menggunakan Nama</button>
+                        <div class="mb-1">
+                            <button id="btn-selectkp" class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Kad Pengenalan</button>
+                            <button id="btn-selectname" class="btn btn-secondary waves-effect" type="button" onclick="selectSearch('carian_nama')" >Carian Menggunakan Nama</button>
+                        </div>
+
+
+                        <div class="faq-search-input">
+                            <div class="input-group input-group-merge">
+                                <div class="input-group-text" id="search-icon">
+                                    <i data-feather="search"></i>
+                                </div>
+
+                                {{-- Search form --}}
+                                    <input type="text" class="form-control" id="search_ic" maxlength="12" placeholder=" No. Kad Pegenalan Calon"/>
+                                    <input type="text" class="form-control" id="pilihan_carian" value="carian_kp" hidden/>
+                                    <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" >Cari</button>
+                                    <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
+
+                                    <div class="suggestions-container"></div>
+                            </div>
+                        </div>
                     </div>
 
+                    {{-- Maklumat Pemohon [Nama dan No KP] --}}
+                    <div class="table-responsive mt-2">
+                        <table class="table table-bordered" style="width: 100%">
+                            <input type="hidden" id="candidate_no_pengenalan" name="candidate_no_pengenalan" value="">
+                            <tr>
+                                <td class="fw-bolder" width="30%">Nama Pemohon</td>
+                                <td>
+                                    <p class="fw-bolder text-uppercase" id="candidate_name"></p>
+                                </td>
+                            </tr>
 
-                    <div class="faq-search-input">
-                        <div class="input-group input-group-merge">
-                            <div class="input-group-text" id="search-icon">
-                                <i data-feather="search"></i>
-                            </div>
+                            <tr>
+                                <td class="fw-bolder" width="30%">No Kad Pengenalan</td>
+                                <td>
+                                    <p class="fw-bolder text-uppercase" id="candidate_ic"></p>
+                                </td>
+                            </tr>
 
-                            {{-- Search form --}}
-                                <input type="text" class="form-control" id="search_ic" maxlength="12" placeholder=" No. Kad Pegenalan Calon"/>
-                                <input type="text" class="form-control" id="pilihan_carian" value="carian_kp" hidden/>
-                                <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" >Cari</button>
-                                <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
+                            <tr>
+                                <td class="fw-bolder" width="30%">Emel</td>
+                                <td>
+                                    <p class="fw-bolder text-uppercase" id="candidate_email"></p>
+                                </td>
+                            </tr>
 
-                                <div class="suggestions-container"></div>
-                        </div>
+                            <tr>
+                                <td class="fw-bolder" width="30%">Alamat</td>
+                                <td>
+                                    <p class="fw-bolder text-uppercase" id="candidate_address"></p>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -68,59 +104,29 @@ Maklumat Pemohon
     </div>
 
 
-    <div class="col-sm-12 col-md-6 col-lg-4 col-12">
-        <div class="card">
-            <div class="card-body">
-                <p class="card-title fw-bolder">Maklumat Permohonan</p>
-                <hr>
-
-                {{-- Maklumat Pemohon [Nama dan No KP] --}}
-                <div class="mt-2">
-                    <h5 class="fw-bolder">Nama Pemohon:</h5>
-                    <p class="card-text" id="candidate_name"></p>
+    <div class="col-sm-12 col-md-6 col-lg-6 col-12">
+        <div id="divCarian" style="display:none">
+            <div class="card">
+                <div class="card-header">
+                    <a data-bs-toggle="collapse" href="#listPemohon">
+                        <i data-feather="chevron-down"></i>
+                    </a>
                 </div>
-                <div class="mt-2">
-                    <h5 class="fw-bolder">No Kad Pengenalan:</h5>
-                    <p class="card-text" id="candidate_ic"></p>
+                <div class="card-body" id="listPemohon">
+                    <div class="table-responsive" id="append-data"></div>
                 </div>
-                <div class="mt-2">
-                    <h5 class="fw-bolder">Emel:</h5>
-                    <p class="card-text" id="candidate_email"></p>
-                </div>
-                <div class="mt-2">
-                    <h5 class="fw-bolder">Alamat:</h5>
-                    <p class="card-text" id="candidate_address"></p>
-                </div>
-                <input type="hidden" id="candidate_no_pengenalan" name="candidate_no_pengenalan" value="">
-            </div>
-        </div>
-    </div>
-</div>
-
-<hr>
-
-<div id="divCarian" style="display:none">
-    <div class="card">
-        <div class="card-header">
-            <a data-bs-toggle="collapse" href="#listPemohon">
-                <i data-feather="chevron-down"></i>
-            </a>
-        </div>
-        <div class="card-body" id="listPemohon">
-            <div class="table-responsive" id="append-data">
-                
             </div>
         </div>
     </div>
 </div>
 
 <ul class="nav nav-tabs tabs-show" style="display: none;">
-  <li class="nav-item">
-    <a class="nav-link main active" onclick="changePage('main')" aria-current="page">Main</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link jejak" onclick="changePage('jejak')">Jejak Audit</a>
-  </li>
+    <li class="nav-item">
+        <a class="nav-link main active" onclick="changePage('main')" aria-current="page">Main</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link jejak" onclick="changePage('jejak')">Jejak Audit</a>
+    </li>
 </ul>
 
 <div class="card">
@@ -257,7 +263,7 @@ Maklumat Pemohon
         //     inputElement.style.color = "";
         // }
     }
-    
+
     function changePage(type) {
          reset();
         // var searchtype = $('#pilihan_carian').val(btnValue);
@@ -373,7 +379,7 @@ Maklumat Pemohon
                     search_nama : search_nama,
                 },
                 success: function(data) {
-                    $('#append-data').empty(); 
+                    $('#append-data').empty();
                     $('#append-data').append(data);
                 }
             });
@@ -409,7 +415,7 @@ Maklumat Pemohon
         } else {
             type = null;
         }
-      
+
         if (carian != null && $.isNumeric(carian)){
             $('#calon_number').val(carian);
         }
@@ -419,7 +425,7 @@ Maklumat Pemohon
         } else {
             search_ic = carian
         }
-            
+
         if(search_ic == ''){
             Swal.fire('Gagal', 'Sila isikan no kad pengenalan', 'error');
         } else {
@@ -1037,7 +1043,7 @@ Maklumat Pemohon
         // $("#table-carian > tbody").html("");
         var serachtype = $('#search_ic').val();
         if ($.isNumeric(serachtype)) {
-            $('#append-data').empty(); 
+            $('#append-data').empty();
             $('.tabs-show').hide();
         }
         $(".main").addClass("active");
