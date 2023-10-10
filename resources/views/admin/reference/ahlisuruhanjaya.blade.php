@@ -167,6 +167,8 @@
                 $('#ahlisuruhanjayaForm input[name="nama_pasangan"]').val("");
                 $('#ahlisuruhanjayaForm input[name="no_tel_pasangan"]').val("");
                 $('#ahlisuruhanjayaForm input[name="alamat1"]').val("");
+                $('#ahlisuruhanjayaForm input[name="alamat2"]').val("");
+                $('#ahlisuruhanjayaForm input[name="alamat3"]').val("");
                 $('#ahlisuruhanjayaForm input[name="elaun_pada_gred"]').val("");
                 $('#ahlisuruhanjayaForm input[name="kontrak_dari1"]').val("");
                 $('#ahlisuruhanjayaForm input[name="kontrak_hingga1"]').val("");
@@ -207,6 +209,8 @@
                         $('#ahlisuruhanjayaForm input[name="nama_pasangan"]').val(data.detail.nama_pasangan);
                         $('#ahlisuruhanjayaForm input[name="no_tel_pasangan"]').val(data.detail.no_tel_pasangan);
                         $('#ahlisuruhanjayaForm input[name="alamat1"]').val(data.detail.alamat1);
+                        $('#ahlisuruhanjayaForm input[name="alamat2"]').val(data.detail.alamat2);
+                        $('#ahlisuruhanjayaForm input[name="alamat3"]').val(data.detail.alamat3);
                         $('#ahlisuruhanjayaForm input[name="elaun_pada_gred"]').val(data.detail.elaun_pada_gred);
                         $('#ahlisuruhanjayaForm input[name="kontrak_dari1"]').val(data.detail.kontrak_dari1);
                         $('#ahlisuruhanjayaForm input[name="kontrak_hingga1"]').val(data.detail.kontrak_hingga1);

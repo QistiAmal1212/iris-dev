@@ -123,6 +123,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" id="alamat2" name="alamat2" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" id="alamat3" name="alamat3" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label" for="elaun_pada_gred">Elaun Pada Gred

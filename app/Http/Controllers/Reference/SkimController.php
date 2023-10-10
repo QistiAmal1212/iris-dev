@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reference\KumpulanJKK;
+use App\Models\Reference\SalaryGrade;
+use App\Models\Reference\SkimPerkhidmatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Skim;
@@ -41,6 +44,10 @@ class SkimController extends Controller
             }
         }
 
+        $ggh = SalaryGrade::where('is_active', 1)->orderBy('name', 'asc')->get();
+        $skim_pkh = SkimPerkhidmatan::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $kump_jkk = KumpulanJKK::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+
         $skim = Skim::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($skim)
@@ -49,6 +56,12 @@ class SkimController extends Controller
                 })
                 ->editColumn('name', function ($skim) {
                     return $skim->name;
+                })
+                ->editColumn('ggh', function ($skim) {
+                    return $skim->GGH_KOD;
+                })
+                ->editColumn('jkk', function ($skim) {
+                    return $skim->KUMP_PKHIDMAT_JKK;
                 })
                 ->editColumn('action', function ($skim) use ($accessDelete) {
                     $button = "";
@@ -71,7 +84,7 @@ class SkimController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.skim', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.skim', compact('accessAdd', 'accessUpdate', 'accessDelete', 'ggh', 'skim_pkh', 'kump_jkk'));
     }
 
     public function store(Request $request)
@@ -82,15 +95,30 @@ class SkimController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_skim,code',
                 'name' => 'required|string',
+                'GGH_KOD' => 'required|string',
+                'GUNASAMA' => 'required|string',
+                'ref_skim_type' => 'required|string',
+                'KUMP_PKHIDMAT_JKK' => 'required|string',
+                'SKIM_PKHIDMAT' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama jawatan',
+                'GGH_KOD.required' => 'Sila isikan gred gaji',
+                'GUNASAMA.required' => 'Sila isikan gunasama',
+                'ref_skim_type.required' => 'Sila isikan jenis jawatan',
+                'KUMP_PKHIDMAT_JKK.required' => 'Sila isikan kumpulan perkhidmatan JKK',
+                'SKIM_PKHIDMAT.required' => 'Sila isikan jawatan perkidmatan',
             ]);
 
             Skim::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
+                'GGH_KOD' => strtoupper($request->GGH_KOD),
+                'GUNASAMA' => strtoupper($request->GUNASAMA),
+                'ref_skim_type' => strtoupper($request->ref_skim_type),
+                'KUMP_PKHIDMAT_JKK' => strtoupper($request->KUMP_PKHIDMAT_JKK),
+                'SKIM_PKHIDMAT' => strtoupper($request->SKIM_PKHIDMAT),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -137,15 +165,30 @@ class SkimController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_skim,code,'.$skimId,
                 'name' => 'required|string',
+                'GGH_KOD' => 'required|string',
+                'GUNASAMA' => 'required|string',
+                'ref_skim_type' => 'required|string',
+                'KUMP_PKHIDMAT_JKK' => 'required|string',
+                'SKIM_PKHIDMAT' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama jawatan',
+                'GGH_KOD.required' => 'Sila isikan gred gaji',
+                'GUNASAMA.required' => 'Sila isikan gunasama',
+                'ref_skim_type.required' => 'Sila isikan jenis jawatan',
+                'KUMP_PKHIDMAT_JKK.required' => 'Sila isikan kumpulan perkhidmatan JKK',
+                'SKIM_PKHIDMAT.required' => 'Sila isikan jawatan perkidmatan',
             ]);
 
             $skim->update([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
+                'GGH_KOD' => strtoupper($request->GGH_KOD),
+                'GUNASAMA' => strtoupper($request->GUNASAMA),
+                'ref_skim_type' => strtoupper($request->ref_skim_type),
+                'KUMP_PKHIDMAT_JKK' => strtoupper($request->KUMP_PKHIDMAT_JKK),
+                'SKIM_PKHIDMAT' => strtoupper($request->SKIM_PKHIDMAT),
                 'updated_by' => auth()->user()->id,
             ]);
 

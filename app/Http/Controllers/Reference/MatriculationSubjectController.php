@@ -90,6 +90,7 @@ class MatriculationSubjectController extends Controller
                 'name' => 'required|string',
                 'credit' => 'required|numeric',
                 'semester' => 'required|numeric',
+                'category' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -98,6 +99,7 @@ class MatriculationSubjectController extends Controller
                 'credit.numeric' => 'Kredit hendaklah dalam angka digit',
                 'semester.required' => 'Sila isikan semester subjek matrikulasi',
                 'semester.numeric' => 'Semester hendaklah dalam angka digit',
+                'category.required' => 'Sila isikan kategori subjek matrikulasi',
             ]);
 
             MatriculationSubject::create([
@@ -105,6 +107,7 @@ class MatriculationSubjectController extends Controller
                 'name' => strtoupper($request->name),
                 'credit' => strtoupper($request->credit),
                 'semester' => strtoupper($request->semester),
+                'category' => strtoupper($request->category),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -153,6 +156,7 @@ class MatriculationSubjectController extends Controller
                 'name' => 'required|string',
                 'credit' => 'required|numeric',
                 'semester' => 'required|numeric',
+                'category' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -161,6 +165,7 @@ class MatriculationSubjectController extends Controller
                 'credit.numeric' => 'Kredit hendaklah dalam angka digit',
                 'semester.required' => 'Sila isikan semester subjek matrikulasi',
                 'semester.numeric' => 'Semester hendaklah dalam angka digit',
+                'category.required' => 'Sila isikan kategori subjek matrikulasi',
             ]);
 
             $matriculationSubject->update([
@@ -168,6 +173,7 @@ class MatriculationSubjectController extends Controller
                 'name' => strtoupper($request->name),
                 'credit' => strtoupper($request->credit),
                 'semester' => strtoupper($request->semester),
+                'category' => strtoupper($request->category),
                 'updated_by' => auth()->user()->id,
             ]);
 

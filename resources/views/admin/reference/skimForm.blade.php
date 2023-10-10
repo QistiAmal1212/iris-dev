@@ -25,7 +25,72 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="name" name="name" value="" class="form-control"oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="name" name="name" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="GUNASAMA">Gunasama
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" id="GUNASAMA" name="GUNASAMA" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="ref_skim_type">Jenis
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" id="ref_skim_type" name="ref_skim_type" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="GGH_KOD">Gred Gaji
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="GGH_KOD" name="GGH_KOD" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($ggh as $gred)
+                                        <option value="{{ $gred->code }}">{{ $gred->code }} - {{ $gred->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="SKIM_PKHIDMAT">Skim Perkhidmatan
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="SKIM_PKHIDMAT" name="SKIM_PKHIDMAT" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($skim_pkh as $pkh)
+                                        <option value="{{ $pkh->kod }}">{{ $pkh->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="KUMP_PKHIDMAT_JKK">Kumpulan Perkhidmatan JKK
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="KUMP_PKHIDMAT_JKK" name="KUMP_PKHIDMAT_JKK" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($kump_jkk as $jkk)
+                                        <option value="{{ $jkk->kod }}">{{ $jkk->nama }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

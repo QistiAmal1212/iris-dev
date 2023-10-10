@@ -145,6 +145,8 @@
             $('#specializationForm').attr('action', '{{ route("admin.reference.specialization.store") }}');
             $('#specializationForm input[name="code"]').val("");
             $('#specializationForm input[name="name"]').val("");
+            $('#specializationForm select[name="type"]').val("").trigger('change');
+            $('#specializationForm select[name="field"]').val("").trigger('change');
             $('#specializationForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Pengkhususan');
@@ -175,6 +177,8 @@
                     $('#specializationForm').attr('action',url2 );
                     $('#specializationForm input[name="code"]').val(data.detail.code);
                     $('#specializationForm input[name="name"]').val(data.detail.name);
+                    $('#specializationForm select[name="type"]').val(data.detail.type).trigger('change');
+                    $('#specializationForm select[name="field"]').val(data.detail.field).trigger('change');
                     $('#specializationForm input[name="code"]').prop('readonly', true);
 
 

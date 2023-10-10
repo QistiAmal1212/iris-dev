@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
+use App\Models\Reference\Negara;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Institution;
@@ -41,8 +43,21 @@ class InstitutionController extends Controller
             }
         }
 
+        $negara = Negara::where('sah_yt', true)->orderBy('nama','asc')->get();
+
         $institution = Institution::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.institution')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Institusi";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($institution)
                 ->editColumn('code', function ($institution){
                     return $institution->code;
@@ -71,7 +86,7 @@ class InstitutionController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.institution', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.institution', compact('accessAdd', 'accessUpdate', 'accessDelete', 'negara'));
     }
 
     public function store(Request $request)
@@ -82,18 +97,35 @@ class InstitutionController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_institusi,code',
                 'name' => 'required|string',
+                'ref_country_code' => 'required|string',
+                'type' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama institusi',
+                'ref_country_code.required' => 'Sila isikan nama negara',
+                'type.required' => 'Sila isikan jenis',
             ]);
 
-            Institution::create([
+            $institution = Institution::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
+                'ref_country_code' => strtoupper($request->ref_country_code),
+                'type' => strtoupper($request->type),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.institution')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Institusi";
+            $log->data_new = json_encode($institution);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -116,6 +148,16 @@ class InstitutionController extends Controller
             if (!$institution) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.institution')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Institusi";
+            $log->data_new = json_encode($institution);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $institution]);
 
@@ -134,20 +176,40 @@ class InstitutionController extends Controller
             $institutionId = $request->institutionId;
             $institution = Institution::find($institutionId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.institution')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Institusi";
+            $log->data_old = json_encode($institution);
+
             $request->validate([
                 'code' => 'required|string|unique:ruj_institusi,code,'.$institutionId,
                 'name' => 'required|string',
+                'ref_country_code' => 'required|string',
+                'type' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama institusi',
+                'ref_country_code.required' => 'Sila isikan nama negara',
+                'type.required' => 'Sila isikan jenis',
             ]);
 
             $institution->update([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
+                'ref_country_code' => strtoupper($request->ref_country_code),
+                'type' => strtoupper($request->type),
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $institutionNewData = Institution::find($institutionId);
+            $log->data_new = json_encode($institutionNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

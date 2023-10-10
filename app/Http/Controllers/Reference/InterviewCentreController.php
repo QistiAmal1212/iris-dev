@@ -56,6 +56,9 @@ class InterviewCentreController extends Controller
                 ->editColumn('name', function ($interviewCentre) {
                     return $interviewCentre->nama;
                 })
+                ->editColumn('neg', function ($interviewCentre) {
+                    return $interviewCentre->kod_ruj_negeri;
+                })
                 ->editColumn('action', function ($interviewCentre) use ($accessDelete) {
                     $button = "";
 
@@ -91,6 +94,7 @@ class InterviewCentreController extends Controller
                 'name' => 'required|string',
                 'ref_area_code' => 'required|string|exists:ruj_kawasan_pst_td,kod',
                 'ref_state_code' => 'required|string|exists:ruj_negeri,kod',
+                'kod_pendek' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -99,6 +103,7 @@ class InterviewCentreController extends Controller
                 'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
                 'ref_state_code.required' => 'Sila isikan negeri',
                 'ref_state_code.exists' => 'Tiada rekod negeri yang dipilih',
+                'kod_pendek.required' => 'Sila isikan kod pendek',
             ]);
 
             InterviewCentre::create([
@@ -106,6 +111,7 @@ class InterviewCentreController extends Controller
                 'nama' => strtoupper($request->name),
                 'kod_ruj_kawasan_pst_td' => $request->ref_area_code,
                 'kod_ruj_negeri' => strtoupper($request->ref_state_code),
+                'kod_pendek' => strtoupper($request->kod_pendek),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -153,6 +159,7 @@ class InterviewCentreController extends Controller
                 'name' => 'required|string',
                 'ref_area_code' => 'required|string|exists:ruj_kawasan_pst_td,kod',
                 'ref_state_code' => 'required|string|exists:ruj_negeri,kod',
+                'kod_pendek' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -161,6 +168,7 @@ class InterviewCentreController extends Controller
                 'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
                 'ref_state_code.required' => 'Sila isikan negeri',
                 'ref_state_code.exists' => 'Tiada rekod negeri yang dipilih',
+                'kod_pendek.required' => 'Sila isikan kod pendek',
             ]);
 
             $interviewCentre->update([
@@ -168,6 +176,7 @@ class InterviewCentreController extends Controller
                 'nama' => strtoupper($request->name),
                 'kod_ruj_kawasan_pst_td' => $request->ref_area_code,
                 'kod_ruj_negeri' => strtoupper($request->ref_state_code),
+                'kod_pendek' => strtoupper($request->kod_pendek),
                 'updated_by' => auth()->user()->id,
             ]);
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\DepartmentMinistry;
@@ -43,6 +44,18 @@ class DepartmentMinistryController extends Controller
 
         $departmentMinistry = DepartmentMinistry::orderBy('nama', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.department-ministry')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Kementerian";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($departmentMinistry)
                 ->editColumn('kod', function ($departmentMinistry){
                     return $departmentMinistry->kod;
@@ -82,18 +95,50 @@ class DepartmentMinistryController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_kem_jabatan,kod',
                 'name' => 'required|string',
+                'alamat_1' => 'required|string',
+                // 'alamat_2' => 'string',
+                // 'alamat_3' => 'string',
+                'poskod' => 'required|string',
+                'bandar' => 'required|string',
+                'gelaran_ketua' => 'required|string',
+                'kem_kod' => 'required|string',
+                // 'unit_urusan' => 'string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama kementerian',
+                'alamat_1.required' => 'Sila isikan alamat',
+                'poskod.required' => 'Sila isikan poskod',
+                'bandar.required' => 'Sila isikan bandar',
+                'gelaran_ketua.required' => 'Sila isikan gelaran ketua',
+                'kem_kod.required' => 'Sila isikan kod kementerian',
             ]);
 
-            DepartmentMinistry::create([
+            $departmentMinistry = DepartmentMinistry::create([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
+                'alamat_1' => strtoupper($request->alamat_1),
+                'alamat_2' => strtoupper($request->alamat_2),
+                'alamat_3' => strtoupper($request->alamat_3),
+                'poskod' => strtoupper($request->poskod),
+                'bandar' => strtoupper($request->bandar),
+                'gelaran_ketua' => strtoupper($request->gelaran_ketua),
+                'kem_kod' => strtoupper($request->kem_kod),
+                'unit_urusan' => strtoupper($request->unit_urusan),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.department-ministry')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Kementerian";
+            $log->data_new = json_encode($departmentMinistry);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -116,6 +161,16 @@ class DepartmentMinistryController extends Controller
             if (!$departmentMinistry) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.department-ministry')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Kementerian";
+            $log->data_new = json_encode($departmentMinistry);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $departmentMinistry]);
 
@@ -134,20 +189,55 @@ class DepartmentMinistryController extends Controller
             $departmentMinistryId = $request->departmentMinistryId;
             $departmentMinistry = DepartmentMinistry::find($departmentMinistryId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.department-ministry')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Kementerian";
+            $log->data_old = json_encode($departmentMinistry);
+
             $request->validate([
                 'code' => 'required|string|unique:ruj_kem_jabatan,kod,'.$departmentMinistryId,
                 'name' => 'required|string',
+                'alamat_1' => 'required|string',
+                // 'alamat_2' => 'string',
+                // 'alamat_3' => 'string',
+                'poskod' => 'required|string',
+                'bandar' => 'required|string',
+                'gelaran_ketua' => 'required|string',
+                'kem_kod' => 'required|string',
+                // 'unit_urusan' => 'string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama kementerian',
+                'alamat_1.required' => 'Sila isikan alamat',
+                'poskod.required' => 'Sila isikan poskod',
+                'bandar.required' => 'Sila isikan bandar',
+                'gelaran_ketua.required' => 'Sila isikan gelaran ketua',
+                'kem_kod.required' => 'Sila isikan kod kementerian',
             ]);
 
             $departmentMinistry->update([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
+                'alamat_1' => strtoupper($request->alamat_1),
+                'alamat_2' => strtoupper($request->alamat_2),
+                'alamat_3' => strtoupper($request->alamat_3),
+                'poskod' => strtoupper($request->poskod),
+                'bandar' => strtoupper($request->bandar),
+                'gelaran_ketua' => strtoupper($request->gelaran_ketua),
+                'kem_kod' => strtoupper($request->kem_kod),
+                'unit_urusan' => strtoupper($request->unit_urusan),
                 'updated_by' => auth()->user()->id,
             ]);
+
+            $departmentMinistryNewData = DepartmentMinistry::find($departmentMinistryId);
+            $log->data_new = json_encode($departmentMinistryNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

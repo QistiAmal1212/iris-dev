@@ -29,13 +29,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label" for="category">Kategori
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="category" name="category" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <select id="category" name="category" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        <option value="TATATERTIB">TATATERTIB</option>
+                                        <option value="TATATERTIB OMR">TATATERTIB OMR</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

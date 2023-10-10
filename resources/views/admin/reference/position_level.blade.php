@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Tahap Jawatan
+    Taraf Jawatan
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-    <li class="breadcrumb-item"><a>Tahap Jawatan</a>
+    <li class="breadcrumb-item"><a>Taraf Jawatan</a>
     </li>
 @endsection
 
@@ -42,10 +42,10 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Tahap Jawatan</h4>
+        <h4 class="card-title">Senarai Taraf Jawatan</h4>
         @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="positionLevelForm()">
-            <i class="fa-solid fa-add"></i> Tambah Tahap Jawatan
+            <i class="fa-solid fa-add"></i> Tambah Taraf Jawatan
         </button>
         @endif
     </div>
@@ -58,7 +58,7 @@
                     <tr>
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
-                        <th>Tahap Jawatan</th>
+                        <th>Taraf Jawatan</th>
                         <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
@@ -148,7 +148,7 @@
             $('#positionLevelForm input[name="name"]').val("");
             $('#positionLevelForm input[name="code"]').prop('readonly', false);
 
-            $('#title-role').html('Tambah Tahap Jawatan');
+            $('#title-role').html('Tambah Taraf Jawatan');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -179,7 +179,7 @@
                     $('#positionLevelForm input[name="code"]').prop('readonly', true);
 
 
-                    $('#title-role').html('Kemaskini Tahap Jawatan');
+                    $('#title-role').html('Kemaskini Taraf Jawatan');
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);

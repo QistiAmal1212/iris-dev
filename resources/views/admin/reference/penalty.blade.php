@@ -154,7 +154,7 @@
             $('#penaltyForm').attr('action', '{{ route("admin.reference.penalty.store") }}');
             $('#penaltyForm input[name="code"]').val("");
             $('#penaltyForm input[name="name"]').val("");
-            $('#penaltyForm input[name="category"]').val("");
+            $('#penaltyForm select[name="category"]').val("").trigger('change');
             $('#penaltyForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Tatatertib');
@@ -185,7 +185,7 @@
                     $('#penaltyForm').attr('action',url2 );
                     $('#penaltyForm input[name="code"]').val(data.detail.code);
                     $('#penaltyForm input[name="name"]').val(data.detail.name);
-                    $('#penaltyForm input[name="category"]').val(data.detail.category);
+                    $('#penaltyForm select[name="category"]').val(data.detail.category).trigger('change');
                     $('#penaltyForm input[name="code"]').prop('readonly', true);
 
 

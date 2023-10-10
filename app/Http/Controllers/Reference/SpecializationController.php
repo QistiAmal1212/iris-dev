@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\KodPelbagai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Specialization;
@@ -42,6 +43,8 @@ class SpecializationController extends Controller
             }
         }
 
+        $jenis = KodPelbagai::where('kategori', 'JENIS PENGKHUSUSAN')->orderBy('kod', 'asc')->get();
+        $bidang = KodPelbagai::where('kategori', 'BIDANG PENGKHUSUSAN')->orderBy('kod', 'asc')->get();
         $specialization = Specialization::orderBy('name', 'asc')->orderBy('code', 'asc')->get();
         if ($request->ajax()) {
 
@@ -84,7 +87,7 @@ class SpecializationController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.specialization', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.specialization', compact('accessAdd', 'accessUpdate', 'accessDelete', 'jenis', 'bidang'));
     }
 
     public function store(Request $request)
@@ -95,15 +98,21 @@ class SpecializationController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_pengkhususan,code',
                 'name' => 'required|string',
+                'type' => 'required|string',
+                'field' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama pengkhususan',
+                'type.required' => 'Sila isikan jenis pengkhususan',
+                'field.required' => 'Sila isikan bidang pengkhususan',
             ]);
 
             $specialization = Specialization::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
+                'type' => strtoupper($request->type),
+                'field' => strtoupper($request->field),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -179,15 +188,21 @@ class SpecializationController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_pengkhususan,code,'.$specializationId,
                 'name' => 'required|string',
+                'type' => 'required|string',
+                'field' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama jawatan',
+                'type.required' => 'Sila isikan jenis pengkhususan',
+                'field.required' => 'Sila isikan bidang pengkhususan',
             ]);
 
             $specialization->update([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
+                'type' => strtoupper($request->type),
+                'field' => strtoupper($request->field),
                 'updated_by' => auth()->user()->id,
             ]);
 

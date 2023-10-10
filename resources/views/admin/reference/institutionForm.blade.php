@@ -29,6 +29,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="ref_country_code">Negara
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="ref_country_code" name="ref_country_code" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($negara as $neg)
+                                        <option value="{{ $neg->kod }}">{{ $neg->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="type">Jenis
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="type" name="type" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        <option value="2">Luar Negara</option>
+                                        <option value="1">Dalam Negara</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <button type="button" id="btn_submit" hidden onclick="generalFormSubmit(this);"></button>
                 </form>

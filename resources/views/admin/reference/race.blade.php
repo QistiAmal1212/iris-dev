@@ -143,6 +143,7 @@
                 $('#raceForm').attr('action', '{{ route('admin.reference.race.store') }}');
                 $('#raceForm input[name="code"]').val("");
                 $('#raceForm input[name="name"]').val("");
+                $('#raceForm input[name="kump"]').val("");
                 $('#raceForm input[name="code"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Keturunan');
@@ -173,6 +174,7 @@
                         $('#raceForm').attr('action', url2);
                         $('#raceForm input[name="code"]').val(data.detail.kod);
                         $('#raceForm input[name="name"]').val(data.detail.nama);
+                        $('#raceForm input[name="kump"]').val(data.detail.kump);
 
                         $('#raceForm input[name="code"]').prop('readonly', true);
 

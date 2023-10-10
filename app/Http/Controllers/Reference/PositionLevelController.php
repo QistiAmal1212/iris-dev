@@ -85,7 +85,7 @@ class PositionLevelController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan tahap jawatan',
+                'name.required' => 'Sila isikan taraf jawatan',
             ]);
 
             PositionLevel::create([
@@ -140,7 +140,7 @@ class PositionLevelController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan tahap jawatan',
+                'name.required' => 'Sila isikan taraf jawatan',
             ]);
 
             $positionLevel->update([

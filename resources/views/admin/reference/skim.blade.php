@@ -58,6 +58,8 @@
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
                         <th>Skim Jawatan</th>
+                        <th width="10%">Gred Gaji</th>
+                        <th width="10%">KUmpulan JKK</th>
                         <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
@@ -109,6 +111,22 @@
                 }
             },
             {
+                data: "ggh",
+                name: "ggh",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "jkk",
+                name: "jkk",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
                 data: 'action',
                 name: 'action',
                 orderable: false,
@@ -145,6 +163,11 @@
             $('#skimForm').attr('action', '{{ route("admin.reference.skim.store") }}');
             $('#skimForm input[name="code"]').val("");
             $('#skimForm input[name="name"]').val("");
+            $('#skimForm input[name="GUNASAMA"]').val("");
+            $('#skimForm input[name="ref_skim_type"]').val("");
+            $('#skimForm select[name="GGH_KOD"]').val("").trigger('change');
+            $('#skimForm select[name="SKIM_PKHIDMAT"]').val("").trigger('change');
+            $('#skimForm select[name="KUMP_PKHIDMAT_JKK"]').val("").trigger('change');
             $('#skimForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Jawatan');
@@ -175,6 +198,11 @@
                     $('#skimForm').attr('action',url2 );
                     $('#skimForm input[name="code"]').val(data.detail.code);
                     $('#skimForm input[name="name"]').val(data.detail.name);
+                    $('#skimForm input[name="GUNASAMA"]').val(data.detail.GUNASAMA);
+                    $('#skimForm input[name="ref_skim_type"]').val(data.detail.ref_skim_type);
+                    $('#skimForm select[name="GGH_KOD"]').val(data.detail.GGH_KOD).trigger('change');
+                    $('#skimForm select[name="SKIM_PKHIDMAT"]').val(data.detail.SKIM_PKHIDMAT).trigger('change');
+                    $('#skimForm select[name="KUMP_PKHIDMAT_JKK"]').val(data.detail.KUMP_PKHIDMAT_JKK).trigger('change');
 
                     $('#skimForm input[name="code"]').prop('readonly', true);
 

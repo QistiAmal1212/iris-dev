@@ -144,6 +144,8 @@
                 $('#institutionForm').attr('action', '{{ route('admin.reference.institution.store') }}');
                 $('#institutionForm input[name="code"]').val("");
                 $('#institutionForm input[name="name"]').val("");
+                $('#institutionForm select[name="ref_country_code"]').val("").trigger('change');
+                $('#institutionForm select[name="type"]').val("").trigger('change');
 
                 $('#institutionForm input[name="code"]').prop('readonly', false);
 
@@ -175,7 +177,8 @@
                         $('#institutionForm').attr('action', url2);
                         $('#institutionForm input[name="code"]').val(data.detail.code);
                         $('#institutionForm input[name="name"]').val(data.detail.name);
-
+                        $('#institutionForm select[name="ref_country_code"]').val(data.detail.ref_country_code).trigger('change');
+                        $('#institutionForm select[name="type"]').val(data.detail.type).trigger('change');
                         $('#institutionForm input[name="code"]').prop('readonly', true);
 
                         $('#title-role').html('Kemaskini Institusi');

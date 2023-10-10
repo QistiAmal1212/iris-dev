@@ -145,6 +145,7 @@
             $('#qualificationForm').attr('action', '{{ route("admin.reference.qualification.store") }}');
             $('#qualificationForm input[name="code"]').val("");
             $('#qualificationForm input[name="name"]').val("");
+            $('#qualificationForm input[name="type"]').val("");
             $('#qualificationForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Kelulusan');
@@ -175,6 +176,7 @@
                     $('#qualificationForm').attr('action',url2 );
                     $('#qualificationForm input[name="code"]').val(data.detail.code);
                     $('#qualificationForm input[name="name"]').val(data.detail.name);
+                    $('#qualificationForm input[name="type"]').val(data.detail.type);
                     $('#qualificationForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Kelulusan');

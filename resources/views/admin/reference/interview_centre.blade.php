@@ -58,6 +58,7 @@
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
                             <th>Nama</th>
+                            <th width="10%">Kod Negeri</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -106,6 +107,14 @@
                     }
                 },
                 {
+                    data: "neg",
+                    name: "neg",
+                    className: "text-center",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -147,6 +156,7 @@
                 $('#interviewCentreForm input[name="name"]').val("");
                 $('#interviewCentreForm select[name="ref_area_code"]').val("").trigger('change');
                 $('#interviewCentreForm select[name="ref_state_code"]').val("").trigger('change');
+                $('#interviewCentreForm input[name="kod_pendek"]').val("");
                 $('#interviewCentreForm input[name="code"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Pusat Temuduga');
@@ -179,6 +189,7 @@
                         $('#interviewCentreForm input[name="name"]').val(data.detail.nama);
                         $('#interviewCentreForm select[name="ref_area_code"]').val(data.detail.kod_ruj_kawasan_pst_td).trigger('change');
                         $('#interviewCentreForm select[name="ref_state_code"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#interviewCentreForm input[name="kod_pendek"]').val(data.detail.kod_pendek);
                         $('#interviewCentreForm input[name="code"]').prop('readonly', true);
 
                         $('#title-role').html('Kemaskini Pusat Temuduga');

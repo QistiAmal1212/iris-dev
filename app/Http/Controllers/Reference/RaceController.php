@@ -95,15 +95,18 @@ class RaceController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_keturunan,kod',
                 'name' => 'required|string',
+                'kump' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan keturunan',
+                'kump.required' => 'Sila isikan kumpulan',
             ]);
 
             $race = Race::create([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
+                'kump' => strtoupper($request->kump),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -179,15 +182,18 @@ class RaceController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_keturunan,kod,'.$raceId,
                 'name' => 'required|string',
+                'kump' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan keturunan',
+                'kump.required' => 'Sila isikan kumpulan',
             ]);
 
             $race->update([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
+                'kump' => strtoupper($request->kump),
                 'updated_by' => auth()->user()->id,
             ]);
 

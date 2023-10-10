@@ -49,6 +49,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="category">Kategori
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" id="category" name="category" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <button type="button" id="btn_submit" hidden onclick="generalFormSubmit(this);"></button>
                 </form>

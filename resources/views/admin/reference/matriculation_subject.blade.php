@@ -149,6 +149,7 @@
             $('#matriculationSubjectForm input[name="name"]').val("");
             $('#matriculationSubjectForm input[name="credit"]').val("");
             $('#matriculationSubjectForm input[name="semester"]').val("");
+            $('#matriculationSubjectForm input[name="category"]').val("");
             $('#matriculationSubjectForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Subjek Matrikulasi');
@@ -181,6 +182,7 @@
                     $('#matriculationSubjectForm input[name="name"]').val(data.detail.name);
                     $('#matriculationSubjectForm input[name="credit"]').val(data.detail.credit);
                     $('#matriculationSubjectForm input[name="semester"]').val(data.detail.semester);
+                    $('#matriculationSubjectForm input[name="category"]').val(data.detail.category);
                     $('#matriculationSubjectForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Subjek Matrikulasi');

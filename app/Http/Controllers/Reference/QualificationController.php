@@ -95,15 +95,18 @@ class QualificationController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_kelulusan,code',
                 'name' => 'required|string',
+                'type' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama kelulusan',
+                'type.required' => 'Sila isikan jenis kelulusan',
             ]);
 
             $qualification = Qualification::create([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
+                'type' => strtoupper($request->type),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -179,15 +182,18 @@ class QualificationController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_kelulusan,code,'.$qualificationId,
                 'name' => 'required|string',
+                'type' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama kelulusan',
+                'type.required' => 'Sila isikan jenis kelulusan',
             ]);
 
             $qualification->update([
                 'code' => $request->code,
                 'name' => strtoupper($request->name),
+                'type' => strtoupper($request->type),
                 'updated_by' => auth()->user()->id,
             ]);
 
