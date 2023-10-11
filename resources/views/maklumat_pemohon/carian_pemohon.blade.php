@@ -55,10 +55,12 @@ Maklumat Pemohon
                                 </div>
 
                                 {{-- Search form --}}
+                                    <input type="text" class="form-control" id="search_ic" maxlength="12" placeholder=" No. Kad Pegenalan Calon"/>
+                                    <input type="text" class="form-control" id="pilihan_carian" value="carian_kp" hidden/>
+                                    <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" >Cari</button>
+                                    <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
+
                                     <div class="suggestions-container"></div>
-                                <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()">Cari</button>
-                                <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
-                                <div class="suggestions-container"></div>
                             </div>
                         </div>
                     </div>
