@@ -49,7 +49,7 @@
             </button>
         </div>
 
-        {{-- <hr>
+        <hr>
 
         <div class="step" data-target="#academic-spmu-info" role="tab" id="academic-spmu-info-trigger">
             <button type="button" class="step-trigger">
@@ -62,7 +62,7 @@
                     </span>
                 </span>
             </button>
-        </div> --}}
+        </div>
     </div>
 
     <div class="bs-stepper-content">
@@ -74,8 +74,8 @@
                     Kemaskini
                 </a>
             </div>
-            <form id="spmForm" action="{{ route('spm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline"
-                data-refreshFunctionNameIfSuccess="reloadSpm" data-reloadPage="false">
+
+            <form id="spmForm" action="{{ route('spm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSpm" data-reloadPage="false">
                 @csrf
                 <div class="row">
                     <input type="hidden" name="spm_no_pengenalan" id="spm_no_pengenalan" value="">
@@ -85,9 +85,9 @@
                         <label class="form-label">Mata Pelajaran</label>
                         <select class="select2 form-control" value="" id="subjek_spm" name="subjek_spm" disabled>
                             <option value="" hidden>Mata Pelajaran</option>
-                            @foreach($subjekSpm as $subjek)
-                            <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
-                            @endforeach
+                                @foreach($subjekSpm as $subjek)
+                                    <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                @endforeach
                         </select>
                     </div>
 
@@ -95,9 +95,9 @@
                         <label class="form-label">Gred</label>
                         <select class="select2 form-control" value="" id="gred_spm" name="gred_spm" disabled>
                             <option value="" hidden>Gred</option>
-                            @foreach($gredSpm as $gred)
-                            <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                            @endforeach
+                                @foreach($gredSpm as $gred)
+                                    <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                @endforeach
                         </select>
                     </div>
 
@@ -112,8 +112,7 @@
                             <button type="button" class="btn btn-danger me-1" onclick="reloadSpm()">
                                 <i class="fa fa-refresh"></i>
                             </button>
-                            <button type="button" class="btn btn-success float-right" id="btnSaveSpm"
-                                onclick="$('#btnEditSpm').trigger('click');">
+                            <button type="button" class="btn btn-success float-right" id="btnSaveSpm" onclick="$('#btnEditSpm').trigger('click');">
                                 <i class="fa fa-save"></i> Tambah
                             </button>
                         </div>
@@ -146,9 +145,7 @@
                 </a>
             </div>
 
-            <form id="spmvForm" action="{{ route('spmv.store') }}" method="POST"
-                data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSpmv"
-                data-reloadPage="false">
+            <form id="spmvForm" action="{{ route('spmv.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSpmv" data-reloadPage="false">
                 @csrf
                 <div class="row">
                     <input type="hidden" name="spmv_no_pengenalan" id="spmv_no_pengenalan" value="">
@@ -158,9 +155,9 @@
                         <label class="form-label">Mata Pelajaran</label>
                         <select class="select2 form-control" value="" id="subjek_spmv" name="subjek_spmv" disabled>
                             <option value="" hidden>Mata Pelajaran</option>
-                            @foreach($subjekSpmv as $subjek)
-                            <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
-                            @endforeach
+                                @foreach($subjekSpmv as $subjek)
+                                    <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                @endforeach
                         </select>
                     </div>
 
@@ -168,9 +165,9 @@
                         <label class="form-label">Gred</label>
                         <select class="select2 form-control" value="" id="gred_spmv" name="gred_spmv" disabled>
                             <option value="" hidden>Gred</option>
-                            @foreach($gredSpmv as $gred)
-                            <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                            @endforeach
+                                @foreach($gredSpmv as $gred)
+                                    <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                @endforeach
                         </select>
                     </div>
 
@@ -185,8 +182,7 @@
                             <button type="button" class="btn btn-danger me-1" onclick="reloadSpmv()">
                                 <i class="fa fa-refresh"></i>
                             </button>
-                            <button type="button" class="btn btn-success float-right" id="btnSaveSpmv"
-                                onclick="$('#btnEditSpmv').trigger('click');">
+                            <button type="button" class="btn btn-success float-right" id="btnSaveSpmv" onclick="$('#btnEditSpmv').trigger('click');">
                                 <i class="fa fa-save"></i> Tambah
                             </button>
                         </div>
@@ -257,8 +253,7 @@
                             <button type="button" class="btn btn-danger me-1" onclick="reloadSvm()">
                                 <i class="fa fa-refresh"></i>
                             </button>
-                            <button type="button" class="btn btn-success float-right" id="btnSaveSvm"
-                                onclick="$('#btnEditSvm').trigger('click');">
+                            <button type="button" class="btn btn-success float-right" id="btnSaveSvm" onclick="$('#btnEditSvm').trigger('click');">
                                 <i class="fa fa-save"></i> Tambah
                             </button>
                         </div>
@@ -277,14 +272,14 @@
                             <th>Kemaskini</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
 
-        {{-- <div id="academic-spmu-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-spmu-info-trigger">
-        </div> --}}
+        {{-- SPM ULANGAN --}}
+        <div id="academic-spmu-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-spmu-info-trigger">
+        </div>
     </div>
 </div>
 
