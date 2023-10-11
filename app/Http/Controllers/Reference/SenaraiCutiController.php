@@ -61,7 +61,7 @@ class SenaraiCutiController extends Controller
                     return $senaraicuti->kod;
                 })
                 ->editColumn('nama', function ($senaraicuti) {
-                    return $senaraicuti->nama;
+                    return $senaraicuti->diskripsi;
                 })
                 ->editColumn('action', function ($senaraicuti) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class SenaraiCutiController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="senaraicutiForm('.$senaraicuti->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($senaraicuti->sah_yt) {
+                        if($senaraicuti->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$senaraicuti->id.'" onclick="toggleActive('.$senaraicuti->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$senaraicuti->id.'" onclick="toggleActive('.$senaraicuti->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -105,10 +105,11 @@ class SenaraiCutiController extends Controller
 
             $senaraicuti = SenaraiCuti::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'kategori' => strtoupper($request->kategori),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -192,9 +193,9 @@ class SenaraiCutiController extends Controller
 
             $senaraicuti->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'kategori' => strtoupper($request->kategori),
-                'updated_by' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $senaraicutiNewData = senaraicuti::find($senaraicutiId);
@@ -225,8 +226,11 @@ class SenaraiCutiController extends Controller
 
             $sah_yt = $senaraicuti->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $senaraicuti->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

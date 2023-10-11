@@ -314,7 +314,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{rankId}', [RankController::class, 'toggleActive'])->name('admin.reference.rank.toggleActive');
         });
 
-        Route::prefix('subject')->group(function () {
+        Route::prefix('matapelajaran')->group(function () {
             Route::get('/', [SubjectController::class, 'index'])->name('admin.reference.subject');
             Route::post('create', [SubjectController::class, 'store'])->name('admin.reference.subject.store');
             Route::get('edit/{subjectId}', [SubjectController::class, 'edit'])->name('admin.reference.subject.edit');

@@ -10,12 +10,15 @@ class CutiAwam extends Model
     protected $table = 'ruj_cuti_awam';
 
     protected $fillable = [
-        'kod',
+        'ca_id',
         'tarikh_cuti',
-        'kod_ruj_negeri',
-        'kod_ruj_senarai_cuti',
-        'created_by',
-        'updated_by',
+        'neg_kod',
+        'scut_kod',
+        'id_pencipta',
+        'pengguna',
         'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

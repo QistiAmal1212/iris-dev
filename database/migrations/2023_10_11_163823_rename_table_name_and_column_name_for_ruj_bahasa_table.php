@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('no_pemerolehan')->nullable();
             $table->string('id_pencipta')->nullable()->change();
             $table->string('pengguna')->nullable()->change();
-            $table->renameColumn('diskripsi', 'nama');;
+            $table->renameColumn('diskripsi', 'nama');
             $table->renameColumn('id_pencipta', 'created_by');
             $table->renameColumn('tarikh_cipta', 'created_at');
             $table->renameColumn('pengguna', 'updated_by');

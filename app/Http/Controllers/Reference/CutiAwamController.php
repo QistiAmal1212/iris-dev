@@ -45,7 +45,7 @@ class CutiAwamController extends Controller
             }
         }
 
-        $senaraicuti = SenaraiCuti::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $senaraicuti = SenaraiCuti::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         $negeri = State::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
@@ -63,28 +63,28 @@ class CutiAwamController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            $cutiawam = CutiAwam::orderBy('kod', 'asc');
+            $cutiawam = CutiAwam::orderBy('ca_id', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $cutiawam->where('kod_ruj_senarai_cuti', $request->activity_type_id);
+                $cutiawam->where('scut_kod', $request->activity_type_id);
             }
 
             if ($request->module_id && $request->module_id != "Lihat Semua") {
-                $cutiawam->where('kod_ruj_negeri', $request->module_id);
+                $cutiawam->where('neg_kod', $request->module_id);
             }
 
             return Datatables::of($cutiawam->get())
                 ->editColumn('kod', function ($cutiawam){
-                    return $cutiawam->kod;
+                    return $cutiawam->ca_id;
                 })
                 ->editColumn('tarikh_cuti', function ($cutiawam) {
                     return $cutiawam->tarikh_cuti = Carbon::parse($cutiawam->tarikh_cuti)->format('d/m/Y');
                 })
                 ->editColumn('kod_cuti', function ($cutiawam) {
-                    return $cutiawam->kod_ruj_senarai_cuti;
+                    return $cutiawam->scut_kod;
                 })
                 ->editColumn('kod_neg', function ($cutiawam) {
-                    return $cutiawam->kod_ruj_negeri;
+                    return $cutiawam->neg_kod;
                 })
                 ->editColumn('action', function ($cutiawam) use ($accessDelete) {
                     $button = "";
@@ -93,7 +93,7 @@ class CutiAwamController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="cutiawamForm('.$cutiawam->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($cutiawam->sah_yt) {
+                        if($cutiawam->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$cutiawam->id.'" onclick="toggleActive('.$cutiawam->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$cutiawam->id.'" onclick="toggleActive('.$cutiawam->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -116,7 +116,7 @@ class CutiAwamController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_cuti_awam,kod',
+                'code' => 'required|string|unique:ruj_cuti_awam,ca_id',
                 'tarikh_cuti' => 'required|string',
                 'kod_ruj_senarai_cuti' => 'required|string|exists:ruj_senarai_cuti,kod',
                 'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
@@ -131,12 +131,13 @@ class CutiAwamController extends Controller
             ]);
 
             $cutiawam = CutiAwam::create([
-                'kod' => $request->code,
+                'ca_id' => $request->code,
                 'tarikh_cuti' => Carbon::createFromFormat('d/m/Y', $request->tarikh_cuti)->format('Y-m-d'),
-                'kod_ruj_senarai_cuti' => $request->kod_ruj_senarai_cuti,
-                'kod_ruj_negeri' => $request->kod_ruj_negeri,
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'scut_kod' => $request->kod_ruj_senarai_cuti,
+                'neg_kod' => $request->kod_ruj_negeri,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -210,7 +211,7 @@ class CutiAwamController extends Controller
             $log->data_old = json_encode($cutiawam);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_cuti_awam,kod,'.$cutiawamId,
+                'code' => 'required|string|unique:ruj_cuti_awam,ca_id,'.$cutiawamId,
                 'tarikh_cuti' => 'required|string',
                 'kod_ruj_senarai_cuti' => 'required|string|exists:ruj_senarai_cuti,kod',
                 'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
@@ -225,11 +226,11 @@ class CutiAwamController extends Controller
             ]);
 
             $cutiawam->update([
-                'kod' => $request->code,
+                'ca_id' => $request->code,
                 'tarikh_cuti' => Carbon::createFromFormat('d/m/Y', $request->tarikh_cuti)->format('Y-m-d'),
-                'kod_ruj_senarai_cuti' => $request->kod_ruj_senarai_cuti,
-                'kod_ruj_negeri' => $request->kod_ruj_negeri,
-                'updated_by' => auth()->user()->id,
+                'scut_kod' => $request->kod_ruj_senarai_cuti,
+                'neg_kod' => $request->kod_ruj_negeri,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $cutiawamNewData = cutiawam::find($cutiawamId);
@@ -260,8 +261,11 @@ class CutiAwamController extends Controller
 
             $sah_yt = $cutiawam->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $cutiawam->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();
