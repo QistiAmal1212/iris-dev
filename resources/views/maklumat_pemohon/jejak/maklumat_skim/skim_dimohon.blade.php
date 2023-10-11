@@ -24,20 +24,84 @@
         <thead>
             <tr>
                 <th>No.</th>
-                <th>Maklumat</th>
-                <th>Status</th>
-                <th>Tarikh</th>
+                <th>Jawatan</th>
+                <th>Pemerolehan</th>
+                <th>Kod Skim</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>
+                    <a data-bs-toggle="offcanvas" data-bs-target="#skim-detail" aria-controls="skim-detail" class="text-primary">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Pegawai Antidadah Gred S41
+                    </a>
+                </td>
+                <td>14 Rekod</td>
+                <td>1184</td>
+            </tr>
+        </tbody>
     </table>
 </div>
 
-{{-- <div class="card">
-    <div class="card-header">
+{{-- Screen Level 1 --}}
+<div class="enable-backdrop">
+    <div class="offcanvas offcanvas-end custom-wider-offcanvas" tabindex="-1" id="skim-detail" aria-labelledby="skim-detailLabel" style="width: 70%; !important">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Pegawai Antidadah Gred S41 []</h5> {{-- Nama Jawatan [Kod Pemerolehan] --}}
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="table-responsive">
+                <table class="table header_uppercase table-bordered table-hovered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>No Pemerolehan</th>
+                            <th>Tarikh Tutup</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
 
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>SM20230099</td>
+                            <td>19/07/2023</td>
+                            <td>
+                                <a data-bs-toggle="offcanvas" data-bs-target="#tapisan-detail" aria-controls="tapisan-detail" class="text-primary">
+                                    <span class="badge rounded-pill badge-light-info me-1">
+                                        eSMSM
+                                    </span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        HAHAHHA
+</div>
+
+{{-- Screen Level 2: Keterangan Tapisan --}}
+<div class="enable-backdrop">
+    <div class="offcanvas offcanvas-end custom-wider-offcanvas" tabindex="-1" id="tapisan-detail" aria-labelledby="tapisan-detailLabel" style="width: 60%; !important">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Pegawai Antidadah Gred S41 []</h5> {{-- Nama Jawatan [Kod Pemerolehan] --}}
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+
+        </div>
     </div>
-</div> --}}
+</div>
+
+<script>
+    // Function to open the off-canvas without closing others
+    $("#skim-link").click(function (e) {
+        e.preventDefault();
+        var offCanvas = new bootstrap.Offcanvas(document.getElementById("skim-detail"));
+        offCanvas.show();
+    });
+</script>
