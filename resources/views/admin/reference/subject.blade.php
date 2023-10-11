@@ -62,15 +62,6 @@
                         <option value="6">Tingkatan 6 </option>
                     </select>
                 </div>
-                {{-- <div class="col-sm-4 col-md-4 col-lg-4">
-                    <label class="form-label" for="code">Carian Negeri</label>
-                    <select name="module_id" id="module_id" class="select2 form-control">
-                        <option value="Lihat Semua" selected>Lihat Semua</option>
-                        @foreach ($negeri as $neg)
-                        <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->nama }} </option>
-                        @endforeach
-                    </select>
-                </div> --}}
             </div>
             <div class="d-flex justify-content-end align-items-center my-1 ">
                 <button type="submit" class="btn btn-success float-right">

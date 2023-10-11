@@ -73,7 +73,7 @@ class MaklumatPemohonController extends Controller
         $penalties = Penalty::all();
         $peringkatPengajian = PeringkatPengajian::all();
         $positionLevels = PositionLevel::orderBy('name', 'asc')->get();
-        $races = Race::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $races = Race::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $pusatTemuduga = InterviewCentre::all();
         $ranks = Rank::all();
         $religions = Religion::where('sah_yt', 1)->orderBy('nama', 'asc')->get();

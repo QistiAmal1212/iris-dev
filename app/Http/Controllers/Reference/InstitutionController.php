@@ -129,6 +129,7 @@ class InstitutionController extends Controller
                 'jenis_institusi' => strtoupper($request->type),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;

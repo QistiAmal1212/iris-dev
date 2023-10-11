@@ -106,6 +106,7 @@ class StateController extends Controller
                 'diskripsi' => strtoupper($request->name),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;

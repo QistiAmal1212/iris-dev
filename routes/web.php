@@ -218,7 +218,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{skimId}', [SkimController::class, 'toggleActive'])->name('admin.reference.skim.toggleActive');
         });
 
-        Route::prefix('institution')->group(function () {
+        Route::prefix('institusi')->group(function () {
             Route::get('/', [InstitutionController::class, 'index'])->name('admin.reference.institution');
             Route::post('create', [InstitutionController::class, 'store'])->name('admin.reference.institution.store');
             Route::get('edit/{institutionId}', [InstitutionController::class, 'edit'])->name('admin.reference.institution.edit');
@@ -242,7 +242,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{qualificationId}', [QualificationController::class, 'toggleActive'])->name('admin.reference.qualification.toggleActive');
         });
 
-        Route::prefix('race')->group(function () {
+        Route::prefix('keturunan')->group(function () {
             Route::get('/', [RaceController::class, 'index'])->name('admin.reference.race');
             Route::post('create', [RaceController::class, 'store'])->name('admin.reference.race.store');
             Route::get('edit/{raceId}', [RaceController::class, 'edit'])->name('admin.reference.race.edit');

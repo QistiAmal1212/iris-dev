@@ -61,7 +61,7 @@ class RaceController extends Controller
                     return $race->kod;
                 })
                 ->editColumn('nama', function ($race) {
-                    return $race->nama;
+                    return $race->diskripsi;
                 })
                 ->editColumn('action', function ($race) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class RaceController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="raceForm('.$race->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($race->sah_yt) {
+                        if($race->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$race->id.'" onclick="toggleActive('.$race->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -105,10 +105,11 @@ class RaceController extends Controller
 
             $race = Race::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'kump' => strtoupper($request->kump),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -192,9 +193,9 @@ class RaceController extends Controller
 
             $race->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'kump' => strtoupper($request->kump),
-                'updated_by' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $raceNewData = Race::find($raceId);
@@ -225,8 +226,11 @@ class RaceController extends Controller
 
             $sah_yt = $race->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $race->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

@@ -66,7 +66,7 @@
                         <select name="module_id" id="module_id" class="select2 form-control">
                             <option value="Lihat Semua" selected>Lihat Semua</option>
                             @foreach ($negeri as $neg)
-                            <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->nama }} </option>
+                            <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->diskripsi }} </option>
                             @endforeach
                         </select>
                     </div>

@@ -44,7 +44,7 @@ return new class extends Migration
         });
 
         Schema::table('ruj_negeri', function (Blueprint $table) {
-            $table->string('is_active')->default(true);
+            $table->boolean('is_active')->default(true);
         });
     }
 };

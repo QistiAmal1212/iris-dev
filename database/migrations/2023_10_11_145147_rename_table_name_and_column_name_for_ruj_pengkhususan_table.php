@@ -55,7 +55,7 @@ return new class extends Migration
         });
 
         Schema::table('ruj_pengkhususan', function (Blueprint $table) {
-            $table->string('is_active')->default(true);
+            $table->boolean('is_active')->default(true);
         });
     }
 };

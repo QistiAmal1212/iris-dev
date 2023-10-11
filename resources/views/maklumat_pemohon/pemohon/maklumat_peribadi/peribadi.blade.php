@@ -49,7 +49,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="race" id="race" disabled>
                 <option value=""></option>
                 @foreach($races as $race)
-                <option value="{{ $race->kod }}">{{ $race->nama }}</option>
+                <option value="{{ $race->kod }}">{{ $race->diskripsi }}</option>
                 @endforeach
             </select>
             <div id="raceAlert" style="color: red; font-size: smaller;"></div>

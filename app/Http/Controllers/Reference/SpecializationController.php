@@ -131,6 +131,7 @@ class SpecializationController extends Controller
                 'bidang' => strtoupper($request->field),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;

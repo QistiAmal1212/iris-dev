@@ -18,7 +18,7 @@
                                     <select id="code" name="code" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($negeri as $neg)
-                                        <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->nama }} </option>
+                                        <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->diskripsi }} </option>
                                         @endforeach
                                     </select>
                                 </div>
