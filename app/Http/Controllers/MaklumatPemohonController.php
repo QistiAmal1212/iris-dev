@@ -2427,4 +2427,22 @@ class MaklumatPemohonController extends Controller
         return response()->json(['message' => 'Record deleted successfully'], 200);
     }
 
+    public function calculatePenalty(Request $request)
+    {
+        $duration = $request->duration;
+        $type = $request->type;
+        $start = $request->start;
+
+        if($type == 'Tahun'){
+            $end = Carbon::createFromFormat('d/m/Y', $start)->addYears($duration)->format('d/m/Y');
+        } else if($type == 'Bulan'){
+            $end = Carbon::createFromFormat('d/m/Y', $start)->addMonths($duration)->format('d/m/Y');
+        } else if($type == 'Hari'){
+            $end = Carbon::createFromFormat('d/m/Y', $start)->addDays($duration)->format('d/m/Y');
+        }
+
+        //$end = $type;
+        return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $end]);
+    }
+
 }
