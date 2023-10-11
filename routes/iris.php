@@ -141,6 +141,7 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('list/{noPengenalan}', 'listPenalty')->name('penalty.list');
             Route::post('update', 'updatePenalty')->name('penalty.update');
             Route::post('delete/{idPenalty}', 'deletePenalty')->name('penalty.delete');
+            Route::post('calculate', 'calculatePenalty')->name('penalty.calculate');
         });
     });
 });

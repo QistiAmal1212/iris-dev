@@ -109,52 +109,25 @@
         var penalty_type = $('#penalty_type').val();
         var penalty_start = $('#penalty_start').val();
 
-
+        var calculatePenaltyUrl = "{{ route('penalty.calculate') }}"
         if(penalty_duration != '' && penalty_type != '' && penalty_start != '')
         {
-            day = penalty_start.substr(0,2);
-            month = penalty_start.substr(3,2);
-            year = penalty_start.substr(6,4);
-
-            var date = new Date(year, month, day);
-
-            var dd = date.getDate();
-            var mm = date.getMonth();
-            var y = date.getFullYear();
-
-            dd = parseInt(dd);
-            mm = parseInt(mm);
-            y = parseInt(y);
-            penalty_duration = parseInt(penalty_duration);
-
-            // if(penalty_type == 'year') {
-            //     var dd = date.getDate();
-            //     var mm = date.getMonth() + 1;
-            //     var y = date.getFullYear() + penalty_duration;
-            // } else if(penalty_type == 'month') {
-            //     var dd = date.getDate();
-            //     var mm = date.getMonth() + 1 + penalty_duration;
-            //     var y = date.getFullYear();
-            // } else {
-            //     var dd = date.getDate() + penalty_duration;
-            //     var mm = date.getMonth() + 1;
-            //     var y = date.getFullYear();
-            // }
-
-            if(penalty_type == 'Tahun') {
-                y = y + penalty_duration;
-            } else if(penalty_type == 'Bulan') {
-                mm = mm += penalty_duration
-            } else {
-                dd = dd += penalty_duration
-            }
-
-            dd = (dd < 10 ? '0' : '') + dd;
-            mm = (mm < 10 ? '0' : '') + mm;
-
-            //var date_end = y + '-' + mm + '-' + dd;
-            var date_end = dd + '/' + mm + '/' + y;
-            var penalty_end = $('#penalty_end').val(date_end);
+            $.ajax({
+                url: calculatePenaltyUrl,
+                method: 'POST',
+                async: true,
+                data : {
+                    duration : penalty_duration,
+                    type : penalty_type,
+                    start : penalty_start,
+                },
+                success: function(data) {
+                    $('#penaltyForm input[name="penalty_end"]').val(data.detail);
+                },
+                error: function(data) {
+                    //
+                }
+            });
         }
     }
 
