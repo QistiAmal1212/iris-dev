@@ -31,10 +31,11 @@ Maklumat Pemohon
         padding: 7px;
         border-bottom: 1px solid #ccc;
     } */
+
 </style>
 
 <div class="row match-height">
-    <div class="col-sm-12 col-md-6 col-lg-6 col-12">
+    <div class="col-sm-12 col-md-6 col-lg-6 col-12" id="div-carian-card">
         <section id="faq-search-filter">
             <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}');">
                 <div class="card-body">
@@ -43,10 +44,9 @@ Maklumat Pemohon
                         <p class="card-text mb-2">Isikan maklumat calon dan tekan butang Cari</p>
 
                         <div class="mb-1">
-                            <button id="btn-selectkp" class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Kad Pengenalan</button>
-                            <button id="btn-selectname" class="btn btn-secondary waves-effect" type="button" onclick="selectSearch('carian_nama')" >Carian Menggunakan Nama</button>
+                            <button id="btn-selectkp" class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')">Carian Menggunakan No. Kad Pengenalan</button>
+                            <button id="btn-selectname" class="btn btn-secondary waves-effect" type="button" onclick="selectSearch('carian_nama')">Carian Menggunakan Nama</button>
                         </div>
-
 
                         <div class="faq-search-input">
                             <div class="input-group input-group-merge">
@@ -55,63 +55,21 @@ Maklumat Pemohon
                                 </div>
 
                                 {{-- Search form --}}
-                                    <input type="text" class="form-control" id="search_ic" maxlength="12" placeholder=" No. Kad Pegenalan Calon"/>
-                                    <input type="text" class="form-control" id="pilihan_carian" value="carian_kp" hidden/>
-                                    <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" >Cari</button>
-                                    <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
-
                                     <div class="suggestions-container"></div>
+                                <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()">Cari</button>
+                                <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
+                                <div class="suggestions-container"></div>
                             </div>
                         </div>
-                    </div>
-
-                    {{-- Maklumat Pemohon [Nama dan No KP] --}}
-                    <div class="table-responsive mt-2">
-                        <table class="table table-bordered" style="width: 100%">
-                            <input type="hidden" id="candidate_no_pengenalan" name="candidate_no_pengenalan" value="">
-                            <tr>
-                                <td class="fw-bolder" width="30%">Nama Pemohon</td>
-                                <td>
-                                    <p class="fw-bolder text-uppercase" id="candidate_name"></p>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="fw-bolder" width="30%">No Kad Pengenalan</td>
-                                <td>
-                                    <p class="fw-bolder text-uppercase" id="candidate_ic"></p>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="fw-bolder" width="30%">Emel</td>
-                                <td>
-                                    <p class="fw-bolder text-uppercase" id="candidate_email"></p>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="fw-bolder" width="30%">Alamat</td>
-                                <td>
-                                    <p class="fw-bolder text-uppercase" id="candidate_address"></p>
-                                </td>
-                            </tr>
-                        </table>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-
-    <div class="col-sm-12 col-md-6 col-lg-6 col-12">
+    <div class="col-sm-12 col-md-6 col-lg-6 col-12" id="div-list-carian-nama">
         <div id="divCarian" style="display:none">
             <div class="card">
-                <div class="card-header">
-                    <a data-bs-toggle="collapse" href="#listPemohon">
-                        <i data-feather="chevron-down"></i>
-                    </a>
-                </div>
                 <div class="card-body" id="listPemohon">
                     <div class="table-responsive" id="append-data"></div>
                 </div>
@@ -120,86 +78,182 @@ Maklumat Pemohon
     </div>
 </div>
 
-<ul class="nav nav-tabs tabs-show" style="display: none;">
-    <li class="nav-item">
-        <a class="nav-link main active" onclick="changePage('main')" aria-current="page">Main</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link jejak" onclick="changePage('jejak')">Jejak Audit</a>
-    </li>
-</ul>
+<div class="row">
+    <div class="col-sm-12 col-md-3 col-lg-3 col-12">
+        <div class="card card-developer-meetup">
+            <div class="card-body">
+                <div class="text-center">
+                    <h4 class="text-wrap">
+                        <span class="badge rounded-pill badge-light-primary me-1">
+                            Ringkasan Maklumat Pemohon
+                        </span>
+                    </h4>
+                </div>
 
-<div class="card">
-    <div class="card-body">
-        <div class="">
-            <ul class="nav nav-pills nav-justified" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link fw-bolder text-wrap active" id="peribadi-tab" data-bs-toggle="tab" href="#peribadi" aria-controls="peribadi" role="tab" aria-selected="true">
-                        Maklumat <br> Peribadi
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link fw-bolder text-wrap" id="skim-tab" data-bs-toggle="tab" href="#skim" aria-controls="skim" role="tab" aria-selected="true">
-                        Maklumat <br> Skim
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link fw-bolder text-wrap" id="akademik-tab" data-bs-toggle="tab" href="#akademik" aria-controls="akademik" role="tab" aria-selected="true">
-                        Maklumat <br> Akademik
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link fw-bolder text-wrap" id="perkhidmatan-tab" data-bs-toggle="tab" href="#perkhidmatan" aria-controls="perkhidmatan" role="tab" aria-selected="true">
-                        Pegawai <br> Berkhidmat
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link fw-bolder text-wrap" id="tambahan-tab" data-bs-toggle="tab" href="#tambahan" aria-controls="tambahan" role="tab" aria-selected="true">
-                        Maklumat <br> Tambahan
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link fw-bolder text-wrap" id="tatatertib-tab" data-bs-toggle="tab" href="#tatatertib" aria-controls="tatatertib" role="tab" aria-selected="true">
-                        Maklumat <br> Tatatertib
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link fw-bolder text-wrap" id="garismasa-tab" data-bs-toggle="tab" href="#garismasa" aria-controls="garismasa" role="tab" aria-selected="true">
-                        Garis Masa <br> Permohonan
-                    </a>
-                </li>
-            </ul>
+                <hr>
+                <div class="d-flex flex-row meetings">
+                    <div class="avatar bg-light-primary rounded me-1">
+                        <div class="avatar-content">
+                            <i data-feather="credit-card" class="avatar-icon font-medium-3"></i>
+                        </div>
+                    </div>
+                    <div class="content-body">
+                        <h6 class="mb-0" id="candidate_ic"></h6>
+                    </div>
+                </div>
+                <div class="d-flex flex-row meetings">
+                    <div class="avatar bg-light-primary rounded me-1">
+                        <div class="avatar-content">
+                            <i data-feather="user" class="avatar-icon font-medium-3"></i>
+                        </div>
+                    </div>
+                    <div class="content-body">
+                        <h6 class="mb-0" id="candidate_name"></h6>
+                    </div>
+                </div>
+                <div class="d-flex flex-row meetings">
+                    <div class="avatar bg-light-primary rounded me-1">
+                        <div class="avatar-content">
+                            <i data-feather="mail" class="avatar-icon font-medium-3"></i>
+                        </div>
+                    </div>
+                    <div class="content-body">
+                        <h6 class="mb-0" id="candidate_email"></h6>
+                    </div>
+                </div>
+                <div class="d-flex flex-row meetings">
+                    <div class="avatar bg-light-primary rounded me-1">
+                        <div class="avatar-content">
+                            <i data-feather="map-pin" class="avatar-icon font-medium-3"></i>
+                        </div>
+                    </div>
+                    <div class="content-body">
+                        <h6 class="mb-0 text-dark fw-bolder" id="candidate_address"></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="peribadi" role="tabpanel" aria-labelledby="peribadi-tab">
-                    <hr>
-                    @include('maklumat_pemohon.pemohon.maklumat_peribadi')
-                </div>
-                <div class="tab-pane fade" id="skim" role="tabpanel" aria-labelledby="skim-tab">
-                    <hr>
-                    @include('maklumat_pemohon.pemohon.maklumat_skim')
-                </div>
-                <div class="tab-pane fade" id="akademik" role="tabpanel" aria-labelledby="akademik-tab">
-                    <hr>
-                    @include('maklumat_pemohon.pemohon.maklumat_akademik')
-                </div>
-                <div class="tab-pane fade" id="perkhidmatan" role="tabpanel" aria-labelledby="perkhidmatan-tab">
-                    <hr>
-                    @include('maklumat_pemohon.pemohon.maklumat_perkhidmatan')
-                </div>
-                <div class="tab-pane fade" id="tambahan" role="tabpanel" aria-labelledby="tambahan-tab">
-                    <hr>
-                    @include('maklumat_pemohon.pemohon.maklumat_tambahan')
-                </div>
-                <div class="tab-pane fade" id="tatatertib" role="tabpanel" aria-labelledby="tatatertib-tab">
-                    <hr>
-                    @include('maklumat_pemohon.pemohon.maklumat_tatatertib.tatatertib')
-                </div>
-                <div class="tab-pane fade" id="garismasa" role="tabpanel" aria-labelledby="garismasa-tab">
-                    <hr>
-                    <div class="card">
-                        <div class="card-body">
-                            <div id="candidate_timeline"></div>
+    <div class="col-sm-12 col-md-9 col-lg-9 col-12">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-pills nav-justified text-uppercase fw-bolder tabs-show" style="display: none;">
+                    <li class="nav-item">
+                        <a class="nav-link main active" onclick="changePage('main')" aria-current="page">[1] Maklumat Pemohon</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link jejak" onclick="changePage('jejak')">[2] Jejak Audit</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <ul class="nav nav-pills nav-justified" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link fw-bolder text-wrap active" id="peribadi-tab" data-bs-toggle="tab" href="#peribadi" aria-controls="peribadi" role="tab" aria-selected="true">
+                            Maklumat <br> Peribadi
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link fw-bolder text-wrap" id="skim-tab" data-bs-toggle="tab" href="#skim" aria-controls="skim" role="tab" aria-selected="true">
+                            Maklumat <br> Skim
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link fw-bolder text-wrap" id="akademik-tab" data-bs-toggle="tab" href="#akademik" aria-controls="akademik" role="tab" aria-selected="true">
+                            Maklumat <br> Akademik
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link fw-bolder text-wrap" id="perkhidmatan-tab" data-bs-toggle="tab" href="#perkhidmatan" aria-controls="perkhidmatan" role="tab" aria-selected="true">
+                            Pegawai <br> Berkhidmat
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link fw-bolder text-wrap" id="tambahan-tab" data-bs-toggle="tab" href="#tambahan" aria-controls="tambahan" role="tab" aria-selected="true">
+                            Maklumat <br> Tambahan
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link fw-bolder text-wrap" id="tatatertib-tab" data-bs-toggle="tab" href="#tatatertib" aria-controls="tatatertib" role="tab" aria-selected="true">
+                            Maklumat <br> Tatatertib
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link fw-bolder text-wrap" id="garismasa-tab" data-bs-toggle="tab" href="#garismasa" aria-controls="garismasa" role="tab" aria-selected="true">
+                            Garis Masa <br> Permohonan
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="peribadi" role="tabpanel" aria-labelledby="peribadi-tab">
+                        <hr>
+                        <div class="maklumat-peribadi">
+                            @include('maklumat_pemohon.pemohon.maklumat_peribadi')
+                        </div>
+
+                        <div class="jejak-maklumat-peribadi" style="display: none;">
+                            @include('maklumat_pemohon.jejak.maklumat_peribadi')
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="skim" role="tabpanel" aria-labelledby="skim-tab">
+                        <hr>
+                        <div class="maklumat-skim-pemohon">
+                            @include('maklumat_pemohon.pemohon.maklumat_skim.skim_dimohon')
+                        </div>
+
+                        <div class="jejak-maklumat-skim-pemohon" style="display: none;">
+                            @include('maklumat_pemohon.jejak.maklumat_skim.skim_dimohon')
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="akademik" role="tabpanel" aria-labelledby="akademik-tab">
+                        <hr>
+                        <div class="maklumat-akademik-pemohon">
+                            @include('maklumat_pemohon.pemohon.maklumat_akademik')
+                        </div>
+
+                        <div class="jejak-maklumat-akademik-pemohon" style="display: none;">
+                            @include('maklumat_pemohon.jejak.maklumat_akademik')
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="perkhidmatan" role="tabpanel" aria-labelledby="perkhidmatan-tab">
+                        <hr>
+                        <div class="maklumat-perkhidmatan-pemohon">
+                            @include('maklumat_pemohon.pemohon.maklumat_perkhidmatan')
+                        </div>
+
+                        <div class="jejak-maklumat-perkhidmatan-pemohon" style="display: none;">
+                            @include('maklumat_pemohon.jejak.maklumat_perkhidmatan')
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tambahan" role="tabpanel" aria-labelledby="tambahan-tab">
+                        <hr>
+                        <div class="maklumat-tambahan-pemohon">
+                            @include('maklumat_pemohon.pemohon.maklumat_tambahan')
+                        </div>
+
+                        <div class="jejak-maklumat-tambahan-pemohon" style="display: none;">
+                            @include('maklumat_pemohon.jejak.maklumat_tambahan')
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tatatertib" role="tabpanel" aria-labelledby="tatatertib-tab">
+                        <hr>
+                        <div class="maklumat-tatatertib-pemohon">
+                            @include('maklumat_pemohon.pemohon.maklumat_tatatertib.tatatertib')
+                        </div>
+
+                        <div class="jejak-maklumat-tatatertib-pemohon" style="display: none;">
+                            @include('maklumat_pemohon.jejak.maklumat_tatatertib.tatatertib')
+                        </div>
+                    </div>
+                    <div class="tab-pane fade maklumat-garismasa-pemohon" id="garismasa" role="tabpanel" aria-labelledby="garismasa-tab">
+                        <hr>
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="candidate_timeline"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -207,6 +261,7 @@ Maklumat Pemohon
         </div>
     </div>
 </div>
+
 <input type="hidden" id="calon_number" value="">
 @endsection
 
@@ -215,6 +270,7 @@ Maklumat Pemohon
     function selectSearch(btnValue){
         $('#pilihan_carian').val(btnValue);
         reset();
+
         $('#search_ic').val('');
         if(btnValue == 'carian_nama'){
             $('#btn-selectkp').removeClass('btn-primary').addClass('btn-secondary');
@@ -225,6 +281,7 @@ Maklumat Pemohon
             $('#search_ic').attr('minlength', '3');
             $('#search_ic').removeAttr('maxlength');
             $("#divCarian").attr("style", "display:block");
+
         }else{
             // $('#table-carian').DataTable().destroy();
             // $("#table-carian > tbody").html("");
@@ -271,9 +328,39 @@ Maklumat Pemohon
         if(type == 'jejak') {
             $(".main").removeClass("active");
             $(".jejak").addClass("active");
+
+            $(".jejak-maklumat-peribadi").show();
+            $(".jejak-maklumat-skim-pemohon").show();
+            $(".jejak-maklumat-akademik-pemohon").show();
+            $(".jejak-maklumat-perkhidmatan-pemohon").show();
+            $(".jejak-maklumat-tambahan-pemohon").show();
+            $(".jejak-maklumat-tatatertib-pemohon").show();
+
+            $(".maklumat-peribadi").hide();
+            $(".maklumat-skim-pemohon").hide();
+            $(".maklumat-akademik-pemohon").hide();
+            $(".maklumat-perkhidmatan-pemohon").hide();
+            $(".maklumat-tambahan-pemohon").hide();
+            $(".maklumat-tatatertib-pemohon").hide();
+            $(".maklumat-garismasa-pemohon").hide();
         } else {
             $(".jejak").removeClass("active");
             $(".main").addClass("active");
+
+            $(".jejak-maklumat-peribadi").hide();
+            $(".jejak-maklumat-skim-pemohon").hide();
+            $(".jejak-maklumat-akademik-pemohon").hide();
+            $(".jejak-maklumat-perkhidmatan-pemohon").hide();
+            $(".jejak-maklumat-tambahan-pemohon").hide();
+            $(".jejak-maklumat-tatatertib-pemohon").hide();
+
+            $(".maklumat-peribadi").show();
+            $(".maklumat-skim-pemohon").show();
+            $(".maklumat-akademik-pemohon").show();
+            $(".maklumat-perkhidmatan-pemohon").show();
+            $(".maklumat-tambahan-pemohon").show();
+            $(".maklumat-tatatertib-pemohon").show();
+            $(".maklumat-garismasa-pemohon").show();
         }
         if ($.isNumeric(serachtype)) {
             searchCandidate($('#search_ic').val());
@@ -439,6 +526,7 @@ Maklumat Pemohon
                 },
                 success: function(data) {
                     $('.tabs-show').show();
+
                     var container = $('.suggestions-container');
                     container.hide();
                     $('#update_alamat').attr("style", "display:block");

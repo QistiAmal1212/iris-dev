@@ -1,5 +1,5 @@
 @if ($total_pages > 1)
-    <div class="btn-group" style="float: right;">
+    <div class="btn-group mb-1" style="float: right;">
         <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             Page {{$currentPage}}
         </button>
@@ -12,17 +12,14 @@
         </ul>
     </div>
 @endif
-<br>
-<br>
-<br>
 
 <table class="table header_uppercase table-bordered" id="table-carian">
     <thead>
         <tr>
-            <th width="10%">#</th>
-            <th>No Kad Pengenalan Baru</th>
+            <th>#</th>
+            <th width="35%">No Kad Pengenalan Baru</th>
             <th width="55%">Nama Penuh</th>
-            <th width="15%">Lihat Maklumat</th>
+            <th>Lihat Maklumat</th>
         </tr>
     </thead>
 
@@ -53,8 +50,8 @@
 </table>
 
 @if ($total_pages > 1)
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
+    <nav aria-label="Page navigation example mt-1">
+        <ul class="pagination justify-content-end">
             <li class="page-item">
                 <a class="page-link" onclick="updatePage({{ $previousPage }}, {{$total_pages}})">Previous</a>
             </li>
