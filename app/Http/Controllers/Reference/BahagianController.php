@@ -61,7 +61,7 @@ class BahagianController extends Controller
                     return $bahagian->kod;
                 })
                 ->editColumn('nama', function ($bahagian) {
-                    return $bahagian->nama;
+                    return $bahagian->diskripsi;
                 })
                 ->editColumn('action', function ($bahagian) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class BahagianController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="bahagianForm('.$bahagian->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($bahagian->sah_yt) {
+                        if($bahagian->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$bahagian->id.'" onclick="toggleActive('.$bahagian->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$bahagian->id.'" onclick="toggleActive('.$bahagian->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -103,9 +103,10 @@ class BahagianController extends Controller
 
             $bahagian = Bahagian::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -187,8 +188,8 @@ class BahagianController extends Controller
 
             $bahagian->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $bahagianNewData = Bahagian::find($bahagianId);
@@ -219,8 +220,11 @@ class BahagianController extends Controller
 
             $sah_yt = $bahagian->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $bahagian->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

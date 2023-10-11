@@ -57,7 +57,7 @@
                         <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                             <option value="Lihat Semua" selected>Lihat Semua</option>
                             @foreach ($bahagian as $bah)
-                            <option value="{{ $bah->kod }}">{{ $bah->kod }} - {{ $bah->nama }} </option>
+                            <option value="{{ $bah->kod }}">{{ $bah->kod }} - {{ $bah->diskripsi }} </option>
                             @endforeach
                         </select>
                     </div>
@@ -308,9 +308,9 @@
 
                         $('#daerahForm').attr('action', url2);
                         $('#daerahForm input[name="code"]').val(data.detail.kod);
-                        $('#daerahForm input[name="name"]').val(data.detail.nama);
-                        $('#daerahForm select[name="kod_ruj_bahagian"]').val(data.detail.kod_ruj_bahagian).trigger('change');
-                        $('#daerahForm select[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#daerahForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#daerahForm select[name="kod_ruj_bahagian"]').val(data.detail.bah_kod).trigger('change');
+                        $('#daerahForm select[name="kod_ruj_negeri"]').val(data.detail.neg_kod).trigger('change');
 
                         $('#daerahForm input[name="code"]').prop('readonly', true);
 

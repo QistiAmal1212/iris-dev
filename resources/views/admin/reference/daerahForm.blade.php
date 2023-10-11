@@ -38,7 +38,7 @@
                                     <select id="kod_ruj_bahagian" name="kod_ruj_bahagian" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($bahagian as $bah)
-                                        <option value="{{ $bah->kod }}">{{ $bah->nama }}</option>
+                                        <option value="{{ $bah->kod }}">{{ $bah->diskripsi }}</option>
                                         @endforeach
                                     </select>
                                 </div>

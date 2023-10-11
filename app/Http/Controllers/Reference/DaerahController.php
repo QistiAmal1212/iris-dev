@@ -44,7 +44,7 @@ class DaerahController extends Controller
             }
         }
 
-        $bahagian = Bahagian::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $bahagian = Bahagian::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         $negeri = State::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
@@ -64,11 +64,11 @@ class DaerahController extends Controller
             $daerah = Daerah::orderBy('kod', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $daerah->where('kod_ruj_bahagian', $request->activity_type_id);
+                $daerah->where('bah_kod', $request->activity_type_id);
             }
 
             if ($request->module_id && $request->module_id != "Lihat Semua") {
-                $daerah->where('kod_ruj_negeri', $request->module_id);
+                $daerah->where('neg_kod', $request->module_id);
             }
 
             return Datatables::of($daerah->get())
@@ -79,10 +79,10 @@ class DaerahController extends Controller
                     return $daerah->nama;
                 })
                 ->editColumn('kod_bah', function ($daerah) {
-                    return $daerah->kod_ruj_bahagian;
+                    return $daerah->bah_kod;
                 })
                 ->editColumn('kod_neg', function ($daerah) {
-                    return $daerah->kod_ruj_negeri;
+                    return $daerah->neg_kod;
                 })
                 ->editColumn('action', function ($daerah) use ($accessDelete) {
                     $button = "";
@@ -91,7 +91,7 @@ class DaerahController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="daerahForm('.$daerah->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($daerah->sah_yt) {
+                        if($daerah->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$daerah->id.'" onclick="toggleActive('.$daerah->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$daerah->id.'" onclick="toggleActive('.$daerah->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -130,12 +130,12 @@ class DaerahController extends Controller
 
             $daerah = Daerah::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'kod_ruj_bahagian' => $request->kod_ruj_bahagian,
-                'kod_ruj_negeri' => $request->kod_ruj_negeri,
-                'sah_yt' => true,
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'bah_kod' => $request->kod_ruj_bahagian,
+                'neg_kod' => $request->kod_ruj_negeri,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -223,10 +223,10 @@ class DaerahController extends Controller
 
             $daerah->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'kod_ruj_bahagian' => $request->kod_ruj_bahagian,
-                'kod_ruj_negeri' => $request->kod_ruj_negeri,
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'bah_kod' => $request->kod_ruj_bahagian,
+                'neg_kod' => $request->kod_ruj_negeri,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $daerahNewData = daerah::find($daerahId);
@@ -257,8 +257,11 @@ class DaerahController extends Controller
 
             $sah_yt = $daerah->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $daerah->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

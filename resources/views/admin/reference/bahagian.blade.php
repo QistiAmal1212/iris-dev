@@ -172,7 +172,7 @@
 
                         $('#bahagianForm').attr('action', url2);
                         $('#bahagianForm input[name="code"]').val(data.detail.kod);
-                        $('#bahagianForm input[name="name"]').val(data.detail.nama);
+                        $('#bahagianForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#bahagianForm input[name="code"]').prop('readonly', true);
 
