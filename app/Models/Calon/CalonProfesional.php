@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Models\Candidate;
+namespace App\Models\Calon;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CandidatePsl extends Model
+class CalonProfesional extends Model
 {
-    protected $table = 'calon_psl';
+    protected $table = 'calon_profesional';
 
     protected $fillable = [
     	'no_pengenalan',
         'kod_ruj_kelulusan',
-        'tarikh_exam',
+        'no_ahli',
+        'tarikh',
         'created_by',
         'updated_by',
     ];

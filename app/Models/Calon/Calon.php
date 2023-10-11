@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Candidate;
+namespace App\Models\Calon;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Candidate extends Model
+class Calon extends Model
 {
     protected $table = 'calon';
 
@@ -49,63 +49,63 @@ class Candidate extends Model
     ];
 
     public function license() {
-        return $this->hasOne('App\Models\Candidate\CandidateLicense', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonLesen', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function oku() {
-        return $this->hasOne('App\Models\Candidate\CandidateOku', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonOku', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function skim() {
-        return $this->hasMany('App\Models\Candidate\CandidateSkim', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonSkim', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function schoolResult() {
-        return $this->hasMany('App\Models\Candidate\CandidateSchoolResult', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonKeputusanSekolah', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function matriculation() {
-        return $this->hasMany('App\Models\Candidate\CandidateMatriculation', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonMatrikulasi', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function skm() {
-        return $this->hasMany('App\Models\Candidate\CandidateSkm', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonSkm', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function higherEducation() {
-        return $this->hasOne('App\Models\Candidate\CandidateHigherEducation', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function professional() {
-        return $this->hasMany('App\Models\Candidate\CandidateProfessional', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonProfesional', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function experience() {
-        return $this->hasOne('App\Models\Candidate\CandidateExperience', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonPengalaman', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function psl() {
-        return $this->hasMany('App\Models\Candidate\CandidatePsl', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonPsl', 'no_pengenalan', 'no_pengenalan');
     }
     
     public function armyPolice() {
-        return $this->hasOne('App\Models\Candidate\CandidateArmyPolice', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonTenteraPolis', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function language() {
-        return $this->hasMany('App\Models\Candidate\CandidateLanguage', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonBahasa', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function talent() {
-        return $this->hasMany('App\Models\Candidate\CandidateTalent', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonBakat', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function penalty() {
-        return $this->hasMany('App\Models\Candidate\CandidatePenalty', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonTatatertib', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function timeline() {
-        return $this->hasMany('App\Models\Candidate\CandidateTimeline', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonGarisMasa', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function interviewCentre(){

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Candidate;
+namespace App\Models\Calon;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class CandidateOku extends Model
+class CalonOku extends Model
 {
     protected $table = 'calon_oku';
 

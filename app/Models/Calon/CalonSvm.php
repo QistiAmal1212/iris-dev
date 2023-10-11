@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Candidate;
+namespace App\Models\Calon;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CandidateSvm extends Model
+class CalonSvm extends Model
 {
     protected $table = 'calon_svm';
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Candidate;
+namespace App\Models\Calon;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CandidateLicense extends Model
+class CalonLesen extends Model
 {
     protected $table = 'calon_lesen';
 
