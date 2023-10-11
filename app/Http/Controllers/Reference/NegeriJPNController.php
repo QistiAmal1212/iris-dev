@@ -43,7 +43,7 @@ class NegeriJPNController extends Controller
             }
         }
 
-        $negeri = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $negeri = State::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         if ($request->ajax()) {
 

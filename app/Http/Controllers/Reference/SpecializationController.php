@@ -59,28 +59,28 @@ class SpecializationController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            $specialization = Specialization::orderBy('code', 'asc');
+            $specialization = Specialization::orderBy('kod', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $specialization->where('type', $request->activity_type_id);
+                $specialization->where('jenis', $request->activity_type_id);
             }
 
             if ($request->module_id && $request->module_id != "Lihat Semua") {
-                $specialization->where('field', $request->module_id);
+                $specialization->where('bidang', $request->module_id);
             }
 
             return Datatables::of($specialization->get())
                 ->editColumn('code', function ($specialization){
-                    return $specialization->code;
+                    return $specialization->kod;
                 })
                 ->editColumn('name', function ($specialization) {
-                    return $specialization->name;
+                    return $specialization->nama;
                 })
                 ->editColumn('type', function ($specialization) {
-                    return $specialization->type;
+                    return $specialization->jenis;
                 })
                 ->editColumn('field', function ($specialization) {
-                    return $specialization->field;
+                    return $specialization->bidang;
                 })
                 ->editColumn('action', function ($specialization) use ($accessDelete) {
                     $button = "";
@@ -89,7 +89,7 @@ class SpecializationController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="specializationForm('.$specialization->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($specialization->is_active) {
+                        if($specialization->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$specialization->id.'" onclick="toggleActive('.$specialization->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$specialization->id.'" onclick="toggleActive('.$specialization->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -112,7 +112,7 @@ class SpecializationController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pengkhususan,code',
+                'code' => 'required|string|unique:ruj_pengkhususan,kod',
                 'name' => 'required|string',
                 'type' => 'required|string',
                 'field' => 'required|string',
@@ -125,12 +125,12 @@ class SpecializationController extends Controller
             ]);
 
             $specialization = Specialization::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'type' => strtoupper($request->type),
-                'field' => strtoupper($request->field),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'jenis' => strtoupper($request->type),
+                'bidang' => strtoupper($request->field),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
@@ -202,7 +202,7 @@ class SpecializationController extends Controller
             $log->data_old = json_encode($specialization);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pengkhususan,code,'.$specializationId,
+                'code' => 'required|string|unique:ruj_pengkhususan,kod,'.$specializationId,
                 'name' => 'required|string',
                 'type' => 'required|string',
                 'field' => 'required|string',
@@ -215,11 +215,11 @@ class SpecializationController extends Controller
             ]);
 
             $specialization->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'type' => strtoupper($request->type),
-                'field' => strtoupper($request->field),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'jenis' => strtoupper($request->type),
+                'bidang' => strtoupper($request->field),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $specializationNewData = Specialization::find($specializationId);
@@ -248,10 +248,13 @@ class SpecializationController extends Controller
             $specializationId = $request->specializationId;
             $specialization = Specialization::find($specializationId);
 
-            $is_active = $specialization->is_active;
+            $sah_yt = $specialization->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $specialization->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

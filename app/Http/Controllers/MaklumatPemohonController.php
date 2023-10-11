@@ -77,9 +77,9 @@ class MaklumatPemohonController extends Controller
         $pusatTemuduga = InterviewCentre::all();
         $ranks = Rank::all();
         $religions = Religion::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
-        $states = State::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $states = State::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skims = Skim::orderBy('name', 'asc')->get();
-        $specializations = Specialization::orderBy('name', 'asc')->get();
+        $specializations = Specialization::orderBy('diskripsi', 'asc')->get();
         $subjekPmr = Subject::where('form', 3)->orderBy('name', 'asc')->get();
         $subjekSpm = Subject::where('form', 5)->orderBy('name', 'asc')->get();
         $subjekSpmv = Subject::where('form', 5)->orderBy('name', 'asc')->get();

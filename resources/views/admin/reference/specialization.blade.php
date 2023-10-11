@@ -310,10 +310,10 @@
                     url2 = url2.replace(':replaceThis', specialization_id);
 
                     $('#specializationForm').attr('action',url2 );
-                    $('#specializationForm input[name="code"]').val(data.detail.code);
-                    $('#specializationForm input[name="name"]').val(data.detail.name);
-                    $('#specializationForm select[name="type"]').val(data.detail.type).trigger('change');
-                    $('#specializationForm select[name="field"]').val(data.detail.field).trigger('change');
+                    $('#specializationForm input[name="code"]').val(data.detail.kod);
+                    $('#specializationForm input[name="name"]').val(data.detail.diskripsi);
+                    $('#specializationForm select[name="type"]').val(data.detail.jenis).trigger('change');
+                    $('#specializationForm select[name="field"]').val(data.detail.bidang).trigger('change');
                     $('#specializationForm input[name="code"]').prop('readonly', true);
 
 

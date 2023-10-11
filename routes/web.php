@@ -176,7 +176,7 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::prefix('reference')->group(function () {
-        Route::prefix('state')->group(function () {
+        Route::prefix('negeri')->group(function () {
             Route::get('/', [StateController::class, 'index'])->name('admin.reference.state');
             Route::post('create', [StateController::class, 'store'])->name('admin.reference.state.store');
             Route::get('edit/{stateId}', [StateController::class, 'edit'])->name('admin.reference.state.edit');
@@ -226,7 +226,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{institutionId}', [InstitutionController::class, 'toggleActive'])->name('admin.reference.institution.toggleActive');
         });
 
-        Route::prefix('specialization')->group(function () {
+        Route::prefix('pengkhususan')->group(function () {
             Route::get('/', [SpecializationController::class, 'index'])->name('admin.reference.specialization');
             Route::post('create', [SpecializationController::class, 'store'])->name('admin.reference.specialization.store');
             Route::get('edit/{specializationId}', [SpecializationController::class, 'edit'])->name('admin.reference.specialization.edit');

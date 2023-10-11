@@ -61,7 +61,7 @@ class StateController extends Controller
                     return $state->kod;
                 })
                 ->editColumn('nama', function ($state) {
-                    return $state->nama;
+                    return $state->diskripsi;
                 })
                 ->editColumn('action', function ($state) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class StateController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="stateForm('.$state->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($state->sah_yt) {
+                        if($state->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$state->id.'" onclick="toggleActive('.$state->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$state->id.'" onclick="toggleActive('.$state->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -103,9 +103,9 @@ class StateController extends Controller
 
             $state = State::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
@@ -187,8 +187,8 @@ class StateController extends Controller
 
             $state->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $stateNewData = State::find($stateId);
@@ -219,8 +219,11 @@ class StateController extends Controller
 
             $sah_yt = $state->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $state->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

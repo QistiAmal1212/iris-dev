@@ -72,7 +72,7 @@ data-reloadPage="false">
         <label class="form-label">Pengkhususan/ Bidang</label>
         <select class="select2 form-control" value="" name="pengkhususan_pengajian_tinggi" id="pengkhususan_pengajian_tinggi" disabled><option value=""></option>
             @foreach($specializations as $specialization)
-            <option value="{{ $specialization->code }}">{{ $specialization->name }}</option>
+            <option value="{{ $specialization->kod }}">{{ $specialization->diskripsi }}</option>
             @endforeach
         </select>
     </div>

@@ -53,7 +53,7 @@
                                     <select id="ref_state_code" name="ref_state_code" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($states as $state)
-                                        <option value="{{ $state->kod }}">{{ $state->nama }}</option>
+                                        <option value="{{ $state->kod }}">{{ $state->diskripsi }}</option>
                                         @endforeach
                                     </select>
                                 </div>

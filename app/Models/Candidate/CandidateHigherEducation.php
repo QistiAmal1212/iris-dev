@@ -33,6 +33,6 @@ class CandidateHigherEducation extends Model
     }
 
     public function specialization() {
-        return $this->belongsTo('App\Models\Reference\Specialization', 'kod_ruj_pengkhususan', 'code');
+        return $this->belongsTo('App\Models\Reference\Specialization', 'kod_ruj_pengkhususan', 'kod');
     }
 }

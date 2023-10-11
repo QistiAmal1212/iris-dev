@@ -175,7 +175,7 @@
 
                     $('#stateForm').attr('action',url2 );
                     $('#stateForm input[name="code"]').val(data.detail.kod);
-                    $('#stateForm input[name="name"]').val(data.detail.nama);
+                    $('#stateForm input[name="name"]').val(data.detail.diskripsi);
                     $('#stateForm input[name="code"]').prop('readonly', true);
 
 
