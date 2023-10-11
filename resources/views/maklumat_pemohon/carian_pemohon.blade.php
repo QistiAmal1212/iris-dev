@@ -341,6 +341,7 @@ Maklumat Pemohon
             });
         }
     }
+
     function updatePage(id, total_pages) {
         if (id == total_pages) {
             return false;
@@ -693,16 +694,25 @@ Maklumat Pemohon
 
                     $('#experienceForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.experience != null) {
-                        $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.experience.tarikh_lantik ? data.detail.experience.tarikh_lantik : data_not_available);
-                        originalVal['experience_appoint_date'] = data.detail.experience.tarikh_lantik;
+                        if(data.detail.experience.sektor_pekerjaan) { $('#experienceForm select[name="experience_job_sector"]').val(data.detail.experience.sektor_pekerjaan).trigger('change'); }
+                        else { selectionNull('experience_job_sector', 'experienceForm'); }
+                        originalVal['experience_job_sector'] = $('#experienceForm select[name="experience_job_sector"]').find(':selected').text();
+                        $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.experience.tarikh_mula ? data.detail.experience.tarikh_mula : data_not_available);
+                        originalVal['experience_appoint_date'] = data.detail.experience.tarikh_mula;
                         if(data.detail.experience.taraf_jawatan) { $('#experienceForm select[name="experience_position_level"]').val(data.detail.experience.taraf_jawatan).trigger('change'); }
                         else { selectionNull('experience_position_level', 'experienceForm'); }
                         originalVal['experience_position_level'] = $('#experienceForm select[name="experience_position_level"]').find(':selected').text();
                         if(data.detail.experience.kod_ruj_skim) { $('#experienceForm select[name="experience_skim"]').val(data.detail.experience.kod_ruj_skim).trigger('change'); }
                         else { selectionNull('experience_skim', 'experienceForm'); }
                         originalVal['experience_skim'] = $('#experienceForm select[name="experience_skim"]').find(':selected').text();
-                        $('#experienceForm input[name="experience_start_date"]').val(data.detail.experience.tarikh_mula ? data.detail.experience.tarikh_mula : data_not_available);
-                        originalVal['experience_start_date'] = data.detail.experience.tarikh_mula;
+                        if(data.detail.experience.kump_pkhidmat) { $('#experienceForm select[name="experience_service_group"]').val(data.detail.experience.kump_pkhidmat).trigger('change'); }
+                        else { selectionNull('experience_service_group', 'experienceForm'); }
+                        originalVal['experience_service_group'] = $('#experienceForm select[name="experience_service_group"]').find(':selected').text();
+                        if(data.detail.experience.kod_ruj_gred_gaji) { $('#experienceForm select[name="experience_position_grade"]').val(data.detail.experience.kod_ruj_gred_gaji).trigger('change'); }
+                        else { selectionNull('experience_position_grade', 'experienceForm'); }
+                        originalVal['experience_position_grade'] = $('#experienceForm select[name="experience_position_grade"]').find(':selected').text();
+                        $('#experienceForm input[name="experience_start_date"]').val(data.detail.experience.tarikh_lantik ? data.detail.experience.tarikh_lantik : data_not_available);
+                        originalVal['experience_start_date'] = data.detail.experience.tarikh_lantik;
                         $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.tarikh_disahkan ? data.detail.experience.tarikh_disahkan : data_not_available);
                         originalVal['experience_verify_date'] = data.detail.experience.tarikh_disahkan;
                         if(data.detail.experience.ruj_kem_jabatan) { $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.experience.ruj_kem_jabatan).trigger('change'); }
@@ -712,6 +722,8 @@ Maklumat Pemohon
                         else { selectionNull('experience_department_state', 'experienceForm'); }
                         originalVal['experience_department_state'] = $('#experienceForm select[name="experience_department_state"]').find(':selected').text();
                     }else{
+                        selectionNull('experience_job_sector', 'experienceForm');
+                        originalVal['experience_job_sector'] = ''
                         $('#experienceForm input[name="experience_appoint_date"]').val(data_not_available);
                         originalVal['experience_appoint_date'] = '';
                         selectionNull('experience_position_level', 'experienceForm');
@@ -779,6 +791,11 @@ Maklumat Pemohon
 
                 },
                 error: function(data) {
+
+                    $('#candidate_name').html('');
+                    $('#candidate_ic').html('');
+                    $('#candidate_no_pengenalan').val('');
+                    $('#candidate_timeline').html('');
 
                     $('#update_personal').attr("style", "display:none");
                     $('#update_alamat').attr("style", "display:none");
@@ -915,12 +932,18 @@ Maklumat Pemohon
 
                     $('#table-professional tbody').empty();
 
+                    $('#experienceForm select[name="experience_job_sector"]').val('').trigger('change');
+                    $('#experienceForm select[name="experience_job_sector"]').attr('disabled', true);
                     $('#experienceForm input[name="experience_appoint_date"]').val('');
                     $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
                     $('#experienceForm select[name="experience_position_level"]').val('').trigger('change');
                     $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
                     $('#experienceForm select[name="experience_skim"]').val('').trigger('change');
                     $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
+                    $('#experienceForm select[name="experience_service_group"]').val('').trigger('change');
+                    $('#experienceForm select[name="experience_service_group"]').attr('disabled', true);
+                    $('#experienceForm select[name="experience_position_grade"]').val('').trigger('change');
+                    $('#experienceForm select[name="experience_position_grade"]').attr('disabled', true);
                     $('#experienceForm input[name="experience_start_date"]').val('');
                     $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
                     $('#experienceForm input[name="experience_verify_date"]').val('');
@@ -969,6 +992,7 @@ Maklumat Pemohon
         reloadUrl = reloadUrl.replace(':replaceThis', no_pengenalan);
         $('#candidate_timeline').load(reloadUrl)
     }
+
     function reset() {
         // $('#table-carian').DataTable().destroy();
         // $("#table-carian > tbody").html("");

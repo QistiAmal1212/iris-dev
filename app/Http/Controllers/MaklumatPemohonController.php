@@ -22,6 +22,7 @@ use App\Models\Reference\Institution;
 use App\Models\Reference\InterviewCentre;
 use App\Models\Reference\JenisBekasTenteraPolis;
 use App\Models\Reference\JenisPerkhidmatan;
+use App\Models\Reference\KumpulanSSM;
 use App\Models\Reference\MaritalStatus;
 use App\Models\Reference\Penalty;
 use App\Models\Reference\PeringkatPengajian;
@@ -29,6 +30,7 @@ use App\Models\Reference\PositionLevel;
 use App\Models\Reference\Rank;
 use App\Models\Reference\Race;
 use App\Models\Reference\Religion;
+use App\Models\Reference\SalaryGrade;
 use App\Models\Reference\State;
 use App\Models\Reference\Skim;
 use App\Models\Reference\Subject;
@@ -95,8 +97,11 @@ class MaklumatPemohonController extends Controller
         $Bahasa = Language::orderBy('nama', 'asc')->get();
         $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->orderBy('nama', 'asc')->get();
         $jenisPeperiksaan = Qualification::orderBy('name', 'asc')->get();
+        $sektorPekerjaan = KodPelbagai::where('kategori', 'JENIS PERKHIDMATAN')->orderBy('nama', 'asc')->get();
+        $gredJawatan = SalaryGrade::where('is_active', 1)->orderBy('code', 'asc')->get();
+        $kumpulanPerkhidmatan = KumpulanSSM::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'pusatTemuduga', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'kolejMatrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU', 'Bahasa', 'kategoriPenguasaan', 'jenisPeperiksaan' ));
+        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'pusatTemuduga', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'kolejMatrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU', 'Bahasa', 'kategoriPenguasaan', 'jenisPeperiksaan', 'sektorPekerjaan', 'gredJawatan', 'kumpulanPerkhidmatan'));
     }
 
     public function viewMaklumatPemohon(){
@@ -2100,19 +2105,27 @@ class MaklumatPemohonController extends Controller
             $candidate = CandidateExperience::where('no_pengenalan', $request->experience_no_pengenalan)->first();
 
             $request->validate([
+                'experience_job_sector' => 'required|string',
                 'experience_appoint_date' => 'required',
                 'experience_position_level' => 'required|string|exists:ruj_taraf_jawatan,code',
                 'experience_skim' => 'required|string|exists:ruj_skim,code',
+                'experience_service_group' => 'required|string|exists:ruj_kumpulan_ssm,kod',
+                'experience_position_grade' => 'required|string|exists:ruj_gred_gaji_hdr,code',
                 'experience_start_date' => 'required',
                 'experience_verify_date' => 'required',
                 'experience_department_ministry' => 'required|string|exists:ruj_kem_jabatan,kod',
                 'experience_department_state' => 'required|string|exists:ruj_negeri,kod',
             ],[
+                'experience_job_sector' => 'Sila pilih jenis perkhidmatan',
                 'experience_appoint_date.required' => 'Sila pilih tarikh lantikan pertama',
                 'experience_position_level.required' => 'Sila pilih taraf jawatan',
                 'experience_position_level.exists' => 'Tiada rekod taraf jawatan yang dipilih',
                 'experience_skim.required' => 'Sila pilih skim perkhidmatan',
                 'experience_skim.exists' => 'Tiada rekod skim perkhidmatan yang dipilih',
+                'experience_service_group.required' => 'Sila pilih kumpulan perkhidmatan',
+                'experience_service_group.exists' => 'Tiada rekod kumpulan perkhidmatan yang dipilih',
+                'experience_position_grade.required' => 'Sila pilih gred jawatan',
+                'experience_position_grade.exists' => 'Tiada rekod gred jawatan yang dipilih',
                 'experience_start_date.required' => 'Sila pilih tarikh lantikan',
                 'experience_verify_date.required' => 'Sila pilih tarikh pengesahan lantikan',
                 'experience_department_ministry.required' => 'Sila pilih kementerian/jabatan',
@@ -2121,13 +2134,22 @@ class MaklumatPemohonController extends Controller
                 'experience_department_state.exists' => 'Tiada rekod negeri kementerian/jabatan yang dipilih',
             ]);
 
+            //Check if JENIS_PERKHIDMATAN kod from ruj_kod_pelbagai exists
+            $existsJenisPerkhidmatan = KodPelbagai::where('kategori', 'JENIS PERKHIDMATAN')->where('kod', $request->experience_job_sector)->first();
+            if(!$existsJenisPerkhidmatan){
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Tiada rekod jenis perkhidmatan yang dipilih'], 404);
+            }
+
             if(!$candidate){
                 CandidateExperience::create([
                     'no_pengenalan' => $request->experience_no_pengenalan,
-                    'tarikh_lantik' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
+                    'sektor_pekerjaan', $request->experience_job_sector,
+                    'tarikh_lantik' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
                     'taraf_jawatan' => $request->experience_position_level,
                     'kod_ruj_skim' => $request->experience_skim,
-                    'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
+                    'kump_pkhidmat' => $request->experience_service_group,
+                    'kod_ruj_gred_gaji' => $request->experience_position_grade,
+                    'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
                     'tarikh_disahkan' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
                     'ruj_kem_jabatan' => $request->experience_department_ministry,
                     'negeri_jabatan' => $request->experience_department_state,
@@ -2135,10 +2157,13 @@ class MaklumatPemohonController extends Controller
                 ]);
             } else {
                 $candidate->update([
-                    'tarikh_lantik' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
+                    'sektor_pekerjaan' => $request->experience_job_sector,
+                    'tarikh_lantik' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
                     'taraf_jawatan' => $request->experience_position_level,
                     'kod_ruj_skim' => $request->experience_skim,
-                    'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
+                    'kump_pkhidmat' => $request->experience_service_group,
+                    'kod_ruj_gred_gaji' => $request->experience_position_grade,
+                    'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
                     'tarikh_disahkan' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
                     'ruj_kem_jabatan' => $request->experience_department_ministry,
                     'negeri_jabatan' => $request->experience_department_state,
