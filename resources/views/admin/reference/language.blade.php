@@ -174,7 +174,7 @@
 
                     $('#languageForm').attr('action',url2 );
                     $('#languageForm input[name="code"]').val(data.detail.kod);
-                    $('#languageForm input[name="name"]').val(data.detail.nama);
+                    $('#languageForm input[name="name"]').val(data.detail.diskripsi);
 
                     $('#languageForm input[name="code"]').prop('readonly', true);
 

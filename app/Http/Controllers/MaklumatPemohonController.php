@@ -76,7 +76,7 @@ class MaklumatPemohonController extends Controller
         $races = Race::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $pusatTemuduga = InterviewCentre::all();
         $ranks = Rank::all();
-        $religions = Religion::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $religions = Religion::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $states = State::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skims = Skim::orderBy('name', 'asc')->get();
         $specializations = Specialization::orderBy('diskripsi', 'asc')->get();
@@ -92,7 +92,7 @@ class MaklumatPemohonController extends Controller
         $jurusanMatrikulasi = MatriculationCourse::orderBy('name', 'asc')->get();
         $subjekMatrikulasi =  MatriculationSubject::orderBy('name', 'asc')->get();
         $kategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('nama', 'asc')->get();
-        $Bahasa = Language::orderBy('nama', 'asc')->get();
+        $Bahasa = Language::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->orderBy('nama', 'asc')->get();
         $jenisPeperiksaan = Qualification::orderBy('name', 'asc')->get();
 

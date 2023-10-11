@@ -185,7 +185,7 @@ Route::prefix('admin')->group(function () {
 
         });
 
-        Route::prefix('religion')->group(function () {
+        Route::prefix('agama')->group(function () {
             Route::get('/', [ReligionController::class, 'index'])->name('admin.reference.religion');
             Route::post('create', [ReligionController::class, 'store'])->name('admin.reference.religion.store');
             Route::get('edit/{religionId}', [ReligionController::class, 'edit'])->name('admin.reference.religion.edit');
@@ -250,7 +250,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{raceId}', [RaceController::class, 'toggleActive'])->name('admin.reference.race.toggleActive');
         });
 
-        Route::prefix('gender')->group(function () {
+        Route::prefix('jantina')->group(function () {
             Route::get('/', [GenderController::class, 'index'])->name('admin.reference.gender');
             Route::post('create', [GenderController::class, 'store'])->name('admin.reference.gender.store');
             Route::get('edit/{genderId}', [GenderController::class, 'edit'])->name('admin.reference.gender.edit');
@@ -266,7 +266,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{jobId}', [JobController::class, 'toggleActive'])->name('admin.reference.job.toggleActive');
         });
 
-        Route::prefix('language')->group(function () {
+        Route::prefix('bahasa')->group(function () {
             Route::get('/', [LanguageController::class, 'index'])->name('admin.reference.language');
             Route::post('create', [LanguageController::class, 'store'])->name('admin.reference.language.store');
             Route::get('edit/{languageId}', [LanguageController::class, 'edit'])->name('admin.reference.language.edit');

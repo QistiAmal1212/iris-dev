@@ -175,7 +175,7 @@
 
                     $('#religionForm').attr('action',url2 );
                     $('#religionForm input[name="code"]').val(data.detail.kod);
-                    $('#religionForm input[name="name"]').val(data.detail.nama);
+                    $('#religionForm input[name="name"]').val(data.detail.diskripsi);
 
                     $('#religionForm input[name="code"]').prop('readonly', true);
 

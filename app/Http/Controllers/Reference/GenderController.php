@@ -41,14 +41,14 @@ class GenderController extends Controller
             }
         }
 
-        $gender = Gender::orderBy('code', 'asc')->get();
+        $gender = Gender::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($gender)
                 ->editColumn('code', function ($gender){
-                    return $gender->code;
+                    return $gender->kod;
                 })
                 ->editColumn('name', function ($gender) {
-                    return $gender->name;
+                    return $gender->diskripsi;
                 })
                 ->editColumn('action', function ($gender) use ($accessDelete) {
                     $button = "";
@@ -57,7 +57,7 @@ class GenderController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="genderForm('.$gender->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($gender->is_active) {
+                        if($gender->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$gender->id.'" onclick="toggleActive('.$gender->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$gender->id.'" onclick="toggleActive('.$gender->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -80,7 +80,7 @@ class GenderController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jantina,code',
+                'code' => 'required|string|unique:ruj_jantina,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -89,10 +89,11 @@ class GenderController extends Controller
             ]);
 
             Gender::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             DB::commit();
@@ -135,7 +136,7 @@ class GenderController extends Controller
             $gender = Gender::find($genderId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jantina,code,'.$genderId,
+                'code' => 'required|string|unique:ruj_jantina,kod,'.$genderId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -144,9 +145,9 @@ class GenderController extends Controller
             ]);
 
             $gender->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -167,10 +168,13 @@ class GenderController extends Controller
             $genderId = $request->genderId;
             $gender = Gender::find($genderId);
 
-            $is_active = $gender->is_active;
+            $sah_yt = $gender->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $gender->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

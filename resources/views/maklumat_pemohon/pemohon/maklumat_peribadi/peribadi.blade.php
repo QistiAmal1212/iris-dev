@@ -27,7 +27,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="gender" id="gender" disabled>
                 <option value=""></option>
                 @foreach($genders as $gender)
-                <option value="{{ $gender->code }}">{{ $gender->name }}</option>
+                <option value="{{ $gender->kod }}">{{ $gender->diskripsi }}</option>
                 @endforeach
             </select>
             <div id="genderAlert" style="color: red; font-size: smaller;"></div>
@@ -38,7 +38,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="religion" id="religion" disabled>
                 <option value=""></option>
                 @foreach($religions as $religion)
-                <option value="{{ $religion->kod }}">{{ $religion->nama }}</option>
+                <option value="{{ $religion->kod }}">{{ $religion->diskripsi }}</option>
                 @endforeach
             </select>
             <div id="religionAlert" style="color: red; font-size: smaller;"></div>
