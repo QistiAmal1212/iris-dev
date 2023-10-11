@@ -135,8 +135,8 @@
         div .faq-search-input {
             div .input-group {
                 width: 576px;
-                margin: 0 0;
-                height: 250px;
+                margin: 0 auto;
+                height: auto;
             }
         }
     }

@@ -1,5 +1,5 @@
 <div class="">
-    <ul class="nav nav-tabs nav-justified" role="tablist">
+    <ul class="nav nav-pills nav-justified" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder active" id="pmr-tab" data-bs-toggle="tab" href="#pmr" aria-controls="pmr" role="tab" aria-selected="true">
                 PT3/ PMR/ SRP

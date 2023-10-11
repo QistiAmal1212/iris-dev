@@ -37,7 +37,7 @@
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        Tempat Bertugas <br> Terkini
+                        Tempat Bertugas Terkini
                     </span>
                 </span>
             </button>
