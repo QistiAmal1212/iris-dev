@@ -6,21 +6,21 @@ use App\Http\Requests\Api\PemohonRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Models\Candidate\Candidate;
-use App\Models\Candidate\CandidateLicense;
-use App\Models\Candidate\CandidateOku;
-use App\Models\Candidate\CandidateSkim;
-use App\Models\Candidate\CandidateSchoolResult;
-use App\Models\Candidate\CandidateSvm;
-use App\Models\Candidate\CandidateSkm;
-use App\Models\Candidate\CandidateMatriculation;
-use App\Models\Candidate\CandidateHigherEducation;
-use App\Models\Candidate\CandidateProfessional;
-use App\Models\Candidate\CandidateExperience;
-use App\Models\Candidate\CandidatePsl;
-use App\Models\Candidate\CandidateArmyPolice;
-use App\Models\Candidate\CandidateLanguage;
-use App\Models\Candidate\CandidateTalent;
+use App\Models\Calon\Calon;
+use App\Models\Calon\CalonLesen;
+use App\Models\Calon\CalonOku;
+use App\Models\Calon\CalonSkim;
+use App\Models\Calon\CalonKeputusanSekolah;
+use App\Models\Calon\CalonSvm;
+use App\Models\Calon\CalonSkm;
+use App\Models\Calon\CalonMatrikulasi;
+use App\Models\Calon\CalonPengajianTinggi;
+use App\Models\Calon\CalonProfesional;
+use App\Models\Calon\CalonPengalaman;
+use App\Models\Calon\CalonPsl;
+use App\Models\Calon\CalonTenteraPolis;
+use App\Models\Calon\CalonBahasa;
+use App\Models\Calon\CalonBakat;
 use Carbon;
 
 class PemohonController extends ApiController
@@ -53,7 +53,7 @@ class PemohonController extends ApiController
         try {
             DB::beginTransaction();
             //Validate emel and no_tel
-            $checkCalon = Candidate::where('no_kp_baru', $request->no_kp)->first();
+            $checkCalon = Calon::where('no_kp_baru', $request->no_kp)->first();
 
             if($checkCalon){
                 $checkCalon->update([
@@ -87,7 +87,7 @@ class PemohonController extends ApiController
                     'pusat_temuduga' => $request->pusat_temuduga,
                 ]);
             } else {
-                $calon = Candidate::create([
+                $calon = Calon::create([
                     'nama_penuh' => $request->nama_penuh,
                     'no_pengenalan' => $noPengenalan,
                     'no_kp_baru' => $request->no_kp,
@@ -122,7 +122,7 @@ class PemohonController extends ApiController
 
 
             if($jenisLesen != null){
-                $lesen = CandidateLicense::where('no_pengenalan', $noPengenalan)->first();
+                $lesen = CalonLesen::where('no_pengenalan', $noPengenalan)->first();
                 if($lesen){
                     $lesen->update([
                         'jenis_lesen' => $jenisLesen,
@@ -131,7 +131,7 @@ class PemohonController extends ApiController
                         'msg_senaraihitam' => ($request->status_senaraihitam_lesen == true) ? $request->msg_senaraihitam_lesen : null,
                     ]);
                 } else {
-                    CandidateLicense::create([
+                    CalonLesen::create([
                         'no_pengenalan' => $noPengenalan,
                         'jenis_lesen' => $jenisLesen,
                         'tempoh_tamat' => $request->tempoh_tamat_lesen,
@@ -142,7 +142,7 @@ class PemohonController extends ApiController
             }
 
             if($request->no_daftar_rujukan_oku != null || $request->jenis_bantuan_oku != null){
-                $oku = CandidateOku::where('no_pengenalan', $noPengenalan)->first();
+                $oku = CalonOku::where('no_pengenalan', $noPengenalan)->first();
                 if($oku){
                     $oku->update([
                         'kecacatan_calon' => ($request->no_daftar_rujukan_oku != null || $request->jenis_bantuan_oku != null) ? 'O' : null,
@@ -152,7 +152,7 @@ class PemohonController extends ApiController
                         'status_oku' => $request->status_oku,
                     ]);
                 } else {
-                    CandidateOku::create([
+                    CalonOku::create([
                         'no_pengenalan' => $noPengenalan,
                         'kecacatan_calon' => ($request->no_daftar_rujukan_oku != null || $request->jenis_bantuan_oku != null) ? 'O' : null,
                         'no_daftar_jkm' => $request->no_daftar_rujukan_oku,
@@ -166,7 +166,7 @@ class PemohonController extends ApiController
             if($request->skim != null){
                 foreach($request->skim as $skim) {
 
-                    $calonSkim = CandidateSkim::where('no_pengenalan', $noPengenalan)->where('kod_ruj_skim', $skim['skim'])->first();
+                    $calonSkim = CalonSkim::where('no_pengenalan', $noPengenalan)->where('kod_ruj_skim', $skim['skim'])->first();
 
                     if($calonSkim){
                         $dataSkim = [
@@ -186,7 +186,7 @@ class PemohonController extends ApiController
                             'no_siri' => $skim['no_siri'],
                             'pusat_td_pilihan' => $request->pusat_temuduga,
                         ];
-                        CandidateSkim::create($dataSkim);
+                        CalonSkim::create($dataSkim);
                     }
                 }
             }
@@ -237,7 +237,7 @@ class PemohonController extends ApiController
                         $sijilTkt3 = null;
                     }
 
-                    $calonTkt3 = CandidateSchoolResult::where('no_pengenalan', $noPengenalan)
+                    $calonTkt3 = CalonKeputusanSekolah::where('no_pengenalan', $noPengenalan)
                     ->where('jenis_sijil', $sijilTkt3)
                     ->where('tahun', $tkt3['tahun'])
                     ->where('mpel_tkt', 3)
@@ -259,7 +259,7 @@ class PemohonController extends ApiController
                             'mpel_kod' => $tkt3['mata_pelajaran'],
                             'gred' => $tkt3['gred'],
                         ];
-                        CandidateSchoolResult::create($dataTkt3);
+                        CalonKeputusanSekolah::create($dataTkt3);
                     }
                 }
             }
@@ -267,7 +267,7 @@ class PemohonController extends ApiController
             if($request->tingkatan_5 != null){
                 foreach($request->tingkatan_5 as $tkt5){
 
-                    $calonTkt5 = CandidateSchoolResult::where('no_pengenalan', $noPengenalan)
+                    $calonTkt5 = CalonKeputusanSekolah::where('no_pengenalan', $noPengenalan)
                     ->where('jenis_sijil', $tkt5['jenis_sijil'])
                     ->where('tahun', $tkt5['tahun'])
                     ->where('mpel_tkt', 5)
@@ -289,7 +289,7 @@ class PemohonController extends ApiController
                             'mpel_kod' => $tkt5['mata_pelajaran'],
                             'gred' => $tkt5['gred'],
                         ];
-                        CandidateSchoolResult::create($dataTkt5);
+                        CalonKeputusanSekolah::create($dataTkt5);
                     }
                 }
             }
@@ -297,7 +297,7 @@ class PemohonController extends ApiController
             if($request->tingkatan_6 != null){
                 foreach($request->tingkatan_6 as $tkt6){
                     
-                    $calonTkt6 = CandidateSchoolResult::where('no_pengenalan', $noPengenalan)
+                    $calonTkt6 = CalonKeputusanSekolah::where('no_pengenalan', $noPengenalan)
                     ->where('jenis_sijil', $tkt6['jenis_sijil'])
                     ->where('tahun', $tkt6['tahun'])
                     ->where('mpel_tkt', 6)
@@ -319,7 +319,7 @@ class PemohonController extends ApiController
                             'mpel_kod' => $tkt6['mata_pelajaran'],
                             'gred' => $tkt6['gred'],
                         ];
-                        CandidateSchoolResult::create($dataTkt6);
+                        CalonKeputusanSekolah::create($dataTkt6);
                     }
                 }
             }
@@ -327,7 +327,7 @@ class PemohonController extends ApiController
             if($request->svm != null){
                 foreach($request->svm as $svm){
 
-                    $calonSvm = CandidateSvm::where('no_pengenalan', $noPengenalan)
+                    $calonSvm = CalonSvm::where('no_pengenalan', $noPengenalan)
                     ->where('kod_ruj_kelulusan', $svm['kelulusan'])
                     ->where('tahun_lulus', $svm['tahun_lulus'])
                     ->where('mata_pelajaran', $svm['mata_pelajaran'])->first();
@@ -349,7 +349,7 @@ class PemohonController extends ApiController
                             'mata_pelajaran' => $svm['mata_pelajaran'],
                             'gred' => $svm['gred']
                         ];
-                        $insertSvm = CandidateSvm::create($dataSvm);
+                        $insertSvm = CalonSvm::create($dataSvm);
                     }
                 }
             }
@@ -357,7 +357,7 @@ class PemohonController extends ApiController
             if($request->skm != null){
                 foreach($request->skm as $skm){
 
-                    $calonSkm = CandidateSkm::where('no_pengenalan', $noPengenalan)
+                    $calonSkm = CalonSkm::where('no_pengenalan', $noPengenalan)
                     ->where('kod_ruj_kelulusan', $skm['kelulusan'])->first();
 
                     if($calonSkm){
@@ -370,7 +370,7 @@ class PemohonController extends ApiController
                             'kod_ruj_kelulusan' => $skm['kelulusan'],
                             'tahun_lulus' => $skm['tahun_lulus'],
                         ];
-                        CandidateSkm::create($dataSkm);
+                        CalonSkm::create($dataSkm);
                     }
                 }
             }
@@ -378,7 +378,7 @@ class PemohonController extends ApiController
             if($request->matrikulasi != null){
                 foreach($request->matrikulasi as $matrik){
 
-                    $calonMatrik = CandidateMatriculation::where('no_pengenalan', $noPengenalan)
+                    $calonMatrik = CalonMatrikulasi::where('no_pengenalan', $noPengenalan)
                     ->where('jurusan', $matrik['jurusan'])
                     ->where('kolej', $matrik['kolej'])
                     ->where('kod_subjek', $matrik['subjek'])->first();
@@ -404,7 +404,7 @@ class PemohonController extends ApiController
                             'gred' => $matrik['gred'],
                             'pngk' => $matrik['pngk'],
                         ];
-                        CandidateMatriculation::create($dataMatrik);
+                        CalonMatrikulasi::create($dataMatrik);
                     }
                 }
             }
@@ -412,7 +412,7 @@ class PemohonController extends ApiController
             if($request->pengajian_tinggi != null){
                 foreach($request->pengajian_tinggi as $pengajian){
 
-                    $calonPengajian = CandidateHigherEducation::where('no_pengenalan', $noPengenalan)
+                    $calonPengajian = CalonPengajianTinggi::where('no_pengenalan', $noPengenalan)
                     ->where('kod_ruj_institusi', $pengajian['institusi'])
                     ->where('kod_ruj_kelayakan', $pengajian['kelayakan'])
                     ->where('kod_ruj_pengkhususan', $pengajian['pengkhususan'])->first();
@@ -441,7 +441,7 @@ class PemohonController extends ApiController
                             'peringkat_pengajian' => $pengajian['peringkat'],
                             'biasiswa' => $pengajian['biasiswa'],
                         ];
-                        CandidateHigherEducation::create($dataPengajian);
+                        CalonPengajianTinggi::create($dataPengajian);
                     }
                 }
             }
@@ -449,7 +449,7 @@ class PemohonController extends ApiController
             if($request->profesional != null){
                 foreach($request->profesional as $profesional){
 
-                    $calonProfesional = CandidateProfessional::where('no_pengenalan', $noPengenalan)
+                    $calonProfesional = CalonProfesional::where('no_pengenalan', $noPengenalan)
                     ->where('kod_ruj_kelulusan', $profesional['kelulusan'])->first();
 
                     if($calonProfesional){
@@ -464,13 +464,13 @@ class PemohonController extends ApiController
                             'no_ahli' => $profesional['no_ahli'],
                             'tarikh' => $profesional['tarikh']
                         ];
-                        CandidateProfessional::create($dataProfesional);
+                        CalonProfesional::create($dataProfesional);
                     }
                 }
             }
 
             if($request->pengalaman_skim != null){
-                $calonPengalaman = CandidateExperience::where('no_pengenalan', $noPengenalan)->first();
+                $calonPengalaman = CalonPengalaman::where('no_pengenalan', $noPengenalan)->first();
 
                 if($calonPengalaman){
                     $calonPengalaman->update([
@@ -488,7 +488,7 @@ class PemohonController extends ApiController
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
                     ]);
                 } else {
-                    $pengalaman = CandidateExperience::create([
+                    $pengalaman = CalonPengalaman::create([
                         'no_pengenalan' => $noPengenalan,
                         'sektor_pekerjaan' => $request->pengalaman_jenis_perkhidmatan,
                         'taraf_jawatan' => $request->pengalaman_jenis_lantikan,
@@ -509,7 +509,7 @@ class PemohonController extends ApiController
             if($request->psl != null){
                 foreach($request->psl as $psl){
 
-                    $calonPsl = CandidatePsl::where('no_pengenalan', $noPengenalan)
+                    $calonPsl = CalonPsl::where('no_pengenalan', $noPengenalan)
                     ->where('kod_ruj_kelulusan', $psl['kelulusan'])->first();
 
                     if($calonPsl){
@@ -522,14 +522,14 @@ class PemohonController extends ApiController
                             'kod_ruj_kelulusan' => $psl['kelulusan'],
                             'tarikh_exam' => $psl['tarikh_exam'],
                         ];
-                        CandidatePsl::create($dataPsl);
+                        CalonPsl::create($dataPsl);
                     }
                 }
             }
 
             if($request->kategori_tentera_polis != null || $request->pangkat_tentera_polis != null){
 
-                $calonTenteraPolis = CandidateArmyPolice::where('no_pengenalan', $noPengenalan)->first();
+                $calonTenteraPolis = CalonTenteraPolis::where('no_pengenalan', $noPengenalan)->first();
 
                 if($calonTenteraPolis){
                     $calonTenteraPolis->update([
@@ -538,7 +538,7 @@ class PemohonController extends ApiController
                         'jenis_bekas_tentera' => $request->jenis_bekas_tentera_polis
                     ]);
                 } else {
-                    $tenteraPolis = CandidateArmyPolice::create([
+                    $tenteraPolis = CalonTenteraPolis::create([
                         'no_pengenalan' => $noPengenalan,
                         'status_pkhidmat' => $request->kategori_tentera_polis,
                         'pangkat_tentera_polis' => $request->pangkat_tentera_polis,
@@ -550,7 +550,7 @@ class PemohonController extends ApiController
             if($request->bahasa != null){
                 foreach($request->bahasa as $bahasa){
 
-                    $calonBahasa = CandidateLanguage::where('no_pengenalan', $noPengenalan)
+                    $calonBahasa = CalonBahasa::where('no_pengenalan', $noPengenalan)
                     ->where('jenis_bahasa', $bahasa['bahasa'])->first();
 
                     if($calonBahasa){
@@ -563,7 +563,7 @@ class PemohonController extends ApiController
                             'jenis_bahasa' => $bahasa['bahasa'],
                             'penguasaan' => $bahasa['penguasaan']
                         ];
-                        CandidateLanguage::create($dataBahasa);
+                        CalonBahasa::create($dataBahasa);
                     }
                 }
             }
@@ -571,7 +571,7 @@ class PemohonController extends ApiController
             if($request->bakat != null){
                 foreach($request->bakat as $bakat){
 
-                    $calonBakat = CandidateTalent::where('no_pengenalan', $noPengenalan)
+                    $calonBakat = CalonBakat::where('no_pengenalan', $noPengenalan)
                     ->where('bakat', $bakat['bakat'])->first();
 
                     if($calonBakat){
@@ -584,7 +584,7 @@ class PemohonController extends ApiController
                             'bakat' => $bakat['bakat'],
                             'bakat_detail' => $bakat['bakat_detail']
                         ];
-                        CandidateTalent::create($dataBakat);
+                        CalonBakat::create($dataBakat);
                     }
                 }
             }

@@ -22,7 +22,12 @@ data-reloadPage="false">
     </h6> --}}
     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Jenis Perkhidmatan</label>
-        <input type="text" class="form-control" value="" disabled>
+        <select name="experience_job_sector" id="experience_job_sector" class="select2 form-control" disabled>
+            <option value=""></option>
+            @foreach($sektorPekerjaan as $sektor)
+            <option value="{{ $sektor->kod }}">{{ $sektor->nama }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
@@ -59,7 +64,22 @@ data-reloadPage="false">
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Gred Jawatan</label>
-        <input type="text" class="form-control" value="" disabled>
+        <select class="select2 form-control" name="experience_position_grade" id="experience_position_grade" disabled>
+            <option value=""></option>
+            @foreach($gredJawatan as $gred)
+            <option value="{{ $gred->code }}">{{ $gred->code }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+        <label class="form-label">Kumpulan Perkhidmatan</label>
+        <select class="select2 form-control" name="experience_service_group" id="experience_service_group" disabled>
+            <option value=""></option>
+            @foreach($kumpulanPerkhidmatan as $kumpulan)
+            <option value="{{ $kumpulan->kod }}">{{ $kumpulan->nama }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
@@ -107,17 +127,23 @@ data-reloadPage="false">
     <button type="button" id="btnEditExperience" hidden onclick="generalFormSubmit(this);"></button>
     <div class="d-flex justify-content-end align-items-center my-1">
         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditExperience', {
+            experience_job_sector: $('#experience_job_sector').find(':selected').text(),
             experience_appoint_date: $('#experience_appoint_date').val(),
             experience_position_level: $('#experience_position_level').find(':selected').text(),
             experience_skim: $('#experience_skim').find(':selected').text(),
+            experience_service_group: $('#experience_service_group').find(':selected').text(),
+            experience_position_grade: $('#experience_position_grade').find(':selected').text(),
             experience_start_date: $('#experience_start_date').val(),
             experience_verify_date: $('#experience_verify_date').val(),
             experience_department_ministry: $('#experience_department_ministry').find(':selected').text(),
             experience_department_state: $('#experience_department_state').find(':selected').text(),
         },{
+            experience_job_sector: 'Jenis Perkhidmatan',
             experience_appoint_date: 'Tarikh Lantikan Pertama',
             experience_position_level: 'Taraf Jawatan',
             experience_skim: 'Skim Perkhidmatan',
+            experience_service_group: 'Kumpulan Perkhidmatan',
+            experience_position_grade: 'Gred Jawatan',
             experience_start_date: 'Tarikh Lantikan',
             experience_verify_date: 'Tarikh Pengesahan Lantikan',
             experience_department_ministry: 'Kementerian/Jabatan',
@@ -133,9 +159,12 @@ data-reloadPage="false">
 <script>
 
     function editExperience() {
+        $('#experienceForm select[name="experience_job_sector"]').attr('disabled', false);
         $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', false);
         $('#experienceForm select[name="experience_position_level"]').attr('disabled', false);
         $('#experienceForm select[name="experience_skim"]').attr('disabled', false);
+        $('#experienceForm select[name="experience_service_group"]').attr('disabled', false);
+        $('#experienceForm select[name="experience_position_grade"]').attr('disabled', false);
         $('#experienceForm input[name="experience_start_date"]').attr('disabled', false);
         $('#experienceForm input[name="experience_verify_date"]').attr('disabled', false);
         $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', false);
@@ -154,13 +183,19 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.tarikh_lantik);
+                $('#experienceForm select[name="experience_job_sector"]').val(data.detail.sektor_pekerjaan).trigger('change');
+                $('#experienceForm select[name="experience_job_sector"]').attr('disabled', true);
+                $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.tarikh_mula);
                 $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
                 $('#experienceForm select[name="experience_position_level"]').val(data.detail.taraf_jawatan).trigger('change');
                 $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
                 $('#experienceForm select[name="experience_skim"]').val(data.detail.kod_ruj_skim).trigger('change');
                 $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
-                $('#experienceForm input[name="experience_start_date"]').val(data.detail.tarikh_mula);
+                $('#experienceForm select[name="experience_service_group"]').val(data.detail.kump_pkhidmat).trigger('change');
+                $('#experienceForm select[name="experience_service_group"]').attr('disabled', true);
+                $('#experienceForm select[name="experience_position_grade"]').val(data.detail.kod_ruj_gred_gaji).trigger('change');
+                $('#experienceForm select[name="experience_position_grade"]').attr('disabled', true);
+                $('#experienceForm input[name="experience_start_date"]').val(data.detail.tarikh_lantik);
                 $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
                 $('#experienceForm input[name="experience_verify_date"]').val(data.detail.tarikh_disahkan);
                 $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);

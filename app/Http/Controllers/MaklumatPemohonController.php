@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Candidate\CandidateLanguage;
-use App\Models\Candidate\CandidateLicense;
-use App\Models\Candidate\CandidateMatriculation;
-use App\Models\Candidate\CandidateOku;
-use App\Models\Candidate\CandidatePsl;
+use App\Models\Calon\CalonBahasa;
+use App\Models\Calon\CalonLesen;
+use App\Models\Calon\CalonMatrikulasi;
+use App\Models\Calon\CalonOku;
+use App\Models\Calon\CalonPsl;
 use App\Models\Reference\KodPelbagai;
 use App\Models\Reference\Language;
 use App\Models\Reference\MatriculationSubject;
@@ -22,6 +22,7 @@ use App\Models\Reference\Institution;
 use App\Models\Reference\InterviewCentre;
 use App\Models\Reference\JenisBekasTenteraPolis;
 use App\Models\Reference\JenisPerkhidmatan;
+use App\Models\Reference\KumpulanSSM;
 use App\Models\Reference\MaritalStatus;
 use App\Models\Reference\Penalty;
 use App\Models\Reference\PeringkatPengajian;
@@ -29,19 +30,20 @@ use App\Models\Reference\PositionLevel;
 use App\Models\Reference\Rank;
 use App\Models\Reference\Race;
 use App\Models\Reference\Religion;
+use App\Models\Reference\SalaryGrade;
 use App\Models\Reference\State;
 use App\Models\Reference\Skim;
 use App\Models\Reference\Subject;
 use App\Models\Reference\Specialization;
-use App\Models\Candidate\Candidate;
-use App\Models\Candidate\CandidateArmyPolice;
-use App\Models\Candidate\CandidateExperience;
-use App\Models\Candidate\CandidateHigherEducation;
-use App\Models\Candidate\CandidatePenalty;
-use App\Models\Candidate\CandidateSchoolResult;
-use App\Models\Candidate\CandidateSkm;
-use App\Models\Candidate\CandidateTalent;
-use App\Models\Candidate\CandidateTimeline;
+use App\Models\Calon\Calon;
+use App\Models\Calon\CalonTenteraPolis;
+use App\Models\Calon\CalonPengalaman;
+use App\Models\Calon\CalonPengajianTinggi;
+use App\Models\Calon\CalonTatatertib;
+use App\Models\Calon\CalonKeputusanSekolah;
+use App\Models\Calon\CalonSkm;
+use App\Models\Calon\CalonBakat;
+use App\Models\Calon\CalonGarisMasa;
 use App\Models\Reference\Matriculation;
 use App\Models\Reference\MatriculationCourse;
 use Yajra\DataTables\Contracts\DataTable;
@@ -95,8 +97,11 @@ class MaklumatPemohonController extends Controller
         $Bahasa = Language::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->orderBy('nama', 'asc')->get();
         $jenisPeperiksaan = Qualification::orderBy('name', 'asc')->get();
+        $sektorPekerjaan = KodPelbagai::where('kategori', 'JENIS PERKHIDMATAN')->orderBy('nama', 'asc')->get();
+        $gredJawatan = SalaryGrade::where('is_active', 1)->orderBy('code', 'asc')->get();
+        $kumpulanPerkhidmatan = KumpulanSSM::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
-        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'pusatTemuduga', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'kolejMatrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU', 'Bahasa', 'kategoriPenguasaan', 'jenisPeperiksaan' ));
+        return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'pusatTemuduga', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'kolejMatrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU', 'Bahasa', 'kategoriPenguasaan', 'jenisPeperiksaan', 'sektorPekerjaan', 'gredJawatan', 'kumpulanPerkhidmatan'));
     }
 
     public function viewMaklumatPemohon(){
@@ -132,7 +137,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where(function ($query) use ($no_ic) {
+            $candidate = Calon::where(function ($query) use ($no_ic) {
                 $query->where('no_kp_baru', $no_ic);
             })
             ->with([
@@ -217,7 +222,7 @@ class MaklumatPemohonController extends Controller
 
     public function listTimeline(Request $request)
     {
-        $candidateTimeline = CandidateTimeline::where('no_pengenalan', $request->noPengenalan)->orderBy('created_at', 'desc')->limit(10)->get();
+        $candidateTimeline = CalonGarisMasa::where('no_pengenalan', $request->noPengenalan)->orderBy('created_at', 'desc')->limit(10)->get();
         return view('maklumat_pemohon.pemohon.list_timeline', compact('candidateTimeline'));
     }
 
@@ -226,7 +231,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->personal_no_pengenalan)->first();
+            $candidate = Calon::where('no_pengenalan', $request->personal_no_pengenalan)->first();
 
             $request->validate([
                 'gender' => 'required|string|exists:ruj_jantina,code',
@@ -262,7 +267,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->personal_no_pengenalan,
                 'activity_type_id' => 4,
                 'details' => 'Kemaskini Maklumat Peribadi (Peribadi)',
@@ -285,7 +290,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)->first();
+            $candidate = Calon::where('no_pengenalan', $request->noPengenalan)->first();
 
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -308,7 +313,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->alamat_no_pengenalan)->first();
+            $candidate = Calon::where('no_pengenalan', $request->alamat_no_pengenalan)->first();
 
             $request->validate([
                 'permanent_address_1' => 'required|string',
@@ -353,7 +358,7 @@ class MaklumatPemohonController extends Controller
                 'tempat_tinggal' => $request->state,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->alamat_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Peribadi (Alamat)',
                 'activity_type_id' => 4,
@@ -376,7 +381,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)->first();
+            $candidate = Calon::where('no_pengenalan', $request->noPengenalan)->first();
 
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -397,7 +402,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->tempat_lahir_no_pengenalan)->first();
+            $candidate = Calon::where('no_pengenalan', $request->tempat_lahir_no_pengenalan)->first();
 
             $request->validate([
                 'place_of_birth' => 'required|string|exists:ruj_negeri,kod',
@@ -418,7 +423,7 @@ class MaklumatPemohonController extends Controller
                 'tempat_lahir_ibu' => $request->mother_place_of_birth,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->tempat_lahir_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Peribadi (Tempat Lahir)',
                 'activity_type_id' => 4,
@@ -441,7 +446,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)->first();
+            $candidate = Calon::where('no_pengenalan', $request->noPengenalan)->first();
 
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -474,10 +479,10 @@ class MaklumatPemohonController extends Controller
                 'license_blacklist_details.required' => 'Sila pilih butiran senarai hitam',
             ]);
 
-            $candidateLesen = CandidateLicense::where('no_pengenalan', $request->lesen_memandu_no_pengenalan)->first();
+            $candidateLesen = CalonLesen::where('no_pengenalan', $request->lesen_memandu_no_pengenalan)->first();
 
             if($candidateLesen){
-                CandidateLicense::where('no_pengenalan',$request->lesen_memandu_no_pengenalan)->update([
+                CalonLesen::where('no_pengenalan',$request->lesen_memandu_no_pengenalan)->update([
                     'jenis_lesen' => $request->license_type,
                     //'tempoh_tamat' => Carbon::createFromFormat('d/m/Y', $request->license_expiry_date)->format('Y-m-d'),
                     'tempoh_tamat' => $request->license_expiry_date,
@@ -485,7 +490,7 @@ class MaklumatPemohonController extends Controller
                     'msg_senaraihitam' => $request->license_blacklist_details,
                 ]);
             }else{
-                CandidateLicense::create([
+                CalonLesen::create([
                     'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
                     'jenis_lesen' => $request->license_type,
                     //'tempoh_tamat' => Carbon::createFromFormat('d/m/Y', $request->license_expiry_date)->format('Y-m-d'),
@@ -495,7 +500,7 @@ class MaklumatPemohonController extends Controller
                 ]);
             }
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->lesen_memandu_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Peribadi (Lesen Memandu)',
                 'activity_type_id' => 4,
@@ -518,7 +523,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)
+            $candidate = Calon::where('no_pengenalan', $request->noPengenalan)
             ->with([
                 'license'
             ])->first();
@@ -555,17 +560,17 @@ class MaklumatPemohonController extends Controller
                 'oku_sub.required' => 'Sila pilih sub-kategori',
             ]);
 
-            $candidateOku = CandidateOku::where('no_pengenalan', $request->oku_no_pengenalan)->first();
+            $candidateOku = CalonOku::where('no_pengenalan', $request->oku_no_pengenalan)->first();
 
             if($candidateOku){
-                CandidateOku::where('no_pengenalan',$request->oku_no_pengenalan)->update([
+                CalonOku::where('no_pengenalan',$request->oku_no_pengenalan)->update([
                     'no_daftar_jkm' => $request->oku_registration_no,
                     'status_oku' => $request->oku_status,
                     'kategori_oku' => $request->oku_category,
                     'sub_oku' => $request->oku_sub,
                 ]);
             }else{
-                CandidateOku::create([
+                CalonOku::create([
                     'no_pengenalan' => $request->oku_no_pengenalan,
                     'no_daftar_jkm' => $request->oku_registration_no,
                     'status_oku' => $request->oku_status,
@@ -574,7 +579,7 @@ class MaklumatPemohonController extends Controller
                 ]);
             }
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->oku_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Peribadi (OKU)',
                 'activity_type_id' => 4,
@@ -597,7 +602,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)
+            $candidate = Calon::where('no_pengenalan', $request->noPengenalan)
             ->with([
                 'oku',
             ])->first();
@@ -620,7 +625,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->pusat_temuduga_no_pengenalan)->first();
+            $candidate = Calon::where('no_pengenalan', $request->pusat_temuduga_no_pengenalan)->first();
 
             $request->validate([
                 'pusat_temuduga' => 'required|string|exists:ruj_pusat_temuduga,kod',
@@ -633,7 +638,7 @@ class MaklumatPemohonController extends Controller
                 'pusat_temuduga' => $request->pusat_temuduga,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->pusat_temuduga_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Skim (Pusat Temuduga)',
                 'activity_type_id' => 4,
@@ -656,7 +661,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = Candidate::where('no_pengenalan', $request->noPengenalan)->first();
+            $candidate = Calon::where('no_pengenalan', $request->noPengenalan)->first();
 
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -690,7 +695,7 @@ class MaklumatPemohonController extends Controller
                 'tahun_pmr.exists' => 'Tiada rekod gred pmr yang dipilih',
             ]);
 
-            CandidateSchoolResult::create([
+            CalonKeputusanSekolah::create([
                 'no_pengenalan' => $request->pmr_no_pengenalan,
                 'mpel_kod' => $request->subjek_pmr,
                 'gred' => $request->gred_pmr,
@@ -701,7 +706,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->pmr_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (PT3/PMR/SRP)',
                 'activity_type_id' => 3,
@@ -724,7 +729,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidatePmr = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 3)->with('subjectForm3')->whereHas('subjectForm3', function ($query) {
+            $candidatePmr = CalonKeputusanSekolah::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 3)->with('subjectForm3')->whereHas('subjectForm3', function ($query) {
                 $query->where('form', '3');
             })->get();
 
@@ -759,13 +764,13 @@ class MaklumatPemohonController extends Controller
                 'tahun_pmr.required' => 'Sila pilih gred pmr',
             ]);
 
-            CandidateSchoolResult::where('id',$request->id_pmr)->update([
+            CalonKeputusanSekolah::where('id',$request->id_pmr)->update([
                 'mpel_kod' => $request->subjek_pmr,
                 'gred' => $request->gred_pmr,
                 'tahun' => $request->tahun_pmr,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->pmr_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (PT3/PMR/SRP)',
                 'activity_type_id' => 4,
@@ -784,7 +789,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deletePmr(Request $request){
-        $pmr = CandidateSchoolResult::find($request-> idPmr);
+        $pmr = CalonKeputusanSekolah::find($request-> idPmr);
 
         if (!$pmr) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -812,7 +817,7 @@ class MaklumatPemohonController extends Controller
                 'tahun_spm.exists' => 'Tiada rekod gred spm yang dipilih',
             ]);
 
-            CandidateSchoolResult::create([
+            CalonKeputusanSekolah::create([
                 'no_pengenalan' => $request->spm_no_pengenalan,
                 'mpel_kod' => $request->subjek_spm,
                 'gred' => $request->gred_spm,
@@ -823,7 +828,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->spm_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (SPM)',
                 'activity_type_id' => 3,
@@ -846,7 +851,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateSpm = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 5)->where('jenis_sijil', 1)->with('subjectForm5')->whereHas('subjectForm5', function ($query) {
+            $candidateSpm = CalonKeputusanSekolah::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 5)->where('jenis_sijil', 1)->with('subjectForm5')->whereHas('subjectForm5', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -881,13 +886,13 @@ class MaklumatPemohonController extends Controller
                 'tahun_spm.required' => 'Sila pilih gred spm',
             ]);
 
-            CandidateSchoolResult::where('id',$request->id_spm)->update([
+            CalonKeputusanSekolah::where('id',$request->id_spm)->update([
                 'mpel_kod' => $request->subjek_spm,
                 'gred' => $request->gred_spm,
                 'tahun' => $request->tahun_spm,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->spm_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (SPM)',
                 'activity_type_id' => 4,
@@ -906,7 +911,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deleteSpm(Request $request){
-        $spm = CandidateSchoolResult::find($request-> idSpm);
+        $spm = CalonKeputusanSekolah::find($request-> idSpm);
 
         if (!$spm) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -934,7 +939,7 @@ class MaklumatPemohonController extends Controller
                 'tahun_spmv.exists' => 'Tiada rekod gred spmv yang dipilih',
             ]);
 
-            CandidateSchoolResult::create([
+            CalonKeputusanSekolah::create([
                 'no_pengenalan' => $request->spmv_no_pengenalan,
                 'mpel_kod' => $request->subjek_spmv,
                 'gred' => $request->gred_spmv,
@@ -945,7 +950,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->spmv_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (SPMV)',
                 'activity_type_id' => 3,
@@ -968,7 +973,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateSpmv = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 5)->where('jenis_sijil', 3)->with('subjectForm5')->whereHas('subjectForm5', function ($query) {
+            $candidateSpmv = CalonKeputusanSekolah::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 5)->where('jenis_sijil', 3)->with('subjectForm5')->whereHas('subjectForm5', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -1003,13 +1008,13 @@ class MaklumatPemohonController extends Controller
                 'tahun_spmv.required' => 'Sila pilih gred spmv',
             ]);
 
-            CandidateSchoolResult::where('id',$request->id_spmv)->update([
+            CalonKeputusanSekolah::where('id',$request->id_spmv)->update([
                 'mpel_kod' => $request->subjek_spmv,
                 'gred' => $request->gred_spmv,
                 'tahun' => $request->tahun_spmv,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->spmv_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (SPMV)',
                 'activity_type_id' => 4,
@@ -1028,7 +1033,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deleteSpmv(Request $request){
-        $spmv = CandidateSchoolResult::find($request-> idSpmv);
+        $spmv = CalonKeputusanSekolah::find($request-> idSpmv);
 
         if (!$spmv) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -1056,7 +1061,7 @@ class MaklumatPemohonController extends Controller
                 'tahun_svm.exists' => 'Tiada rekod gred svm yang dipilih',
             ]);
 
-            CandidateSchoolResult::create([
+            CalonKeputusanSekolah::create([
                 'no_pengenalan' => $request->svm_no_pengenalan,
                 'mpel_kod' => $request->subjek_svm,
                 'gred' => $request->gred_svm,
@@ -1067,7 +1072,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->svm_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (SVM)',
                 'activity_type_id' => 3,
@@ -1090,7 +1095,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateSvm = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 5)->where('jenis_sijil', 5)->with('subjectForm5')->whereHas('subjectForm5', function ($query) {
+            $candidateSvm = CalonKeputusanSekolah::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 5)->where('jenis_sijil', 5)->with('subjectForm5')->whereHas('subjectForm5', function ($query) {
                 $query->where('form', '5');
             })->get();
 
@@ -1125,13 +1130,13 @@ class MaklumatPemohonController extends Controller
                 'tahun_svm.required' => 'Sila pilih gred svm',
             ]);
 
-            CandidateSchoolResult::where('id',$request->id_svm)->update([
+            CalonKeputusanSekolah::where('id',$request->id_svm)->update([
                 'mpel_kod' => $request->subjek_svm,
                 'gred' => $request->gred_svm,
                 'tahun' => $request->tahun_svm,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->svm_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (SVM)',
                 'activity_type_id' => 4,
@@ -1150,7 +1155,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deleteSvm(Request $request){
-        $svm = CandidateSchoolResult::find($request-> idSvm);
+        $svm = CalonKeputusanSekolah::find($request-> idSvm);
 
         if (!$svm) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -1178,7 +1183,7 @@ class MaklumatPemohonController extends Controller
                 'tahun_stpm.exists' => 'Tiada rekod gred stpm yang dipilih',
             ]);
 
-            CandidateSchoolResult::create([
+            CalonKeputusanSekolah::create([
                 'no_pengenalan' => $request->stpm_no_pengenalan,
                 'mpel_kod' => $request->subjek_stpm,
                 'gred' => $request->gred_stpm,
@@ -1189,7 +1194,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->stpm_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (STPM)',
                 'activity_type_id' => 3,
@@ -1212,7 +1217,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateStpm = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 6)->where('jenis_sijil', 1)->with('subjectForm6')->whereHas('subjectForm6', function ($query) {
+            $candidateStpm = CalonKeputusanSekolah::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 6)->where('jenis_sijil', 1)->with('subjectForm6')->whereHas('subjectForm6', function ($query) {
                 $query->where('form', '6');
             })->get();
 
@@ -1247,13 +1252,13 @@ class MaklumatPemohonController extends Controller
                 'tahun_stpm.required' => 'Sila pilih gred stpm',
             ]);
 
-            CandidateSchoolResult::where('id',$request->id_stpm)->update([
+            CalonKeputusanSekolah::where('id',$request->id_stpm)->update([
                 'mpel_kod' => $request->subjek_stpm,
                 'gred' => $request->gred_stpm,
                 'tahun' => $request->tahun_stpm,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->stpm_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (STPM)',
                 'activity_type_id' => 4,
@@ -1272,7 +1277,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deleteStpm(Request $request){
-        $stpm = CandidateSchoolResult::find($request-> idStpm);
+        $stpm = CalonKeputusanSekolah::find($request-> idStpm);
 
         if (!$stpm) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -1300,7 +1305,7 @@ class MaklumatPemohonController extends Controller
                 'tahun_stam.exists' => 'Tiada rekod gred stam yang dipilih',
             ]);
 
-            CandidateSchoolResult::create([
+            CalonKeputusanSekolah::create([
                 'no_pengenalan' => $request->stam_no_pengenalan,
                 'mpel_kod' => $request->subjek_stam,
                 'gred' => $request->gred_stam,
@@ -1311,7 +1316,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->stam_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (STAM)',
                 'activity_type_id' => 3,
@@ -1334,7 +1339,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateStam = CandidateSchoolResult::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 6)->where('jenis_sijil', 5)->with('subjectForm6')->whereHas('subjectForm6', function ($query) {
+            $candidateStam = CalonKeputusanSekolah::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 6)->where('jenis_sijil', 5)->with('subjectForm6')->whereHas('subjectForm6', function ($query) {
                 $query->where('form', '6');
             })->get();
 
@@ -1369,13 +1374,13 @@ class MaklumatPemohonController extends Controller
                 'tahun_stam.required' => 'Sila pilih gred stam',
             ]);
 
-            CandidateSchoolResult::where('id',$request->id_stam)->update([
+            CalonKeputusanSekolah::where('id',$request->id_stam)->update([
                 'mpel_kod' => $request->subjek_stam,
                 'gred' => $request->gred_stam,
                 'tahun' => $request->tahun_stam,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->stam_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (STAM)',
                 'activity_type_id' => 4,
@@ -1394,7 +1399,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deleteStam(Request $request){
-        $stam = CandidateSchoolResult::find($request-> idStam);
+        $stam = CalonKeputusanSekolah::find($request-> idStam);
 
         if (!$stam) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -1429,7 +1434,7 @@ class MaklumatPemohonController extends Controller
                 'pngk_matrikulasi.required' => 'Sila isikan pngk matrikulasi',
             ]);
 
-            CandidateMatriculation::create([
+            CalonMatrikulasi::create([
                 'no_pengenalan' => $request->matrikulasi_no_pengenalan,
                 'no_matrik' => $request->matrik_matrikulasi,
                 'jurusan' => $request->jurusan_matrikulasi,
@@ -1443,7 +1448,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->matrikulasi_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (Matrikulasi)',
                 'activity_type_id' => 3,
@@ -1466,7 +1471,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateMatrikulasi = CandidateMatriculation::where('no_pengenalan', $request->noPengenalan)->with(['course', 'college', 'subject'])->get();
+            $candidateMatrikulasi = CalonMatrikulasi::where('no_pengenalan', $request->noPengenalan)->with(['course', 'college', 'subject'])->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -1509,7 +1514,7 @@ class MaklumatPemohonController extends Controller
                 'pngk_matrikulasi.required' => 'Sila isikan pngk matrikulasi',
             ]);
 
-            CandidateMatriculation::where('id',$request->id_matrikulasi)->update([
+            CalonMatrikulasi::where('id',$request->id_matrikulasi)->update([
                 'no_matrik' => $request->matrik_matrikulasi,
                 'jurusan' => $request->jurusan_matrikulasi,
                 'sesi' => $request->sesi_matrikulasi,
@@ -1520,7 +1525,7 @@ class MaklumatPemohonController extends Controller
                 'pngk' => $request->pngk_matrikulasi,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->matrikulasi_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (Matrikulasi)',
                 'activity_type_id' => 4,
@@ -1539,7 +1544,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deleteMatrikulasi(Request $request){
-        $smatrikulasi = CandidateMatriculation::find($request-> idMatrikulasi);
+        $smatrikulasi = CalonMatrikulasi::find($request-> idMatrikulasi);
 
         if (!$smatrikulasi) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -1562,7 +1567,7 @@ class MaklumatPemohonController extends Controller
                 'nama_skm.required' => 'Sila pilih kelulusan',
             ]);
 
-            CandidateSkm::create([
+            CalonSkm::create([
                 'no_pengenalan' => $request->skm_no_pengenalan,
                 'kod_ruj_kelulusan' => $request->nama_skm,
                 'tahun_lulus' => $request->tahun_skm,
@@ -1570,7 +1575,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->skm_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (SKM)',
                 'activity_type_id' => 3,
@@ -1592,7 +1597,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidateSkm = CandidateSkm::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+            $candidateSkm = CalonSkm::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -1623,12 +1628,12 @@ class MaklumatPemohonController extends Controller
                 'nama_skm.required' => 'Sila pilih kelulusan',
             ]);
 
-            CandidateSkm::where('id',$request->id_skm)->update([
+            CalonSkm::where('id',$request->id_skm)->update([
                 'kod_ruj_kelulusan' => $request->nama_skm,
                 'tahun_lulus' => $request->tahun_skm,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->skm_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (SKM)',
                 'activity_type_id' => 4,
@@ -1647,7 +1652,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deleteSkm(Request $request){
-        $skm = CandidateSkm::find($request-> idSkm);
+        $skm = CalonSkm::find($request-> idSkm);
 
         if (!$skm) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -1671,7 +1676,7 @@ class MaklumatPemohonController extends Controller
 
             ]);
 
-            CandidateLanguage::create([
+            CalonBahasa::create([
                 'no_pengenalan' => $request->bahasa_no_pengenalan,
                 'jenis_bahasa' => $request->nama_bahasa,
                 'penguasaan' => $request->penguasaan_bahasa,
@@ -1679,7 +1684,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->bahasa_no_pengenalan,
                 'details' => 'Tambah Maklumat Tambahan (Bahasa)',
                 'activity_type_id' => 3,
@@ -1701,7 +1706,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidateBahasa = CandidateLanguage::select(
+            $candidateBahasa = CalonBahasa::select(
             )->where('no_pengenalan', $request->noPengenalan)->with(['language', 'kategori'])->get();
 
             // if(!$candidate) {
@@ -1734,12 +1739,12 @@ class MaklumatPemohonController extends Controller
 
             ]);
 
-            CandidateLanguage::where('id',$request->id_bahasa)->update([
+            CalonBahasa::where('id',$request->id_bahasa)->update([
                 'jenis_bahasa' => $request->nama_bahasa,
                 'penguasaan' => $request->penguasaan_bahasa,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->bahasa_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Tamabahan (Bahasa)',
                 'activity_type_id' => 4,
@@ -1758,7 +1763,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deleteBahasa(Request $request){
-        $bahasa = CandidateLanguage::find($request-> idBahasa);
+        $bahasa = CalonBahasa::find($request-> idBahasa);
 
         if (!$bahasa) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -1779,14 +1784,14 @@ class MaklumatPemohonController extends Controller
                 'nama_bakat.required' => 'Sila pilih kelulusan',
             ]);
 
-            CandidateTalent::create([
+            CalonBakat::create([
                 'no_pengenalan' => $request->bakat_no_pengenalan,
                 'bakat' => $request->nama_bakat,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->bakat_no_pengenalan,
                 'details' => 'Tambah Maklumat Tambahan (Bakat)',
                 'activity_type_id' => 3,
@@ -1808,7 +1813,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidateBakat = CandidateTalent::select(
+            $candidateBakat = CalonBakat::select(
             )->where('no_pengenalan', $request->noPengenalan)->with(['talent'])->get();
 
             // if(!$candidate) {
@@ -1838,11 +1843,11 @@ class MaklumatPemohonController extends Controller
                 'nama_bakat.required' => 'Sila pilih kelulusan',
             ]);
 
-            CandidateTalent::where('id',$request->id_bakat)->update([
+            CalonBakat::where('id',$request->id_bakat)->update([
                 'bakat' => $request->nama_bakat,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->bakat_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Tamabahan (Bakat)',
                 'activity_type_id' => 4,
@@ -1861,7 +1866,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deleteBakat(Request $request){
-        $bakat = CandidateTalent::find($request-> idBakat);
+        $bakat = CalonBakat::find($request-> idBakat);
 
         if (!$bakat) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -1876,7 +1881,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = CandidateHigherEducation::where('no_pengenalan', $request->pengajian_tinggi_no_pengenalan)->first();
+            $candidate = CalonPengajianTinggi::where('no_pengenalan', $request->pengajian_tinggi_no_pengenalan)->first();
 
             $request->validate([
                 'peringkat_pengajian_tinggi' => 'required|string|exists:ruj_peringkat_pengajian,id',
@@ -1909,7 +1914,7 @@ class MaklumatPemohonController extends Controller
             ]);
 
             if(!$candidate){
-                CandidateHigherEducation::create([
+                CalonPengajianTinggi::create([
                     'no_pengenalan' => $request->pengajian_tinggi_no_pengenalan,
                     'peringkat_pengajian' => $request->peringkat_pengajian_tinggi,
                     'tahun_lulus' => $request->tahun_pengajian_tinggi,
@@ -1937,7 +1942,7 @@ class MaklumatPemohonController extends Controller
                 ]);
             }
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->pengajian_tinggi_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi)',
                 'activity_type_id' => 4,
@@ -1960,7 +1965,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateHigherEducation = CandidateHigherEducation::where('no_pengenalan', $request->noPengenalan)->first();
+            $candidateHigherEducation = CalonPengajianTinggi::where('no_pengenalan', $request->noPengenalan)->first();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -1992,7 +1997,7 @@ class MaklumatPemohonController extends Controller
 
             ]);
 
-            CandidatePsl::create([
+            CalonPsl::create([
                 'no_pengenalan' => $request->psl_no_pengenalan,
                 'kod_ruj_kelulusan' => $request->jenis_peperiksaan,
                 'tarikh_exam' => Carbon::createFromFormat('d/m/Y', $request->tarikh_peperiksaan)->format('Y-m-d'),
@@ -2000,7 +2005,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->psl_no_pengenalan,
                 'details' => 'Tambah Maklumat Pegawai Berkhidmat (PSL)',
                 'activity_type_id' => 3,
@@ -2022,7 +2027,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidatePsl = CandidatePsl::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+            $candidatePsl = CalonPsl::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
 
             foreach($candidatePsl as $psl){
                 $psl->tarikh_exam = ($psl->tarikh_exam != null) ? Carbon::parse($psl->tarikh_exam)->format('d/m/Y') : null;
@@ -2058,12 +2063,12 @@ class MaklumatPemohonController extends Controller
 
             ]);
 
-            CandidatePsl::where('id',$request->id_psl)->update([
+            CalonPsl::where('id',$request->id_psl)->update([
                 'kod_ruj_kelulusan' => $request->jenis_peperiksaan,
                 'tarikh_exam' => Carbon::createFromFormat('d/m/Y', $request->tarikh_peperiksaan)->format('Y-m-d'),
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->psl_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Pegawai Berkhidmat (PSL)',
                 'activity_type_id' => 4,
@@ -2082,7 +2087,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deletePsl(Request $request){
-        $psl = CandidatePsl::find($request-> idPsl);
+        $psl = CalonPsl::find($request-> idPsl);
 
         if (!$psl) {
             return response()->json(['message' => 'Record not found'], 404);
@@ -2097,22 +2102,30 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = CandidateExperience::where('no_pengenalan', $request->experience_no_pengenalan)->first();
+            $candidate = CalonPengalaman::where('no_pengenalan', $request->experience_no_pengenalan)->first();
 
             $request->validate([
+                'experience_job_sector' => 'required|string',
                 'experience_appoint_date' => 'required',
                 'experience_position_level' => 'required|string|exists:ruj_taraf_jawatan,code',
                 'experience_skim' => 'required|string|exists:ruj_skim,code',
+                'experience_service_group' => 'required|string|exists:ruj_kumpulan_ssm,kod',
+                'experience_position_grade' => 'required|string|exists:ruj_gred_gaji_hdr,code',
                 'experience_start_date' => 'required',
                 'experience_verify_date' => 'required',
                 'experience_department_ministry' => 'required|string|exists:ruj_kem_jabatan,kod',
                 'experience_department_state' => 'required|string|exists:ruj_negeri,kod',
             ],[
+                'experience_job_sector' => 'Sila pilih jenis perkhidmatan',
                 'experience_appoint_date.required' => 'Sila pilih tarikh lantikan pertama',
                 'experience_position_level.required' => 'Sila pilih taraf jawatan',
                 'experience_position_level.exists' => 'Tiada rekod taraf jawatan yang dipilih',
                 'experience_skim.required' => 'Sila pilih skim perkhidmatan',
                 'experience_skim.exists' => 'Tiada rekod skim perkhidmatan yang dipilih',
+                'experience_service_group.required' => 'Sila pilih kumpulan perkhidmatan',
+                'experience_service_group.exists' => 'Tiada rekod kumpulan perkhidmatan yang dipilih',
+                'experience_position_grade.required' => 'Sila pilih gred jawatan',
+                'experience_position_grade.exists' => 'Tiada rekod gred jawatan yang dipilih',
                 'experience_start_date.required' => 'Sila pilih tarikh lantikan',
                 'experience_verify_date.required' => 'Sila pilih tarikh pengesahan lantikan',
                 'experience_department_ministry.required' => 'Sila pilih kementerian/jabatan',
@@ -2121,13 +2134,22 @@ class MaklumatPemohonController extends Controller
                 'experience_department_state.exists' => 'Tiada rekod negeri kementerian/jabatan yang dipilih',
             ]);
 
+            //Check if JENIS_PERKHIDMATAN kod from ruj_kod_pelbagai exists
+            $existsJenisPerkhidmatan = KodPelbagai::where('kategori', 'JENIS PERKHIDMATAN')->where('kod', $request->experience_job_sector)->first();
+            if(!$existsJenisPerkhidmatan){
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Tiada rekod jenis perkhidmatan yang dipilih'], 404);
+            }
+
             if(!$candidate){
-                CandidateExperience::create([
+                CalonPengalaman::create([
                     'no_pengenalan' => $request->experience_no_pengenalan,
-                    'tarikh_lantik' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
+                    'sektor_pekerjaan', $request->experience_job_sector,
+                    'tarikh_lantik' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
                     'taraf_jawatan' => $request->experience_position_level,
                     'kod_ruj_skim' => $request->experience_skim,
-                    'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
+                    'kump_pkhidmat' => $request->experience_service_group,
+                    'kod_ruj_gred_gaji' => $request->experience_position_grade,
+                    'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
                     'tarikh_disahkan' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
                     'ruj_kem_jabatan' => $request->experience_department_ministry,
                     'negeri_jabatan' => $request->experience_department_state,
@@ -2135,10 +2157,13 @@ class MaklumatPemohonController extends Controller
                 ]);
             } else {
                 $candidate->update([
-                    'tarikh_lantik' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
+                    'sektor_pekerjaan' => $request->experience_job_sector,
+                    'tarikh_lantik' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
                     'taraf_jawatan' => $request->experience_position_level,
                     'kod_ruj_skim' => $request->experience_skim,
-                    'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
+                    'kump_pkhidmat' => $request->experience_service_group,
+                    'kod_ruj_gred_gaji' => $request->experience_position_grade,
+                    'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
                     'tarikh_disahkan' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
                     'ruj_kem_jabatan' => $request->experience_department_ministry,
                     'negeri_jabatan' => $request->experience_department_state,
@@ -2146,7 +2171,7 @@ class MaklumatPemohonController extends Controller
                 ]);
             }
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->experience_no_pengenalan,
                 'details' => 'Kemaskini Pegawai Berkhidmat (Maklumat PSB/PSL)',
                 'activity_type_id' => 4,
@@ -2169,7 +2194,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateExperience = CandidateExperience::where('no_pengenalan', $request->noPengenalan)->first();
+            $candidateExperience = CalonPengalaman::where('no_pengenalan', $request->noPengenalan)->first();
 
             $candidateExperience->tarikh_lantik = ($candidateExperience->tarikh_lantik != null) ? Carbon::parse($candidateExperience->tarikh_lantik)->format('d/m/Y') : null;
             $candidateExperience->tarikh_mula = ($candidateExperience->tarikh_mula != null) ? Carbon::parse($candidateExperience->tarikh_mula)->format('d/m/Y') : null;
@@ -2196,7 +2221,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = CandidateArmyPolice::where('no_pengenalan', $request->tentera_polis_no_pengenalan)->first();
+            $candidate = CalonTenteraPolis::where('no_pengenalan', $request->tentera_polis_no_pengenalan)->first();
 
             $request->validate([
                 'jenis_perkhidmatan_tentera_polis' => 'required|string|exists:ruj_jenis_perkhidmatan,id',
@@ -2212,7 +2237,7 @@ class MaklumatPemohonController extends Controller
             ]);
 
             if(!$candidate){
-                CandidateArmyPolice::create([
+                CalonTenteraPolis::create([
                     'no_pengenalan' =>$request->tentera_polis_no_pengenalan,
                     'jenis_pkhidmat' => $request->jenis_perkhidmatan_tentera_polis,
                     'pangkat_tentera_polis' => $request->pangkat_tentera_polis,
@@ -2226,7 +2251,7 @@ class MaklumatPemohonController extends Controller
                 ]);
             }
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->tentera_polis_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Tambahan (Maklumat Bekas Tentera)',
                 'activity_type_id' => 4,
@@ -2249,7 +2274,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateArmyPolice = CandidateArmyPolice::where('no_pengenalan', $request->noPengenalan)->first();
+            $candidateArmyPolice = CalonTenteraPolis::where('no_pengenalan', $request->noPengenalan)->first();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -2287,7 +2312,7 @@ class MaklumatPemohonController extends Controller
                 'penalty_end.required' => 'Sila isikan tarikh akhir hukuman',
             ]);
 
-            $candidatePenalty = CandidatePenalty::create([
+            $candidatePenalty = CalonTatatertib::create([
                 'no_pengenalan' => $request->penalty_no_pengenalan,
                 'kod_ruj_penalti' => $request->penalty,
                 'tempoh' => $request->penalty_duration,
@@ -2298,7 +2323,7 @@ class MaklumatPemohonController extends Controller
                 'updated_by' => auth()->user()->id,
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->penalty_no_pengenalan,
                 'details' => 'Tambah Tatatertib',
                 'activity_type_id' => 3,
@@ -2321,7 +2346,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidatePenalty = CandidatePenalty::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
+            $candidatePenalty = CalonTatatertib::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
 
             foreach($candidatePenalty as $penalty){
                 $penalty->tarikh_mula = ($penalty->tarikh_mula != null) ? Carbon::parse($penalty->tarikh_mula)->format('d/m/Y') : null;
@@ -2365,7 +2390,7 @@ class MaklumatPemohonController extends Controller
                 'penalty_end.required' => 'Sila isikan tarikh akhir hukuman',
             ]);
 
-            CandidatePenalty::where('id',$request->id_penalty)->update([
+            CalonTatatertib::where('id',$request->id_penalty)->update([
                 'kod_ruj_penalti' => $request->penalty,
                 'tempoh' => $request->penalty_duration,
                 'jenis' => $request->penalty_type,
@@ -2373,7 +2398,7 @@ class MaklumatPemohonController extends Controller
                 'tarikh_tamat' => Carbon::createFromFormat('d/m/Y', $request->penalty_end)->format('Y-m-d'),
             ]);
 
-            CandidateTimeline::create([
+            CalonGarisMasa::create([
                 'no_pengenalan' => $request->penalty_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Tatatertib',
                 'activity_type_id' => 4,
@@ -2392,7 +2417,7 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deletePenalty(Request $request){
-        $penalty = CandidatePenalty::find($request-> idPenalty);
+        $penalty = CalonTatatertib::find($request-> idPenalty);
 
         if (!$penalty) {
             return response()->json(['message' => 'Record not found'], 404);

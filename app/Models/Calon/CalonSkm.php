@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Models\Candidate;
+namespace App\Models\Calon;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CandidateProfessional extends Model
+class CalonSkm extends Model
 {
-    protected $table = 'calon_profesional';
+    protected $table = 'calon_skm';
 
     protected $fillable = [
     	'no_pengenalan',
         'kod_ruj_kelulusan',
-        'no_ahli',
-        'tarikh',
+        'tahun_lulus',
         'created_by',
         'updated_by',
     ];
