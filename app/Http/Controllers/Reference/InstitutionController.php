@@ -43,7 +43,7 @@ class InstitutionController extends Controller
             }
         }
 
-        $negara = Negara::where('sah_yt', true)->orderBy('nama','asc')->get();
+        $negara = Negara::where('sah_yt', 'Y')->orderBy('diskripsi','asc')->get();
 
         if ($request->ajax()) {
             $log = new LogSystem;

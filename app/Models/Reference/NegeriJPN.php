@@ -10,11 +10,14 @@ class NegeriJPN extends Model
     protected $table = 'ruj_negeri_jpn';
 
     protected $fillable = [
-        'kod',
-        'nama',
-        'kod_ruj_negeri',
-        'created_by',
-        'updated_by',
+        'kod_spa',
+        'diskripsi',
+        'kod_jpn',
+        'id_pencipta',
+        'pengguna',
         'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

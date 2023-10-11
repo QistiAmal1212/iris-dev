@@ -38,7 +38,7 @@
                                     <select id="ref_country_code" name="ref_country_code" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($negara as $neg)
-                                        <option value="{{ $neg->kod }}">{{ $neg->nama }}</option>
+                                        <option value="{{ $neg->kod }}">{{ $neg->diskripsi }}</option>
                                         @endforeach
                                     </select>
                                 </div>

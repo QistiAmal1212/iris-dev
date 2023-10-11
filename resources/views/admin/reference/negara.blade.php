@@ -172,7 +172,7 @@
 
                         $('#negaraForm').attr('action', url2);
                         $('#negaraForm input[name="code"]').val(data.detail.kod);
-                        $('#negaraForm input[name="name"]').val(data.detail.nama);
+                        $('#negaraForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#negaraForm input[name="code"]').prop('readonly', true);
 

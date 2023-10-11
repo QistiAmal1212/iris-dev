@@ -58,21 +58,21 @@ class NegeriJPNController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            $negerijpn = NegeriJPN::orderBy('kod', 'asc');
+            $negerijpn = NegeriJPN::orderBy('kod_spa', 'asc');
             if($request->activity_type_id && $request->activity_type_id != "Lihat Semua"){
-                $negerijpn->where('kod',$request->activity_type_id);
+                $negerijpn->where('kod_spa',$request->activity_type_id);
             }
 
 
             return Datatables::of($negerijpn->get())
                 ->editColumn('kod', function ($negerijpn){
-                    return $negerijpn->kod;
+                    return $negerijpn->kod_spa;
                 })
                 ->editColumn('nama', function ($negerijpn) {
-                    return $negerijpn->nama;
+                    return $negerijpn->diskripsi;
                 })
                 ->editColumn('kod_neg', function ($negerijpn) {
-                    return $negerijpn->kod_ruj_negeri;
+                    return $negerijpn->kod_jpn;
                 })
                 ->editColumn('action', function ($negerijpn) use ($accessDelete) {
                     $button = "";
@@ -106,7 +106,7 @@ class NegeriJPNController extends Controller
             $request->validate([
                 'code' => 'required|string|exists:ruj_negeri,kod',
                 'name' => 'required|string',
-                'kod_ruj_negeri' => 'required|string|unique:ruj_negeri_jpn,kod_ruj_negeri',
+                'kod_ruj_negeri' => 'required|string|unique:ruj_negeri_jpn,kod_jpn',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.exist' => 'Tiada rekod negeri yang dipilih',
@@ -116,11 +116,12 @@ class NegeriJPNController extends Controller
             ]);
 
             $negerijpn = NegeriJPN::create([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'kod_ruj_negeri' => $request->kod_ruj_negeri,
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod_spa' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'kod_jpn' => $request->kod_ruj_negeri,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -194,7 +195,7 @@ class NegeriJPNController extends Controller
             $request->validate([
                 'code' => 'required|string|exists:ruj_negeri,kod',
                 'name' => 'required|string',
-                'kod_ruj_negeri' => 'required|string|unique:ruj_negeri_jpn,kod_ruj_negeri,'.$negerijpnId,
+                'kod_ruj_negeri' => 'required|string|unique:ruj_negeri_jpn,kod_jpn,'.$negerijpnId,
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.exist' => 'Tiada rekod negeri yang dipilih',
@@ -204,10 +205,10 @@ class NegeriJPNController extends Controller
             ]);
 
             $negerijpn->update([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'kod_ruj_negeri' => $request->kod_ruj_negeri,
-                'updated_by' => auth()->user()->id,
+                'kod_spa' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'kod_jpn' => $request->kod_ruj_negeri,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $negerijpnNewData = NegeriJPN::find($negerijpnId);
@@ -238,8 +239,11 @@ class NegeriJPNController extends Controller
 
             $sah_yt = $negerijpn->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $negerijpn->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();
