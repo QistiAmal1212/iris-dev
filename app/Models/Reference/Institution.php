@@ -9,14 +9,16 @@ class Institution extends Model
     protected $table = 'ruj_institusi';
 
     protected $fillable = [
-        'code',
-        'name',
-        'type',
-        'ref_country_code',
-        'pemerolehan_code',
-        'category',
-        'created_by',
-        'updated_by',
-        'is_active',
+        'kod',
+        'diskripsi',
+        'jenis_institusi',
+        'negara',
+        'kategori',
+        'id_pencipta',
+        'pengguna',
+        'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

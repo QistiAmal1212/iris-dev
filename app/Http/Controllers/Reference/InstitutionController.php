@@ -57,28 +57,28 @@ class InstitutionController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            $institution = Institution::orderBy('code', 'asc');
+            $institution = Institution::orderBy('kod', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $institution->where('ref_country_code', $request->activity_type_id);
+                $institution->where('negara', $request->activity_type_id);
             }
 
             if ($request->module_id && $request->module_id != "Lihat Semua") {
-                $institution->where('type', $request->module_id);
+                $institution->where('jenis_institusi', $request->module_id);
             }
 
             return Datatables::of($institution->get())
                 ->editColumn('code', function ($institution){
-                    return $institution->code;
+                    return $institution->kod;
                 })
                 ->editColumn('name', function ($institution) {
-                    return $institution->name;
+                    return $institution->diskripsi;
                 })
                 ->editColumn('neg', function ($institution) {
-                    return $institution->ref_country_code;
+                    return $institution->negara;
                 })
                 ->editColumn('jenis', function ($institution) {
-                    return $institution->type;
+                    return $institution->jenis_institusi;
                 })
                 ->editColumn('action', function ($institution) use ($accessDelete) {
                     $button = "";
@@ -87,7 +87,7 @@ class InstitutionController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="institutionForm('.$institution->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($institution->is_active) {
+                        if($institution->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$institution->id.'" onclick="toggleActive('.$institution->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$institution->id.'" onclick="toggleActive('.$institution->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -110,7 +110,7 @@ class InstitutionController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_institusi,code',
+                'code' => 'required|string|unique:ruj_institusi,kod',
                 'name' => 'required|string',
                 'ref_country_code' => 'required|string',
                 'type' => 'required|string',
@@ -123,12 +123,12 @@ class InstitutionController extends Controller
             ]);
 
             $institution = Institution::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'ref_country_code' => strtoupper($request->ref_country_code),
-                'type' => strtoupper($request->type),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'negara' => strtoupper($request->ref_country_code),
+                'jenis_institusi' => strtoupper($request->type),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
@@ -198,7 +198,7 @@ class InstitutionController extends Controller
             $log->data_old = json_encode($institution);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_institusi,code,'.$institutionId,
+                'code' => 'required|string|unique:ruj_institusi,kod,'.$institutionId,
                 'name' => 'required|string',
                 'ref_country_code' => 'required|string',
                 'type' => 'required|string',
@@ -211,11 +211,11 @@ class InstitutionController extends Controller
             ]);
 
             $institution->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'ref_country_code' => strtoupper($request->ref_country_code),
-                'type' => strtoupper($request->type),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'negara' => strtoupper($request->ref_country_code),
+                'jenis_institusi' => strtoupper($request->type),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $institutionNewData = Institution::find($institutionId);
@@ -244,10 +244,13 @@ class InstitutionController extends Controller
             $institutionId = $request->institutionId;
             $institution = Institution::find($institutionId);
 
-            $is_active = $institution->is_active;
+            $sah_yt = $institution->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $institution->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

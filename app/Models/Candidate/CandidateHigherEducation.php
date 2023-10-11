@@ -25,7 +25,7 @@ class CandidateHigherEducation extends Model
     ];
 
     public function institution() {
-        return $this->belongsTo('App\Models\Reference\Institution', 'kod_ruj_institusi', 'code');
+        return $this->belongsTo('App\Models\Reference\Institution', 'kod_ruj_institusi', 'kod');
     }
 
     public function eligibility() {

@@ -307,10 +307,10 @@
                         url2 = url2.replace(':replaceThis', institution_id);
 
                         $('#institutionForm').attr('action', url2);
-                        $('#institutionForm input[name="code"]').val(data.detail.code);
-                        $('#institutionForm input[name="name"]').val(data.detail.name);
-                        $('#institutionForm select[name="ref_country_code"]').val(data.detail.ref_country_code).trigger('change');
-                        $('#institutionForm select[name="type"]').val(data.detail.type).trigger('change');
+                        $('#institutionForm input[name="code"]').val(data.detail.kod);
+                        $('#institutionForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#institutionForm select[name="ref_country_code"]').val(data.detail.negara).trigger('change');
+                        $('#institutionForm select[name="type"]').val(data.detail.jenis_institusi).trigger('change');
                         $('#institutionForm input[name="code"]').prop('readonly', true);
 
                         $('#title-role').html('Kemaskini Institusi');

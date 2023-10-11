@@ -66,7 +66,7 @@ class MaklumatPemohonController extends Controller
         $gredSvm = GredMatapelajaran::where('tkt', 5)->orderBy('susunan', 'asc')->get();
         $gredStpm = GredMatapelajaran::where('tkt', 6)->orderBy('susunan', 'asc')->get();
         $gredStam = GredMatapelajaran::where('tkt', 6)->orderBy('susunan', 'asc')->get();
-        $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
+        $institutions = Institution::orderBy('jenis_institusi', 'asc')->orderBy('diskripsi', 'asc')->get();
         $jenisBekasTenteraPolis = JenisBekasTenteraPolis::all();
         $jenisPerkhidmatan = JenisPerkhidmatan::all();
         $maritalStatuses = MaritalStatus::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
