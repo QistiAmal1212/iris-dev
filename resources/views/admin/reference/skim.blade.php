@@ -304,10 +304,10 @@
                     url2 = url2.replace(':replaceThis', skim_id);
 
                     $('#skimForm').attr('action',url2 );
-                    $('#skimForm input[name="code"]').val(data.detail.code);
-                    $('#skimForm input[name="name"]').val(data.detail.name);
+                    $('#skimForm input[name="code"]').val(data.detail.kod);
+                    $('#skimForm input[name="name"]').val(data.detail.diskripsi);
                     $('#skimForm input[name="GUNASAMA"]').val(data.detail.GUNASAMA);
-                    $('#skimForm input[name="ref_skim_type"]').val(data.detail.ref_skim_type);
+                    $('#skimForm input[name="ref_skim_type"]').val(data.detail.jenis_skim);
                     $('#skimForm select[name="GGH_KOD"]').val(data.detail.GGH_KOD).trigger('change');
                     $('#skimForm select[name="SKIM_PKHIDMAT"]').val(data.detail.SKIM_PKHIDMAT).trigger('change');
                     $('#skimForm select[name="KUMP_PKHIDMAT_JKK"]').val(data.detail.KUMP_PKHIDMAT_JKK).trigger('change');

@@ -75,7 +75,7 @@ Maklumat Pemohon
         </div>
         <div class="card-body" id="listPemohon">
             <div class="table-responsive" id="append-data">
-                
+
             </div>
         </div>
     </div>
@@ -335,7 +335,7 @@ Maklumat Pemohon
                     search_nama : search_nama,
                 },
                 success: function(data) {
-                    $('#append-data').empty(); 
+                    $('#append-data').empty();
                     $('#append-data').append(data);
                 }
             });
@@ -564,7 +564,7 @@ Maklumat Pemohon
                     $('#pusatTemudugaForm input[name="pusat_temuduga_no_pengenalan"]').val(data.detail.no_pengenalan)
                     $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
 
-                    if(data.detail.pusat_temuduga) { 
+                    if(data.detail.pusat_temuduga) {
                         $('#pusatTemudugaForm select[name="pusat_temuduga"]').val(data.detail.pusat_temuduga).trigger('change');
                     } else {
                         selectionNull('pusat_temuduga', 'pusatTemudugaForm');
@@ -582,7 +582,7 @@ Maklumat Pemohon
                             trSkim += '<tr>';
                             trSkim += '<td align="center">' + bilSkim + '</td>'
                             trSkim += '<td>' + item.kod_ruj_skim + '</td>'
-                            trSkim += '<td>' + item.skim.name + '</td>';
+                            trSkim += '<td>' + item.skim.diskripsi + '</td>';
                             trSkim += '<td>' + (item.tarikh_daftar ? item.tarikh_daftar : '') + '</td>';
                             trSkim += '<td>' + (item.tarikh_luput ? item.tarikh_luput : '') + '</td>';
                             trSkim += '</tr>';
@@ -685,7 +685,7 @@ Maklumat Pemohon
                             trProfessional += '<tr>';
                             trProfessional += '<td align="center">' + bilProfessional + '</td>'
                             trProfessional += '<td>' + (item.no_ahli ? item.no_ahli : '') + '</td>';
-                            trProfessional += '<td>' + (item.qualification ? item.qualification.name : '') + '</td>';
+                            trProfessional += '<td>' + (item.qualification ? item.qualification.diskripsi : '') + '</td>';
                             trProfessional += '<td>' + (item.tarikh ? item.tarikh : '') + '</td>';
                             trProfessional += '</tr>';
                         });
@@ -779,7 +779,7 @@ Maklumat Pemohon
                     $('#bahasaForm input[name="bahasa_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-language tbody').empty();
                     reloadBahasa();
-                    
+
 
                     $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-talent tbody').empty();
@@ -996,7 +996,7 @@ Maklumat Pemohon
     function reset() {
         // $('#table-carian').DataTable().destroy();
         // $("#table-carian > tbody").html("");
-        $('#append-data').empty(); 
+        $('#append-data').empty();
 
         $('#candidate_name').html('');
         $('#candidate_ic').html('');

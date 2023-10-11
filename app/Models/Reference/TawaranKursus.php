@@ -11,11 +11,14 @@ class TawaranKursus extends Model
 
     protected $fillable = [
         'kod',
-        'nama',
-        'jenis',
         'diskripsi',
-        'created_by',
-        'updated_by',
+        'jenis',
+        'diskripsi_penuh',
+        'id_pencipta',
+        'pengguna',
         'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

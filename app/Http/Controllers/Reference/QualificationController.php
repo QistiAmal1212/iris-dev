@@ -42,7 +42,7 @@ class QualificationController extends Controller
             }
         }
 
-        $qualification = Qualification::orderBy('code', 'asc')->get();
+        $qualification = Qualification::orderBy('diskripsi', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -58,10 +58,10 @@ class QualificationController extends Controller
 
             return Datatables::of($qualification)
                 ->editColumn('code', function ($qualification){
-                    return $qualification->code;
+                    return $qualification->kod;
                 })
                 ->editColumn('name', function ($qualification) {
-                    return $qualification->name;
+                    return $qualification->diskripsi;
                 })
                 ->editColumn('action', function ($qualification) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class QualificationController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="qualificationForm('.$qualification->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($qualification->is_active) {
+                        if($qualification->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$qualification->id.'" onclick="toggleActive('.$qualification->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$qualification->id.'" onclick="toggleActive('.$qualification->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -93,7 +93,7 @@ class QualificationController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelulusan,code',
+                'code' => 'required|string|unique:ruj_kelulusan,kod',
                 'name' => 'required|string',
                 'type' => 'required|string',
             ],[
@@ -104,11 +104,12 @@ class QualificationController extends Controller
             ]);
 
             $qualification = Qualification::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'type' => strtoupper($request->type),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'jenis' => strtoupper($request->type),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -180,7 +181,7 @@ class QualificationController extends Controller
             $log->data_old = json_encode($qualification);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelulusan,code,'.$qualificationId,
+                'code' => 'required|string|unique:ruj_kelulusan,kod,'.$qualificationId,
                 'name' => 'required|string',
                 'type' => 'required|string',
             ],[
@@ -191,10 +192,10 @@ class QualificationController extends Controller
             ]);
 
             $qualification->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'type' => strtoupper($request->type),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'jenis' => strtoupper($request->type),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $qualificationNewData = Qualification::find($qualificationId);
@@ -223,10 +224,13 @@ class QualificationController extends Controller
             $qualificationId = $request->qualificationId;
             $qualification = Qualification::find($qualificationId);
 
-            $is_active = $qualification->is_active;
+            $sah_yt = $qualification->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $qualification->update([
-                'is_active' => !$is_active,
+                'sah_yt' => !$sah_yt,
             ]);
 
             DB::commit();

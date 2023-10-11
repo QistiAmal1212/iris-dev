@@ -61,7 +61,7 @@ class UserController extends Controller
         }
 
         $departmentMinistry = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $skim = Skim::all();
+        $skim = Skim::where('sah_yt', 'Y')->get();
 
         if(request()->route()->getname() == 'admin.internalUser' || request()->route()->getname() == 'admin.externalUser'){
             if ($request->ajax()) {
@@ -111,7 +111,7 @@ class UserController extends Controller
                 }
                 if($request->skim){
                     $users->whereHas('skim', function ($query) use ($request) {
-                        $query->where('code', $request->skim);
+                        $query->where('kod', $request->skim);
                     });
                 }
 
@@ -235,7 +235,7 @@ class UserController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'phone_number' => 'required',
                 'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
-                'skim_code' => 'required|exists:ruj_skim,code',
+                'skim_code' => 'required|exists:ruj_skim,kod',
                 'password' => [
                     'required',
                     'string',
@@ -350,7 +350,7 @@ class UserController extends Controller
                 'email' => 'required|email|unique:users,email,'.$id_used,
                 'phone_number' => 'required',
                 'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
-                'skim_code' => 'required|exists:ref_skim,code',
+                'skim_code' => 'required|exists:ref_skim,kod',
                 'roles' => 'required',
             ],[
                 'ic_number.required' => 'Sila isikan no kad pengenalan',

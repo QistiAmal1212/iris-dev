@@ -61,7 +61,7 @@ class PenajaController extends Controller
                     return $penaja->kod;
                 })
                 ->editColumn('nama', function ($penaja) {
-                    return $penaja->nama;
+                    return $penaja->diskripsi;
                 })
                 ->editColumn('jenis', function ($penaja) {
                     return $penaja->jenis;
@@ -73,7 +73,7 @@ class PenajaController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="penajaForm('.$penaja->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($penaja->sah_yt) {
+                        if($penaja->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$penaja->id.'" onclick="toggleActive('.$penaja->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$penaja->id.'" onclick="toggleActive('.$penaja->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -108,10 +108,11 @@ class PenajaController extends Controller
 
             $penaja = Penaja::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'jenis' => strtoupper($request->jenis),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -195,9 +196,9 @@ class PenajaController extends Controller
 
             $penaja->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'jenis' => strtoupper($request->jenis),
-                'updated_by' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $penajaNewData = penaja::find($penajaId);
@@ -228,8 +229,11 @@ class PenajaController extends Controller
 
             $sah_yt = $penaja->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $penaja->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

@@ -60,7 +60,7 @@ class CalonPengalaman extends Model
     }
 
     public function skim() {
-        return $this->belongsTo('App\Models\Reference\Skim', 'kod_ruj_skim', 'code');
+        return $this->belongsTo('App\Models\Reference\Skim', 'kod_ruj_skim', 'kod');
     }
 
     public function state() {

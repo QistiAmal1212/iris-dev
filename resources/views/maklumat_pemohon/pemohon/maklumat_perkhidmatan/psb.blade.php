@@ -57,7 +57,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="experience_skim" id="experience_skim" disabled>
             <option value=""></option>
             @foreach($skims as $skim)
-            <option value="{{ $skim->code }}">{{ $skim->name }}</option>
+            <option value="{{ $skim->kod }}">{{ $skim->diskripsi }}</option>
             @endforeach
         </select>
     </div>

@@ -234,7 +234,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{specializationId}', [SpecializationController::class, 'toggleActive'])->name('admin.reference.specialization.toggleActive');
         });
 
-        Route::prefix('qualification')->group(function () {
+        Route::prefix('kelulusan')->group(function () {
             Route::get('/', [QualificationController::class, 'index'])->name('admin.reference.qualification');
             Route::post('create', [QualificationController::class, 'store'])->name('admin.reference.qualification.store');
             Route::get('edit/{qualificationId}', [QualificationController::class, 'edit'])->name('admin.reference.qualification.edit');

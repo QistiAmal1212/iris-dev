@@ -42,7 +42,7 @@ class EligibilityController extends Controller
             }
         }
 
-        $skim = Skim::all();
+        $skim = Skim::where('sah_yt', 'Y')->get();
 
         $eligibility = Eligibility::orderBy('code', 'asc')->get();
         if ($request->ajax()) {

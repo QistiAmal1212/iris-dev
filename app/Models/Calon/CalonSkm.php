@@ -17,6 +17,6 @@ class CalonSkm extends Model
     ];
 
     public function qualification() {
-        return $this->belongsTo('App\Models\Reference\Qualification', 'kod_ruj_kelulusan', 'code');
+        return $this->belongsTo('App\Models\Reference\Qualification', 'kod_ruj_kelulusan', 'kod');
     }
 }
