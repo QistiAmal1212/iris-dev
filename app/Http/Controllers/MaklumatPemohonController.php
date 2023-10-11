@@ -69,7 +69,7 @@ class MaklumatPemohonController extends Controller
         $institutions = Institution::orderBy('type', 'asc')->orderBy('name', 'asc')->get();
         $jenisBekasTenteraPolis = JenisBekasTenteraPolis::all();
         $jenisPerkhidmatan = JenisPerkhidmatan::all();
-        $maritalStatuses = MaritalStatus::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $maritalStatuses = MaritalStatus::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $penalties = Penalty::all();
         $peringkatPengajian = PeringkatPengajian::all();
         $positionLevels = PositionLevel::orderBy('name', 'asc')->get();

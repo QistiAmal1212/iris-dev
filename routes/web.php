@@ -193,7 +193,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{religionId}', [ReligionController::class, 'toggleActive'])->name('admin.reference.religion.toggleActive');
         });
 
-        Route::prefix('marital_status')->group(function () {
+        Route::prefix('taraf_perkahwinan')->group(function () {
             Route::get('/', [MaritalStatusController::class, 'index'])->name('admin.reference.marital-status');
             Route::post('create', [MaritalStatusController::class, 'store'])->name('admin.reference.marital-status.store');
             Route::get('edit/{maritalStatusId}', [MaritalStatusController::class, 'edit'])->name('admin.reference.marital-status.edit');

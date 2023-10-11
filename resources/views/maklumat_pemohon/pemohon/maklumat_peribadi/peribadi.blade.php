@@ -71,7 +71,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="marital_status" id="marital_status" disabled>
                 <option value=""></option>
                 @foreach($maritalStatuses as $maritalStatus)
-                <option value="{{ $maritalStatus->kod }}">{{ $maritalStatus->nama }}</option>
+                <option value="{{ $maritalStatus->kod }}">{{ $maritalStatus->diskripsi }}</option>
                 @endforeach
             </select>
             <div id="marital_statusAlert" style="color: red; font-size: smaller;"></div>

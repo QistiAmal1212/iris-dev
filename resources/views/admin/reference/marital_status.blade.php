@@ -174,7 +174,7 @@
 
                     $('#maritalStatusForm').attr('action',url2 );
                     $('#maritalStatusForm input[name="code"]').val(data.detail.kod);
-                    $('#maritalStatusForm input[name="name"]').val(data.detail.nama);
+                    $('#maritalStatusForm input[name="name"]').val(data.detail.diskripsi);
                     $('#maritalStatusForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Taraf Perkahwinan');
