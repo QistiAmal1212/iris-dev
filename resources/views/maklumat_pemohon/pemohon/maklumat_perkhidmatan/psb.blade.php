@@ -83,7 +83,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="experience_department_ministry" id="experience_department_ministry" disabled>
             <option value=""></option>
             @foreach($departmentMinistries as $departmentMinistry)
-            <option value="{{ $departmentMinistry->kod }}">{{ $departmentMinistry->nama }}</option>
+            <option value="{{ $departmentMinistry->kod }}">{{ $departmentMinistry->diskripsi }}</option>
             @endforeach
         </select>
     </div>

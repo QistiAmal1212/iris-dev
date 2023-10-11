@@ -26,7 +26,7 @@
         <select class="select2 form-control" id="department_ministry" name="department_ministry" >
             <option value=""></option>
             @foreach($departmentMinistry as $department)
-            <option value="{{ $department->kod }}">{{ $department->nama }}</option>
+            <option value="{{ $department->kod }}">{{ $department->diskripsi }}</option>
             @endforeach
         </select>
     </div>

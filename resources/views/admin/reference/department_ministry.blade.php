@@ -183,7 +183,7 @@
 
                     $('#departmentMinistryForm').attr('action',url2 );
                     $('#departmentMinistryForm input[name="code"]').val(data.detail.kod);
-                    $('#departmentMinistryForm input[name="name"]').val(data.detail.nama);
+                    $('#departmentMinistryForm input[name="name"]').val(data.detail.diskripsi);
                     $('#departmentMinistryForm input[name="kem_kod"]').val(data.detail.kem_kod);
                     $('#departmentMinistryForm input[name="gelaran_ketua"]').val(data.detail.gelaran_ketua);
                     $('#departmentMinistryForm input[name="alamat_1"]').val(data.detail.alamat_1);

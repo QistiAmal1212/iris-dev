@@ -60,7 +60,7 @@ class UserController extends Controller
             }
         }
 
-        $departmentMinistry = DepartmentMinistry::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $departmentMinistry = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skim = Skim::all();
 
         if(request()->route()->getname() == 'admin.internalUser' || request()->route()->getname() == 'admin.externalUser'){
@@ -312,7 +312,7 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $permissions = Permission::all();
-        $departments = DepartmentMinistry::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $departments = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skims = Skim::all();
 
         $internalRoleArr = Role::where('is_internal', 1)->pluck('name')->toArray();

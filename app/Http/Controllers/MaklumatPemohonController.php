@@ -57,7 +57,7 @@ class MaklumatPemohonController extends Controller
 
     public function searchPemohon ()
     {
-        $departmentMinistries = DepartmentMinistry::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $departmentMinistries = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $eligibilities = Eligibility::all();
         $genders = Gender::all();
         $gredPmr = GredMatapelajaran::where('tkt', 3)->orderBy('susunan', 'asc')->get();
@@ -113,15 +113,15 @@ class MaklumatPemohonController extends Controller
             $total_pages = $request->total_pages;
         }
 
-        
-        $offset = $request->input('page', 1)*10 - 10; 
+
+        $offset = $request->input('page', 1)*10 - 10;
         $currentPage = $request->input('page', 1);
         $previousPage = $currentPage-1;
         $nextPage = $currentPage+1;
         $sql = "SELECT no_kp_baru, nama_penuh FROM calon WHERE nama_penuh ilike ? OFFSET ? LIMIT ?";
 
         $candidate = DB::select($sql, ['%' . $nama . '%', $offset, 10]);
-        
+
         return view('maklumat_pemohon.list', compact('total_pages', 'candidate', 'previousPage', 'nextPage', 'currentPage'));
     }
 

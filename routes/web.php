@@ -202,7 +202,7 @@ Route::prefix('admin')->group(function () {
 
         });
 
-        Route::prefix('department_ministry')->group(function () {
+        Route::prefix('kementerian')->group(function () {
             Route::get('/', [DepartmentMinistryController::class, 'index'])->name('admin.reference.department-ministry');
             Route::post('create', [DepartmentMinistryController::class, 'store'])->name('admin.reference.department-ministry.store');
             Route::get('edit/{departmentMinistryId}', [DepartmentMinistryController::class, 'edit'])->name('admin.reference.department-ministry.edit');
