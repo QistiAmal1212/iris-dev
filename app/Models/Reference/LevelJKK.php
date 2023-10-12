@@ -9,10 +9,13 @@ class LevelJKK extends Model
     protected $table = 'ruj_tingkatan_jkk';
 
     protected $fillable = [
-        'code',
-        'name',
-        'created_by',
-        'updated_by',
-        'is_active',
+        'kod',
+        'diskripsi',
+        'id_pencipta',
+        'pengguna',
+        'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

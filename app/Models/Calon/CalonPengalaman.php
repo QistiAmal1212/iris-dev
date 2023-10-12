@@ -48,7 +48,7 @@ class CalonPengalaman extends Model
     }
 
     public function levelJkk() {
-        return $this->belongsTo('App\Models\Reference\LevelJKK', 'kod_ruj_tingkatan_jkk', 'code');
+        return $this->belongsTo('App\Models\Reference\LevelJKK', 'kod_ruj_tingkatan_jkk', 'kod');
     }
 
     public function departmentMinistry() {

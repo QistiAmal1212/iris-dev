@@ -33,7 +33,7 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
         <select class="select2 form-control" name="pangkat_tentera_polis" id="pangkat_tentera_polis" disabled>
             <option value=""></option>
             @foreach($ranks as $rank)
-            <option value="{{ $rank->code }}">{{ $rank->name }}</option>
+            <option value="{{ $rank->kod }}">{{ $rank->diskripsi }}</option>
             @endforeach
         </select>
     </div>

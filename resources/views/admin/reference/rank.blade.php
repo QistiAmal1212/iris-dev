@@ -171,8 +171,8 @@
                         url2 = url2.replace(':replaceThis', rank_id);
 
                         $('#rankForm').attr('action', url2);
-                        $('#rankForm input[name="code"]').val(data.detail.code);
-                        $('#rankForm input[name="name"]').val(data.detail.name);
+                        $('#rankForm input[name="code"]').val(data.detail.kod);
+                        $('#rankForm input[name="name"]').val(data.detail.diskripsi);
                         $('#rankForm input[name="code"]').prop('readonly', true);
 
 

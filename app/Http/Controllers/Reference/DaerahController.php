@@ -76,7 +76,7 @@ class DaerahController extends Controller
                     return $daerah->kod;
                 })
                 ->editColumn('nama', function ($daerah) {
-                    return $daerah->nama;
+                    return $daerah->diskripsi;
                 })
                 ->editColumn('kod_bah', function ($daerah) {
                     return $daerah->bah_kod;

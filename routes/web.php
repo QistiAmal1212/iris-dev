@@ -306,7 +306,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{positionLevelId}', [PositionLevelController::class, 'toggleActive'])->name('admin.reference.position-level.toggleActive');
         });
 
-        Route::prefix('rank')->group(function () {
+        Route::prefix('pangkat')->group(function () {
             Route::get('/', [RankController::class, 'index'])->name('admin.reference.rank');
             Route::post('create', [RankController::class, 'store'])->name('admin.reference.rank.store');
             Route::get('edit/{rankId}', [RankController::class, 'edit'])->name('admin.reference.rank.edit');
@@ -338,7 +338,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{salaryGradeId}', [SalaryGradeController::class, 'toggleActive'])->name('admin.reference.salary-grade.toggleActive');
         });
 
-        Route::prefix('level_JKK')->group(function () {
+        Route::prefix('tingkatan_JKK')->group(function () {
             Route::get('/', [LevelJKKController::class, 'index'])->name('admin.reference.level-JKK');
             Route::post('create', [LevelJKKController::class, 'store'])->name('admin.reference.level-JKK.store');
             Route::get('edit/{levelJKKId}', [LevelJKKController::class, 'edit'])->name('admin.reference.level-JKK.edit');

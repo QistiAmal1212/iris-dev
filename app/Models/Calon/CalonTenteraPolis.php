@@ -20,12 +20,12 @@ class CalonTenteraPolis extends Model
         'pencen',
         'ganjaran',
         'jenis_bekas_tentera',
-        'jenis_pkhidmat', 
+        'jenis_pkhidmat',
         'created_by',
         'updated_by',
     ];
 
     public function rank() {
-        return $this->belongsTo('App\Models\Reference\Rank', 'pangkat_tentera_polis', 'code');
+        return $this->belongsTo('App\Models\Reference\Rank', 'pangkat_tentera_polis', 'kod');
     }
 }

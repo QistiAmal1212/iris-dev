@@ -77,7 +77,7 @@ class MaklumatPemohonController extends Controller
         $positionLevels = PositionLevel::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $races = Race::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $pusatTemuduga = InterviewCentre::where('sah_yt', 'Y')->get();
-        $ranks = Rank::all();
+        $ranks = Rank::where('sah_yt', 'Y')->get();
         $religions = Religion::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $states = State::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skims = Skim::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();

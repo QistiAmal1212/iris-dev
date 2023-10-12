@@ -61,7 +61,7 @@ class KetuaPerkhidmatanController extends Controller
                     return $ketuaperkhidmatan->kod;
                 })
                 ->editColumn('nama', function ($ketuaperkhidmatan) {
-                    return $ketuaperkhidmatan->nama;
+                    return $ketuaperkhidmatan->diskripsi;
                 })
                 ->editColumn('action', function ($ketuaperkhidmatan) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class KetuaPerkhidmatanController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="ketuaperkhidmatanForm('.$ketuaperkhidmatan->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($ketuaperkhidmatan->sah_yt) {
+                        if($ketuaperkhidmatan->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$ketuaperkhidmatan->id.'" onclick="toggleActive('.$ketuaperkhidmatan->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$ketuaperkhidmatan->id.'" onclick="toggleActive('.$ketuaperkhidmatan->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -103,9 +103,10 @@ class KetuaPerkhidmatanController extends Controller
 
             $ketuaperkhidmatan = KetuaPerkhidmatan::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -187,8 +188,8 @@ class KetuaPerkhidmatanController extends Controller
 
             $ketuaperkhidmatan->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $ketuaperkhidmatanNewData = ketuaperkhidmatan::find($ketuaperkhidmatanId);
@@ -219,8 +220,11 @@ class KetuaPerkhidmatanController extends Controller
 
             $sah_yt = $ketuaperkhidmatan->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $ketuaperkhidmatan->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

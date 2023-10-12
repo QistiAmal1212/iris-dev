@@ -51,14 +51,14 @@ class InterviewCentreController extends Controller
             $interviewCentre = InterviewCentre::orderBy('kod', 'asc');
 
             if ($request->module_id && $request->module_id != "Lihat Semua") {
-                $interviewCentre->where('kod_ruj_negeri', $request->module_id);
+                $interviewCentre->where('neg_kod', $request->module_id);
             }
 
             return Datatables::of($interviewCentre->get())
                 ->editColumn('code', function ($interviewCentre){
                     return $interviewCentre->kod;
                 })
-                ->editColumn('name', function ($interviewCentre) {
+                ->editColumn('nama', function ($interviewCentre) {
                     return $interviewCentre->diskripsi;
                 })
                 ->editColumn('neg', function ($interviewCentre) {

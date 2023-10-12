@@ -74,7 +74,7 @@ class SpecializationController extends Controller
                     return $specialization->kod;
                 })
                 ->editColumn('name', function ($specialization) {
-                    return $specialization->nama;
+                    return $specialization->diskripsi;
                 })
                 ->editColumn('type', function ($specialization) {
                     return $specialization->jenis;
