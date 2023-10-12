@@ -2007,11 +2007,11 @@ class MaklumatPemohonController extends Controller
             ]);
 
             CalonPsl::create([
-                'no_pengenalan' => $request->psl_no_pengenalan,
-                'kod_ruj_kelulusan' => $request->jenis_peperiksaan,
+                'cal_no_pengenalan' => $request->psl_no_pengenalan,
+                'kel1_kod' => $request->jenis_peperiksaan,
                 'tarikh_exam' => Carbon::createFromFormat('d/m/Y', $request->tarikh_peperiksaan)->format('Y-m-d'),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             CalonGarisMasa::create([
@@ -2036,7 +2036,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidatePsl = CalonPsl::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+            $candidatePsl = CalonPsl::where('cal_no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
 
             foreach($candidatePsl as $psl){
                 $psl->tarikh_exam = ($psl->tarikh_exam != null) ? Carbon::parse($psl->tarikh_exam)->format('d/m/Y') : null;
@@ -2074,7 +2074,8 @@ class MaklumatPemohonController extends Controller
 
             CalonPsl::where('id',$request->id_psl)->update([
                 'kod_ruj_kelulusan' => $request->jenis_peperiksaan,
-                'tarikh_exam' => Carbon::createFromFormat('d/m/Y', $request->tarikh_peperiksaan)->format('Y-m-d'),
+                'kel1_kod' => Carbon::createFromFormat('d/m/Y', $request->tarikh_peperiksaan)->format('Y-m-d'),
+                'pengguna' => auth()->user()->id,
             ]);
 
             CalonGarisMasa::create([
@@ -2111,15 +2112,15 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = CalonPengalaman::where('no_pengenalan', $request->experience_no_pengenalan)->first();
+            $candidate = CalonPengalaman::where('cal_no_pengenalan', $request->experience_no_pengenalan)->first();
 
             $request->validate([
                 'experience_job_sector' => 'required|string',
                 'experience_appoint_date' => 'required',
-                'experience_position_level' => 'required|string|exists:ruj_taraf_jawatan,code',
-                'experience_skim' => 'required|string|exists:ruj_skim,code',
+                'experience_position_level' => 'required|string|exists:ruj_taraf_jawatan,kod',
+                'experience_skim' => 'required|string|exists:ruj_skim,kod',
                 'experience_service_group' => 'required|string|exists:ruj_kumpulan_ssm,kod',
-                'experience_position_grade' => 'required|string|exists:ruj_gred_gaji_hdr,code',
+                'experience_position_grade' => 'required|string|exists:ruj_gred_gaji_hdr,kod',
                 'experience_start_date' => 'required',
                 'experience_verify_date' => 'required',
                 'experience_department_ministry' => 'required|string|exists:ruj_kem_jabatan,kod',
@@ -2151,31 +2152,34 @@ class MaklumatPemohonController extends Controller
 
             if(!$candidate){
                 CalonPengalaman::create([
-                    'no_pengenalan' => $request->experience_no_pengenalan,
+                    'cal_no_pengenalan' => $request->experience_no_pengenalan,
                     'sektor_pekerjaan', $request->experience_job_sector,
-                    'tarikh_lantik' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
+                    'tarikh_lantik1' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
                     'taraf_jawatan' => $request->experience_position_level,
-                    'kod_ruj_skim' => $request->experience_skim,
+                    'ski_kod' => $request->experience_skim,
                     'kump_pkhidmat' => $request->experience_service_group,
-                    'kod_ruj_gred_gaji' => $request->experience_position_grade,
+                    'ggh_kod' => $request->experience_position_grade,
                     'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
                     'tarikh_disahkan' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
-                    'ruj_kem_jabatan' => $request->experience_department_ministry,
+                    'kj_kod' => $request->experience_department_ministry,
                     'negeri_jabatan' => $request->experience_department_state,
+                    'id_pencipta' => auth()->user()->id,
+                    'pengguna' => auth()->user()->id,
 
                 ]);
             } else {
                 $candidate->update([
                     'sektor_pekerjaan' => $request->experience_job_sector,
-                    'tarikh_lantik' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
+                    'tarikh_lantik1' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
                     'taraf_jawatan' => $request->experience_position_level,
-                    'kod_ruj_skim' => $request->experience_skim,
+                    'ski_kod' => $request->experience_skim,
                     'kump_pkhidmat' => $request->experience_service_group,
-                    'kod_ruj_gred_gaji' => $request->experience_position_grade,
+                    'ggh_kod' => $request->experience_position_grade,
                     'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
                     'tarikh_disahkan' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
-                    'ruj_kem_jabatan' => $request->experience_department_ministry,
+                    'kj_kod' => $request->experience_department_ministry,
                     'negeri_jabatan' => $request->experience_department_state,
+                    'pengguna' => auth()->user()->id,
 
                 ]);
             }
@@ -2203,7 +2207,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateExperience = CalonPengalaman::where('no_pengenalan', $request->noPengenalan)->first();
+            $candidateExperience = CalonPengalaman::where('cal_no_pengenalan', $request->noPengenalan)->first();
 
             $candidateExperience->tarikh_lantik = ($candidateExperience->tarikh_lantik != null) ? Carbon::parse($candidateExperience->tarikh_lantik)->format('d/m/Y') : null;
             $candidateExperience->tarikh_mula = ($candidateExperience->tarikh_mula != null) ? Carbon::parse($candidateExperience->tarikh_mula)->format('d/m/Y') : null;
@@ -2328,8 +2332,8 @@ class MaklumatPemohonController extends Controller
                 'jenis' => $request->penalty_type,
                 'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->penalty_start)->format('Y-m-d'),
                 'tarikh_tamat' => Carbon::createFromFormat('d/m/Y', $request->penalty_end)->format('Y-m-d'),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             CalonGarisMasa::create([
@@ -2405,6 +2409,7 @@ class MaklumatPemohonController extends Controller
                 'jenis' => $request->penalty_type,
                 'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->penalty_start)->format('Y-m-d'),
                 'tarikh_tamat' => Carbon::createFromFormat('d/m/Y', $request->penalty_end)->format('Y-m-d'),
+                'pengguna' => auth()->user()->id,
             ]);
 
             CalonGarisMasa::create([

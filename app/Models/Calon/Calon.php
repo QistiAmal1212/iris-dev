@@ -83,15 +83,15 @@ class Calon extends Model
     }
 
     public function professional() {
-        return $this->hasMany('App\Models\Calon\CalonProfesional', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonProfesional', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function experience() {
-        return $this->hasOne('App\Models\Calon\CalonPengalaman', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonPengalaman', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function psl() {
-        return $this->hasMany('App\Models\Calon\CalonPsl', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonPsl', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function armyPolice() {

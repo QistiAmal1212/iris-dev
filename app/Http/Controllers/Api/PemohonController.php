@@ -449,8 +449,8 @@ class PemohonController extends ApiController
             if($request->profesional != null){
                 foreach($request->profesional as $profesional){
 
-                    $calonProfesional = CalonProfesional::where('no_pengenalan', $noPengenalan)
-                    ->where('kod_ruj_kelulusan', $profesional['kelulusan'])->first();
+                    $calonProfesional = CalonProfesional::where('cal_no_pengenalan', $noPengenalan)
+                    ->where('kel1_kod', $profesional['kelulusan'])->first();
 
                     if($calonProfesional){
                         $calonProfesional->update([
@@ -459,8 +459,8 @@ class PemohonController extends ApiController
                         ]);
                     } else {
                         $dataProfesional = [
-                            'no_pengenalan' => $noPengenalan,
-                            'kod_ruj_kelulusan' => $profesional['kelulusan'],
+                            'cal_no_pengenalan' => $noPengenalan,
+                            'kel1_kod' => $profesional['kelulusan'],
                             'no_ahli' => $profesional['no_ahli'],
                             'tarikh' => $profesional['tarikh']
                         ];
@@ -470,35 +470,35 @@ class PemohonController extends ApiController
             }
 
             if($request->pengalaman_skim != null){
-                $calonPengalaman = CalonPengalaman::where('no_pengenalan', $noPengenalan)->first();
+                $calonPengalaman = CalonPengalaman::where('cal_no_pengenalan', $noPengenalan)->first();
 
                 if($calonPengalaman){
                     $calonPengalaman->update([
                         'sektor_pekerjaan' => $request->pengalaman_jenis_perkhidmatan,
                         'taraf_jawatan' => $request->pengalaman_jenis_lantikan,
-                        'tarikh_lantik' => $request->pengalaman_tarikh_lantikan_pertama,
+                        'tarikh_lantik1' => $request->pengalaman_tarikh_lantikan_pertama,
                         'tarikh_mula' => $request->pengalaman_tarikh_lantikan,
                         'tarikh_disahkan' => $request->pengalaman_tarikh_sah,
-                        'kod_ruj_skim' => $request->pengalaman_skim,
-                        'kod_ruj_gred_gaji' => $request->pengalaman_gred_gaji,
-                        'kod_ruj_kementerian' => $request->pengalaman_kementerian,
-                        'kod_ruj_negeri' => $request->pengalaman_negeri_bertugas,
+                        'ski_kod' => $request->pengalaman_skim,
+                        'ggh_kod' => $request->pengalaman_gred_gaji,
+                        'kj_kod' => $request->pengalaman_kementerian,
+                        'neg_kod' => $request->pengalaman_negeri_bertugas,
                         'daerah_bertugas' => $request->pengalaman_daerah_bertugas,
                         'tarikh_tamat_kontrak' => $request->pengalaman_tarikh_tamat_kontrak,
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
                     ]);
                 } else {
                     $pengalaman = CalonPengalaman::create([
-                        'no_pengenalan' => $noPengenalan,
+                        'cal_no_pengenalan' => $noPengenalan,
                         'sektor_pekerjaan' => $request->pengalaman_jenis_perkhidmatan,
                         'taraf_jawatan' => $request->pengalaman_jenis_lantikan,
-                        'tarikh_lantik' => $request->pengalaman_tarikh_lantikan_pertama,
+                        'tarikh_lantik1' => $request->pengalaman_tarikh_lantikan_pertama,
                         'tarikh_mula' => $request->pengalaman_tarikh_lantikan,
                         'tarikh_disahkan' => $request->pengalaman_tarikh_sah,
-                        'kod_ruj_skim' => $request->pengalaman_skim,
-                        'kod_ruj_gred_gaji' => $request->pengalaman_gred_gaji,
-                        'kod_ruj_kementerian' => $request->pengalaman_kementerian,
-                        'kod_ruj_negeri' => $request->pengalaman_negeri_bertugas,
+                        'ski_kod' => $request->pengalaman_skim,
+                        'ggh_kod' => $request->pengalaman_gred_gaji,
+                        'kj_kod' => $request->pengalaman_kementerian,
+                        'neg_kod' => $request->pengalaman_negeri_bertugas,
                         'daerah_bertugas' => $request->pengalaman_daerah_bertugas,
                         'tarikh_tamat_kontrak' => $request->pengalaman_tarikh_tamat_kontrak,
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
@@ -509,8 +509,8 @@ class PemohonController extends ApiController
             if($request->psl != null){
                 foreach($request->psl as $psl){
 
-                    $calonPsl = CalonPsl::where('no_pengenalan', $noPengenalan)
-                    ->where('kod_ruj_kelulusan', $psl['kelulusan'])->first();
+                    $calonPsl = CalonPsl::where('cal_no_pengenalan', $noPengenalan)
+                    ->where('kel1_kod', $psl['kelulusan'])->first();
 
                     if($calonPsl){
                         $calonPsl->update([
@@ -518,8 +518,8 @@ class PemohonController extends ApiController
                         ]);
                     } else {
                         $dataPsl = [
-                            'no_pengenalan' => $noPengenalan,
-                            'kod_ruj_kelulusan' => $psl['kelulusan'],
+                            'cal_no_pengenalan' => $noPengenalan,
+                            'kel1_kod' => $psl['kelulusan'],
                             'tarikh_exam' => $psl['tarikh_exam'],
                         ];
                         CalonPsl::create($dataPsl);

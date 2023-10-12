@@ -9,31 +9,37 @@ class CalonPengalaman extends Model
     protected $table = 'calon_pengalaman';
 
     protected $fillable = [
-    	'no_pengenalan',
-        'kod_ruj_pekerjaan',
+    	'cal_no_pengenalan',
+        'pek_kod',
         'pen1_indicator',
         'sektor_pekerjaan',
         'taraf_jawatan',
-        'kod_ruj_gred_gaji',
-        'kod_ruj_tingkatan_jkk',
+        'ggh_kod',
+        'tj_kod',
         'kump_pkhidmat',
-        'tarikh_lantik',
+        'tarikh_lantik1',
         'tarikh_mula',
         'tarikh_disahkan',
         'tarikh_tamat',
-        'ruj_kem_jabatan',
+        'kj_kod',
         'harta',
         'negeri_jabatan',
         'tangga_gaji',
         'gaji_bulanan',
         'pergerakan_gaji',
-        'kod_ruj_skim',
-        'kod_ruj_negeri',
+        'ski_kod',
+        'neg_kod',
         'tarikh_tamat_kontrak',
         'daerah_bertugas',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
     ];
+
+    protected $primaryKey='cal_no_pengenalan';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function job() {
         return $this->belongsTo('App\Models\Reference\Job', 'kod_ruj_pekerjaan', 'code');
