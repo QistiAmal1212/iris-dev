@@ -49,7 +49,7 @@ class KodPelbagaiController extends Controller
                     return $kodpelbagai->kod;
                 })
                 ->editColumn('nama', function ($kodpelbagai) {
-                    return $kodpelbagai->nama;
+                    return $kodpelbagai->diskripsi;
                 })
                 ->editColumn('kategori', function ($kodpelbagai) {
                     return $kodpelbagai->kategori;
@@ -97,10 +97,10 @@ class KodPelbagaiController extends Controller
             $kodpelbagai = KodPelbagai::create([
                 'kod' => $request->kod,
                 'kategori' => strtoupper($request->kategori),
-                'nama' => strtoupper($request->nama),
+                'diskripsi' => strtoupper($request->nama),
                 'sah_yt' => "Y",
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
@@ -183,8 +183,8 @@ class KodPelbagaiController extends Controller
             $kodpelbagai->update([
                 'kod' => $request->kod,
                 'kategori' => strtoupper($request->kategori),
-                'nama' => strtoupper($request->nama),
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->nama),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $kodpelbagaiNewData = KodPelbagai::find($kodpelbagaiId);

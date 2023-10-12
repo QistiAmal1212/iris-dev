@@ -11,11 +11,14 @@ class Ruling extends Model
 
     protected $fillable = [
         'kod',
-        'nama',
+        'diskripsi',
         'pernyataan',
         'status',
         'created_by',
         'updated_by',
         'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

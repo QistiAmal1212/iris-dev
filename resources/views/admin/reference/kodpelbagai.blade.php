@@ -182,7 +182,7 @@
 
                         $('#kodpelbagaiForm').attr('action', url2);
                         $('#kodpelbagaiForm input[name="kod"]').val(data.detail.kod);
-                        $('#kodpelbagaiForm input[name="nama"]').val(data.detail.nama);
+                        $('#kodpelbagaiForm input[name="nama"]').val(data.detail.diskripsi);
                         $('#kodpelbagaiForm input[name="kategori"]').val(data.detail.kategori);
                         $('#kodpelbagaiForm input[name="kod"]').prop('readonly', true);
 

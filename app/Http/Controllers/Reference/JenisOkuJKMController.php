@@ -43,7 +43,7 @@ class JenisOkuJKMController extends Controller
             }
         }
 
-        $KategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('nama', 'asc')->get();
+        $KategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
 
         if ($request->ajax()) {

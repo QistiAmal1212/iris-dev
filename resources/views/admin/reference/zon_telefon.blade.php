@@ -172,7 +172,7 @@
 
                         $('#zontelefonForm').attr('action', url2);
                         $('#zontelefonForm input[name="code"]').val(data.detail.kod);
-                        $('#zontelefonForm input[name="name"]').val(data.detail.nama);
+                        $('#zontelefonForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#zontelefonForm input[name="code"]').prop('readonly', true);
 
