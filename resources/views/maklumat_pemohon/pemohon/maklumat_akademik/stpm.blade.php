@@ -211,7 +211,7 @@
             <input type="text" class="form-control" value="" id="semester_matrikulasi" name="semester_matrikulasi" disabled>
         </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">Mata Pelajaran</label>
             <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
                 <option value=""></option>
@@ -221,12 +221,12 @@
             </select>
         </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+        <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
             <label class="form-label">Gred</label>
             <input type="text" class="form-control" value="" id="gred_matrikulasi" name="gred_matrikulasi" disabled>
         </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+        <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
             <label class="form-label">PNGK</label>
             <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
         </div>
@@ -250,14 +250,11 @@
             <thead>
                 <tr>
                     <th>Bil.</th>
-                    <th>Kolej</th>
-                    <th>Jurusan</th>
-                    <th>No Matrik</th>
                     <th>Sesi</th>
                     <th>Semester</th>
+                    <th>Kod Mata Pelajaran</th> {{-- NEW COLUMN --}}
                     <th>Mata Pelajaran</th>
                     <th>Gred</th>
-                    <th>PNGK</th>
                     <th>Kemaskini</th>
                 </tr>
             </thead>
@@ -502,15 +499,11 @@
                 $.each(data.detail, function(i, item) {
                         bilMatrikulasi += 1;
                         trMatrikulasi += '<tr>';
-                        trMatrikulasi += '<td align="center">' + bilMatrikulasi + '</td>';
-                        trMatrikulasi += '<td>' + item.college.name + '</td>';
-                        trMatrikulasi += '<td align="center">' + item.course.name + '</td>';
-                        trMatrikulasi += '<td align="center">' + item.no_matrik + '</td>';
                         trMatrikulasi += '<td>' + item.sesi + '</td>';
                         trMatrikulasi += '<td align="center">' + item.semester + '</td>';
+                        trMatrikulasi += '<td align="center">' + item.semester + '</td>'; //NEW COLUMN - SUBJECT CODE
                         trMatrikulasi += '<td align="center">' + item.subject.name + '</td>';
                         trMatrikulasi += '<td align="center">' + item.gred + '</td>';
-                        trMatrikulasi += '<td align="center">' + item.pngk + '</td>';
                         trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary editMatrikulasi-btn" data-id="' + item.id + ' " data-form="matrikulasi"></i>';
                         trMatrikulasi += '&nbsp;&nbsp;';
                         trMatrikulasi += '<i class="fas fa-trash text-danger deleteMatrikulasi-btn" data-id="' + item.id + '"></i></td>';
