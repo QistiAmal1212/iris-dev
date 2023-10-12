@@ -1,4 +1,473 @@
-<div class="card" id="update_pengajian_tinggi" style="display:none">
+<div class="bs-stepper vertical vertical-wizard">
+    <div class="bs-stepper-header">
+        <div class="step" data-target="#academic-diploma-info" role="tab" id="academic-diploma-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    1
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Diploma
+                    </span>
+                </span>
+            </button>
+        </div>
+
+        <hr>
+
+        <div class="step" data-target="#academic-degree-info" role="tab" id="academic-degree-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    2
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Ijazah Sarjana Muda
+                    </span>
+                </span>
+            </button>
+        </div>
+
+        <hr>
+
+        <div class="step" data-target="#academic-master-info" role="tab" id="academic-master-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    3
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Ijazah Sarjana
+                    </span>
+                </span>
+            </button>
+        </div>
+
+        <hr>
+
+        <div class="step" data-target="#academic-phd-info" role="tab" id="academic-phd-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    4
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Ijazah Doktor Falsafah
+                    </span>
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <div class="bs-stepper-content">
+        {{-- Diploma --}}
+        <div id="academic-diploma-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-diploma-info-trigger">
+            <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
+                <a class="me-3 text-danger" type="button" onclick="">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Kemaskini
+                </a>
+            </div>
+            <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                @csrf
+                <div class="row">
+                    <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+                        <label class="form-label">Peringkat Pengajian</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Peringkat Pengajian</option>
+                                @foreach($peringkatPengajian as $peringkat)
+                                    <option value="{{ $peringkat->id }}">{{ $peringkat->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                        <label class="form-label">Tahun</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+                        <label class="form-label">Peringkat Kelulusan</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Peringkat Kelulusan</option>
+                            @foreach($eligibilities as $eligibility)
+                                <option value="{{ $eligibility->code }}">{{ $eligibility->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                        <label class="form-label">CGPA</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                        <label class="form-label">Institusi</label>
+                        <select class="select2 form-control" name="" id="" disabled>
+                            <option value="" hidden>Institusi</option>
+                                @foreach($institutions as $institution)
+                                    <option value="{{ $institution->code }}">{{ $institution->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <label class="form-label">Nama Sijil</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Pengkhususan/ Bidang</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Pengkhususan/ Bidang</option>
+                                @foreach($specializations as $specialization)
+                                    <option value="{{ $specialization->kod }}">{{ $specialization->diskripsi }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Francais Luar Negara</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Francais Luar Negara</option>
+                            <option value="1">Tidak</option>
+                            <option value="2">Ya</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Tarikh Senat</label>
+                        <input type="text" class="form-control flatpickr" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Biasiswa</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Biasiswa</option>
+                            <option value="0">Tidak</option>
+                            <option value="1">Ya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="" style="display:none">
+                    <button type="button" id="" hidden onclick="generalFormSubmit(this);"></button>
+                    <div class="d-flex justify-content-end align-items-center my-1">
+                        <button type="button" class="btn btn-success float-right" onclick="">
+                            <i class="fa fa-save"></i> Simpan
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {{-- Degree --}}
+        <div id="academic-degree-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-degree-info-trigger">
+            <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
+                <a class="me-3 text-danger" type="button" onclick="">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Kemaskini
+                </a>
+            </div>
+            <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                @csrf
+                <div class="row">
+                    <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+                        <label class="form-label">Peringkat Pengajian</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Peringkat Pengajian</option>
+                                @foreach($peringkatPengajian as $peringkat)
+                                    <option value="{{ $peringkat->id }}">{{ $peringkat->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                        <label class="form-label">Tahun</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+                        <label class="form-label">Peringkat Kelulusan</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Peringkat Kelulusan</option>
+                            @foreach($eligibilities as $eligibility)
+                                <option value="{{ $eligibility->code }}">{{ $eligibility->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                        <label class="form-label">CGPA</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                        <label class="form-label">Institusi</label>
+                        <select class="select2 form-control" name="" id="" disabled>
+                            <option value="" hidden>Institusi</option>
+                                @foreach($institutions as $institution)
+                                    <option value="{{ $institution->code }}">{{ $institution->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <label class="form-label">Nama Sijil</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Pengkhususan/ Bidang</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Pengkhususan/ Bidang</option>
+                                @foreach($specializations as $specialization)
+                                    <option value="{{ $specialization->kod }}">{{ $specialization->diskripsi }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Francais Luar Negara</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Francais Luar Negara</option>
+                            <option value="1">Tidak</option>
+                            <option value="2">Ya</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Tarikh Senat</label>
+                        <input type="text" class="form-control flatpickr" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Biasiswa</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Biasiswa</option>
+                            <option value="0">Tidak</option>
+                            <option value="1">Ya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="" style="display:none">
+                    <button type="button" id="" hidden onclick="generalFormSubmit(this);"></button>
+                    <div class="d-flex justify-content-end align-items-center my-1">
+                        <button type="button" class="btn btn-success float-right" onclick="">
+                            <i class="fa fa-save"></i> Simpan
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {{-- Master --}}
+        <div id="academic-master-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-master-info-trigger">
+            <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
+                <a class="me-3 text-danger" type="button" onclick="">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Kemaskini
+                </a>
+            </div>
+            <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                @csrf
+                <div class="row">
+                    <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+                        <label class="form-label">Peringkat Pengajian</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Peringkat Pengajian</option>
+                                @foreach($peringkatPengajian as $peringkat)
+                                    <option value="{{ $peringkat->id }}">{{ $peringkat->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                        <label class="form-label">Tahun</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+                        <label class="form-label">Peringkat Kelulusan</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Peringkat Kelulusan</option>
+                            @foreach($eligibilities as $eligibility)
+                                <option value="{{ $eligibility->code }}">{{ $eligibility->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                        <label class="form-label">CGPA</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                        <label class="form-label">Institusi</label>
+                        <select class="select2 form-control" name="" id="" disabled>
+                            <option value="" hidden>Institusi</option>
+                                @foreach($institutions as $institution)
+                                    <option value="{{ $institution->code }}">{{ $institution->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <label class="form-label">Nama Sijil</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Pengkhususan/ Bidang</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Pengkhususan/ Bidang</option>
+                                @foreach($specializations as $specialization)
+                                    <option value="{{ $specialization->kod }}">{{ $specialization->diskripsi }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Francais Luar Negara</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Francais Luar Negara</option>
+                            <option value="1">Tidak</option>
+                            <option value="2">Ya</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Tarikh Senat</label>
+                        <input type="text" class="form-control flatpickr" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Biasiswa</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Biasiswa</option>
+                            <option value="0">Tidak</option>
+                            <option value="1">Ya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="" style="display:none">
+                    <button type="button" id="" hidden onclick="generalFormSubmit(this);"></button>
+                    <div class="d-flex justify-content-end align-items-center my-1">
+                        <button type="button" class="btn btn-success float-right" onclick="">
+                            <i class="fa fa-save"></i> Simpan
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {{-- PhD --}}
+        <div id="academic-phd-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-phd-info-trigger">
+            <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
+                <a class="me-3 text-danger" type="button" onclick="">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Kemaskini
+                </a>
+            </div>
+
+            <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                @csrf
+                <div class="row">
+                    <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+                        <label class="form-label">Peringkat Pengajian</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Peringkat Pengajian</option>
+                                @foreach($peringkatPengajian as $peringkat)
+                                    <option value="{{ $peringkat->id }}">{{ $peringkat->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                        <label class="form-label">Tahun</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+                        <label class="form-label">Peringkat Kelulusan</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Peringkat Kelulusan</option>
+                            @foreach($eligibilities as $eligibility)
+                                <option value="{{ $eligibility->code }}">{{ $eligibility->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                        <label class="form-label">CGPA</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                        <label class="form-label">Institusi</label>
+                        <select class="select2 form-control" name="" id="" disabled>
+                            <option value="" hidden>Institusi</option>
+                                @foreach($institutions as $institution)
+                                    <option value="{{ $institution->code }}">{{ $institution->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <label class="form-label">Nama Sijil</label>
+                        <input type="text" class="form-control" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Pengkhususan/ Bidang</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Pengkhususan/ Bidang</option>
+                                @foreach($specializations as $specialization)
+                                    <option value="{{ $specialization->kod }}">{{ $specialization->diskripsi }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Francais Luar Negara</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Francais Luar Negara</option>
+                            <option value="1">Tidak</option>
+                            <option value="2">Ya</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Tarikh Senat</label>
+                        <input type="text" class="form-control flatpickr" value="" name="" id="" disabled>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Biasiswa</label>
+                        <select class="select2 form-control" value="" name="" id="" disabled>
+                            <option value="" hidden>Biasiswa</option>
+                            <option value="0">Tidak</option>
+                            <option value="1">Ya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="" style="display:none">
+                    <button type="button" id="" hidden onclick="generalFormSubmit(this);"></button>
+                    <div class="d-flex justify-content-end align-items-center my-1">
+                        <button type="button" class="btn btn-success float-right" onclick="">
+                            <i class="fa fa-save"></i> Simpan
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{-- <div class="card" id="update_pengajian_tinggi" style="display:none">
     <div class="d-flex justify-content-end align-items-center my-1 ">
         <a class="me-3 text-danger" type="button" onclick="editPengajianTinggi()">
             <i class="fa-regular fa-pen-to-square"></i>
@@ -16,10 +485,6 @@ data-reloadPage="false">
 @csrf
 <div class="row mt-2 mb-2">
     <input type="hidden" name="pengajian_tinggi_no_pengenalan" id="pengajian_tinggi_no_pengenalan" value="">
-    {{-- <h6>
-        <span class="badge badge-light-primary fw-bolder">Pengajian Tinggi : Ijazah</span>
-        <span class="text-muted">Kemaskini terkini: ONLINE 13/03/2023</span>
-    </h6> --}}
     <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
         <label class="form-label">Peringkat Pengajian</label>
         <select class="select2 form-control" value="" name="peringkat_pengajian_tinggi" id="peringkat_pengajian_tinggi"  disabled>
@@ -134,7 +599,7 @@ data-reloadPage="false">
         </button>
     </div>
 </div>
-</form>
+</form> --}}
 
 <script>
     // function confirmSubject(Data) {
