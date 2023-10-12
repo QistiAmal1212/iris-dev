@@ -134,7 +134,7 @@
             if (id === null) {
                 $('#jkkcForm').attr('action', '{{ route('admin.reference.jkkc.store') }}');
                 $('#jkkcForm input[name="code"]').val("");
-                $('#jkkcForm input[name="name"]').val("");
+                // $('#jkkcForm input[name="name"]').val("");
                 $('#jkkcForm input[name="code"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Skim Kumpulan Perkhidmatan C');
@@ -163,8 +163,8 @@
                         url2 = url2.replace(':replaceThis', jkkc_id);
 
                         $('#jkkcForm').attr('action', url2);
-                        $('#jkkcForm input[name="code"]').val(data.detail.kod);
-                        $('#jkkcForm input[name="name"]').val(data.detail.nama);
+                        $('#jkkcForm input[name="code"]').val(data.detail.ski_kod);
+                        // $('#jkkcForm input[name="name"]').val(data.detail.nama);
 
                         $('#jkkcForm input[name="code"]').prop('readonly', true);
 

@@ -204,10 +204,10 @@
                         $('#ahlisuruhanjayaForm input[name="code"]').val(data.detail.kod);
                         $('#ahlisuruhanjayaForm input[name="name"]').val(data.detail.nama);
                         $('#ahlisuruhanjayaForm input[name="no_kp"]').val(data.detail.no_kp);
-                        $('#ahlisuruhanjayaForm input[name="no_tel"]').val(data.detail.no_tel);
+                        $('#ahlisuruhanjayaForm input[name="no_tel"]').val(data.detail.no_telefon);
                         $('#ahlisuruhanjayaForm input[name="kekananan"]').val(data.detail.kekananan);
                         $('#ahlisuruhanjayaForm input[name="nama_pasangan"]').val(data.detail.nama_pasangan);
-                        $('#ahlisuruhanjayaForm input[name="no_tel_pasangan"]').val(data.detail.no_tel_pasangan);
+                        $('#ahlisuruhanjayaForm input[name="no_tel_pasangan"]').val(data.detail.no_telefon_pasangan);
                         $('#ahlisuruhanjayaForm input[name="alamat1"]').val(data.detail.alamat1);
                         $('#ahlisuruhanjayaForm input[name="alamat2"]').val(data.detail.alamat2);
                         $('#ahlisuruhanjayaForm input[name="alamat3"]').val(data.detail.alamat3);

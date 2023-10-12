@@ -10,9 +10,12 @@ class JKKC extends Model
     protected $table = 'ruj_skim_jkkc_sijil';
 
     protected $fillable = [
-        'kod',
-        'created_by',
-        'updated_by',
+        'ski_kod',
+        'id_pencipta',
+        'pengguna',
         'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

@@ -20,9 +20,9 @@ class AhliSuruhanjaya extends Model
         'alamat1',
         'alamat2',
         'alamat3',
-        'no_tel',
+        'no_telefon',
         'nama_pasangan',
-        'no_tel_pasangan',
+        'no_telefon_pasangan',
         'pangkat_anugerah',
         'kontrak_dari1',
         'kontrak_hingga1',
@@ -42,8 +42,11 @@ class AhliSuruhanjaya extends Model
         'minat2',
         'minat3',
         'status_ahli',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
         'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }
