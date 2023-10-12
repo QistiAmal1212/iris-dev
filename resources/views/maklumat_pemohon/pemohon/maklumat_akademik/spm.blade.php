@@ -69,6 +69,7 @@
     <div class="bs-stepper-content">
         {{-- SPM --}}
         <div id="academic-spm-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-spm-info-trigger">
+            {{-- SPM 1 --}}
             <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-spm-1" aria-expanded="false" aria-controls="result-spm-1">
                 <span class="badge badge-light-primary">
                     Sijil Pelajaran Malaysia (SPM) [1]
@@ -146,6 +147,7 @@
                 </div>
             </div>
 
+            {{-- SPM 2 --}}
             <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-spm-2" aria-expanded="false" aria-controls="result-spm-2">
                 <span class="badge badge-light-primary">
                     Sijil Pelajaran Malaysia (SPM) [2]
