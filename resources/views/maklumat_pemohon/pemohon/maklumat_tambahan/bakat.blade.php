@@ -22,7 +22,7 @@ data-reloadPage="false">
         <select class="select2 form-control" value="" id="nama_bakat" name="nama_bakat" disabled>
             <option value=""></option>
             @foreach($talentkod as $bakat)
-            <option value="{{ $bakat->code }}">{{ $bakat->name }}</option>
+            <option value="{{ $bakat->kod }}">{{ $bakat->diskripsi }}</option>
             @endforeach
         </select>
     </div>

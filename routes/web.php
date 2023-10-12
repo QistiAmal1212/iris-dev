@@ -274,7 +274,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{languageId}', [LanguageController::class, 'toggleActive'])->name('admin.reference.language.toggleActive');
         });
 
-        Route::prefix('matriculation')->group(function () {
+        Route::prefix('matrikulasi')->group(function () {
             Route::get('/', [MatriculationController::class, 'index'])->name('admin.reference.matriculation');
             Route::post('create', [MatriculationController::class, 'store'])->name('admin.reference.matriculation.store');
             Route::get('edit/{matriculationId}', [MatriculationController::class, 'edit'])->name('admin.reference.matriculation.edit');
@@ -282,7 +282,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{matriculationId}', [MatriculationController::class, 'toggleActive'])->name('admin.reference.matriculation.toggleActive');
         });
 
-        Route::prefix('matriculation_course')->group(function () {
+        Route::prefix('jurusan_matrikulasi')->group(function () {
             Route::get('/', [MatriculationCourseController::class, 'index'])->name('admin.reference.matriculation-course');
             Route::post('create', [MatriculationCourseController::class, 'store'])->name('admin.reference.matriculation-course.store');
             Route::get('edit/{matriculationCourseId}', [MatriculationCourseController::class, 'edit'])->name('admin.reference.matriculation-course.edit');
@@ -322,7 +322,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{subjectId}', [SubjectController::class, 'toggleActive'])->name('admin.reference.subject.toggleActive');
         });
 
-        Route::prefix('talent')->group(function () {
+        Route::prefix('bakat')->group(function () {
             Route::get('/', [TalentController::class, 'index'])->name('admin.reference.talent');
             Route::post('create', [TalentController::class, 'store'])->name('admin.reference.talent.store');
             Route::get('edit/{talentId}', [TalentController::class, 'edit'])->name('admin.reference.talent.edit');

@@ -17,6 +17,6 @@ class CalonBakat extends Model
     ];
 
     public function talent() {
-        return $this->belongsTo('App\Models\Reference\Talent', 'bakat', 'code');
+        return $this->belongsTo('App\Models\Reference\Talent', 'bakat', 'kod');
     }
 }

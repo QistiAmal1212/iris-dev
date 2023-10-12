@@ -9,11 +9,13 @@ class MatriculationCourse extends Model
     protected $table = 'ruj_jurusan_matrikulasi';
 
     protected $fillable = [
-        'code',
-        'name',
-        'pemerolehan_code',
-        'created_by',
-        'updated_by',
-        'is_active',
+        'kod',
+        'diskripsi',
+        'id_pencipta',
+        'pengguna',
+        'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

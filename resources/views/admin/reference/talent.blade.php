@@ -173,8 +173,8 @@
                     url2 = url2.replace(':replaceThis', talent_id);
 
                     $('#talentForm').attr('action',url2 );
-                    $('#talentForm input[name="code"]').val(data.detail.code);
-                    $('#talentForm input[name="name"]').val(data.detail.name);
+                    $('#talentForm input[name="code"]').val(data.detail.kod);
+                    $('#talentForm input[name="name"]').val(data.detail.diskripsi);
                     $('#talentForm input[name="code"]').prop('readonly', true);
 
 

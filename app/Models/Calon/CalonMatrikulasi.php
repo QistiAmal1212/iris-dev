@@ -25,11 +25,11 @@ class CalonMatrikulasi extends Model
     ];
 
     public function course(){
-        return $this->belongsTo('App\Models\Reference\MatriculationCourse', 'jurusan', 'code');
+        return $this->belongsTo('App\Models\Reference\MatriculationCourse', 'jurusan', 'kod');
     }
 
     public function college(){
-        return $this->belongsTo('App\Models\Reference\Matriculation', 'kolej', 'code');
+        return $this->belongsTo('App\Models\Reference\Matriculation', 'kolej', 'kod');
     }
 
     public function subject(){

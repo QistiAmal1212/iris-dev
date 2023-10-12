@@ -173,8 +173,8 @@
                     url2 = url2.replace(':replaceThis', matriculation_id);
 
                     $('#matriculationForm').attr('action',url2 );
-                    $('#matriculationForm input[name="code"]').val(data.detail.code);
-                    $('#matriculationForm input[name="name"]').val(data.detail.name);
+                    $('#matriculationForm input[name="code"]').val(data.detail.kod);
+                    $('#matriculationForm input[name="name"]').val(data.detail.diskripsi);
                     $('#matriculationForm  input[name="code"]').prop('readonly', true);
 
 

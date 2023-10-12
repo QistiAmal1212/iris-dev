@@ -89,9 +89,9 @@ class MaklumatPemohonController extends Controller
         $subjekStpm = Subject::where('sah_yt', 'Y')->where('tkt', 6)->orderBy('diskripsi', 'asc')->get();
         $subjekStam = Subject::where('sah_yt', 'Y')->where('tkt', 6)->orderBy('diskripsi', 'asc')->get();
         $skmkod = Qualification::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $talentkod = Talent::orderBy('name', 'asc')->get();
-        $kolejMatrikulasi = Matriculation::orderBy('name', 'asc')->get();
-        $jurusanMatrikulasi = MatriculationCourse::orderBy('name', 'asc')->get();
+        $talentkod = Talent::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
+        $kolejMatrikulasi = Matriculation::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
+        $jurusanMatrikulasi = MatriculationCourse::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $subjekMatrikulasi =  MatriculationSubject::orderBy('name', 'asc')->get();
         $kategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('nama', 'asc')->get();
         $Bahasa = Language::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
