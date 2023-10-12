@@ -1,237 +1,371 @@
-<div class="row mt-2 mb-2">
-    <div class="card" id="update_spm" style="display:none">
-        <div class="d-flex justify-content-end align-items-center my-1 ">
-            <a class="me-3 text-danger" type="button" onclick="editSpm()">
-                <i class="fa-regular fa-pen-to-square"></i>
-                Kemaskini
-            </a>
+<div class="bs-stepper vertical vertical-wizard">
+    <div class="bs-stepper-header">
+        <div class="step" data-target="#academic-spm-info" role="tab" id="academic-spm-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    SPM
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Sijil Pelajaran Malaysia / <br>
+                        Sijil Pelajaran Malaysia Vokasional
+                    </span>
+                </span>
+            </button>
+        </div>
+
+        <hr>
+
+        {{-- <div class="step" data-target="#academic-spmv-info" role="tab" id="academic-spmv-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    SPMV
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Sijil Pelajaran Malaysia Vokasional
+                    </span>
+                </span>
+            </button>
+        </div>
+
+        <hr> --}}
+
+        <div class="step" data-target="#academic-svm-info" role="tab" id="academic-svm-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    SVM
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Sijil Vokasional Malaysia
+                    </span>
+
+                    {{-- BADGE IF NO DATA STARTS HERE --}}
+                    <span class="bs-stepper-subtitle">
+                        <span class="badge badge-light-danger fw-bolder mt-1">Tiada Maklumat</span>
+                    </span>
+                    {{-- UNTIL HERE --}}
+                </span>
+            </button>
+        </div>
+
+        <hr>
+
+        <div class="step" data-target="#academic-spmu-info" role="tab" id="academic-spmu-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    SPM(U)
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        SPM Ulangan
+                    </span>
+                </span>
+            </button>
         </div>
     </div>
-    <form
-    id="spmForm"
-    action="{{ route('spm.store') }}"
-    method="POST"
-    data-refreshFunctionName="reloadTimeline"
-    data-refreshFunctionNameIfSuccess="reloadSpm"
-    data-reloadPage="false">
-    @csrf
-    <div class="row mt-2 mb-2">
-        <h6>
-            <span class="badge badge-light-primary fw-bolder">Sijil Pelajaran Malaysia (SPM)</span>
-        </h6>
-        <input type="hidden" name="spm_no_pengenalan" id="spm_no_pengenalan" value="">
-        <input type="hidden" name="id_spm" id="id_spm" value="">
-        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-            <label class="form-label">Mata Pelajaran</label>
-            <select class="select2 form-control" value="" id="subjek_spm" name="subjek_spm" disabled>
-                <option value=""></option>
-                @foreach($subjekSpm as $subjek)
-                <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
-                @endforeach
-            </select>
-        </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Gred</label>
-            <select class="select2 form-control" value="" id="gred_spm" name="gred_spm" disabled>
-                <option value=""></option>
-                @foreach($gredSpm as $gred)
-                <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                @endforeach
-            </select>
-        </div>
+    <div class="bs-stepper-content">
+        {{-- SPM --}}
+        <div id="academic-spm-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-spm-info-trigger">
+            <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-spm-1" aria-expanded="false" aria-controls="result-spm-1">
+                <span class="badge badge-light-primary">
+                    Sijil Pelajaran Malaysia (SPM) [1]
+                    <i class="fa-solid fa-chevron-down ms-3"></i>
+                </span>
+            </h6>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Tahun</label>
-            <input type="text" class="form-control" value="" id="tahun_spm" name="tahun_spm" disabled>
-        </div>
+            <div class="collapse show mb-3" id="result-spm-1">
+                <div class="d-flex justify-content-end align-items-center mb-1" id="update_spm" style="display:none">
+                    <a class="me-3 text-danger" type="button" onclick="editSpm()">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Kemaskini
+                    </a>
+                </div>
 
-        <div id="button_action_spm" style="display:none">
-            <button type="button" id="btnEditSpm" hidden onclick="generalFormSubmit(this);"></button>
-            <div class="d-flex justify-content-end align-items-center my-1">
-                <button type="button" class="btn btn-danger float-right" onclick="reloadSpm()">
-                    <i class="fa fa-refresh"></i>
-                </button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success float-right" id="btnSaveSpm" onclick="$('#btnEditSpm').trigger('click');">
-                    <i class="fa fa-save"></i> Tambah
-                </button>
+                <form id="spmForm" action="{{ route('spm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSpm" data-reloadPage="false">
+                    @csrf
+                    <div class="row">
+                        <input type="hidden" name="spm_no_pengenalan" id="spm_no_pengenalan" value="">
+                        <input type="hidden" name="id_spm" id="id_spm" value="">
+
+                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                            <label class="form-label">Mata Pelajaran</label>
+                            <select class="select2 form-control" value="" id="subjek_spm" name="subjek_spm" disabled>
+                                <option value="" hidden>Mata Pelajaran</option>
+                                    @foreach($subjekSpm as $subjek)
+                                        <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Gred</label>
+                            <select class="select2 form-control" value="" id="gred_spm" name="gred_spm" disabled>
+                                <option value="" hidden>Gred</option>
+                                    @foreach($gredSpm as $gred)
+                                        <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_spm" name="tahun_spm" disabled>
+                        </div>
+
+                        <div id="button_action_spm" style="display:none">
+                            <button type="button" id="btnEditSpm" hidden onclick="generalFormSubmit(this);"></button>
+                            <div class="d-flex justify-content-end align-items-center my-1">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadSpm()">
+                                    <i class="fa fa-refresh"></i>
+                                </button>
+                                <button type="button" class="btn btn-success float-right" id="btnSaveSpm" onclick="$('#btnEditSpm').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive mb-1 mt-1">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-spm">
+                        <thead>
+                            <tr>
+                                <th>Bil.</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Gred</th>
+                                <th>Tahun</th>
+                                <th>Kemaskini</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-spm-2" aria-expanded="false" aria-controls="result-spm-2">
+                <span class="badge badge-light-primary">
+                    Sijil Pelajaran Malaysia (SPM) [2]
+                    <i class="fa-solid fa-chevron-down ms-3"></i>
+                </span>
+            </h6>
+
+            <div class="collapse show mb-3" id="result-spm-2">
+                <div class="d-flex justify-content-end align-items-center mb-1" id="update_spm" style="display:none">
+                    <a class="me-3 text-danger" type="button" onclick="editSpm()">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Kemaskini
+                    </a>
+                </div>
+
+                <form id="spmForm" action="{{ route('spm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSpm" data-reloadPage="false">
+                    @csrf
+                    <div class="row">
+                        <input type="hidden" name="spm_no_pengenalan" id="spm_no_pengenalan" value="">
+                        <input type="hidden" name="id_spm" id="id_spm" value="">
+
+                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                            <label class="form-label">Mata Pelajaran</label>
+                            <select class="select2 form-control" value="" id="subjek_spm" name="subjek_spm" disabled>
+                                <option value="" hidden>Mata Pelajaran</option>
+                                    @foreach($subjekSpm as $subjek)
+                                        <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Gred</label>
+                            <select class="select2 form-control" value="" id="gred_spm" name="gred_spm" disabled>
+                                <option value="" hidden>Gred</option>
+                                    @foreach($gredSpm as $gred)
+                                        <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_spm" name="tahun_spm" disabled>
+                        </div>
+
+                        <div id="button_action_spm" style="display:none">
+                            <button type="button" id="btnEditSpm" hidden onclick="generalFormSubmit(this);"></button>
+                            <div class="d-flex justify-content-end align-items-center my-1">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadSpm()">
+                                    <i class="fa fa-refresh"></i>
+                                </button>
+                                <button type="button" class="btn btn-success float-right" id="btnSaveSpm" onclick="$('#btnEditSpm').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive mb-1 mt-1">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-spm">
+                        <thead>
+                            <tr>
+                                <th>Bil.</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Gred</th>
+                                <th>Tahun</th>
+                                <th>Kemaskini</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    </form>
 
-    <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-spm">
-            <thead>
-                <tr>
-                    <th>Bil.</th>
-                    <th>Mata Pelajaran</th>
-                    <th>Gred</th>
-                    <th>Tahun</th>
-                    <th>Kemaskini</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+        {{-- SPMV --}}
+        {{-- <div id="academic-spmv-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-spmv-info-trigger">
+            <div class="d-flex justify-content-end align-items-center mb-1" id="update_spmv" style="display:none">
+                <a class="me-3 text-danger" type="button" onclick="editSpmv()">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Kemaskini
+                </a>
+            </div>
 
-    <hr>
+            <form id="spmvForm" action="{{ route('spmv.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSpmv" data-reloadPage="false">
+                @csrf
+                <div class="row">
+                    <input type="hidden" name="spmv_no_pengenalan" id="spmv_no_pengenalan" value="">
+                    <input type="hidden" name="id_spmv" id="id_spmv" value="">
 
-    <div class="card" id="update_spmv" style="display:none">
-        <div class="d-flex justify-content-end align-items-center my-1 ">
-            <a class="me-3 text-danger" type="button" onclick="editSpmv()">
-                <i class="fa-regular fa-pen-to-square"></i>
-                Kemaskini
-            </a>
-        </div>
-    </div>
-    <form
-    id="spmvForm"
-    action="{{ route('spmv.store') }}"
-    method="POST"
-    data-refreshFunctionName="reloadTimeline"
-    data-refreshFunctionNameIfSuccess="reloadSpmv"
-    data-reloadPage="false">
-    @csrf
-    <div class="row mt-2 mb-2">
-        <h6>
-            <span class="badge badge-light-primary fw-bolder">Sijil Pelajaran Malaysia Vokasinal (SPMV)</span>
-        </h6>
-        <input type="hidden" name="spmv_no_pengenalan" id="spmv_no_pengenalan" value="">
-        <input type="hidden" name="id_spmv" id="id_spmv" value="">
-        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-            <label class="form-label">Mata Pelajaran</label>
-            <select class="select2 form-control" value="" id="subjek_spmv" name="subjek_spmv" disabled>
-                <option value=""></option>
-                @foreach($subjekSpmv as $subjek)
-                <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
-                @endforeach
-            </select>
-        </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <label class="form-label">Mata Pelajaran</label>
+                        <select class="select2 form-control" value="" id="subjek_spmv" name="subjek_spmv" disabled>
+                            <option value="" hidden>Mata Pelajaran</option>
+                                @foreach($subjekSpmv as $subjek)
+                                    <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Gred</label>
-            <select class="select2 form-control" value="" id="gred_spmv" name="gred_spmv" disabled>
-                <option value=""></option>
-                @foreach($gredSpmv as $gred)
-                <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                @endforeach
-            </select>
-        </div>
+                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                        <label class="form-label">Gred</label>
+                        <select class="select2 form-control" value="" id="gred_spmv" name="gred_spmv" disabled>
+                            <option value="" hidden>Gred</option>
+                                @foreach($gredSpmv as $gred)
+                                    <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                @endforeach
+                        </select>
+                    </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Tahun</label>
-            <input type="text" class="form-control" value="" id="tahun_spmv" name="tahun_spmv" disabled>
-        </div>
+                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                        <label class="form-label">Tahun</label>
+                        <input type="text" class="form-control" value="" id="tahun_spmv" name="tahun_spmv" disabled>
+                    </div>
 
-        <div id="button_action_spmv" style="display:none">
-            <button type="button" id="btnEditSpmv" hidden onclick="generalFormSubmit(this);"></button>
-            <div class="d-flex justify-content-end align-items-center my-1">
-                <button type="button" class="btn btn-danger float-right" onclick="reloadSpmv()">
-                    <i class="fa fa-refresh"></i>
-                </button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success float-right" id="btnSaveSpmv" onclick="$('#btnEditSpmv').trigger('click');">
-                    <i class="fa fa-save"></i> Tambah
-                </button>
+                    <div id="button_action_spmv" style="display:none">
+                        <button type="button" id="btnEditSpmv" hidden onclick="generalFormSubmit(this);"></button>
+                        <div class="d-flex justify-content-end align-items-center my-1">
+                            <button type="button" class="btn btn-danger me-1" onclick="reloadSpmv()">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                            <button type="button" class="btn btn-success float-right" id="btnSaveSpmv" onclick="$('#btnEditSpmv').trigger('click');">
+                                <i class="fa fa-save"></i> Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-responsive mb-1 mt-1">
+                <table class="table header_uppercase table-bordered table-hovered" id="table-spmv">
+                    <thead>
+                        <tr>
+                            <th>Bil.</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Gred</th>
+                            <th>Tahun</th>
+                            <th>Kemaskini</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div> --}}
+
+        {{-- SVM --}}
+        <div id="academic-svm-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-svm-info-trigger">
+            <div class="d-flex justify-content-end align-items-center mb-1" id="update_svm" style="display:none">
+                <a class="me-3 text-danger" type="button" onclick="editSvm()">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Kemaskini
+                </a>
+            </div>
+
+            <form id="svmForm" action="{{ route('svm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSvm" data-reloadPage="false">
+                @csrf
+                <div class="row">
+
+                    <input type="hidden" name="svm_no_pengenalan" id="svm_no_pengenalan" value="">
+                    <input type="hidden" name="id_svm" id="id_svm" value="">
+
+                    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <label class="form-label">Mata Pelajaran</label>
+                        <select class="select2 form-control" value="" id="subjek_svm" name="subjek_svm" disabled>
+                            <option value="" hidden>Mata Pelajaran</option>
+                                @foreach($subjekSvm as $subjek)
+                                    <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                        <label class="form-label">Gred</label>
+                        <select class="select2 form-control" value="" id="gred_svm" name="gred_svm" disabled>
+                            <option value="" hidden>Gred</option>
+                                @foreach($gredSvm as $gred)
+                                    <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                        <label class="form-label">Tahun</label>
+                        <input type="text" class="form-control" value="" id="tahun_svm" name="tahun_svm" disabled>
+                    </div>
+
+                    <div id="button_action_svm" style="display:none">
+                        <button type="button" id="btnEditSvm" hidden onclick="generalFormSubmit(this);"></button>
+                        <div class="d-flex justify-content-end align-items-center my-1">
+                            <button type="button" class="btn btn-danger me-1" onclick="reloadSvm()">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                            <button type="button" class="btn btn-success float-right" id="btnSaveSvm" onclick="$('#btnEditSvm').trigger('click');">
+                                <i class="fa fa-save"></i> Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-responsive mb-1 mt-1">
+                <table class="table header_uppercase table-bordered table-hovered" id="table-svm">
+                    <thead>
+                        <tr>
+                            <th>Bil.</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Gred</th>
+                            <th>Tahun</th>
+                            <th>Kemaskini</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
-    </div>
-    </form>
 
-    <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-spmv">
-            <thead>
-                <tr>
-                    <th>Bil.</th>
-                    <th>Mata Pelajaran</th>
-                    <th>Gred</th>
-                    <th>Tahun</th>
-                    <th>Kemaskini</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-
-    <hr>
-
-    <div class="card" id="update_svm" style="display:none">
-        <div class="d-flex justify-content-end align-items-center my-1 ">
-            <a class="me-3 text-danger" type="button" onclick="editSvm()">
-                <i class="fa-regular fa-pen-to-square"></i>
-                Kemaskini
-            </a>
+        {{-- SPM ULANGAN --}}
+        <div id="academic-spmu-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-spmu-info-trigger">
         </div>
-    </div>
-    <form
-    id="svmForm"
-    action="{{ route('svm.store') }}"
-    method="POST"
-    data-refreshFunctionName="reloadTimeline"
-    data-refreshFunctionNameIfSuccess="reloadSvm"
-    data-reloadPage="false">
-    @csrf
-    <div class="row mt-2 mb-2">
-        <h6>
-            <span class="badge badge-light-primary fw-bolder">Sijil Vokasinal Malaysia (SVM)</span>
-        </h6>
-        <input type="hidden" name="svm_no_pengenalan" id="svm_no_pengenalan" value="">
-        <input type="hidden" name="id_svm" id="id_svm" value="">
-        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-            <label class="form-label">Mata Pelajaran</label>
-            <select class="select2 form-control" value="" id="subjek_svm" name="subjek_svm" disabled>
-                <option value=""></option>
-                @foreach($subjekSvm as $subjek)
-                <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Gred</label>
-            <select class="select2 form-control" value="" id="gred_svm" name="gred_svm" disabled>
-                <option value=""></option>
-                @foreach($gredSvm as $gred)
-                <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Tahun</label>
-            <input type="text" class="form-control" value="" id="tahun_svm" name="tahun_svm" disabled>
-        </div>
-
-        <div id="button_action_svm" style="display:none">
-            <button type="button" id="btnEditSvm" hidden onclick="generalFormSubmit(this);"></button>
-            <div class="d-flex justify-content-end align-items-center my-1">
-                <button type="button" class="btn btn-danger float-right" onclick="reloadSvm()">
-                    <i class="fa fa-refresh"></i>
-                </button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success float-right" id="btnSaveSvm" onclick="$('#btnEditSvm').trigger('click');">
-                    <i class="fa fa-save"></i> Tambah
-                </button>
-            </div>
-        </div>
-    </div>
-    </form>
-
-    <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-svm">
-            <thead>
-                <tr>
-                    <th>Bil.</th>
-                    <th>Mata Pelajaran</th>
-                    <th>Gred</th>
-                    <th>Tahun</th>
-                    <th>Kemaskini</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </div>
 </div>
 
@@ -276,7 +410,6 @@
                         trSpm += '<td align="center">' + bilSpm + '</td>';
                         trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
                         trSpm += '<td align="center">' + item.gred + '</td>';
-                        trSpm += '<td align="center">' + item.tahun + '</td>';
                         trSpm += '<td align="center"><i class="fas fa-pencil text-primary editSpm-btn" data-id="' + item.id + ' "></i>';
                         trSpm += '&nbsp;&nbsp;';
                         trSpm += '<i class="fas fa-trash text-danger deleteSpm-btn" data-id="' + item.id + '"></i></td>';
@@ -367,7 +500,6 @@
                         trSpmv += '<td align="center">' + bilSpmv + '</td>';
                         trSpmv += '<td>' + item.subject_form5.diskripsi + '</td>';
                         trSpmv += '<td align="center">' + item.gred + '</td>';
-                        trSpmv += '<td align="center">' + item.tahun + '</td>';
                         trSpmv += '<td align="center"><i class="fas fa-pencil text-primary editSpmv-btn" data-id="' + item.id + ' "></i>';
                         trSpmv += '&nbsp;&nbsp;';
                         trSpmv += '<i class="fas fa-trash text-danger deleteSpmv-btn" data-id="' + item.id + '"></i></td>';
@@ -457,7 +589,6 @@
                         trSvm += '<td align="center">' + bilSvm + '</td>';
                         trSvm += '<td>' + item.subject_form5.diskripsi + '</td>';
                         trSvm += '<td align="center">' + item.gred + '</td>';
-                        trSvm += '<td align="center">' + item.tahun + '</td>';
                         trSvm += '<td align="center"><i class="fas fa-pencil text-primary editSvm-btn" data-id="' + item.id + ' "></i>';
                         trSvm += '&nbsp;&nbsp;';
                         trSvm += '<i class="fas fa-trash text-danger deleteSvm-btn" data-id="' + item.id + '"></i></td>';

@@ -19,7 +19,7 @@ data-reloadPage="false">
     <input type="hidden" name="id_skm" id="id_skm" value="">
 
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-        <label class="form-label">Gred</label>
+        <label class="form-label">Nama Sijil</label>
         <select class="select2 form-control" value="" id="nama_skm" name="nama_skm" disabled>
             <option value=""></option>
             @foreach($skmkod as $skm)
@@ -52,7 +52,7 @@ data-reloadPage="false">
         <thead>
             <tr>
                 <th>Bil.</th>
-                <th>Kelulusan</th>
+                <th>Nama Sijil</th>
                 <th>Tahun</th>
                 <th>Kemaskini</th>
             </tr>
