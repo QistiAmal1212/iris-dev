@@ -74,7 +74,7 @@ class MaklumatPemohonController extends Controller
         $maritalStatuses = MaritalStatus::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $penalties = Penalty::all();
         $peringkatPengajian = PeringkatPengajian::all();
-        $positionLevels = PositionLevel::orderBy('name', 'asc')->get();
+        $positionLevels = PositionLevel::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $races = Race::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $pusatTemuduga = InterviewCentre::all();
         $ranks = Rank::all();
@@ -98,7 +98,7 @@ class MaklumatPemohonController extends Controller
         $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->orderBy('nama', 'asc')->get();
         $jenisPeperiksaan = Qualification::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $sektorPekerjaan = KodPelbagai::where('kategori', 'JENIS PERKHIDMATAN')->orderBy('nama', 'asc')->get();
-        $gredJawatan = SalaryGrade::where('is_active', 1)->orderBy('code', 'asc')->get();
+        $gredJawatan = SalaryGrade::where('sah_yt', 'Y')->orderBy('kod', 'asc')->get();
         $kumpulanPerkhidmatan = KumpulanSSM::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
         return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'pusatTemuduga', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'kolejMatrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU', 'Bahasa', 'kategoriPenguasaan', 'jenisPeperiksaan', 'sektorPekerjaan', 'gredJawatan', 'kumpulanPerkhidmatan'));

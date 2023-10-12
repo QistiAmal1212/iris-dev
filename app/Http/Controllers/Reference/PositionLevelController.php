@@ -41,14 +41,14 @@ class PositionLevelController extends Controller
             }
         }
 
-        $positionLevel = PositionLevel::orderBy('code', 'asc')->get();
+        $positionLevel = PositionLevel::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($positionLevel)
                 ->editColumn('code', function ($positionLevel){
-                    return $positionLevel->code;
+                    return $positionLevel->kod;
                 })
                 ->editColumn('name', function ($positionLevel) {
-                    return $positionLevel->name;
+                    return $positionLevel->diskripsi;
                 })
                 ->editColumn('action', function ($positionLevel) use ($accessDelete) {
                     $button = "";
@@ -57,7 +57,7 @@ class PositionLevelController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="positionLevelForm('.$positionLevel->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($positionLevel->is_active) {
+                        if($positionLevel->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$positionLevel->id.'" onclick="toggleActive('.$positionLevel->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$positionLevel->id.'" onclick="toggleActive('.$positionLevel->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -80,7 +80,7 @@ class PositionLevelController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_taraf_jawatan,code',
+                'code' => 'required|string|unique:ruj_taraf_jawatan,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -89,10 +89,11 @@ class PositionLevelController extends Controller
             ]);
 
             PositionLevel::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             DB::commit();
@@ -135,7 +136,7 @@ class PositionLevelController extends Controller
             $positionLevel = PositionLevel::find($positionLevelId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_taraf_jawatan,code,'.$positionLevelId,
+                'code' => 'required|string|unique:ruj_taraf_jawatan,kod,'.$positionLevelId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -144,9 +145,9 @@ class PositionLevelController extends Controller
             ]);
 
             $positionLevel->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -167,10 +168,13 @@ class PositionLevelController extends Controller
             $positionLevelId = $request->positionLevelId;
             $positionLevel = PositionLevel::find($positionLevelId);
 
-            $is_active = $positionLevel->is_active;
+            $sah_yt = $positionLevel->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $positionLevel->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

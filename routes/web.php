@@ -298,7 +298,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{matriculationSubjectId}', [MatriculationSubjectController::class, 'toggleActive'])->name('admin.reference.matriculation-subject.toggleActive');
         });
 
-        Route::prefix('position_level')->group(function () {
+        Route::prefix('taraf_jawatan')->group(function () {
             Route::get('/', [PositionLevelController::class, 'index'])->name('admin.reference.position-level');
             Route::post('create', [PositionLevelController::class, 'store'])->name('admin.reference.position-level.store');
             Route::get('edit/{positionLevelId}', [PositionLevelController::class, 'edit'])->name('admin.reference.position-level.edit');
@@ -330,7 +330,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{talentId}', [TalentController::class, 'toggleActive'])->name('admin.reference.talent.toggleActive');
         });
 
-        Route::prefix('salary_grade')->group(function () {
+        Route::prefix('gred_gaji')->group(function () {
             Route::get('/', [SalaryGradeController::class, 'index'])->name('admin.reference.salary-grade');
             Route::post('create', [SalaryGradeController::class, 'store'])->name('admin.reference.salary-grade.store');
             Route::get('edit/{salaryGradeId}', [SalaryGradeController::class, 'edit'])->name('admin.reference.salary-grade.edit');
@@ -362,7 +362,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{penaltyId}', [PenaltyController::class, 'toggleActive'])->name('admin.reference.penalty.toggleActive');
         });
 
-        Route::prefix('salary_grade_details')->group(function () {
+        Route::prefix('butiran_gred_gaji')->group(function () {
             Route::get('/', [SalaryGradeDetailsController::class, 'index'])->name('admin.reference.salary-grade-details');
             Route::post('create', [SalaryGradeDetailsController::class, 'store'])->name('admin.reference.salary-grade-details.store');
             Route::get('edit/{salaryGradeDetailsId}', [SalaryGradeDetailsController::class, 'edit'])->name('admin.reference.salary-grade-details.edit');

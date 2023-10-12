@@ -44,8 +44,8 @@ class SkimController extends Controller
             }
         }
 
-        $ggh = SalaryGrade::where('is_active', 1)->orderBy('name', 'asc')->get();
-        $skim_pkh = SkimPerkhidmatan::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $ggh = SalaryGrade::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
+        $skim_pkh = SkimPerkhidmatan::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $kump_jkk = KumpulanJKK::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
 
         if ($request->ajax()) {

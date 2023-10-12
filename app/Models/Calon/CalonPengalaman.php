@@ -40,11 +40,11 @@ class CalonPengalaman extends Model
     }
 
     public function positionLevel() {
-        return $this->belongsTo('App\Models\Reference\PositionLevel', 'taraf_jawatan', 'code');
+        return $this->belongsTo('App\Models\Reference\PositionLevel', 'taraf_jawatan', 'kod');
     }
 
     public function salaryGrade() {
-        return $this->belongsTo('App\Models\Reference\SalaryGrade', 'kod_ruj_gred_gaji', 'code');
+        return $this->belongsTo('App\Models\Reference\SalaryGrade', 'kod_ruj_gred_gaji', 'kod');
     }
 
     public function levelJkk() {

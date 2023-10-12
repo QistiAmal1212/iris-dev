@@ -172,7 +172,7 @@
 
                         $('#skimperkhidmatanForm').attr('action', url2);
                         $('#skimperkhidmatanForm input[name="code"]').val(data.detail.kod);
-                        $('#skimperkhidmatanForm input[name="name"]').val(data.detail.nama);
+                        $('#skimperkhidmatanForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#skimperkhidmatanForm input[name="code"]').prop('readonly', true);
 

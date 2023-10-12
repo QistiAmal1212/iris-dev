@@ -41,7 +41,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="experience_position_level" id="experience_position_level" disabled>
             <option value=""></option>
             @foreach($positionLevels as $positionLevel)
-            <option value="{{ $positionLevel->code }}">{{ $positionLevel->name }}</option>
+            <option value="{{ $positionLevel->kod }}">{{ $positionLevel->diskripsi }}</option>
             @endforeach
         </select>
     </div>

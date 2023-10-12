@@ -42,22 +42,22 @@ class salaryGradeDetailsController extends Controller
             }
         }
 
-        $salaryGrade = SalaryGrade::where('is_active', true);
+        $salaryGrade = SalaryGrade::where('sah_yt', 'Y');
 
-        $salaryGradeDetails = SalaryGradeDetails::orderBy('ref_salary_grade_code', 'asc')->get();
+        $salaryGradeDetails = SalaryGradeDetails::orderBy('ggh_kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($salaryGradeDetails)
                 ->editColumn('ref_salary_grade_code', function ($salaryGradeDetails){
-                    return $salaryGradeDetails->ref_salary_grade_code;
+                    return $salaryGradeDetails->ggh_kod;
                 })
                 ->editColumn('level', function ($salaryGradeDetails) {
-                    return $salaryGradeDetails->level;
+                    return $salaryGradeDetails->peringkat;
                 })
                 ->editColumn('year', function ($salaryGradeDetails){
-                    return $salaryGradeDetails->year;
+                    return $salaryGradeDetails->tahun;
                 })
                 ->editColumn('amount', function ($salaryGradeDetails) {
-                    return $salaryGradeDetails->amount;
+                    return $salaryGradeDetails->amaun;
                 })
                 ->editColumn('action', function ($salaryGradeDetails) use ($accessDelete) {
                     $button = "";
@@ -66,7 +66,7 @@ class salaryGradeDetailsController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="salaryGradeDetailsForm('.$salaryGradeDetails->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($salaryGradeDetails->is_active) {
+                        if($salaryGradeDetails->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$salaryGradeDetails->id.'" onclick="toggleActive('.$salaryGradeDetails->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$salaryGradeDetails->id.'" onclick="toggleActive('.$salaryGradeDetails->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -102,12 +102,13 @@ class salaryGradeDetailsController extends Controller
             ]);
 
             SalaryGradeDetails::create([
-                'ref_salary_grade_code' => $request->code,
-                'level' => strtoupper($request->level),
-                'year' => strtoupper($request->year),
-                'amount' => strtoupper($request->amount),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'ggh_kod' => $request->code,
+                'peringkat' => strtoupper($request->level),
+                'tahun' => strtoupper($request->year),
+                'amaun' => strtoupper($request->amount),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             DB::commit();
@@ -161,11 +162,11 @@ class salaryGradeDetailsController extends Controller
             ]);
 
             $salaryGradeDetails->update([
-                'ref_salary_grade_code' => $request->code,
-                'level' => strtoupper($request->level),
-                'year' => strtoupper($request->year),
-                'amount' => strtoupper($request->amount),
-                'updated_by' => auth()->user()->id,
+                'ggh_kod' => $request->code,
+                'peringkat' => strtoupper($request->level),
+                'tahun' => strtoupper($request->year),
+                'amaun' => strtoupper($request->amount),
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -186,10 +187,13 @@ class salaryGradeDetailsController extends Controller
             $salaryGradeDetailsId = $request->salaryGradeDetailsId;
             $salaryGradeDetails = SalaryGradeDetails::find($salaryGradeDetailsId);
 
-            $is_active = $salaryGradeDetails->is_active;
+            $sah_yt = $salaryGradeDetails->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $salaryGradeDetails->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

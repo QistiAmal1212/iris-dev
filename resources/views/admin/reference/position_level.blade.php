@@ -174,8 +174,8 @@
                     url2 = url2.replace(':replaceThis', position_level_id);
 
                     $('#positionLevelForm').attr('action',url2 );
-                    $('#positionLevelForm input[name="code"]').val(data.detail.code);
-                    $('#positionLevelForm input[name="name"]').val(data.detail.name);
+                    $('#positionLevelForm input[name="code"]').val(data.detail.kod);
+                    $('#positionLevelForm input[name="name"]').val(data.detail.diskripsi);
                     $('#positionLevelForm input[name="code"]').prop('readonly', true);
 
 

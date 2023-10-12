@@ -180,10 +180,10 @@
                         url2 = url2.replace(':replaceThis', salary_grade_id);
 
                         $('#salaryGradeDetailsForm').attr('action', url2);
-                        $('#salaryGradeDetailsForm select[name="code"]').val(data.detail.ref_salary_grade_code).trigger('change');
-                        $('#salaryGradeDetailsForm input[name="level"]').val(data.detail.level);
-                        $('#salaryGradeDetailsForm input[name="year"]').val(data.detail.year);
-                        $('#salaryGradeDetailsForm input[name="amount"]').val(data.detail.amount);
+                        $('#salaryGradeDetailsForm select[name="code"]').val(data.detail.ggh_kod).trigger('change');
+                        $('#salaryGradeDetailsForm input[name="level"]').val(data.detail.peringkat);
+                        $('#salaryGradeDetailsForm input[name="year"]').val(data.detail.tahun);
+                        $('#salaryGradeDetailsForm input[name="amount"]').val(data.detail.amaun);
 
                         $('#salaryGradeDetailsForm input[name="code"]').prop('readonly', true);
 

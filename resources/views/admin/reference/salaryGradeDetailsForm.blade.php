@@ -18,7 +18,7 @@
                                 <select class="form-control" name="code" id="code">
                                     <option value="">Sila Pilih:-</option>
                                     @foreach ($salaryGrade as $grade)
-                                        <option value="{{ $grade->code }}">{{ $grade->code }}</option>
+                                        <option value="{{ $grade->kod }}">{{ $grade->kod }} - {{ $grade->diskripsi }}</option>
                                     @endforeach
                                 </select>
                             </div>
