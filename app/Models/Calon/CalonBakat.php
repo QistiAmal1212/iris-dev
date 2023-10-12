@@ -12,9 +12,12 @@ class CalonBakat extends Model
     	'no_pengenalan',
         'bakat',
         'bakat_detail',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function talent() {
         return $this->belongsTo('App\Models\Reference\Talent', 'bakat', 'kod');

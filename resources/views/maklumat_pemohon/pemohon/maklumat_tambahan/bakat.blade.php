@@ -85,7 +85,7 @@ data-reloadPage="false">
                     bilBakat += 1;
                     trBakat += '<tr>';
                     trBakat += '<td align="center">' + bilBakat + '</td>'
-                    trBakat += '<td>' + item.talent.name + '</td>';
+                    trBakat += '<td>' + item.talent.diskripsi + '</td>';
                     trBakat += '<td align="center"><i class="fas fa-pencil text-primary editBakat-btn" data-id="' + item.id + ' " data-form="bakat"></i>';
                     trBakat += '&nbsp;&nbsp;';
                     trBakat += '<i class="fas fa-trash text-danger deleteBakat-btn" data-id="' + item.id + '"></i></td>';

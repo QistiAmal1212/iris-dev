@@ -257,14 +257,14 @@ class MaklumatPemohonController extends Controller
             ]);
 
             $candidate->update([
-                'kod_ruj_jantina' => $request->gender,
-                'kod_ruj_agama' => $request->religion,
-                'kod_ruj_keturunan' => $request->race,
+                'jan_kod' => $request->gender,
+                'agama' => $request->religion,
+                'ket_kod' => $request->race,
                 'tarikh_lahir' => Carbon::createFromFormat('d/m/Y', $request->date_of_birth)->format('Y-m-d'),
-                'kod_ruj_status_kahwin' => $request->marital_status,
-                'emel' => $request->email,
+                'taraf_perkahwinan' => $request->marital_status,
+                'e_mel' => $request->email,
                 'no_tel' => $request->phone_number,
-                'updated_by' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             CalonGarisMasa::create([

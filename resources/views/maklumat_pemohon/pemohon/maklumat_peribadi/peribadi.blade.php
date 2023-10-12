@@ -140,19 +140,19 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#personalForm select[name="gender"]').val(data.detail.kod_ruj_jantina).trigger('change');
+                $('#personalForm select[name="gender"]').val(data.detail.jan_kod).trigger('change');
                 $('#personalForm select[name="gender"]').attr('disabled', true);
-                $('#personalForm select[name="religion"]').val(data.detail.kod_ruj_agama).trigger('change');
+                $('#personalForm select[name="religion"]').val(data.detail.agama).trigger('change');
                 $('#personalForm select[name="religion"]').attr('disabled', true);
-                $('#personalForm select[name="race"]').val(data.detail.kod_ruj_keturunan).trigger('change');
+                $('#personalForm select[name="race"]').val(data.detail.ket_kod).trigger('change');
                 $('#personalForm select[name="race"]').attr('disabled', true);
                 $('#personalForm input[name="date_of_birth"]').val(data.detail.tarikh_lahir);
                 $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
-                $('#personalForm select[name="marital_status"]').val(data.detail.kod_ruj_status_kahwin).trigger('change');
+                $('#personalForm select[name="marital_status"]').val(data.detail.taraf_perkahwinan).trigger('change');
                 $('#personalForm select[name="marital_status"]').attr('disabled', true);
                 $('#personalForm input[name="phone_number"]').val(data.detail.no_tel);
                 $('#personalForm input[name="phone_number"]').attr('disabled', true);
-                $('#personalForm input[name="email"]').val(data.detail.emel);
+                $('#personalForm input[name="email"]').val(data.detail.e_mel);
                 $('#personalForm input[name="email"]').attr('disabled', true);
 
                 $("#button_action_personal").attr("style", "display:none");

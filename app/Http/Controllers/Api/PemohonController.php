@@ -59,13 +59,13 @@ class PemohonController extends ApiController
                 $checkCalon->update([
                     'nama_penuh' => $request->nama_penuh,
                     // 'no_kp_baru' => $request->no_kp,
-                    'emel' => $request->emel,
+                    'e_mel' => $request->emel,
                     'no_tel' => $request->no_tel,
                     'tarikh_lahir' => $request->tarikh_lahir,
-                    'kod_ruj_jantina' => $jantina,
-                    'kod_ruj_agama' => $agama,
-                    'kod_ruj_keturunan' => $request->keturunan,
-                    'kod_ruj_status_kahwin' => $request->status_kahwin,
+                    'jan_kod' => $jantina,
+                    'agama' => $agama,
+                    'ket_kod' => $request->keturunan,
+                    'taraf_perkahwinan' => $request->status_kahwin,
                     'kewarganegaraan' => 1,
                     'tempat_lahir' => $tempatLahir,
                     'tempat_lahir_bapa' => $tempatLahirBapa,
@@ -82,7 +82,7 @@ class PemohonController extends ApiController
                     'poskod' => $request->poskod_surat,
                     'bandar' => $request->bandar_surat,
                     'negeri' => $request->negeri_surat,
-                    'tinggi' => $request->tinggi,
+                    'ketinggian' => $request->tinggi,
                     'berat' => $request->berat,
                     'pusat_temuduga' => $request->pusat_temuduga,
                 ]);
@@ -91,13 +91,13 @@ class PemohonController extends ApiController
                     'nama_penuh' => $request->nama_penuh,
                     'no_pengenalan' => $noPengenalan,
                     'no_kp_baru' => $request->no_kp,
-                    'emel' => $request->emel,
+                    'e_mel' => $request->emel,
                     'no_tel' => $request->no_tel,
                     'tarikh_lahir' => $request->tarikh_lahir,
-                    'kod_ruj_jantina' => $jantina,
-                    'kod_ruj_agama' => $agama,
-                    'kod_ruj_keturunan' => $request->keturunan,
-                    'kod_ruj_status_kahwin' => $request->status_kahwin,
+                    'jan_kod' => $jantina,
+                    'agama' => $agama,
+                    'ket_kod' => $request->keturunan,
+                    'taraf_perkahwinan' => $request->status_kahwin,
                     'kewarganegaraan' => 1,
                     'tempat_lahir' => $tempatLahir,
                     'tempat_lahir_bapa' => $tempatLahirBapa,
@@ -114,7 +114,7 @@ class PemohonController extends ApiController
                     'poskod' => $request->poskod_surat,
                     'bandar' => $request->bandar_surat,
                     'negeri' => $request->negeri_surat,
-                    'tinggi' => $request->tinggi,
+                    'ketinggian' => $request->tinggi,
                     'berat' => $request->berat,
                     'pusat_temuduga' => $request->pusat_temuduga,
                 ]);
@@ -203,7 +203,7 @@ class PemohonController extends ApiController
                             'tarikh_daftar_1' => $daftar['tarikh_daftar'],
                             'j_daftar' => '03',
                             'keutamaan' => $daftar['keutamaan'],
-                            'status_akaun' => '1',
+                            'status_akuan' => '1',
                         ];
                         DB::table('calon_daftar')->where('no_pengenalan', $noPengenalan)->where('skim', $daftar['skim'])->update($dataDaftar);
                     } else {
@@ -214,7 +214,7 @@ class PemohonController extends ApiController
                             'tarikh_daftar_1' => $daftar['tarikh_daftar'],
                             'j_daftar' => '03',
                             'keutamaan' => $daftar['keutamaan'],
-                            'status_akaun' => '1',
+                            'status_akuan' => '1',
                         ];
                         DB::table('calon_daftar')->insert($dataDaftar);
                     }
@@ -296,7 +296,7 @@ class PemohonController extends ApiController
 
             if($request->tingkatan_6 != null){
                 foreach($request->tingkatan_6 as $tkt6){
-                    
+
                     $calonTkt6 = CalonKeputusanSekolah::where('no_pengenalan', $noPengenalan)
                     ->where('jenis_sijil', $tkt6['jenis_sijil'])
                     ->where('tahun', $tkt6['tahun'])
@@ -382,7 +382,7 @@ class PemohonController extends ApiController
                     ->where('jurusan', $matrik['jurusan'])
                     ->where('kolej', $matrik['kolej'])
                     ->where('kod_subjek', $matrik['subjek'])->first();
-                    
+
                     if($calonMatrik){
                         $dataMatrik = [
                             'no_matrik' => $matrik['no_matrik'],
@@ -567,7 +567,7 @@ class PemohonController extends ApiController
                     }
                 }
             }
-            
+
             if($request->bakat != null){
                 foreach($request->bakat as $bakat){
 

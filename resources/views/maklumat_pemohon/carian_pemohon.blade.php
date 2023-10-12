@@ -418,15 +418,15 @@ Maklumat Pemohon
                     $('#candidate_timeline').load(timelineUrl)
 
                     $('#personalForm select[name="gender"]').attr('disabled', true);
-                    if(data.detail.kod_ruj_jantina) { $('#personalForm select[name="gender"]').val(data.detail.kod_ruj_jantina).trigger('change'); }
+                    if(data.detail.jan_kod) { $('#personalForm select[name="gender"]').val(data.detail.jan_kod).trigger('change'); }
                     else { selectionNull('gender', 'personalForm');}
                     originalVal['gender'] = $('#personalForm select[name="gender"]').find(':selected').text();
                     $('#personalForm select[name="religion"]').attr('disabled', true);
-                    if(data.detail.kod_ruj_agama) { $('#personalForm select[name="religion"]').val(data.detail.kod_ruj_agama).trigger('change'); }
+                    if(data.detail.agama) { $('#personalForm select[name="religion"]').val(data.detail.agama).trigger('change'); }
                     else { selectionNull('religion', 'personalForm'); }
                     originalVal['religion'] = $('#personalForm select[name="religion"]').find(':selected').text();
                     $('#personalForm select[name="race"]').attr('disabled', true);
-                    if(data.detail.kod_ruj_keturunan) { $('#personalForm select[name="race"]').val(data.detail.kod_ruj_keturunan).trigger('change'); }
+                    if(data.detail.ket_kod) { $('#personalForm select[name="race"]').val(data.detail.ket_kod).trigger('change'); }
                     else { selectionNull('race', 'personalForm'); }
                     originalVal['race'] = $('#personalForm select[name="race"]').find(':selected').text();
 
@@ -435,7 +435,7 @@ Maklumat Pemohon
                     originalVal['date_of_birth'] = data.detail.tarikh_lahir;
 
                     $('#personalForm select[name="marital_status"]').attr('disabled', true);
-                    if(data.detail.kod_ruj_status_kahwin) { $('#personalForm select[name="marital_status"]').val(data.detail.kod_ruj_status_kahwin).trigger('change'); }
+                    if(data.detail.taraf_perkahwinan) { $('#personalForm select[name="marital_status"]').val(data.detail.taraf_perkahwinan).trigger('change'); }
                     else { selectionNull('marital_status', 'personalForm'); }
                     originalVal['marital_status'] = $('#personalForm select[name="marital_status"]').find(':selected').text();
 
@@ -444,8 +444,8 @@ Maklumat Pemohon
                     originalVal['phone_number'] = data.detail.no_tel;
 
                     $('#personalForm input[name="email"]').attr('disabled', true);
-                    $('#personalForm input[name="email"]').val(data.detail.emel ? data.detail.emel : data_not_available);
-                    originalVal['email'] = data.detail.emel;
+                    $('#personalForm input[name="email"]').val(data.detail.e_mel ? data.detail.e_mel : data_not_available);
+                    originalVal['email'] = data.detail.e_mel;
 
                     $('#personalForm input[name="personal_no_pengenalan"]').val(data.detail.no_pengenalan);
 

@@ -17,4 +17,7 @@ class CalonLesen extends Model
         'created_by',
         'updated_by',
     ];
+
+    protected $primaryKey='no_pengenalan';
+    public $incrementing = false;
 }
