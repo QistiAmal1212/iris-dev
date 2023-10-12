@@ -46,7 +46,7 @@ class SkimController extends Controller
 
         $ggh = SalaryGrade::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skim_pkh = SkimPerkhidmatan::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $kump_jkk = KumpulanJKK::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $kump_jkk = KumpulanJKK::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         if ($request->ajax()) {
             $skim = Skim::orderBy('kod', 'asc');

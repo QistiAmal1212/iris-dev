@@ -68,7 +68,7 @@ class MaklumatPemohonController extends Controller
         $gredSvm = GredMatapelajaran::where('tkt', 5)->orderBy('susunan', 'asc')->get();
         $gredStpm = GredMatapelajaran::where('tkt', 6)->orderBy('susunan', 'asc')->get();
         $gredStam = GredMatapelajaran::where('tkt', 6)->orderBy('susunan', 'asc')->get();
-        $institutions = Institution::orderBy('jenis_institusi', 'asc')->orderBy('diskripsi', 'asc')->get();
+        $institutions = Institution::where('sah_yt', 'Y')->orderBy('jenis_institusi', 'asc')->orderBy('diskripsi', 'asc')->get();
         $jenisBekasTenteraPolis = JenisBekasTenteraPolis::all();
         $jenisPerkhidmatan = JenisPerkhidmatan::all();
         $maritalStatuses = MaritalStatus::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
@@ -81,7 +81,7 @@ class MaklumatPemohonController extends Controller
         $religions = Religion::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $states = State::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skims = Skim::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $specializations = Specialization::orderBy('diskripsi', 'asc')->get();
+        $specializations = Specialization::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $subjekPmr = Subject::where('sah_yt', 'Y')->where('tkt', 3)->orderBy('diskripsi', 'asc')->get();
         $subjekSpm = Subject::where('sah_yt', 'Y')->where('tkt', 5)->orderBy('diskripsi', 'asc')->get();
         $subjekSpmv = Subject::where('sah_yt', 'Y')->where('tkt', 5)->orderBy('diskripsi', 'asc')->get();
@@ -95,11 +95,11 @@ class MaklumatPemohonController extends Controller
         $subjekMatrikulasi =  MatriculationSubject::orderBy('name', 'asc')->get();
         $kategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('nama', 'asc')->get();
         $Bahasa = Language::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->orderBy('nama', 'asc')->get();
+        $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->where('sah_yt', 'Y')->orderBy('nama', 'asc')->get();
         $jenisPeperiksaan = Qualification::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $sektorPekerjaan = KodPelbagai::where('kategori', 'JENIS PERKHIDMATAN')->orderBy('nama', 'asc')->get();
+        $sektorPekerjaan = KodPelbagai::where('kategori', 'JENIS PERKHIDMATAN')->where('sah_yt', 'Y')->orderBy('nama', 'asc')->get();
         $gredJawatan = SalaryGrade::where('sah_yt', 'Y')->orderBy('kod', 'asc')->get();
-        $kumpulanPerkhidmatan = KumpulanSSM::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $kumpulanPerkhidmatan = KumpulanSSM::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'pusatTemuduga', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'kolejMatrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU', 'Bahasa', 'kategoriPenguasaan', 'jenisPeperiksaan', 'sektorPekerjaan', 'gredJawatan', 'kumpulanPerkhidmatan'));
     }

@@ -172,7 +172,7 @@
 
                         $('#kumpulanjkkForm').attr('action', url2);
                         $('#kumpulanjkkForm input[name="code"]').val(data.detail.kod);
-                        $('#kumpulanjkkForm input[name="name"]').val(data.detail.nama);
+                        $('#kumpulanjkkForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#kumpulanjkkForm input[name="code"]').prop('readonly', true);
 

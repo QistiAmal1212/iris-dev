@@ -490,7 +490,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{ketuaperkhidmatanId}', [KetuaPerkhidmatanController::class, 'toggleActive'])->name('admin.reference.ketuaperkhidmatan.toggleActive');
         });
 
-        Route::prefix('kumpulan_jkk')->group(function () {
+        Route::prefix('kumpulan_JKK')->group(function () {
             Route::get('/', [KumpulanJKKController::class, 'index'])->name('admin.reference.kumpulanjkk');
             Route::post('create', [KumpulanJKKController::class, 'store'])->name('admin.reference.kumpulanjkk.store');
             Route::get('edit/{kumpulanjkkId}', [KumpulanJKKController::class, 'edit'])->name('admin.reference.kumpulanjkk.edit');
@@ -506,7 +506,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{negaraId}', [NegaraController::class, 'toggleActive'])->name('admin.reference.negara.toggleActive');
         });
 
-        Route::prefix('kumpulan_ssm')->group(function () {
+        Route::prefix('kumpulan_SSM')->group(function () {
             Route::get('/', [KumpulanSSMController::class, 'index'])->name('admin.reference.kumpulanssm');
             Route::post('create', [KumpulanSSMController::class, 'store'])->name('admin.reference.kumpulanssm.store');
             Route::get('edit/{kumpulanssmId}', [KumpulanSSMController::class, 'edit'])->name('admin.reference.kumpulanssm.edit');
