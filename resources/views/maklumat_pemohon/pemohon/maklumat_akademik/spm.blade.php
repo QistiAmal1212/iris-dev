@@ -67,7 +67,6 @@
                     <th>Bil.</th>
                     <th>Mata Pelajaran</th>
                     <th>Gred</th>
-                    <th>Tahun</th>
                     <th>Kemaskini</th>
                 </tr>
             </thead>
@@ -146,7 +145,6 @@
                     <th>Bil.</th>
                     <th>Mata Pelajaran</th>
                     <th>Gred</th>
-                    <th>Tahun</th>
                     <th>Kemaskini</th>
                 </tr>
             </thead>
@@ -225,7 +223,6 @@
                     <th>Bil.</th>
                     <th>Mata Pelajaran</th>
                     <th>Gred</th>
-                    <th>Tahun</th>
                     <th>Kemaskini</th>
                 </tr>
             </thead>
@@ -276,7 +273,6 @@
                         trSpm += '<td align="center">' + bilSpm + '</td>';
                         trSpm += '<td>' + item.subject_form5.name + '</td>';
                         trSpm += '<td align="center">' + item.gred + '</td>';
-                        trSpm += '<td align="center">' + item.tahun + '</td>';
                         trSpm += '<td align="center"><i class="fas fa-pencil text-primary editSpm-btn" data-id="' + item.id + ' "></i>';
                         trSpm += '&nbsp;&nbsp;';
                         trSpm += '<i class="fas fa-trash text-danger deleteSpm-btn" data-id="' + item.id + '"></i></td>';
@@ -367,7 +363,6 @@
                         trSpmv += '<td align="center">' + bilSpmv + '</td>';
                         trSpmv += '<td>' + item.subject_form5.name + '</td>';
                         trSpmv += '<td align="center">' + item.gred + '</td>';
-                        trSpmv += '<td align="center">' + item.tahun + '</td>';
                         trSpmv += '<td align="center"><i class="fas fa-pencil text-primary editSpmv-btn" data-id="' + item.id + ' "></i>';
                         trSpmv += '&nbsp;&nbsp;';
                         trSpmv += '<i class="fas fa-trash text-danger deleteSpmv-btn" data-id="' + item.id + '"></i></td>';
@@ -457,7 +452,6 @@
                         trSvm += '<td align="center">' + bilSvm + '</td>';
                         trSvm += '<td>' + item.subject_form5.name + '</td>';
                         trSvm += '<td align="center">' + item.gred + '</td>';
-                        trSvm += '<td align="center">' + item.tahun + '</td>';
                         trSvm += '<td align="center"><i class="fas fa-pencil text-primary editSvm-btn" data-id="' + item.id + ' "></i>';
                         trSvm += '&nbsp;&nbsp;';
                         trSvm += '<i class="fas fa-trash text-danger deleteSvm-btn" data-id="' + item.id + '"></i></td>';

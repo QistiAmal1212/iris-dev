@@ -67,7 +67,6 @@
                     <th>Bil.</th>
                     <th>Mata Pelajaran</th>
                     <th>Gred</th>
-                    <th>Tahun</th>
                     <th>Kemaskini</th>
                 </tr>
             </thead>
@@ -145,7 +144,6 @@
                     <th>Bil.</th>
                     <th>Mata Pelajaran</th>
                     <th>Gred</th>
-                    <th>Tahun</th>
                     <th>Kemaskini</th>
                 </tr>
             </thead>
@@ -311,7 +309,6 @@
                         trStpm += '<td align="center">' + bilStpm + '</td>';
                         trStpm += '<td>' + item.subject_form6.name + '</td>';
                         trStpm += '<td align="center">' + item.gred + '</td>';
-                        trStpm += '<td align="center">' + item.tahun + '</td>';
                         trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
                         trStpm += '&nbsp;&nbsp;';
                         trStpm += '<i class="fas fa-trash text-danger deleteStpm-btn" data-id="' + item.id + '"></i></td>';
@@ -403,7 +400,6 @@
                         trStam += '<td align="center">' + bilStam + '</td>';
                         trStam += '<td>' + item.subject_form6.name + '</td>';
                         trStam += '<td align="center">' + item.gred + '</td>';
-                        trStam += '<td align="center">' + item.tahun + '</td>';
                         trStam += '<td align="center"><i class="fas fa-pencil text-primary editStam-btn" data-id="' + item.id + ' " data-form="stam"></i>';
                         trStam += '&nbsp;&nbsp;';
                         trStam += '<i class="fas fa-trash text-danger deleteStam-btn" data-id="' + item.id + '"></i></td>';
