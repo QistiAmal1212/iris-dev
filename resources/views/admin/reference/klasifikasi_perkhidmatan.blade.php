@@ -172,7 +172,7 @@
 
                         $('#klasifikasiperkhidmatanForm').attr('action', url2);
                         $('#klasifikasiperkhidmatanForm input[name="code"]').val(data.detail.kod);
-                        $('#klasifikasiperkhidmatanForm input[name="name"]').val(data.detail.nama);
+                        $('#klasifikasiperkhidmatanForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#klasifikasiperkhidmatanForm input[name="code"]').prop('readonly', true);
 

@@ -61,7 +61,7 @@ class JelasUrusanController extends Controller
                     return $jelasurusan->kod;
                 })
                 ->editColumn('nama', function ($jelasurusan) {
-                    return $jelasurusan->nama;
+                    return $jelasurusan->diskripsi;
                 })
                 ->editColumn('action', function ($jelasurusan) use ($accessDelete) {
                     $button = "";
@@ -103,10 +103,10 @@ class JelasUrusanController extends Controller
 
             $jelasurusan = JelasUrusan::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'sah_yt'=> "Y",
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
@@ -188,8 +188,8 @@ class JelasUrusanController extends Controller
 
             $jelasurusan->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $jelasurusanNewData = JelasUrusan::find($jelasurusanId);

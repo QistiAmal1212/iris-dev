@@ -67,13 +67,13 @@ class JenisOkuJKMController extends Controller
 
             return Datatables::of($jenisoku->get())
                 ->editColumn('kod', function ($jenisoku){
-                    return $jenisoku->kod;
+                    return $jenisoku->kod_oku;
                 })
                 ->editColumn('nama', function ($jenisoku) {
-                    return $jenisoku->nama;
+                    return $jenisoku->kategori_oku;
                 })
                 ->editColumn('sub', function ($jenisoku) {
-                    if($jenisoku->sub_oku) return $jenisoku->sub_oku;
+                    if($jenisoku->diskripsi_oku) return $jenisoku->diskripsi_oku;
                     else return "-";
                 })
                 ->editColumn('action', function ($jenisoku) use ($accessDelete) {
@@ -106,7 +106,7 @@ class JenisOkuJKMController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_oku_jkm,kod',
+                'code' => 'required|string|unique:ruj_jenis_oku_jkm,kod_oku',
                 'name' => 'required|string',
                 'sub' => 'required|string',
             ],[
@@ -117,12 +117,12 @@ class JenisOkuJKMController extends Controller
             ]);
 
             $jenisoku = JenisOkuJKM::create([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'sub_oku' => strtoupper($request->sub),
+                'kod_oku' => $request->code,
+                'kategori_oku' => strtoupper($request->name),
+                'diskripsi_oku' => strtoupper($request->sub),
                 'sah_yt' => "Y",
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
@@ -194,7 +194,7 @@ class JenisOkuJKMController extends Controller
             $log->data_old = json_encode($jenisoku);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_oku_jkm,kod,'.$jenisokuId,
+                'code' => 'required|string|unique:ruj_jenis_oku_jkm,kod_oku,'.$jenisokuId,
                 'name' => 'required|string',
                 'sub' => 'required|string',
             ],[
@@ -205,10 +205,10 @@ class JenisOkuJKMController extends Controller
             ]);
 
             $jenisoku->update([
-                'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'sub_oku' => strtoupper($request->sub),
-                'updated_by' => auth()->user()->id,
+                'kod_oku' => $request->code,
+                'kategori_oku' => strtoupper($request->name),
+                'diskripsi_oku' => strtoupper($request->sub),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $jenisokuNewData = JenisOkuJKM::find($jenisokuId);
