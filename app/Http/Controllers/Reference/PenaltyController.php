@@ -56,21 +56,21 @@ class PenaltyController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            $penalty = Penalty::orderBy('code', 'asc');
+            $penalty = Penalty::orderBy('kod', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $penalty->where('category', $request->activity_type_id);
+                $penalty->where('kategori', $request->activity_type_id);
             }
 
             return Datatables::of($penalty->get())
                 ->editColumn('code', function ($penalty){
-                    return $penalty->code;
+                    return $penalty->kod;
                 })
                 ->editColumn('name', function ($penalty) {
-                    return $penalty->name;
+                    return $penalty->diskripsi;
                 })
                 ->editColumn('kategori', function ($penalty) {
-                    return $penalty->category;
+                    return $penalty->kategori;
                 })
                 ->editColumn('action', function ($penalty) use ($accessDelete) {
                     $button = "";
@@ -79,7 +79,7 @@ class PenaltyController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="penaltyForm('.$penalty->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($penalty->is_active) {
+                        if($penalty->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$penalty->id.'" onclick="toggleActive('.$penalty->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$penalty->id.'" onclick="toggleActive('.$penalty->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -102,7 +102,7 @@ class PenaltyController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tatatertib,code',
+                'code' => 'required|string|unique:ruj_tatatertib,kod',
                 'name' => 'required|string',
                 'category' => 'required|string',
             ],[
@@ -113,11 +113,12 @@ class PenaltyController extends Controller
             ]);
 
             $penalty = Penalty::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'category' => strtoupper($request->category),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'kategori' => strtoupper($request->category),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' =>'Y'
             ]);
 
             $log = new LogSystem;
@@ -187,7 +188,7 @@ class PenaltyController extends Controller
             $log->data_old = json_encode($penalty);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tatatertib,code,'.$penaltyId,
+                'code' => 'required|string|unique:ruj_tatatertib,kod,'.$penaltyId,
                 'name' => 'required|string',
                 'category' => 'required|string',
             ],[
@@ -198,10 +199,10 @@ class PenaltyController extends Controller
             ]);
 
             $penalty->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'category' => strtoupper($request->category),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'kategori' => strtoupper($request->category),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $penaltyNewData = Penalty::find($penaltyId);
@@ -230,10 +231,13 @@ class PenaltyController extends Controller
             $penaltyId = $request->penaltyId;
             $penalty = Penalty::find($penaltyId);
 
-            $is_active = $penalty->is_active;
+            $sah_yt = $penalty->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $penalty->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

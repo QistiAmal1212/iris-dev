@@ -23,7 +23,7 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
         <select class="select2 form-control" name="jenis_perkhidmatan_tentera_polis" id="jenis_perkhidmatan_tentera_polis" disabled>
             <option value=""></option>
             @foreach($jenisPerkhidmatan as $perkhidmatan)
-            <option value="{{ $perkhidmatan->id }}">{{ $perkhidmatan->name }}</option>
+            <option value="{{ $perkhidmatan->id }}">{{ $perkhidmatan->diskripsi }}</option>
             @endforeach
         <select>
     </div>
@@ -43,7 +43,7 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
         <select class="select2 form-control" name="jenis_bekas_tentera_polis" id="jenis_bekas_tentera_polis" disabled>
             <option value=""></option>
             @foreach($jenisBekasTenteraPolis as $bekas)
-            <option value="{{ $bekas->code }}">{{ $bekas->name }}</option>
+            <option value="{{ $bekas->kod }}">{{ $bekas->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -90,7 +90,7 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
             success: function(data) {
                 $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.jenis_pkhidmat).trigger('change');
                 $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').attr('disabled', true);
-                $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.pangkat_tentera_polis).trigger('change');
+                $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.pangkat_tent_polis).trigger('change');
                 $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);
                 $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.jenis_bekas_tentera).trigger('change');
                 $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', true);

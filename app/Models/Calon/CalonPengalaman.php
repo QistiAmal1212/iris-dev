@@ -42,7 +42,7 @@ class CalonPengalaman extends Model
     const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function job() {
-        return $this->belongsTo('App\Models\Reference\Job', 'kod_ruj_pekerjaan', 'code');
+        return $this->belongsTo('App\Models\Reference\Job', 'kod_ruj_pekerjaan', 'kod');
     }
 
     public function positionLevel() {

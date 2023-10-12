@@ -258,7 +258,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{genderId}', [GenderController::class, 'toggleActive'])->name('admin.reference.gender.toggleActive');
         });
 
-        Route::prefix('job')->group(function () {
+        Route::prefix('pekerjaan')->group(function () {
             Route::get('/', [JobController::class, 'index'])->name('admin.reference.job');
             Route::post('create', [JobController::class, 'store'])->name('admin.reference.job.store');
             Route::get('edit/{jobId}', [JobController::class, 'edit'])->name('admin.reference.job.edit');
@@ -290,7 +290,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{matriculationCourseId}', [MatriculationCourseController::class, 'toggleActive'])->name('admin.reference.matriculation-course.toggleActive');
         });
 
-        Route::prefix('matriculation_subject')->group(function () {
+        Route::prefix('sunjek_matrikulasi')->group(function () {
             Route::get('/', [MatriculationSubjectController::class, 'index'])->name('admin.reference.matriculation-subject');
             Route::post('create', [MatriculationSubjectController::class, 'store'])->name('admin.reference.matriculation-subject.store');
             Route::get('edit/{matriculationSubjectId}', [MatriculationSubjectController::class, 'edit'])->name('admin.reference.matriculation-subject.edit');
@@ -346,7 +346,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{levelJKKId}', [LevelJKKController::class, 'toggleActive'])->name('admin.reference.level-JKK.toggleActive');
         });
 
-        Route::prefix('area_interview_centre')->group(function () {
+        Route::prefix('kawasan_pusat_temuduga')->group(function () {
             Route::get('/', [AreaInterviewCentreController::class, 'index'])->name('admin.reference.area-interview-centre');
             Route::post('create', [AreaInterviewCentreController::class, 'store'])->name('admin.reference.area-interview-centre.store');
             Route::get('edit/{areaInterviewCentreId}', [AreaInterviewCentreController::class, 'edit'])->name('admin.reference.area-interview-centre.edit');
@@ -354,7 +354,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{areaInterviewCentreId}', [AreaInterviewCentreController::class, 'toggleActive'])->name('admin.reference.area-interview-centre.toggleActive');
         });
 
-        Route::prefix('penalty')->group(function () {
+        Route::prefix('tatatertib')->group(function () {
             Route::get('/', [PenaltyController::class, 'index'])->name('admin.reference.penalty');
             Route::post('create', [PenaltyController::class, 'store'])->name('admin.reference.penalty.store');
             Route::get('edit/{penaltyId}', [PenaltyController::class, 'edit'])->name('admin.reference.penalty.edit');
@@ -394,7 +394,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{kodpelbagaiId}', [KodPelbagaiController::class, 'toggleActive'])->name('admin.reference.kodpelbagai.toggleActive');
         });
 
-        Route::prefix('bekas_tentera')->group(function () {
+        Route::prefix('bekas_tentera_polis')->group(function () {
             Route::get('/', [JenisBekasTenteraPolisController::class, 'index'])->name('admin.reference.bekastentera');
             Route::post('create', [JenisBekasTenteraPolisController::class, 'store'])->name('admin.reference.bekastentera.store');
             Route::get('edit/{bekastenteraId}', [JenisBekasTenteraPolisController::class, 'edit'])->name('admin.reference.bekastentera.edit');

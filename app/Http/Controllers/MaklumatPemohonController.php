@@ -69,10 +69,10 @@ class MaklumatPemohonController extends Controller
         $gredStpm = GredMatapelajaran::where('tkt', 6)->orderBy('susunan', 'asc')->get();
         $gredStam = GredMatapelajaran::where('tkt', 6)->orderBy('susunan', 'asc')->get();
         $institutions = Institution::where('sah_yt', 'Y')->orderBy('jenis_institusi', 'asc')->orderBy('diskripsi', 'asc')->get();
-        $jenisBekasTenteraPolis = JenisBekasTenteraPolis::all();
+        $jenisBekasTenteraPolis = JenisBekasTenteraPolis::where('sah_yt', 'Y')->get();
         $jenisPerkhidmatan = JenisPerkhidmatan::all();
         $maritalStatuses = MaritalStatus::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $penalties = Penalty::all();
+        $penalties = Penalty::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $peringkatPengajian = PeringkatPengajian::all();
         $positionLevels = PositionLevel::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $races = Race::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
@@ -92,7 +92,7 @@ class MaklumatPemohonController extends Controller
         $talentkod = Talent::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $kolejMatrikulasi = Matriculation::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $jurusanMatrikulasi = MatriculationCourse::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $subjekMatrikulasi =  MatriculationSubject::where('is_active', 1)->orderBy('name', 'asc')->get();
+        $subjekMatrikulasi =  MatriculationSubject::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $kategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $Bahasa = Language::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
@@ -2314,7 +2314,7 @@ class MaklumatPemohonController extends Controller
 
             $request->validate([
                 'penalty_no_pengenalan' => 'required|string|exists:calon,no_pengenalan',
-                'penalty' => 'required|string|exists:ruj_tatatertib,code',
+                'penalty' => 'required|string|exists:ruj_tatatertib,kod',
                 'penalty_duration' => 'required|integer',
                 'penalty_type' => 'required',
                 'penalty_start' => 'required',

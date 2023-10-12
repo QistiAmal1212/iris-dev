@@ -10,10 +10,12 @@ class AreaInterviewCentre extends Model
 
     protected $fillable = [
         'kod',
-        'nama',
+        'diskripsi',
         'kawasan_induk',
-        'created_by',
-        'updated_by',
-        'sah_yt',
+        'id_pencipta',
+        'pengguna',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

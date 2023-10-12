@@ -43,7 +43,7 @@ class InterviewCentreController extends Controller
             }
         }
 
-        $areaInterviewCentre = AreaInterviewCentre::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $areaInterviewCentre = AreaInterviewCentre::where('sah_yt', 1)->orderBy('diskripsi', 'asc')->get();
 
         $states = State::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 

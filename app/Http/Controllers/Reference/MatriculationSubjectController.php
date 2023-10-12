@@ -41,17 +41,17 @@ class MatriculationSubjectController extends Controller
             }
         }
 
-        $matriculationSubject = MatriculationSubject::orderBy('code', 'asc')->get();
+        $matriculationSubject = MatriculationSubject::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($matriculationSubject)
                 ->editColumn('code', function ($matriculationSubject){
-                    return $matriculationSubject->code;
+                    return $matriculationSubject->kod;
                 })
                 ->editColumn('name', function ($matriculationSubject) {
-                    return $matriculationSubject->name;
+                    return $matriculationSubject->diskripsi;
                 })
                 ->editColumn('credit', function ($matriculationSubject) {
-                    return $matriculationSubject->credit;
+                    return $matriculationSubject->kredit;
                 })
                 ->editColumn('semester', function ($matriculationSubject) {
                     return $matriculationSubject->semester;
@@ -63,7 +63,7 @@ class MatriculationSubjectController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="matriculationSubjectForm('.$matriculationSubject->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($matriculationSubject->is_active) {
+                        if($matriculationSubject->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$matriculationSubject->id.'" onclick="toggleActive('.$matriculationSubject->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$matriculationSubject->id.'" onclick="toggleActive('.$matriculationSubject->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -86,7 +86,7 @@ class MatriculationSubjectController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_subjek_matrikulasi,code',
+                'code' => 'required|string|unique:ruj_subjek_matrikulasi,kod',
                 'name' => 'required|string',
                 'credit' => 'required|numeric',
                 'semester' => 'required|numeric',
@@ -103,13 +103,14 @@ class MatriculationSubjectController extends Controller
             ]);
 
             MatriculationSubject::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'credit' => strtoupper($request->credit),
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'kredit' => strtoupper($request->credit),
                 'semester' => strtoupper($request->semester),
-                'category' => strtoupper($request->category),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kategori' => strtoupper($request->category),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             DB::commit();
@@ -152,7 +153,7 @@ class MatriculationSubjectController extends Controller
             $matriculationSubject = MatriculationSubject::find($matriculationSubjectId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_subjek_matrikulasi,code,'.$matriculationSubjectId,
+                'code' => 'required|string|unique:ruj_subjek_matrikulasi,kod,'.$matriculationSubjectId,
                 'name' => 'required|string',
                 'credit' => 'required|numeric',
                 'semester' => 'required|numeric',
@@ -169,12 +170,12 @@ class MatriculationSubjectController extends Controller
             ]);
 
             $matriculationSubject->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'credit' => strtoupper($request->credit),
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'kredit' => strtoupper($request->credit),
                 'semester' => strtoupper($request->semester),
-                'category' => strtoupper($request->category),
-                'updated_by' => auth()->user()->id,
+                'kategori' => strtoupper($request->category),
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -195,10 +196,13 @@ class MatriculationSubjectController extends Controller
             $matriculationSubjectId = $request->matriculationSubjectId;
             $matriculationSubject = MatriculationSubject::find($matriculationSubjectId);
 
-            $is_active = $matriculationSubject->is_active;
+            $sah_yt = $matriculationSubject->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $matriculationSubject->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

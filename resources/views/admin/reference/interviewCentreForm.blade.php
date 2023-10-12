@@ -39,7 +39,7 @@
                                 <select class="form-control" name="ref_area_code" id="ref_area_code" required>
                                     <option value="">Sila Pilih:-</option>
                                     @foreach ($areaInterviewCentre as $area)
-                                    <option value="{{ $area->kod }}">{{ $area->nama }}</option>
+                                    <option value="{{ $area->kod }}">{{ $area->diskripsi }}</option>
                                     @endforeach
                                 </select>
                             </div>

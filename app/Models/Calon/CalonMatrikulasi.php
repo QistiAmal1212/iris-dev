@@ -39,6 +39,6 @@ class CalonMatrikulasi extends Model
     }
 
     public function subject(){
-        return $this->belongsTo('App\Models\Reference\MatriculationSubject', 'kod_subjek', 'code');
+        return $this->belongsTo('App\Models\Reference\MatriculationSubject', 'kod_subjek', 'kod');
     }
 }

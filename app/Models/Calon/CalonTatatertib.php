@@ -27,6 +27,6 @@ class CalonTatatertib extends Model
 
     public function penalty()
     {
-        return $this->belongsTo('App\Models\Reference\Penalty', 'kod_ruj_penalti', 'code');
+        return $this->belongsTo('App\Models\Reference\Penalty', 'kod_ruj_penalti', 'kod');
     }
 }
