@@ -33,7 +33,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="oku_category" id="oku_category" disabled>
                 <option value=""></option>
                 @foreach($kategoriOKU as $kategori)
-                <option value="{{ $kategori->kod }}">{{ $kategori->nama }}</option>
+                <option value="{{ $kategori->kod }}">{{ $kategori->diskripsi }}</option>
                 @endforeach
             </select>
             <div id="oku_categoryAlert" style="color: red; font-size: smaller;"></div>

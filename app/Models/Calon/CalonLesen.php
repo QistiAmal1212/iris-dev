@@ -9,15 +9,18 @@ class CalonLesen extends Model
     protected $table = 'calon_lesen';
 
     protected $fillable = [
-    	'no_pengenalan',
+    	'cal_no_pengenalan',
         'jenis_lesen',
         'tempoh_tamat',
         'status_senaraihitam',
         'msg_senaraihitam',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
     ];
 
-    protected $primaryKey='no_pengenalan';
+    protected $primaryKey='cal_no_pengenalan';
     public $incrementing = false;
+    protected $keyType = 'string';
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

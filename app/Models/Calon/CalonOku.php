@@ -15,12 +15,18 @@ class CalonOku extends Model
         'status_oku',
         'kategori_oku',
         'sub_oku',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
     ];
+
+    protected $primaryKey='cal_no_pengenalan';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function kategori()
     {
-        return $this->belongsTo('App\Models\Reference\KodPelbagai', 'category', 'kod');
+        return $this->belongsTo('App\Models\Reference\KodPelbagai', 'kategori', 'kod');
     }
 }

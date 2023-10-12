@@ -26,7 +26,7 @@
             <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
                 <option value=""></option>
                 @foreach($subjekStpm as $subjek)
-                <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                 @endforeach
             </select>
         </div>
@@ -104,7 +104,7 @@
             <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
                 <option value=""></option>
                 @foreach($subjekStam as $subjek)
-                <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                 @endforeach
             </select>
         </div>
@@ -183,7 +183,7 @@
             <select class="select2 form-control" value="" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
                 <option value=""></option>
                 @foreach($kolejMatrikulasi as $kolej)
-                <option value="{{ $kolej->code }}">{{ $kolej->name }}</option>
+                <option value="{{ $kolej->kod }}">{{ $kolej->diskripsi }}</option>
                 @endforeach
             </select>
         </div>
@@ -193,7 +193,7 @@
             <select class="select2 form-control" value="" id="jurusan_matrikulasi" name="jurusan_matrikulasi" disabled>
                 <option value=""></option>
                 @foreach($jurusanMatrikulasi as $jurusanMatrikulasi)
-                <option value="{{ $jurusanMatrikulasi->code }}">{{ $jurusanMatrikulasi->name }}</option>
+                <option value="{{ $jurusanMatrikulasi->kod }}">{{ $jurusanMatrikulasi->diskripsi }}</option>
                 @endforeach
             </select>
         </div>
@@ -218,7 +218,7 @@
             <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
                 <option value=""></option>
                 @foreach($subjekMatrikulasi as $subjekMatrikulasi)
-                <option value="{{ $subjekMatrikulasi->code }}">{{ $subjekMatrikulasi->name }}</option>
+                <option value="{{ $subjekMatrikulasi->code }}">{{ $subjekMatrikulasi->code }} - {{ $subjekMatrikulasi->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -309,7 +309,7 @@
                         bilStpm += 1;
                         trStpm += '<tr>';
                         trStpm += '<td align="center">' + bilStpm + '</td>';
-                        trStpm += '<td>' + item.subject_form6.name + '</td>';
+                        trStpm += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStpm += '<td align="center">' + item.gred + '</td>';
                         trStpm += '<td align="center">' + item.tahun + '</td>';
                         trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
@@ -401,7 +401,7 @@
                         bilStam += 1;
                         trStam += '<tr>';
                         trStam += '<td align="center">' + bilStam + '</td>';
-                        trStam += '<td>' + item.subject_form6.name + '</td>';
+                        trStam += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStam += '<td align="center">' + item.gred + '</td>';
                         trStam += '<td align="center">' + item.tahun + '</td>';
                         trStam += '<td align="center"><i class="fas fa-pencil text-primary editStam-btn" data-id="' + item.id + ' " data-form="stam"></i>';
@@ -507,8 +507,8 @@
                         bilMatrikulasi += 1;
                         trMatrikulasi += '<tr>';
                         trMatrikulasi += '<td align="center">' + bilMatrikulasi + '</td>';
-                        trMatrikulasi += '<td>' + item.college.name + '</td>';
-                        trMatrikulasi += '<td align="center">' + item.course.name + '</td>';
+                        trMatrikulasi += '<td>' + item.college.diskripsi + '</td>';
+                        trMatrikulasi += '<td align="center">' + item.course.diskripsi + '</td>';
                         trMatrikulasi += '<td align="center">' + item.no_matrik + '</td>';
                         trMatrikulasi += '<td>' + item.sesi + '</td>';
                         trMatrikulasi += '<td align="center">' + item.semester + '</td>';

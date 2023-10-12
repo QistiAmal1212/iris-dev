@@ -9,7 +9,7 @@ class CalonMatrikulasi extends Model
     protected $table = 'calon_matrikulasi';
 
     protected $fillable = [
-    	'no_pengenalan',
+    	'cal_no_pengenalan',
         'tahun_lulus',
         'no_matrik',
         'jenis_sijil',
@@ -20,9 +20,15 @@ class CalonMatrikulasi extends Model
         'kod_subjek',
         'gred',
         'pngk',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
     ];
+
+    protected $primaryKey='cal_no_pengenalan';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function course(){
         return $this->belongsTo('App\Models\Reference\MatriculationCourse', 'jurusan', 'kod');

@@ -51,12 +51,11 @@ class Calon extends Model
     protected $primaryKey='no_pengenalan';
     public $incrementing = false;
     protected $keyType = 'string';
-
     const CREATED_AT = 'tarikh_cipta';
     const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function license() {
-        return $this->hasOne('App\Models\Calon\CalonLesen', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonLesen', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function oku() {
@@ -68,11 +67,11 @@ class Calon extends Model
     }
 
     public function schoolResult() {
-        return $this->hasMany('App\Models\Calon\CalonKeputusanSekolah', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonKeputusanSekolah', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function matriculation() {
-        return $this->hasMany('App\Models\Calon\CalonMatrikulasi', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonMatrikulasi', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function skm() {

@@ -308,13 +308,13 @@ Maklumat Pemohon
         }).then((result) => {
         if (result.isConfirmed) {
             $('#'+btnName).trigger('click');
-            // for (var key in originalVal) {
-            //     if (originalVal.hasOwnProperty(key)) {
-            //         if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
-            //             originalVal[key] = newValues[key];
-            //         }
-            //     }
-            // }
+            for (var key in originalVal) {
+                if (originalVal.hasOwnProperty(key)) {
+                    if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+                        originalVal[key] = newValues[key];
+                    }
+                }
+            }
         }
         })
     }
