@@ -52,7 +52,7 @@ data-reloadPage="false">
         <thead>
             <tr>
                 <th>Bil.</th>
-                <th>Kelulusan</th>
+                <th>Nama Sijil</th>
                 <th>Tahun</th>
                 <th>Kemaskini</th>
             </tr>
