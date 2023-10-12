@@ -412,7 +412,7 @@ class PemohonController extends ApiController
             if($request->pengajian_tinggi != null){
                 foreach($request->pengajian_tinggi as $pengajian){
 
-                    $calonPengajian = CalonPengajianTinggi::where('no_pengenalan', $noPengenalan)
+                    $calonPengajian = CalonPengajianTinggi::where('cal_no_pengenalan', $noPengenalan)
                     ->where('kod_ruj_institusi', $pengajian['institusi'])
                     ->where('kod_ruj_kelayakan', $pengajian['kelayakan'])
                     ->where('kod_ruj_pengkhususan', $pengajian['pengkhususan'])->first();
@@ -429,10 +429,10 @@ class PemohonController extends ApiController
                         $calonPengajian->update($dataPengajian);
                     } else {
                         $dataPengajian = [
-                            'no_pengenalan' => $noPengenalan,
-                            'kod_ruj_institusi' => $pengajian['institusi'],
-                            'kod_ruj_kelayakan' => $pengajian['kelayakan'],
-                            'kod_ruj_pengkhususan' => $pengajian['pengkhususan'],
+                            'cal_no_pengenalan' => $noPengenalan,
+                            'ins_kod' => $pengajian['institusi'],
+                            'kel_kod' => $pengajian['kelayakan'],
+                            'pen_kod' => $pengajian['pengkhususan'],
                             'tahun_lulus' => $pengajian['tahun'],
                             'cgpa' => $pengajian['cgpa'],
                             'ins_fln' => $pengajian['institusi_francais'],

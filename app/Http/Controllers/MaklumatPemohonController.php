@@ -1890,16 +1890,16 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidate = CalonPengajianTinggi::where('no_pengenalan', $request->pengajian_tinggi_no_pengenalan)->first();
+            $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->pengajian_tinggi_no_pengenalan)->first();
 
             $request->validate([
                 'peringkat_pengajian_tinggi' => 'required|string|exists:ruj_peringkat_pengajian,id',
                 'tahun_pengajian_tinggi' => 'required|string',
-                'kelayakan_pengajian_tinggi' => 'required|string|exists:ruj_kelayakan,code',
+                'kelayakan_pengajian_tinggi' => 'required|string|exists:ruj_kelayakan,kod',
                 'cgpa_pengajian_tinggi' => 'required|string',
-                'institusi_pengajian_tinggi' => 'required|string|exists:ruj_institusi,code',
+                'institusi_pengajian_tinggi' => 'required|string|exists:ruj_institusi,kod',
                 'nama_sijil_pengajian_tinggi' => 'required|string',
-                'pengkhususan_pengajian_tinggi' => 'required|string|exists:ruj_pengkhususan,code',
+                'pengkhususan_pengajian_tinggi' => 'required|string|exists:ruj_pengkhususan,kod',
                 'fln_pengajian_tinggi' => 'required|integer|digits_between:1,2',
                 'tarikh_senat_pengajian_tinggi' => 'required',
                 'biasiswa_pengajian_tinggi' => 'required|boolean',
@@ -1924,14 +1924,14 @@ class MaklumatPemohonController extends Controller
 
             if(!$candidate){
                 CalonPengajianTinggi::create([
-                    'no_pengenalan' => $request->pengajian_tinggi_no_pengenalan,
+                    'cal_no_pengenalan' => $request->pengajian_tinggi_no_pengenalan,
                     'peringkat_pengajian' => $request->peringkat_pengajian_tinggi,
                     'tahun_lulus' => $request->tahun_pengajian_tinggi,
-                    'kod_ruj_kelayakan' => $request->kelayakan_pengajian_tinggi,
+                    'kel_kod' => $request->kelayakan_pengajian_tinggi,
                     'cgpa' => $request->cgpa_pengajian_tinggi,
-                    'kod_ruj_institusi' => $request->institusi_pengajian_tinggi,
+                    'ins_kod' => $request->institusi_pengajian_tinggi,
                     'nama_sijil' => $request->nama_sijil_pengajian_tinggi,
-                    'kod_ruj_pengkhususan' => $request->pengkhususan_pengajian_tinggi,
+                    'pen_kod' => $request->pengkhususan_pengajian_tinggi,
                     'ins_fln' => $request->fln_pengajian_tinggi,
                     'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_pengajian_tinggi)->format('Y-m-d'),
                     'biasiswa' => $request->biasiswa_pengajian_tinggi,
@@ -1940,11 +1940,11 @@ class MaklumatPemohonController extends Controller
                 $candidate->update([
                     'peringkat_pengajian' => $request->peringkat_pengajian_tinggi,
                     'tahun_lulus' => $request->tahun_pengajian_tinggi,
-                    'kod_ruj_kelayakan' => $request->kelayakan_pengajian_tinggi,
+                    'kel_kod' => $request->kelayakan_pengajian_tinggi,
                     'cgpa' => $request->cgpa_pengajian_tinggi,
-                    'kod_ruj_institusi' => $request->institusi_pengajian_tinggi,
+                    'ins_kod' => $request->institusi_pengajian_tinggi,
                     'nama_sijil' => $request->nama_sijil_pengajian_tinggi,
-                    'kod_ruj_pengkhususan' => $request->pengkhususan_pengajian_tinggi,
+                    'pen_kod' => $request->pengkhususan_pengajian_tinggi,
                     'ins_fln' => $request->fln_pengajian_tinggi,
                     'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_pengajian_tinggi)->format('Y-m-d'),
                     'biasiswa' => $request->biasiswa_pengajian_tinggi,
@@ -1974,7 +1974,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateHigherEducation = CalonPengajianTinggi::where('no_pengenalan', $request->noPengenalan)->first();
+            $candidateHigherEducation = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)->first();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);

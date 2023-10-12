@@ -79,7 +79,7 @@ class Calon extends Model
     }
 
     public function higherEducation() {
-        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function professional() {
