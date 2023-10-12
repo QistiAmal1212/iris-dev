@@ -41,7 +41,7 @@ data-reloadPage="false">
         <select class="select2 form-control" value="" name="kelayakan_pengajian_tinggi" id="kelayakan_pengajian_tinggi" disabled>
             <option value=""></option>
             @foreach($eligibilities as $eligibility)
-            <option value="{{ $eligibility->code }}">{{ $eligibility->name }}</option>
+            <option value="{{ $eligibility->kod }}">{{ $eligibility->diskripsi }}</option>
             @endforeach
         </select>
     </div>

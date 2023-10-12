@@ -285,9 +285,9 @@
 
                         $('#interviewCentreForm').attr('action', url2);
                         $('#interviewCentreForm input[name="code"]').val(data.detail.kod);
-                        $('#interviewCentreForm input[name="name"]').val(data.detail.nama);
-                        $('#interviewCentreForm select[name="ref_area_code"]').val(data.detail.kod_ruj_kawasan_pst_td).trigger('change');
-                        $('#interviewCentreForm select[name="ref_state_code"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#interviewCentreForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#interviewCentreForm select[name="ref_area_code"]').val(data.detail.kpt_kod).trigger('change');
+                        $('#interviewCentreForm select[name="ref_state_code"]').val(data.detail.neg_kod).trigger('change');
                         $('#interviewCentreForm input[name="kod_pendek"]').val(data.detail.kod_pendek);
                         $('#interviewCentreForm input[name="code"]').prop('readonly', true);
 

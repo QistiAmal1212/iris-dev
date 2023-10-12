@@ -9,15 +9,17 @@ class Eligibility extends Model
     protected $table = 'ruj_kelayakan';
 
     protected $fillable = [
-        'code',
-        'name',
-        'ref_skim_code',
-        'category',
-        'equivalent',
-        'pemerolehan_code',
-        'rank',
-        'created_by',
-        'updated_by',
-        'is_active',
+        'kod',
+        'diskripsi',
+        'ski_kod',
+        'kategori_kelayakan',
+        'kelayakan_setara',
+        'rank_layak',
+        'id_pencipta',
+        'pengguna',
+        'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

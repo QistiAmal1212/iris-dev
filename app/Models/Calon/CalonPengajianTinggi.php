@@ -29,7 +29,7 @@ class CalonPengajianTinggi extends Model
     }
 
     public function eligibility() {
-        return $this->belongsTo('App\Models\Reference\Eligibility', 'kod_ruj_kelayakan', 'code');
+        return $this->belongsTo('App\Models\Reference\Eligibility', 'kod_ruj_kelayakan', 'kod');
     }
 
     public function specialization() {

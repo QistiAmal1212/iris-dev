@@ -370,7 +370,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{salaryGradeDetailsId}', [SalaryGradeDetailsController::class, 'toggleActive'])->name('admin.reference.salary-grade-details.toggleActive');
         });
 
-        Route::prefix('interview_centre')->group(function () {
+        Route::prefix('pusat_temuduga')->group(function () {
             Route::get('/', [InterviewCentreController::class, 'index'])->name('admin.reference.interview-centre');
             Route::post('create', [InterviewCentreController::class, 'store'])->name('admin.reference.interview-centre.store');
             Route::get('edit/{interviewCentreId}', [InterviewCentreController::class, 'edit'])->name('admin.reference.interview-centre.edit');
@@ -378,7 +378,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{interviewCentreId}', [InterviewCentreController::class, 'toggleActive'])->name('admin.reference.interview-centre.toggleActive');
         });
 
-        Route::prefix('eligibility')->group(function () {
+        Route::prefix('kelayakan')->group(function () {
             Route::get('/', [EligibilityController::class, 'index'])->name('admin.reference.eligibility');
             Route::post('create', [EligibilityController::class, 'store'])->name('admin.reference.eligibility.store');
             Route::get('edit/{eligibilityId}', [EligibilityController::class, 'edit'])->name('admin.reference.eligibility.edit');

@@ -59,10 +59,10 @@ class InterviewCentreController extends Controller
                     return $interviewCentre->kod;
                 })
                 ->editColumn('name', function ($interviewCentre) {
-                    return $interviewCentre->nama;
+                    return $interviewCentre->diskripsi;
                 })
                 ->editColumn('neg', function ($interviewCentre) {
-                    return $interviewCentre->kod_ruj_negeri;
+                    return $interviewCentre->neg_kod;
                 })
                 ->editColumn('action', function ($interviewCentre) use ($accessDelete) {
                     $button = "";
@@ -71,7 +71,7 @@ class InterviewCentreController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="interviewCentreForm('.$interviewCentre->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($interviewCentre->sah_yt) {
+                        if($interviewCentre->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$interviewCentre->id.'" onclick="toggleActive('.$interviewCentre->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$interviewCentre->id.'" onclick="toggleActive('.$interviewCentre->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -113,12 +113,12 @@ class InterviewCentreController extends Controller
 
             InterviewCentre::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'kod_ruj_kawasan_pst_td' => $request->ref_area_code,
-                'kod_ruj_negeri' => strtoupper($request->ref_state_code),
+                'diskripsi' => strtoupper($request->name),
+                'kpt_kod' => $request->ref_area_code,
+                'neg_kod' => strtoupper($request->ref_state_code),
                 'kod_pendek' => strtoupper($request->kod_pendek),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -178,11 +178,11 @@ class InterviewCentreController extends Controller
 
             $interviewCentre->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'kod_ruj_kawasan_pst_td' => $request->ref_area_code,
-                'kod_ruj_negeri' => strtoupper($request->ref_state_code),
+                'diskripsi' => strtoupper($request->name),
+                'kpt_kod' => $request->ref_area_code,
+                'neg_kod' => strtoupper($request->ref_state_code),
                 'kod_pendek' => strtoupper($request->kod_pendek),
-                'updated_by' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -205,8 +205,11 @@ class InterviewCentreController extends Controller
 
             $sah_yt = $interviewCentre->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $interviewCentre->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

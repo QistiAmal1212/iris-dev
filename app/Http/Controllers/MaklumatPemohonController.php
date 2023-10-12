@@ -60,7 +60,7 @@ class MaklumatPemohonController extends Controller
     public function searchPemohon ()
     {
         $departmentMinistries = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $eligibilities = Eligibility::all();
+        $eligibilities = Eligibility::where('sah_yt', 'Y')->get();
         $genders = Gender::all();
         $gredPmr = GredMatapelajaran::where('tkt', 3)->orderBy('susunan', 'asc')->get();
         $gredSpm = GredMatapelajaran::where('tkt', 5)->orderBy('susunan', 'asc')->get();
@@ -76,7 +76,7 @@ class MaklumatPemohonController extends Controller
         $peringkatPengajian = PeringkatPengajian::all();
         $positionLevels = PositionLevel::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $races = Race::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $pusatTemuduga = InterviewCentre::all();
+        $pusatTemuduga = InterviewCentre::where('sah_yt', 'Y')->get();
         $ranks = Rank::all();
         $religions = Religion::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $states = State::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();

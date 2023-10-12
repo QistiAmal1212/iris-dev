@@ -10,14 +10,17 @@ class InterviewCentre extends Model
 
     protected $fillable = [
         'kod',
-        'nama',
-        'kod_ruj_kawasan_pst_td',
-        'kod_ruj_negeri',
+        'diskripsi',
+        'kpt_kod',
+        'neg_kod',
         'jenis_pusat',
         'kod_pendek',
         'order_seq',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
         'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }
