@@ -1577,11 +1577,11 @@ class MaklumatPemohonController extends Controller
             ]);
 
             CalonSkm::create([
-                'no_pengenalan' => $request->skm_no_pengenalan,
-                'kod_ruj_kelulusan' => $request->nama_skm,
+                'cal_no_pengenalan' => $request->skm_no_pengenalan,
+                'kel1_kod' => $request->nama_skm,
                 'tahun_lulus' => $request->tahun_skm,
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             CalonGarisMasa::create([
@@ -1606,7 +1606,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidateSkm = CalonSkm::where('no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+            $candidateSkm = CalonSkm::where('cal_no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -1638,8 +1638,9 @@ class MaklumatPemohonController extends Controller
             ]);
 
             CalonSkm::where('id',$request->id_skm)->update([
-                'kod_ruj_kelulusan' => $request->nama_skm,
+                'kel1_kod' => $request->nama_skm,
                 'tahun_lulus' => $request->tahun_skm,
+                'pengguna' => auth()->user()->id,
             ]);
 
             CalonGarisMasa::create([
@@ -2239,7 +2240,7 @@ class MaklumatPemohonController extends Controller
             $request->validate([
                 'jenis_perkhidmatan_tentera_polis' => 'required|string|exists:ruj_jenis_perkhidmatan,id',
                 'pangkat_tentera_polis' => 'required|string|exists:ruj_pangkat,code',
-                'jenis_bekas_tentera_polis' => 'required|string|exists:ruj_jenis_bekas_tentera_polis,code',
+                'jenis_bekas_tentera_polis' => 'required|string|exists:ruj_jenis_bekas_tentera_polis,kod',
             ],[
                 'jenis_perkhidmatan_tentera_polis.required' => 'Sila pilih jenis penamatan perkhidmatan',
                 'jenis_perkhidmatan_tentera_polis.exists' => 'Tiada rekod jenis penamatan perkhidmatan yang dipilih',
@@ -2253,14 +2254,17 @@ class MaklumatPemohonController extends Controller
                 CalonTenteraPolis::create([
                     'no_pengenalan' =>$request->tentera_polis_no_pengenalan,
                     'jenis_pkhidmat' => $request->jenis_perkhidmatan_tentera_polis,
-                    'pangkat_tentera_polis' => $request->pangkat_tentera_polis,
+                    'pangkat_tent_polis' => $request->pangkat_tentera_polis,
                     'jenis_bekas_tentera' => $request->jenis_bekas_tentera_polis,
+                    'id_pencipta' => auth()->user()->id,
+                    'pengguna' => auth()->user()->id,
                 ]);
             } else {
                 $candidate->update([
                     'jenis_pkhidmat' => $request->jenis_perkhidmatan_tentera_polis,
-                    'pangkat_tentera_polis' => $request->pangkat_tentera_polis,
+                    'pangkat_tent_polis' => $request->pangkat_tentera_polis,
                     'jenis_bekas_tentera' => $request->jenis_bekas_tentera_polis,
+                    'pengguna' => auth()->user()->id,
                 ]);
             }
 

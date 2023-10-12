@@ -166,7 +166,7 @@ class PemohonController extends ApiController
             if($request->skim != null){
                 foreach($request->skim as $skim) {
 
-                    $calonSkim = CalonSkim::where('no_pengenalan', $noPengenalan)->where('kod_ruj_skim', $skim['skim'])->first();
+                    $calonSkim = CalonSkim::where('cal_no_pengenalan', $noPengenalan)->where('ski_kod', $skim['skim'])->first();
 
                     if($calonSkim){
                         $dataSkim = [
@@ -179,9 +179,9 @@ class PemohonController extends ApiController
                         $calonSkim->update($dataSkim);
                     } else {
                         $dataSkim = [
-                            'no_pengenalan' => $noPengenalan,
+                            'cal_no_pengenalan' => $noPengenalan,
                             'tarikh_daftar' => $skim['tarikh_daftar'],
-                            'kod_ruj_skim' => $skim['skim'],
+                            'ski_kod' => $skim['skim'],
                             'no_kelompok' => $skim['no_kelompok'],
                             'no_siri' => $skim['no_siri'],
                             'pusat_td_pilihan' => $request->pusat_temuduga,
@@ -327,8 +327,8 @@ class PemohonController extends ApiController
             if($request->svm != null){
                 foreach($request->svm as $svm){
 
-                    $calonSvm = CalonSvm::where('no_pengenalan', $noPengenalan)
-                    ->where('kod_ruj_kelulusan', $svm['kelulusan'])
+                    $calonSvm = CalonSvm::where('cal_no_pengenalan', $noPengenalan)
+                    ->where('kel1_kod', $svm['kelulusan'])
                     ->where('tahun_lulus', $svm['tahun_lulus'])
                     ->where('mata_pelajaran', $svm['mata_pelajaran'])->first();
 
@@ -341,8 +341,8 @@ class PemohonController extends ApiController
                         $calonSvm->update($dataSvm);
                     } else {
                         $dataSvm = [
-                            'no_pengenalan' => $noPengenalan,
-                            'kod_ruj_kelulusan' => $svm['kelulusan'],
+                            'cal_no_pengenalan' => $noPengenalan,
+                            'kel1_kod' => $svm['kelulusan'],
                             'tahun_lulus' => $svm['tahun_lulus'],
                             'pngka' => $svm['pngka'],
                             'pngkv' => $svm['pngkv'],
@@ -357,8 +357,8 @@ class PemohonController extends ApiController
             if($request->skm != null){
                 foreach($request->skm as $skm){
 
-                    $calonSkm = CalonSkm::where('no_pengenalan', $noPengenalan)
-                    ->where('kod_ruj_kelulusan', $skm['kelulusan'])->first();
+                    $calonSkm = CalonSkm::where('cal_no_pengenalan', $noPengenalan)
+                    ->where('kel1_kod', $skm['kelulusan'])->first();
 
                     if($calonSkm){
                         $calonSkm->update([
@@ -366,8 +366,8 @@ class PemohonController extends ApiController
                         ]);
                     } else {
                         $dataSkm = [
-                            'no_pengenalan' => $noPengenalan,
-                            'kod_ruj_kelulusan' => $skm['kelulusan'],
+                            'cal_no_pengenalan' => $noPengenalan,
+                            'kel1_kod' => $skm['kelulusan'],
                             'tahun_lulus' => $skm['tahun_lulus'],
                         ];
                         CalonSkm::create($dataSkm);
@@ -413,9 +413,9 @@ class PemohonController extends ApiController
                 foreach($request->pengajian_tinggi as $pengajian){
 
                     $calonPengajian = CalonPengajianTinggi::where('cal_no_pengenalan', $noPengenalan)
-                    ->where('kod_ruj_institusi', $pengajian['institusi'])
-                    ->where('kod_ruj_kelayakan', $pengajian['kelayakan'])
-                    ->where('kod_ruj_pengkhususan', $pengajian['pengkhususan'])->first();
+                    ->where('ins_kod', $pengajian['institusi'])
+                    ->where('kel_kod', $pengajian['kelayakan'])
+                    ->where('pen_kod', $pengajian['pengkhususan'])->first();
 
                     if($calonPengajian){
                         $dataPengajian = [
@@ -534,14 +534,14 @@ class PemohonController extends ApiController
                 if($calonTenteraPolis){
                     $calonTenteraPolis->update([
                         'status_pkhidmat' => $request->kategori_tentera_polis,
-                        'pangkat_tentera_polis' => $request->pangkat_tentera_polis,
+                        'pangkat_tent_polis' => $request->pangkat_tentera_polis,
                         'jenis_bekas_tentera' => $request->jenis_bekas_tentera_polis
                     ]);
                 } else {
                     $tenteraPolis = CalonTenteraPolis::create([
                         'no_pengenalan' => $noPengenalan,
                         'status_pkhidmat' => $request->kategori_tentera_polis,
-                        'pangkat_tentera_polis' => $request->pangkat_tentera_polis,
+                        'pangkat_tent_polis' => $request->pangkat_tentera_polis,
                         'jenis_bekas_tentera' => $request->jenis_bekas_tentera_polis
                     ]);
                 }

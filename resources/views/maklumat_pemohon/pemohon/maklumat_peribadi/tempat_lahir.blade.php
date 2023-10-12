@@ -41,7 +41,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="mother_place_of_birth" id="mother_place_of_birth" disabled>
             <option value=""></option>
             @foreach($states as $state)
-            <option value="{{ $state->kod }}">{{ $state->nama }}</option>
+            <option value="{{ $state->kod }}">{{ $state->diskripsi }}</option>
             @endforeach
         </select>
     </div>

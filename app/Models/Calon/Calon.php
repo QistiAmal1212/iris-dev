@@ -63,7 +63,7 @@ class Calon extends Model
     }
 
     public function skim() {
-        return $this->hasMany('App\Models\Calon\CalonSkim', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonSkim', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function schoolResult() {
@@ -75,7 +75,7 @@ class Calon extends Model
     }
 
     public function skm() {
-        return $this->hasMany('App\Models\Calon\CalonSkm', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonSkm', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function higherEducation() {

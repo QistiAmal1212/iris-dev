@@ -9,12 +9,18 @@ class CalonSkm extends Model
     protected $table = 'calon_skm';
 
     protected $fillable = [
-    	'no_pengenalan',
-        'kod_ruj_kelulusan',
+    	'cal_no_pengenalan',
+        'kel1_kod',
         'tahun_lulus',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
     ];
+
+    protected $primaryKey='cal_no_pengenalan';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function qualification() {
         return $this->belongsTo('App\Models\Reference\Qualification', 'kod_ruj_kelulusan', 'kod');
