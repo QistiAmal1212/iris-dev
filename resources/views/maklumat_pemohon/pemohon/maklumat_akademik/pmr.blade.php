@@ -64,7 +64,6 @@ data-reloadPage="false">
                 <th>Bil.</th>
                 <th>Mata Pelajaran</th>
                 <th>Gred</th>
-                <th>Tahun</th>
                 <th>Kemaskini</th>
             </tr>
         </thead>
@@ -114,7 +113,6 @@ data-reloadPage="false">
                         trPmr += '<td align="center">' + bilPmr + '</td>';
                         trPmr += '<td>' + item.subject_form3.name + '</td>';
                         trPmr += '<td align="center">' + item.gred + '</td>';
-                        trPmr += '<td align="center">' + item.tahun + '</td>';
                         trPmr += '<td align="center"><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i>';
                         trPmr += '&nbsp;&nbsp;';
                         trPmr += '<i class="fas fa-trash text-danger deletePmr-btn" data-id="' + item.id + '" ></i></td>';
