@@ -8,7 +8,7 @@
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
                         Sijil Pelajaran Malaysia/ <br>
-                        Sijil Pelajaran Malaysia Vokasional
+                        SPM (Vokasional)
                     </span>
                 </span>
             </button>
@@ -72,7 +72,7 @@
             {{-- SPM 1 --}}
             <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-spm-1" aria-expanded="false" aria-controls="result-spm-1">
                 <span class="badge badge-light-primary">
-                    Sijil Pelajaran Malaysia (SPM) [1]
+                    Sijil Pelajaran Malaysia (SPM) / Sijil Pelajaran Malaysia Vokasional (SPMV) [1]
                     <i class="fa-solid fa-chevron-down ms-3"></i>
                 </span>
             </h6>
@@ -138,7 +138,6 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Tahun</th>
                                 <th>Kemaskini</th>
                             </tr>
                         </thead>
@@ -150,7 +149,7 @@
             {{-- SPM 2 --}}
             <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-spm-2" aria-expanded="false" aria-controls="result-spm-2">
                 <span class="badge badge-light-primary">
-                    Sijil Pelajaran Malaysia (SPM) [2]
+                    Sijil Pelajaran Malaysia (SPM) / Sijil Pelajaran Malaysia Vokasional (SPMV) [2]
                     <i class="fa-solid fa-chevron-down ms-3"></i>
                 </span>
             </h6>
@@ -214,7 +213,6 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Tahun</th>
                                 <th>Kemaskini</th>
                             </tr>
                         </thead>
@@ -384,7 +382,6 @@
                                 <th>Bil.</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Tahun</th>
                                 <th>Kemaskini</th>
                             </tr>
                         </thead>
@@ -481,7 +478,6 @@
                                 <th>Bil.</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Tahun</th>
                                 <th>Kemaskini</th>
                             </tr>
                         </thead>
