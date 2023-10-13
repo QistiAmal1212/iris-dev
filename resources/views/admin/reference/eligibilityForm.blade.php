@@ -39,7 +39,7 @@
                                 <select class="form-control" name="ref_skim_code" id="ref_skim_code" required>
                                     <option value="">Sila Pilih:-</option>
                                     @foreach ($skim as $skim)
-                                        <option value="{{ $skim->code }}">{{ $skim->code }}</option>
+                                        <option value="{{ $skim->kod }}">{{ $skim->diskripsi }}</option>
                                     @endforeach
                                 </select>
                             </div>

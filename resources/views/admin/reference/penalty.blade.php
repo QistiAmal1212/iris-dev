@@ -282,9 +282,9 @@
                     url2 = url2.replace(':replaceThis', penalty_id);
 
                     $('#penaltyForm').attr('action',url2 );
-                    $('#penaltyForm input[name="code"]').val(data.detail.code);
-                    $('#penaltyForm input[name="name"]').val(data.detail.name);
-                    $('#penaltyForm select[name="category"]').val(data.detail.category).trigger('change');
+                    $('#penaltyForm input[name="code"]').val(data.detail.kod);
+                    $('#penaltyForm input[name="name"]').val(data.detail.diskripsi);
+                    $('#penaltyForm select[name="category"]').val(data.detail.kategori).trigger('change');
                     $('#penaltyForm input[name="code"]').prop('readonly', true);
 
 

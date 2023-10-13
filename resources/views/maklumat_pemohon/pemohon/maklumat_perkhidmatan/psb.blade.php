@@ -25,7 +25,7 @@ data-reloadPage="false">
         <select name="experience_job_sector" id="experience_job_sector" class="select2 form-control" disabled>
             <option value=""></option>
             @foreach($sektorPekerjaan as $sektor)
-            <option value="{{ $sektor->kod }}">{{ $sektor->nama }}</option>
+            <option value="{{ $sektor->kod }}">{{ $sektor->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -41,7 +41,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="experience_position_level" id="experience_position_level" disabled>
             <option value=""></option>
             @foreach($positionLevels as $positionLevel)
-            <option value="{{ $positionLevel->code }}">{{ $positionLevel->name }}</option>
+            <option value="{{ $positionLevel->kod }}">{{ $positionLevel->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -57,7 +57,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="experience_skim" id="experience_skim" disabled>
             <option value=""></option>
             @foreach($skims as $skim)
-            <option value="{{ $skim->code }}">{{ $skim->name }}</option>
+            <option value="{{ $skim->kod }}">{{ $skim->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -189,17 +189,17 @@ data-reloadPage="false">
                 $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
                 $('#experienceForm select[name="experience_position_level"]').val(data.detail.taraf_jawatan).trigger('change');
                 $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
-                $('#experienceForm select[name="experience_skim"]').val(data.detail.kod_ruj_skim).trigger('change');
+                $('#experienceForm select[name="experience_skim"]').val(data.detail.ski_kod).trigger('change');
                 $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
                 $('#experienceForm select[name="experience_service_group"]').val(data.detail.kump_pkhidmat).trigger('change');
                 $('#experienceForm select[name="experience_service_group"]').attr('disabled', true);
-                $('#experienceForm select[name="experience_position_grade"]').val(data.detail.kod_ruj_gred_gaji).trigger('change');
+                $('#experienceForm select[name="experience_position_grade"]').val(data.detail.ggh_kod).trigger('change');
                 $('#experienceForm select[name="experience_position_grade"]').attr('disabled', true);
-                $('#experienceForm input[name="experience_start_date"]').val(data.detail.tarikh_lantik);
+                $('#experienceForm input[name="experience_start_date"]').val(data.detail.tarikh_lantik1);
                 $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
                 $('#experienceForm input[name="experience_verify_date"]').val(data.detail.tarikh_disahkan);
                 $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
-                $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.ruj_kem_jabatan).trigger('change');
+                $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.kj_kod).trigger('change');
                 $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
                 $('#experienceForm select[name="experience_department_state"]').val(data.detail.negeri_jabatan).trigger('change');
                 $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);

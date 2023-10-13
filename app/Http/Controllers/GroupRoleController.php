@@ -107,10 +107,10 @@ class GroupRoleController extends Controller
                     return $users->phone_number;
                 })
                 ->editColumn('department_ministry', function ($users) {
-                    return ($users->ref_department_ministry_code != null) ? $users->department_ministry->name : null;
+                    return ($users->ref_department_ministry_code != null) ? $users->department_ministry->diskripsi : null;
                 })
                 ->editColumn('skim', function ($users) {
-                    return ($users->ref_skim_code != null) ? $users->skim->name : null;
+                    return ($users->ref_skim_code != null) ? $users->skim->diskripsi : null;
                 })
                 ->editColumn('status', function ($users) {
                     if ($users->is_active == 1){

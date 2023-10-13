@@ -75,7 +75,7 @@ Maklumat Pemohon
         </div>
         <div class="card-body" id="listPemohon">
             <div class="table-responsive" id="append-data">
-                
+
             </div>
         </div>
     </div>
@@ -308,13 +308,13 @@ Maklumat Pemohon
         }).then((result) => {
         if (result.isConfirmed) {
             $('#'+btnName).trigger('click');
-            // for (var key in originalVal) {
-            //     if (originalVal.hasOwnProperty(key)) {
-            //         if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
-            //             originalVal[key] = newValues[key];
-            //         }
-            //     }
-            // }
+            for (var key in originalVal) {
+                if (originalVal.hasOwnProperty(key)) {
+                    if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+                        originalVal[key] = newValues[key];
+                    }
+                }
+            }
         }
         })
     }
@@ -335,7 +335,7 @@ Maklumat Pemohon
                     search_nama : search_nama,
                 },
                 success: function(data) {
-                    $('#append-data').empty(); 
+                    $('#append-data').empty();
                     $('#append-data').append(data);
                 }
             });
@@ -418,15 +418,15 @@ Maklumat Pemohon
                     $('#candidate_timeline').load(timelineUrl)
 
                     $('#personalForm select[name="gender"]').attr('disabled', true);
-                    if(data.detail.kod_ruj_jantina) { $('#personalForm select[name="gender"]').val(data.detail.kod_ruj_jantina).trigger('change'); }
+                    if(data.detail.jan_kod) { $('#personalForm select[name="gender"]').val(data.detail.jan_kod).trigger('change'); }
                     else { selectionNull('gender', 'personalForm');}
                     originalVal['gender'] = $('#personalForm select[name="gender"]').find(':selected').text();
                     $('#personalForm select[name="religion"]').attr('disabled', true);
-                    if(data.detail.kod_ruj_agama) { $('#personalForm select[name="religion"]').val(data.detail.kod_ruj_agama).trigger('change'); }
+                    if(data.detail.agama) { $('#personalForm select[name="religion"]').val(data.detail.agama).trigger('change'); }
                     else { selectionNull('religion', 'personalForm'); }
                     originalVal['religion'] = $('#personalForm select[name="religion"]').find(':selected').text();
                     $('#personalForm select[name="race"]').attr('disabled', true);
-                    if(data.detail.kod_ruj_keturunan) { $('#personalForm select[name="race"]').val(data.detail.kod_ruj_keturunan).trigger('change'); }
+                    if(data.detail.ket_kod) { $('#personalForm select[name="race"]').val(data.detail.ket_kod).trigger('change'); }
                     else { selectionNull('race', 'personalForm'); }
                     originalVal['race'] = $('#personalForm select[name="race"]').find(':selected').text();
 
@@ -435,7 +435,7 @@ Maklumat Pemohon
                     originalVal['date_of_birth'] = data.detail.tarikh_lahir;
 
                     $('#personalForm select[name="marital_status"]').attr('disabled', true);
-                    if(data.detail.kod_ruj_status_kahwin) { $('#personalForm select[name="marital_status"]').val(data.detail.kod_ruj_status_kahwin).trigger('change'); }
+                    if(data.detail.taraf_perkahwinan) { $('#personalForm select[name="marital_status"]').val(data.detail.taraf_perkahwinan).trigger('change'); }
                     else { selectionNull('marital_status', 'personalForm'); }
                     originalVal['marital_status'] = $('#personalForm select[name="marital_status"]').find(':selected').text();
 
@@ -444,8 +444,8 @@ Maklumat Pemohon
                     originalVal['phone_number'] = data.detail.no_tel;
 
                     $('#personalForm input[name="email"]').attr('disabled', true);
-                    $('#personalForm input[name="email"]').val(data.detail.emel ? data.detail.emel : data_not_available);
-                    originalVal['email'] = data.detail.emel;
+                    $('#personalForm input[name="email"]').val(data.detail.e_mel ? data.detail.e_mel : data_not_available);
+                    originalVal['email'] = data.detail.e_mel;
 
                     $('#personalForm input[name="personal_no_pengenalan"]').val(data.detail.no_pengenalan);
 
@@ -564,7 +564,7 @@ Maklumat Pemohon
                     $('#pusatTemudugaForm input[name="pusat_temuduga_no_pengenalan"]').val(data.detail.no_pengenalan)
                     $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
 
-                    if(data.detail.pusat_temuduga) { 
+                    if(data.detail.pusat_temuduga) {
                         $('#pusatTemudugaForm select[name="pusat_temuduga"]').val(data.detail.pusat_temuduga).trigger('change');
                     } else {
                         selectionNull('pusat_temuduga', 'pusatTemudugaForm');
@@ -582,7 +582,7 @@ Maklumat Pemohon
                             trSkim += '<tr>';
                             trSkim += '<td align="center">' + bilSkim + '</td>'
                             trSkim += '<td>' + item.kod_ruj_skim + '</td>'
-                            trSkim += '<td>' + item.skim.name + '</td>';
+                            trSkim += '<td>' + item.skim.diskripsi + '</td>';
                             trSkim += '<td>' + (item.tarikh_daftar ? item.tarikh_daftar : '') + '</td>';
                             trSkim += '<td>' + (item.tarikh_luput ? item.tarikh_luput : '') + '</td>';
                             trSkim += '</tr>';
@@ -685,7 +685,7 @@ Maklumat Pemohon
                             trProfessional += '<tr>';
                             trProfessional += '<td align="center">' + bilProfessional + '</td>'
                             trProfessional += '<td>' + (item.no_ahli ? item.no_ahli : '') + '</td>';
-                            trProfessional += '<td>' + (item.qualification ? item.qualification.name : '') + '</td>';
+                            trProfessional += '<td>' + (item.qualification ? item.qualification.diskripsi : '') + '</td>';
                             trProfessional += '<td>' + (item.tarikh ? item.tarikh : '') + '</td>';
                             trProfessional += '</tr>';
                         });
@@ -779,7 +779,7 @@ Maklumat Pemohon
                     $('#bahasaForm input[name="bahasa_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-language tbody').empty();
                     reloadBahasa();
-                    
+
 
                     $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-talent tbody').empty();
@@ -996,7 +996,7 @@ Maklumat Pemohon
     function reset() {
         // $('#table-carian').DataTable().destroy();
         // $("#table-carian > tbody").html("");
-        $('#append-data').empty(); 
+        $('#append-data').empty();
 
         $('#candidate_name').html('');
         $('#candidate_ic').html('');

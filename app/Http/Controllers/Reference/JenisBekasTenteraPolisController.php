@@ -42,7 +42,7 @@ class JenisBekasTenteraPolisController extends Controller
             }
         }
 
-        $bekastentera = JenisBekasTenteraPolis::orderBy('code', 'asc')->get();
+        $bekastentera = JenisBekasTenteraPolis::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -58,10 +58,10 @@ class JenisBekasTenteraPolisController extends Controller
 
             return Datatables::of($bekastentera)
                 ->editColumn('kod', function ($bekastentera){
-                    return $bekastentera->code;
+                    return $bekastentera->kod;
                 })
                 ->editColumn('nama', function ($bekastentera) {
-                    return $bekastentera->name;
+                    return $bekastentera->diskripsi;
                 })
                 ->editColumn('action', function ($bekastentera) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class JenisBekasTenteraPolisController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="bekastenteraForm('.$bekastentera->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($bekastentera->sah_yt) {
+                        if($bekastentera->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$bekastentera->id.'" onclick="toggleActive('.$bekastentera->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$bekastentera->id.'" onclick="toggleActive('.$bekastentera->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -93,7 +93,7 @@ class JenisBekasTenteraPolisController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_bekas_tentera_polis,code',
+                'code' => 'required|string|unique:ruj_jenis_bekas_tentera_polis,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -102,10 +102,11 @@ class JenisBekasTenteraPolisController extends Controller
             ]);
 
             $bekastentera = JenisBekasTenteraPolis::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -177,7 +178,7 @@ class JenisBekasTenteraPolisController extends Controller
             $log->data_old = json_encode($bekastentera);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_bekas_tentera_polis,code,'.$bekastenteraId,
+                'code' => 'required|string|unique:ruj_jenis_bekas_tentera_polis,kod,'.$bekastenteraId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -186,9 +187,9 @@ class JenisBekasTenteraPolisController extends Controller
             ]);
 
             $bekastentera->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $bekastenteraNewData = JenisBekasTenteraPolis::find($bekastenteraId);
@@ -219,8 +220,11 @@ class JenisBekasTenteraPolisController extends Controller
 
             $sah_yt = $bekastentera->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $bekastentera->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

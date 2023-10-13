@@ -66,7 +66,7 @@ class RulingController extends Controller
                     return $ruling->kod;
                 })
                 ->editColumn('nama', function ($ruling) {
-                    return $ruling->nama;
+                    return $ruling->diskripsi;
                 })
                 ->editColumn('pernyataan', function ($ruling) {
                     return $ruling->pernyataan;
@@ -118,11 +118,12 @@ class RulingController extends Controller
 
             $ruling = Ruling::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'pernyataan' => strtoupper($request->pernyataan),
                 'status' => strtoupper($request->status),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -208,10 +209,10 @@ class RulingController extends Controller
 
             $ruling->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'pernyataan' => strtoupper($request->pernyataan),
                 'status' => strtoupper($request->status),
-                'updated_by' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $rulingNewData = ruling::find($rulingId);
@@ -242,8 +243,11 @@ class RulingController extends Controller
 
             $sah_yt = $ruling->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $ruling->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

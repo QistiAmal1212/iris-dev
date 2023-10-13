@@ -490,7 +490,7 @@ data-reloadPage="false">
         <select class="select2 form-control" value="" name="peringkat_pengajian_tinggi" id="peringkat_pengajian_tinggi"  disabled>
             <option value=""></option>
             @foreach($peringkatPengajian as $peringkat)
-            <option value="{{ $peringkat->id }}">{{ $peringkat->name }}</option>
+            <option value="{{ $peringkat->id }}">{{ $peringkat->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -506,7 +506,7 @@ data-reloadPage="false">
         <select class="select2 form-control" value="" name="kelayakan_pengajian_tinggi" id="kelayakan_pengajian_tinggi" disabled>
             <option value=""></option>
             @foreach($eligibilities as $eligibility)
-            <option value="{{ $eligibility->code }}">{{ $eligibility->name }}</option>
+            <option value="{{ $eligibility->kod }}">{{ $eligibility->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -522,7 +522,7 @@ data-reloadPage="false">
         <select class="select2 form-control" name="institusi_pengajian_tinggi" id="institusi_pengajian_tinggi" disabled>
             <option value=""></option>
             @foreach($institutions as $institution)
-            <option value="{{ $institution->code }}">{{ $institution->name }}</option>
+            <option value="{{ $institution->kod }}">{{ $institution->diskripsi }}</option>
             @endforeach
         </select>
     </div>

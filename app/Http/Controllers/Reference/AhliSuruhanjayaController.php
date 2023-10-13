@@ -67,7 +67,7 @@ class AhliSuruhanjayaController extends Controller
                     return $ahlisuruhanjaya->no_kp;
                 })
                 ->editColumn('no_tel', function ($ahlisuruhanjaya) {
-                    return $ahlisuruhanjaya->no_tel;
+                    return $ahlisuruhanjaya->no_telefon;
                 })
                 ->editColumn('action', function ($ahlisuruhanjaya) use ($accessDelete) {
                     $button = "";
@@ -131,10 +131,10 @@ class AhliSuruhanjayaController extends Controller
             $ahlisuruhanjaya = AhliSuruhanjaya::create([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
-                'no_tel' => strtoupper($request->no_tel),
+                'no_telefon' => strtoupper($request->no_tel),
                 'no_kp' => strtoupper($request->no_kp),
                 'nama_pasangan' => strtoupper($request->nama_pasangan),
-                'no_tel_pasangan' => strtoupper($request->no_tel_pasangan),
+                'no_telefon_pasangan' => strtoupper($request->no_tel_pasangan),
                 'alamat1' => strtoupper($request->alamat1),
                 'alamat2' => strtoupper($request->alamat2),
                 'alamat3' => strtoupper($request->alamat3),
@@ -144,8 +144,8 @@ class AhliSuruhanjayaController extends Controller
                 'elaun_pada_gred' => strtoupper($request->elaun_pada_gred),
                 'status_ahli' => strtoupper($request->status_ahli),
                 'sah_yt'=> "Y",
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
@@ -248,10 +248,10 @@ class AhliSuruhanjayaController extends Controller
             $ahlisuruhanjaya->update([
                 'kod' => $request->code,
                 'nama' => strtoupper($request->name),
-                'no_tel' => strtoupper($request->no_tel),
+                'no_telefon' => strtoupper($request->no_tel),
                 'no_kp' => strtoupper($request->no_kp),
                 'nama_pasangan' => strtoupper($request->nama_pasangan),
-                'no_tel_pasangan' => strtoupper($request->no_tel_pasangan),
+                'no_telefon_pasangan' => strtoupper($request->no_tel_pasangan),
                 'alamat1' => strtoupper($request->alamat1),
                 'alamat2' => strtoupper($request->alamat2),
                 'alamat3' => strtoupper($request->alamat3),
@@ -260,7 +260,7 @@ class AhliSuruhanjayaController extends Controller
                 'kontrak_hingga1' => strtoupper($request->kontrak_hingga1),
                 'elaun_pada_gred' => strtoupper($request->elaun_pada_gred),
                 'status_ahli' => strtoupper($request->status_ahli),
-                'updated_by' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $ahlisuruhanjayaNewData = AhliSuruhanjaya::find($ahlisuruhanjayaId);

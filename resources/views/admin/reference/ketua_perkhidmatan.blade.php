@@ -172,7 +172,7 @@
 
                         $('#ketuaperkhidmatanForm').attr('action', url2);
                         $('#ketuaperkhidmatanForm input[name="code"]').val(data.detail.kod);
-                        $('#ketuaperkhidmatanForm input[name="name"]').val(data.detail.nama);
+                        $('#ketuaperkhidmatanForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#ketuaperkhidmatanForm input[name="code"]').prop('readonly', true);
 

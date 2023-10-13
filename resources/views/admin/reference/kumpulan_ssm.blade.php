@@ -172,7 +172,7 @@
 
                         $('#kumpulanssmForm').attr('action', url2);
                         $('#kumpulanssmForm input[name="code"]').val(data.detail.kod);
-                        $('#kumpulanssmForm input[name="name"]').val(data.detail.nama);
+                        $('#kumpulanssmForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#kumpulanssmForm input[name="code"]').prop('readonly', true);
 

@@ -11,10 +11,13 @@ class Status extends Model
 
     protected $fillable = [
         'kod',
-        'nama',
         'diskripsi',
-        'created_by',
-        'updated_by',
+        'diskripsi2',
+        'id_pencipta',
+        'pengguna',
         'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

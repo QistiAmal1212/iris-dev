@@ -22,7 +22,7 @@ data-reloadPage="false">
         <select class="select2 form-control" value="" id="subjek_pmr" name="subjek_pmr" disabled>
             <option value=""></option>
             @foreach($subjekPmr as $subjek)
-            <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+            <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -111,7 +111,7 @@ data-reloadPage="false">
                         bilPmr += 1;
                         trPmr += '<tr>';
                         trPmr += '<td align="center">' + bilPmr + '</td>';
-                        trPmr += '<td>' + item.subject_form3.name + '</td>';
+                        trPmr += '<td>' + item.subject_form3.diskripsi + '</td>';
                         trPmr += '<td align="center">' + item.gred + '</td>';
                         trPmr += '<td align="center"><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i>';
                         trPmr += '&nbsp;&nbsp;';

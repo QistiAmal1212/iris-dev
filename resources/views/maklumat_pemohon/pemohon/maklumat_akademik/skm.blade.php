@@ -23,7 +23,7 @@ data-reloadPage="false">
         <select class="select2 form-control" value="" id="nama_skm" name="nama_skm" disabled>
             <option value=""></option>
             @foreach($skmkod as $skm)
-            <option value="{{ $skm->code }}">{{ $skm->name }}</option>
+            <option value="{{ $skm->kod }}">{{ $skm->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -96,7 +96,7 @@ data-reloadPage="false">
                         bilSkm += 1;
                         trSkm += '<tr>';
                         trSkm += '<td align="center">' + bilSkm + '</td>';
-                        trSkm += '<td>' + (item.qualification ? item.qualification.name : "Tiada Maklumat")  + '</td>';
+                        trSkm += '<td>' + (item.qualification ? item.qualification.diskripsi : "Tiada Maklumat")  + '</td>';
                         trSkm += '<td align="center">' + item.tahun_lulus + '</td>';
                         trSkm += '<td align="center"><i class="fas fa-pencil text-primary editSkm-btn" data-id="' + item.id + ' " data-form="skm"></i>';
                         trSkm += '&nbsp;&nbsp;';

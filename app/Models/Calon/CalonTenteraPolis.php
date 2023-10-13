@@ -14,18 +14,24 @@ class CalonTenteraPolis extends Model
         'tarikh_mula',
         'tarikh_tamat',
         'tarikh_disahkan',
-        'pangkat_tentera_polis',
-        'no_tentera_polis',
+        'pangkat_tent_polis',
+        'no_tent_polis',
         'gaji_tentera',
         'pencen',
         'ganjaran',
         'jenis_bekas_tentera',
-        'jenis_pkhidmat', 
-        'created_by',
-        'updated_by',
+        'jenis_pkhidmat',
+        'id_pencipta',
+        'pengguna',
     ];
 
+    protected $primaryKey='no_pengenalan';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
+
     public function rank() {
-        return $this->belongsTo('App\Models\Reference\Rank', 'pangkat_tentera_polis', 'code');
+        return $this->belongsTo('App\Models\Reference\Rank', 'pangkat_tentera_polis', 'kod');
     }
 }

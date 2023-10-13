@@ -22,7 +22,7 @@ data-reloadPage="false">
         <select class="select2 form-control" value="" id="nama_bakat" name="nama_bakat" disabled>
             <option value=""></option>
             @foreach($talentkod as $bakat)
-            <option value="{{ $bakat->code }}">{{ $bakat->name }}</option>
+            <option value="{{ $bakat->kod }}">{{ $bakat->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -85,7 +85,7 @@ data-reloadPage="false">
                     bilBakat += 1;
                     trBakat += '<tr>';
                     trBakat += '<td align="center">' + bilBakat + '</td>'
-                    trBakat += '<td>' + item.talent.name + '</td>';
+                    trBakat += '<td>' + item.talent.diskripsi + '</td>';
                     trBakat += '<td align="center"><i class="fas fa-pencil text-primary editBakat-btn" data-id="' + item.id + ' " data-form="bakat"></i>';
                     trBakat += '&nbsp;&nbsp;';
                     trBakat += '<i class="fas fa-trash text-danger deleteBakat-btn" data-id="' + item.id + '"></i></td>';

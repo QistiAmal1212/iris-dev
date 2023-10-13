@@ -38,7 +38,7 @@
                                     <select id="kod_ruj_senarai_cuti" name="kod_ruj_senarai_cuti" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($senaraicuti as $cuti)
-                                        <option value="{{ $cuti->kod }}">{{ $cuti->nama }}</option>
+                                        <option value="{{ $cuti->kod }}">{{ $cuti->diskripsi }}</option>
                                         @endforeach
                                     </select>
                                 </div>

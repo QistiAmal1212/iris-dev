@@ -174,8 +174,8 @@
                     url2 = url2.replace(':replaceThis', level_JKK_id);
 
                     $('#levelJKKForm').attr('action',url2 );
-                    $('#levelJKKForm input[name="code"]').val(data.detail.code);
-                    $('#levelJKKForm input[name="name"]').val(data.detail.name);
+                    $('#levelJKKForm input[name="code"]').val(data.detail.kod);
+                    $('#levelJKKForm input[name="name"]').val(data.detail.diskripsi);
                     $('#levelJKKForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Tingkatan JKK');

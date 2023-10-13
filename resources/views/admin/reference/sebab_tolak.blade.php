@@ -172,7 +172,7 @@
 
                         $('#sebabtolakForm').attr('action', url2);
                         $('#sebabtolakForm input[name="code"]').val(data.detail.kod);
-                        $('#sebabtolakForm input[name="name"]').val(data.detail.nama);
+                        $('#sebabtolakForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#sebabtolakForm input[name="code"]').prop('readonly', true);
 

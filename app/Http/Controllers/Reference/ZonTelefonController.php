@@ -61,7 +61,7 @@ class ZonTelefonController extends Controller
                     return $zontelefon->kod;
                 })
                 ->editColumn('nama', function ($zontelefon) {
-                    return $zontelefon->nama;
+                    return $zontelefon->diskripsi;
                 })
                 ->editColumn('action', function ($zontelefon) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class ZonTelefonController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="zontelefonForm('.$zontelefon->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($zontelefon->sah_yt) {
+                        if($zontelefon->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$zontelefon->id.'" onclick="toggleActive('.$zontelefon->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$zontelefon->id.'" onclick="toggleActive('.$zontelefon->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -103,9 +103,9 @@ class ZonTelefonController extends Controller
 
             $zontelefon = ZonTelefon::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
@@ -187,8 +187,8 @@ class ZonTelefonController extends Controller
 
             $zontelefon->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $zontelefonNewData = zontelefon::find($zontelefonId);
@@ -219,8 +219,11 @@ class ZonTelefonController extends Controller
 
             $sah_yt = $zontelefon->sah_yt;
 
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
+
             $zontelefon->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

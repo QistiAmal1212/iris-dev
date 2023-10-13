@@ -24,7 +24,7 @@
             <select class="form-select select2" name="penalty" id="penalty" disabled>
                 <option value=""></option>
                 @foreach($penalties as $penalty)
-                <option value="{{ $penalty->code }}">{{ $penalty->name }}</option>
+                <option value="{{ $penalty->kod }}">{{ $penalty->diskripsi }}</option>
                 @endforeach
             </select>
         </div>
@@ -167,7 +167,7 @@
                     bilPenalty += 1;
                     trPenalty += '<tr>';
                     trPenalty += '<td align="center">' + bilPenalty + '</td>'
-                    trPenalty += '<td>' + item.penalty.name + '</td>';
+                    trPenalty += '<td>' + item.penalty.diskripsi + '</td>';
                     trPenalty += '<td>' + item.tempoh + ' ' + item.jenis + '</td>';
                     trPenalty += '<td>' + item.tarikh_mula + '</td>';
                     trPenalty += '<td>' + item.tarikh_tamat + '</td>';

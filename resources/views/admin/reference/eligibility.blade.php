@@ -176,11 +176,11 @@
                         url2 = url2.replace(':replaceThis', salary_grade_id);
 
                         $('#eligibilityForm').attr('action', url2);
-                        $('#eligibilityForm input[name="code"]').val(data.detail.code);
-                        $('#eligibilityForm input[name="name"]').val(data.detail.name);
-                        $('#eligibilityForm select[name="ref_skim_code"]').val(data.detail.ref_skim_code).trigger('change');
-                        $('#eligibilityForm input[name="equivalent"]').val(data.detail.equivalent);
-                        $('#eligibilityForm input[name="rank"]').val(data.detail.rank);
+                        $('#eligibilityForm input[name="code"]').val(data.detail.kod);
+                        $('#eligibilityForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#eligibilityForm select[name="ref_skim_code"]').val(data.detail.ski_kod).trigger('change');
+                        $('#eligibilityForm input[name="equivalent"]').val(data.detail.kelayakan_setara);
+                        $('#eligibilityForm input[name="rank"]').val(data.detail.rank_layak);
                         $('#eligibilityForm input[name="code"]').prop('readonly', true);
 
                         $('#title-role').html('Kemaskini Kelayakan');

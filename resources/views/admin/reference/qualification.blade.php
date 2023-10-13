@@ -174,9 +174,9 @@
                     url2 = url2.replace(':replaceThis', qualification_id);
 
                     $('#qualificationForm').attr('action',url2 );
-                    $('#qualificationForm input[name="code"]').val(data.detail.code);
-                    $('#qualificationForm input[name="name"]').val(data.detail.name);
-                    $('#qualificationForm input[name="type"]').val(data.detail.type);
+                    $('#qualificationForm input[name="code"]').val(data.detail.kod);
+                    $('#qualificationForm input[name="name"]').val(data.detail.diskripsi);
+                    $('#qualificationForm input[name="type"]').val(data.detail.jenis);
                     $('#qualificationForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Kelulusan');

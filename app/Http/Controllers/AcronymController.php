@@ -13,7 +13,7 @@ class AcronymController extends Controller
         $this->middleware('auth');
     }
 
-    public function index() 
+    public function index()
     {
         $subjekTerasPmr = [
             '0' => '021',
@@ -108,13 +108,13 @@ class AcronymController extends Controller
 
         $filterSubjekPmr = array_merge($subjekTerasPmr, $subjekAgamaPmr, $subjekKemahiranPmr);
         $filterSubjekSpm = array_merge($subjekTerasSpm, $subjeckBahasaSpm, $subjekAgamaSpm);
-        $subjekPmr = Subject::whereIn('code', $filterSubjekPmr)->orderBy('code', 'asc')->get();
-        $subjekSpm = Subject::whereIn('code', $filterSubjekSpm)->orderBy('code', 'asc')->get();
+        $subjekPmr = Subject::whereIn('kod', $filterSubjekPmr)->orderBy('kod', 'asc')->get();
+        $subjekSpm = Subject::whereIn('kod', $filterSubjekSpm)->orderBy('kod', 'asc')->get();
 
         return view('maklumat_pemohon.calon_acronym', compact('subjekPmr', 'subjekSpm'));
     }
 
-    public function search(Request $request) 
+    public function search(Request $request)
     {
         $pmr = $request->pmr;
         $gredPmr = $request->gred_pmr;
@@ -283,7 +283,7 @@ class AcronymController extends Controller
                 }
             }
 
-            if($calon->kemahiran != null){  
+            if($calon->kemahiran != null){
                 $kemahiran = str_split($calon->kemahiran);
                 foreach($selectKemahiranPmr as $key => $dataKemahiran) {
                     if($dataKemahiran != 0) {
@@ -297,7 +297,7 @@ class AcronymController extends Controller
             }
 
            if(!in_array(false, $valueTerasPmr) && !in_array(false, $valueAgamaPmr) && !in_array(false, $valueKemahiranPmr)){
-                
+
                 $resultPmr[] = $calon->no_pengenalan;
                 //$result[] = DB::table('calon_acronym')->where('no_pengenalan', $calon->no_pengenalan)->first();
                 // $result[] = [
@@ -336,7 +336,7 @@ class AcronymController extends Controller
                 $valueTerasSpm[] = false;
             }
 
-            if($calonSpm->bahasa != null){  
+            if($calonSpm->bahasa != null){
                 $bahasa = str_split($calonSpm->bahasa);
                 foreach($selectBahasaSpm as $key => $dataBahasa) {
                     if($dataBahasa != 0) {
@@ -372,7 +372,7 @@ class AcronymController extends Controller
             'count' => count($result),
             'result' => $result,
         ];
-        
+
         // foreach($result as $calon){
         //     return DB::table('calon_acronym_spm')->where('no_pengenalan', $calon->no_pengenalan)->first();
         // }
@@ -464,9 +464,9 @@ class AcronymController extends Controller
         //         'bahasa' => $bahasa,
         //         'agama' => $agama,
         //     ];
-            
+
         //     DB::table('calon_acronym_spm')->insert($dataArray);
-        
+
         // }
 
         return 'Berjaya';

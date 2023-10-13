@@ -283,9 +283,9 @@
                     url2 = url2.replace(':replaceThis', subject_id);
 
                     $('#subjectForm').attr('action',url2 );
-                    $('#subjectForm input[name="code"]').val(data.detail.code);
-                    $('#subjectForm input[name="name"]').val(data.detail.name);
-                    $('#subjectForm input[name="form"]').val(data.detail.form);
+                    $('#subjectForm input[name="code"]').val(data.detail.kod);
+                    $('#subjectForm input[name="name"]').val(data.detail.diskripsi);
+                    $('#subjectForm input[name="form"]').val(data.detail.tkt);
 
                     $('#subjectForm input[name="code"]').prop('readonly', true);
 

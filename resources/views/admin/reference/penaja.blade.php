@@ -182,7 +182,7 @@
 
                         $('#penajaForm').attr('action', url2);
                         $('#penajaForm input[name="code"]').val(data.detail.kod);
-                        $('#penajaForm input[name="name"]').val(data.detail.nama);
+                        $('#penajaForm input[name="name"]').val(data.detail.diskripsi);
                         $('#penajaForm input[name="jenis"]').val(data.detail.jenis);
 
                         $('#penajaForm input[name="code"]').prop('readonly', true);

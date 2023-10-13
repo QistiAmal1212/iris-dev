@@ -42,16 +42,16 @@ class EligibilityController extends Controller
             }
         }
 
-        $skim = Skim::all();
+        $skim = Skim::where('sah_yt', 'Y')->get();
 
-        $eligibility = Eligibility::orderBy('code', 'asc')->get();
+        $eligibility = Eligibility::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($eligibility)
                 ->editColumn('code', function ($eligibility){
-                    return $eligibility->code;
+                    return $eligibility->kod;
                 })
                 ->editColumn('name', function ($eligibility) {
-                    return $eligibility->name;
+                    return $eligibility->diskripsi;
                 })
                 ->editColumn('action', function ($eligibility) use ($accessDelete) {
                     $button = "";
@@ -60,7 +60,7 @@ class EligibilityController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="eligibilityForm('.$eligibility->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($eligibility->is_active) {
+                        if($eligibility->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$eligibility->id.'" onclick="toggleActive('.$eligibility->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$eligibility->id.'" onclick="toggleActive('.$eligibility->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -84,7 +84,7 @@ class EligibilityController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelayakan,code',
+                'code' => 'required|string|unique:ruj_kelayakan,kod',
                 'name' => 'required|string',
                 'ref_skim_code' => 'required|string',
                 'equivalent' => 'required|string',
@@ -99,13 +99,14 @@ class EligibilityController extends Controller
             ]);
 
             Eligibility::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'ref_skim_code' => $request->ref_skim_code,
-                'equivalent' => strtoupper($request->equivalent),
-                'rank' => strtoupper($request->rank),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'ski_kod' => $request->ref_skim_code,
+                'kelayakan_setara' => strtoupper($request->equivalent),
+                'rank_layak' => strtoupper($request->rank),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             DB::commit();
@@ -147,7 +148,7 @@ class EligibilityController extends Controller
             $eligibility = Eligibility::find($eligibilityId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelayakan,code,'.$eligibilityId,
+                'code' => 'required|string|unique:ruj_kelayakan,kod,'.$eligibilityId,
                 'name' => 'required|string',
                 'ref_skim_code' => 'required|string',
                 'equivalent' => 'required|string',
@@ -162,13 +163,12 @@ class EligibilityController extends Controller
             ]);
 
             $eligibility->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'ref_skim_code' => $request->ref_skim_code,
-                'equivalent' => strtoupper($request->equivalent),
-                'rank' => strtoupper($request->rank),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'ski_kod' => $request->ref_skim_code,
+                'kelayakan_setara' => strtoupper($request->equivalent),
+                'rank_layak' => strtoupper($request->rank),
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -189,10 +189,13 @@ class EligibilityController extends Controller
             $eligibilityId = $request->eligibilityId;
             $eligibility = Eligibility::find($eligibilityId);
 
-            $is_active = $eligibility->is_active;
+            $sah_yt = $eligibility->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $eligibility->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

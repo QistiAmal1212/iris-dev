@@ -58,7 +58,7 @@ class JKKCController extends Controller
 
             return Datatables::of($jkkc)
                 ->editColumn('kod', function ($jkkc){
-                    return $jkkc->kod;
+                    return $jkkc->ski_kod;
                 })
                 ->editColumn('action', function ($jkkc) use ($accessDelete) {
                     $button = "";
@@ -90,17 +90,17 @@ class JKKCController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_skim_jkkc_sijil,kod',
+                'code' => 'required|string|unique:ruj_skim_jkkc_sijil,ski_kod',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
             ]);
 
             $jkkc = JKKC::create([
-                'kod' => $request->code,
+                'ski_kod' => $request->code,
                 'sah_yt'=> "Y",
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
@@ -172,15 +172,15 @@ class JKKCController extends Controller
             $log->data_old = json_encode($jkkc);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_skim_jkkc_sijil,kod,'.$jkkcId,
+                'code' => 'required|string|unique:ruj_skim_jkkc_sijil,ski_kod,'.$jkkcId,
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
             ]);
 
             $jkkc->update([
-                'kod' => $request->code,
-                'updated_by' => auth()->user()->id,
+                'ski_kod' => $request->code,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $jkkcNewData = JKKC::find($jkkcId);

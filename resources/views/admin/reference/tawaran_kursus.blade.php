@@ -183,9 +183,9 @@
 
                         $('#tawarankursusForm').attr('action', url2);
                         $('#tawarankursusForm input[name="code"]').val(data.detail.kod);
-                        $('#tawarankursusForm input[name="name"]').val(data.detail.nama);
+                        $('#tawarankursusForm input[name="name"]').val(data.detail.diskripsi);
                         $('#tawarankursusForm input[name="jenis"]').val(data.detail.jenis);
-                        $('#tawarankursusForm input[name="diskripsi"]').val(data.detail.diskripsi);
+                        $('#tawarankursusForm input[name="diskripsi"]').val(data.detail.diskripsi_penuh);
 
                         $('#tawarankursusForm input[name="code"]').prop('readonly', true);
 

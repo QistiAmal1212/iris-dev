@@ -11,12 +11,14 @@ class KodPelbagai extends Model
     protected $fillable = [
         'kod',
         'kategori',
-        'nama',
+        'diskripsi',
         'sah_yt',
         'jantina',
         'nilai',
-        'no_pemerolehan',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

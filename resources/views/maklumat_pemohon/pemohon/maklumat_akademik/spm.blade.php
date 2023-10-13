@@ -96,7 +96,7 @@
                             <select class="select2 form-control" value="" id="subjek_spm" name="subjek_spm" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekSpm as $subjek)
-                                        <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                        <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
                         </div>
@@ -172,7 +172,7 @@
                             <select class="select2 form-control" value="" id="subjek_spm" name="subjek_spm" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekSpm as $subjek)
-                                        <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                        <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
                         </div>
@@ -606,8 +606,8 @@
                         bilSpm += 1;
                         trSpm += '<tr>';
                         trSpm += '<td align="center">' + bilSpm + '</td>';
-                        trSpm += '<td>' + item.subject_form5.name + '</td>'; //KOD MATA PELAJARAN
-                        trSpm += '<td>' + item.subject_form5.name + '</td>';
+                        trSpm += '<td>' + item.subject_form5.diskripsi + '</td>'; //KOD MATA PELAJARAN
+                        trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
                         trSpm += '<td align="center">' + item.gred + '</td>';
                         trSpm += '<td align="center"><i class="fas fa-pencil text-primary editSpm-btn" data-id="' + item.id + ' "></i>';
                         trSpm += '&nbsp;&nbsp;';
@@ -697,8 +697,8 @@
                         bilSpmv += 1;
                         trSpmv += '<tr>';
                         trSpmv += '<td align="center">' + bilSpmv + '</td>';
-                        trSpmv += '<td>' + item.subject_form5.name + '</td>'; //KOD MATA PELAJARAN
-                        trSpmv += '<td>' + item.subject_form5.name + '</td>';
+                        trSpmv += '<td>' + item.subject_form5.diskripsi + '</td>'; //KOD MATA PELAJARAN
+                        trSpmv += '<td>' + item.subject_form5.diskripsi + '</td>';
                         trSpmv += '<td align="center">' + item.gred + '</td>';
                         trSpmv += '<td align="center"><i class="fas fa-pencil text-primary editSpmv-btn" data-id="' + item.id + ' "></i>';
                         trSpmv += '&nbsp;&nbsp;';
@@ -787,8 +787,8 @@
                         bilSvm += 1;
                         trSvm += '<tr>';
                         trSvm += '<td align="center">' + bilSvm + '</td>';
-                        trSvm += '<td>' + item.subject_form5.name + '</td>'; //KOD MATA PELAJARAN
-                        trSvm += '<td>' + item.subject_form5.name + '</td>';
+                        trSvm += '<td>' + item.subject_form5.diskripsi + '</td>'; //KOD MATA PELAJARAN
+                        trSvm += '<td>' + item.subject_form5.diskripsi + '</td>';
                         trSvm += '<td align="center">' + item.gred + '</td>';
                         trSvm += '<td align="center"><i class="fas fa-pencil text-primary editSvm-btn" data-id="' + item.id + ' "></i>';
                         trSvm += '&nbsp;&nbsp;';

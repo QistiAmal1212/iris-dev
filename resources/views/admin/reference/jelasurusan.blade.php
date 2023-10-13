@@ -172,7 +172,7 @@
 
                         $('#jelasurusanForm').attr('action', url2);
                         $('#jelasurusanForm input[name="code"]').val(data.detail.kod);
-                        $('#jelasurusanForm input[name="name"]').val(data.detail.nama);
+                        $('#jelasurusanForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#jelasurusanForm input[name="code"]').prop('readonly', true);
 

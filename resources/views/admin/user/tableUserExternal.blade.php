@@ -36,7 +36,7 @@
         <select class="select2 form-control" id="skim" name="skim" >
             <option value=""></option>
             @foreach($skim as $scheme)
-            <option value="{{ $scheme->code }}">{{ $scheme->name }}</option>
+            <option value="{{ $scheme->kod }}">{{ $scheme->diskripsi }}</option>
             @endforeach
         </select>
     </div>

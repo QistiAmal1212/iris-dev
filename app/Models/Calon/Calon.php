@@ -15,14 +15,14 @@ class Calon extends Model
         'no_pasport',
         'warna_kp',
         'nama_penuh',
-        'emel',
+        'e_mel',
         'no_tel',
-        'kod_ruj_jantina',
-        'kod_ruj_status_kahwin',
-        'kod_ruj_keturunan',
-        'kod_ruj_agama',
+        'jan_kod',
+        'taraf_perkahwinan',
+        'ket_kod',
+        'agama',
         'kewarganegaraan',
-        'tinggi',
+        'ketinggian',
         'berat',
         'alamat_1',
         'alamat_2',
@@ -40,16 +40,22 @@ class Calon extends Model
         'tempat_lahir',
         'tempat_lahir_bapa',
         'tempat_lahir_ibu',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
         'bantuan',
         'biasiswa_p',
         'nom_daftar_bantuan',
         'pusat_temuduga'
     ];
 
+    protected $primaryKey='no_pengenalan';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
+
     public function license() {
-        return $this->hasOne('App\Models\Calon\CalonLesen', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonLesen', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function oku() {
@@ -57,37 +63,37 @@ class Calon extends Model
     }
 
     public function skim() {
-        return $this->hasMany('App\Models\Calon\CalonSkim', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonSkim', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function schoolResult() {
-        return $this->hasMany('App\Models\Calon\CalonKeputusanSekolah', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonKeputusanSekolah', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function matriculation() {
-        return $this->hasMany('App\Models\Calon\CalonMatrikulasi', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonMatrikulasi', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function skm() {
-        return $this->hasMany('App\Models\Calon\CalonSkm', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonSkm', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function higherEducation() {
-        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function professional() {
-        return $this->hasMany('App\Models\Calon\CalonProfesional', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonProfesional', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function experience() {
-        return $this->hasOne('App\Models\Calon\CalonPengalaman', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasOne('App\Models\Calon\CalonPengalaman', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function psl() {
-        return $this->hasMany('App\Models\Calon\CalonPsl', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonPsl', 'cal_no_pengenalan', 'no_pengenalan');
     }
-    
+
     public function armyPolice() {
         return $this->hasOne('App\Models\Calon\CalonTenteraPolis', 'no_pengenalan', 'no_pengenalan');
     }

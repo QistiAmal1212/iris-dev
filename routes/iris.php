@@ -136,7 +136,7 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('details/{noPengenalan}', 'tenteraPolisDetails')->name('tentera-polis.details');
         });
 
-        Route::prefix('penalty')->group(function () {
+        Route::prefix('tatatertib')->group(function () {
             Route::post('store', 'storePenalty')->name('penalty.store');
             Route::get('list/{noPengenalan}', 'listPenalty')->name('penalty.list');
             Route::post('update', 'updatePenalty')->name('penalty.update');

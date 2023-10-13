@@ -15,12 +15,18 @@ class CalonTatatertib extends Model
         'jenis',
         'tarikh_mula',
         'tarikh_tamat',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
     ];
+
+    protected $primaryKey='no_pengenalan';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function penalty()
     {
-        return $this->belongsTo('App\Models\Reference\Penalty', 'kod_ruj_penalti', 'code');
+        return $this->belongsTo('App\Models\Reference\Penalty', 'kod_ruj_penalti', 'kod');
     }
 }

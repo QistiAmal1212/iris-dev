@@ -178,11 +178,11 @@
                     url2 = url2.replace(':replaceThis', matriculation_subject_id);
 
                     $('#matriculationSubjectForm').attr('action',url2 );
-                    $('#matriculationSubjectForm input[name="code"]').val(data.detail.code);
-                    $('#matriculationSubjectForm input[name="name"]').val(data.detail.name);
-                    $('#matriculationSubjectForm input[name="credit"]').val(data.detail.credit);
+                    $('#matriculationSubjectForm input[name="code"]').val(data.detail.kod);
+                    $('#matriculationSubjectForm input[name="name"]').val(data.detail.diskripsi);
+                    $('#matriculationSubjectForm input[name="credit"]').val(data.detail.kredit);
                     $('#matriculationSubjectForm input[name="semester"]').val(data.detail.semester);
-                    $('#matriculationSubjectForm input[name="category"]').val(data.detail.category);
+                    $('#matriculationSubjectForm input[name="category"]').val(data.detail.kategori);
                     $('#matriculationSubjectForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Subjek Matrikulasi');

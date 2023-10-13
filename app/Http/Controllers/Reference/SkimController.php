@@ -44,22 +44,22 @@ class SkimController extends Controller
             }
         }
 
-        $ggh = SalaryGrade::where('is_active', 1)->orderBy('name', 'asc')->get();
-        $skim_pkh = SkimPerkhidmatan::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
-        $kump_jkk = KumpulanJKK::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $ggh = SalaryGrade::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
+        $skim_pkh = SkimPerkhidmatan::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
+        $kump_jkk = KumpulanJKK::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         if ($request->ajax()) {
-            $skim = Skim::orderBy('code', 'asc');
+            $skim = Skim::orderBy('kod', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
                 $skim->where('KUMP_PKHIDMAT_JKK', $request->activity_type_id);
             }
             return Datatables::of($skim->get())
                 ->editColumn('code', function ($skim){
-                    return $skim->code;
+                    return $skim->kod;
                 })
                 ->editColumn('name', function ($skim) {
-                    return $skim->name;
+                    return $skim->diskripsi;
                 })
                 ->editColumn('ggh', function ($skim) {
                     return $skim->GGH_KOD;
@@ -74,7 +74,7 @@ class SkimController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="skimForm('.$skim->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($skim->is_active) {
+                        if($skim->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$skim->id.'" onclick="toggleActive('.$skim->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$skim->id.'" onclick="toggleActive('.$skim->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -97,7 +97,7 @@ class SkimController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_skim,code',
+                'code' => 'required|string|unique:ruj_skim,kod',
                 'name' => 'required|string',
                 'GGH_KOD' => 'required|string',
                 'GUNASAMA' => 'required|string',
@@ -116,15 +116,16 @@ class SkimController extends Controller
             ]);
 
             Skim::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
                 'GGH_KOD' => strtoupper($request->GGH_KOD),
                 'GUNASAMA' => strtoupper($request->GUNASAMA),
-                'ref_skim_type' => strtoupper($request->ref_skim_type),
+                'jenis_skim' => strtoupper($request->ref_skim_type),
                 'KUMP_PKHIDMAT_JKK' => strtoupper($request->KUMP_PKHIDMAT_JKK),
                 'SKIM_PKHIDMAT' => strtoupper($request->SKIM_PKHIDMAT),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             DB::commit();
@@ -167,7 +168,7 @@ class SkimController extends Controller
             $skim = Skim::find($skimId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_skim,code,'.$skimId,
+                'code' => 'required|string|unique:ruj_skim,kod,'.$skimId,
                 'name' => 'required|string',
                 'GGH_KOD' => 'required|string',
                 'GUNASAMA' => 'required|string',
@@ -186,14 +187,14 @@ class SkimController extends Controller
             ]);
 
             $skim->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
                 'GGH_KOD' => strtoupper($request->GGH_KOD),
                 'GUNASAMA' => strtoupper($request->GUNASAMA),
-                'ref_skim_type' => strtoupper($request->ref_skim_type),
+                'jenis_skim' => strtoupper($request->ref_skim_type),
                 'KUMP_PKHIDMAT_JKK' => strtoupper($request->KUMP_PKHIDMAT_JKK),
                 'SKIM_PKHIDMAT' => strtoupper($request->SKIM_PKHIDMAT),
-                'updated_by' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -214,10 +215,13 @@ class SkimController extends Controller
             $skimId = $request->skimId;
             $skim = Skim::find($skimId);
 
-            $is_active = $skim->is_active;
+            $sah_yt = $skim->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $skim->update([
-                'is_active' => !$is_active,
+                'sah_yt' => !$sah_yt,
             ]);
 
             DB::commit();

@@ -11,10 +11,12 @@ class SenaraiCuti extends Model
 
     protected $fillable = [
         'kod',
-        'nama',
+        'diskripsi',
         'kategori',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
         'sah_yt',
     ];
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

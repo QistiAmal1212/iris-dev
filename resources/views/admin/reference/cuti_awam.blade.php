@@ -57,7 +57,7 @@
                         <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                             <option value="Lihat Semua" selected>Lihat Semua</option>
                             @foreach ($senaraicuti as $cuti)
-                            <option value="{{ $cuti->kod }}">{{ $cuti->kod }} - {{ $cuti->nama }} </option>
+                            <option value="{{ $cuti->kod }}">{{ $cuti->kod }} - {{ $cuti->diskripsi }} </option>
                             @endforeach
                         </select>
                     </div>
@@ -66,7 +66,7 @@
                         <select name="module_id" id="module_id" class="select2 form-control">
                             <option value="Lihat Semua" selected>Lihat Semua</option>
                             @foreach ($negeri as $neg)
-                            <option value="{{ $neg->kod }}">{{ $neg->diskripsi }} - {{ $neg->nama }} </option>
+                            <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->diskripsi }} </option>
                             @endforeach
                         </select>
                     </div>
@@ -307,10 +307,10 @@
                         url2 = url2.replace(':replaceThis', cutiawam_id);
 
                         $('#cutiawamForm').attr('action', url2);
-                        $('#cutiawamForm input[name="code"]').val(data.detail.kod);
+                        $('#cutiawamForm input[name="code"]').val(data.detail.ca_id);
                         $('#cutiawamForm input[name="tarikh_cuti"]').val(data.detail.tarikh_cuti);
-                        $('#cutiawamForm select[name="kod_ruj_senarai_cuti"]').val(data.detail.kod_ruj_senarai_cuti).trigger('change');
-                        $('#cutiawamForm select[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#cutiawamForm select[name="kod_ruj_senarai_cuti"]').val(data.detail.scut_kod).trigger('change');
+                        $('#cutiawamForm select[name="kod_ruj_negeri"]').val(data.detail.neg_kod).trigger('change');
 
                         $('#cutiawamForm input[name="code"]').prop('readonly', true);
 

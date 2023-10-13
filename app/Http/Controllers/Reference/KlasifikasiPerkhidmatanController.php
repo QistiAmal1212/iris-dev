@@ -61,7 +61,7 @@ class KlasifikasiPerkhidmatanController extends Controller
                     return $klasifikasiperkhidmatan->kod;
                 })
                 ->editColumn('nama', function ($klasifikasiperkhidmatan) {
-                    return $klasifikasiperkhidmatan->nama;
+                    return $klasifikasiperkhidmatan->diskripsi;
                 })
                 ->editColumn('action', function ($klasifikasiperkhidmatan) use ($accessDelete) {
                     $button = "";
@@ -103,10 +103,10 @@ class KlasifikasiPerkhidmatanController extends Controller
 
             $klasifikasiperkhidmatan = KlasifikasiPerkhidmatan::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'sah_yt'=> "Y",
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             $log = new LogSystem;
@@ -188,8 +188,8 @@ class KlasifikasiPerkhidmatanController extends Controller
 
             $klasifikasiperkhidmatan->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $klasifikasiperkhidmatanNewData = KlasifikasiPerkhidmatan::find($klasifikasiperkhidmatanId);

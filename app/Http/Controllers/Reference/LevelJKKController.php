@@ -41,14 +41,14 @@ class LevelJKKController extends Controller
             }
         }
 
-        $levelJKK = LevelJKK::orderBy('code', 'asc')->get();
+        $levelJKK = LevelJKK::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($levelJKK)
                 ->editColumn('code', function ($levelJKK){
-                    return $levelJKK->code;
+                    return $levelJKK->kod;
                 })
                 ->editColumn('name', function ($levelJKK) {
-                    return $levelJKK->name;
+                    return $levelJKK->diskripsi;
                 })
                 ->editColumn('action', function ($levelJKK) use ($accessDelete) {
                     $button = "";
@@ -57,7 +57,7 @@ class LevelJKKController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="levelJKKForm('.$levelJKK->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($levelJKK->is_active) {
+                        if($levelJKK->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$levelJKK->id.'" onclick="toggleActive('.$levelJKK->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$levelJKK->id.'" onclick="toggleActive('.$levelJKK->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -89,10 +89,11 @@ class LevelJKKController extends Controller
             ]);
 
             LevelJKK::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             DB::commit();
@@ -144,9 +145,9 @@ class LevelJKKController extends Controller
             ]);
 
             $levelJKK->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -167,10 +168,13 @@ class LevelJKKController extends Controller
             $levelJKKId = $request->levelJKKId;
             $levelJKK = LevelJKK::find($levelJKKId);
 
-            $is_active = $levelJKK->is_active;
+            $sah_yt = $levelJKK->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $levelJKK->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

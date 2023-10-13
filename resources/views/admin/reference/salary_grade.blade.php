@@ -162,8 +162,8 @@
                     url2 = url2.replace(':replaceThis', salary_grade_id);
 
                     $('#salaryGradeForm').attr('action',url2 );
-                    $('#salaryGradeForm input[name="code"]').val(data.detail.code);
-                    $('#salaryGradeForm input[name="name"]').val(data.detail.name);
+                    $('#salaryGradeForm input[name="code"]').val(data.detail.kod);
+                    $('#salaryGradeForm input[name="name"]').val(data.detail.diskripsi);
 
                     $('#salaryGradeForm input[name="code"]').prop('readonly', true);
 

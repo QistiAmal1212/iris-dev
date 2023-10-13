@@ -172,7 +172,7 @@
 
                         $('#kelayakansetarafForm').attr('action', url2);
                         $('#kelayakansetarafForm input[name="code"]').val(data.detail.kod);
-                        $('#kelayakansetarafForm input[name="name"]').val(data.detail.nama);
+                        $('#kelayakansetarafForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#kelayakansetarafForm input[name="code"]').prop('readonly', true);
 

@@ -173,7 +173,7 @@
 
                         $('#senaraicutiForm').attr('action', url2);
                         $('#senaraicutiForm input[name="code"]').val(data.detail.kod);
-                        $('#senaraicutiForm input[name="name"]').val(data.detail.nama);
+                        $('#senaraicutiForm input[name="name"]').val(data.detail.diskripsi);
                         $('#senaraicutiForm input[name="kategori"]').val(data.detail.kategori);
 
                         $('#senaraicutiForm input[name="code"]').prop('readonly', true);

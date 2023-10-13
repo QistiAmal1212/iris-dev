@@ -43,8 +43,8 @@ class SpecializationController extends Controller
             }
         }
 
-        $jenis = KodPelbagai::where('kategori', 'JENIS PENGKHUSUSAN')->orderBy('kod', 'asc')->get();
-        $bidang = KodPelbagai::where('kategori', 'BIDANG PENGKHUSUSAN')->orderBy('kod', 'asc')->get();
+        $jenis = KodPelbagai::where('sah_yt', 'Y')->where('kategori', 'JENIS PENGKHUSUSAN')->orderBy('kod', 'asc')->get();
+        $bidang = KodPelbagai::where('sah_yt', 'Y')->where('kategori', 'BIDANG PENGKHUSUSAN')->orderBy('kod', 'asc')->get();
 
         if ($request->ajax()) {
 
@@ -74,7 +74,7 @@ class SpecializationController extends Controller
                     return $specialization->kod;
                 })
                 ->editColumn('name', function ($specialization) {
-                    return $specialization->nama;
+                    return $specialization->diskripsi;
                 })
                 ->editColumn('type', function ($specialization) {
                     return $specialization->jenis;

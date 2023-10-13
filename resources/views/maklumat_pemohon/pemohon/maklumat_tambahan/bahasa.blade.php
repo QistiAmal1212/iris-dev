@@ -31,7 +31,7 @@ data-reloadPage="false">
         <select class="select2 form-control" value="" id="penguasaan_bahasa" name="penguasaan_bahasa" disabled>
             <option value=""></option>
             @foreach($kategoriPenguasaan as $penguasaan)
-            <option value="{{ $penguasaan->kod }}">{{ $penguasaan->nama }}</option>
+            <option value="{{ $penguasaan->kod }}">{{ $penguasaan->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -98,8 +98,8 @@ data-reloadPage="false">
                     bilLanguage += 1;
                     trLanguage += '<tr>';
                     trLanguage += '<td align="center">' + bilLanguage + '</td>'
-                    trLanguage += '<td>' + item.language.nama + '</td>';
-                    trLanguage += '<td>' + item.kategori.nama + '</td>';
+                    trLanguage += '<td>' + item.language.diskripsi + '</td>';
+                    trLanguage += '<td>' + item.kategori.diskripsi + '</td>';
                     trLanguage += '<td align="center"><i class="fas fa-pencil text-primary editBahasa-btn" data-id="' + item.id + ' " data-form="bahasa"></i>';
                     trLanguage += '&nbsp;&nbsp;';
                     trLanguage += '<i class="fas fa-trash text-danger deleteBahasa-btn" data-id="' + item.id + '"></i></td>';

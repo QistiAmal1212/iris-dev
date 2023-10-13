@@ -35,12 +35,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('ruj_daerah', function (Blueprint $table) {
+            //
+        });
+        Schema::table('ruj_daerah', function (Blueprint $table) {
             $table->dropColumn('sah_yt');
             $table->string('id_pencipta')->nullable()->change();
             $table->string('pengguna')->nullable()->change();
             $table->renameColumn('diskripsi', 'nama');
-            $table->renameColumn('neg_kod', 'kod_ruj_bahagian');
-            $table->renameColumn('bah_kod', 'kod_ruj_negeri');
+            $table->renameColumn('neg_kod', 'kod_ruj_bahagian', );
+            $table->renameColumn('bah_kod','kod_ruj_negeri', );
             $table->renameColumn('id_pencipta', 'created_by');
             $table->renameColumn('tarikh_cipta', 'created_at');
             $table->renameColumn('pengguna', 'updated_by');

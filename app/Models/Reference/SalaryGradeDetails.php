@@ -9,13 +9,17 @@ class SalaryGradeDetails extends Model
     protected $table = 'ruj_gred_gaji_det';
 
     protected $fillable = [
-        'ref_salary_grade_code',
-        'level',
-        'year',
-        'amount',
-        'starting_salary',
-        'created_by',
-        'updated_by',
-        'is_active',
+        'ggh_kod',
+        'peringkat',
+        'tahun',
+        'amaun',
+        'gaji_mula',
+        'id_pencipta',
+        'pengguna',
+        'sah_yt'
     ];
+
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

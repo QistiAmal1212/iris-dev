@@ -23,7 +23,7 @@ data-reloadPage="false">
         <select class="select2 form-control" value="" id="jenis_peperiksaan" name="jenis_peperiksaan" disabled>
             <option value=""></option>
             @foreach($jenisPeperiksaan as $peperiksaan)
-            <option value="{{ $peperiksaan->code }}">{{ $peperiksaan->name }}</option>
+            <option value="{{ $peperiksaan->kod }}">{{ $peperiksaan->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -98,7 +98,7 @@ data-reloadPage="false">
                         bilPsl += 1;
                         trPsl += '<tr>';
                         trPsl += '<td align="center">' + bilPsl + '</td>'
-                        trPsl += '<td>' + item.qualification.name + '</td>';
+                        trPsl += '<td>' + item.qualification.diskripsi + '</td>';
                         trPsl += '<td>' + (item.tarikh_exam ? item.tarikh_exam : '') + '</td>';
                         trPsl += '<td align="center"><i class="fas fa-pencil text-primary editPsl-btn" data-id="' + item.id + ' "></i>';
                         trPsl += '&nbsp;&nbsp;';

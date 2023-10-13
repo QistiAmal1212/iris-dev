@@ -42,7 +42,7 @@ class RankController extends Controller
             }
         }
 
-        $rank = Rank::orderBy('code', 'asc')->get();
+        $rank = Rank::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -58,10 +58,10 @@ class RankController extends Controller
 
             return Datatables::of($rank)
                 ->editColumn('code', function ($rank){
-                    return $rank->code;
+                    return $rank->kod;
                 })
                 ->editColumn('name', function ($rank) {
-                    return $rank->name;
+                    return $rank->diskripsi;
                 })
                 ->editColumn('action', function ($rank) use ($accessDelete) {
                     $button = "";
@@ -70,7 +70,7 @@ class RankController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="rankForm('.$rank->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($rank->is_active) {
+                        if($rank->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$rank->id.'" onclick="toggleActive('.$rank->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$rank->id.'" onclick="toggleActive('.$rank->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -102,10 +102,11 @@ class RankController extends Controller
             ]);
 
             $rank = Rank::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -186,9 +187,9 @@ class RankController extends Controller
             ]);
 
             $rank->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $rankNewData = rank::find($rankId);
@@ -217,10 +218,13 @@ class RankController extends Controller
             $rankId = $request->rankId;
             $rank = Rank::find($rankId);
 
-            $is_active = $rank->is_active;
+            $sah_yt = $rank->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $rank->update([
-                'is_active' => !$is_active,
+                'sah_yt' => !$sah_yt,
             ]);
 
             DB::commit();

@@ -298,7 +298,7 @@
 
                         $('#rulingForm').attr('action', url2);
                         $('#rulingForm input[name="code"]').val(data.detail.kod);
-                        $('#rulingForm input[name="name"]').val(data.detail.nama);
+                        $('#rulingForm input[name="name"]').val(data.detail.diskripsi);
                         $('#rulingForm input[name="pernyataan"]').val(data.detail.pernyataan);
                         $('#rulingForm select[name="status"]').val(data.detail.status).trigger('change');
 

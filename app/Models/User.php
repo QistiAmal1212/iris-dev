@@ -95,6 +95,6 @@ class User extends Authenticatable
 
     public function skim()
     {
-        return $this->belongsTo('App\Models\Reference\Skim', 'ref_skim_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Skim', 'ref_skim_code', 'kod');
     }
 }

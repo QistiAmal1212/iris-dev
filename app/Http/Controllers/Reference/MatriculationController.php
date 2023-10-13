@@ -41,14 +41,14 @@ class MatriculationController extends Controller
             }
         }
 
-        $matriculation = Matriculation::orderBy('code', 'asc')->get();
+        $matriculation = Matriculation::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($matriculation)
                 ->editColumn('code', function ($matriculation){
-                    return $matriculation->code;
+                    return $matriculation->kod;
                 })
                 ->editColumn('name', function ($matriculation) {
-                    return $matriculation->name;
+                    return $matriculation->diskripsi;
                 })
                 ->editColumn('action', function ($matriculation) use ($accessDelete) {
                     $button = "";
@@ -57,7 +57,7 @@ class MatriculationController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="matriculationForm('.$matriculation->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($matriculation->is_active) {
+                        if($matriculation->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$matriculation->id.'" onclick="toggleActive('.$matriculation->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$matriculation->id.'" onclick="toggleActive('.$matriculation->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -80,7 +80,7 @@ class MatriculationController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_matrikulasi,code',
+                'code' => 'required|string|unique:ruj_matrikulasi,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -89,10 +89,11 @@ class MatriculationController extends Controller
             ]);
 
             Matriculation::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             DB::commit();
@@ -135,7 +136,7 @@ class MatriculationController extends Controller
             $matriculation = Matriculation::find($matriculationId);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_matrikulasi,code,'.$matriculationId,
+                'code' => 'required|string|unique:ruj_matrikulasi,kod,'.$matriculationId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -144,9 +145,9 @@ class MatriculationController extends Controller
             ]);
 
             $matriculation->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -167,10 +168,13 @@ class MatriculationController extends Controller
             $matriculationId = $request->matriculationId;
             $matriculation = Matriculation::find($matriculationId);
 
-            $is_active = $matriculation->is_active;
+            $sah_yt = $matriculation->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $matriculation->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

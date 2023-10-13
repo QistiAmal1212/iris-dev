@@ -63,7 +63,7 @@ class PemohonRequest extends ApiRequest
                 'skim' => 'nullable|array',
                 'skim.*' => 'required|array',
                 'skim.*.tarikh_daftar' => 'required_with:skim.*.skim|date_format:Y-m-d',
-                'skim.*.skim' => 'required_with:skim.*.tarikh_daftar|string|exists:ruj_skim,code',
+                'skim.*.skim' => 'required_with:skim.*.tarikh_daftar|string|exists:ruj_skim,kod',
                 'skim.*.no_kelompok' => 'required_with:skim.*.tarikh_daftar|string',
                 'skim.*.no_siri' => 'required_with:skim.*.tarikh_daftar|string',
                 'daftar_calon' => 'nullable|array',
@@ -140,7 +140,7 @@ class PemohonRequest extends ApiRequest
                 'pengalaman_tarikh_lantikan_pertama' => 'nullable|date_format:Y-m-d', //tarikh_lantik
                 'pengalaman_tarikh_lantikan' => 'nullable|date_format:Y-m-d', //tarikh_mula
                 'pengalaman_tarikh_sah' => 'nullable|date_format:Y-m-d', //tarikh_disahkan
-                'pengalaman_skim' => 'nullable|string|exists:ruj_skim,code', //kod_ruj_skim
+                'pengalaman_skim' => 'nullable|string|exists:ruj_skim,kod', //kod_ruj_skim
                 'pengalaman_gred_gaji' => 'nullable|string|exists:ruj_gred_gaji_hdr,code', //kod_ruj_gred_gaji
                 'pengalaman_kementerian' => 'nullable|string|exists:ruj_kem_jabatan,kod', //kod_ruj_kementerian
                 'pengalaman_negeri_bertugas' => 'nullable|string|exists:ruj_negeri,kod', //kod_ruj_negeri

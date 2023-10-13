@@ -182,8 +182,8 @@
 
                         $('#statusForm').attr('action', url2);
                         $('#statusForm input[name="code"]').val(data.detail.kod);
-                        $('#statusForm input[name="name"]').val(data.detail.nama);
-                        $('#statusForm input[name="diskripsi"]').val(data.detail.diskripsi);
+                        $('#statusForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#statusForm input[name="diskripsi"]').val(data.detail.diskripsi2);
 
                         $('#statusForm input[name="code"]').prop('readonly', true);
 
