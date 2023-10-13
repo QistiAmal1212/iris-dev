@@ -189,6 +189,7 @@ class MaklumatPemohonController extends Controller
             }
 
             foreach($candidate->skim as $skim){
+                $skim->tarikh_cipta = ($skim->tarikh_cipta != null) ? Carbon::parse($skim->tarikh_cipta)->format('d/m/Y') : null;
                 $skim->tarikh_daftar = ($skim->tarikh_daftar != null) ? Carbon::parse($skim->tarikh_daftar)->format('d/m/Y') : null;
                 $skim->tarikh_luput = ($skim->tarikh_luput != null) ? Carbon::parse($skim->tarikh_luput)->format('d/m/Y') : null;
             }

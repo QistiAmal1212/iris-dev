@@ -49,7 +49,8 @@ data-reloadPage="false">
                 <th>Bil.</th>
                 <th>Kod Skim</th>
                 <th>Nama Skim</th>
-                <th>Tarikh Permohonan</th>
+                <th>Tarikh Daftar Pertama</th>
+                <th>Tarikh Daftar</th>
                 <th>Tarikh Luput</th>
             </tr>
         </thead>

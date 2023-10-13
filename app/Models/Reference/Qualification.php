@@ -12,6 +12,7 @@ class Qualification extends Model
         'kod',
         'diskripsi',
         'jenis',
+        'kategori',
         'id_pencipta',
         'pengguna',
         'sah_yt',
