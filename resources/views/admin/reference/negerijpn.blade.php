@@ -171,8 +171,6 @@
 
             table = $('#table-negerijpn').DataTable().destroy();
 
-            console.log(table)
-
             table = $('#table-negerijpn').DataTable({
                 orderCellsTop: true,
                 colReorder: false,

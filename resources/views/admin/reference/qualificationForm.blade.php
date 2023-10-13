@@ -35,7 +35,30 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="type" name="type" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <select id="type" name="type" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        <option value="1">Profesional dan Ikhtisas</option>
+                                        <option value="2">Sedang Berkhidmat</option>
+                                        <option value="3">Perubatan</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="category">Kategori
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="category" name="category" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        <option value="U">Perubatan</option>
+                                        <option value="V">SVM</option>
+                                        <option value="K">SKM</option>
+                                        <option value="B">Sedang Berkhidmat</option>
+                                        <option value="P">Profesional</option>
+                                        <option value="I">Ikhtisas (Guru)</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

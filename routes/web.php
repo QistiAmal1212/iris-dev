@@ -224,6 +224,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{institutionId}', [InstitutionController::class, 'edit'])->name('admin.reference.institution.edit');
             Route::post('update/{institutionId}', [InstitutionController::class, 'update'])->name('admin.reference.institution.update');
             Route::post('toggleActive/{institutionId}', [InstitutionController::class, 'toggleActive'])->name('admin.reference.institution.toggleActive');
+            Route::get('getChild', [InstitutionController::class, 'getCategoriesByParent'])->name('admin.reference.institution.getChild');
         });
 
         Route::prefix('pengkhususan')->group(function () {
@@ -232,6 +233,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{specializationId}', [SpecializationController::class, 'edit'])->name('admin.reference.specialization.edit');
             Route::post('update/{specializationId}', [SpecializationController::class, 'update'])->name('admin.reference.specialization.update');
             Route::post('toggleActive/{specializationId}', [SpecializationController::class, 'toggleActive'])->name('admin.reference.specialization.toggleActive');
+            Route::get('getChild', [SpecializationController::class, 'getCategoriesByParent'])->name('admin.reference.specialization.getChild');
         });
 
         Route::prefix('kelulusan')->group(function () {
@@ -290,7 +292,7 @@ Route::prefix('admin')->group(function () {
             Route::post('toggleActive/{matriculationCourseId}', [MatriculationCourseController::class, 'toggleActive'])->name('admin.reference.matriculation-course.toggleActive');
         });
 
-        Route::prefix('sunjek_matrikulasi')->group(function () {
+        Route::prefix('subjek_matrikulasi')->group(function () {
             Route::get('/', [MatriculationSubjectController::class, 'index'])->name('admin.reference.matriculation-subject');
             Route::post('create', [MatriculationSubjectController::class, 'store'])->name('admin.reference.matriculation-subject.store');
             Route::get('edit/{matriculationSubjectId}', [MatriculationSubjectController::class, 'edit'])->name('admin.reference.matriculation-subject.edit');
@@ -368,6 +370,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{salaryGradeDetailsId}', [SalaryGradeDetailsController::class, 'edit'])->name('admin.reference.salary-grade-details.edit');
             Route::post('update/{salaryGradeDetailsId}', [SalaryGradeDetailsController::class, 'update'])->name('admin.reference.salary-grade-details.update');
             Route::post('toggleActive/{salaryGradeDetailsId}', [SalaryGradeDetailsController::class, 'toggleActive'])->name('admin.reference.salary-grade-details.toggleActive');
+            Route::get('getChild', [SalaryGradeDetailsController::class, 'getCategoriesByParent'])->name('admin.reference.salary-grade-details.getChild');
         });
 
         Route::prefix('pusat_temuduga')->group(function () {
@@ -416,6 +419,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{daerahId}', [DaerahController::class, 'edit'])->name('admin.reference.daerah.edit');
             Route::post('update/{daerahId}', [DaerahController::class, 'update'])->name('admin.reference.daerah.update');
             Route::post('toggleActive/{daerahId}', [DaerahController::class, 'toggleActive'])->name('admin.reference.daerah.toggleActive');
+            Route::get('getChild', [DaerahController::class, 'getCategoriesByParent'])->name('admin.reference.daerah.getChild');
         });
 
         Route::prefix('senarai_cuti')->group(function () {
@@ -432,6 +436,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{cutiawamId}', [CutiAwamController::class, 'edit'])->name('admin.reference.cutiawam.edit');
             Route::post('update/{cutiawamId}', [CutiAwamController::class, 'update'])->name('admin.reference.cutiawam.update');
             Route::post('toggleActive/{cutiawamId}', [CutiAwamController::class, 'toggleActive'])->name('admin.reference.cutiawam.toggleActive');
+            Route::get('getChild', [CutiAwamController::class, 'getCategoriesByParent'])->name('admin.reference.cutiawam.getChild');
         });
 
         Route::prefix('suruhanjaya')->group(function () {

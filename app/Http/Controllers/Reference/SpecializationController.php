@@ -62,11 +62,11 @@ class SpecializationController extends Controller
             $specialization = Specialization::orderBy('kod', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $specialization->where('jenis', $request->activity_type_id);
+                $specialization->where('bidang', $request->activity_type_id);
             }
 
             if ($request->module_id && $request->module_id != "Lihat Semua") {
-                $specialization->where('bidang', $request->module_id);
+                $specialization->where('jenis', $request->module_id);
             }
 
             return Datatables::of($specialization->get())
@@ -104,6 +104,32 @@ class SpecializationController extends Controller
         }
 
         return view('admin.reference.specialization', compact('accessAdd', 'accessUpdate', 'accessDelete', 'jenis', 'bidang'));
+    }
+
+    public function getCategoriesByParent(Request $request)
+    {
+        $parentCategory = $request->input('parent_category');
+
+        $codes = Specialization::where('bidang', $parentCategory)
+            ->select('jenis')
+            ->distinct()
+            ->pluck('jenis')
+            ->filter()
+            ->toArray();
+
+        $categories = KodPelbagai::whereIn('kod', $codes)
+        ->where('sah_yt', 'Y')
+        ->where('kategori', 'JENIS PENGKHUSUSAN')
+        ->get();
+        
+        $result = $categories->map(function($item) {
+            return [
+                'categories' => $item->diskripsi,
+                'codes' => $item->kod
+            ];
+        });
+
+        return response()->json($result);
     }
 
     public function store(Request $request)

@@ -46,18 +46,20 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label" for="equivalent">Bersamaan
+                                <label class="form-label" for="equivalent">Kelayakan Setaraf
                                     <span class="text text-danger">*</span>
                                 </label>
-                                <div class="input-group">
-                                    <input type="text" id="equivalent" name="equivalent" value=""
-                                        class="form-control" oninput="this.value = this.value.toUpperCase()" required>
-                                </div>
+                                <select class="form-control" name="equivalent" id="equivalent" required>
+                                    <option value="">Sila Pilih:-</option>
+                                    @foreach ($kelayakanSetaraf as $kelayakanSetaraf)
+                                        <option value="{{ $kelayakanSetaraf->kod }}">{{ $kelayakanSetaraf->diskripsi }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label" for="rank">Pangkat
+                                <label class="form-label" for="rank">Pangkat Kelayakan
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">

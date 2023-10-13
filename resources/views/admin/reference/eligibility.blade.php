@@ -49,8 +49,27 @@
             @endif
         </div>
         <hr>
-
         <div class="card-body">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <label class="form-label" for="code">Carian Kelayakan Setara</label>
+                        <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
+                            <option value="Lihat Semua" selected>Lihat Semua</option>
+                            @foreach ($kelayakanSetaraf as $ks)
+                            <option value="{{ $ks->kod }}">{{ $ks->kod }} - {{ $ks->diskripsi }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end align-items-center my-1 ">
+                    <button type="submit" class="btn btn-success float-right">
+                        <i class="fa fa-search"></i> Cari
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
             <div class="table-responsive">
                 <table class="table header_uppercase table-bordered" id="table-eligibility">
                     <thead>
@@ -58,6 +77,7 @@
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
                             <th>Nama</th>
+                            <th width="10%">Kelayakan Setaraf</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -106,6 +126,14 @@
                     }
                 },
                 {
+                    data: "ks",
+                    name: "ks",
+                    className: "text-center",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -129,6 +157,85 @@
                 lengthMenu: "Lihat _MENU_ entri",
             }
         });
+
+        $('body').on('submit','#form-search',function(e){
+
+            e.preventDefault();
+
+            var form = $("#form-search");
+
+            if(!form.valid()){
+                return false;
+            }
+            var table;
+
+            table = $('#table-eligibility').DataTable().destroy();
+
+            table = $('#table-eligibility').DataTable({
+                orderCellsTop: true,
+                colReorder: false,
+                pageLength: 25,
+                processing: true,
+                serverSide: true, //enable if data is large (more than 50,000)
+                deferRender: true,
+                ajax: form.attr('action')+"?"+form.serialize(),
+                columns: [{
+                        defaultContent: '',
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: "code",
+                        name: "code",
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "name",
+                        name: "name",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "ks",
+                        name: "ks",
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+
+                ],
+                language: {
+                    emptyTable: "Tiada data tersedia",
+                    info: "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+                    infoEmpty: "Menunjukkan 0 hingga 0 daripada 0 entri",
+                    infoFiltered: "(Ditapis dari _MAX_ entri)",
+                    search: "Cari:",
+                    zeroRecords: "Tiada rekod yang ditemui",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Seterusnya",
+                        previous: "Sebelumnya"
+                    },
+                    lengthMenu: "Lihat _MENU_ entri",
+                }
+            });
+            });
 
         eligibilityForm = function(id = null) {
             var eligibilityFormModal;
