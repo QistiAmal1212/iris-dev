@@ -58,7 +58,7 @@
                     <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                         <option value="Lihat Semua" selected>Lihat Semua</option>
                         @foreach ($jenis as $jen)
-                        <option value="{{ $jen->kod }}">{{ $jen->kod }} - {{ $jen->nama }}</option>
+                        <option value="{{ $jen->kod }}">{{ $jen->kod }} - {{ $jen->diskripsi }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -67,7 +67,7 @@
                     <select name="module_id" id="module_id" class="select2 form-control">
                         <option value="Lihat Semua" selected>Lihat Semua</option>
                         @foreach ($bidang as $bid)
-                        <option value="{{ $bid->kod }}">{{ $bid->kod }} - {{ $bid->nama }}</option>
+                        <option value="{{ $bid->kod }}">{{ $bid->kod }} - {{ $bid->diskripsi }}</option>
                         @endforeach
                     </select>
                 </div>

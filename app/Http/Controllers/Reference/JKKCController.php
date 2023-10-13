@@ -42,7 +42,7 @@ class JKKCController extends Controller
             }
         }
 
-        $jkkc = JKKC::orderBy('kod', 'asc')->get();
+        $jkkc = JKKC::orderBy('ski_kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;

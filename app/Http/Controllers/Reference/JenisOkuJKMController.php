@@ -59,10 +59,10 @@ class JenisOkuJKMController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            $jenisoku = JenisOkuJKM::orderBy('kod', 'asc');
+            $jenisoku = JenisOkuJKM::orderBy('kod_oku', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $jenisoku->where('nama', $request->activity_type_id);
+                $jenisoku->where('kategori_oku', $request->activity_type_id);
             }
 
             return Datatables::of($jenisoku->get())

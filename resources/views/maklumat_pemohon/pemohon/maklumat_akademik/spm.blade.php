@@ -338,7 +338,7 @@
                             <select class="select2 form-control" value="" id="subjek_svm" name="subjek_svm" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekSvm as $subjek)
-                                        <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                        <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
                         </div>
@@ -435,7 +435,7 @@
                             <select class="select2 form-control" value="" id="subjek_svm" name="subjek_svm" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekSvm as $subjek)
-                                        <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                        <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
                         </div>
