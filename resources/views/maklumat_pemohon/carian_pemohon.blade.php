@@ -119,7 +119,7 @@ Maklumat Pemohon
         <div class="card">
             <div class="card-body">
                 <div class="">
-                    <ul class="nav nav-pills nav-justified" role="tablist">
+                    <ul class="nav nav-tabs nav-justified" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link fw-bolder active" id="peribadi-tab" data-bs-toggle="tab" href="#peribadi" aria-controls="peribadi" role="tab" aria-selected="true">
                                 Maklumat <br> Peribadi
