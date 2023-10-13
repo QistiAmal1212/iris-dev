@@ -58,7 +58,7 @@
                     <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                         <option value="Lihat Semua" selected>Lihat Semua</option>
                         @foreach ($kump_jkk as $kump)
-                        <option value="{{ $kump->kod }}">{{ $kump->kod }} - {{ $kump->nama }}</option>
+                        <option value="{{ $kump->kod }}">{{ $kump->kod }} - {{ $kump->diskripsi }}</option>
                         @endforeach
                     </select>
                 </div>

@@ -42,8 +42,13 @@ class PenajaController extends Controller
             }
         }
 
-        $penaja = Penaja::orderBy('kod', 'asc')->get();
+        $types = Penaja::select('jenis')->orderBy('jenis', 'asc')->distinct()->pluck('jenis')->filter()->toArray();
         if ($request->ajax()) {
+
+            $penaja = Penaja::orderBy('kod', 'asc');
+            if($request->activity_type_id && $request->activity_type_id != "Lihat Semua"){
+                $penaja->where('jenis',$request->activity_type_id);
+            }
 
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.penaja')->firstOrFail()->id;
@@ -56,7 +61,7 @@ class PenajaController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($penaja)
+            return Datatables::of($penaja->get())
                 ->editColumn('kod', function ($penaja){
                     return $penaja->kod;
                 })
@@ -87,7 +92,7 @@ class PenajaController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.penaja', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.penaja', compact('accessAdd', 'accessUpdate', 'accessDelete', 'types'));
     }
 
     public function store(Request $request)

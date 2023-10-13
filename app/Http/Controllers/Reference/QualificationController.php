@@ -42,7 +42,7 @@ class QualificationController extends Controller
             }
         }
 
-        $qualification = Qualification::orderBy('diskripsi', 'asc')->get();
+
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -56,12 +56,27 @@ class QualificationController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($qualification)
+            $qualification = Qualification::orderBy('kod', 'asc');
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $qualification->where('jenis', $request->activity_type_id);
+            }
+
+            // if ($request->module_id && $request->module_id != "Lihat Semua") {
+            //     $qualification->where('kategori', $request->module_id);
+            // }
+
+            return Datatables::of($qualification->get())
                 ->editColumn('code', function ($qualification){
                     return $qualification->kod;
                 })
                 ->editColumn('name', function ($qualification) {
                     return $qualification->diskripsi;
+                })
+                ->editColumn('jenis', function ($qualification) {
+                    return $qualification->jenis;
+                })
+                ->editColumn('kat', function ($qualification) {
+                    return $qualification->kategori;
                 })
                 ->editColumn('action', function ($qualification) use ($accessDelete) {
                     $button = "";
@@ -96,17 +111,20 @@ class QualificationController extends Controller
                 'code' => 'required|string|unique:ruj_kelulusan,kod',
                 'name' => 'required|string',
                 'type' => 'required|string',
+                'category' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama kelulusan',
                 'type.required' => 'Sila isikan jenis kelulusan',
+                'category.required' => 'Sila isikan kategori',
             ]);
 
             $qualification = Qualification::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
                 'jenis' => strtoupper($request->type),
+                'kategori' => strtoupper($request->category),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
                 'sah_yt' => 'Y'
@@ -184,17 +202,20 @@ class QualificationController extends Controller
                 'code' => 'required|string|unique:ruj_kelulusan,kod,'.$qualificationId,
                 'name' => 'required|string',
                 'type' => 'required|string',
+                'category' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama kelulusan',
                 'type.required' => 'Sila isikan jenis kelulusan',
+                'category.required' => 'Sila isikan kategori',
             ]);
 
             $qualification->update([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
                 'jenis' => strtoupper($request->type),
+                'kategori' => strtoupper($request->category),
                 'pengguna' => auth()->user()->id,
             ]);
 

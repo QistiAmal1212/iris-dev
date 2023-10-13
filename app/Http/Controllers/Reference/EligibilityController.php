@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reference\KelayakanSetaraf;
 use App\Models\Reference\Skim;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,15 +44,22 @@ class EligibilityController extends Controller
         }
 
         $skim = Skim::where('sah_yt', 'Y')->get();
+        $kelayakanSetaraf = KelayakanSetaraf::where('sah_yt', 'Y')->get();
 
-        $eligibility = Eligibility::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
-            return Datatables::of($eligibility)
+            $eligibility = Eligibility::orderBy('kod', 'asc');
+            if($request->activity_type_id && $request->activity_type_id != "Lihat Semua"){
+                $eligibility->where('kelayakan_setara',$request->activity_type_id);
+            }
+            return Datatables::of($eligibility->get())
                 ->editColumn('code', function ($eligibility){
                     return $eligibility->kod;
                 })
                 ->editColumn('name', function ($eligibility) {
                     return $eligibility->diskripsi;
+                })
+                ->editColumn('ks', function ($eligibility) {
+                    return $eligibility->kelayakan_setara;
                 })
                 ->editColumn('action', function ($eligibility) use ($accessDelete) {
                     $button = "";
@@ -75,7 +83,7 @@ class EligibilityController extends Controller
         }
 
         //pass
-        return view('admin.reference.eligibility', compact('accessAdd', 'accessUpdate', 'accessDelete', 'skim'));
+        return view('admin.reference.eligibility', compact('accessAdd', 'accessUpdate', 'accessDelete', 'skim', 'kelayakanSetaraf'));
     }
 
     public function store(Request $request)

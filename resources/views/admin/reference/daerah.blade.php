@@ -53,21 +53,17 @@
             <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
                 <div class="row">
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <label class="form-label" for="code">Carian Bahagian</label>
-                        <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
-                            <option value="Lihat Semua" selected>Lihat Semua</option>
-                            @foreach ($bahagian as $bah)
-                            <option value="{{ $bah->kod }}">{{ $bah->kod }} - {{ $bah->diskripsi }} </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-sm-4 col-md-4 col-lg-4">
                         <label class="form-label" for="code">Carian Negeri</label>
-                        <select name="module_id" id="module_id" class="select2 form-control">
+                        <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                             <option value="Lihat Semua" selected>Lihat Semua</option>
                             @foreach ($negeri as $neg)
                             <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->diskripsi }} </option>
                             @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <label class="form-label" for="code">Carian Bahagian</label>
+                        <select name="module_id" id="module_id" class="select2 form-control">
                         </select>
                     </div>
                 </div>
@@ -101,6 +97,29 @@
 
 @section('script')
     <script>
+        $(document).ready(function() {
+        $('#activity_type_id').change(function() {
+            var parentCategory = $(this).val();
+            console.log(parentCategory)
+            if(parentCategory && parentCategory!= "Lihat Semua") {
+                $.ajax({
+                    url: "{{ route('admin.reference.daerah.getChild') }}",
+                    type: 'GET',
+                    data: {parent_category: parentCategory},
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#module_id').empty();
+                        $('#module_id').append('<option value="Lihat Semua" selected>Lihat Semua</option>');
+                        $.each(data, function(key, value) {
+                            $('#module_id').append('<option value="'+ value.codes +'">'+value.codes +' - '+ value.categories +'</option>');
+                        });
+                    }
+                });
+            }{
+                $('#module_id').empty();
+            }
+        });
+    });
         var table = $('#table-daerah').DataTable({
             orderCellsTop: true,
             colReorder: false,

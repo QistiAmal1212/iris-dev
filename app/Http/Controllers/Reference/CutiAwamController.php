@@ -66,11 +66,11 @@ class CutiAwamController extends Controller
             $cutiawam = CutiAwam::orderBy('ca_id', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $cutiawam->where('scut_kod', $request->activity_type_id);
+                $cutiawam->where('neg_kod', $request->activity_type_id);
             }
 
             if ($request->module_id && $request->module_id != "Lihat Semua") {
-                $cutiawam->where('neg_kod', $request->module_id);
+                $cutiawam->where('scut_kod', $request->module_id);
             }
 
             return Datatables::of($cutiawam->get())
@@ -109,6 +109,32 @@ class CutiAwamController extends Controller
 
         return view('admin.reference.cuti_awam', compact('accessAdd', 'accessUpdate', 'accessDelete', 'senaraicuti', 'negeri'));
     }
+
+    public function getCategoriesByParent(Request $request)
+    {
+        $parentCategory = $request->input('parent_category');
+
+        $codes = CutiAwam::where('neg_kod', $parentCategory)
+            ->select('scut_kod')
+            ->distinct()
+            ->pluck('scut_kod')
+            ->filter()
+            ->toArray();
+
+        $categories = SenaraiCuti::whereIn('kod', $codes)
+        ->where('sah_yt', 'Y')
+        ->get();
+
+        $result = $categories->map(function($item) {
+            return [
+                'categories' => $item->diskripsi,
+                'codes' => $item->kod
+            ];
+        });
+
+        return response()->json($result);
+    }
+
 
     public function store(Request $request)
     {

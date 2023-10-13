@@ -60,11 +60,11 @@ class InstitutionController extends Controller
             $institution = Institution::orderBy('kod', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $institution->where('negara', $request->activity_type_id);
-            }
+                $institution->where('jenis_institusi', $request->activity_type_id);
 
+            }
             if ($request->module_id && $request->module_id != "Lihat Semua") {
-                $institution->where('jenis_institusi', $request->module_id);
+                $institution->where('negara', $request->module_id);
             }
 
             return Datatables::of($institution->get())
@@ -102,6 +102,31 @@ class InstitutionController extends Controller
         }
 
         return view('admin.reference.institution', compact('accessAdd', 'accessUpdate', 'accessDelete', 'negara'));
+    }
+    public function getCategoriesByParent(Request $request)
+    {
+        $parentCategory = $request->input('parent_category');
+
+        $codes = Institution::where('jenis_institusi', $parentCategory)
+            ->select('negara')
+            ->distinct()
+            ->pluck('negara')
+            ->filter()
+            ->toArray();
+
+        $categories = Negara::whereIn('kod', $codes)
+        ->where('sah_yt', 'Y')
+        // ->where('kategori', 'JENIS PENGKHUSUSAN')
+        ->get();
+
+        $result = $categories->map(function($item) {
+            return [
+                'categories' => $item->diskripsi,
+                'codes' => $item->kod
+            ];
+        });
+
+        return response()->json($result);
     }
 
     public function store(Request $request)

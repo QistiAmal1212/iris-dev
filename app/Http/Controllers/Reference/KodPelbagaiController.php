@@ -42,9 +42,15 @@ class KodPelbagaiController extends Controller
             }
         }
 
-        $kodpelbagai = KodPelbagai::orderBy('kod', 'asc')->get();
+        $categories = KodPelbagai::select('kategori')->orderBy('kategori', 'asc')->distinct()->pluck('kategori')->filter()->toArray();
+
         if ($request->ajax()) {
-            return Datatables::of($kodpelbagai)
+            $kodpelbagai = KodPelbagai::orderBy('kod', 'asc');
+            if($request->activity_type_id && $request->activity_type_id != "Lihat Semua"){
+                $kodpelbagai->where('kategori',$request->activity_type_id);
+            }
+
+            return Datatables::of($kodpelbagai->get())
                 ->editColumn('kod', function ($kodpelbagai){
                     return $kodpelbagai->kod;
                 })
@@ -75,7 +81,7 @@ class KodPelbagaiController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.kodpelbagai', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.kodpelbagai', compact('accessAdd', 'accessUpdate', 'accessDelete', 'categories'));
     }
 
     public function store(Request $request)

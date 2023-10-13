@@ -64,11 +64,11 @@ class DaerahController extends Controller
             $daerah = Daerah::orderBy('kod', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $daerah->where('bah_kod', $request->activity_type_id);
-            }
+                $daerah->where('neg_kod', $request->activity_type_id);
 
+            }
             if ($request->module_id && $request->module_id != "Lihat Semua") {
-                $daerah->where('neg_kod', $request->module_id);
+                $daerah->where('bah_kod', $request->module_id);
             }
 
             return Datatables::of($daerah->get())
@@ -106,6 +106,31 @@ class DaerahController extends Controller
         }
 
         return view('admin.reference.daerah', compact('accessAdd', 'accessUpdate', 'accessDelete', 'bahagian', 'negeri'));
+    }
+
+    public function getCategoriesByParent(Request $request)
+    {
+        $parentCategory = $request->input('parent_category');
+
+        $codes = Daerah::where('neg_kod', $parentCategory)
+            ->select('bah_kod')
+            ->distinct()
+            ->pluck('bah_kod')
+            ->filter()
+            ->toArray();
+
+        $categories = Bahagian::whereIn('kod', $codes)
+        ->where('sah_yt', 'Y')
+        ->get();
+
+        $result = $categories->map(function($item) {
+            return [
+                'categories' => $item->diskripsi,
+                'codes' => $item->kod
+            ];
+        });
+
+        return response()->json($result);
     }
 
     public function store(Request $request)

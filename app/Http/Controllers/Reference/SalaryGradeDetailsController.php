@@ -42,11 +42,21 @@ class salaryGradeDetailsController extends Controller
             }
         }
 
-        $salaryGrade = SalaryGrade::where('sah_yt', 'Y');
+        $salaryGrade = SalaryGrade::where('sah_yt', 'Y')->get();
+        $ranks = SalaryGradeDetails::select('peringkat')->orderBy('peringkat', 'asc')->distinct()->pluck('peringkat')->filter()->toArray();
 
-        $salaryGradeDetails = SalaryGradeDetails::orderBy('ggh_kod', 'asc')->get();
         if ($request->ajax()) {
-            return Datatables::of($salaryGradeDetails)
+            $salaryGradeDetails = SalaryGradeDetails::orderBy('ggh_kod', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $salaryGradeDetails->where('ggh_kod', $request->activity_type_id);
+            }
+
+            if ($request->module_id && $request->module_id != "Lihat Semua") {
+                $salaryGradeDetails->where('peringkat', $request->module_id);
+            }
+
+            return Datatables::of($salaryGradeDetails->get())
                 ->editColumn('ref_salary_grade_code', function ($salaryGradeDetails){
                     return $salaryGradeDetails->ggh_kod;
                 })
@@ -81,7 +91,21 @@ class salaryGradeDetailsController extends Controller
         }
 
         //pass
-        return view('admin.reference.salary_grade_details', compact('accessAdd', 'accessUpdate', 'accessDelete', 'salaryGrade'));
+        return view('admin.reference.salary_grade_details', compact('accessAdd', 'accessUpdate', 'accessDelete', 'salaryGrade', 'ranks'));
+    }
+
+    public function getCategoriesByParent(Request $request)
+    {
+        $parentCategory = $request->input('parent_category');
+
+        $categories = SalaryGradeDetails::where('ggh_kod', $parentCategory)
+            ->select('peringkat')
+            ->distinct()
+            ->pluck('peringkat')
+            ->filter()
+            ->toArray();
+
+        return response()->json(['categories' => $categories]);
     }
 
     public function store(Request $request)
