@@ -57,7 +57,7 @@
                         <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                             <option value="Lihat Semua" selected>Lihat Semua</option>
                             @foreach ($KategoriOKU as $kat)
-                            <option value="{{ $kat->nama }}">{{ $kat->nama }}</option>
+                            <option value="{{ $kat->diskripsi }}">{{ $kat->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -280,9 +280,9 @@
                         url2 = url2.replace(':replaceThis', jenisoku_id);
 
                         $('#jenisokuForm').attr('action', url2);
-                        $('#jenisokuForm input[name="code"]').val(data.detail.kod);
-                        $('#jenisokuForm select[name="name"]').val(data.detail.nama).trigger('change');
-                        $('#jenisokuForm input[name="sub"]').val(data.detail.sub_oku);
+                        $('#jenisokuForm input[name="code"]').val(data.detail.kod_oku);
+                        $('#jenisokuForm select[name="name"]').val(data.detail.kategori_oku).trigger('change');
+                        $('#jenisokuForm input[name="sub"]').val(data.detail.diskripsi_oku);
 
                         $('#jenisokuForm input[name="code"]').prop('readonly', true);
 
