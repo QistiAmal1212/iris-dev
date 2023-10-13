@@ -1,266 +1,474 @@
-<div class="row mt-2 mb-2">
-    <div class="card" id="update_stpm" style="display:none">
-        <div class="d-flex justify-content-end align-items-center my-1 ">
-            <a class="me-3 text-danger" type="button" onclick="editStpm()">
-                <i class="fa-regular fa-pen-to-square"></i>
-                Kemaskini
-            </a>
+<div class="bs-stepper vertical vertical-wizard">
+    <div class="bs-stepper-header">
+        <div class="step" data-target="#academic-stpm-info" role="tab" id="academic-stpm-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    STPM
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Sijil Tinggi Persekolahan Malaysia
+                    </span>
+                </span>
+            </button>
+        </div>
+
+        <hr>
+
+        <div class="step" data-target="#academic-stam-info" role="tab" id="academic-stam-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    STAM
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Sijil Tinggi Agama Malaysia
+                    </span>
+                </span>
+            </button>
+        </div>
+
+        <hr>
+
+        <div class="step" data-target="#academic-matrik-info" role="tab" id="academic-matrik-info-trigger">
+            <button type="button" class="step-trigger">
+                <span class="bs-stepper-box">
+                    KM
+                </span>
+                <span class="bs-stepper-label">
+                    <span class="bs-stepper-title text-wrap">
+                        Sijil Matrikulasi
+                    </span>
+                </span>
+            </button>
         </div>
     </div>
-    <form
-    id="stpmForm"
-    action="{{ route('stpm.store') }}"
-    method="POST"
-    data-refreshFunctionName="reloadTimeline"
-    data-refreshFunctionNameIfSuccess="reloadStpm"
-    data-reloadPage="false">
-    @csrf
-    <div class="row mt-2 mb-2">
-        <h6>
-            <span class="badge badge-light-primary fw-bolder">Sijil Tinggi Persekolahan Malaysia (STPM)</span>
-        </h6>
-        <input type="hidden" name="stpm_no_pengenalan" id="stpm_no_pengenalan" value="">
-        <input type="hidden" name="id_stpm" id="id_stpm" value="">
-        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-            <label class="form-label">Mata Pelajaran</label>
-            <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
-                <option value=""></option>
-                @foreach($subjekStpm as $subjek)
-                <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
-                @endforeach
-            </select>
-        </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Gred</label>
-            <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm" disabled>
-                <option value=""></option>
-                @foreach($gredStpm as $gred)
-                <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                @endforeach
-            </select>
-        </div>
+    <div class="bs-stepper-content">
+        {{-- STPM --}}
+        <div id="academic-stpm-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-stpm-info-trigger">
+            {{-- STPM 1 --}}
+            <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-stpm-1" aria-expanded="false" aria-controls="result-stpm-1">
+                <span class="badge badge-light-primary">
+                    Sijil Tinggi Pelajaran Malaysia (STPM) [1]
+                    <i class="fa-solid fa-chevron-down ms-3"></i>
+                </span>
+            </h6>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Tahun</label>
-            <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm" disabled>
-        </div>
+            <div class="collapse show mb-3" id="result-stpm-1">
+                <div class="d-flex justify-content-end align-items-center mb-1" id="update_stpm" style="display:none">
+                    <a class="me-3 text-danger" type="button" onclick="editStpm()">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Kemaskini
+                    </a>
+                </div>
+                <form id="stpmForm" action="{{ route('stpm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadStpm" data-reloadPage="false">
+                    @csrf
+                    <div class="row">
+                        <input type="hidden" name="stpm_no_pengenalan" id="stpm_no_pengenalan" value="">
+                        <input type="hidden" name="id_stpm" id="id_stpm" value="">
 
-        <div id="button_action_stpm" style="display:none">
-            <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
-            <div class="d-flex justify-content-end align-items-center my-1">
-                <button type="button" class="btn btn-danger float-right" onclick="reloadStpm()">
-                    <i class="fa fa-refresh"></i>
-                </button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success float-right" id="btnSaveStpm" onclick="$('#btnEditStpm').trigger('click');">
-                    <i class="fa fa-save"></i> Tambah
-                </button>
+                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                            <label class="form-label">Mata Pelajaran</label>
+                            <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
+                                <option value="" hidden>Mata Pelajaran</option>
+                                    @foreach($subjekStpm as $subjek)
+                                        <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Gred</label>
+                            <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm" disabled>
+                                <option value="" hidden>Gred</option>
+                                    @foreach($gredStpm as $gred)
+                                        <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm" disabled>
+                        </div>
+
+                        <div id="button_action_stpm" style="display:none">
+                            <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
+                            <div class="d-flex justify-content-end align-items-center my-1">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadStpm()">
+                                    <i class="fa fa-refresh"></i>
+                                </button>
+                                <button type="button" class="btn btn-success float-right" id="btnSaveStpm" onclick="$('#btnEditStpm').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive mb-1 mt-1">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-stpm">
+                        <thead>
+                            <tr>
+                                <th>Bil.</th>
+                                <th>Kod MP</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Gred</th>
+                                <th>Kemaskini</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr class="bg-light-primary">
+                                <td class="text-end" colspan="3">PNGK</td>
+                                <td class="text-start fw-bolder" colspan="2">auto-calculated</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            {{-- STPM 2 --}}
+            <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-stpm-2" aria-expanded="false" aria-controls="result-stpm-2">
+                <span class="badge badge-light-primary">
+                    Sijil Tinggi Pelajaran Malaysia (STPM) [2]
+                    <i class="fa-solid fa-chevron-down ms-3"></i>
+                </span>
+            </h6>
+
+            <div class="collapse show mb-3" id="result-stpm-2">
+                <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
+                    <a class="me-3 text-danger" type="button" onclick="">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Kemaskini
+                    </a>
+                </div>
+
+                <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                    @csrf
+                    <div class="row">
+                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                            <label class="form-label">Mata Pelajaran</label>
+                            <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
+                                <option value="" hidden>Mata Pelajaran</option>
+                                    @foreach($subjekStpm as $subjek)
+                                        <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Gred</label>
+                            <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm" disabled>
+                                <option value="" hidden>Gred</option>
+                                    @foreach($gredStpm as $gred)
+                                        <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm" disabled>
+                        </div>
+
+                        <div id="button_action_stpm" style="display:none">
+                            <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
+                            <div class="d-flex justify-content-end align-items-center my-1">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadStpm()">
+                                    <i class="fa fa-refresh"></i>
+                                </button>
+                                <button type="button" class="btn btn-success float-right" id="btnSaveStpm" onclick="$('#btnEditStpm').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive mb-1 mt-1">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-stpm">
+                        <thead>
+                            <tr>
+                                <th>Bil.</th>
+                                <th>Kod MP</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Gred</th>
+                                <th>Kemaskini</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr class="bg-light-primary">
+                                <td class="text-end" colspan="3">PNGK</td>
+                                <td class="text-start fw-bolder" colspan="2">auto-calculated</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    </form>
 
-    <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-stpm">
-            <thead>
-                <tr>
-                    <th>Bil.</th>
-                    <th>Mata Pelajaran</th>
-                    <th>Gred</th>
-                    <th>Kemaskini</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+        {{-- STAM --}}
+        <div id="academic-stam-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-stam-info-trigger">
+            {{-- STAM 1 --}}
+            <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-stam-1" aria-expanded="false" aria-controls="result-stam-1">
+                <span class="badge badge-light-primary">
+                    Sijil Tinggi Agama Malaysia (STAM) [1]
+                    <i class="fa-solid fa-chevron-down ms-3"></i>
+                </span>
+            </h6>
 
-    <hr>
-    <div class="card" id="update_stam" style="display:none">
-        <div class="d-flex justify-content-end align-items-center my-1 ">
-            <a class="me-3 text-danger" type="button" onclick="editStam()">
-                <i class="fa-regular fa-pen-to-square"></i>
-                Kemaskini
-            </a>
-        </div>
-    </div>
-    <form
-    id="stamForm"
-    action="{{ route('stam.store') }}"
-    method="POST"
-    data-refreshFunctionName="reloadTimeline"
-    data-refreshFunctionNameIfSuccess="reloadStam"
-    data-reloadPage="false">
-    @csrf
-    <div class="row mt-2 mb-2">
-        <h6>
-            <span class="badge badge-light-primary fw-bolder">Sijil Tinggi Agama Malaysia (STAM)</span>
-        </h6>
-        <input type="hidden" name="stam_no_pengenalan" id="stam_no_pengenalan" value="">
-        <input type="hidden" name="id_stam" id="id_stam" value="">
-        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-            <label class="form-label">Mata Pelajaran</label>
-            <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
-                <option value=""></option>
-                @foreach($subjekStam as $subjek)
-                <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
-                @endforeach
-            </select>
-        </div>
+            <div class="collapse show mb-3" id="result-stam-1">
+                <div class="d-flex justify-content-end align-items-center mb-1" id="update_stam" style="display:none">
+                    <a class="me-3 text-danger" type="button" onclick="editStam()">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Kemaskini
+                    </a>
+                </div>
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Gred</label>
-            <select class="select2 form-control" value="" id="gred_stam" name="gred_stam" disabled>
-                <option value=""></option>
-                @foreach($gredStam as $gred)
-                <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                @endforeach
-            </select>
-        </div>
+                <form id="stamForm" action="{{ route('stam.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadStam" data-reloadPage="false">
+                    @csrf
+                    <div class="row">
 
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-            <label class="form-label">Tahun</label>
-            <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam" disabled>
-        </div>
+                        <input type="hidden" name="stam_no_pengenalan" id="stam_no_pengenalan" value="">
+                        <input type="hidden" name="id_stam" id="id_stam" value="">
 
-        <div id="button_action_stam" style="display:none">
-            <button type="button" id="btnEditStam" hidden onclick="generalFormSubmit(this);"></button>
-            <div class="d-flex justify-content-end align-items-center my-1">
-                <button type="button" class="btn btn-danger float-right" onclick="reloadStam()">
-                    <i class="fa fa-refresh"></i>
-                </button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success float-right" id="btnSaveStam" onclick="$('#btnEditStam').trigger('click');">
-                    <i class="fa fa-save"></i> Tambah
-                </button>
+                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                            <label class="form-label">Mata Pelajaran</label>
+                            <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
+                                <option value="" hidden>Mata Pelajaran</option>
+                                    @foreach($subjekStam as $subjek)
+                                        <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Gred</label>
+                            <select class="select2 form-control" value="" id="gred_stam" name="gred_stam" disabled>
+                                <option value="" hidden>Gred</option>
+                                    @foreach($gredStam as $gred)
+                                        <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam" disabled>
+                        </div>
+
+                        <div id="button_action_stam" style="display:none">
+                            <button type="button" id="btnEditStam" hidden onclick="generalFormSubmit(this);"></button>
+                            <div class="d-flex justify-content-end align-items-center my-1">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadStam()">
+                                    <i class="fa fa-refresh"></i>
+                                </button>
+                                <button type="button" class="btn btn-success float-right" id="btnSaveStam" onclick="$('#btnEditStam').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive mb-1 mt-1">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-stam">
+                        <thead>
+                            <tr>
+                                <th>Bil.</th>
+                                <th>Kod MP</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Gred</th>
+                                <th>Tahun</th>
+                                <th>Kemaskini</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{-- STAM 2 --}}
+            <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-stam-2" aria-expanded="false" aria-controls="result-stam-2">
+                <span class="badge badge-light-primary">
+                    Sijil Tinggi Agama Malaysia (STAM) [2]
+                    <i class="fa-solid fa-chevron-down ms-3"></i>
+                </span>
+            </h6>
+
+            <div class="collapse show mb-3" id="result-stam-2">
+                <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
+                    <a class="me-3 text-danger" type="button" onclick="">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Kemaskini
+                    </a>
+                </div>
+
+                <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                    @csrf
+                    <div class="row">
+
+                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                            <label class="form-label">Mata Pelajaran</label>
+                            <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
+                                <option value="" hidden>Mata Pelajaran</option>
+                                    @foreach($subjekStam as $subjek)
+                                        <option value="{{ $subjek->code }}">{{ $subjek->name }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Gred</label>
+                            <select class="select2 form-control" value="" id="gred_stam" name="gred_stam" disabled>
+                                <option value="" hidden>Gred</option>
+                                    @foreach($gredStam as $gred)
+                                        <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                    @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam" disabled>
+                        </div>
+
+                        <div id="button_action_stam" style="display:none">
+                            <button type="button" id="" hidden onclick="generalFormSubmit(this);"></button>
+                            <div class="d-flex justify-content-end align-items-center my-1">
+                                <button type="button" class="btn btn-danger me-1" onclick="">
+                                    <i class="fa fa-refresh"></i>
+                                </button>
+                                <button type="button" class="btn btn-success float-right" id="" onclick="">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive mb-1 mt-1">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-stam">
+                        <thead>
+                            <tr>
+                                <th>Bil.</th>
+                                <th>Kod MP</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Gred</th>
+                                <th>Tahun</th>
+                                <th>Kemaskini</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    </form>
 
-    <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-stam">
-            <thead>
-                <tr>
-                    <th>Bil.</th>
-                    <th>Mata Pelajaran</th>
-                    <th>Gred</th>
-                    <th>Kemaskini</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+        {{-- MATRIK --}}
+        <div id="academic-matrik-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-matrik-info-trigger">
+            <div class="d-flex justify-content-end align-items-center mb-1" id="update_matrikulasi" style="display:none">
+                <a class="me-3 text-danger" type="button" onclick="editMatrikulasi()">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    Kemaskini
+                </a>
+            </div>
 
-    <hr>
-    <div class="card" id="update_matrikulasi" style="display:none">
-        <div class="d-flex justify-content-end align-items-center my-1 ">
-            <a class="me-3 text-danger" type="button" onclick="editMatrikulasi()">
-                <i class="fa-regular fa-pen-to-square"></i>
-                Kemaskini
-            </a>
-        </div>
-    </div>
-    <form
-    id="matrikulasiForm"
-    action="{{ route('matrikulasi.store') }}"
-    method="POST"
-    data-refreshFunctionName="reloadTimeline"
-    data-refreshFunctionNameIfSuccess="reloadMatrikulasi"
-    data-reloadPage="false">
-    @csrf
-    <div class="row mt-2 mb-2">
-        <h6>
-            <span class="badge badge-light-primary fw-bolder">Sijil Matrikulasi</span>
-        </h6>
+            <form id="matrikulasiForm" action="{{ route('matrikulasi.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadMatrikulasi" data-reloadPage="false">
+                @csrf
+                <div class="row">
+                    <input type="hidden" name="matrikulasi_no_pengenalan" id="matrikulasi_no_pengenalan" value="">
+                    <input type="hidden" name="id_matrikulasi" id="id_matrikulasi" value="">
 
-        <input type="hidden" name="matrikulasi_no_pengenalan" id="matrikulasi_no_pengenalan" value="">
-        <input type="hidden" name="id_matrikulasi" id="id_matrikulasi" value="">
-        <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
-            <label class="form-label">Kolej Matrikulasi</label>
-            <select class="select2 form-control" value="" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
-                <option value=""></option>
-                @foreach($kolejMatrikulasi as $kolej)
-                <option value="{{ $kolej->code }}">{{ $kolej->name }}</option>
-                @endforeach
-            </select>
-        </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                        <label class="form-label">Kolej Matrikulasi</label>
+                        <select class="select2 form-control" value="" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
+                            <option value="" hidden>Kolej Matrikulasi</option>
+                                @foreach($kolejMatrikulasi as $kolej)
+                                    <option value="{{ $kolej->code }}">{{ $kolej->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
 
-        <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
-            <label class="form-label">Jurusan</label>
-            <select class="select2 form-control" value="" id="jurusan_matrikulasi" name="jurusan_matrikulasi" disabled>
-                <option value=""></option>
-                @foreach($jurusanMatrikulasi as $jurusanMatrikulasi)
-                <option value="{{ $jurusanMatrikulasi->code }}">{{ $jurusanMatrikulasi->name }}</option>
-                @endforeach
-            </select>
-        </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                        <label class="form-label">Jurusan</label>
+                        <select class="select2 form-control" value="" id="jurusan_matrikulasi" name="jurusan_matrikulasi" disabled>
+                            <option value="" hidden>Jurusan</option>
+                                @foreach($jurusanMatrikulasi as $jurusanMatrikulasi)
+                                    <option value="{{ $jurusanMatrikulasi->code }}">{{ $jurusanMatrikulasi->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-            <label class="form-label">No. Matrik</label>
-            <input type="text" class="form-control" value="" id="matrik_matrikulasi" name="matrik_matrikulasi" disabled>
-        </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">No. Matrik</label>
+                        <input type="text" class="form-control" value="" id="matrik_matrikulasi" name="matrik_matrikulasi" disabled>
+                    </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-            <label class="form-label">Sesi</label>
-            <input type="text" class="form-control" value="" id="sesi_matrikulasi" name="sesi_matrikulasi" disabled>
-        </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Sesi</label>
+                        <input type="text" class="form-control" value="" id="sesi_matrikulasi" name="sesi_matrikulasi" disabled>
+                    </div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
-            <label class="form-label">Semester</label>
-            <input type="text" class="form-control" value="" id="semester_matrikulasi" name="semester_matrikulasi" disabled>
-        </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                        <label class="form-label">Semester</label>
+                        <input type="text" class="form-control" value="" id="semester_matrikulasi" name="semester_matrikulasi" disabled>
+                    </div>
 
-        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-            <label class="form-label">Mata Pelajaran</label>
-            <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
-                <option value=""></option>
-                @foreach($subjekMatrikulasi as $subjekMatrikulasi)
-                <option value="{{ $subjekMatrikulasi->code }}">{{ $subjekMatrikulasi->name }}</option>
-                @endforeach
-            </select>
-        </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                        <label class="form-label">Mata Pelajaran</label>
+                        <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
+                            <option value="" hidden>Mata Pelajaran</option>
+                                @foreach($subjekMatrikulasi as $subjekMatrikulasi)
+                                    <option value="{{ $subjekMatrikulasi->code }}">{{ $subjekMatrikulasi->name }}</option>
+                                @endforeach
+                        </select>
+                    </div>
 
-        <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
-            <label class="form-label">Gred</label>
-            <input type="text" class="form-control" value="" id="gred_matrikulasi" name="gred_matrikulasi" disabled>
-        </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                        <label class="form-label">Gred</label>
+                        <input type="text" class="form-control" value="" id="gred_matrikulasi" name="gred_matrikulasi" disabled>
+                    </div>
 
-        <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
-            <label class="form-label">PNGK</label>
-            <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
-        </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+                        <label class="form-label">PNGK</label>
+                        <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
+                    </div>
 
-        <div id="button_action_matrikulasi" style="display:none">
-            <button type="button" id="btnEditMatrikulasi" hidden onclick="generalFormSubmit(this);"></button>
-            <div class="d-flex justify-content-end align-items-center my-1">
-                <button type="button" class="btn btn-danger float-right" onclick="reloadMatrikulasi()">
-                    <i class="fa fa-refresh"></i>
-                </button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success float-right" id="btnSaveMatrikulasi" onclick="$('#btnEditMatrikulasi').trigger('click');">
-                    <i class="fa fa-save"></i> Tambah
-                </button>
+                    <div id="button_action_matrikulasi" style="display:none">
+                        <button type="button" id="btnEditMatrikulasi" hidden onclick="generalFormSubmit(this);"></button>
+                        <div class="d-flex justify-content-end align-items-center my-1">
+                            <button type="button" class="btn btn-danger me-1" onclick="reloadMatrikulasi()">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                            <button type="button" class="btn btn-success float-right" id="btnSaveMatrikulasi" onclick="$('#btnEditMatrikulasi').trigger('click');">
+                                <i class="fa fa-save"></i> Tambah
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-responsive mb-1 mt-1">
+                <table class="table header_uppercase table-bordered table-hovered" id="table-matrikulasi">
+                    <thead>
+                        <tr>
+                            <th>Bil.</th>
+                            <th>Sesi</th>
+                            <th>Semester</th>
+                            <th>Kod MP</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Gred</th>
+                            <th>Kemaskini</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
-    </div>
-    </form>
-
-    <div class="table-responsive mb-1 mt-1">
-        <table class="table header_uppercase table-bordered table-hovered" id="table-matrikulasi">
-            <thead>
-                <tr>
-                    <th>Bil.</th>
-                    <th>Sesi</th>
-                    <th>Semester</th>
-                    <th>Kod Mata Pelajaran</th> {{-- NEW COLUMN --}}
-                    <th>Mata Pelajaran</th>
-                    <th>Gred</th>
-                    <th>Kemaskini</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </div>
 </div>
 
@@ -304,6 +512,7 @@
                         bilStpm += 1;
                         trStpm += '<tr>';
                         trStpm += '<td align="center">' + bilStpm + '</td>';
+                        trStpm += '<td>' + item.subject_form6.name + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.name + '</td>';
                         trStpm += '<td align="center">' + item.gred + '</td>';
                         trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
@@ -395,6 +604,7 @@
                         bilStam += 1;
                         trStam += '<tr>';
                         trStam += '<td align="center">' + bilStam + '</td>';
+                        trStam += '<td>' + item.subject_form6.name + '</td>'; //Kod MP
                         trStam += '<td>' + item.subject_form6.name + '</td>';
                         trStam += '<td align="center">' + item.gred + '</td>';
                         trStam += '<td align="center"><i class="fas fa-pencil text-primary editStam-btn" data-id="' + item.id + ' " data-form="stam"></i>';
@@ -501,7 +711,7 @@
                         trMatrikulasi += '<tr>';
                         trMatrikulasi += '<td>' + item.sesi + '</td>';
                         trMatrikulasi += '<td align="center">' + item.semester + '</td>';
-                        trMatrikulasi += '<td align="center">' + item.semester + '</td>'; //NEW COLUMN - SUBJECT CODE
+                        trMatrikulasi += '<td align="center">' + item.subject.name + '</td>'; // Kod MP
                         trMatrikulasi += '<td align="center">' + item.subject.name + '</td>';
                         trMatrikulasi += '<td align="center">' + item.gred + '</td>';
                         trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary editMatrikulasi-btn" data-id="' + item.id + ' " data-form="matrikulasi"></i>';
@@ -540,7 +750,6 @@
                     $('#matrikulasiForm input[name="gred_matrikulasi"]').val($(row).find('td:nth-child(8)').text());
                     $('#matrikulasiForm input[name="pngk_matrikulasi"]').val($(row).find('td:nth-child(9)').text());
                 });
-
 
                 $(document).on('click', '.deleteMatrikulasi-btn', function() {
                     var id = $(this).data('id');
