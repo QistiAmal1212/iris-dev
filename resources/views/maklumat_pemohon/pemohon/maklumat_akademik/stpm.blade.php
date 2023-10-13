@@ -282,7 +282,6 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Tahun</th>
                                 <th>Kemaskini</th>
                             </tr>
                         </thead>
@@ -358,7 +357,6 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Tahun</th>
                                 <th>Kemaskini</th>
                             </tr>
                         </thead>
