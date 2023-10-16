@@ -31,7 +31,7 @@ class CalonSkim extends Model
     const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function skim(){
-        return $this->belongsTo('App\Models\Reference\Skim', 'kod_ruj_skim', 'kod');
+        return $this->belongsTo('App\Models\Reference\Skim', 'ski_kod', 'kod');
     }
 
     public function interviewCentre(){

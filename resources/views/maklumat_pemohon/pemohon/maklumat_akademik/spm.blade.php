@@ -69,6 +69,7 @@
     <div class="bs-stepper-content">
         {{-- SPM --}}
         <div id="academic-spm-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-spm-info-trigger">
+            
             {{-- SPM 1 --}}
             <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-spm-1" aria-expanded="false" aria-controls="result-spm-1">
                 <span class="badge badge-light-primary">
@@ -78,22 +79,30 @@
             </h6>
 
             <div class="collapse show mb-3" id="result-spm-1">
-                <div class="d-flex justify-content-end align-items-center mb-1" id="update_spm" style="display:none">
-                    <a class="me-3 text-danger" type="button" onclick="editSpm()">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Kemaskini
-                    </a>
+                <div id="update_spm1" style="display:none">
+                    <div class="d-flex justify-content-end align-items-center mb-1">
+                        <a class="me-3 text-danger" type="button" onclick="editSpm1()">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            Kemaskini
+                        </a>
+                    </div>
                 </div>
 
-                <form id="spmForm" action="{{ route('spm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSpm" data-reloadPage="false">
+                <form 
+                id="spm1Form" 
+                action="{{ route('spm1.store') }}" 
+                method="POST" 
+                data-refreshFunctionName="reloadTimeline" 
+                data-refreshFunctionNameIfSuccess="reloadSpm1" 
+                data-reloadPage="false">
                     @csrf
                     <div class="row">
-                        <input type="hidden" name="spm_no_pengenalan" id="spm_no_pengenalan" value="">
-                        <input type="hidden" name="id_spm" id="id_spm" value="">
+                        <input type="hidden" name="spm1_no_pengenalan" id="spm1_no_pengenalan" value="">
+                        <input type="hidden" name="id_spm1" id="id_spm1" value="">
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_spm" name="subjek_spm" disabled>
+                            <select class="select2 form-control" value="" id="subjek_spm1" name="subjek_spm1" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekSpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -103,7 +112,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_spm" name="gred_spm" disabled>
+                            <select class="select2 form-control" value="" id="gred_spm1" name="gred_spm1" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredSpm as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -113,16 +122,16 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_spm" name="tahun_spm" disabled>
+                            <input type="text" class="form-control" value="" id="tahun_spm1" name="tahun_spm1" disabled>
                         </div>
 
-                        <div id="button_action_spm" style="display:none">
-                            <button type="button" id="btnEditSpm" hidden onclick="generalFormSubmit(this);"></button>
+                        <div id="button_action_spm1" style="display:none">
+                            <button type="button" id="btnEditSpm1" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
-                                <button type="button" class="btn btn-danger me-1" onclick="reloadSpm()">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadSpm1()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                                <button type="button" class="btn btn-success float-right" id="btnSaveSpm" onclick="$('#btnEditSpm').trigger('click');">
+                                <button type="button" class="btn btn-success float-right" id="btnSaveSpm1" onclick="$('#btnEditSpm1').trigger('click');">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
                             </div>
@@ -131,7 +140,7 @@
                 </form>
 
                 <div class="table-responsive mb-1 mt-1">
-                    <table class="table header_uppercase table-bordered table-hovered" id="table-spm">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-spm1">
                         <thead>
                             <tr>
                                 <th>Bil.</th>
@@ -155,20 +164,30 @@
             </h6>
 
             <div class="collapse show mb-3" id="result-spm-2">
-                <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
-                    <a class="me-3 text-danger" type="button" onclick="">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Kemaskini
-                    </a>
+                <div id="update_spm2" style="display:none">
+                    <div class="d-flex justify-content-end align-items-center mb-1">
+                        <a class="me-3 text-danger" type="button" onclick="editSpm2()">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            Kemaskini
+                        </a>
+                    </div>
                 </div>
 
-                <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                <form 
+                id="spm2Form" 
+                action="{{ route('spm2.store') }}" 
+                method="POST" 
+                data-refreshFunctionName="reloadTimeline" 
+                data-refreshFunctionNameIfSuccess="reloadSpm2" 
+                data-reloadPage="false">
                     @csrf
                     <div class="row">
+                        <input type="hidden" name="spm2_no_pengenalan" id="spm2_no_pengenalan" value="">
+                        <input type="hidden" name="id_spm2" id="id_spm2" value="">
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_spm" name="subjek_spm" disabled>
+                            <select class="select2 form-control" value="" id="subjek_spm2" name="subjek_spm2" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekSpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -178,7 +197,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_spm" name="gred_spm" disabled>
+                            <select class="select2 form-control" value="" id="gred_spm2" name="gred_spm2" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredSpm as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -188,16 +207,16 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_spm" name="tahun_spm" disabled>
+                            <input type="text" class="form-control" value="" id="tahun_spm2" name="tahun_spm2" disabled>
                         </div>
 
-                        <div id="" style="display:none">
-                            <button type="button" id="" hidden onclick="generalFormSubmit(this);"></button>
+                        <div id="button_action_spm2" style="display:none">
+                            <button type="button" id="btnEditSpm2" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
-                                <button type="button" class="btn btn-danger me-1" onclick="()">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadSpm2()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                                <button type="button" class="btn btn-success float-right" id="" onclick="">
+                                <button type="button" class="btn btn-success float-right" id="btnSaveSpm2" onclick="$('#btnEditSpm2').trigger('click');">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
                             </div>
@@ -206,7 +225,7 @@
                 </form>
 
                 <div class="table-responsive mb-1 mt-1">
-                    <table class="table header_uppercase table-bordered table-hovered" id="">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-spm2">
                         <thead>
                             <tr>
                                 <th>Bil.</th>
@@ -224,11 +243,13 @@
 
         {{-- SPMV --}}
         {{-- <div id="academic-spmv-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-spmv-info-trigger">
-            <div class="d-flex justify-content-end align-items-center mb-1" id="update_spmv" style="display:none">
-                <a class="me-3 text-danger" type="button" onclick="editSpmv()">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                    Kemaskini
-                </a>
+            <div id="update_spmv" style="display:none">
+                <div class="d-flex justify-content-end align-items-center mb-1">
+                    <a class="me-3 text-danger" type="button" onclick="editSpmv()">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Kemaskini
+                    </a>
+                </div>
             </div>
 
             <form id="spmvForm" action="{{ route('spmv.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSpmv" data-reloadPage="false">
@@ -302,11 +323,13 @@
             </h6>
 
             <div class="collapse show mb-3" id="result-svm-1">
-                <div class="d-flex justify-content-end align-items-center mb-1" id="update_svm" style="display:none">
-                    <a class="me-3 text-danger" type="button" onclick="editSvm()">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Kemaskini
-                    </a>
+                <div id="update_svm" style="display:none">
+                    <div class="d-flex justify-content-end align-items-center mb-1">
+                        <a class="me-3 text-danger" type="button" onclick="editSvm()">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            Kemaskini
+                        </a>
+                    </div>
                 </div>
 
                 <form id="svmForm" action="{{ route('svm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSvm" data-reloadPage="false">
@@ -398,11 +421,13 @@
             </h6>
 
             <div class="collapse show mb-3" id="result-svm-2">
-                <div class="d-flex justify-content-end align-items-center mb-1" id="update_svm" style="display:none">
-                    <a class="me-3 text-danger" type="button" onclick="editSvm()">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Kemaskini
-                    </a>
+                <div id="update_svm" style="display:none">
+                    <div class="d-flex justify-content-end align-items-center mb-1">
+                        <a class="me-3 text-danger" type="button" onclick="editSvm()">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            Kemaskini
+                        </a>
+                    </div>
                 </div>
 
                 <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
@@ -491,11 +516,13 @@
         <div id="academic-spmu-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-spmu-info-trigger">
 
             {{-- Button Kemaskini SPM ULANGAN --}}
-            <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
-                <a class="me-3 text-danger" type="button" onclick="">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                    Kemaskini
-                </a>
+            <div id="" style="display:none">
+                <div class="d-flex justify-content-end align-items-center mb-1">
+                    <a class="me-3 text-danger" type="button" onclick="">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Kemaskini
+                    </a>
+                </div>
             </div>
 
             {{-- Borang SPM ULANGAN --}}
@@ -564,77 +591,79 @@
 </div>
 
 <script>
-    function editSpm() {
-        $('#spmForm select[name="subjek_spm"]').attr('disabled', false);
-        $('#spmForm select[name="gred_spm"]').attr('disabled', false);
-        $('#spmForm input[name="tahun_spm"]').attr('disabled', false);
+    function editSpm1() {
+        $('#spm1Form select[name="subjek_spm1"]').attr('disabled', false);
+        $('#spm1Form select[name="gred_spm1"]').attr('disabled', false);
+        $('#spm1Form input[name="tahun_spm1"]').attr('disabled', false);
 
-        $("#button_action_spm").attr("style", "display:block");
+        $("#button_action_spm1").attr("style", "display:block");
     }
-    function reloadSpm() {
-        var no_pengenalan = $('#spm_no_pengenalan').val();
-        $('#spmForm input[name="spm_no_pengenalan"]').val(no_pengenalan);
 
-        var reloadSpmUrl = "{{ route('spm.list', ':replaceThis') }}"
+    function reloadSpm1() {
+        var no_pengenalan = $('#spm1_no_pengenalan').val();
+        $('#spm1Form input[name="spm1_no_pengenalan"]').val(no_pengenalan);
+
+        var reloadSpmUrl = "{{ route('spm1.list', ':replaceThis') }}"
         reloadSpmUrl = reloadSpmUrl.replace(':replaceThis', no_pengenalan);
         $.ajax({
             url: reloadSpmUrl,
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#spmForm select[name="subjek_spm"]').val('').trigger('change');
-                $('#spmForm select[name="gred_spm"]').val('').trigger('change');
-                $('#spmForm input[name="tahun_spm"]').val('');
-                $('#spmForm select[name="subjek_spm"]').attr('disabled', true);
-                $('#spmForm select[name="gred_spm"]').attr('disabled', true);
-                $('#spmForm input[name="tahun_spm"]').attr('disabled', true);
-                $('#spmForm').attr('action', "{{ route('spm.store')  }}");
-                $('#btnSaveSpm').html('<i class="fa fa-save"></i> Tambah');
+                $('#spm1Form select[name="subjek_spm1"]').val('').trigger('change');
+                $('#spm1Form select[name="gred_spm1"]').val('').trigger('change');
+                $('#spm1Form input[name="tahun_spm1"]').val('');
+                $('#spm1Form select[name="subjek_spm1"]').attr('disabled', true);
+                $('#spm1Form select[name="gred_spm1"]').attr('disabled', true);
+                $('#spm1Form input[name="tahun_spm1"]').attr('disabled', true);
+                $('#spm1Form').attr('action', "{{ route('spm1.store')  }}");
+                $('#btnSaveSpm1').html('<i class="fa fa-save"></i> Tambah');
 
-                $("#button_action_spm").attr("style", "display:none");
+                $("#button_action_spm1").attr("style", "display:none");
 
-
-                $('#table-spm tbody').empty();
+                $('#table-spm1 tbody').empty();
                 var trSpm = '';
                 var bilSpm = 0;
-                $.each(data.detail, function(i, item) {
-                    if (item.subject_form5 != null) {
-                        bilSpm += 1;
-                        trSpm += '<tr>';
-                        trSpm += '<td align="center">' + bilSpm + '</td>';
-                        trSpm += '<td>' + item.subject_form5.diskripsi + '</td>'; //KOD MATA PELAJARAN
-                        trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
-                        trSpm += '<td align="center">' + item.gred + '</td>';
-                        trSpm += '<td align="center"><i class="fas fa-pencil text-primary editSpm-btn" data-id="' + item.id + ' "></i>';
-                        trSpm += '&nbsp;&nbsp;';
-                        trSpm += '<i class="fas fa-trash text-danger deleteSpm-btn" data-id="' + item.id + '"></i></td>';
-                        trSpm += '</tr>';
-                    }
-                });
-                $('#table-spm tbody').append(trSpm);
+                if(data.detail.data != null){
+                    $.each(data.detail.data, function(i, item) {
+                        if (item.subject_form5 != null) {
+                            bilSpm += 1;
+                            trSpm += '<tr>';
+                            trSpm += '<td align="center">' + bilSpm + '</td>';
+                            trSpm += '<td>' + item.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
+                            trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
+                            trSpm += '<td align="center">' + item.gred + '</td>';
+                            trSpm += '<td align="center"><i class="fas fa-pencil text-primary editSpm1-btn" data-id="' + item.id + ' "></i>';
+                            trSpm += '&nbsp;&nbsp;';
+                            trSpm += '<i class="fas fa-trash text-danger deleteSpm1-btn" data-id="' + item.id + '"></i></td>';
+                            trSpm += '</tr>';
+                        }
+                    });
+                }
+                $('#table-spm1 tbody').append(trSpm);
 
-                if($('#table-spm tbody').is(':empty')){
+                if($('#table-spm1 tbody').is(':empty')){
                     var trSpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
-                    $('#table-spm tbody').append(trSpm);
+                    $('#table-spm1 tbody').append(trSpm);
                 }
 
-                $(document).on('click', '.editSpm-btn', function() {
+                $(document).on('click', '.editSpm1-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                    $('#spmForm').attr('action', "{{ route('spm.update') }}");
+                    $('#spm1Form').attr('action', "{{ route('spm1.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
 
-                    $('#spmForm input[name="id_spm"]').val(id);
-                    var subjectName = $(row).find('td:nth-child(2)').text();
-                    $('#spmForm select[name="subjek_spm"] option').filter(function() {
+                    $('#spm1Form input[name="id_spm1"]').val(id);
+                    var subjectName = $(row).find('td:nth-child(3)').text();
+                    $('#spm1Form select[name="subjek_spm1"] option').filter(function() {
                         return $(this).text() === subjectName;
                     }).prop('selected', true).trigger('change');
-                    $('#spmForm select[name="gred_spm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                    $('#spmForm input[name="tahun_spm"]').val($(row).find('td:nth-child(4)').text());
+                    $('#spm1Form select[name="gred_spm1"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
+                    //$('#spm1Form input[name="tahun_spm1"]').val($(row).find('td:nth-child(5)').text());
                 });
 
 
-                $(document).on('click', '.deleteSpm-btn', function() {
+                $(document).on('click', '.deleteSpm1-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -643,7 +672,99 @@
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        deleteItem(id, "{{ route('spm.delete', ':replaceThis') }}", reloadSpm )
+                        deleteItem(id, "{{ route('spm1.delete', ':replaceThis') }}", reloadSpm1 )
+                    }
+                    })
+
+                });
+            },
+            error: function(data) {
+            }
+        });
+    }
+
+    function editSpm2() {
+        $('#spm2Form select[name="subjek_spm2"]').attr('disabled', false);
+        $('#spm2Form select[name="gred_spm2"]').attr('disabled', false);
+        $('#spm2Form input[name="tahun_spm2"]').attr('disabled', false);
+
+        $("#button_action_spm2").attr("style", "display:block");
+    }
+
+    function reloadSpm2() {
+        var no_pengenalan = $('#spm2_no_pengenalan').val();
+        $('#spm2Form input[name="spm2_no_pengenalan"]').val(no_pengenalan);
+
+        var reloadSpmUrl = "{{ route('spm2.list', ':replaceThis') }}"
+        reloadSpmUrl = reloadSpmUrl.replace(':replaceThis', no_pengenalan);
+        $.ajax({
+            url: reloadSpmUrl,
+            method: 'GET',
+            async: true,
+            success: function(data) {
+                $('#spm2Form select[name="subjek_spm2"]').val('').trigger('change');
+                $('#spm2Form select[name="gred_spm2"]').val('').trigger('change');
+                $('#spm2Form input[name="tahun_spm2"]').val('');
+                $('#spm2Form select[name="subjek_spm2"]').attr('disabled', true);
+                $('#spm2Form select[name="gred_spm2"]').attr('disabled', true);
+                $('#spm2Form input[name="tahun_spm2"]').attr('disabled', true);
+                $('#spm2Form').attr('action', "{{ route('spm2.store')  }}");
+                $('#btnSaveSpm2').html('<i class="fa fa-save"></i> Tambah');
+
+                $("#button_action_spm2").attr("style", "display:none");
+
+                $('#table-spm2 tbody').empty();
+                var trSpm = '';
+                var bilSpm = 0;
+                if(data.detail.data != null){
+                    $.each(data.detail.data, function(i, item) {
+                        if (item.subject_form5 != null) {
+                            bilSpm += 1;
+                            trSpm += '<tr>';
+                            trSpm += '<td align="center">' + bilSpm + '</td>';
+                            trSpm += '<td>' + item.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
+                            trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
+                            trSpm += '<td align="center">' + item.gred + '</td>';
+                            trSpm += '<td align="center"><i class="fas fa-pencil text-primary editSpm2-btn" data-id="' + item.id + ' "></i>';
+                            trSpm += '&nbsp;&nbsp;';
+                            trSpm += '<i class="fas fa-trash text-danger deleteSpm2-btn" data-id="' + item.id + '"></i></td>';
+                            trSpm += '</tr>';
+                        }
+                    });
+                }
+                $('#table-spm2 tbody').append(trSpm);
+
+                if($('#table-spm2 tbody').is(':empty')){
+                    var trSpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-spm2 tbody').append(trSpm);
+                }
+
+                $(document).on('click', '.editSpm2-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                    $('#spm2Form').attr('action', "{{ route('spm2.update') }}");
+                    var row = $(this).closest('tr');
+                    var id = $(this).data('id');
+
+                    $('#spm2Form input[name="id_spm2"]').val(id);
+                    var subjectName = $(row).find('td:nth-child(3)').text();
+                    $('#spm2Form select[name="subjek_spm2"] option').filter(function() {
+                        return $(this).text() === subjectName;
+                    }).prop('selected', true).trigger('change');
+                    $('#spm2Form select[name="gred_spm2"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
+                    //$('#spm2Form input[name="tahun_spm2"]').val($(row).find('td:nth-child(5)').text());
+                });
+
+
+                $(document).on('click', '.deleteSpm2-btn', function() {
+                    var id = $(this).data('id');
+                    Swal.fire({
+                    title: 'Adakah anda ingin hapuskan maklumat ini?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sahkan',
+                    cancelButtonText: 'Batal',
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteItem(id, "{{ route('spm2.delete', ':replaceThis') }}", reloadSpm2 )
                     }
                     })
 

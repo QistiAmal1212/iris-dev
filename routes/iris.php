@@ -20,7 +20,8 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         });
 
         Route::prefix('alamat')->group(function () {
-            Route::post('update', 'updateAlamat')->name('alamat.update');
+            Route::post('/tetap/update', 'updateAlamatTetap')->name('alamat-tetap.update');
+            Route::post('/surat/update', 'updateAlamatSurat')->name('alamat-surat.update');
             Route::get('details/{noPengenalan}', 'alamatDetails')->name('alamat.details');
         });
 
@@ -51,11 +52,18 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::post('delete/{idPmr}', 'deletePmr')->name('pmr.delete');
         });
 
-        Route::prefix('spm')->group(function () {
-            Route::post('store', 'storeSpm')->name('spm.store');
-            Route::get('list/{noPengenalan}', 'listSpm')->name('spm.list');
-            Route::post('update', 'updateSpm')->name('spm.update');
-            Route::post('delete/{idSpm}', 'deleteSpm')->name('spm.delete');
+        Route::prefix('spm1')->group(function () {
+            Route::post('store', 'storeSpm1')->name('spm1.store');
+            Route::get('list/{noPengenalan}', 'listSpm1')->name('spm1.list');
+            Route::post('update', 'updateSpm1')->name('spm1.update');
+            Route::post('delete/{idSpm}', 'deleteSpm1')->name('spm1.delete');
+        });
+
+        Route::prefix('spm2')->group(function () {
+            Route::post('store', 'storeSpm2')->name('spm2.store');
+            Route::get('list/{noPengenalan}', 'listSpm2')->name('spm2.list');
+            Route::post('update', 'updateSpm2')->name('spm2.update');
+            Route::post('delete/{idSpm}', 'deleteSpm2')->name('spm2.delete');
         });
 
         Route::prefix('spmv')->group(function () {
@@ -72,18 +80,32 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::post('delete/{idSvm}', 'deleteSvm')->name('svm.delete');
         });
 
-        Route::prefix('stpm')->group(function () {
-            Route::post('store', 'storeStpm')->name('stpm.store');
-            Route::get('list/{noPengenalan}', 'listStpm')->name('stpm.list');
-            Route::post('update', 'updateStpm')->name('stpm.update');
-            Route::post('delete/{idStpm}', 'deleteStpm')->name('stpm.delete');
+        Route::prefix('stpm1')->group(function () {
+            Route::post('store', 'storeStpm1')->name('stpm1.store');
+            Route::get('list/{noPengenalan}', 'listStpm1')->name('stpm1.list');
+            Route::post('update', 'updateStpm1')->name('stpm1.update');
+            Route::post('delete/{idStpm}', 'deleteStpm1')->name('stpm1.delete');
         });
 
-        Route::prefix('stam')->group(function () {
-            Route::post('store', 'storeStam')->name('stam.store');
-            Route::get('list/{noPengenalan}', 'listStam')->name('stam.list');
-            Route::post('update', 'updateStam')->name('stam.update');
-            Route::post('delete/{idStam}', 'deleteStam')->name('stam.delete');
+         Route::prefix('stpm2')->group(function () {
+            Route::post('store', 'storeStpm2')->name('stpm2.store');
+            Route::get('list/{noPengenalan}', 'listStpm2')->name('stpm2.list');
+            Route::post('update', 'updateStpm2')->name('stpm2.update');
+            Route::post('delete/{idStpm}', 'deleteStpm2')->name('stpm2.delete');
+        });
+
+        Route::prefix('stam1')->group(function () {
+            Route::post('store', 'storeStam1')->name('stam1.store');
+            Route::get('list/{noPengenalan}', 'listStam1')->name('stam1.list');
+            Route::post('update', 'updateStam1')->name('stam1.update');
+            Route::post('delete/{idStam}', 'deleteStam1')->name('stam1.delete');
+        });
+
+        Route::prefix('stam2')->group(function () {
+            Route::post('store', 'storeStam2')->name('stam2.store');
+            Route::get('list/{noPengenalan}', 'listStam2')->name('stam2.list');
+            Route::post('update', 'updateStam2')->name('stam2.update');
+            Route::post('delete/{idStam}', 'deleteStam2')->name('stam2.delete');
         });
 
         Route::prefix('matrikulasi')->group(function () {

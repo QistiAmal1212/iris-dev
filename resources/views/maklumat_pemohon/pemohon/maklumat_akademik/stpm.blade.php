@@ -56,21 +56,29 @@
             </h6>
 
             <div class="collapse show mb-3" id="result-stpm-1">
-                <div class="d-flex justify-content-end align-items-center mb-1" id="update_stpm" style="display:none">
-                    <a class="me-3 text-danger" type="button" onclick="editStpm()">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Kemaskini
-                    </a>
+                <div id="update_stpm1" style="display:none">
+                    <div class="d-flex justify-content-end align-items-center mb-1">
+                        <a class="me-3 text-danger" type="button" onclick="editStpm1()">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            Kemaskini
+                        </a>
+                    </div>
                 </div>
-                <form id="stpmForm" action="{{ route('stpm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadStpm" data-reloadPage="false">
+                <form 
+                id="stpm1Form" 
+                action="{{ route('stpm1.store') }}" 
+                method="POST" 
+                data-refreshFunctionName="reloadTimeline" 
+                data-refreshFunctionNameIfSuccess="reloadStpm1" 
+                data-reloadPage="false">
                     @csrf
                     <div class="row">
-                        <input type="hidden" name="stpm_no_pengenalan" id="stpm_no_pengenalan" value="">
-                        <input type="hidden" name="id_stpm" id="id_stpm" value="">
+                        <input type="hidden" name="stpm1_no_pengenalan" id="stpm1_no_pengenalan" value="">
+                        <input type="hidden" name="id_stpm1" id="id_stpm1" value="">
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
+                            <select class="select2 form-control" value="" id="subjek_stpm1" name="subjek_stpm1" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekStpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -80,7 +88,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm" disabled>
+                            <select class="select2 form-control" value="" id="gred_stpm1" name="gred_stpm1" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredStpm as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -90,16 +98,16 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm" disabled>
+                            <input type="text" class="form-control" value="" id="tahun_stpm1" name="tahun_stpm1" disabled>
                         </div>
 
-                        <div id="button_action_stpm" style="display:none">
-                            <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
+                        <div id="button_action_stpm1" style="display:none">
+                            <button type="button" id="btnEditStpm1" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
-                                <button type="button" class="btn btn-danger me-1" onclick="reloadStpm()">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadStpm1()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                                <button type="button" class="btn btn-success float-right" id="btnSaveStpm" onclick="$('#btnEditStpm').trigger('click');">
+                                <button type="button" class="btn btn-success float-right" id="btnSaveStpm1" onclick="$('#btnEditStpm1').trigger('click');">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
                             </div>
@@ -108,7 +116,7 @@
                 </form>
 
                 <div class="table-responsive mb-1 mt-1">
-                    <table class="table header_uppercase table-bordered table-hovered" id="table-stpm">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-stpm1">
                         <thead>
                             <tr>
                                 <th>Bil.</th>
@@ -138,19 +146,29 @@
             </h6>
 
             <div class="collapse show mb-3" id="result-stpm-2">
-                <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
-                    <a class="me-3 text-danger" type="button" onclick="">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Kemaskini
-                    </a>
+                <div id="update_stpm2" style="display:none">
+                    <div class="d-flex justify-content-end align-items-center mb-1">
+                        <a class="me-3 text-danger" type="button" onclick="editStpm2()">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            Kemaskini
+                        </a>
+                    </div>
                 </div>
-
-                <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                <form 
+                id="stpm2Form" 
+                action="{{ route('stpm2.store') }}" 
+                method="POST" 
+                data-refreshFunctionName="reloadTimeline" 
+                data-refreshFunctionNameIfSuccess="reloadStpm2" 
+                data-reloadPage="false">
                     @csrf
                     <div class="row">
+                        <input type="hidden" name="stpm2_no_pengenalan" id="stpm2_no_pengenalan" value="">
+                        <input type="hidden" name="id_stpm2" id="id_stpm2" value="">
+
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_stpm" name="subjek_stpm" disabled>
+                            <select class="select2 form-control" value="" id="subjek_stpm2" name="subjek_stpm2" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekStpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -160,7 +178,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_stpm" name="gred_stpm" disabled>
+                            <select class="select2 form-control" value="" id="gred_stpm2" name="gred_stpm2" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredStpm as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -170,16 +188,16 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_stpm" name="tahun_stpm" disabled>
+                            <input type="text" class="form-control" value="" id="tahun_stpm2" name="tahun_stpm2" disabled>
                         </div>
 
-                        <div id="button_action_stpm" style="display:none">
-                            <button type="button" id="btnEditStpm" hidden onclick="generalFormSubmit(this);"></button>
+                        <div id="button_action_stpm2" style="display:none">
+                            <button type="button" id="btnEditStpm2" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
-                                <button type="button" class="btn btn-danger me-1" onclick="reloadStpm()">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadStpm2()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                                <button type="button" class="btn btn-success float-right" id="btnSaveStpm" onclick="$('#btnEditStpm').trigger('click');">
+                                <button type="button" class="btn btn-success float-right" id="btnSaveStpm2" onclick="$('#btnEditStpm2').trigger('click');">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
                             </div>
@@ -188,7 +206,7 @@
                 </form>
 
                 <div class="table-responsive mb-1 mt-1">
-                    <table class="table header_uppercase table-bordered table-hovered" id="table-stpm">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-stpm2">
                         <thead>
                             <tr>
                                 <th>Bil.</th>
@@ -221,23 +239,31 @@
             </h6>
 
             <div class="collapse show mb-3" id="result-stam-1">
-                <div class="d-flex justify-content-end align-items-center mb-1" id="update_stam" style="display:none">
-                    <a class="me-3 text-danger" type="button" onclick="editStam()">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Kemaskini
-                    </a>
+                <div id="update_stam1" style="display:none">
+                    <div class="d-flex justify-content-end align-items-center mb-1">
+                        <a class="me-3 text-danger" type="button" onclick="editStam1()">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            Kemaskini
+                        </a>
+                    </div>
                 </div>
 
-                <form id="stamForm" action="{{ route('stam.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadStam" data-reloadPage="false">
+                <form 
+                id="stam1Form" 
+                action="{{ route('stam1.store') }}" 
+                method="POST" 
+                data-refreshFunctionName="reloadTimeline" 
+                data-refreshFunctionNameIfSuccess="reloadStam1" 
+                data-reloadPage="false">
                     @csrf
                     <div class="row">
 
-                        <input type="hidden" name="stam_no_pengenalan" id="stam_no_pengenalan" value="">
-                        <input type="hidden" name="id_stam" id="id_stam" value="">
+                        <input type="hidden" name="stam1_no_pengenalan" id="stam1_no_pengenalan" value="">
+                        <input type="hidden" name="id_stam1" id="id_stam1" value="">
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
+                            <select class="select2 form-control" value="" id="subjek_stam1" name="subjek_stam1" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekStam as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -247,7 +273,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_stam" name="gred_stam" disabled>
+                            <select class="select2 form-control" value="" id="gred_stam1" name="gred_stam1" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredStam as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -257,16 +283,16 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam" disabled>
+                            <input type="text" class="form-control" value="" id="tahun_stam1" name="tahun_stam1" disabled>
                         </div>
 
-                        <div id="button_action_stam" style="display:none">
-                            <button type="button" id="btnEditStam" hidden onclick="generalFormSubmit(this);"></button>
+                        <div id="button_action_stam1" style="display:none">
+                            <button type="button" id="btnEditStam1" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
-                                <button type="button" class="btn btn-danger me-1" onclick="reloadStam()">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadStam1()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                                <button type="button" class="btn btn-success float-right" id="btnSaveStam" onclick="$('#btnEditStam').trigger('click');">
+                                <button type="button" class="btn btn-success float-right" id="btnSaveStam1" onclick="$('#btnEditStam1').trigger('click');">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
                             </div>
@@ -275,7 +301,7 @@
                 </form>
 
                 <div class="table-responsive mb-1 mt-1">
-                    <table class="table header_uppercase table-bordered table-hovered" id="table-stam">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-stam1">
                         <thead>
                             <tr>
                                 <th>Bil.</th>
@@ -291,7 +317,7 @@
             </div>
 
             {{-- STAM 2 --}}
-            <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-stam-2" aria-expanded="false" aria-controls="result-stam-2">
+            <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-stam-1" aria-expanded="false" aria-controls="result-stam-1">
                 <span class="badge badge-light-primary">
                     Sijil Tinggi Agama Malaysia (STAM) [2]
                     <i class="fa-solid fa-chevron-down ms-3"></i>
@@ -299,20 +325,31 @@
             </h6>
 
             <div class="collapse show mb-3" id="result-stam-2">
-                <div class="d-flex justify-content-end align-items-center mb-1" id="" style="display:none">
-                    <a class="me-3 text-danger" type="button" onclick="">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                        Kemaskini
-                    </a>
+                <div id="update_stam2" style="display:none">
+                    <div class="d-flex justify-content-end align-items-center mb-1">
+                        <a class="me-3 text-danger" type="button" onclick="editStam2()">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            Kemaskini
+                        </a>
+                    </div>
                 </div>
 
-                <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+                <form 
+                id="stam2Form" 
+                action="{{ route('stam2.store') }}" 
+                method="POST" 
+                data-refreshFunctionName="reloadTimeline" 
+                data-refreshFunctionNameIfSuccess="reloadStam2" 
+                data-reloadPage="false">
                     @csrf
                     <div class="row">
 
+                        <input type="hidden" name="stam2_no_pengenalan" id="stam2_no_pengenalan" value="">
+                        <input type="hidden" name="id_stam2" id="id_stam2" value="">
+
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_stam" name="subjek_stam" disabled>
+                            <select class="select2 form-control" value="" id="subjek_stam2" name="subjek_stam2" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekStam as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -322,7 +359,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_stam" name="gred_stam" disabled>
+                            <select class="select2 form-control" value="" id="gred_stam2" name="gred_stam2" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredStam as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -332,16 +369,16 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_stam" name="tahun_stam" disabled>
+                            <input type="text" class="form-control" value="" id="tahun_stam2" name="tahun_stam2" disabled>
                         </div>
 
-                        <div id="button_action_stam" style="display:none">
-                            <button type="button" id="" hidden onclick="generalFormSubmit(this);"></button>
+                        <div id="button_action_stam2" style="display:none">
+                            <button type="button" id="btnEditStam2" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
-                                <button type="button" class="btn btn-danger me-1" onclick="">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadStam2()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                                <button type="button" class="btn btn-success float-right" id="" onclick="">
+                                <button type="button" class="btn btn-success float-right" id="btnSaveStam2" onclick="$('#btnEditStam2').trigger('click');">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
                             </div>
@@ -350,7 +387,7 @@
                 </form>
 
                 <div class="table-responsive mb-1 mt-1">
-                    <table class="table header_uppercase table-bordered table-hovered" id="table-stam">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-stam2">
                         <thead>
                             <tr>
                                 <th>Bil.</th>
@@ -471,38 +508,37 @@
 </div>
 
 <script>
-    function editStpm() {
-        $('#stpmForm select[name="subjek_stpm"]').attr('disabled', false);
-        $('#stpmForm select[name="gred_stpm"]').attr('disabled', false);
-        $('#stpmForm input[name="tahun_stpm"]').attr('disabled', false);
+    function editStpm1() {
+        $('#stpm1Form select[name="subjek_stpm1"]').attr('disabled', false);
+        $('#stpm1Form select[name="gred_stpm1"]').attr('disabled', false);
+        $('#stpm1Form input[name="tahun_stpm1"]').attr('disabled', false);
 
-        $("#button_action_stpm").attr("style", "display:block");
+        $("#button_action_stpm1").attr("style", "display:block");
     }
 
-    function reloadStpm() {
-        var no_pengenalan = $('#stpm_no_pengenalan').val();
-        $('#stpmForm input[name="stpm_no_pengenalan"]').val(no_pengenalan);
+    function reloadStpm1() {
+        var no_pengenalan = $('#stpm1_no_pengenalan').val();
+        $('#stpm1Form input[name="stpm1_no_pengenalan"]').val(no_pengenalan);
 
-        var reloadStpmUrl = "{{ route('stpm.list', ':replaceThis') }}"
+        var reloadStpmUrl = "{{ route('stpm1.list', ':replaceThis') }}"
         reloadStpmUrl = reloadStpmUrl.replace(':replaceThis', no_pengenalan);
         $.ajax({
             url: reloadStpmUrl,
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#stpmForm select[name="subjek_stpm"]').val('').trigger('change');
-                $('#stpmForm select[name="gred_stpm"]').val('').trigger('change');
-                $('#stpmForm input[name="tahun_stpm"]').val('');
-                $('#stpmForm select[name="subjek_stpm"]').attr('disabled', true);
-                $('#stpmForm select[name="gred_stpm"]').attr('disabled', true);
-                $('#stpmForm input[name="tahun_stpm"]').attr('disabled', true);
-                $('#stpmForm').attr('action', "{{ route('stpm.store')  }}");
-                $('#btnSaveStpm').html('<i class="fa fa-save"></i> Tambah');
+                $('#stpm1Form select[name="subjek_stpm1"]').val('').trigger('change');
+                $('#stpm1Form select[name="gred_stpm1"]').val('').trigger('change');
+                $('#stpm1Form input[name="tahun_stpm1"]').val('');
+                $('#stpm1Form select[name="subjek_stpm1"]').attr('disabled', true);
+                $('#stpm1Form select[name="gred_stpm1"]').attr('disabled', true);
+                $('#stpm1Form input[name="tahun_stpm1"]').attr('disabled', true);
+                $('#stpm1Form').attr('action', "{{ route('stpm1.store')  }}");
+                $('#btnSaveStpm1').html('<i class="fa fa-save"></i> Tambah');
 
-                $("#button_action_stpm").attr("style", "display:none");
+                $("#button_action_stpm1").attr("style", "display:none");
 
-
-                $('#table-stpm tbody').empty();
+                $('#table-stpm1 tbody').empty();
                 var trStpm = '';
                 var bilStpm = 0;
                 $.each(data.detail, function(i, item) {
@@ -510,40 +546,39 @@
                         bilStpm += 1;
                         trStpm += '<tr>';
                         trStpm += '<td align="center">' + bilStpm + '</td>';
-                        trStpm += '<td>' + item.subject_form6.diskripsi + '</td>'; //KOD MP
+                        trStpm += '<td>' + item.subject_form6.kod + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStpm += '<td align="center">' + item.gred + '</td>';
-                        trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
+                        trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm1-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
                         trStpm += '&nbsp;&nbsp;';
-                        trStpm += '<i class="fas fa-trash text-danger deleteStpm-btn" data-id="' + item.id + '"></i></td>';
+                        trStpm += '<i class="fas fa-trash text-danger deleteStpm1-btn" data-id="' + item.id + '"></i></td>';
                         trStpm += '</tr>';
                     }
                 });
-                $('#table-stpm tbody').append(trStpm);
+                $('#table-stpm1 tbody').append(trStpm);
 
-                if($('#table-stpm tbody').is(':empty')){
+                if($('#table-stpm1 tbody').is(':empty')){
                     var trStpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
-                    $('#table-stpm tbody').append(trStpm);
+                    $('#table-stpm1 tbody').append(trStpm);
                 }
 
-                $(document).on('click', '.editStpm-btn', function() {
+                $(document).on('click', '.editStpm1-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                    $('#stpmForm').attr('action', "{{ route('stpm.update') }}");
+                    $('#stpm1Form').attr('action', "{{ route('stpm1.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
 
-                    $('#stpmForm input[name="id_stpm"]').val(id);
-                    var subjectName = $(row).find('td:nth-child(2)').text();
-                    $('#stpmForm select[name="subjek_stpm"] option').filter(function() {
+                    $('#stpm1Form input[name="id_stpm1"]').val(id);
+                    var subjectName = $(row).find('td:nth-child(3)').text();
+                    $('#stpm1Form select[name="subjek_stpm1"] option').filter(function() {
                         return $(this).text() === subjectName;
                     }).prop('selected', true).trigger('change');
-                    $('#stpmForm select[name="gred_stpm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                    $('#stpmForm input[name="tahun_stpm"]').val($(row).find('td:nth-child(4)').text());
+                    $('#stpm1Form select[name="gred_stpm1"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
+                    //$('#stpm1Form input[name="tahun_stpm1"]').val($(row).find('td:nth-child(4)').text());
 
                 });
 
-
-                $(document).on('click', '.deleteStpm-btn', function() {
+                $(document).on('click', '.deleteStpm1-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -552,7 +587,7 @@
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        deleteItem(id, "{{ route('stpm.delete', ':replaceThis') }}", reloadStpm )
+                        deleteItem(id, "{{ route('stpm1.delete', ':replaceThis') }}", reloadStpm1 )
                     }
                     })
 
@@ -563,78 +598,77 @@
         });
     }
 
-    function editStam() {
-        $('#stamForm select[name="subjek_stam"]').attr('disabled', false);
-        $('#stamForm select[name="gred_stam"]').attr('disabled', false);
-        $('#stamForm input[name="tahun_stam"]').attr('disabled', false);
+    function editStpm2() {
+        $('#stpm2Form select[name="subjek_stpm2"]').attr('disabled', false);
+        $('#stpm2Form select[name="gred_stpm2"]').attr('disabled', false);
+        $('#stpm2Form input[name="tahun_stpm2"]').attr('disabled', false);
 
-        $("#button_action_stam").attr("style", "display:block");
+        $("#button_action_stpm2").attr("style", "display:block");
     }
 
-    function reloadStam() {
-        var no_pengenalan = $('#candidate_no_pengenalan').val();
-        $('#stamForm input[name="stam_no_pengenalan"]').val(no_pengenalan);
+    function reloadStpm2() {
+        var no_pengenalan = $('#stpm2_no_pengenalan').val();
+        $('#stpm2Form input[name="stpm2_no_pengenalan"]').val(no_pengenalan);
 
-        var reloadStamUrl = "{{ route('stam.list', ':replaceThis') }}"
-        reloadStamUrl = reloadStamUrl.replace(':replaceThis', no_pengenalan);
+        var reloadStpmUrl = "{{ route('stpm2.list', ':replaceThis') }}"
+        reloadStpmUrl = reloadStpmUrl.replace(':replaceThis', no_pengenalan);
         $.ajax({
-            url: reloadStamUrl,
+            url: reloadStpmUrl,
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#stamForm select[name="subjek_stam"]').val('').trigger('change');
-                $('#stamForm select[name="gred_stam"]').val('').trigger('change');
-                $('#stamForm input[name="tahun_stam"]').val('');
-                $('#stamForm select[name="subjek_stam"]').attr('disabled', true);
-                $('#stamForm select[name="gred_stam"]').attr('disabled', true);
-                $('#stamForm input[name="tahun_stam"]').attr('disabled', true);
-                $('#stamForm').attr('action', "{{ route('stam.store')  }}");
-                $('#btnSaveStam').html('<i class="fa fa-save"></i> Tambah');
+                $('#stpm2Form select[name="subjek_stpm2"]').val('').trigger('change');
+                $('#stpm2Form select[name="gred_stpm2"]').val('').trigger('change');
+                $('#stpm2Form input[name="tahun_stpm2"]').val('');
+                $('#stpm2Form select[name="subjek_stpm2"]').attr('disabled', true);
+                $('#stpm2Form select[name="gred_stpm2"]').attr('disabled', true);
+                $('#stpm2Form input[name="tahun_stpm2"]').attr('disabled', true);
+                $('#stpm2Form').attr('action', "{{ route('stpm2.store')  }}");
+                $('#btnSaveStpm2').html('<i class="fa fa-save"></i> Tambah');
 
-                $("#button_action_stam").attr("style", "display:none");
+                $("#button_action_stpm2").attr("style", "display:none");
 
-
-                $('#table-stam tbody').empty();
-                var trStam = '';
-                var bilStam = 0;
+                $('#table-stpm2 tbody').empty();
+                var trStpm = '';
+                var bilStpm = 0;
                 $.each(data.detail, function(i, item) {
                     if (item.subject_form6 != null) {
-                        bilStam += 1;
-                        trStam += '<tr>';
-                        trStam += '<td align="center">' + bilStam + '</td>';
-                        trStam += '<td>' + item.subject_form6.diskripsi + '</td>'; //Kod MP
-                        trStam += '<td>' + item.subject_form6.diskripsi + '</td>';
-                        trStam += '<td align="center">' + item.gred + '</td>';
-                        trStam += '<td align="center"><i class="fas fa-pencil text-primary editStam-btn" data-id="' + item.id + ' " data-form="stam"></i>';
-                        trStam += '&nbsp;&nbsp;';
-                        trStam += '<i class="fas fa-trash text-danger deleteStam-btn" data-id="' + item.id + '"></i></td>';
-                        trStam += '</tr>';
+                        bilStpm += 1;
+                        trStpm += '<tr>';
+                        trStpm += '<td align="center">' + bilStpm + '</td>';
+                        trStpm += '<td>' + item.subject_form6.kod + '</td>'; //KOD MP
+                        trStpm += '<td>' + item.subject_form6.diskripsi + '</td>';
+                        trStpm += '<td align="center">' + item.gred + '</td>';
+                        trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm2-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
+                        trStpm += '&nbsp;&nbsp;';
+                        trStpm += '<i class="fas fa-trash text-danger deleteStpm2-btn" data-id="' + item.id + '"></i></td>';
+                        trStpm += '</tr>';
                     }
                 });
-                $('#table-stam tbody').append(trStam);
+                $('#table-stpm2 tbody').append(trStpm);
 
-                if($('#table-stam tbody').is(':empty')){
-                    var trStam = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
-                    $('#table-stam tbody').append(trStam);
+                if($('#table-stpm2 tbody').is(':empty')){
+                    var trStpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-stpm2 tbody').append(trStpm);
                 }
 
-                $(document).on('click', '.editStam-btn', function() {
+                $(document).on('click', '.editStpm2-btn', function() {
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                    $('#stamForm').attr('action', "{{ route('stam.update') }}");
+                    $('#stpm2Form').attr('action', "{{ route('stpm2.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
 
-                    $('#stamForm input[name="id_stam"]').val(id);
-                    var subjectName = $(row).find('td:nth-child(2)').text();
-                    $('#stamForm select[name="subjek_stam"] option').filter(function() {
+                    $('#stpm2Form input[name="id_stpm2"]').val(id);
+                    var subjectName = $(row).find('td:nth-child(3)').text();
+                    $('#stpm2Form select[name="subjek_stpm2"] option').filter(function() {
                         return $(this).text() === subjectName;
                     }).prop('selected', true).trigger('change');
-                    $('#stamForm select[name="gred_stam"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                    $('#stamForm input[name="tahun_stam"]').val($(row).find('td:nth-child(4)').text());
+                    $('#stpm2Form select[name="gred_stpm2"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
+                    //$('#stpm2Form input[name="tahun_stpm2"]').val($(row).find('td:nth-child(4)').text());
+
                 });
 
-
-                $(document).on('click', '.deleteStam-btn', function() {
+                $(document).on('click', '.deleteStpm2-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -643,7 +677,187 @@
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        deleteItem(id, "{{ route('stam.delete', ':replaceThis') }}", reloadStam )
+                        deleteItem(id, "{{ route('stpm2.delete', ':replaceThis') }}", reloadStpm2 )
+                    }
+                    })
+
+                });
+            },
+            error: function(data) {
+            }
+        });
+    }
+
+    function editStam1() {
+        $('#stam1Form select[name="subjek_stam1"]').attr('disabled', false);
+        $('#stam1Form select[name="gred_stam1"]').attr('disabled', false);
+        $('#stam1Form input[name="tahun_stam1"]').attr('disabled', false);
+
+        $("#button_action_stam1").attr("style", "display:block");
+    }
+
+    function reloadStam1() {
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
+        $('#stam1Form input[name="stam1_no_pengenalan"]').val(no_pengenalan);
+
+        var reloadStamUrl = "{{ route('stam1.list', ':replaceThis') }}"
+        reloadStamUrl = reloadStamUrl.replace(':replaceThis', no_pengenalan);
+        $.ajax({
+            url: reloadStamUrl,
+            method: 'GET',
+            async: true,
+            success: function(data) {
+                $('#stam1Form select[name="subjek_stam1"]').val('').trigger('change');
+                $('#stam1Form select[name="gred_stam1"]').val('').trigger('change');
+                $('#stam1Form input[name="tahun_stam1"]').val('');
+                $('#stam1Form select[name="subjek_stam1"]').attr('disabled', true);
+                $('#stam1Form select[name="gred_stam1"]').attr('disabled', true);
+                $('#stam1Form input[name="tahun_stam1"]').attr('disabled', true);
+                $('#stam1Form').attr('action', "{{ route('stam1.store')  }}");
+                $('#btnSaveStam1').html('<i class="fa fa-save"></i> Tambah');
+
+                $("#button_action_stam1").attr("style", "display:none");
+
+                $('#table-stam1 tbody').empty();
+                var trStam = '';
+                var bilStam = 0;
+                $.each(data.detail, function(i, item) {
+                    if (item.subject_form6 != null) {
+                        bilStam += 1;
+                        trStam += '<tr>';
+                        trStam += '<td align="center">' + bilStam + '</td>';
+                        trStam += '<td>' + item.subject_form6.kod + '</td>'; //Kod MP
+                        trStam += '<td>' + item.subject_form6.diskripsi + '</td>';
+                        trStam += '<td align="center">' + item.gred + '</td>';
+                        trStam += '<td align="center"><i class="fas fa-pencil text-primary editStam1-btn" data-id="' + item.id + ' " data-form="stam"></i>';
+                        trStam += '&nbsp;&nbsp;';
+                        trStam += '<i class="fas fa-trash text-danger deleteStam1-btn" data-id="' + item.id + '"></i></td>';
+                        trStam += '</tr>';
+                    }
+                });
+                $('#table-stam1 tbody').append(trStam);
+
+                if($('#table-stam1 tbody').is(':empty')){
+                    var trStam = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-stam1 tbody').append(trStam);
+                }
+
+                $(document).on('click', '.editStam1-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                    $('#stam1Form').attr('action', "{{ route('stam1.update') }}");
+                    var row = $(this).closest('tr');
+                    var id = $(this).data('id');
+
+                    $('#stam1Form input[name="id_stam1"]').val(id);
+                    var subjectName = $(row).find('td:nth-child(3)').text();
+                    $('#stam1Form select[name="subjek_stam1"] option').filter(function() {
+                        return $(this).text() === subjectName;
+                    }).prop('selected', true).trigger('change');
+                    $('#stam1Form select[name="gred_stam1"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
+                    //$('#stam1Form input[name="tahun_stam1"]').val($(row).find('td:nth-child(5)').text());
+                });
+
+
+                $(document).on('click', '.deleteStam1-btn', function() {
+                    var id = $(this).data('id');
+                    Swal.fire({
+                    title: 'Adakah anda ingin hapuskan maklumat ini?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sahkan',
+                    cancelButtonText: 'Batal',
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteItem(id, "{{ route('stam1.delete', ':replaceThis') }}", reloadStam1 )
+                    }
+                    })
+
+                });
+            },
+            error: function(data) {
+            }
+        });
+    }
+
+    function editStam2() {
+        $('#stam2Form select[name="subjek_stam2"]').attr('disabled', false);
+        $('#stam2Form select[name="gred_stam2"]').attr('disabled', false);
+        $('#stam2Form input[name="tahun_stam2"]').attr('disabled', false);
+
+        $("#button_action_stam2").attr("style", "display:block");
+    }
+
+    function reloadStam2() {
+        var no_pengenalan = $('#candidate_no_pengenalan').val();
+        $('#stam2Form input[name="stam2_no_pengenalan"]').val(no_pengenalan);
+
+        var reloadStamUrl = "{{ route('stam2.list', ':replaceThis') }}"
+        reloadStamUrl = reloadStamUrl.replace(':replaceThis', no_pengenalan);
+        $.ajax({
+            url: reloadStamUrl,
+            method: 'GET',
+            async: true,
+            success: function(data) {
+                $('#stam2Form select[name="subjek_stam2"]').val('').trigger('change');
+                $('#stam2Form select[name="gred_stam2"]').val('').trigger('change');
+                $('#stam2Form input[name="tahun_stam2"]').val('');
+                $('#stam2Form select[name="subjek_stam2"]').attr('disabled', true);
+                $('#stam2Form select[name="gred_stam2"]').attr('disabled', true);
+                $('#stam2Form input[name="tahun_stam2"]').attr('disabled', true);
+                $('#stam2Form').attr('action', "{{ route('stam2.store')  }}");
+                $('#btnSaveStam2').html('<i class="fa fa-save"></i> Tambah');
+
+                $("#button_action_stam2").attr("style", "display:none");
+
+                $('#table-stam2 tbody').empty();
+                var trStam = '';
+                var bilStam = 0;
+                $.each(data.detail, function(i, item) {
+                    if (item.subject_form6 != null) {
+                        bilStam += 1;
+                        trStam += '<tr>';
+                        trStam += '<td align="center">' + bilStam + '</td>';
+                        trStam += '<td>' + item.subject_form6.kod + '</td>'; //Kod MP
+                        trStam += '<td>' + item.subject_form6.diskripsi + '</td>';
+                        trStam += '<td align="center">' + item.gred + '</td>';
+                        trStam += '<td align="center"><i class="fas fa-pencil text-primary editStam2-btn" data-id="' + item.id + ' " data-form="stam"></i>';
+                        trStam += '&nbsp;&nbsp;';
+                        trStam += '<i class="fas fa-trash text-danger deleteStam2-btn" data-id="' + item.id + '"></i></td>';
+                        trStam += '</tr>';
+                    }
+                });
+                $('#table-stam2 tbody').append(trStam);
+
+                if($('#table-stam2 tbody').is(':empty')){
+                    var trStam = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-stam2 tbody').append(trStam);
+                }
+
+                $(document).on('click', '.editStam2-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                    $('#stam2Form').attr('action', "{{ route('stam2.update') }}");
+                    var row = $(this).closest('tr');
+                    var id = $(this).data('id');
+
+                    $('#stam2Form input[name="id_stam2"]').val(id);
+                    var subjectName = $(row).find('td:nth-child(3)').text();
+                    $('#stam2Form select[name="subjek_stam2"] option').filter(function() {
+                        return $(this).text() === subjectName;
+                    }).prop('selected', true).trigger('change');
+                    $('#stam2Form select[name="gred_stam2"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
+                    //$('#stam2Form input[name="tahun_stam2"]').val($(row).find('td:nth-child(5)').text());
+                });
+
+
+                $(document).on('click', '.deleteStam2-btn', function() {
+                    var id = $(this).data('id');
+                    Swal.fire({
+                    title: 'Adakah anda ingin hapuskan maklumat ini?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sahkan',
+                    cancelButtonText: 'Batal',
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteItem(id, "{{ route('stam2.delete', ':replaceThis') }}", reloadStam2 )
                     }
                     })
 
@@ -707,9 +921,10 @@
                 $.each(data.detail, function(i, item) {
                         bilMatrikulasi += 1;
                         trMatrikulasi += '<tr>';
+                        trMatrikulasi += '<td>' + bilMatrikulasi + '</td>',
                         trMatrikulasi += '<td>' + item.sesi + '</td>';
                         trMatrikulasi += '<td align="center">' + item.semester + '</td>';
-                        trMatrikulasi += '<td align="center">' + item.subject.diskripsi + '</td>'; // Kod MP
+                        trMatrikulasi += '<td align="center">' + item.subject.kod + '</td>'; // Kod MP
                         trMatrikulasi += '<td align="center">' + item.subject.diskripsi + '</td>';
                         trMatrikulasi += '<td align="center">' + item.gred + '</td>';
                         trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary editMatrikulasi-btn" data-id="' + item.id + ' " data-form="matrikulasi"></i>';

@@ -24,9 +24,9 @@ class CalonPengajianTinggi extends Model
         'pengguna',
     ];
 
-    protected $primaryKey='cal_no_pengenalan';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    // protected $primaryKey='cal_no_pengenalan';
+    // public $incrementing = false;
+    // protected $keyType = 'string';
     const CREATED_AT = 'tarikh_cipta';
     const UPDATED_AT = 'tarikh_ubahsuai';
 

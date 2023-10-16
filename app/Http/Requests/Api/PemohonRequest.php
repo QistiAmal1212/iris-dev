@@ -159,9 +159,6 @@ class PemohonRequest extends ApiRequest
                 'bahasa.*.bahasa' => 'required|string|exists:ruj_bahasa,kod',
                 'bahasa.*.penguasaan' => 'required|string', //Validate dekat kod_pelbagai
 
-
-
-
                 //Handle result sekolah exists utk matapelajaran dgn gred
             ];
         }
