@@ -433,7 +433,7 @@
 
                 if (message != null) {
                     if (message != 'false') {
-                        swalSuccessAfterSubmit('{{ __('msg.information') }}', message)
+                        swalSuccessAfterSubmit('Makluman', message)
                             .then((result) => {
                                 // showing swal then proceed
                                 proceed();

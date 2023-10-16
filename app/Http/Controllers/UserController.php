@@ -469,11 +469,11 @@ class UserController extends Controller
                 'reset_password_confirm' => 'required|same:reset_password_new',
                 'captcha' => 'required|captcha',
             ], [
-                'reset_password_old.required' => 'Please fill in current password',
-                'reset_password_new.required' => 'Please fill in new password',
-                'reset_password_confirm.required' => 'Please retype new password',
-                'captcha.required' => 'Please enter captcha',
-                'captcha' => 'CAPTCHA validation failed, try again.',
+                'reset_password_old.required' => 'Sila masukkan kata laluan semasa',
+                'reset_password_new.required' => 'Sila masukkan kata laluan baru',
+                'reset_password_confirm.required' => 'Sila masukkan kata laluan pengsahan',
+                'captcha.required' => 'Sila masukkan pengesahan CAPTCHA',
+                'captcha' => 'Pengesahan CAPTCHA gagal. Sila cuba semula.',
             ]);
 
 

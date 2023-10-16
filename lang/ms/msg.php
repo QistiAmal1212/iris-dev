@@ -90,6 +90,7 @@ return [
     'statisticsDescription' => "Graf boleh dijana berdasarkan permohonan/borang",
     'project' => "Projek",
     'client' => "Klien",
+    'information' => "Makluman",
     'timeline' => "Garis Masa",
     'system_name' => "Nama Sistem",
     'start_date' => "Tarikh Mula",

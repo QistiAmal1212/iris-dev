@@ -5,7 +5,7 @@
     <hr>
     <form method="POST" action="{{ route('updatePassword') }}" refreshFunctionDivId="divChangePassword"
         data-refreshFunctionNameIfSuccess="resetInput" data-refreshFunctionName="resetOnlyCaptcha"
-        data-swal="Password updated successfully.">
+        data-swal="Kata laluan berjaya dikemaskini.">
         @csrf
 
         <div class="card-body" id="divChangePassword">
