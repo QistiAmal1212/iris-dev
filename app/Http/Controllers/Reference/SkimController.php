@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use App\Models\Reference\KumpulanJKK;
 use App\Models\Reference\SalaryGrade;
 use App\Models\Reference\SkimPerkhidmatan;
@@ -49,6 +50,18 @@ class SkimController extends Controller
         $kump_jkk = KumpulanJKK::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.skim')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Jawatan";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             $skim = Skim::orderBy('kod', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
@@ -115,7 +128,7 @@ class SkimController extends Controller
                 'SKIM_PKHIDMAT.required' => 'Sila isikan jawatan perkidmatan',
             ]);
 
-            Skim::create([
+            $skim = Skim::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
                 'GGH_KOD' => strtoupper($request->GGH_KOD),
@@ -127,6 +140,17 @@ class SkimController extends Controller
                 'pengguna' => auth()->user()->id,
                 'sah_yt' => 'Y'
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.skim')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Jawatan";
+            $log->data_new = json_encode($skim);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -149,6 +173,16 @@ class SkimController extends Controller
             if (!$skim) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.skim')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Jawatan";
+            $log->data_new = json_encode($skim);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $skim]);
 
@@ -166,6 +200,12 @@ class SkimController extends Controller
 
             $skimId = $request->skimId;
             $skim = Skim::find($skimId);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.skim')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Jawatan";
+            $log->data_old = json_encode($skim);
 
             $request->validate([
                 'code' => 'required|string|unique:ruj_skim,kod,'.$skimId,
@@ -196,6 +236,14 @@ class SkimController extends Controller
                 'SKIM_PKHIDMAT' => strtoupper($request->SKIM_PKHIDMAT),
                 'pengguna' => auth()->user()->id,
             ]);
+
+            $skimNewData = Skim::find($skim);
+            $log->data_new = json_encode($skimNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

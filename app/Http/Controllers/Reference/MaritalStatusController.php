@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\MaritalStatus;
@@ -43,6 +44,17 @@ class MaritalStatusController extends Controller
 
         $maritalStatus = MaritalStatus::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.marital-status')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Taraf Perkahwinan";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($maritalStatus)
                 ->editColumn('kod', function ($maritalStatus){
                     return $maritalStatus->kod;
@@ -88,13 +100,24 @@ class MaritalStatusController extends Controller
                 'name.required' => 'Sila isikan taraf perkahwinan',
             ]);
 
-            MaritalStatus::create([
+            $taraf = MaritalStatus::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
                 'sah_yt' => 'Y'
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.marital-status')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Taraf Perkahwinan";
+            $log->data_new = json_encode($taraf);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -117,6 +140,16 @@ class MaritalStatusController extends Controller
             if (!$maritalStatus) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.marital-status')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Taraf Perkahwinan";
+            $log->data_new = json_encode($maritalStatus);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $maritalStatus]);
 
@@ -135,6 +168,12 @@ class MaritalStatusController extends Controller
             $maritalStatusId = $request->maritalStatusId;
             $maritalStatus = MaritalStatus::find($maritalStatusId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.marital-status')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Taraf Perkahwinan";
+            $log->data_old = json_encode($maritalStatus);
+
             $request->validate([
                 'code' => 'required|string|unique:ruj_taraf_kahwin,kod,'.$maritalStatusId,
                 'name' => 'required|string',
@@ -149,6 +188,14 @@ class MaritalStatusController extends Controller
                 'diskripsi' => strtoupper($request->name),
                 'pengguna' => auth()->user()->id,
             ]);
+
+            $maritalStatusNewData = MaritalStatus::find($maritalStatusId);
+            $log->data_new = json_encode($maritalStatusNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

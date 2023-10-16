@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Language;
@@ -43,6 +44,18 @@ class LanguageController extends Controller
 
         $language = Language::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.language')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Bahasa";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($language)
                 ->editColumn('kod', function ($language){
                     return $language->kod;
@@ -88,12 +101,23 @@ class LanguageController extends Controller
                 'name.required' => 'Sila isikan bahasa',
             ]);
 
-            Language::create([
+            $bahasa = Language::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.language')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Bahasa";
+            $log->data_new = json_encode($bahasa);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -116,6 +140,16 @@ class LanguageController extends Controller
             if (!$language) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.language')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Bahasa";
+            $log->data_new = json_encode($language);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $language]);
 
@@ -134,6 +168,12 @@ class LanguageController extends Controller
             $languageId = $request->languageId;
             $language = Language::find($languageId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.language')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Bahasa";
+            $log->data_old = json_encode($language);
+
             $request->validate([
                 'code' => 'required|string|unique:ruj_bahasa,kod,'.$languageId,
                 'name' => 'required|string',
@@ -148,6 +188,14 @@ class LanguageController extends Controller
                 'diskripsi' => strtoupper($request->name),
                 'pengguna' => auth()->user()->id,
             ]);
+
+            $languageNewData = Language::find($languageId);
+            $log->data_new = json_encode($languageNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

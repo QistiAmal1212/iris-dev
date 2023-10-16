@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\MatriculationCourse;
@@ -43,6 +44,18 @@ class MatriculationCourseController extends Controller
 
         $matriculationCourse = MatriculationCourse::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.matriculation-course')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Kursus Matrikulasi";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($matriculationCourse)
                 ->editColumn('code', function ($matriculationCourse){
                     return $matriculationCourse->kod;
@@ -88,13 +101,24 @@ class MatriculationCourseController extends Controller
                 'name.required' => 'Sila isikan nama jurusan matrikulasi',
             ]);
 
-            MatriculationCourse::create([
+            $kursus = MatriculationCourse::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
                 'sah_yt' => 'Y'
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.matriculation-course')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Kursus Matrikulasi";
+            $log->data_new = json_encode($kursus);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -117,6 +141,16 @@ class MatriculationCourseController extends Controller
             if (!$matriculationCourse) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.matriculation-course')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Kursus Matrikulasi";
+            $log->data_new = json_encode($matriculationCourse);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $matriculationCourse]);
 
@@ -135,6 +169,12 @@ class MatriculationCourseController extends Controller
             $matriculationCourseId = $request->matriculationCourseId;
             $matriculationCourse = MatriculationCourse::find($matriculationCourseId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.matriculation-course')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Kursus Matrikulasi";
+            $log->data_old = json_encode($matriculationCourse);
+
             $request->validate([
                 'code' => 'required|string|unique:ruj_jurusan_matrikulasi,kod,'.$matriculationCourseId,
                 'name' => 'required|string',
@@ -149,6 +189,14 @@ class MatriculationCourseController extends Controller
                 'diskripsi' => strtoupper($request->name),
                 'pengguna' => auth()->user()->id,
             ]);
+
+            $matriculationCourseNewData = MatriculationCourse::find($matriculationCourseId);
+            $log->data_new = json_encode($matriculationCourseNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

@@ -183,7 +183,7 @@ class AhliSuruhanjayaController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.ahlisuruhanjaya')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat AhliSuruhanjaya";
+            $log->description = "Lihat Maklumat Ahli Suruhanjaya";
             $log->data_new = json_encode($ahlisuruhanjaya);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());

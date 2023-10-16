@@ -45,6 +45,18 @@ class KodPelbagaiController extends Controller
         $categories = KodPelbagai::select('kategori')->orderBy('kategori', 'asc')->distinct()->pluck('kategori')->filter()->toArray();
 
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.kodpelbagai')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Kod Pelbagai";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             $kodpelbagai = KodPelbagai::orderBy('kod', 'asc');
             if($request->activity_type_id && $request->activity_type_id != "Lihat Semua"){
                 $kodpelbagai->where('kategori',$request->activity_type_id);

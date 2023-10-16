@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use App\Models\Reference\KelayakanSetaraf;
 use App\Models\Reference\Skim;
 use Illuminate\Http\Request;
@@ -47,6 +48,18 @@ class EligibilityController extends Controller
         $kelayakanSetaraf = KelayakanSetaraf::where('sah_yt', 'Y')->get();
 
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.eligibility')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Kelayakan";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             $eligibility = Eligibility::orderBy('kod', 'asc');
             if($request->activity_type_id && $request->activity_type_id != "Lihat Semua"){
                 $eligibility->where('kelayakan_setara',$request->activity_type_id);
@@ -106,7 +119,7 @@ class EligibilityController extends Controller
                 'rank.required' => 'Sila isikan pangkat',
             ]);
 
-            Eligibility::create([
+            $kelayakan = Eligibility::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
                 'ski_kod' => $request->ref_skim_code,
@@ -116,6 +129,17 @@ class EligibilityController extends Controller
                 'pengguna' => auth()->user()->id,
                 'sah_yt' => 'Y'
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.eligibility')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Kelayakan";
+            $log->data_new = json_encode($kelayakan);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -137,6 +161,16 @@ class EligibilityController extends Controller
             if (!$eligibility) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.eligibility')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Kelayakan";
+            $log->data_new = json_encode($eligibility);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $eligibility]);
 
@@ -154,6 +188,12 @@ class EligibilityController extends Controller
 
             $eligibilityId = $request->eligibilityId;
             $eligibility = Eligibility::find($eligibilityId);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.eligibility')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Kelayakan";
+            $log->data_old = json_encode($eligibility);
 
             $request->validate([
                 'code' => 'required|string|unique:ruj_kelayakan,kod,'.$eligibilityId,
@@ -178,6 +218,14 @@ class EligibilityController extends Controller
                 'rank_layak' => strtoupper($request->rank),
                 'pengguna' => auth()->user()->id,
             ]);
+
+            $eligibilityNewData = Eligibility::find($eligibilityId);
+            $log->data_new = json_encode($eligibilityNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
