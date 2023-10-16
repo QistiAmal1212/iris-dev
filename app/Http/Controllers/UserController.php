@@ -273,6 +273,7 @@ class UserController extends Controller
                 'ref_skim_code' => $request->skim_code,
                 'is_active' => $request->has("status") ?? 0,
                 'password' => Hash::make($request->password),
+                'time_to_change_password' => now(),
             ]);
 
             $user->syncRoles($request->roles ? $request->roles : []);
