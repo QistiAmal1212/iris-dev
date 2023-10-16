@@ -19,9 +19,9 @@ class CalonTatatertib extends Model
         'pengguna',
     ];
 
-    protected $primaryKey='no_pengenalan';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    // protected $primaryKey='no_pengenalan';
+    // public $incrementing = false;
+    // protected $keyType = 'string';
     const CREATED_AT = 'tarikh_cipta';
     const UPDATED_AT = 'tarikh_ubahsuai';
 
