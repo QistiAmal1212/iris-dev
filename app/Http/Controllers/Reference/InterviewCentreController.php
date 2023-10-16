@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -48,6 +49,18 @@ class InterviewCentreController extends Controller
         $states = State::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.interview-centre')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Pusat Temuduga";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             $interviewCentre = InterviewCentre::orderBy('kod', 'asc');
 
             if ($request->module_id && $request->module_id != "Lihat Semua") {
@@ -111,7 +124,7 @@ class InterviewCentreController extends Controller
                 'kod_pendek.required' => 'Sila isikan kod pendek',
             ]);
 
-            InterviewCentre::create([
+            $iv = InterviewCentre::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
                 'kpt_kod' => $request->ref_area_code,
@@ -120,6 +133,17 @@ class InterviewCentreController extends Controller
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.interview-centre')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Pusat Temuduga";
+            $log->data_new = json_encode($iv);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -142,6 +166,17 @@ class InterviewCentreController extends Controller
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.interview-centre')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Pusat Temudaga";
+            $log->data_new = json_encode($interviewCentre);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $interviewCentre]);
 
         } catch (\Throwable $e) {
@@ -158,6 +193,12 @@ class InterviewCentreController extends Controller
 
             $interviewCentreId = $request->interviewCentreId;
             $interviewCentre = InterviewCentre::find($interviewCentreId);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.interview-centre')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Pusat Temuduga";
+            $log->data_old = json_encode($interviewCentre);
 
             $request->validate([
                 'code' => 'required|string|unique:ruj_pusat_temuduga,kod,'.$interviewCentreId,
@@ -184,6 +225,14 @@ class InterviewCentreController extends Controller
                 'kod_pendek' => strtoupper($request->kod_pendek),
                 'pengguna' => auth()->user()->id,
             ]);
+
+            $interviewCentreNewData = InterviewCentre::find($interviewCentreId);
+            $log->data_new = json_encode($interviewCentreNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Gender;
@@ -43,6 +44,17 @@ class GenderController extends Controller
 
         $gender = Gender::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.gender')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Jantina";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($gender)
                 ->editColumn('code', function ($gender){
                     return $gender->kod;
@@ -88,13 +100,24 @@ class GenderController extends Controller
                 'name.required' => 'Sila isikan jantina',
             ]);
 
-            Gender::create([
+            $jantina = Gender::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
                 'sah_yt' => 'Y'
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.gender')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Jantina";
+            $log->data_new = json_encode($jantina);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -117,6 +140,16 @@ class GenderController extends Controller
             if (!$gender) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.gender')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Jantina";
+            $log->data_new = json_encode($gender);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $gender]);
 
@@ -135,6 +168,12 @@ class GenderController extends Controller
             $genderId = $request->genderId;
             $gender = Gender::find($genderId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.gender')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Jantina";
+            $log->data_old = json_encode($gender);
+
             $request->validate([
                 'code' => 'required|string|unique:ruj_jantina,kod,'.$genderId,
                 'name' => 'required|string',
@@ -149,6 +188,14 @@ class GenderController extends Controller
                 'diskripsi' => strtoupper($request->name),
                 'pengguna' => auth()->user()->id,
             ]);
+
+            $genderNewData = Gender::find($genderId);
+            $log->data_new = json_encode($genderNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

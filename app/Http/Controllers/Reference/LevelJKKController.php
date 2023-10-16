@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\LevelJKK;
@@ -43,6 +44,18 @@ class LevelJKKController extends Controller
 
         $levelJKK = LevelJKK::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.level-JKK')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Tingkatan JKK";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($levelJKK)
                 ->editColumn('code', function ($levelJKK){
                     return $levelJKK->kod;
@@ -80,7 +93,7 @@ class LevelJKKController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tingkatan_jkk,code',
+                'code' => 'required|string|unique:ruj_tingkatan_jkk,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -88,13 +101,24 @@ class LevelJKKController extends Controller
                 'name.required' => 'Sila isikan tingkatan JKK',
             ]);
 
-            LevelJKK::create([
+            $jkk = LevelJKK::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
                 'sah_yt' => 'Y'
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.level-JKK')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Tingkatan JKK";
+            $log->data_new = json_encode($jkk);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -117,6 +141,16 @@ class LevelJKKController extends Controller
             if (!$levelJKK) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.level-JKK')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Tingkatan JKK";
+            $log->data_new = json_encode($levelJKK);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $levelJKK]);
 
@@ -135,8 +169,14 @@ class LevelJKKController extends Controller
             $levelJKKId = $request->levelJKKId;
             $levelJKK = LevelJKK::find($levelJKKId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.level-JKK')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Tingkatan JKK";
+            $log->data_old = json_encode($levelJKK);
+
             $request->validate([
-                'code' => 'required|string|unique:ruj_tingkatan_jkk,code,'.$levelJKKId,
+                'code' => 'required|string|unique:ruj_tingkatan_jkk,kod,'.$levelJKKId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -149,6 +189,14 @@ class LevelJKKController extends Controller
                 'diskripsi' => strtoupper($request->name),
                 'pengguna' => auth()->user()->id,
             ]);
+
+            $levelJKKNewData = LevelJKK::find($levelJKKId);
+            $log->data_new = json_encode($levelJKKNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
