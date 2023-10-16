@@ -189,19 +189,22 @@ class MaklumatPemohonController extends Controller
                 //$candidate->license->tempoh_tamat = ($candidate->license->tempoh_tamat != null) ? Carbon::parse($candidate->license->tempoh_tamat)->format('d/m/Y') : null;
             }
 
-            foreach($candidate->skim as $skim){
-                $skim->tarikh_cipta = ($skim->tarikh_cipta != null) ? Carbon::parse($skim->tarikh_cipta)->format('d/m/Y') : null;
+            $candidate->skim->transform(function ($skim) {
+                $skim->tarikhCipta = ($skim->tarikh_cipta != null) ? $skim->tarikh_cipta->format('d/m/Y') : null;
                 $skim->tarikh_daftar = ($skim->tarikh_daftar != null) ? Carbon::parse($skim->tarikh_daftar)->format('d/m/Y') : null;
                 $skim->tarikh_luput = ($skim->tarikh_luput != null) ? Carbon::parse($skim->tarikh_luput)->format('d/m/Y') : null;
-            }
+
+                return $skim;
+            });
 
             if($candidate->higherEducation) {
                 $candidate->higherEducation->tarikh_senat = ($candidate->higherEducation->tarikh_senat != null) ? Carbon::parse($candidate->higherEducation->tarikh_senat)->format('d/m/Y') : null;
             }
 
-            foreach($candidate->professional as $professional){
+            $candidate->professional->transform(function ($professional){
                 $professional->tarikh = ($professional->tarikh != null) ? Carbon::parse($professional->tarikh)->format('d/m/Y') : null;
-            }
+                return $professional;
+            });
 
             if($candidate->experience){
 

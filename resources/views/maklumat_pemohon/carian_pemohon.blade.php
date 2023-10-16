@@ -587,7 +587,7 @@ Maklumat Pemohon
                             trSkim += '<td align="center">' + bilSkim + '</td>'
                             trSkim += '<td>' + item.ski_kod + '</td>'
                             trSkim += '<td>' + item.skim.diskripsi + '</td>';
-                            trSkim += '<td>' + (item.tarikh_cipta ? item.tarikh_cipta : '') + '</td>';
+                            trSkim += '<td>' + (item.tarikhCipta ? item.tarikhCipta : '') + '</td>';
                             trSkim += '<td>' + (item.tarikh_daftar ? item.tarikh_daftar : '') + '</td>';
                             trSkim += '<td>' + (item.tarikh_luput ? item.tarikh_luput : '') + '</td>';
                             trSkim += '</tr>';
