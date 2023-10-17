@@ -1,5 +1,5 @@
 <div class="">
-    <ul class="nav nav-pills nav-justified" role="tablist">
+    <ul class="nav nav-pills nav-pill-info nav-justified" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder active" id="tentera-tab" data-bs-toggle="tab" href="#tentera" aria-controls="tentera" role="tab" aria-selected="true">
                 Maklumat Bekas Tentera
