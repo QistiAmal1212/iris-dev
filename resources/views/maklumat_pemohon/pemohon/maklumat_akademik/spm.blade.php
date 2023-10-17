@@ -652,7 +652,7 @@
 
                 if($('#table-spm1 tbody').is(':empty')){
                     var trSpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
-                    $('#table-spm1 tbody').jappend(trSpm);
+                    $('#table-spm1 tbody').append(trSpm);
 
                     var tmSpm1Element = $("#tm_spm1");
                     tmSpm1Element.removeAttr("hidden");
