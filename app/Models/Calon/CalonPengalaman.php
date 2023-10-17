@@ -42,7 +42,7 @@ class CalonPengalaman extends Model
     const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function job() {
-        return $this->belongsTo('App\Models\Reference\Job', 'kod_ruj_pekerjaan', 'kod');
+        return $this->belongsTo('App\Models\Reference\Job', 'pek_kod', 'kod');
     }
 
     public function positionLevel() {
@@ -50,15 +50,15 @@ class CalonPengalaman extends Model
     }
 
     public function salaryGrade() {
-        return $this->belongsTo('App\Models\Reference\SalaryGrade', 'kod_ruj_gred_gaji', 'kod');
+        return $this->belongsTo('App\Models\Reference\SalaryGrade', 'ggh_kod', 'kod');
     }
 
     public function levelJkk() {
-        return $this->belongsTo('App\Models\Reference\LevelJKK', 'kod_ruj_tingkatan_jkk', 'kod');
+        return $this->belongsTo('App\Models\Reference\LevelJKK', 'tj_kod', 'kod');
     }
 
     public function departmentMinistry() {
-        return $this->belongsTo('App\Models\Reference\DepartmentMinistry', 'ruj_kem_jabatan', 'kod');
+        return $this->belongsTo('App\Models\Reference\DepartmentMinistry', 'kj_kod', 'kod');
     }
 
     public function stateDepartment() {
@@ -66,11 +66,11 @@ class CalonPengalaman extends Model
     }
 
     public function skim() {
-        return $this->belongsTo('App\Models\Reference\Skim', 'kod_ruj_skim', 'kod');
+        return $this->belongsTo('App\Models\Reference\Skim', 'ski_kod', 'kod');
     }
 
     public function state() {
-        return $this->belongsTo('App\Models\Reference\State', 'kod_ruj_negeri', 'kod');
+        return $this->belongsTo('App\Models\Reference\State', 'neg_kod', 'kod');
     }
 
 }
