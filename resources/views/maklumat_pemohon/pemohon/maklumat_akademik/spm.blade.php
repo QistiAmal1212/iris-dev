@@ -810,19 +810,21 @@
             async: true,
             success: function(data) {
                 
-                // $('#svmForm select[name="kelulusan_svm"]').val('').trigger('change');
-                // $('#svmForm select[name="subjek_svm"]').val('').trigger('change');
-                // $('#svmForm select[name="gred_svm"]').val('').trigger('change');
-                // $('#svmForm input[name="tahun_svm"]').val('');
-                // $('#svmForm input[name="pngka_svm"]').val('');
-                // $('#svmForm input[name="pngkv_svm"]').val('');
+                $('#svmForm select[name="kelulusan_svm"]').val('').trigger('change');
+                $('#svmForm select[name="subjek_svm"]').val('').trigger('change');
+                $('#svmForm select[name="gred_svm"]').val('').trigger('change');
+                $('#svmForm input[name="tahun_svm"]').val('');
+                $('#svmForm input[name="pngka_svm"]').val('');
+                $('#svmForm input[name="pngkv_svm"]').val('');
 
+                if(data.detail != null) {
                 $('#svmForm select[name="kelulusan_svm"]').val(data.detail.kel1_kod).trigger('change');
                 $('#svmForm select[name="subjek_svm"]').val(data.detail.mata_pelajaran).trigger('change');
                 $('#svmForm select[name="gred_svm"]').val(data.detail.gred).trigger('change');
                 $('#svmForm input[name="tahun_svm"]').val(data.detail.tahun_lulus);
                 $('#svmForm input[name="pngka_svm"]').val(data.detail.pngka);
                 $('#svmForm input[name="pngkv_svm"]').val(data.detail.pngkv);
+                }
                 
                 $('#svmForm select[name="kelulusan_svm"]').attr('disabled', true);
                 $('#svmForm select[name="subjek_svm"]').attr('disabled', true);
@@ -839,17 +841,19 @@
                 var trSvm = '';
                 var bilSvm = 0;
                 //$.each(data.detail, function(i, item) {
-                if(data.detail.subject != null) {
-                    bilSvm += 1;
-                    trSvm += '<tr>';
-                    trSvm += '<td align="center">' + bilSvm + '</td>';
-                    trSvm += '<td>' + data.detail.subject.kod + '</td>'; //KOD MATA PELAJARAN
-                    trSvm += '<td>' + data.detail.subject.diskripsi + '</td>';
-                    trSvm += '<td align="center">' + data.detail.gred + '</td>';
-                    // trSvm += '<td align="center"><i class="fas fa-pencil text-primary editSvm-btn" data-id="' + item.id + ' "></i>';
-                    // trSvm += '&nbsp;&nbsp;';
-                    // trSvm += '<i class="fas fa-trash text-danger deleteSvm-btn" data-id="' + item.id + '"></i></td>';
-                    trSvm += '</tr>';
+                if(data.detail != null) {
+                    if(data.detail.subject != null) {
+                        bilSvm += 1;
+                        trSvm += '<tr>';
+                        trSvm += '<td align="center">' + bilSvm + '</td>';
+                        trSvm += '<td>' + data.detail.subject.kod + '</td>'; //KOD MATA PELAJARAN
+                        trSvm += '<td>' + data.detail.subject.diskripsi + '</td>';
+                        trSvm += '<td align="center">' + data.detail.gred + '</td>';
+                        // trSvm += '<td align="center"><i class="fas fa-pencil text-primary editSvm-btn" data-id="' + item.id + ' "></i>';
+                        // trSvm += '&nbsp;&nbsp;';
+                        // trSvm += '<i class="fas fa-trash text-danger deleteSvm-btn" data-id="' + item.id + '"></i></td>';
+                        trSvm += '</tr>';
+                    }
                 }
                 //});
                 $('#table-svm tbody').append(trSvm);
