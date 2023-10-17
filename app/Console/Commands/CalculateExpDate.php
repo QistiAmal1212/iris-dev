@@ -17,6 +17,7 @@ class CalculateExpDate extends Command
             UPDATE calon_skim
             SET tarikh_luput = tarikh_daftar + interval '365 days'
             WHERE tarikh_daftar IS NOT NULL
+            AND tarikh_luput IS NULL
         ");
         $this->info('Expired date has been update');
     }
