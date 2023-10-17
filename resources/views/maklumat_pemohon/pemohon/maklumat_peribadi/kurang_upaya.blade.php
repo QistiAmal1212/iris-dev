@@ -97,6 +97,9 @@ data-reloadPage="false">
                 $('#okuForm input[name="oku_sub"]').attr('disabled', true);
 
                 $("#button_action_oku").attr("style", "display:none");
+
+                var tmOkuElement = $("#tm_oku");
+                tmOkuElement.attr("hidden", true);
             },
             error: function(data) {
                 //

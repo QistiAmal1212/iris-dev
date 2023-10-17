@@ -94,6 +94,9 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
                 $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);
                 $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.jenis_bekas_tentera).trigger('change');
                 $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', true);
+
+                var tmTentPolisElement = $("#tm_tentera");
+                tmTentPolisElement.attr("hidden", true);
             },
             error: function(data) {
                 //

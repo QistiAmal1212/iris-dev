@@ -9,6 +9,10 @@
                     <span class="bs-stepper-title text-wrap">
                         Diploma
                     </span>
+
+                    <span class="bs-stepper-subtitle">
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_dip" hidden>Tiada Maklumat</span>
+                    </span>
                 </span>
             </button>
         </div>
@@ -23,6 +27,10 @@
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
                         Ijazah Sarjana Muda
+                    </span>
+
+                    <span class="bs-stepper-subtitle">
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_ism" hidden>Tiada Maklumat</span>
                     </span>
                 </span>
             </button>
@@ -39,6 +47,10 @@
                     <span class="bs-stepper-title text-wrap">
                         Ijazah Sarjana
                     </span>
+
+                    <span class="bs-stepper-subtitle">
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_is" hidden>Tiada Maklumat</span>
+                    </span>
                 </span>
             </button>
         </div>
@@ -53,6 +65,10 @@
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
                         Ijazah Doktor Falsafah
+                    </span>
+
+                    <span class="bs-stepper-subtitle">
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_idf" hidden>Tiada Maklumat</span>
                     </span>
                 </span>
             </button>

@@ -111,6 +111,12 @@ data-reloadPage="false">
                 if($('#table-psl tbody').is(':empty')){
                     var trPsl = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
                     $('#table-psl tbody').append(trPsl);
+
+                    var tmPslElement = $("#tm_peperiksaan_psl");
+                    tmPslElement.removeAttr("hidden");
+                }else{
+                    var tmPslElement = $("#tm_peperiksaan_psl");
+                    tmPslElement.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editPsl-btn', function() {

@@ -3,16 +3,19 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder active" id="tentera-tab" data-bs-toggle="tab" href="#tentera" aria-controls="tentera" role="tab" aria-selected="true">
                 Maklumat Bekas Tentera
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_tentera" hidden>Tiada Maklumat</div>
             </a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="bahasa-tab" data-bs-toggle="tab" href="#bahasa" aria-controls="bahasa" role="tab" aria-selected="true">
                 Kebolehan Bahasa
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_bahasa" hidden>Tiada Maklumat</div>
             </a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="bakat-tab" data-bs-toggle="tab" href="#bakat" aria-controls="bakat" role="tab" aria-selected="true">
                 Bakat
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_bakat" hidden>Tiada Maklumat</div>
             </a>
         </li>
     </ul>

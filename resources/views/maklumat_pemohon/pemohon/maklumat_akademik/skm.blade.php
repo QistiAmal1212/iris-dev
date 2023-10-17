@@ -109,6 +109,12 @@ data-reloadPage="false">
                 if($('#table-skm tbody').is(':empty')){
                     var trSkm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
                     $('#table-skm tbody').append(trSkm);
+
+                    var tmSkmElement = $("#tm_skm");
+                    tmSkmElement.removeAttr("hidden");
+                }else{
+                    var tmSkmElement = $("#tm_skm");
+                    tmSkmElement.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editSkm-btn', function() {

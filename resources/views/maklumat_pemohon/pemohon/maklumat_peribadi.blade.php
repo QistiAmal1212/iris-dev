@@ -18,11 +18,13 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="lesen-tab" data-bs-toggle="tab" href="#lesen" aria-controls="lesen" role="tab" aria-selected="true">
                 Lesen Memandu
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_lesen" hidden>Tiada Maklumat</div>
             </a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="oku-tab" data-bs-toggle="tab" href="#oku" aria-controls="oku" role="tab" aria-selected="true">
                 Kurang Upaya (OKU)
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_oku" hidden>Tiada Maklumat</div>
             </a>
         </li>
     </ul>

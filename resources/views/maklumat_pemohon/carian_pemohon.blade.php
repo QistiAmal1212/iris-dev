@@ -472,7 +472,7 @@ Maklumat Pemohon
                     else { selectionNull('permanent_state', 'alamatTetapForm'); }
                     originalVal['permanent_state'] = $('#alamatTetapForm select[name="permanent_state"]').find(':selected').text();
                     $('#alamatTetapForm input[name="alamat_tetap_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    
+
                     $('#alamatSuratForm input[name="address_1"]').attr('disabled', true);
                     $('#alamatSuratForm input[name="address_1"]').val(data.detail.alamat_1 ? data.detail.alamat_1 : data_not_available);
                     originalVal['address_1'] = data.detail.alamat_1;
@@ -519,6 +519,8 @@ Maklumat Pemohon
                         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', true);
                         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').val(data.detail.license.msg_senaraihitam ? data.detail.license.msg_senaraihitam : data_not_available);
                         originalVal['license_blacklist_details'] = data.detail.license.msg_senaraihitam;
+                        var tmLesenElement = $("#tm_lesen");
+                        tmLesenElement.attr("hidden", true);
                     }else{
                         $('#lesenMemanduForm input[name="license_type"]').attr('disabled', true);
                         $('#lesenMemanduForm input[name="license_type"]').val(data_not_available);
@@ -532,6 +534,8 @@ Maklumat Pemohon
                         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', true);
                         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').val(data_not_available);
                         originalVal['license_blacklist_details'] = "";
+                        var tmLesenElement = $("#tm_lesen");
+                        tmLesenElement.removeAttr("hidden");
                     }
                     $('#lesenMemanduForm input[name="lesen_memandu_no_pengenalan"]').val(data.detail.no_pengenalan);
 
@@ -549,6 +553,8 @@ Maklumat Pemohon
                         $('#okuForm input[name="oku_sub"]').attr('disabled', true);
                         $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub_oku ? data.detail.oku.sub_oku : data_not_available);
                         originalVal['oku_sub'] = data.detail.oku.sub_oku;
+                        var tmOkuElement = $("#tm_oku");
+                        tmOkuElement.attr("hidden", true);
                     }else{
                         $('#okuForm input[name="oku_registration_no"]').attr('disabled', true);
                         $('#okuForm input[name="oku_registration_no"]').val(data_not_available);
@@ -562,6 +568,8 @@ Maklumat Pemohon
                         $('#okuForm input[name="oku_sub"]').attr('disabled', true);
                         $('#okuForm input[name="oku_sub"]').val(data_not_available);
                         originalVal['oku_sub'] = "";
+                        var tmOkuElement = $("#tm_oku");
+                        tmOkuElement.removeAttr("hidden");
                     }
                     $('#okuForm input[name="oku_no_pengenalan"]').val(data.detail.no_pengenalan);
 
@@ -784,6 +792,9 @@ Maklumat Pemohon
                             selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm');
                         }
                         originalVal['jenis_bekas_tentera_polis'] = $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').find(':selected').text();
+
+                        var tmTentPolisElement = $("#tm_tentera");
+                        tmTentPolisElement.attr("hidden", true);
                     } else {
                         selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm');
                         originalVal['jenis_perkhidmatan_tentera_polis'] = '';
@@ -791,6 +802,9 @@ Maklumat Pemohon
                         originalVal['pangkat_tentera_polis'] = '';
                         selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm');
                         originalVal['jenis_bekas_tentera_polis'] = '';
+
+                        var tmTentPolisElement = $("#tm_tentera");
+                        tmTentPolisElement.removeAttr("hidden");
                     }
 
                     $('#bahasaForm input[name="bahasa_no_pengenalan"]').val(data.detail.no_pengenalan);

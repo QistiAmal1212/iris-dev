@@ -97,6 +97,9 @@ data-reloadPage="false">
                 $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', true);
 
                 $("#button_action_lesen_memandu").attr("style", "display:none");
+
+                var tmLesenElement = $("#tm_lesen");
+                tmLesenElement.attr("hidden", true);
             },
             error: function(data) {
                 //

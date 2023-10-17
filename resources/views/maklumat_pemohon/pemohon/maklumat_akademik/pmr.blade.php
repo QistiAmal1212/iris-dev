@@ -124,6 +124,12 @@ data-reloadPage="false">
                 if($('#table-pmr tbody').is(':empty')){
                     var trPmr = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
                     $('#table-pmr tbody').append(trPmr);
+
+                    var tmPmrElement = $("#tm_pmr");
+                    tmPmrElement.removeAttr("hidden");
+                }else{
+                    var tmPmrElement = $("#tm_pmr");
+                    tmPmrElement.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editPmr-btn', function() {

@@ -9,6 +9,10 @@
                     <span class="bs-stepper-title text-wrap">
                         Sijil Tinggi Persekolahan Malaysia
                     </span>
+
+                    <span class="bs-stepper-subtitle">
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_stpm1" hidden>Tiada Maklumat</span>
+                    </span>
                 </span>
             </button>
         </div>
@@ -24,6 +28,10 @@
                     <span class="bs-stepper-title text-wrap">
                         Sijil Tinggi Agama Malaysia
                     </span>
+
+                    <span class="bs-stepper-subtitle">
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_stam1" hidden>Tiada Maklumat</span>
+                    </span>
                 </span>
             </button>
         </div>
@@ -38,6 +46,10 @@
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
                         Sijil Matrikulasi
+                    </span>
+
+                    <span class="bs-stepper-subtitle">
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_matrikulasi" hidden>Tiada Maklumat</span>
                     </span>
                 </span>
             </button>
@@ -64,12 +76,12 @@
                         </a>
                     </div>
                 </div>
-                <form 
-                id="stpm1Form" 
-                action="{{ route('stpm1.store') }}" 
-                method="POST" 
-                data-refreshFunctionName="reloadTimeline" 
-                data-refreshFunctionNameIfSuccess="reloadStpm1" 
+                <form
+                id="stpm1Form"
+                action="{{ route('stpm1.store') }}"
+                method="POST"
+                data-refreshFunctionName="reloadTimeline"
+                data-refreshFunctionNameIfSuccess="reloadStpm1"
                 data-reloadPage="false">
                     @csrf
                     <div class="row">
@@ -154,12 +166,12 @@
                         </a>
                     </div>
                 </div>
-                <form 
-                id="stpm2Form" 
-                action="{{ route('stpm2.store') }}" 
-                method="POST" 
-                data-refreshFunctionName="reloadTimeline" 
-                data-refreshFunctionNameIfSuccess="reloadStpm2" 
+                <form
+                id="stpm2Form"
+                action="{{ route('stpm2.store') }}"
+                method="POST"
+                data-refreshFunctionName="reloadTimeline"
+                data-refreshFunctionNameIfSuccess="reloadStpm2"
                 data-reloadPage="false">
                     @csrf
                     <div class="row">
@@ -248,12 +260,12 @@
                     </div>
                 </div>
 
-                <form 
-                id="stam1Form" 
-                action="{{ route('stam1.store') }}" 
-                method="POST" 
-                data-refreshFunctionName="reloadTimeline" 
-                data-refreshFunctionNameIfSuccess="reloadStam1" 
+                <form
+                id="stam1Form"
+                action="{{ route('stam1.store') }}"
+                method="POST"
+                data-refreshFunctionName="reloadTimeline"
+                data-refreshFunctionNameIfSuccess="reloadStam1"
                 data-reloadPage="false">
                     @csrf
                     <div class="row">
@@ -334,12 +346,12 @@
                     </div>
                 </div>
 
-                <form 
-                id="stam2Form" 
-                action="{{ route('stam2.store') }}" 
-                method="POST" 
-                data-refreshFunctionName="reloadTimeline" 
-                data-refreshFunctionNameIfSuccess="reloadStam2" 
+                <form
+                id="stam2Form"
+                action="{{ route('stam2.store') }}"
+                method="POST"
+                data-refreshFunctionName="reloadTimeline"
+                data-refreshFunctionNameIfSuccess="reloadStam2"
                 data-reloadPage="false">
                     @csrf
                     <div class="row">
@@ -560,6 +572,12 @@
                 if($('#table-stpm1 tbody').is(':empty')){
                     var trStpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
                     $('#table-stpm1 tbody').append(trStpm);
+
+                    var tmStpm1Element = $("#tm_stpm1");
+                    tmStpm1Element.removeAttr("hidden");
+                }else{
+                    var tmStpm1Element = $("#tm_stpm1");
+                    tmStpm1Element.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editStpm1-btn', function() {
@@ -740,6 +758,12 @@
                 if($('#table-stam1 tbody').is(':empty')){
                     var trStam = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
                     $('#table-stam1 tbody').append(trStam);
+
+                    var tmStam1Element = $("#tm_stam1");
+                    tmStam1Element.removeAttr("hidden");
+                }else{
+                    var tmStam1Element = $("#tm_stam1");
+                    tmStam1Element.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editStam1-btn', function() {
@@ -936,6 +960,12 @@
                 if($('#table-matrikulasi tbody').is(':empty')){
                     var trMatrikulasi = '<tr><td align="center" colspan="10">*Tiada Rekod*</td></tr>';
                     $('#table-matrikulasi tbody').append(trMatrikulasi);
+
+                    var tmMatrikulasiElement = $("#tm_matrikulasi");
+                    tmMatrikulasiElement.removeAttr("hidden");
+                }else{
+                    var tmMatrikulasiElement = $("#tm_matrikulasi");
+                    tmMatrikulasiElement.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editMatrikulasi-btn', function() {

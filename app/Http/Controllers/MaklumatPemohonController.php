@@ -508,10 +508,10 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'license_type' => 'required|string',
-                'license_expiry_date' => 'required|string',
-                'license_blacklist_status' => 'required|string',
-                'license_blacklist_details' => 'required|string',
+                'license_type' => 'required|string|not_in:Tiada Maklumat',
+                'license_expiry_date' => 'required|string|not_in:Tiada Maklumat',
+                'license_blacklist_status' => 'required|string|not_in:Tiada Maklumat',
+                'license_blacklist_details' => 'required|string|not_in:Tiada Maklumat',
             ],[
                 'license_type.required' => 'Sila pilih jenis lesen',
                 'license_expiry_date.required' => 'Sila pilih tarikh tamat tempoh',
@@ -589,9 +589,9 @@ class MaklumatPemohonController extends Controller
         try {
 
             $request->validate([
-                'oku_registration_no' => 'required|string',
-                'oku_status' => 'required|string',
-                'oku_category' => 'required|string',
+                'oku_registration_no' => 'required|string|not_in:Tiada Maklumat',
+                'oku_status' => 'required|string|not_in:Tiada Maklumat',
+                'oku_category' => 'required|string|not_in:Tiada Maklumat',
                 'oku_sub' => 'required|string',
             ],[
                 'oku_registration_no.required' => 'Sila pilih nombor pendaftaran',
@@ -607,7 +607,7 @@ class MaklumatPemohonController extends Controller
                     'no_daftar_jkm' => $request->oku_registration_no,
                     'status_oku' => $request->oku_status,
                     'kategori_oku' => $request->oku_category,
-                    'sub_oku' => $request->oku_sub,
+                    'sub_oku' => $request->oku_sub == 'Tiada Maklumat'? null : $request->oku_sub,
                     'pengguna' => auth()->user()->id,
                 ]);
             }else{

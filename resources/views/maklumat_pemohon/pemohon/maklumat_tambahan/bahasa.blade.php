@@ -110,6 +110,12 @@ data-reloadPage="false">
                 if($('#table-language tbody').is(':empty')){
                     var trLanguage = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
                     $('#table-language tbody').append(trLanguage);
+
+                    var tmBahasaElement = $("#tm_bahasa");
+                    tmBahasaElement.removeAttr("hidden");
+                }else{
+                    var tmBakatElement = $("#tm_bahasa");
+                    tmBakatElement.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editBahasa-btn', function() {

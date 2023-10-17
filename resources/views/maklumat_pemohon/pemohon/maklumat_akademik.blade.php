@@ -3,31 +3,37 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder active" id="pmr-tab" data-bs-toggle="tab" href="#pmr" aria-controls="pmr" role="tab" aria-selected="true">
                 PT3/ PMR/ SRP
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_pmr" hidden>Tiada Maklumat</div>
             </a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="spm-tab" data-bs-toggle="tab" href="#spm" aria-controls="spm" role="tab" aria-selected="true">
                 SPM/ SPMV/ SVM/ SPM Ulangan
+                {{-- <br><div class="badge badge-light-danger fw-bolder" id="tm_spm" hidden>Tiada Maklumat</div> --}}
             </a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="stpm-tab" data-bs-toggle="tab" href="#stpm" aria-controls="stpm" role="tab" aria-selected="true">
                 STPM/ STAM/ Sijil Matrikulasi
+                {{-- <br><div class="badge badge-light-danger fw-bolder" id="tm_stpm" hidden>Tiada Maklumat</div> --}}
             </a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="skm-tab" data-bs-toggle="tab" href="#skm" aria-controls="skm" role="tab" aria-selected="true">
                 Sijil Kemahiran (SKM)
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_skm" hidden>Tiada Maklumat</div>
             </a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="pengajianTinggi-tab" data-bs-toggle="tab" href="#pengajianTinggi" aria-controls="pengajianTinggi" role="tab" aria-selected="true">
                 Pengajian Tinggi
+                {{-- <br><div class="badge badge-light-danger fw-bolder" id="tm_pt" hidden>Tiada Maklumat</div> --}}
             </a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="kelayakanProfesional-tab" data-bs-toggle="tab" href="#kelayakanProfesional" aria-controls="kelayakanProfesional" role="tab" aria-selected="true">
                 Kelayakan Profesional/ Ikhtisas
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_ikhtisas" hidden>Tiada Maklumat</div>
             </a>
         </li>
     </ul>

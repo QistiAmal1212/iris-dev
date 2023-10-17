@@ -10,6 +10,10 @@
                         Sijil Pelajaran Malaysia/ <br>
                         SPM (Vokasional)
                     </span>
+
+                    <span class="bs-stepper-subtitle">
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_spm1" hidden>Tiada Maklumat</span>
+                    </span>
                 </span>
             </button>
         </div>
@@ -43,7 +47,7 @@
 
                     {{-- BADGE IF NO DATA STARTS HERE --}}
                     <span class="bs-stepper-subtitle">
-                        <span class="badge badge-light-danger fw-bolder mt-1">Tiada Maklumat</span>
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_svm1" hidden>Tiada Maklumat</span>
                     </span>
                     {{-- UNTIL HERE --}}
                 </span>
@@ -62,6 +66,10 @@
                         SPM Ulangan
                     </span>
                 </span>
+
+                <span class="bs-stepper-subtitle">
+                    <span class="badge badge-light-danger fw-bolder mt-1" id="tm_spmu" hidden>Tiada Maklumat</span>
+                </span>
             </button>
         </div>
     </div>
@@ -69,7 +77,7 @@
     <div class="bs-stepper-content">
         {{-- SPM --}}
         <div id="academic-spm-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-spm-info-trigger">
-            
+
             {{-- SPM 1 --}}
             <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-spm-1" aria-expanded="false" aria-controls="result-spm-1">
                 <span class="badge badge-light-primary">
@@ -88,12 +96,12 @@
                     </div>
                 </div>
 
-                <form 
-                id="spm1Form" 
-                action="{{ route('spm1.store') }}" 
-                method="POST" 
-                data-refreshFunctionName="reloadTimeline" 
-                data-refreshFunctionNameIfSuccess="reloadSpm1" 
+                <form
+                id="spm1Form"
+                action="{{ route('spm1.store') }}"
+                method="POST"
+                data-refreshFunctionName="reloadTimeline"
+                data-refreshFunctionNameIfSuccess="reloadSpm1"
                 data-reloadPage="false">
                     @csrf
                     <div class="row">
@@ -173,12 +181,12 @@
                     </div>
                 </div>
 
-                <form 
-                id="spm2Form" 
-                action="{{ route('spm2.store') }}" 
-                method="POST" 
-                data-refreshFunctionName="reloadTimeline" 
-                data-refreshFunctionNameIfSuccess="reloadSpm2" 
+                <form
+                id="spm2Form"
+                action="{{ route('spm2.store') }}"
+                method="POST"
+                data-refreshFunctionName="reloadTimeline"
+                data-refreshFunctionNameIfSuccess="reloadSpm2"
                 data-reloadPage="false">
                     @csrf
                     <div class="row">
@@ -644,7 +652,13 @@
 
                 if($('#table-spm1 tbody').is(':empty')){
                     var trSpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
-                    $('#table-spm1 tbody').append(trSpm);
+                    $('#table-spm1 tbody').jappend(trSpm);
+
+                    var tmSpm1Element = $("#tm_spm1");
+                    tmSpm1Element.removeAttr("hidden");
+                }else{
+                    var tmSpm1Element = $("#tm_spm1");
+                    tmSpm1Element.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editSpm1-btn', function() {

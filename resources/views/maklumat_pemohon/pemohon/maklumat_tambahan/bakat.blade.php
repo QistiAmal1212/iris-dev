@@ -96,6 +96,12 @@ data-reloadPage="false">
                 if($('#table-talent tbody').is(':empty')){
                     var trTalent = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
                     $('#table-talent tbody').append(trTalent);
+
+                    var tmBakatElement = $("#tm_bakat");
+                    tmBakatElement.removeAttr("hidden");
+                }else{
+                    var tmBakatElement = $("#tm_bakat");
+                    tmBakatElement.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editBakat-btn', function() {
