@@ -1288,17 +1288,20 @@ class MaklumatPemohonController extends Controller
 
             $noPengenalan = $request->noPengenalan;
 
-            $candidateSvm = CalonSvm::select('calon_svm.*')
-                ->where('calon_svm.mata_pelajaran', '104')
-                ->where('calon_svm.cal_no_pengenalan', $noPengenalan)
-                ->leftJoin('calon_svm as svm2', function ($join) use ($noPengenalan) {
-                    $join->on('calon_svm.kel1_kod', '=', 'svm2.kel1_kod')
-                        ->where('svm2.cal_no_pengenalan', $noPengenalan)
-                        ->where('svm2.mata_pelajaran', '104')
-                        ->whereRaw('calon_svm.id > CAST(svm2.id AS bigint)');
-                })
-                ->whereNull('svm2.id')
-                ->get();
+            $candidateSvm = CalonSvm::where('cal_no_pengenalan', $noPengenalan)->where('mata_pelajaran', '104')->with(['qualification', 'subject'])->first();
+
+            // $candidateSvm = CalonSvm::select('calon_svm.*')
+            //     ->where('calon_svm.mata_pelajaran', '104')
+            //     ->where('calon_svm.cal_no_pengenalan', $noPengenalan)
+            //     ->leftJoin('calon_svm as svm2', function ($join) use ($noPengenalan) {
+            //         $join->on('calon_svm.kel1_kod', '=', 'svm2.kel1_kod')
+            //             ->where('svm2.cal_no_pengenalan', $noPengenalan)
+            //             ->where('svm2.mata_pelajaran', '104')
+            //             ->whereRaw('calon_svm.id > CAST(svm2.id AS bigint)');
+            //     })
+            //     ->whereNull('svm2.id')
+            //     ->with(['qualification', 'subject'])
+            //     ->get();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateSvm]);
 

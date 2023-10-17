@@ -29,4 +29,8 @@ class CalonSvm extends Model
     public function qualification() {
         return $this->belongsTo('App\Models\Reference\Qualification', 'kel1_kod', 'kod');
     }
+
+    public function subject() {
+        return $this->belongsTo('App\Models\Reference\Subject', 'mata_pelajaran', 'kod');
+    }
 }

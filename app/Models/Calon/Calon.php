@@ -70,6 +70,10 @@ class Calon extends Model
         return $this->hasMany('App\Models\Calon\CalonKeputusanSekolah', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
+    public function svm() {
+        return $this->hasMany('App\Models\Calon\CalonSvm', 'cal_no_pengenalan', 'no_pengenalan');
+    }
+
     public function matriculation() {
         return $this->hasMany('App\Models\Calon\CalonMatrikulasi', 'cal_no_pengenalan', 'no_pengenalan');
     }

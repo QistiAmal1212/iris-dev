@@ -400,9 +400,9 @@
                         <div id="button_action_svm" style="display:none">
                             <button type="button" id="btnEditSvm" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
-                                <button type="button" class="btn btn-danger me-1" onclick="reloadSvm()">
+                                {{-- <button type="button" class="btn btn-danger me-1" onclick="reloadSvm()">
                                     <i class="fa fa-refresh"></i>
-                                </button>
+                                </button> --}}
                                 <button type="button" class="btn btn-success float-right" id="btnSaveSvm" onclick="$('#btnEditSvm').trigger('click');">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
@@ -416,9 +416,10 @@
                         <thead>
                             <tr>
                                 <th>Bil.</th>
+                                <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Kemaskini</th>
+                                {{-- <th>Kemaskini</th> --}}
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -696,95 +697,95 @@
         });
     }
 
-    function editSpmv() {
-        $('#spmvForm select[name="subjek_spmv"]').attr('disabled', false);
-        $('#spmvForm select[name="gred_spmv"]').attr('disabled', false);
-        $('#spmvForm input[name="tahun_spmv"]').attr('disabled', false);
+    // function editSpmv() {
+    //     $('#spmvForm select[name="subjek_spmv"]').attr('disabled', false);
+    //     $('#spmvForm select[name="gred_spmv"]').attr('disabled', false);
+    //     $('#spmvForm input[name="tahun_spmv"]').attr('disabled', false);
 
-        $("#button_action_spmv").attr("style", "display:block");
-    }
+    //     $("#button_action_spmv").attr("style", "display:block");
+    // }
 
-    function reloadSpmv() {
-        var no_pengenalan = $('#spmv_no_pengenalan').val();
-        $('#spmvForm input[name="spmv_no_pengenalan"]').val(no_pengenalan);
+    // function reloadSpmv() {
+    //     var no_pengenalan = $('#spmv_no_pengenalan').val();
+    //     $('#spmvForm input[name="spmv_no_pengenalan"]').val(no_pengenalan);
 
-        var reloadSpmvUrl = "{{ route('spmv.list', ':replaceThis') }}"
-        reloadSpmvUrl = reloadSpmvUrl.replace(':replaceThis', no_pengenalan);
-        $.ajax({
-            url: reloadSpmvUrl,
-            method: 'GET',
-            async: true,
-            success: function(data) {
-                $('#spmvForm select[name="subjek_spmv"]').val('').trigger('change');
-                $('#spmvForm select[name="gred_spmv"]').val('').trigger('change');
-                $('#spmvForm input[name="tahun_spmv"]').val('');
-                $('#spmvForm select[name="subjek_spmv"]').attr('disabled', true);
-                $('#spmvForm select[name="gred_spmv"]').attr('disabled', true);
-                $('#spmvForm input[name="tahun_spmv"]').attr('disabled', true);
-                $('#spmvForm').attr('action', "{{ route('spmv.store')  }}");
-                $('#btnSaveSpmv').html('<i class="fa fa-save"></i> Tambah');
+    //     var reloadSpmvUrl = "{{ route('spmv.list', ':replaceThis') }}"
+    //     reloadSpmvUrl = reloadSpmvUrl.replace(':replaceThis', no_pengenalan);
+    //     $.ajax({
+    //         url: reloadSpmvUrl,
+    //         method: 'GET',
+    //         async: true,
+    //         success: function(data) {
+    //             $('#spmvForm select[name="subjek_spmv"]').val('').trigger('change');
+    //             $('#spmvForm select[name="gred_spmv"]').val('').trigger('change');
+    //             $('#spmvForm input[name="tahun_spmv"]').val('');
+    //             $('#spmvForm select[name="subjek_spmv"]').attr('disabled', true);
+    //             $('#spmvForm select[name="gred_spmv"]').attr('disabled', true);
+    //             $('#spmvForm input[name="tahun_spmv"]').attr('disabled', true);
+    //             $('#spmvForm').attr('action', "{{ route('spmv.store')  }}");
+    //             $('#btnSaveSpmv').html('<i class="fa fa-save"></i> Tambah');
 
-                $("#button_action_spmv").attr("style", "display:none");
+    //             $("#button_action_spmv").attr("style", "display:none");
 
 
-                $('#table-spmv tbody').empty();
-                var trSpmv = '';
-                var bilSpmv = 0;
-                $.each(data.detail, function(i, item) {
-                    if (item.subject_form5 != null) {
-                        bilSpmv += 1;
-                        trSpmv += '<tr>';
-                        trSpmv += '<td align="center">' + bilSpmv + '</td>';
-                        trSpmv += '<td>' + item.subject_form5.diskripsi + '</td>'; //KOD MATA PELAJARAN
-                        trSpmv += '<td>' + item.subject_form5.diskripsi + '</td>';
-                        trSpmv += '<td align="center">' + item.gred + '</td>';
-                        trSpmv += '<td align="center"><i class="fas fa-pencil text-primary editSpmv-btn" data-id="' + item.id + ' "></i>';
-                        trSpmv += '&nbsp;&nbsp;';
-                        trSpmv += '<i class="fas fa-trash text-danger deleteSpmv-btn" data-id="' + item.id + '"></i></td>';
-                        trSpmv += '</tr>';
-                    }
-                });
-                $('#table-spmv tbody').append(trSpmv);
+    //             $('#table-spmv tbody').empty();
+    //             var trSpmv = '';
+    //             var bilSpmv = 0;
+    //             $.each(data.detail, function(i, item) {
+    //                 if (item.subject_form5 != null) {
+    //                     bilSpmv += 1;
+    //                     trSpmv += '<tr>';
+    //                     trSpmv += '<td align="center">' + bilSpmv + '</td>';
+    //                     trSpmv += '<td>' + item.subject_form5.diskripsi + '</td>'; //KOD MATA PELAJARAN
+    //                     trSpmv += '<td>' + item.subject_form5.diskripsi + '</td>';
+    //                     trSpmv += '<td align="center">' + item.gred + '</td>';
+    //                     trSpmv += '<td align="center"><i class="fas fa-pencil text-primary editSpmv-btn" data-id="' + item.id + ' "></i>';
+    //                     trSpmv += '&nbsp;&nbsp;';
+    //                     trSpmv += '<i class="fas fa-trash text-danger deleteSpmv-btn" data-id="' + item.id + '"></i></td>';
+    //                     trSpmv += '</tr>';
+    //                 }
+    //             });
+    //             $('#table-spmv tbody').append(trSpmv);
 
-                if($('#table-spmv tbody').is(':empty')){
-                    var trSpmv = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
-                    $('#table-spmv tbody').append(trSpmv);
-                }
+    //             if($('#table-spmv tbody').is(':empty')){
+    //                 var trSpmv = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+    //                 $('#table-spmv tbody').append(trSpmv);
+    //             }
 
-                $(document).on('click', '.editSpmv-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                    $('#spmvForm').attr('action', "{{ route('spmv.update') }}");
-                    var row = $(this).closest('tr');
-                    var id = $(this).data('id');
+    //             $(document).on('click', '.editSpmv-btn', function() {
+    //                 $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+    //                 $('#spmvForm').attr('action', "{{ route('spmv.update') }}");
+    //                 var row = $(this).closest('tr');
+    //                 var id = $(this).data('id');
 
-                    $('#spmvForm input[name="id_spmv"]').val(id);
-                    var subjectName = $(row).find('td:nth-child(2)').text();
-                    $('#spmvForm select[name="subjek_spmv"] option').filter(function() {
-                        return $(this).text() === subjectName;
-                    }).prop('selected', true).trigger('change');
-                    $('#spmvForm select[name="gred_spmv"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                    $('#spmvForm input[name="tahun_spmv"]').val($(row).find('td:nth-child(4)').text());
-                });
+    //                 $('#spmvForm input[name="id_spmv"]').val(id);
+    //                 var subjectName = $(row).find('td:nth-child(2)').text();
+    //                 $('#spmvForm select[name="subjek_spmv"] option').filter(function() {
+    //                     return $(this).text() === subjectName;
+    //                 }).prop('selected', true).trigger('change');
+    //                 $('#spmvForm select[name="gred_spmv"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
+    //                 $('#spmvForm input[name="tahun_spmv"]').val($(row).find('td:nth-child(4)').text());
+    //             });
 
-                $(document).on('click', '.deleteSpmv-btn', function() {
-                    var id = $(this).data('id');
-                    Swal.fire({
-                    title: 'Adakah anda ingin hapuskan maklumat ini?',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sahkan',
-                    cancelButtonText: 'Batal',
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        deleteItem(id, "{{ route('spmv.delete', ':replaceThis') }}", reloadSpmv )
-                    }
-                    })
+    //             $(document).on('click', '.deleteSpmv-btn', function() {
+    //                 var id = $(this).data('id');
+    //                 Swal.fire({
+    //                 title: 'Adakah anda ingin hapuskan maklumat ini?',
+    //                 showCancelButton: true,
+    //                 confirmButtonText: 'Sahkan',
+    //                 cancelButtonText: 'Batal',
+    //                 }).then((result) => {
+    //                 if (result.isConfirmed) {
+    //                     deleteItem(id, "{{ route('spmv.delete', ':replaceThis') }}", reloadSpmv )
+    //                 }
+    //                 })
 
-                });
-            },
-            error: function(data) {
-            }
-        });
-    }
+    //             });
+    //         },
+    //         error: function(data) {
+    //         }
+    //     });
+    // }
 
     function editSvm() {
         $('#svmForm input[name="tahun_svm"]').attr('disabled', false);
@@ -808,35 +809,49 @@
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#svmForm select[name="subjek_svm"]').val('').trigger('change');
-                $('#svmForm select[name="gred_svm"]').val('').trigger('change');
-                $('#svmForm input[name="tahun_svm"]').val('');
+                
+                // $('#svmForm select[name="kelulusan_svm"]').val('').trigger('change');
+                // $('#svmForm select[name="subjek_svm"]').val('').trigger('change');
+                // $('#svmForm select[name="gred_svm"]').val('').trigger('change');
+                // $('#svmForm input[name="tahun_svm"]').val('');
+                // $('#svmForm input[name="pngka_svm"]').val('');
+                // $('#svmForm input[name="pngkv_svm"]').val('');
+
+                $('#svmForm select[name="kelulusan_svm"]').val(data.detail.kel1_kod).trigger('change');
+                $('#svmForm select[name="subjek_svm"]').val(data.detail.mata_pelajaran).trigger('change');
+                $('#svmForm select[name="gred_svm"]').val(data.detail.gred).trigger('change');
+                $('#svmForm input[name="tahun_svm"]').val(data.detail.tahun_lulus);
+                $('#svmForm input[name="pngka_svm"]').val(data.detail.pngka);
+                $('#svmForm input[name="pngkv_svm"]').val(data.detail.pngkv);
+                
+                $('#svmForm select[name="kelulusan_svm"]').attr('disabled', true);
                 $('#svmForm select[name="subjek_svm"]').attr('disabled', true);
                 $('#svmForm select[name="gred_svm"]').attr('disabled', true);
                 $('#svmForm input[name="tahun_svm"]').attr('disabled', true);
+                $('#svmForm input[name="pngka_svm"]').attr('disabled', true);
+                $('#svmForm input[name="pngkv_svm"]').attr('disabled', true);
                 $('#svmForm').attr('action', "{{ route('svm.store')  }}");
                 $('#btnSaveSvm').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_svm").attr("style", "display:none");
 
-
                 $('#table-svm tbody').empty();
                 var trSvm = '';
                 var bilSvm = 0;
-                $.each(data.detail, function(i, item) {
-                    if (item.subject_form5 != null) {
-                        bilSvm += 1;
-                        trSvm += '<tr>';
-                        trSvm += '<td align="center">' + bilSvm + '</td>';
-                        trSvm += '<td>' + item.subject_form5.diskripsi + '</td>'; //KOD MATA PELAJARAN
-                        trSvm += '<td>' + item.subject_form5.diskripsi + '</td>';
-                        trSvm += '<td align="center">' + item.gred + '</td>';
-                        trSvm += '<td align="center"><i class="fas fa-pencil text-primary editSvm-btn" data-id="' + item.id + ' "></i>';
-                        trSvm += '&nbsp;&nbsp;';
-                        trSvm += '<i class="fas fa-trash text-danger deleteSvm-btn" data-id="' + item.id + '"></i></td>';
-                        trSvm += '</tr>';
-                    }
-                });
+                //$.each(data.detail, function(i, item) {
+                if(data.detail.subject != null) {
+                    bilSvm += 1;
+                    trSvm += '<tr>';
+                    trSvm += '<td align="center">' + bilSvm + '</td>';
+                    trSvm += '<td>' + data.detail.subject.kod + '</td>'; //KOD MATA PELAJARAN
+                    trSvm += '<td>' + data.detail.subject.diskripsi + '</td>';
+                    trSvm += '<td align="center">' + data.detail.gred + '</td>';
+                    // trSvm += '<td align="center"><i class="fas fa-pencil text-primary editSvm-btn" data-id="' + item.id + ' "></i>';
+                    // trSvm += '&nbsp;&nbsp;';
+                    // trSvm += '<i class="fas fa-trash text-danger deleteSvm-btn" data-id="' + item.id + '"></i></td>';
+                    trSvm += '</tr>';
+                }
+                //});
                 $('#table-svm tbody').append(trSvm);
 
                 if($('#table-svm tbody').is(':empty')){
