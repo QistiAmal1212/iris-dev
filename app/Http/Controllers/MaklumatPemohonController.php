@@ -157,7 +157,16 @@ class MaklumatPemohonController extends Controller
                 'skm' => function ($query) {
                     $query->with(['qualification']);
                 },
-                'higherEducation' => function ($query) {
+                'diploma' => function ($query) {
+                    $query->with(['institution', 'eligibility', 'specialization']);
+                },
+                'degree' => function ($query) {
+                    $query->with(['institution', 'eligibility', 'specialization']);
+                },
+                'master' => function ($query) {
+                    $query->with(['institution', 'eligibility', 'specialization']);
+                },
+                'phd' => function ($query) {
                     $query->with(['institution', 'eligibility', 'specialization']);
                 },
                 'professional' => function ($query) {
@@ -200,8 +209,20 @@ class MaklumatPemohonController extends Controller
                 return $skim;
             });
 
-            if($candidate->higherEducation) {
-                $candidate->higherEducation->tarikh_senat = ($candidate->higherEducation->tarikh_senat != null) ? Carbon::parse($candidate->higherEducation->tarikh_senat)->format('d/m/Y') : null;
+            if($candidate->diploma) {
+                $candidate->diploma->tarikh_senat = ($candidate->diploma->tarikh_senat != null) ? Carbon::parse($candidate->diploma->tarikh_senat)->format('d/m/Y') : null;
+            }
+
+            if($candidate->degree) {
+                $candidate->degree->tarikh_senat = ($candidate->degree->tarikh_senat != null) ? Carbon::parse($candidate->degree->tarikh_senat)->format('d/m/Y') : null;
+            }
+
+            if($candidate->master) {
+                $candidate->master->tarikh_senat = ($candidate->master->tarikh_senat != null) ? Carbon::parse($candidate->master->tarikh_senat)->format('d/m/Y') : null;
+            }
+
+            if($candidate->phd) {
+                $candidate->phd->tarikh_senat = ($candidate->phd->tarikh_senat != null) ? Carbon::parse($candidate->phd->tarikh_senat)->format('d/m/Y') : null;
             }
 
             $candidate->professional->transform(function ($professional){
@@ -242,7 +263,7 @@ class MaklumatPemohonController extends Controller
             $candidate = Calon::where('no_pengenalan', $request->personal_no_pengenalan)->first();
 
             $request->validate([
-                'gender' => 'required|string|exists:ruj_jantina,code',
+                'gender' => 'required|string|exists:ruj_jantina,kod',
                 'religion' => 'required|string|exists:ruj_agama,kod',
                 'race' => 'required|string|exists:ruj_keturunan,kod',
                 'date_of_birth' => 'required',
@@ -1278,7 +1299,19 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateSvm = CalonSvm::where('cal_no_pengenalan', $request->noPengenalan)->get();
+            $noPengenalan = $request->noPengenalan;
+
+            $candidateSvm = CalonSvm::select('calon_svm.*')
+                ->where('calon_svm.mata_pelajaran', '104')
+                ->where('calon_svm.cal_no_pengenalan', $noPengenalan)
+                ->leftJoin('calon_svm as svm2', function ($join) use ($noPengenalan) {
+                    $join->on('calon_svm.kel1_kod', '=', 'svm2.kel1_kod')
+                        ->where('svm2.cal_no_pengenalan', $noPengenalan)
+                        ->where('svm2.mata_pelajaran', '104')
+                        ->whereRaw('calon_svm.id > CAST(svm2.id AS bigint)');
+                })
+                ->whereNull('svm2.id')
+                ->get();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateSvm]);
 
@@ -2392,18 +2425,403 @@ class MaklumatPemohonController extends Controller
 
             $candidateHigherEducation = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)->first();
 
-            // if(!$candidate) {
-            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-
             $candidateHigherEducation->tarikh_senat = ($candidateHigherEducation->tarikh_senat != null) ? Carbon::parse($candidateHigherEducation->tarikh_senat)->format('d/m/Y') : null;
-            // }
 
-            //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateHigherEducation]);
 
         } catch (\Throwable $e) {
 
             //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function updateDiploma(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->diploma_no_pengenalan)->where('peringkat_pengajian', 4)->first();
+
+            $request->validate([
+                'tahun_diploma' => 'required|string',
+                'kelayakan_diploma' => 'required|string|exists:ruj_kelayakan,kod',
+                'cgpa_diploma' => 'required|string',
+                'institusi_diploma' => 'required|string|exists:ruj_institusi,kod',
+                'nama_sijil_diploma' => 'required|string',
+                'pengkhususan_diploma' => 'required|string|exists:ruj_pengkhususan,kod',
+                'fln_diploma' => 'required|integer|digits_between:1,2',
+                'tarikh_senat_diploma' => 'required',
+                'biasiswa_diploma' => 'required|boolean',
+            ],[
+                'tahun_diploma.required' => 'Sila pilih tahun pengajian tinggi',
+                'kelayakan_diploma.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+                'kelayakan_diploma.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+                'cgpa_diploma.required' => 'Sila pilih cgpa pengajian tinggi',
+                'institusi_diploma.required' => 'Sila pilih institusi pengajian tinggi',
+                'institusi_diploma.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+                'nama_sijil_diploma.required' => 'Sila pilih nama sijil pengajian tinggi',
+                'pengkhususan_diploma.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+                'pengkhususan_diploma.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+                'fln_diploma.required' => 'Sila pilih francais luar negara pengajian tinggi',
+                'fln_diploma.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+                'tarikh_senat_diploma.required' => 'Sila pilih tarikh senat pengajian tinggi',
+                'biasiswa_diploma.required' => 'Sila pilih biasiswa pengajian tinggi',
+                'biasiswa_diploma.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+            ]);
+
+            if(!$candidate){
+                CalonPengajianTinggi::create([
+                    'cal_no_pengenalan' => $request->diploma_no_pengenalan,
+                    'peringkat_pengajian' => 4,
+                    'tahun_lulus' => $request->tahun_diploma,
+                    'kel_kod' => $request->kelayakan_diploma,
+                    'cgpa' => $request->cgpa_diploma,
+                    'ins_kod' => $request->institusi_diploma,
+                    'nama_sijil' => $request->nama_sijil_diploma,
+                    'pen_kod' => $request->pengkhususan_diploma,
+                    'ins_fln' => $request->fln_diploma,
+                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_diploma)->format('Y-m-d'),
+                    'biasiswa' => $request->biasiswa_diploma,
+                ]);
+            } else{
+                $candidate->update([
+                    'tahun_lulus' => $request->tahun_diploma,
+                    'kel_kod' => $request->kelayakan_diploma,
+                    'cgpa' => $request->cgpa_diploma,
+                    'ins_kod' => $request->institusi_diploma,
+                    'nama_sijil' => $request->nama_sijil_diploma,
+                    'pen_kod' => $request->pengkhususan_diploma,
+                    'ins_fln' => $request->fln_diploma,
+                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_diploma)->format('Y-m-d'),
+                    'biasiswa' => $request->biasiswa_diploma,
+                ]);
+            }
+
+            CalonGarisMasa::create([
+                'no_pengenalan' => $request->diploma_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Diploma)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function diplomaDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateDiploma = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)->where('peringkat_pengajian', 4)->first();
+
+            $candidateDiploma->tarikh_senat = ($candidateDiploma->tarikh_senat != null) ? Carbon::parse($candidateDiploma->tarikh_senat)->format('d/m/Y') : null;
+
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateDiploma]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function updateDegree(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->degree_no_pengenalan)->where('peringkat_pengajian', 3)->first();
+
+            $request->validate([
+                'tahun_degree' => 'required|string',
+                'kelayakan_degree' => 'required|string|exists:ruj_kelayakan,kod',
+                'cgpa_degree' => 'required|string',
+                'institusi_degree' => 'required|string|exists:ruj_institusi,kod',
+                'nama_sijil_degree' => 'required|string',
+                'pengkhususan_degree' => 'required|string|exists:ruj_pengkhususan,kod',
+                'fln_degree' => 'required|integer|digits_between:1,2',
+                'tarikh_senat_degree' => 'required',
+                'biasiswa_degree' => 'required|boolean',
+            ],[
+                'tahun_degree.required' => 'Sila pilih tahun pengajian tinggi',
+                'kelayakan_degree.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+                'kelayakan_degree.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+                'cgpa_degree.required' => 'Sila pilih cgpa pengajian tinggi',
+                'institusi_degree.required' => 'Sila pilih institusi pengajian tinggi',
+                'institusi_degree.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+                'nama_sijil_degree.required' => 'Sila pilih nama sijil pengajian tinggi',
+                'pengkhususan_degree.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+                'pengkhususan_degree.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+                'fln_degree.required' => 'Sila pilih francais luar negara pengajian tinggi',
+                'fln_degree.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+                'tarikh_senat_degree.required' => 'Sila pilih tarikh senat pengajian tinggi',
+                'biasiswa_degree.required' => 'Sila pilih biasiswa pengajian tinggi',
+                'biasiswa_degree.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+            ]);
+
+            if(!$candidate){
+                CalonPengajianTinggi::create([
+                    'cal_no_pengenalan' => $request->degree_no_pengenalan,
+                    'peringkat_pengajian' => 3,
+                    'tahun_lulus' => $request->tahun_degree,
+                    'kel_kod' => $request->kelayakan_degree,
+                    'cgpa' => $request->cgpa_degree,
+                    'ins_kod' => $request->institusi_degree,
+                    'nama_sijil' => $request->nama_sijil_degree,
+                    'pen_kod' => $request->pengkhususan_degree,
+                    'ins_fln' => $request->fln_degree,
+                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_degree)->format('Y-m-d'),
+                    'biasiswa' => $request->biasiswa_degree,
+                ]);
+            } else{
+                $candidate->update([
+                    'tahun_lulus' => $request->tahun_degree,
+                    'kel_kod' => $request->kelayakan_degree,
+                    'cgpa' => $request->cgpa_degree,
+                    'ins_kod' => $request->institusi_degree,
+                    'nama_sijil' => $request->nama_sijil_degree,
+                    'pen_kod' => $request->pengkhususan_degree,
+                    'ins_fln' => $request->fln_degree,
+                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_degree)->format('Y-m-d'),
+                    'biasiswa' => $request->biasiswa_degree,
+                ]);
+            }
+
+            CalonGarisMasa::create([
+                'no_pengenalan' => $request->degree_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Ijazah Sarjana Muda)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function degreeDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateDegree = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)->where('peringkat_pengajian', 3)->first();
+
+            $candidateDegree->tarikh_senat = ($candidateDegree->tarikh_senat != null) ? Carbon::parse($candidateDegree->tarikh_senat)->format('d/m/Y') : null;
+
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateDegree]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function updateMaster(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->master_no_pengenalan)->where('peringkat_pengajian', 2)->first();
+
+            $request->validate([
+                'tahun_master' => 'required|string',
+                'kelayakan_master' => 'required|string|exists:ruj_kelayakan,kod',
+                'cgpa_master' => 'required|string',
+                'institusi_master' => 'required|string|exists:ruj_institusi,kod',
+                'nama_sijil_master' => 'required|string',
+                'pengkhususan_master' => 'required|string|exists:ruj_pengkhususan,kod',
+                'fln_master' => 'required|integer|digits_between:1,2',
+                'tarikh_senat_master' => 'required',
+                'biasiswa_master' => 'required|boolean',
+            ],[
+                'tahun_master.required' => 'Sila pilih tahun pengajian tinggi',
+                'kelayakan_master.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+                'kelayakan_master.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+                'cgpa_master.required' => 'Sila pilih cgpa pengajian tinggi',
+                'institusi_master.required' => 'Sila pilih institusi pengajian tinggi',
+                'institusi_master.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+                'nama_sijil_master.required' => 'Sila pilih nama sijil pengajian tinggi',
+                'pengkhususan_master.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+                'pengkhususan_master.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+                'fln_master.required' => 'Sila pilih francais luar negara pengajian tinggi',
+                'fln_master.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+                'tarikh_senat_master.required' => 'Sila pilih tarikh senat pengajian tinggi',
+                'biasiswa_master.required' => 'Sila pilih biasiswa pengajian tinggi',
+                'biasiswa_master.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+            ]);
+
+            if(!$candidate){
+                CalonPengajianTinggi::create([
+                    'cal_no_pengenalan' => $request->master_no_pengenalan,
+                    'peringkat_pengajian' => 2,
+                    'tahun_lulus' => $request->tahun_master,
+                    'kel_kod' => $request->kelayakan_master,
+                    'cgpa' => $request->cgpa_master,
+                    'ins_kod' => $request->institusi_master,
+                    'nama_sijil' => $request->nama_sijil_master,
+                    'pen_kod' => $request->pengkhususan_master,
+                    'ins_fln' => $request->fln_master,
+                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_master)->format('Y-m-d'),
+                    'biasiswa' => $request->biasiswa_master,
+                ]);
+            } else{
+                $candidate->update([
+                    'tahun_lulus' => $request->tahun_master,
+                    'kel_kod' => $request->kelayakan_master,
+                    'cgpa' => $request->cgpa_master,
+                    'ins_kod' => $request->institusi_master,
+                    'nama_sijil' => $request->nama_sijil_master,
+                    'pen_kod' => $request->pengkhususan_master,
+                    'ins_fln' => $request->fln_master,
+                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_master)->format('Y-m-d'),
+                    'biasiswa' => $request->biasiswa_master,
+                ]);
+            }
+
+            CalonGarisMasa::create([
+                'no_pengenalan' => $request->master_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Ijazah Sarjana)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function masterDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidateMaster = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)->where('peringkat_pengajian', 2)->first();
+
+            $candidateMaster->tarikh_senat = ($candidateMaster->tarikh_senat != null) ? Carbon::parse($candidateMaster->tarikh_senat)->format('d/m/Y') : null;
+
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateMaster]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function updatePhd(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->phd_no_pengenalan)->where('peringkat_pengajian', 1)->first();
+
+            $request->validate([
+                'tahun_phd' => 'required|string',
+                'kelayakan_phd' => 'required|string|exists:ruj_kelayakan,kod',
+                'cgpa_phd' => 'required|string',
+                'institusi_phd' => 'required|string|exists:ruj_institusi,kod',
+                'nama_sijil_phd' => 'required|string',
+                'pengkhususan_phd' => 'required|string|exists:ruj_pengkhususan,kod',
+                'fln_phd' => 'required|integer|digits_between:1,2',
+                'tarikh_senat_phd' => 'required',
+                'biasiswa_phd' => 'required|boolean',
+            ],[
+                'tahun_phd.required' => 'Sila pilih tahun pengajian tinggi',
+                'kelayakan_phd.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+                'kelayakan_phd.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+                'cgpa_phd.required' => 'Sila pilih cgpa pengajian tinggi',
+                'institusi_phd.required' => 'Sila pilih institusi pengajian tinggi',
+                'institusi_phd.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+                'nama_sijil_phd.required' => 'Sila pilih nama sijil pengajian tinggi',
+                'pengkhususan_phd.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+                'pengkhususan_phd.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+                'fln_phd.required' => 'Sila pilih francais luar negara pengajian tinggi',
+                'fln_phd.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+                'tarikh_senat_phd.required' => 'Sila pilih tarikh senat pengajian tinggi',
+                'biasiswa_phd.required' => 'Sila pilih biasiswa pengajian tinggi',
+                'biasiswa_phd.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+            ]);
+
+            if(!$candidate){
+                CalonPengajianTinggi::create([
+                    'cal_no_pengenalan' => $request->phd_no_pengenalan,
+                    'peringkat_pengajian' => 1,
+                    'tahun_lulus' => $request->tahun_phd,
+                    'kel_kod' => $request->kelayakan_phd,
+                    'cgpa' => $request->cgpa_phd,
+                    'ins_kod' => $request->institusi_phd,
+                    'nama_sijil' => $request->nama_sijil_phd,
+                    'pen_kod' => $request->pengkhususan_phd,
+                    'ins_fln' => $request->fln_phd,
+                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_phd)->format('Y-m-d'),
+                    'biasiswa' => $request->biasiswa_phd,
+                ]);
+            } else{
+                $candidate->update([
+                    'tahun_lulus' => $request->tahun_phd,
+                    'kel_kod' => $request->kelayakan_phd,
+                    'cgpa' => $request->cgpa_phd,
+                    'ins_kod' => $request->institusi_phd,
+                    'nama_sijil' => $request->nama_sijil_phd,
+                    'pen_kod' => $request->pengkhususan_phd,
+                    'ins_fln' => $request->fln_phd,
+                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_phd)->format('Y-m-d'),
+                    'biasiswa' => $request->biasiswa_phd,
+                ]);
+            }
+
+            CalonGarisMasa::create([
+                'no_pengenalan' => $request->phd_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Ijazah Doktor Falsafah)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function phdDetails(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $candidatePhd = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)->where('peringkat_pengajian', 1)->first();
+
+            $candidatePhd->tarikh_senat = ($candidatePhd->tarikh_senat != null) ? Carbon::parse($candidatePhd->tarikh_senat)->format('d/m/Y') : null;
+
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePhd]);
+
+        } catch (\Throwable $e) {
+
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
     }
@@ -2654,7 +3072,7 @@ class MaklumatPemohonController extends Controller
 
             $request->validate([
                 'jenis_perkhidmatan_tentera_polis' => 'required|string|exists:ruj_jenis_perkhidmatan,id',
-                'pangkat_tentera_polis' => 'required|string|exists:ruj_pangkat,code',
+                'pangkat_tentera_polis' => 'required|string|exists:ruj_pangkat,kod',
                 'jenis_bekas_tentera_polis' => 'required|string|exists:ruj_jenis_bekas_tentera_polis,kod',
             ],[
                 'jenis_perkhidmatan_tentera_polis.required' => 'Sila pilih jenis penamatan perkhidmatan',

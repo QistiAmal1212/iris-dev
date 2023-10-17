@@ -27,6 +27,6 @@ class CalonSvm extends Model
     const UPDATED_AT = 'tarikh_ubahsuai';
 
     public function qualification() {
-        return $this->belongsTo('App\Models\Reference\Qualification', 'kod_ruj_kelulusan', 'kod');
+        return $this->belongsTo('App\Models\Reference\Qualification', 'kel1_kod', 'kod');
     }
 }

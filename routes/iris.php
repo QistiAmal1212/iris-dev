@@ -141,6 +141,26 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('details/{noPengenalan}', 'pengajianTinggiDetails')->name('pengajian-tinggi.details');
         });
 
+        Route::prefix('diploma')->group(function () {
+            Route::post('update', 'updateDiploma')->name('diploma.update');
+            Route::get('details/{noPengenalan}', 'diplomaDetails')->name('diploma.details');
+        });
+
+        Route::prefix('degree')->group(function () {
+            Route::post('update', 'updateDegree')->name('degree.update');
+            Route::get('details/{noPengenalan}', 'degreeDetails')->name('degree.details');
+        });
+
+        Route::prefix('master')->group(function () {
+            Route::post('update', 'updateMaster')->name('master.update');
+            Route::get('details/{noPengenalan}', 'masterDetails')->name('master.details');
+        });
+
+        Route::prefix('phd')->group(function () {
+            Route::post('update', 'updatePhd')->name('phd.update');
+            Route::get('details/{noPengenalan}', 'phdDetails')->name('phd.details');
+        });
+
         Route::prefix('experience')->group(function () {
             Route::post('update', 'updateExperience')->name('experience.update');
             Route::get('details/{noPengenalan}', 'experienceDetails')->name('experience.details');

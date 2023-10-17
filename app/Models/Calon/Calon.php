@@ -82,6 +82,22 @@ class Calon extends Model
         return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
+    public function diploma() {
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')->where('peringkat_pengajian', 4);
+    }
+
+    public function degree() {
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')->where('peringkat_pengajian', 3);
+    }
+
+    public function master() {
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')->where('peringkat_pengajian', 2);
+    }
+
+    public function phd() {
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')->where('peringkat_pengajian', 1);
+    }
+
     public function professional() {
         return $this->hasMany('App\Models\Calon\CalonProfesional', 'cal_no_pengenalan', 'no_pengenalan');
     }

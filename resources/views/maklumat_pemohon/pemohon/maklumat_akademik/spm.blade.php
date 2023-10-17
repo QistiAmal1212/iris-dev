@@ -340,7 +340,12 @@
                     </div>
                 </div>
 
-                <form id="svmForm" action="{{ route('svm.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadSvm" data-reloadPage="false">
+                <form id="svmForm" 
+                action="{{ route('svm.store') }}" 
+                method="POST" 
+                data-refreshFunctionName="reloadTimeline" 
+                data-refreshFunctionNameIfSuccess="reloadSvm" 
+                data-reloadPage="false">
                     @csrf
                     <div class="row">
 
@@ -354,11 +359,11 @@
 
                         <div class="col-sm-10 col-md-10 col-lg-10 mb-1">
                             <label class="form-label">Nama Sijil</label>
-                            <select class="select2 form-control" value="" id="" name="" disabled>
+                            <select class="select2 form-control" value="" id="kelulusan_svm" name="kelulusan_svm" disabled>
                                 <option value="" hidden>Nama Sijil</option>
-                                    {{-- Looping start here --}}
-                                        <option value=""></option>
-                                    {{-- Ended here --}}
+                                @foreach($jenisPeperiksaan as $kelulusan)
+                                <option value="{{ $kelulusan->kod }}">{{ $kelulusan->diskripsi }}</option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -383,111 +388,13 @@
                         </div>
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">PNGV</label>
-                            <input type="text" class="form-control" value="" id="" name="" disabled>
+                            <label class="form-label">PNGKA</label>
+                            <input type="text" class="form-control" value="" id="pngka_svm" name="pngka_svm" disabled>
                         </div>
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">PNGK</label>
-                            <input type="text" class="form-control" value="" id="" name="" disabled>
-                        </div>
-
-                        <div id="button_action_svm" style="display:none">
-                            <button type="button" id="btnEditSvm" hidden onclick="generalFormSubmit(this);"></button>
-                            <div class="d-flex justify-content-end align-items-center my-1">
-                                <button type="button" class="btn btn-danger me-1" onclick="reloadSvm()">
-                                    <i class="fa fa-refresh"></i>
-                                </button>
-                                <button type="button" class="btn btn-success float-right" id="btnSaveSvm" onclick="$('#btnEditSvm').trigger('click');">
-                                    <i class="fa fa-save"></i> Tambah
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                <div class="table-responsive mb-1 mt-1">
-                    <table class="table header_uppercase table-bordered table-hovered" id="table-svm">
-                        <thead>
-                            <tr>
-                                <th>Bil.</th>
-                                <th>Mata Pelajaran</th>
-                                <th>Gred</th>
-                                <th>Kemaskini</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <h6 class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#result-svm-2" aria-expanded="false" aria-controls="result-svm-2">
-                <span class="badge badge-light-primary">
-                    Sijil Vokasional Malaysia (SVM) [2]
-                    <i class="fa-solid fa-chevron-down ms-3"></i>
-                </span>
-            </h6>
-
-            <div class="collapse show mb-3" id="result-svm-2">
-                <div id="update_svm" style="display:none">
-                    <div class="d-flex justify-content-end align-items-center mb-1">
-                        <a class="me-3 text-danger" type="button" onclick="editSvm()">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                            Kemaskini
-                        </a>
-                    </div>
-                </div>
-
-                <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
-                    @csrf
-                    <div class="row">
-
-                        <input type="hidden" name="svm_no_pengenalan" id="svm_no_pengenalan" value="">
-                        <input type="hidden" name="id_svm" id="id_svm" value="">
-
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_svm" name="tahun_svm" disabled>
-                        </div>
-
-                        <div class="col-sm-10 col-md-10 col-lg-10 mb-1">
-                            <label class="form-label">Nama Sijil</label>
-                            <select class="select2 form-control" value="" id="" name="" disabled>
-                                <option value="" hidden>Nama Sijil</option>
-                                    {{-- Looping start here --}}
-                                        <option value=""></option>
-                                    {{-- Ended here --}}
-                            </select>
-                        </div>
-
-                        <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
-                            <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_svm" name="subjek_svm" disabled>
-                                <option value="" hidden>Mata Pelajaran</option>
-                                    @foreach($subjekSvm as $subjek)
-                                        <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
-                                    @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_svm" name="gred_svm" disabled>
-                                <option value="" hidden>Gred</option>
-                                    @foreach($gredSvm as $gred)
-                                        <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                                    @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">PNGV</label>
-                            <input type="text" class="form-control" value="" id="" name="" disabled>
-                        </div>
-
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">PNGK</label>
-                            <input type="text" class="form-control" value="" id="" name="" disabled>
+                            <label class="form-label">PNGKV</label>
+                            <input type="text" class="form-control" value="" id="pngkv_svm" name="pngkv_svm" disabled>
                         </div>
 
                         <div id="button_action_svm" style="display:none">
@@ -880,9 +787,12 @@
     }
 
     function editSvm() {
+        $('#svmForm input[name="tahun_svm"]').attr('disabled', false);
+        $('#svmForm select[name="kelulusan_svm"]').attr('disabled', false);
         $('#svmForm select[name="subjek_svm"]').attr('disabled', false);
         $('#svmForm select[name="gred_svm"]').attr('disabled', false);
-        $('#svmForm input[name="tahun_svm"]').attr('disabled', false);
+        $('#svmForm input[name="pngka_svm"]').attr('disabled', false);
+        $('#svmForm input[name="pngkv_svm"]').attr('disabled', false);
 
         $("#button_action_svm").attr("style", "display:block");
     }
