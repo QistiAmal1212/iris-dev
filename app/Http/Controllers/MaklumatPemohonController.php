@@ -145,6 +145,9 @@ class MaklumatPemohonController extends Controller
                 'license',
                 'oku',
                 'skim' => function ($query) {
+                    $query->where([
+                        ['sah_yt', '=', 'Y']
+                    ]);
                     $query->with(['skim']);
                 },
                 'interviewCentre',
