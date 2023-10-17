@@ -83,19 +83,39 @@ class Calon extends Model
     }
 
     public function diploma() {
-        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')->where('peringkat_pengajian', 4);
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')
+        ->with('eligibility')->whereHas('eligibility', function ($query) {
+            $query->with('kelayakanSetaraf')->whereHas('kelayakanSetaraf', function ($query2) {
+                $query2->where('kod', 5);
+            });
+        });
     }
 
     public function degree() {
-        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')->where('peringkat_pengajian', 3);
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')
+        ->with('eligibility')->whereHas('eligibility', function ($query) {
+            $query->with('kelayakanSetaraf')->whereHas('kelayakanSetaraf', function ($query2) {
+                $query2->where('kod', 7);
+            });
+        });
     }
 
     public function master() {
-        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')->where('peringkat_pengajian', 2);
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')
+        ->with('eligibility')->whereHas('eligibility', function ($query) {
+            $query->with('kelayakanSetaraf')->whereHas('kelayakanSetaraf', function ($query2) {
+                $query2->where('kod', 8);
+            });
+        });
     }
 
     public function phd() {
-        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')->where('peringkat_pengajian', 1);
+        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan')
+        ->with('eligibility')->whereHas('eligibility', function ($query) {
+            $query->with('kelayakanSetaraf')->whereHas('kelayakanSetaraf', function ($query2) {
+                $query2->where('kod', 9);
+            });
+        });
     }
 
     public function professional() {

@@ -22,4 +22,8 @@ class Eligibility extends Model
 
     const CREATED_AT = 'tarikh_cipta';
     const UPDATED_AT = 'tarikh_ubahsuai';
+
+    public function kelayakanSetaraf() {
+        return $this->belongsTo('App\Models\Reference\KelayakanSetaraf', 'kelayakan_setara', 'kod');
+    }
 }
