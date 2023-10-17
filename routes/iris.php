@@ -87,7 +87,7 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::post('delete/{idStpm}', 'deleteStpm1')->name('stpm1.delete');
         });
 
-         Route::prefix('stpm2')->group(function () {
+        Route::prefix('stpm2')->group(function () {
             Route::post('store', 'storeStpm2')->name('stpm2.store');
             Route::get('list/{noPengenalan}', 'listStpm2')->name('stpm2.list');
             Route::post('update', 'updateStpm2')->name('stpm2.update');
@@ -159,6 +159,13 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::prefix('phd')->group(function () {
             Route::post('update', 'updatePhd')->name('phd.update');
             Route::get('details/{noPengenalan}', 'phdDetails')->name('phd.details');
+        });
+        
+        Route::prefix('profesional')->group(function () {
+            Route::post('store', 'storeProfesional')->name('profesional.store');
+            Route::get('list/{noPengenalan}', 'listProfesional')->name('profesional.list');
+            Route::post('update', 'updateProfesional')->name('profesional.update');
+            Route::post('delete/{idProfesional}', 'deleteProfesional')->name('profesional.delete');
         });
 
         Route::prefix('experience')->group(function () {

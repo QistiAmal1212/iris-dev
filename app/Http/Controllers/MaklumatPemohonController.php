@@ -45,6 +45,7 @@ use App\Models\Calon\CalonSkm;
 use App\Models\Calon\CalonBakat;
 use App\Models\Calon\CalonGarisMasa;
 use App\Models\Calon\CalonSvm;
+use App\Models\Calon\CalonProfesional;
 use App\Models\Reference\Matriculation;
 use App\Models\Reference\MatriculationCourse;
 use Yajra\DataTables\Contracts\DataTable;
@@ -161,9 +162,6 @@ class MaklumatPemohonController extends Controller
                 'degree',
                 'master',
                 'phd',
-                'professional' => function ($query) {
-                    $query->with(['qualification']);
-                },
                 'experience',
                 'psl' => function ($query) {
                     $query->with(['qualification']);
@@ -216,11 +214,6 @@ class MaklumatPemohonController extends Controller
             if($candidate->phd) {
                 $candidate->phd->tarikh_senat = ($candidate->phd->tarikh_senat != null) ? Carbon::parse($candidate->phd->tarikh_senat)->format('d/m/Y') : null;
             }
-
-            $candidate->professional->transform(function ($professional){
-                $professional->tarikh = ($professional->tarikh != null) ? Carbon::parse($professional->tarikh)->format('d/m/Y') : null;
-                return $professional;
-            });
 
             if($candidate->experience){
 
@@ -2772,6 +2765,121 @@ class MaklumatPemohonController extends Controller
 
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
+    }
+
+    public function storeProfesional(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'no_ahli_profesional' => 'required|string',
+                'kelulusan_profesional' => 'required|string|exists:ruj_kelulusan,kod',
+                'tarikh_keahlian_profesional' => 'required',
+            ],[
+                'no_ahli_profesional.required' => 'Sila isikan no ahli',
+                'kelulusan_profesional.required' => 'Sila pilih kelayakan profesional / ikhtisas',
+                'kelulusan_profesional.exists' => 'Tiada rekod kelayakan profesional / ikhtisas yang dipilih',
+                'tarikh_keahlian_profesional.required' => 'Sila isikan tarikh keahlian',
+            ]);
+
+            CalonProfesional::create([
+                'cal_no_pengenalan' => $request->profesional_no_pengenalan,
+                'no_ahli' => $request->no_ahli_profesional,
+                'kel1_kod' => $request->kelulusan_profesional,
+                'tarikh' => Carbon::createFromFormat('d/m/Y', $request->tarikh_keahlian_profesional)->format('Y-m-d'),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+            ]);
+
+            CalonGarisMasa::create([
+                'no_pengenalan' => $request->profesional_no_pengenalan,
+                'details' => 'Tambah Maklumat Akademik (Profesional)',
+                'activity_type_id' => 3,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function listProfesional(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $candidateProfesional = CalonProfesional::where('cal_no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+
+            $candidateProfesional->transform(function ($professional){
+                $professional->tarikh = ($professional->tarikh != null) ? Carbon::parse($professional->tarikh)->format('d/m/Y') : null;
+                return $professional;
+            });
+
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateProfesional]);
+
+        } catch (\Throwable $e) {
+
+            //DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function updateProfesional(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'no_ahli_profesional' => 'required|string',
+                'kelulusan_profesional' => 'required|string|exists:ruj_kelulusan,kod',
+                'tarikh_keahlian_profesional' => 'required',
+            ],[
+                'no_ahli_profesional.required' => 'Sila isikan no ahli',
+                'kelulusan_profesional.required' => 'Sila pilih kelayakan profesional / ikhtisas',
+                'kelulusan_profesional.exists' => 'Tiada rekod kelayakan profesional / ikhtisas yang dipilih',
+                'tarikh_keahlian_profesional.required' => 'Sila isikan tarikh keahlian',
+            ]);
+
+            CalonProfesional::where('id', $request->id_profesional)->update([
+                'no_ahli' => $request->no_ahli_profesional,
+                'kel1_kod' => $request->kelulusan_profesional,
+                'tarikh' => Carbon::createFromFormat('d/m/Y', $request->tarikh_keahlian_profesional)->format('Y-m-d'),
+                'pengguna' => auth()->user()->id,
+            ]);
+
+            CalonGarisMasa::create([
+                'no_pengenalan' => $request->profesional_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (Profesional)',
+                'activity_type_id' => 4,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteProfesional(Request $request){
+        $profesional = CalonProfesional::find($request->idProfesional);
+
+        if (!$profesional) {
+            return response()->json(['message' => 'Record not found'], 404);
+        }
+        $profesional->delete();
+
+        return response()->json(['message' => 'Record deleted successfully'], 200);
     }
 
     public function storePsl(Request $request)

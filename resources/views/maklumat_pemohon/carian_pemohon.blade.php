@@ -408,6 +408,7 @@ Maklumat Pemohon
                     $('#update_degree').attr("style", "display:block");
                     $('#update_master').attr("style", "display:block");
                     $('#update_phd').attr("style", "display:block");
+                    $('#update_profesional').attr("style", "display:block");
                     $('#update_experienceA').attr("style", "display:block");
                     $('#update_experienceB').attr("style", "display:block");
                     $('#update_experienceC').attr("style", "display:block");
@@ -953,23 +954,9 @@ Maklumat Pemohon
                         originalVal['biasiswa_phd'] = '';
                     }
 
-                    $('#table-professional tbody').empty();
-                    if(data.detail.professional.length == 0){
-                        var trProfessional = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trProfessional = '';
-                        var bilProfessional = 0;
-                        $.each(data.detail.professional, function (i, item) {
-                            bilProfessional += 1;
-                            trProfessional += '<tr>';
-                            trProfessional += '<td align="center">' + bilProfessional + '</td>'
-                            trProfessional += '<td>' + (item.no_ahli ? item.no_ahli : '') + '</td>';
-                            trProfessional += '<td>' + (item.qualification ? item.qualification.diskripsi : '') + '</td>';
-                            trProfessional += '<td>' + (item.tarikh ? item.tarikh : '') + '</td>';
-                            trProfessional += '</tr>';
-                        });
-                    }
-                    $('#table-professional tbody').append(trProfessional);
+                    $('#profesionalForm input[name="profesional_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#table-profesional tbody').empty();
+                    reloadProfesional();
 
                     $('#experienceAForm input[name="experienceA_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#experienceBForm input[name="experienceB_no_pengenalan"]').val(data.detail.no_pengenalan);
@@ -1287,7 +1274,7 @@ Maklumat Pemohon
                     $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val('');
 
-                    $('#table-professional tbody').empty();
+                    $('#table-profesional tbody').empty();
 
                     $('#experienceForm select[name="experience_job_sector"]').val('').trigger('change');
                     $('#experienceForm select[name="experience_job_sector"]').attr('disabled', true);
@@ -1513,7 +1500,7 @@ Maklumat Pemohon
         $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').attr('disabled', true);
         $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val('');
 
-        $('#table-professional tbody').empty();
+        $('#table-profesional tbody').empty();
 
         $('#experienceForm input[name="experience_appoint_date"]').val('');
         $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
