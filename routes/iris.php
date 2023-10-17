@@ -162,7 +162,7 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         });
 
         Route::prefix('experience')->group(function () {
-            Route::post('update', 'updateExperience')->name('experience.update');
+            Route::post('update/{type}', 'updateExperience')->name('experience.update');
             Route::get('details/{noPengenalan}', 'experienceDetails')->name('experience.details');
         });
 

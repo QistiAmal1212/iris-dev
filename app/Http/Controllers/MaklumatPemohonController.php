@@ -224,7 +224,7 @@ class MaklumatPemohonController extends Controller
 
             if($candidate->experience){
 
-                $candidate->experience->tarikh_lantik = ($candidate->experience->tarikh_lantik != null) ? Carbon::parse($candidate->experience->tarikh_lantik)->format('d/m/Y') : null;
+                $candidate->experience->tarikh_lantik1 = ($candidate->experience->tarikh_lantik1 != null) ? Carbon::parse($candidate->experience->tarikh_lantik1)->format('d/m/Y') : null;
                 $candidate->experience->tarikh_mula = ($candidate->experience->tarikh_mula != null) ? Carbon::parse($candidate->experience->tarikh_mula)->format('d/m/Y') : null;
                 $candidate->experience->tarikh_disahkan = ($candidate->experience->tarikh_disahkan != null) ? Carbon::parse($candidate->experience->tarikh_disahkan)->format('d/m/Y') : null;
                 $candidate->experience->tarikh_tamat = ($candidate->experience->tarikh_tamat != null) ? Carbon::parse($candidate->experience->tarikh_tamat)->format('d/m/Y') : null;
@@ -2855,8 +2855,8 @@ class MaklumatPemohonController extends Controller
             ]);
 
             CalonPsl::where('id',$request->id_psl)->update([
-                'kod_ruj_kelulusan' => $request->jenis_peperiksaan,
-                'kel1_kod' => Carbon::createFromFormat('d/m/Y', $request->tarikh_peperiksaan)->format('Y-m-d'),
+                'kel1_kod' => $request->jenis_peperiksaan,
+                'tarikh_exam' => Carbon::createFromFormat('d/m/Y', $request->tarikh_peperiksaan)->format('Y-m-d'),
                 'pengguna' => auth()->user()->id,
             ]);
 
@@ -2893,82 +2893,129 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
+            
+            if($request->type == 'A'){
+                $noPengenalan = $request->experienceA_no_pengenalan;
+                $details = 'Kemaskini Pegawai Berkhidmat (Maklumat PSB/PSL A)';
 
-            $candidate = CalonPengalaman::where('cal_no_pengenalan', $request->experience_no_pengenalan)->first();
+                $request->validate([
+                    'experience_job_sector' => 'required|string',
+                    'experience_appoint_date' => 'required',
+                    'experience_position_level' => 'required|string|exists:ruj_taraf_jawatan,kod',
+                ],[
+                    'experience_job_sector' => 'Sila pilih jenis perkhidmatan',
+                    'experience_appoint_date.required' => 'Sila pilih tarikh lantikan pertama',
+                    'experience_position_level.required' => 'Sila pilih taraf jawatan',
+                    'experience_position_level.exists' => 'Tiada rekod taraf jawatan yang dipilih',
+                ]);
 
-            $request->validate([
-                'experience_job_sector' => 'required|string',
-                'experience_appoint_date' => 'required',
-                'experience_position_level' => 'required|string|exists:ruj_taraf_jawatan,kod',
-                'experience_skim' => 'required|string|exists:ruj_skim,kod',
-                'experience_service_group' => 'required|string|exists:ruj_kumpulan_ssm,kod',
-                'experience_position_grade' => 'required|string|exists:ruj_gred_gaji_hdr,kod',
-                'experience_start_date' => 'required',
-                'experience_verify_date' => 'required',
-                'experience_department_ministry' => 'required|string|exists:ruj_kem_jabatan,kod',
-                'experience_department_state' => 'required|string|exists:ruj_negeri,kod',
-            ],[
-                'experience_job_sector' => 'Sila pilih jenis perkhidmatan',
-                'experience_appoint_date.required' => 'Sila pilih tarikh lantikan pertama',
-                'experience_position_level.required' => 'Sila pilih taraf jawatan',
-                'experience_position_level.exists' => 'Tiada rekod taraf jawatan yang dipilih',
-                'experience_skim.required' => 'Sila pilih skim perkhidmatan',
-                'experience_skim.exists' => 'Tiada rekod skim perkhidmatan yang dipilih',
-                'experience_service_group.required' => 'Sila pilih kumpulan perkhidmatan',
-                'experience_service_group.exists' => 'Tiada rekod kumpulan perkhidmatan yang dipilih',
-                'experience_position_grade.required' => 'Sila pilih gred jawatan',
-                'experience_position_grade.exists' => 'Tiada rekod gred jawatan yang dipilih',
-                'experience_start_date.required' => 'Sila pilih tarikh lantikan',
-                'experience_verify_date.required' => 'Sila pilih tarikh pengesahan lantikan',
-                'experience_department_ministry.required' => 'Sila pilih kementerian/jabatan',
-                'experience_department_ministry.exists' => 'Tiada rekod kementerian/jabatan yang dipilih',
-                'experience_department_state.required' => 'Sila pilih negeri kementerian/jabatan',
-                'experience_department_state.exists' => 'Tiada rekod negeri kementerian/jabatan yang dipilih',
-            ]);
+                //Check if JENIS_PERKHIDMATAN kod from ruj_kod_pelbagai exists
+                $existsJenisPerkhidmatan = KodPelbagai::where('sah_yt', 'Y')->where('kategori', 'JENIS PERKHIDMATAN')->where('kod', $request->experience_job_sector)->first();
+                if(!$existsJenisPerkhidmatan){
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Tiada rekod jenis perkhidmatan yang dipilih'], 404);
+                }
+            } else if($request->type == 'B'){
+                $noPengenalan = $request->experienceB_no_pengenalan;
+                $details = 'Kemaskini Pegawai Berkhidmat (Maklumat PSB/PSL B)';
 
-            //Check if JENIS_PERKHIDMATAN kod from ruj_kod_pelbagai exists
-            $existsJenisPerkhidmatan = KodPelbagai::where('sah_yt', 'Y')->where('kategori', 'JENIS PERKHIDMATAN')->where('kod', $request->experience_job_sector)->first();
-            if(!$existsJenisPerkhidmatan){
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Tiada rekod jenis perkhidmatan yang dipilih'], 404);
+                $request->validate([
+                    'experience_skim' => 'required|string|exists:ruj_skim,kod',
+                    'experience_service_group' => 'required|string|exists:ruj_kumpulan_ssm,kod',
+                    'experience_position_grade' => 'required|string|exists:ruj_gred_gaji_hdr,kod',
+                    'experience_start_date' => 'required',
+                    'experience_verify_date' => 'required',
+                ],[
+                    'experience_skim.required' => 'Sila pilih skim perkhidmatan',
+                    'experience_skim.exists' => 'Tiada rekod skim perkhidmatan yang dipilih',
+                    'experience_service_group.required' => 'Sila pilih kumpulan perkhidmatan',
+                    'experience_service_group.exists' => 'Tiada rekod kumpulan perkhidmatan yang dipilih',
+                    'experience_position_grade.required' => 'Sila pilih gred jawatan',
+                    'experience_position_grade.exists' => 'Tiada rekod gred jawatan yang dipilih',
+                    'experience_start_date.required' => 'Sila pilih tarikh lantikan',
+                    'experience_verify_date.required' => 'Sila pilih tarikh pengesahan lantikan',
+                ]);
+            } else if($request->type == 'C') {
+                $noPengenalan = $request->experienceC_no_pengenalan;
+                $details = 'Kemaskini Pegawai Berkhidmat (Maklumat PSB/PSL C)';
+
+                $request->validate([
+                    'experience_department_ministry' => 'required|string|exists:ruj_kem_jabatan,kod',
+                    'experience_department_state' => 'required|string|exists:ruj_negeri,kod',
+                ],[
+                    'experience_department_ministry.required' => 'Sila pilih kementerian/jabatan',
+                    'experience_department_ministry.exists' => 'Tiada rekod kementerian/jabatan yang dipilih',
+                    'experience_department_state.required' => 'Sila pilih negeri kementerian/jabatan',
+                    'experience_department_state.exists' => 'Tiada rekod negeri kementerian/jabatan yang dipilih',
+                ]);
             }
 
+            $candidate = CalonPengalaman::where('cal_no_pengenalan', $noPengenalan)->first();      
+
+            $dataPengalaman = [];
             if(!$candidate){
-                CalonPengalaman::create([
-                    'cal_no_pengenalan' => $request->experience_no_pengenalan,
-                    'sektor_pekerjaan', $request->experience_job_sector,
-                    'tarikh_lantik1' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
-                    'taraf_jawatan' => $request->experience_position_level,
-                    'ski_kod' => $request->experience_skim,
-                    'kump_pkhidmat' => $request->experience_service_group,
-                    'ggh_kod' => $request->experience_position_grade,
-                    'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
-                    'tarikh_disahkan' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
-                    'kj_kod' => $request->experience_department_ministry,
-                    'negeri_jabatan' => $request->experience_department_state,
-                    'id_pencipta' => auth()->user()->id,
-                    'pengguna' => auth()->user()->id,
 
-                ]);
+                if($request->type == 'A'){
+                    $dataPengalaman = [
+                        'cal_no_pengenalan' => $noPengenalan,
+                        'sektor_pekerjaan', $request->experience_job_sector,
+                        'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
+                        'id_pencipta' => auth()->user()->id,
+                        'pengguna' => auth()->user()->id,
+                    ];
+                } else if($request->type == 'B'){
+                    $dataPengalaman = [
+                        'cal_no_pengenalan' => $noPengenalan,
+                        'ski_kod' => $request->experience_skim,
+                        'kump_pkhidmat' => $request->experience_service_group,
+                        'ggh_kod' => $request->experience_position_grade,
+                        'tarikh_lantik1' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
+                        'tarikh_disahkan' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
+                        'id_pencipta' => auth()->user()->id,
+                        'pengguna' => auth()->user()->id,
+                    ];
+                } else if($request->type == 'C') {
+                    $dataPengalaman = [
+                        'cal_no_pengenalan' => $noPengenalan,
+                        'kj_kod' => $request->experience_department_ministry,
+                        'negeri_jabatan' => $request->experience_department_state,
+                        'neg_kod' => $request->experience_department_state,
+                        'id_pencipta' => auth()->user()->id,
+                        'pengguna' => auth()->user()->id,
+                    ];
+                }
+                CalonPengalaman::create($dataPengalaman);
             } else {
-                $candidate->update([
-                    'sektor_pekerjaan' => $request->experience_job_sector,
-                    'tarikh_lantik1' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
-                    'taraf_jawatan' => $request->experience_position_level,
-                    'ski_kod' => $request->experience_skim,
-                    'kump_pkhidmat' => $request->experience_service_group,
-                    'ggh_kod' => $request->experience_position_grade,
-                    'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
-                    'tarikh_disahkan' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
-                    'kj_kod' => $request->experience_department_ministry,
-                    'negeri_jabatan' => $request->experience_department_state,
-                    'pengguna' => auth()->user()->id,
 
-                ]);
+                if($request->type == 'A'){
+                    $dataPengalaman = [
+                        'sektor_pekerjaan' => $request->experience_job_sector,
+                        'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->experience_appoint_date)->format('Y-m-d'),
+                        'taraf_jawatan' => $request->experience_position_level,
+                        'pengguna' => auth()->user()->id,
+                    ];
+                } else if($request->type == 'B'){
+                    $dataPengalaman = [
+                        'ski_kod' => $request->experience_skim,
+                        'kump_pkhidmat' => $request->experience_service_group,
+                        'ggh_kod' => $request->experience_position_grade,
+                        'tarikh_lantik1' => Carbon::createFromFormat('d/m/Y', $request->experience_start_date)->format('Y-m-d'),
+                        'tarikh_disahkan' => Carbon::createFromFormat('d/m/Y', $request->experience_verify_date)->format('Y-m-d'),
+                        'pengguna' => auth()->user()->id,
+                    ];
+                } else if($request->type == 'C') {
+                    $dataPengalaman = [
+                        'kj_kod' => $request->experience_department_ministry,
+                        'negeri_jabatan' => $request->experience_department_state,
+                        'neg_kod' => $request->experience_department_state,
+                        'pengguna' => auth()->user()->id,
+                    ];
+                }
+                $candidate->update($dataPengalaman);
             }
 
             CalonGarisMasa::create([
-                'no_pengenalan' => $request->experience_no_pengenalan,
-                'details' => 'Kemaskini Pegawai Berkhidmat (Maklumat PSB/PSL)',
+                'no_pengenalan' => $noPengenalan,
+                'details' => $details,
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
@@ -2991,22 +3038,15 @@ class MaklumatPemohonController extends Controller
 
             $candidateExperience = CalonPengalaman::where('cal_no_pengenalan', $request->noPengenalan)->first();
 
-            $candidateExperience->tarikh_lantik = ($candidateExperience->tarikh_lantik != null) ? Carbon::parse($candidateExperience->tarikh_lantik)->format('d/m/Y') : null;
+            $candidateExperience->tarikh_lantik1 = ($candidateExperience->tarikh_lantik1 != null) ? Carbon::parse($candidateExperience->tarikh_lantik1)->format('d/m/Y') : null;
             $candidateExperience->tarikh_mula = ($candidateExperience->tarikh_mula != null) ? Carbon::parse($candidateExperience->tarikh_mula)->format('d/m/Y') : null;
             $candidateExperience->tarikh_disahkan = ($candidateExperience->tarikh_disahkan != null) ? Carbon::parse($candidateExperience->tarikh_disahkan)->format('d/m/Y') : null;
             $candidateExperience->tarikh_tamat = ($candidateExperience->tarikh_tamat != null) ? Carbon::parse($candidateExperience->tarikh_tamat)->format('d/m/Y') : null;
 
-
-            // if(!$candidate) {
-            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            // }
-
-            //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateExperience]);
 
         } catch (\Throwable $e) {
 
-            //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
     }

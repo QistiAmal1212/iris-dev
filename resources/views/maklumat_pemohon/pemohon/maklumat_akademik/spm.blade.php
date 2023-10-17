@@ -110,7 +110,7 @@
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_spm1" name="subjek_spm1" disabled>
+                            <select class="select2 form-control" id="subjek_spm1" name="subjek_spm1" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekSpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -120,7 +120,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_spm1" name="gred_spm1" disabled>
+                            <select class="select2 form-control" id="gred_spm1" name="gred_spm1" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredSpm as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -195,7 +195,7 @@
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_spm2" name="subjek_spm2" disabled>
+                            <select class="select2 form-control" id="subjek_spm2" name="subjek_spm2" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekSpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -205,7 +205,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_spm2" name="gred_spm2" disabled>
+                            <select class="select2 form-control" id="gred_spm2" name="gred_spm2" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredSpm as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>

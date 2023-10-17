@@ -90,7 +90,7 @@
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_stpm1" name="subjek_stpm1" disabled>
+                            <select class="select2 form-control" id="subjek_stpm1" name="subjek_stpm1" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekStpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -100,7 +100,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_stpm1" name="gred_stpm1" disabled>
+                            <select class="select2 form-control" id="gred_stpm1" name="gred_stpm1" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredStpm as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -180,7 +180,7 @@
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_stpm2" name="subjek_stpm2" disabled>
+                            <select class="select2 form-control" id="subjek_stpm2" name="subjek_stpm2" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekStpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -190,7 +190,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_stpm2" name="gred_stpm2" disabled>
+                            <select class="select2 form-control" id="gred_stpm2" name="gred_stpm2" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredStpm as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -275,7 +275,7 @@
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_stam1" name="subjek_stam1" disabled>
+                            <select class="select2 form-control" id="subjek_stam1" name="subjek_stam1" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekStam as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -285,7 +285,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_stam1" name="gred_stam1" disabled>
+                            <select class="select2 form-control" id="gred_stam1" name="gred_stam1" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredStam as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -361,7 +361,7 @@
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" value="" id="subjek_stam2" name="subjek_stam2" disabled>
+                            <select class="select2 form-control" id="subjek_stam2" name="subjek_stam2" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekStam as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -371,7 +371,7 @@
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
-                            <select class="select2 form-control" value="" id="gred_stam2" name="gred_stam2" disabled>
+                            <select class="select2 form-control" id="gred_stam2" name="gred_stam2" disabled>
                                 <option value="" hidden>Gred</option>
                                     @foreach($gredStam as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
@@ -432,7 +432,7 @@
 
                     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                         <label class="form-label">Kolej Matrikulasi</label>
-                        <select class="select2 form-control" value="" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
+                        <select class="select2 form-control" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
                             <option value="" hidden>Kolej Matrikulasi</option>
                                 @foreach($kolejMatrikulasi as $kolej)
                                     <option value="{{ $kolej->kod }}">{{ $kolej->diskripsi }}</option>
@@ -442,7 +442,7 @@
 
                     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                         <label class="form-label">Jurusan</label>
-                        <select class="select2 form-control" value="" id="jurusan_matrikulasi" name="jurusan_matrikulasi" disabled>
+                        <select class="select2 form-control" id="jurusan_matrikulasi" name="jurusan_matrikulasi" disabled>
                             <option value="" hidden>Jurusan</option>
                                 @foreach($jurusanMatrikulasi as $jurusanMatrikulasi)
                                     <option value="{{ $jurusanMatrikulasi->kod }}">{{ $jurusanMatrikulasi->diskripsi }}</option>
@@ -467,7 +467,7 @@
 
                     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
                         <label class="form-label">Mata Pelajaran</label>
-                        <select class="select2 form-control" value="" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
+                        <select class="select2 form-control" id="subjek_matrikulasi" name="subjek_matrikulasi" disabled>
                             <option value="" hidden>Mata Pelajaran</option>
                                 @foreach($subjekMatrikulasi as $subjekMatrikulasi)
                                     <option value="{{ $subjekMatrikulasi->kod }}">{{ $subjekMatrikulasi->diskripsi }}</option>
