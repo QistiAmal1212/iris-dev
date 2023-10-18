@@ -340,11 +340,11 @@
                     </div>
                 </div>
 
-                <form id="svmForm" 
-                action="{{ route('svm.store') }}" 
-                method="POST" 
-                data-refreshFunctionName="reloadTimeline" 
-                data-refreshFunctionNameIfSuccess="reloadSvm" 
+                <form id="svmForm"
+                action="{{ route('svm.store') }}"
+                method="POST"
+                data-refreshFunctionName="reloadTimeline"
+                data-refreshFunctionNameIfSuccess="reloadSvm"
                 data-reloadPage="false">
                     @csrf
                     <div class="row">
@@ -809,7 +809,7 @@
             method: 'GET',
             async: true,
             success: function(data) {
-                
+
                 $('#svmForm select[name="kelulusan_svm"]').val('').trigger('change');
                 $('#svmForm select[name="subjek_svm"]').val('').trigger('change');
                 $('#svmForm select[name="gred_svm"]').val('').trigger('change');
@@ -825,7 +825,7 @@
                 $('#svmForm input[name="pngka_svm"]').val(data.detail.pngka);
                 $('#svmForm input[name="pngkv_svm"]').val(data.detail.pngkv);
                 }
-                
+
                 $('#svmForm select[name="kelulusan_svm"]').attr('disabled', true);
                 $('#svmForm select[name="subjek_svm"]').attr('disabled', true);
                 $('#svmForm select[name="gred_svm"]').attr('disabled', true);
@@ -861,6 +861,12 @@
                 if($('#table-svm tbody').is(':empty')){
                     var trSvm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
                     $('#table-svm tbody').append(trSvm);
+
+                    var tmSvm1Element = $("#tm_svm1");
+                    tmSvm1Element.removeAttr("hidden");
+                }else{
+                    var tmSvm1Element = $("#tm_svm1");
+                    tmSvm1Element.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editSvm-btn', function() {

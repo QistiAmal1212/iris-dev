@@ -7,12 +7,12 @@
     </div>
 </div>
 
-<form 
-id="profesionalForm" 
-action="{{ route('profesional.store') }}" 
-method="POST" 
-data-refreshFunctionName="reloadTimeline" 
-data-refreshFunctionNameIfSuccess="reloadProfesional" 
+<form
+id="profesionalForm"
+action="{{ route('profesional.store') }}"
+method="POST"
+data-refreshFunctionName="reloadTimeline"
+data-refreshFunctionNameIfSuccess="reloadProfesional"
 data-reloadPage="false">
     @csrf
     <input type="hidden" value="" id="profesional_no_pengenalan" name="profesional_no_pengenalan">
@@ -123,10 +123,10 @@ data-reloadPage="false">
                     var trProfessional = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
                     $('#table-profesional tbody').append(trProfessional);
 
-                    var tmProfesionalElement = $("#tm_profesional");
+                    var tmProfesionalElement = $("#tm_ikhtisas");
                     tmProfesionalElement.removeAttr("hidden");
                 }else{
-                    var tmProfesionalElement = $("#tm_profesional");
+                    var tmProfesionalElement = $("#tm_ikhtisas");
                     tmProfesionalElement.attr("hidden", true);
                 }
 

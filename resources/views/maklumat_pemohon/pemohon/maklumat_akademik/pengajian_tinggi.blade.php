@@ -94,12 +94,12 @@
                         </a>
                     </div>
                 </div>
-                <form 
-                id="diplomaForm" 
+                <form
+                id="diplomaForm"
                 action="{{ route('diploma.update') }}"
-                method="POST" 
-                data-refreshFunctionName="reloadTimeline" 
-                data-refreshFunctionNameIfSuccess="reloadDiploma" 
+                method="POST"
+                data-refreshFunctionName="reloadTimeline"
+                data-refreshFunctionNameIfSuccess="reloadDiploma"
                 data-reloadPage="false">
                     @csrf
                     <input type="hidden" id="diploma_no_pengenalan" name="diploma_no_pengenalan">
@@ -114,7 +114,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        
+
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" name="tahun_diploma" id="tahun_diploma" disabled>
@@ -229,12 +229,12 @@
                         </a>
                     </div>
                 </div>
-                <form 
-                    id="degreeForm" 
+                <form
+                    id="degreeForm"
                     action="{{ route('degree.update') }}"
-                    method="POST" 
-                    data-refreshFunctionName="reloadTimeline" 
-                    data-refreshFunctionNameIfSuccess="reloadDegree" 
+                    method="POST"
+                    data-refreshFunctionName="reloadTimeline"
+                    data-refreshFunctionNameIfSuccess="reloadDegree"
                     data-reloadPage="false">
                     @csrf
                     <input type="hidden" id="degree_no_pengenalan" name="degree_no_pengenalan">
@@ -364,12 +364,12 @@
                         </a>
                     </div>
                 </div>
-                <form 
-                    id="masterForm" 
+                <form
+                    id="masterForm"
                     action="{{ route('master.update') }}"
-                    method="POST" 
-                    data-refreshFunctionName="reloadTimeline" 
-                    data-refreshFunctionNameIfSuccess="reloadMaster" 
+                    method="POST"
+                    data-refreshFunctionName="reloadTimeline"
+                    data-refreshFunctionNameIfSuccess="reloadMaster"
                     data-reloadPage="false">
                     @csrf
                     <input type="hidden" id="master_no_pengenalan" name="master_no_pengenalan">
@@ -499,12 +499,12 @@
                         </a>
                     </div>
                 </div>
-                <form 
-                    id="phdForm" 
+                <form
+                    id="phdForm"
                     action="{{ route('phd.update') }}"
-                    method="POST" 
-                    data-refreshFunctionName="reloadTimeline" 
-                    data-refreshFunctionNameIfSuccess="reloadPhd" 
+                    method="POST"
+                    data-refreshFunctionName="reloadTimeline"
+                    data-refreshFunctionNameIfSuccess="reloadPhd"
                     data-reloadPage="false">
                     @csrf
                     <input type="hidden" id="phd_no_pengenalan" name="phd_no_pengenalan">
@@ -666,6 +666,9 @@
                 $('#diplomaForm select[name="biasiswa_diploma"]').val((data.detail.biasiswa == true) ? 1 : 0).trigger('change');
                 $('#diplomaForm select[name="biasiswa_diploma"]').attr('disabled', true);
 
+                var tmDiplomaElement = $("#tm_dip");
+                tmDiplomaElement.attr("hidden", true);
+
                 $("#button_action_diploma").attr("style", "display:none");
             },
             error: function(data) {
@@ -719,6 +722,9 @@
                 $('#degreeForm input[name="tarikh_senat_degree"]').attr('disabled', true);
                 $('#degreeForm select[name="biasiswa_degree"]').val((data.detail.biasiswa == true) ? 1 : 0).trigger('change');
                 $('#degreeForm select[name="biasiswa_degree"]').attr('disabled', true);
+
+                var tmDegElement = $("#tm_ism");
+                tmDegElement.attr("hidden", true);
 
                 $("#button_action_degree").attr("style", "display:none");
             },
@@ -774,6 +780,9 @@
                 $('#masterForm select[name="biasiswa_master"]').val((data.detail.biasiswa == true) ? 1 : 0).trigger('change');
                 $('#masterForm select[name="biasiswa_master"]').attr('disabled', true);
 
+                var tmMasterElement = $("#tm_is");
+                tmMasterElement.attr("hidden", true);
+
                 $("#button_action_master").attr("style", "display:none");
             },
             error: function(data) {
@@ -827,6 +836,9 @@
                 $('#phdForm input[name="tarikh_senat_phd"]').attr('disabled', true);
                 $('#phdForm select[name="biasiswa_phd"]').val((data.detail.biasiswa == true) ? 1 : 0).trigger('change');
                 $('#phdForm select[name="biasiswa_phd"]').attr('disabled', true);
+
+                var tmDrElement = $("#tm_idf");
+                tmDrElement.attr("hidden", true);
 
                 $("#button_action_phd").attr("style", "display:none");
             },

@@ -68,11 +68,11 @@
                 </div>
             </div>
 
-            <form 
-            id="experienceAForm" 
-            action="{{ route('experience.update', ['type' => 'A']) }}" 
-            method="POST" data-refreshFunctionName="reloadTimeline" 
-            data-refreshFunctionNameIfSuccess="reloadExperienceA" 
+            <form
+            id="experienceAForm"
+            action="{{ route('experience.update', ['type' => 'A']) }}"
+            method="POST" data-refreshFunctionName="reloadTimeline"
+            data-refreshFunctionNameIfSuccess="reloadExperienceA"
             data-reloadPage="false">
                 @csrf
                 <input type="hidden" name="experienceA_no_pengenalan" id="experienceA_no_pengenalan" value="">
@@ -137,12 +137,12 @@
             </div>
 
             {{-- Form perkhidmatan hakiki --}}
-            <form 
-            id="experienceBForm" 
-            action="{{ route('experience.update', ['type' => 'B']) }}" 
-            method="POST" 
-            data-refreshFunctionName="reloadTimeline" 
-            data-refreshFunctionNameIfSuccess="reloadExperienceB" 
+            <form
+            id="experienceBForm"
+            action="{{ route('experience.update', ['type' => 'B']) }}"
+            method="POST"
+            data-refreshFunctionName="reloadTimeline"
+            data-refreshFunctionNameIfSuccess="reloadExperienceB"
             data-reloadPage="false">
                 @csrf
                 <input type="hidden" name="experienceB_no_pengenalan" id="experienceB_no_pengenalan" value="">
@@ -226,11 +226,11 @@
             </div>
 
             {{-- Form tempat bertugas --}}
-            <form id="experienceCForm" 
-            action="{{ route('experience.update', ['type' => 'C']) }}" 
-            method="POST" 
-            data-refreshFunctionName="reloadTimeline" 
-            data-refreshFunctionNameIfSuccess="reloadExperienceC" 
+            <form id="experienceCForm"
+            action="{{ route('experience.update', ['type' => 'C']) }}"
+            method="POST"
+            data-refreshFunctionName="reloadTimeline"
+            data-refreshFunctionNameIfSuccess="reloadExperienceC"
             data-reloadPage="false">
                 @csrf
                 <input type="hidden" name="experienceC_no_pengenalan" id="experienceC_no_pengenalan" value="">
@@ -307,6 +307,9 @@
                 $('#experienceAForm select[name="experience_position_level"]').val(data.detail.taraf_jawatan).trigger('change');
                 $('#experienceAForm select[name="experience_position_level"]').attr('disabled', true);
 
+                var tmMpsbElement = $("#tm_mpsb");
+                tmMpsbElement.attr("hidden", true);
+
                 $("#button_action_experienceA").attr("style", "display:none");
             },
             error: function(data) {
@@ -346,6 +349,9 @@
                 $('#experienceBForm input[name="experience_verify_date"]').val(data.detail.tarikh_disahkan);
                 $('#experienceBForm input[name="experience_verify_date"]').attr('disabled', true);
 
+                var tmHakikiElement = $("#tm_hakiki");
+                tmHakikiElement.attr("hidden", true);
+
                 $("#button_action_experienceB").attr("style", "display:none");
             },
             error: function(data) {
@@ -375,6 +381,9 @@
                 $('#experienceCForm select[name="experience_department_ministry"]').attr('disabled', true);
                 $('#experienceCForm select[name="experience_department_state"]').val(data.detail.neg_kod).trigger('change');
                 $('#experienceCForm select[name="experience_department_state"]').attr('disabled', true);
+
+                var tmTbElement = $("#tm_tb");
+                tmTbElement.attr("hidden", true);
 
                 $("#button_action_experienceC").attr("style", "display:none");
             },
