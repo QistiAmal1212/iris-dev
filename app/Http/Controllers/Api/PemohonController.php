@@ -19,6 +19,7 @@ use App\Models\Calon\CalonMatrikulasi;
 use App\Models\Calon\CalonPengajianTinggi;
 use App\Models\Calon\CalonProfesional;
 use App\Models\Calon\CalonPengalaman;
+use App\Models\Calon\CalonPengalaman9;
 use App\Models\Calon\CalonPsl;
 use App\Models\Calon\CalonTenteraPolis;
 use App\Models\Calon\CalonBahasa;
@@ -296,41 +297,32 @@ class PemohonController extends ApiController
                 }
             }
 
-            if(
-                $request->spmu_angka_giliran_1 != null ||
-                $request->spmu_keputusan_1 != null ||
-                $request->spmu_mata_pelajaran_1 != null ||
-                $request->spmu_tahun_1 != null ||
-                $request->spmu_angka_giliran_2 ||
-                $request->spmu_keputusan_2 != null ||
-                $request->spmu_mata_pelajaran_2 != null ||
-                $request->spmu_tahun_2 != null 
-            ){
-                $calonSpmu = CalonSpmUlangan::where('no_pengenalan', $noPengenalan)->first();
+            if($request->spmu != null){
+                foreach($request->spmu as $spmu){
+                    $calonSpmu = CalonSpmUlangan::where('no_pengenalan', $noPengenalan)->first();
 
-                if($calonSpmu){
-                    $calonSpmu->update([
-                        'angka_giliran_1' => $request->spmu_angka_giliran_1,
-                        'keputusan_1' => $request->spmu_keputusan_1,
-                        'mata_pelajaran_1' => $request->spmu_mata_pelajaran_1,
-                        'tahun_1' => $request->spmu_tahun_1,
-                        'angka_giliran_2' => $request->spmu_angka_giliran_2,
-                        'keputusan_2' => $request->spmu_keputusan_2,
-                        'mata_pelajaran_2' => $request->spmu_mata_pelajaran_2,
-                        'tahun_2' => $request->spmu_tahun_2,
-                    ]);
-                } else {
-                    CalonSpmUlangan::create([
-                        'no_pengenalan' => $noPengenalan,
-                        'angka_giliran_1' => $request->spmu_angka_giliran_1,
-                        'keputusan_1' => $request->spmu_keputusan_1,
-                        'mata_pelajaran_1' => $request->spmu_mata_pelajaran_1,
-                        'tahun_1' => $request->spmu_tahun_1,
-                        'angka_giliran_2' => $request->spmu_angka_giliran_2,
-                        'keputusan_2' => $request->spmu_keputusan_2,
-                        'mata_pelajaran_2' => $request->spmu_mata_pelajaran_2,
-                        'tahun_2' => $request->spmu_tahun_2,
-                    ]);
+                    if($calonSpmu){
+                        $calonSpmu->update([
+                            'tahun' => $spmu['tahun'],
+                            'matapelajaran' => $spmu['matapelajaran'],
+                            'jenis_sijil' => $spmu['jenis_sijil'],
+                            'gred' => $spmu['gred'],
+                            'jenis_xm' => $spmu['jenis_xm'],
+                            'ujian_lisan' => $spmu['ujian_lisan'],
+                            'status' => $spmu['status'],
+                        ]);
+                    } else {
+                        CalonSpmUlangan::create([
+                            'no_pengenalan' => $noPengenalan,
+                            'tahun' => $spmu['tahun'],
+                            'matapelajaran' => $spmu['matapelajaran'],
+                            'jenis_sijil' => $spmu['jenis_sijil'],
+                            'gred' => $spmu['gred'],
+                            'jenis_xm' => $spmu['jenis_xm'],
+                            'ujian_lisan' => $spmu['ujian_lisan'],
+                            'status' => $spmu['status'],
+                        ]);
+                    }
                 }
             }
 
@@ -364,13 +356,14 @@ class PemohonController extends ApiController
                 }
             }
 
-            if($request->tingkatan_6_pngk != null){
-                foreach($request->tingkatan_6_pngk as $tkt6pngk){
+            if($request->stpm_pngk != null){
+                foreach($request->stpm_pngk as $tkt6pngk){
                     $pngkTkt6 = CalonStpmPngk::where('no_pengenalan', $noPengenalan)
                     ->where('tahun', $tkt6pngk['tahun'])->first();
 
                     if($pngkTkt6){
                         $dataPngkTkt6 = [
+                            'bil_periksa' => $tkt6pngk['bil_periksa'],
                             'pngk' => $tkt6pngk['pngk'],
                         ];
                         $pngkTkt6->update($dataPngkTkt6);
@@ -378,6 +371,7 @@ class PemohonController extends ApiController
                         $dataPngkTkt6 = [
                             'no_pengenalan' => $noPengenalan,
                             'tahun' => $tkt6pngk['tahun'],
+                            'bil_periksa' => $tkt6pngk['bil_periksa'],
                             'pngk' => $tkt6pngk['pngk'],
                         ];
                         CalonStpmPngk::create($dataPngkTkt6);
@@ -550,7 +544,7 @@ class PemohonController extends ApiController
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
                     ]);
                 } else {
-                    $pengalaman = CalonPengalaman::create([
+                    CalonPengalaman::create([
                         'cal_no_pengenalan' => $noPengenalan,
                         'sektor_pekerjaan' => $request->pengalaman_jenis_perkhidmatan,
                         'taraf_jawatan' => $request->pengalaman_jenis_lantikan,
@@ -566,6 +560,35 @@ class PemohonController extends ApiController
                         'tarikh_tamat_kontrak' => $request->pengalaman_tarikh_tamat_kontrak,
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
                     ]);
+                }
+            }
+
+            if($request->pengalaman9 != null){
+                foreach($request->pengalaman9 as $pengalaman){
+
+                    $calonPengalaman9 = CalonPengalaman9::where('no_pengenalan', $noPengenalan)
+                    ->where('tarikh_mula', $pengalaman['tarikh_mula'])
+                    ->where('tarikh_akhir', $pengalaman['tarikh_akhir'])
+                    ->first();
+
+                    if($calonPengalaman9){
+                        $calonPengalaman9->update([
+                            'tarikh_mula' => $pengalaman['tarikh_mula'],
+                            'tarikh_akhir' => $pengalaman['tarikh_akhir'],
+                            'tempoh_pengalaman' => $pengalaman['tempoh_pengalaman'],
+                            'peringkat_pengalaman' => $pengalaman['peringkat_pengalaman'],
+                            'jenis_pengalaman' => $pengalaman['jenis_pengalaman']
+                        ]);
+                    } else {
+                        CalonPengalaman9::create([
+                            'no_pengenalan' => $noPengenalan,
+                            'tarikh_mula' => $pengalaman['tarikh_mula'],
+                            'tarikh_akhir' => $pengalaman['tarikh_akhir'],
+                            'tempoh_pengalaman' => $pengalaman['tempoh_pengalaman'],
+                            'peringkat_pengalaman' => $pengalaman['peringkat_pengalaman'],
+                            'jenis_pengalaman' => $pengalaman['jenis_pengalaman']
+                        ]);
+                    }
                 }
             }
 

@@ -10,14 +10,13 @@ class CalonSpmUlangan extends Model
 
     protected $fillable = [
     	'no_pengenalan',
-        'angka_giliran_1',
-        'keputusan_1',
-        'mata_pelajaran_1',
-        'tahun_1',
-        'angka_giliran_2',
-        'keputusan_2',
-        'mata_pelajaran_2',
-        'tahun_2',
+        'tahun',
+        'matapelajaran',
+        'jenis_sijil',
+        'gred',
+        'jenis_xm',
+        'ujian_lisan',
+        'status',
         'id_pencipta',
         'pengguna',
     ];

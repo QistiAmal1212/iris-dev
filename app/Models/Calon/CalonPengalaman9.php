@@ -4,15 +4,17 @@ namespace App\Models\Calon;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CalonStpmPngk extends Model
+class CalonPengalaman9 extends Model
 {
-    protected $table = 'calon_stpm_pngk';
+    protected $table = 'calon_pengalaman9';
 
     protected $fillable = [
     	'no_pengenalan',
-        'tahun',
-        'bil_periksa',
-        'pngk',
+        'tarikh_mula',
+        'tarikh_akhir',
+        'tempoh_pengalaman',
+        'peringkat_pengalaman',
+        'jenis_pengalaman',
         'id_pencipta',
         'pengguna',
     ];
