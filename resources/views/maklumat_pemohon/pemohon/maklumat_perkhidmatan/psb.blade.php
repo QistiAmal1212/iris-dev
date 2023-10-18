@@ -373,7 +373,7 @@
             success: function(data) {
                 $('#experienceCForm select[name="experience_department_ministry"]').val(data.detail.kj_kod).trigger('change');
                 $('#experienceCForm select[name="experience_department_ministry"]').attr('disabled', true);
-                $('#experienceCForm select[name="experience_department_state"]').val(data.detail.negeri_jabatan).trigger('change');
+                $('#experienceCForm select[name="experience_department_state"]').val(data.detail.neg_kod).trigger('change');
                 $('#experienceCForm select[name="experience_department_state"]').attr('disabled', true);
 
                 $("#button_action_experienceC").attr("style", "display:none");

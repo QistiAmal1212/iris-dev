@@ -3088,7 +3088,7 @@ class MaklumatPemohonController extends Controller
                     $dataPengalaman = [
                         'cal_no_pengenalan' => $noPengenalan,
                         'kj_kod' => $request->experience_department_ministry,
-                        'negeri_jabatan' => $request->experience_department_state,
+                        //'negeri_jabatan' => $request->experience_department_state,
                         'neg_kod' => $request->experience_department_state,
                         'id_pencipta' => auth()->user()->id,
                         'pengguna' => auth()->user()->id,
@@ -3116,7 +3116,7 @@ class MaklumatPemohonController extends Controller
                 } else if($request->type == 'C') {
                     $dataPengalaman = [
                         'kj_kod' => $request->experience_department_ministry,
-                        'negeri_jabatan' => $request->experience_department_state,
+                        //'negeri_jabatan' => $request->experience_department_state,
                         'neg_kod' => $request->experience_department_state,
                         'pengguna' => auth()->user()->id,
                     ];

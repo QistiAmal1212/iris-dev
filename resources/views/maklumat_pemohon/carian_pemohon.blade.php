@@ -1022,8 +1022,8 @@ Maklumat Pemohon
                         }
                         originalVal['experience_department_ministry'] = $('#experienceCForm select[name="experience_department_ministry"]').find(':selected').text();
 
-                        if(data.detail.experience.negeri_jabatan) { 
-                            $('#experienceCForm select[name="experience_department_state"]').val(data.detail.experience.negeri_jabatan).trigger('change'); 
+                        if(data.detail.experience.neg_kod) { 
+                            $('#experienceCForm select[name="experience_department_state"]').val(data.detail.experience.neg_kod).trigger('change'); 
                         }
                         else { 
                             selectionNull('experience_department_state', 'experienceCForm'); 
