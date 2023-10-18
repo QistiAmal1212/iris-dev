@@ -12,7 +12,7 @@ class CalonDaftar extends Model
     	'no_pengenalan',
         'skim',
         'tarikh_daftar',
-        'tarikh_daftar1',
+        'tarikh_daftar_1',
         'j_daftar',
         'keutamaan',
         'status_akuan',
