@@ -10,6 +10,7 @@ use App\Models\Calon\Calon;
 use App\Models\Calon\CalonLesen;
 use App\Models\Calon\CalonOku;
 use App\Models\Calon\CalonSkim;
+use App\Models\Calon\CalonDaftar;
 use App\Models\Calon\CalonKeputusanSekolah;
 use App\Models\Calon\CalonStpmPngk;
 use App\Models\Calon\CalonSpmUlangan;
@@ -200,7 +201,7 @@ class PemohonController extends ApiController
                 //Kalau ada relationship between calon and calon daftar tmbh logic mcm calon skim
                 foreach($request->daftar_calon as $daftar) {
 
-                    $calonDaftar = DB::table('calon_daftar')->where('no_pengenalan', $noPengenalan)->where('skim', $daftar['skim'])->first();
+                    $calonDaftar = CalonDaftar::where('no_pengenalan', $noPengenalan)->where('skim', $daftar['skim'])->first();
 
                     if($calonDaftar){
                         $dataDaftar = [
@@ -210,7 +211,7 @@ class PemohonController extends ApiController
                             'keutamaan' => $daftar['keutamaan'],
                             'status_akuan' => '1',
                         ];
-                        DB::table('calon_daftar')->where('no_pengenalan', $noPengenalan)->where('skim', $daftar['skim'])->update($dataDaftar);
+                        $calonDaftar->update($dataDaftar);
                     } else {
                         $dataDaftar = [
                             'no_pengenalan' => $noPengenalan,
@@ -221,7 +222,7 @@ class PemohonController extends ApiController
                             'keutamaan' => $daftar['keutamaan'],
                             'status_akuan' => '1',
                         ];
-                        DB::table('calon_daftar')->insert($dataDaftar);
+                        CalonDaftar::create($dataDaftar);
                     }
                 }
             }
