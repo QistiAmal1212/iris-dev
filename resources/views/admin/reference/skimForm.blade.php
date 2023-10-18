@@ -58,7 +58,7 @@
                                     <select id="GGH_KOD" name="GGH_KOD" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($ggh as $gred)
-                                        <option value="{{ $gred->code }}">{{ $gred->code }} - {{ $gred->name }}</option>
+                                        <option value="{{ $gred->kod }}">{{ $gred->kod }} - {{ $gred->diskripsi }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -73,7 +73,7 @@
                                     <select id="SKIM_PKHIDMAT" name="SKIM_PKHIDMAT" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($skim_pkh as $pkh)
-                                        <option value="{{ $pkh->kod }}">{{ $pkh->nama }}</option>
+                                        <option value="{{ $pkh->kod }}">{{ $pkh->diskripsi }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -88,7 +88,7 @@
                                     <select id="KUMP_PKHIDMAT_JKK" name="KUMP_PKHIDMAT_JKK" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($kump_jkk as $jkk)
-                                        <option value="{{ $jkk->kod }}">{{ $jkk->nama }}</option>
+                                        <option value="{{ $jkk->kod }}">{{ $jkk->diskripsi }}</option>
                                         @endforeach
                                     </select>
                                 </div>
