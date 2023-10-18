@@ -26,4 +26,8 @@ class Eligibility extends Model
     public function kelayakanSetaraf() {
         return $this->belongsTo('App\Models\Reference\KelayakanSetaraf', 'kelayakan_setara', 'kod');
     }
+
+    public function KSetara() {
+        return $this->hasOne('App\Models\Reference\KelayakanSetaraf', 'kod', 'kelayakan_setara');
+    }
 }

@@ -77,10 +77,18 @@ class SpecializationController extends Controller
                     return $specialization->diskripsi;
                 })
                 ->editColumn('type', function ($specialization) {
-                    return $specialization->jenis;
+                    return KodPelbagai::where('sah_yt', 'Y')
+                    ->where('kategori', 'JENIS PENGKHUSUSAN')
+                    ->where('kod', $specialization->jenis)
+                    ->pluck('diskripsi')
+                    ->first();
                 })
                 ->editColumn('field', function ($specialization) {
-                    return $specialization->bidang;
+                    return KodPelbagai::where('sah_yt', 'Y')
+                    ->where('kategori', 'BIDANG PENGKHUSUSAN')
+                    ->where('kod', $specialization->bidang)
+                    ->pluck('diskripsi')
+                    ->first();
                 })
                 ->editColumn('action', function ($specialization) use ($accessDelete) {
                     $button = "";
@@ -121,7 +129,7 @@ class SpecializationController extends Controller
         ->where('sah_yt', 'Y')
         ->where('kategori', 'JENIS PENGKHUSUSAN')
         ->get();
-        
+
         $result = $categories->map(function($item) {
             return [
                 'categories' => $item->diskripsi,

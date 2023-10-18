@@ -78,7 +78,7 @@
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
                             <th>Nama</th>
-                            <th width="10%">Kod Negeri</th>
+                            <th>Kod Negeri</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>

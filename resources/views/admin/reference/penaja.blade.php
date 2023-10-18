@@ -56,8 +56,8 @@
                         <label class="form-label" for="code">Carian Jenis Penaja</label>
                         <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                             <option value="Lihat Semua" selected>Lihat Semua</option>
-                            @foreach ($types as $type)
-                            <option value="{{ $type }}">{{ $type }}</option>
+                            @foreach ($jenis as $type)
+                            <option value="{{ $type->kod }}">{{ $type->kod }} - {{ $type->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -251,7 +251,7 @@
                 $('#penajaForm').attr('action', '{{ route('admin.reference.penaja.store') }}');
                 $('#penajaForm input[name="code"]').val("");
                 $('#penajaForm input[name="name"]').val("");
-                $('#penajaForm input[name="jenis"]').val("");
+                $('#penajaForm select[name="jenis"]').val("").trigger('change');
                 $('#penajaForm input[name="code"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Penaja');
@@ -282,7 +282,7 @@
                         $('#penajaForm').attr('action', url2);
                         $('#penajaForm input[name="code"]').val(data.detail.kod);
                         $('#penajaForm input[name="name"]').val(data.detail.diskripsi);
-                        $('#penajaForm input[name="jenis"]').val(data.detail.jenis);
+                        $('#penajaForm select[name="jenis"]').val(data.detail.jenis).trigger('change');
 
                         $('#penajaForm input[name="code"]').prop('readonly', true);
 

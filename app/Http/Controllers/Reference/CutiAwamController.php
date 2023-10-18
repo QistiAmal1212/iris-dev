@@ -73,7 +73,7 @@ class CutiAwamController extends Controller
                 $cutiawam->where('scut_kod', $request->module_id);
             }
 
-            return Datatables::of($cutiawam->get())
+            return Datatables::of($cutiawam->with(['scut', 'negeri'])->get())
                 ->editColumn('kod', function ($cutiawam){
                     return $cutiawam->ca_id;
                 })
@@ -81,10 +81,10 @@ class CutiAwamController extends Controller
                     return $cutiawam->tarikh_cuti = Carbon::parse($cutiawam->tarikh_cuti)->format('d/m/Y');
                 })
                 ->editColumn('kod_cuti', function ($cutiawam) {
-                    return $cutiawam->scut_kod;
+                    return $cutiawam->scut->diskripsi;
                 })
                 ->editColumn('kod_neg', function ($cutiawam) {
-                    return $cutiawam->neg_kod;
+                    return $cutiawam->negeri->diskripsi;
                 })
                 ->editColumn('action', function ($cutiawam) use ($accessDelete) {
                     $button = "";

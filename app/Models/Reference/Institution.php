@@ -21,4 +21,8 @@ class Institution extends Model
 
     const CREATED_AT = 'tarikh_cipta';
     const UPDATED_AT = 'tarikh_ubahsuai';
+
+    public function NamaNegara() {
+        return $this->hasOne('App\Models\Reference\Negara', 'kod', 'negara');
+    }
 }

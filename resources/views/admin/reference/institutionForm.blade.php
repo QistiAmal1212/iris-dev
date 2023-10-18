@@ -52,8 +52,9 @@
                                 <div class="input-group">
                                     <select id="type" name="type" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
-                                        <option value="2">Luar Negara</option>
-                                        <option value="1">Dalam Negara</option>
+                                        @foreach ($jenis as $jenis)
+                                        <option value="{{ $jenis->kod }}">{{ $jenis->diskripsi }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
