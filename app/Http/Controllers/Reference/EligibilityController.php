@@ -64,7 +64,7 @@ class EligibilityController extends Controller
             if($request->activity_type_id && $request->activity_type_id != "Lihat Semua"){
                 $eligibility->where('kelayakan_setara',$request->activity_type_id);
             }
-            return Datatables::of($eligibility->get())
+            return Datatables::of($eligibility->with(['KSetara'])->get())
                 ->editColumn('code', function ($eligibility){
                     return $eligibility->kod;
                 })
@@ -72,7 +72,8 @@ class EligibilityController extends Controller
                     return $eligibility->diskripsi;
                 })
                 ->editColumn('ks', function ($eligibility) {
-                    return $eligibility->kelayakan_setara;
+                    // return $eligibility->kelayakan_setara;
+                    return $eligibility->KSetara->diskripsi;
                 })
                 ->editColumn('action', function ($eligibility) use ($accessDelete) {
                     $button = "";

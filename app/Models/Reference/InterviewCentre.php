@@ -23,4 +23,8 @@ class InterviewCentre extends Model
 
     const CREATED_AT = 'tarikh_cipta';
     const UPDATED_AT = 'tarikh_ubahsuai';
+
+    public function negeri() {
+        return $this->hasOne('App\Models\Reference\State', 'kod', 'neg_kod');
+    }
 }

@@ -21,4 +21,12 @@ class CutiAwam extends Model
 
     const CREATED_AT = 'tarikh_cipta';
     const UPDATED_AT = 'tarikh_ubahsuai';
+
+    public function scut() {
+        return $this->hasOne('App\Models\Reference\SenaraiCuti', 'kod', 'scut_kod');
+    }
+
+    public function negeri() {
+        return $this->hasOne('App\Models\Reference\State', 'kod', 'neg_kod');
+    }
 }

@@ -67,7 +67,7 @@ class InterviewCentreController extends Controller
                 $interviewCentre->where('neg_kod', $request->module_id);
             }
 
-            return Datatables::of($interviewCentre->get())
+            return Datatables::of($interviewCentre->with(['negeri'])->get())
                 ->editColumn('code', function ($interviewCentre){
                     return $interviewCentre->kod;
                 })
@@ -75,7 +75,7 @@ class InterviewCentreController extends Controller
                     return $interviewCentre->diskripsi;
                 })
                 ->editColumn('neg', function ($interviewCentre) {
-                    return $interviewCentre->neg_kod;
+                    return $interviewCentre->negeri->diskripsi;
                 })
                 ->editColumn('action', function ($interviewCentre) use ($accessDelete) {
                     $button = "";

@@ -54,7 +54,7 @@ class SkimController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.skim')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Jawatan";
+            $log->description = "Lihat Senarai Skim";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -78,7 +78,10 @@ class SkimController extends Controller
                     return $skim->GGH_KOD;
                 })
                 ->editColumn('jkk', function ($skim) {
-                    return $skim->KUMP_PKHIDMAT_JKK;
+                    return KumpulanJKK::where('sah_yt', 'Y')
+                    ->where('kod', $skim->KUMP_PKHIDMAT_JKK)
+                    ->pluck('diskripsi')
+                    ->first();
                 })
                 ->editColumn('action', function ($skim) use ($accessDelete) {
                     $button = "";
@@ -144,7 +147,7 @@ class SkimController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.skim')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Jawatan";
+            $log->description = "Tambah Skim";
             $log->data_new = json_encode($skim);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -176,7 +179,7 @@ class SkimController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.skim')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Jawatan";
+            $log->description = "Lihat Maklumat Skim";
             $log->data_new = json_encode($skim);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -204,7 +207,7 @@ class SkimController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.skim')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Jawatan";
+            $log->description = "Kemaskini Maklumat Skim";
             $log->data_old = json_encode($skim);
 
             $request->validate([

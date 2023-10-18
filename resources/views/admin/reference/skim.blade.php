@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Jawatan
+    Skim
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-    <li class="breadcrumb-item"><a>Jawatan</a>
+    <li class="breadcrumb-item"><a>Skim</a>
     </li>
 @endsection
 
@@ -42,10 +42,10 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Skim Jawatan</h4>
+        <h4 class="card-title">Senarai Skim Skim</h4>
         @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="skimForm()">
-            <i class="fa-solid fa-add"></i> Tambah Jawatan
+            <i class="fa-solid fa-add"></i> Tambah Skim
         </button>
         @endif
     </div>
@@ -77,7 +77,7 @@
                     <tr>
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
-                        <th>Skim Jawatan</th>
+                        <th>Skim</th>
                         <th width="10%">Gred Gaji</th>
                         <th width="10%">KUmpulan JKK</th>
                         <th width="10%">Tindakan</th>
@@ -278,7 +278,7 @@
             $('#skimForm select[name="KUMP_PKHIDMAT_JKK"]').val("").trigger('change');
             $('#skimForm input[name="code"]').prop('readonly', false);
 
-            $('#title-role').html('Tambah Jawatan');
+            $('#title-role').html('Tambah Skim');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -314,7 +314,7 @@
 
                     $('#skimForm input[name="code"]').prop('readonly', true);
 
-                    $('#title-role').html('Kemaskini Jawatan');
+                    $('#title-role').html('Kemaskini Skim');
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);

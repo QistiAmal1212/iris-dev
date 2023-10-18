@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\KodPelbagai;
 use App\Models\Reference\Negara;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,7 @@ class InstitutionController extends Controller
             }
         }
 
+        $jenis = KodPelbagai::where('sah_yt', 'Y')->where('kategori', 'JENIS INSTITUSI')->orderBy('kod', 'asc')->get();
         $negara = Negara::where('sah_yt', 'Y')->orderBy('diskripsi','asc')->get();
 
         if ($request->ajax()) {
@@ -67,7 +69,7 @@ class InstitutionController extends Controller
                 $institution->where('negara', $request->module_id);
             }
 
-            return Datatables::of($institution->get())
+            return Datatables::of($institution->with(['NamaNegara'])->get())
                 ->editColumn('code', function ($institution){
                     return $institution->kod;
                 })
@@ -75,10 +77,18 @@ class InstitutionController extends Controller
                     return $institution->diskripsi;
                 })
                 ->editColumn('neg', function ($institution) {
-                    return $institution->negara;
+                    if ($institution->NamaNegara) {
+                        return $institution->NamaNegara->diskripsi;
+                    } else {
+                        return "No Country";
+                    }
                 })
                 ->editColumn('jenis', function ($institution) {
-                    return $institution->jenis_institusi;
+                    return KodPelbagai::where('sah_yt', 'Y')
+                    ->where('kategori', 'JENIS INSTITUSI')
+                    ->where('kod', $institution->jenis_institusi)
+                    ->pluck('diskripsi')
+                    ->first();
                 })
                 ->editColumn('action', function ($institution) use ($accessDelete) {
                     $button = "";
@@ -101,7 +111,7 @@ class InstitutionController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.institution', compact('accessAdd', 'accessUpdate', 'accessDelete', 'negara'));
+        return view('admin.reference.institution', compact('accessAdd', 'accessUpdate', 'accessDelete', 'negara', 'jenis'));
     }
     public function getCategoriesByParent(Request $request)
     {

@@ -83,7 +83,7 @@
                             <th width="10%">Kod</th>
                             <th>Daerah</th>
                             <th width="15%">Kod Bahagian</th>
-                            <th width="15%">Kod Negeri</th>
+                            <th>Kod Negeri</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>

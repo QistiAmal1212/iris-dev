@@ -57,9 +57,9 @@
                     <label class="form-label" for="code">Carian Jenis</label>
                     <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                         <option value="Lihat Semua" selected>Lihat Semua</option>
-                        <option value="1">1 - Profesional dan Ikhtisas</option>
-                        <option value="2">2 - Sedang Berkhidmat</option>
-                        <option value="3">3 - Perubatan</option>
+                        @foreach ($bidang as $bid)
+                        <option value="{{ $bid->kod }}">{{ $bid->kod }} - {{ $bid->diskripsi }}</option>
+                        @endforeach
                     </select>
                 </div>
                 {{-- <div class="col-sm-4 col-md-4 col-lg-4">
@@ -83,8 +83,8 @@
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
                         <th>Nama Kelulusan</th>
-                        <th width="10%">Jenis</th>
-                        <th width="10%">Kategori</th>
+                        <th>Jenis</th>
+                        <th>Kategori</th>
                         <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
@@ -276,8 +276,8 @@
             $('#qualificationForm').attr('action', '{{ route("admin.reference.qualification.store") }}');
             $('#qualificationForm input[name="code"]').val("");
             $('#qualificationForm input[name="name"]').val("");
-            $('#qualificationForm input[name="type"]').val("");
-            $('#qualificationForm input[name="category"]').val("");
+            $('#qualificationForm select[name="type"]').val("").trigger('change');
+            $('#qualificationForm select[name="category"]').val("").trigger('change');
             $('#qualificationForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Kelulusan');
@@ -308,8 +308,8 @@
                     $('#qualificationForm').attr('action',url2 );
                     $('#qualificationForm input[name="code"]').val(data.detail.kod);
                     $('#qualificationForm input[name="name"]').val(data.detail.diskripsi);
-                    $('#qualificationForm input[name="type"]').val(data.detail.jenis);
-                    $('#qualificationForm input[name="category"]').val(data.detail.kategori);
+                    $('#qualificationForm select[name="type"]').val(data.detail.jenis).trigger('change');
+                    $('#qualificationForm select[name="category"]').val(data.detail.kategori).trigger('change');
                     $('#qualificationForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Kelulusan');

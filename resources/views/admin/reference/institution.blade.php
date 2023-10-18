@@ -56,8 +56,9 @@
                         <label class="form-label" for="code">Carian Jenis</label>
                         <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                             <option value="Lihat Semua" selected>Lihat Semua</option>
-                            <option value="1">1 - Dalam Negara</option>
-                            <option value="2">2 - Luar Negara</option>
+                            @foreach ($jenis as $jen)
+                            <option value="{{ $jen->kod }}">{{ $jen->kod }} - {{ $jen->diskripsi }} </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-sm-4 col-md-4 col-lg-4">
@@ -82,7 +83,7 @@
                             <th width="10%">Kod</th>
                             <th>Nama Institusi</th>
                             <th>Negara</th>
-                            <th width="10%">Jenis</th>
+                            <th>Jenis</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -114,7 +115,7 @@
                     }
                 });
             }{
-                $('#module_id').empty(); 
+                $('#module_id').empty();
             }
         });
     });

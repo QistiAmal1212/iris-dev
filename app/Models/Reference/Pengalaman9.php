@@ -5,15 +5,13 @@ namespace App\Models\Reference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Daerah extends Model
+class Pengalaman9 extends Model
 {
-    protected $table = 'ruj_daerah';
+    protected $table = 'ruj_jenis_pengalaman9';
 
     protected $fillable = [
         'kod',
         'diskripsi',
-        'bah_kod',
-        'neg_kod',
         'id_pencipta',
         'pengguna',
         'sah_yt',
@@ -21,12 +19,4 @@ class Daerah extends Model
 
     const CREATED_AT = 'tarikh_cipta';
     const UPDATED_AT = 'tarikh_ubahsuai';
-
-    public function bahagian() {
-        return $this->hasOne('App\Models\Reference\Bahagian', 'kod', 'bah_kod');
-    }
-
-    public function negeri() {
-        return $this->hasOne('App\Models\Reference\State', 'kod', 'neg_kod');
-    }
 }

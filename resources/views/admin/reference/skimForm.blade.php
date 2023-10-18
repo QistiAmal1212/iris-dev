@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="title-role">Tambah Jawatan</h4>
+                <h4 class="modal-title" id="title-role">Tambah Skim</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label class="form-label" for="name">Nama Jawatan
+                                <label class="form-label" for="name">Nama Skim
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">

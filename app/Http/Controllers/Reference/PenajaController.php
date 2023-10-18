@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\KodPelbagai;
 use App\Models\Reference\Penaja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,7 @@ class PenajaController extends Controller
         }
 
         $types = Penaja::select('jenis')->orderBy('jenis', 'asc')->distinct()->pluck('jenis')->filter()->toArray();
+        $jenis = KodPelbagai::where('sah_yt', 'Y')->where('kategori', 'JENIS PENAJA')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $penaja = Penaja::orderBy('kod', 'asc');
@@ -69,7 +71,11 @@ class PenajaController extends Controller
                     return $penaja->diskripsi;
                 })
                 ->editColumn('jenis', function ($penaja) {
-                    return $penaja->jenis;
+                    return KodPelbagai::where('sah_yt', 'Y')
+                    ->where('kategori', 'JENIS PENAJA')
+                    ->where('kod', $penaja->jenis)
+                    ->pluck('diskripsi')
+                    ->first();
                 })
                 ->editColumn('action', function ($penaja) use ($accessDelete) {
                     $button = "";
@@ -92,7 +98,7 @@ class PenajaController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.penaja', compact('accessAdd', 'accessUpdate', 'accessDelete', 'types'));
+        return view('admin.reference.penaja', compact('accessAdd', 'accessUpdate', 'accessDelete', 'types', 'jenis'));
     }
 
     public function store(Request $request)

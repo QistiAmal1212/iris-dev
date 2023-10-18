@@ -65,6 +65,7 @@ use App\Http\Controllers\Reference\MatriculationController;
 use App\Http\Controllers\Reference\MatriculationCourseController;
 use App\Http\Controllers\Reference\MatriculationSubjectController;
 use App\Http\Controllers\Reference\PenaltyController;
+use App\Http\Controllers\Reference\Pengalaman9Controller;
 use App\Http\Controllers\Reference\PositionLevelController;
 use App\Http\Controllers\Reference\RankController;
 use App\Http\Controllers\Reference\SalaryGradeController;
@@ -589,6 +590,14 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{ahlisuruhanjayaId}', [AhliSuruhanjayaController::class, 'edit'])->name('admin.reference.ahlisuruhanjaya.edit');
             Route::post('update/{ahlisuruhanjayaId}', [AhliSuruhanjayaController::class, 'update'])->name('admin.reference.ahlisuruhanjaya.update');
             Route::post('toggleActive/{ahlisuruhanjayaId}', [AhliSuruhanjayaController::class, 'toggleActive'])->name('admin.reference.ahlisuruhanjaya.toggleActive');
+        });
+
+        Route::prefix('pengalaman_9')->group(function () {
+            Route::get('/', [Pengalaman9Controller::class, 'index'])->name('admin.reference.pengalaman9');
+            Route::post('create', [Pengalaman9Controller::class, 'store'])->name('admin.reference.pengalaman9.store');
+            Route::get('edit/{pengalaman9Id}', [Pengalaman9Controller::class, 'edit'])->name('admin.reference.pengalaman9.edit');
+            Route::post('update/{pengalaman9Id}', [Pengalaman9Controller::class, 'update'])->name('admin.reference.pengalaman9.update');
+            Route::post('toggleActive/{pengalaman9Id}', [Pengalaman9Controller::class, 'toggleActive'])->name('admin.reference.pengalaman9.toggleActive');
         });
 
     });

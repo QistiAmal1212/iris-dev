@@ -37,9 +37,9 @@
                                 <div class="input-group">
                                     <select id="type" name="type" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
-                                        <option value="1">Profesional dan Ikhtisas</option>
-                                        <option value="2">Sedang Berkhidmat</option>
-                                        <option value="3">Perubatan</option>
+                                        @foreach ($jenis as $jenis)
+                                        <option value="{{ $jenis->kod }}">{{ $jenis->diskripsi }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -52,12 +52,9 @@
                                 <div class="input-group">
                                     <select id="category" name="category" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
-                                        <option value="U">Perubatan</option>
-                                        <option value="V">SVM</option>
-                                        <option value="K">SKM</option>
-                                        <option value="B">Sedang Berkhidmat</option>
-                                        <option value="P">Profesional</option>
-                                        <option value="I">Ikhtisas (Guru)</option>
+                                        @foreach ($bidang as $bidang)
+                                        <option value="{{ $bidang->kod }}">{{ $bidang->diskripsi }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

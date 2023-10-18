@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\KodPelbagai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Qualification;
@@ -42,6 +43,8 @@ class QualificationController extends Controller
             }
         }
 
+        $jenis = KodPelbagai::where('sah_yt', 'Y')->where('kategori', 'JENIS KELULUSAN')->orderBy('kod', 'asc')->get();
+        $bidang = KodPelbagai::where('sah_yt', 'Y')->where('kategori', 'KATEGORI KELULUSAN')->orderBy('kod', 'asc')->get();
 
         if ($request->ajax()) {
 
@@ -58,7 +61,7 @@ class QualificationController extends Controller
 
             $qualification = Qualification::orderBy('kod', 'asc');
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $qualification->where('jenis', $request->activity_type_id);
+                $qualification->where('bidang', $request->activity_type_id);
             }
 
             // if ($request->module_id && $request->module_id != "Lihat Semua") {
@@ -73,10 +76,18 @@ class QualificationController extends Controller
                     return $qualification->diskripsi;
                 })
                 ->editColumn('jenis', function ($qualification) {
-                    return $qualification->jenis;
+                    return KodPelbagai::where('sah_yt', 'Y')
+                    ->where('kategori', 'JENIS KELULUSAN')
+                    ->where('kod', $qualification->jenis)
+                    ->pluck('diskripsi')
+                    ->first();
                 })
                 ->editColumn('kat', function ($qualification) {
-                    return $qualification->kategori;
+                    return KodPelbagai::where('sah_yt', 'Y')
+                    ->where('kategori', 'KATEGORI KELULUSAN')
+                    ->where('kod', $qualification->kategori)
+                    ->pluck('diskripsi')
+                    ->first();
                 })
                 ->editColumn('action', function ($qualification) use ($accessDelete) {
                     $button = "";
@@ -99,7 +110,7 @@ class QualificationController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.qualification', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.qualification', compact('accessAdd', 'accessUpdate', 'accessDelete', 'jenis', 'bidang'));
     }
 
     public function store(Request $request)
