@@ -51,6 +51,7 @@ class PemohonRequest extends ApiRequest
                 'negeri_surat' => 'required|string',
                 'tinggi' => 'required|decimal:0,2',
                 'berat' => 'required|decimal:0,2',
+                'rabun' => 'required|boolean',
                 'pusat_temuduga' => 'required|string|exists:ruj_pusat_temuduga,kod',
                 'jenis_lesen' => 'nullable|string',
                 'tempoh_tamat_lesen' => 'required_with:jenis_lesen|nullable|date_format:d/m/Y',

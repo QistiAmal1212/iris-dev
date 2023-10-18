@@ -45,7 +45,8 @@ class Calon extends Model
         'bantuan',
         'biasiswa_p',
         'nom_daftar_bantuan',
-        'pusat_temuduga'
+        'pusat_temuduga',
+        'rabun',
     ];
 
     protected $primaryKey='no_pengenalan';

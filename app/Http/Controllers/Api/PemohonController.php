@@ -87,6 +87,7 @@ class PemohonController extends ApiController
                     'negeri' => $request->negeri_surat,
                     'ketinggian' => $request->tinggi,
                     'berat' => $request->berat,
+                    'rabun' => ($request->rabun) ? 'Y' : 'T',
                     'pusat_temuduga' => $request->pusat_temuduga,
                 ]);
             } else {
@@ -119,6 +120,7 @@ class PemohonController extends ApiController
                     'negeri' => $request->negeri_surat,
                     'ketinggian' => $request->tinggi,
                     'berat' => $request->berat,
+                    'rabun' => ($request->rabun) ? 'Y' : 'T',
                     'pusat_temuduga' => $request->pusat_temuduga,
                 ]);
             }
