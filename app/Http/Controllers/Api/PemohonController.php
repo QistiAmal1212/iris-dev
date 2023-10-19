@@ -177,6 +177,7 @@ class PemohonController extends ApiController
                     if($calonSkim){
                         $dataSkim = [
                             'tarikh_daftar' => $skim['tarikh_daftar'],
+                            'tarikh_luput' => ($skim['tarikh_daftar'] != null) ? Carbon::parse($skim['tarikh_daftar'])->addYear()->format('Y-m-d') : null,
                             'no_kelompok' => $skim['no_kelompok'],
                             'no_siri' => $skim['no_siri'],
                             'pusat_td_pilihan' => $request->pusat_temuduga,
@@ -187,6 +188,7 @@ class PemohonController extends ApiController
                         $dataSkim = [
                             'cal_no_pengenalan' => $noPengenalan,
                             'tarikh_daftar' => $skim['tarikh_daftar'],
+                            'tarikh_luput' => ($skim['tarikh_daftar'] != null) ? Carbon::parse($skim['tarikh_daftar'])->addYear()->format('Y-m-d') : null,
                             'ski_kod' => $skim['skim'],
                             'no_kelompok' => $skim['no_kelompok'],
                             'no_siri' => $skim['no_siri'],
