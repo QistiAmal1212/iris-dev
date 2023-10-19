@@ -129,6 +129,7 @@ Route::controller(StatisticsController::class)->group(function () {
 Route::prefix('profile')->group(function () {
     Route::get('view', [ProfileController::class, 'view'])->name('profile-view');
     Route::post('update', [ProfileController::class, 'update'])->name('profile-update');
+    Route::post('update-password-first', [ProfileController::class, 'updatePasswordFirst'])->name('profile-update-password-first');
 });
 
 Route::prefix('admin')->group(function () {

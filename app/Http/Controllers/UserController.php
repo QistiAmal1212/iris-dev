@@ -458,37 +458,36 @@ class UserController extends Controller
 
     public function updatePassword(Request $request)
     {
-
-        // dd($request->all());
         \DB::beginTransaction();
 
         try {
             $validatedData = $request->validate([
                 'reset_password_old' => 'required|string|min:12',
-                'reset_password_new' => 'required|string|min:12',
+                'reset_password_new' => [
+                    'required',
+                    'string',
+                    'min:12',
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
+                    'confirmed',
+                ],
                 'reset_password_confirm' => 'required|same:reset_password_new',
                 'captcha' => 'required|captcha',
             ], [
                 'reset_password_old.required' => 'Sila masukkan kata laluan semasa',
                 'reset_password_new.required' => 'Sila masukkan kata laluan baru',
+                'reset_password_new.min' => 'Kata laluan mestilah sekurang-kurangnya 12 aksara',
+                'reset_password_new.regex' => 'Kata laluan tidak sah',
+                'reset_password_new.confirmed' => 'Pengesahan kata laluan tidak sepadan',
                 'reset_password_confirm.required' => 'Sila masukkan kata laluan pengsahan',
                 'captcha.required' => 'Sila masukkan pengesahan CAPTCHA',
                 'captcha' => 'Pengesahan CAPTCHA gagal. Sila cuba semula.',
             ]);
 
-
-            // $lastChangePassword = auth()->user()->last_change_password;
-
-            // Check if last password change was more than a month ago
-            // if ($lastChangePassword && now()->diffInDays($lastChangePassword) >= 180) {
             User::whereId(auth()->user()->id)->update([
                 'password' => Hash::make($request->reset_password_new),
                 'last_change_password' => now(),
             ]);
             $user = auth()->user();
-            // } else {
-            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Kata Laluan hanya boleh diubah setiap 6 bulan'], 404);
-            // }
 
         } catch (Throwable $e) {
 
