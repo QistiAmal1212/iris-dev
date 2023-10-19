@@ -191,6 +191,7 @@ class PemohonController extends ApiController
                             'no_kelompok' => $skim['no_kelompok'],
                             'no_siri' => $skim['no_siri'],
                             'pusat_td_pilihan' => $request->pusat_temuduga,
+                            'sah_yt' => 'Y',
                         ];
                         CalonSkim::create($dataSkim);
                     }
