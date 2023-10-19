@@ -257,7 +257,7 @@ class UserController extends Controller
                 'skim_code.required' => 'Sila pilih jawatan',
                 'skim_code.exists' => 'Jawatan tidak sah',
                 'password.required' => 'Sila isikan kata laluan',
-                'password.min' => 'Kata laluan mestilah sekurang-kurangnya 8 aksara',
+                'password.min' => 'Kata laluan mestilah sekurang-kurangnya 12 aksara',
                 'password.regex' => 'Kata laluan tidak sah',
                 'password.confirmed' => 'Pengesahan kata laluan tidak sepadan',
                 'roles.required' => 'Sila pilih peranan',
@@ -462,13 +462,12 @@ class UserController extends Controller
 
         try {
             $validatedData = $request->validate([
-                'reset_password_old' => 'required|string|min:12',
+                'reset_password_old' => 'required|string',
                 'reset_password_new' => [
                     'required',
                     'string',
                     'min:12',
                     'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
-                    'confirmed',
                 ],
                 'reset_password_confirm' => 'required|same:reset_password_new',
                 'captcha' => 'required|captcha',
@@ -478,10 +477,15 @@ class UserController extends Controller
                 'reset_password_new.min' => 'Kata laluan mestilah sekurang-kurangnya 12 aksara',
                 'reset_password_new.regex' => 'Kata laluan tidak sah',
                 'reset_password_new.confirmed' => 'Pengesahan kata laluan tidak sepadan',
-                'reset_password_confirm.required' => 'Sila masukkan kata laluan pengsahan',
+                'reset_password_confirm.required' => 'Sila masukkan kata laluan pengesahan',
+                'reset_password_confirm.same' => 'Ruangan kata laluan baru dan kata laluan pengesahan mesti sepadan',
                 'captcha.required' => 'Sila masukkan pengesahan CAPTCHA',
                 'captcha' => 'Pengesahan CAPTCHA gagal. Sila cuba semula.',
             ]);
+
+            if (!Hash::check($request->reset_password_old, auth()->user()->password)) { 
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Kata laluan semasa tidak betul'], 401);
+            }
 
             User::whereId(auth()->user()->id)->update([
                 'password' => Hash::make($request->reset_password_new),

@@ -58,8 +58,8 @@ class ProfileController extends Controller
                 'new_password.min' => 'Kata laluan mestilah sekurang-kurangnya 12 aksara',
                 'new_password.regex' => 'Kata laluan tidak sah',
                 'new_password.confirmed' => 'Pengesahan kata laluan tidak sepadan',
-                'confirm_password.required' => 'Sila masukkan kata laluan pengsahan',
-                'confirm_password.same' => 'Ruangan kata laluan baru dan sahkan kata laluan mesti sepadan',
+                'confirm_password.required' => 'Sila masukkan kata laluan pengesahan',
+                'confirm_password.same' => 'Ruangan kata laluan baru dan kata laluan pengesahan mesti sepadan',
                 'captcha_password.required' => 'Sila masukkan pengesahan CAPTCHA',
                 'captcha_password' => 'Pengesahan CAPTCHA gagal. Sila cuba semula.',
             ]);

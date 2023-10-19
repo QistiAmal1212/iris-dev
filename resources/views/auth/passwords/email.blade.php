@@ -39,7 +39,8 @@ $configData = Helper::applClasses();
 
                 </center>
 
-                <form method="POST" action="{{ route('password.email') }}" onsubmit="return checkBlockedStatus()">
+                {{-- <form method="POST" action="{{ route('password.email') }}" onsubmit="return checkBlockedStatus()"> --}}
+                <form method="POST" action="{{ route('password.email') }}">
                     @csrf
                     <div class="mb-1">
                         <label class="form-label" for="forgot-password-email">Emel</label>
@@ -53,12 +54,20 @@ $configData = Helper::applClasses();
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
-                    <div id="block-alert" class="alert alert-danger alert-dismissible d-none">
+                    {{-- <div id="block-alert" class="alert alert-danger alert-dismissible d-none">
+                        <div class="alert-body">
+                               Akaun anda telah disekat. Sila minta Admin untuk reset kata laluan
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div> --}}
+                    @if($errors->has('active'))
+                    <div class="alert alert-danger alert-dismissible">
                         <div class="alert-body">
                                Akaun anda telah disekat. Sila minta Admin untuk reset kata laluan
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
+                    @endif
                     @if(Session::has('status'))
                         <div class="alert alert-success">
                             <ul>
@@ -84,7 +93,7 @@ $configData = Helper::applClasses();
         </div>
     </div>
 </div>
-<script>
+{{-- <script>
     function checkBlockedStatus() {
         var email = document.getElementById('forgot-password-email').value;
         fetch('/check-email-blocked/' + email)
@@ -99,7 +108,7 @@ $configData = Helper::applClasses();
 
         return true;
     }
-</script>
+</script> --}}
 @endsection
 
 @section('vendor-script')
