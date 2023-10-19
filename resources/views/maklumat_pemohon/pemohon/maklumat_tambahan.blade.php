@@ -18,6 +18,12 @@
                 <br><div class="badge badge-light-danger fw-bolder" id="tm_bakat" hidden>Tiada Maklumat</div>
             </a>
         </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link fw-bolder" id="pengalaman-tab" data-bs-toggle="tab" href="#pengalaman" aria-controls="pengalaman" role="tab" aria-selected="true">
+                Pengalaman
+                <br><div class="badge badge-light-danger fw-bolder" id="#" hidden>Tiada Maklumat</div>
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content">
@@ -32,6 +38,10 @@
         <div class="tab-pane fade" id="bakat" role="tabpanel" aria-labelledby="bakat-tab">
             <hr>
             @include('maklumat_pemohon.pemohon.maklumat_tambahan.bakat')
+        </div>
+        <div class="tab-pane fade" id="pengalaman" role="tabpanel" aria-labelledby="pengalaman-tab">
+            <hr>
+            @include('maklumat_pemohon.pemohon.maklumat_tambahan.pengalaman')
         </div>
     </div>
 </div>
