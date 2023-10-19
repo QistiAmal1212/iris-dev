@@ -429,7 +429,11 @@ Maklumat Pemohon
                     $('#update_penalty').attr("style", "display:block");
 
                     $('#candidate_name').html(data.detail.nama_penuh);
-                    $('#candidate_ic').html(data.detail.no_kp_baru);
+                    var ic = data.detail.no_kp_baru ? data.detail.no_kp_baru +'<br>' : '';
+                    if (data.detail.no_kp_lama) {
+                        ic = ic + (data.detail.no_kp_lama ? data.detail.no_kp_lama : '');
+                    }
+                    $('#candidate_ic').html(ic);
                     $('#candidate_no_pengenalan').val(data.detail.no_pengenalan);
 
                     var timelineUrl = "{{ route('timeline.list', ':replaceThis') }}"
