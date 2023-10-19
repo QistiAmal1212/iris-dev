@@ -69,7 +69,7 @@
 					<h4 class="modal-title" id="title-role">Kemaskini Kata Laluan</h4>
 				</div>
 				<div class="modal-body">
-					<form action="{{ route('profile-update-password-first') }}" method="POST" id="firstTimePasswordForm" data-reloadPage="false" data-refreshFunctionName="reloadCaptchaPassword">
+					<form action="{{ route('profile-update-password-first') }}" method="POST" id="firstTimePasswordForm" data-reloadPage="true" data-refreshFunctionName="reloadCaptchaPassword">
 						@csrf
 						<div class="card-body" id="div_first_password">
 							<div class="alert alert-danger" role="alert">
