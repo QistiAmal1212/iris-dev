@@ -132,6 +132,10 @@
 
         event.preventDefault();
         if(id === null){
+            var ShowButton = $("#lihat-semua");
+            ShowButton.attr("hidden", true);
+            var ShowTable = $("#hide-table");
+            ShowTable.attr("hidden", true);
             $('#salaryGradeForm').attr('action', '{{ route("admin.reference.salary-grade.store") }}');
             $('#salaryGradeForm input[name="code"]').val("");
             $('#salaryGradeForm input[name="name"]').val("");
@@ -155,9 +159,12 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    // console.log(data);
+                    var ShowButton = $("#lihat-semua");
+                    ShowButton.removeAttr("hidden");
+                    var ShowTable = $("#hide-table");
+                    ShowTable.attr("hidden", true);
+
                     salary_grade_id = data.detail.id;
-                    // console.log(id_used);
                     url2 = "{{ route('admin.reference.salary-grade.update',':replaceThis') }}"
                     url2 = url2.replace(':replaceThis', salary_grade_id);
 
@@ -166,6 +173,9 @@
                     $('#salaryGradeForm input[name="name"]').val(data.detail.diskripsi);
 
                     $('#salaryGradeForm input[name="code"]').prop('readonly', true);
+
+                    $('#lihat-semua').data('gred', data.detail.kod);
+                    $('#kod').val(data.detail.kod);
 
                         $('#salaryGradeForm input[name="code"]').css({
                             'background-color': '#f0f0f0',

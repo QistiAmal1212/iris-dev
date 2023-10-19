@@ -339,6 +339,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{salaryGradeId}', [SalaryGradeController::class, 'edit'])->name('admin.reference.salary-grade.edit');
             Route::post('update/{salaryGradeId}', [SalaryGradeController::class, 'update'])->name('admin.reference.salary-grade.update');
             Route::post('toggleActive/{salaryGradeId}', [SalaryGradeController::class, 'toggleActive'])->name('admin.reference.salary-grade.toggleActive');
+            Route::get('getList/{salaryGradeId}', [SalaryGradeController::class, 'getListGredDetails'])->name('admin.reference.salary-grade.getList');
         });
 
         Route::prefix('tingkatan_JKK')->group(function () {

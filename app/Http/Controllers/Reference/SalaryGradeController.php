@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\SalaryGradeDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\SalaryGrade;
@@ -85,6 +86,77 @@ class SalaryGradeController extends Controller
         }
 
         return view('admin.reference.salary_grade', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+    }
+
+    public function getListGredDetails(Request $request, $salaryGradeId){
+
+        $roles = auth()->user()->roles;
+        $roles = $roles->pluck('id')->toArray();
+
+        $accessRole = $this->menu->role()->whereIn('id', $roles)->get();
+
+        $accessAdd = $accessUpdate = $accessDelete = false;
+
+        foreach($accessRole as $access) {
+            if($access->pivot->add){
+                $accessAdd = true;
+            }
+
+            if($access->pivot->update){
+                $accessUpdate = true;
+            }
+
+            if($access->pivot->delete){
+                $accessDelete = true;
+            }
+        }
+
+        $kod = $request->input('kod');
+
+        if ($request->ajax()) {
+            $salaryGradeDetails = SalaryGradeDetails::where('ggh_kod', $salaryGradeId)->orderBy('peringkat', 'asc')->orderBy('tahun', 'asc')->get();
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.salary-grade-details')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Butiran Gred Gaji";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            return Datatables::of($salaryGradeDetails)
+                ->editColumn('level', function ($salaryGradeDetails) {
+                    return $salaryGradeDetails->peringkat;
+                })
+                ->editColumn('year', function ($salaryGradeDetails){
+                    return $salaryGradeDetails->tahun;
+                })
+                ->editColumn('amount', function ($salaryGradeDetails) {
+                    return $salaryGradeDetails->amaun;
+                })
+                ->editColumn('action', function ($salaryGradeDetails) use ($accessDelete){
+                    $button = "";
+
+                    $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
+                    // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="showNextPage('.$salaryGradeDetails->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    if($accessDelete){
+                        if($salaryGradeDetails->sah_yt=='Y') {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$salaryGradeDetails->id.'" onclick="toggleActiveSGD('.$salaryGradeDetails->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        } else {
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$salaryGradeDetails->id.'" onclick="toggleActiveSGD('.$salaryGradeDetails->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                        }
+                    }
+                    $button .= '</div>';
+
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     public function store(Request $request)

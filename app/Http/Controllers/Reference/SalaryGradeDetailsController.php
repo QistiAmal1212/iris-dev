@@ -127,19 +127,19 @@ class salaryGradeDetailsController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string',
+                'kod' => 'required|string',
                 'level' => 'required|string',
                 'year' => 'required|string',
                 'amount' => 'required|string',
             ],[
-                'code.required' => 'Sila isikan kod',
+                'kod.required' => 'Sila isikan kod',
                 'level.required' => 'Sila isikan tahap gred gaji',
                 'year.required' => 'Sila isikan tahun',
                 'amount.required' => 'Sila isikan jumlah',
             ]);
 
             $ggd = SalaryGradeDetails::create([
-                'ggh_kod' => $request->code,
+                'ggh_kod' => $request->kod,
                 'peringkat' => strtoupper($request->level),
                 'tahun' => strtoupper($request->year),
                 'amaun' => strtoupper($request->amount),
@@ -214,19 +214,19 @@ class salaryGradeDetailsController extends Controller
             $log->data_old = json_encode($salaryGradeDetails);
 
             $request->validate([
-                'code' => 'required|string',
+                'kod' => 'required|string',
                 'level' => 'required|string',
                 'year' => 'required|string',
                 'amount' => 'required|string',
             ],[
-                'code.required' => 'Sila isikan kod',
+                'kod.required' => 'Sila isikan kod',
                 'level.required' => 'Sila isikan tahap gred gaji',
                 'year.required' => 'Sila isikan tahun',
                 'amount.required' => 'Sila isikan jumlah',
             ]);
 
             $salaryGradeDetails->update([
-                'ggh_kod' => $request->code,
+                'ggh_kod' => $request->kod,
                 'peringkat' => strtoupper($request->level),
                 'tahun' => strtoupper($request->year),
                 'amaun' => strtoupper($request->amount),
