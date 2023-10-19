@@ -113,7 +113,7 @@ class MaklumatPemohonController extends Controller
     public function listCarian(Request $request){
         $nama = $request->search_nama;
         if (!isset($request->page)) {
-            $count = DB::select("SELECT count(*) FROM calon WHERE nama_penuh ilike ?", ['%'.$nama.'%']);
+            $count = DB::select("SELECT count(*) FROM calon WHERE nama_penuh ilike ? and no_kp_baru is not null", ['%'.$nama.'%']);
             $total_pages = $count[0]->count/10;
             $total_pages = round($total_pages);
         } else {
@@ -125,10 +125,10 @@ class MaklumatPemohonController extends Controller
         $currentPage = $request->input('page', 1);
         $previousPage = $currentPage-1;
         $nextPage = $currentPage+1;
-        $sql = "SELECT no_kp_baru, nama_penuh FROM calon WHERE nama_penuh ilike ? OFFSET ? LIMIT ?";
-
+        $sql = "SELECT no_kp_baru, nama_penuh FROM calon WHERE nama_penuh ilike ? and no_kp_baru is not null OFFSET ? LIMIT ?";
+         
         $candidate = DB::select($sql, ['%' . $nama . '%', $offset, 10]);
-
+        
         return view('maklumat_pemohon.list', compact('total_pages', 'candidate', 'previousPage', 'nextPage', 'currentPage'));
     }
 
