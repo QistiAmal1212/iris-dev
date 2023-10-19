@@ -5,10 +5,17 @@
     </a>
 </div>
 
+{{-- START LOOP --}}
 <form id="pengajianTinggiForm" action="{{ route('pengajian-tinggi.update') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadPengajianTinggi" data-reloadPage="false">
     @csrf
     <div class="row mt-2 mb-2">
         <input type="hidden" name="pengajian_tinggi_no_pengenalan" id="pengajian_tinggi_no_pengenalan" value="">
+
+        <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+            <label class="form-label">Tahun</label>
+            <input type="text" class="form-control" value="" name="tahun_pengajian_tinggi" id="tahun_pengajian_tinggi" oninput="checkInput('tahun_pengajian_tinggi', 'tahun_pengajian_tinggiAlert')" disabled>
+            <div id="tahun_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
+        </div>
 
         <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
             <label class="form-label">Peringkat Pengajian</label>
@@ -18,12 +25,6 @@
                         <option value="{{ $peringkat->id }}">{{ $peringkat->name }}</option>
                     @endforeach
             </select>
-        </div>
-
-        <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
-            <label class="form-label">Tahun</label>
-            <input type="text" class="form-control" value="" name="tahun_pengajian_tinggi" id="tahun_pengajian_tinggi" oninput="checkInput('tahun_pengajian_tinggi', 'tahun_pengajian_tinggiAlert')" disabled>
-            <div id="tahun_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
         <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
@@ -86,7 +87,7 @@
         <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
             <label class="form-label">Biasiswa</label>
             <select class="select2 form-control" value="" name="biasiswa_pengajian_tinggi" id="biasiswa_pengajian_tinggi" disabled>
-                <option value="" hidden></option>
+                <option value="" hidden>Biasiswa</option>
                 <option value="0">Tidak</option>
                 <option value="1">Ya</option>
             </select>
@@ -128,27 +129,103 @@
     </div>
 </form>
 
-<div class="table-responsive">
-    <table class="table header_uppercase table-bordered table-hovered" id="table-pmr">
-        <thead>
-            <tr>
-                <th>Bil.</th>
-                <th>Peringkat Pengajian</th>
-                <th>Tahun</th>
-                <th>Peringkat Kelulusan</th>
-                <th>CGPA</th>
-                <th>Institusi</th>
-                <th>Nama Sijil</th>
-                <th>Pengkhususan/ Bidang</th>
-                <th>Francais Luar Negara</th>
-                <th>Tarikh Senat</th>
-                <th>Biasiswa</th>
-                <th>Kemaskini</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+<hr>
+{{-- END LOOP --}}
+
+{{-- Dummy for prototype purpose --}}
+<form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+    @csrf
+    <div class="row mt-2 mb-2">
+
+        <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+            <label class="form-label">Tahun</label>
+            <input type="text" class="form-control" value="" name="" id="" oninput="" disabled>
+        </div>
+
+        <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+            <label class="form-label">Peringkat Pengajian</label>
+            <select class="select2 form-control" value="" name="" id="" disabled>
+                <option value="" hidden>Peringkat Pengajian</option>
+                    {{-- @foreach($peringkatPengajian as $peringkat)
+                        <option value="{{ $peringkat->id }}">{{ $peringkat->name }}</option>
+                    @endforeach --}}
+            </select>
+        </div>
+
+        <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+            <label class="form-label">Peringkat Kelulusan</label>
+            <select class="select2 form-control" value="" name="" id="" disabled>
+                <option value="" hidden>Peringkat Kelulusan</option>
+                    {{-- @foreach($eligibilities as $eligibility)
+                        <option value="{{ $eligibility->code }}">{{ $eligibility->name }}</option>
+                    @endforeach --}}
+            </select>
+        </div>
+
+        <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+            <label class="form-label">CGPA</label>
+            <input type="text" class="form-control" value="" name="" id="" oninput="" disabled>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+            <label class="form-label">Institusi</label>
+            <select class="select2 form-control" name="" id="" disabled>
+                <option value="" hidden>Institusi</option>
+                    {{-- @foreach($institutions as $institution)
+                        <option value="{{ $institution->code }}">{{ $institution->name }}</option>
+                    @endforeach --}}
+            </select>
+        </div>
+
+        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+            <label class="form-label">Nama Sijil</label>
+            <input type="text" class="form-control" value="" name="" id="" oninput="" disabled>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label">Pengkhususan/ Bidang</label>
+            <select class="select2 form-control" value="" name="" id="" disabled>
+                <option value="" hidden>Pengkhususan/ Bidang</option>
+                    {{-- @foreach($specializations as $specialization)
+                        <option value="{{ $specialization->code }}">{{ $specialization->name }}</option>
+                    @endforeach --}}
+            </select>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label">Francais Luar Negara</label>
+            <select class="select2 form-control" value="" name="" id="" disabled>
+                {{-- <option value="" hidden>Francais Luar Negara</option>
+                <option value="1">Tidak</option>
+                <option value="2">Ya</option> --}}
+            </select>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label">Tarikh Senat</label>
+            <input type="text" class="form-control flatpickr" value="" name="" id="" oninput="" disabled>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+            <label class="form-label">Biasiswa</label>
+            <select class="select2 form-control" value="" name="" id="" disabled>
+                <option value="" hidden>Biasiswa</option>
+                <option value="0">Tidak</option>
+                <option value="1">Ya</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="" style="display:none">
+        <button type="button" id="" hidden onclick="generalFormSubmit(this);"></button>
+        <div class="d-flex justify-content-end align-items-center my-1">
+            <button type="button" class="btn btn-success float-right" onclick="">
+                <i class="fa fa-save"></i> Simpan
+            </button>
+        </div>
+    </div>
+</form>
+{{-- End of dumminess --}}
 
 <script>
     // function confirmSubject(Data) {
