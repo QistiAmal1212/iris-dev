@@ -668,332 +668,336 @@ Maklumat Pemohon
                     $('#table-skm tbody').empty();
                     reloadSkm();
 
-                    $('#diplomaForm input[name="diploma_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.diploma != null) {
+                    // $('#diplomaForm input[name="diploma_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    // if(data.detail.diploma != null) {
 
-                        $('#diplomaForm input[name="tahun_diploma"]').val(data.detail.diploma.tahun_lulus ? data.detail.diploma.tahun_lulus : data_not_available);
-                        originalVal['tahun_diploma'] = data.detail.diploma.tahun_lulus;
+                    //     $('#diplomaForm input[name="tahun_diploma"]').val(data.detail.diploma.tahun_lulus ? data.detail.diploma.tahun_lulus : data_not_available);
+                    //     originalVal['tahun_diploma'] = data.detail.diploma.tahun_lulus;
 
-                        if(data.detail.diploma.kel_kod) {
-                            $('#diplomaForm select[name="kelayakan_diploma"]').val(data.detail.diploma.kel_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('kelayakan_diploma', 'diplomaForm');
-                        }
-                        originalVal['kelayakan_diploma'] = $('#diplomaForm select[name="kelayakan_diploma"]').find(':selected').text();
+                    //     if(data.detail.diploma.kel_kod) {
+                    //         $('#diplomaForm select[name="kelayakan_diploma"]').val(data.detail.diploma.kel_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('kelayakan_diploma', 'diplomaForm');
+                    //     }
+                    //     originalVal['kelayakan_diploma'] = $('#diplomaForm select[name="kelayakan_diploma"]').find(':selected').text();
 
-                        $('#diplomaForm input[name="cgpa_diploma"]').val(data.detail.diploma.cgpa ? data.detail.diploma.cgpa : data_not_available);
-                        originalVal['cgpa_diploma'] = data.detail.diploma.cgpa;
+                    //     $('#diplomaForm input[name="cgpa_diploma"]').val(data.detail.diploma.cgpa ? data.detail.diploma.cgpa : data_not_available);
+                    //     originalVal['cgpa_diploma'] = data.detail.diploma.cgpa;
 
-                        if(data.detail.diploma.ins_kod) {
-                            $('#diplomaForm select[name="institusi_diploma"]').val(data.detail.diploma.ins_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('institusi_diploma', 'diplomaForm');
-                        }
-                        originalVal['institusi_diploma'] = $('#diplomaForm select[name="institusi_diploma"]').find(':selected').text();
+                    //     if(data.detail.diploma.ins_kod) {
+                    //         $('#diplomaForm select[name="institusi_diploma"]').val(data.detail.diploma.ins_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('institusi_diploma', 'diplomaForm');
+                    //     }
+                    //     originalVal['institusi_diploma'] = $('#diplomaForm select[name="institusi_diploma"]').find(':selected').text();
 
-                        $('#diplomaForm input[name="nama_sijil_diploma"]').val(data.detail.diploma.nama_sijil ? data.detail.diploma.nama_sijil : data_not_available);
-                        originalVal['kod_ruj_pengkhususan'] = data.detail.diploma.nama_sijil;
+                    //     $('#diplomaForm input[name="nama_sijil_diploma"]').val(data.detail.diploma.nama_sijil ? data.detail.diploma.nama_sijil : data_not_available);
+                    //     originalVal['kod_ruj_pengkhususan'] = data.detail.diploma.nama_sijil;
 
-                        if(data.detail.diploma.pen_kod) {
-                            $('#diplomaForm select[name="pengkhususan_diploma"]').val(data.detail.diploma.pen_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('pengkhususan_diploma', 'diplomaForm');
-                        }
-                        originalVal['pengkhususan_diploma'] = $('#diplomaForm select[name="pengkhususan_diploma"]').find(':selected').text();
+                    //     if(data.detail.diploma.pen_kod) {
+                    //         $('#diplomaForm select[name="pengkhususan_diploma"]').val(data.detail.diploma.pen_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('pengkhususan_diploma', 'diplomaForm');
+                    //     }
+                    //     originalVal['pengkhususan_diploma'] = $('#diplomaForm select[name="pengkhususan_diploma"]').find(':selected').text();
 
-                        if(data.detail.diploma.ins_fln) {
-                            $('#diplomaForm select[name="fln_diploma"]').val(data.detail.diploma.ins_fln).trigger('change');
-                        }
-                        else {
-                            selectionNull('fln_diploma', 'diplomaForm');
-                        }
-                        originalVal['fln_diploma'] = $('#diplomaForm select[name="fln_diploma"]').find(':selected').text();
+                    //     if(data.detail.diploma.ins_fln) {
+                    //         $('#diplomaForm select[name="fln_diploma"]').val(data.detail.diploma.ins_fln).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('fln_diploma', 'diplomaForm');
+                    //     }
+                    //     originalVal['fln_diploma'] = $('#diplomaForm select[name="fln_diploma"]').find(':selected').text();
 
-                        $('#diplomaForm input[name="tarikh_senat_diploma"]').val(data.detail.diploma.tarikh_senat ? data.detail.diploma.tarikh_senat : data_not_available);
-                        originalVal['tarikh_senat_diploma'] = data.detail.diploma.tarikh_senat;
+                    //     $('#diplomaForm input[name="tarikh_senat_diploma"]').val(data.detail.diploma.tarikh_senat ? data.detail.diploma.tarikh_senat : data_not_available);
+                    //     originalVal['tarikh_senat_diploma'] = data.detail.diploma.tarikh_senat;
 
-                        if(data.detail.diploma.biasiswa != null) {
-                            $('#diplomaForm select[name="biasiswa_diploma"]').val((data.detail.diploma.biasiswa == true) ? 1 : 0).trigger('change');
+                    //     if(data.detail.diploma.biasiswa != null) {
+                    //         $('#diplomaForm select[name="biasiswa_diploma"]').val((data.detail.diploma.biasiswa == true) ? 1 : 0).trigger('change');
 
-                            var tmDiplomaElement = $("#tm_dip");
-                            tmDiplomaElement.attr("hidden", true);
-                        }
-                        else {
-                            selectionNull('biasiswa_diploma', 'diplomaForm');
-                        }
-                        originalVal['biasiswa_diploma'] = $('#diplomaForm select[name="biasiswa_diploma"]').find(':selected').text();
+                    //         var tmDiplomaElement = $("#tm_dip");
+                    //         tmDiplomaElement.attr("hidden", true);
+                    //     }
+                    //     else {
+                    //         selectionNull('biasiswa_diploma', 'diplomaForm');
+                    //     }
+                    //     originalVal['biasiswa_diploma'] = $('#diplomaForm select[name="biasiswa_diploma"]').find(':selected').text();
 
-                        var tmDiplomaElement = $("#tm_dip");
-                        tmDiplomaElement.attr("hidden", true);
-                    }else{
-                        $('#diplomaForm input[name="tahun_diploma"]').val(data_not_available);
-                        originalVal['tahun_diploma'] = '';
-                        selectionNull('kelayakan_diploma', 'diplomaForm');
-                        originalVal['kelayakan_diploma'] = '';
-                        $('#diplomaForm input[name="cgpa_diploma"]').val(data_not_available);
-                        originalVal['cgpa_diploma'] = '';
-                        selectionNull('institusi_diploma', 'diplomaForm');
-                        originalVal['institusi_diploma'] = '';
-                        $('#diplomaForm input[name="nama_sijil_diploma"]').val(data_not_available);
-                        originalVal['nama_sijil_diploma'] = '';
-                        selectionNull('pengkhususan_diploma', 'diplomaForm');
-                        originalVal['pengkhususan_diploma'] = '';
-                        selectionNull('fln_diploma', 'diplomaForm');
-                        originalVal['fln_diploma'] = '';
-                        $('#diplomaForm input[name="tarikh_senat_diploma"]').val(data_not_available);
-                        originalVal['tarikh_senat_diploma'] = '';
-                        selectionNull('biasiswa_diploma', 'diplomaForm');
-                        originalVal['biasiswa_diploma'] = '';
+                    //     var tmDiplomaElement = $("#tm_dip");
+                    //     tmDiplomaElement.attr("hidden", true);
+                    // }else{
+                    //     $('#diplomaForm input[name="tahun_diploma"]').val(data_not_available);
+                    //     originalVal['tahun_diploma'] = '';
+                    //     selectionNull('kelayakan_diploma', 'diplomaForm');
+                    //     originalVal['kelayakan_diploma'] = '';
+                    //     $('#diplomaForm input[name="cgpa_diploma"]').val(data_not_available);
+                    //     originalVal['cgpa_diploma'] = '';
+                    //     selectionNull('institusi_diploma', 'diplomaForm');
+                    //     originalVal['institusi_diploma'] = '';
+                    //     $('#diplomaForm input[name="nama_sijil_diploma"]').val(data_not_available);
+                    //     originalVal['nama_sijil_diploma'] = '';
+                    //     selectionNull('pengkhususan_diploma', 'diplomaForm');
+                    //     originalVal['pengkhususan_diploma'] = '';
+                    //     selectionNull('fln_diploma', 'diplomaForm');
+                    //     originalVal['fln_diploma'] = '';
+                    //     $('#diplomaForm input[name="tarikh_senat_diploma"]').val(data_not_available);
+                    //     originalVal['tarikh_senat_diploma'] = '';
+                    //     selectionNull('biasiswa_diploma', 'diplomaForm');
+                    //     originalVal['biasiswa_diploma'] = '';
 
-                        var tmDiplomaElement = $("#tm_dip");
-                        tmDiplomaElement.removeAttr("hidden");
-                    }
+                    //     var tmDiplomaElement = $("#tm_dip");
+                    //     tmDiplomaElement.removeAttr("hidden");
+                    // }
 
-                    $('#degreeForm input[name="degree_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.degree != null) {
+                    // $('#degreeForm input[name="degree_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    // if(data.detail.degree != null) {
 
-                        $('#degreeForm input[name="tahun_degree"]').val(data.detail.degree.tahun_lulus ? data.detail.degree.tahun_lulus : data_not_available);
-                        originalVal['tahun_degree'] = data.detail.degree.tahun_lulus;
+                    //     $('#degreeForm input[name="tahun_degree"]').val(data.detail.degree.tahun_lulus ? data.detail.degree.tahun_lulus : data_not_available);
+                    //     originalVal['tahun_degree'] = data.detail.degree.tahun_lulus;
 
-                        if(data.detail.degree.kel_kod) {
-                            $('#degreeForm select[name="kelayakan_degree"]').val(data.detail.degree.kel_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('kelayakan_degree', 'degreeForm');
-                        }
-                        originalVal['kelayakan_degree'] = $('#degreeForm select[name="kelayakan_degree"]').find(':selected').text();
+                    //     if(data.detail.degree.kel_kod) {
+                    //         $('#degreeForm select[name="kelayakan_degree"]').val(data.detail.degree.kel_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('kelayakan_degree', 'degreeForm');
+                    //     }
+                    //     originalVal['kelayakan_degree'] = $('#degreeForm select[name="kelayakan_degree"]').find(':selected').text();
 
-                        $('#degreeForm input[name="cgpa_degree"]').val(data.detail.degree.cgpa ? data.detail.degree.cgpa : data_not_available);
-                        originalVal['cgpa_degree'] = data.detail.degree.cgpa;
+                    //     $('#degreeForm input[name="cgpa_degree"]').val(data.detail.degree.cgpa ? data.detail.degree.cgpa : data_not_available);
+                    //     originalVal['cgpa_degree'] = data.detail.degree.cgpa;
 
-                        if(data.detail.degree.ins_kod) {
-                            $('#degreeForm select[name="institusi_degree"]').val(data.detail.degree.ins_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('institusi_degree', 'degreeForm');
-                        }
-                        originalVal['institusi_degree'] = $('#degreeForm select[name="institusi_degree"]').find(':selected').text();
+                    //     if(data.detail.degree.ins_kod) {
+                    //         $('#degreeForm select[name="institusi_degree"]').val(data.detail.degree.ins_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('institusi_degree', 'degreeForm');
+                    //     }
+                    //     originalVal['institusi_degree'] = $('#degreeForm select[name="institusi_degree"]').find(':selected').text();
 
-                        $('#degreeForm input[name="nama_sijil_degree"]').val(data.detail.degree.nama_sijil ? data.detail.degree.nama_sijil : data_not_available);
-                        originalVal['kod_ruj_pengkhususan'] = data.detail.degree.nama_sijil;
+                    //     $('#degreeForm input[name="nama_sijil_degree"]').val(data.detail.degree.nama_sijil ? data.detail.degree.nama_sijil : data_not_available);
+                    //     originalVal['kod_ruj_pengkhususan'] = data.detail.degree.nama_sijil;
 
-                        if(data.detail.degree.pen_kod) {
-                            $('#degreeForm select[name="pengkhususan_degree"]').val(data.detail.degree.pen_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('pengkhususan_degree', 'degreeForm');
-                        }
-                        originalVal['pengkhususan_degree'] = $('#degreeForm select[name="pengkhususan_degree"]').find(':selected').text();
+                    //     if(data.detail.degree.pen_kod) {
+                    //         $('#degreeForm select[name="pengkhususan_degree"]').val(data.detail.degree.pen_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('pengkhususan_degree', 'degreeForm');
+                    //     }
+                    //     originalVal['pengkhususan_degree'] = $('#degreeForm select[name="pengkhususan_degree"]').find(':selected').text();
 
-                        if(data.detail.degree.ins_fln) {
-                            $('#degreeForm select[name="fln_degree"]').val(data.detail.degree.ins_fln).trigger('change');
-                        }
-                        else {
-                            selectionNull('fln_degree', 'degreeForm');
-                        }
-                        originalVal['fln_degree'] = $('#degreeForm select[name="fln_degree"]').find(':selected').text();
+                    //     if(data.detail.degree.ins_fln) {
+                    //         $('#degreeForm select[name="fln_degree"]').val(data.detail.degree.ins_fln).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('fln_degree', 'degreeForm');
+                    //     }
+                    //     originalVal['fln_degree'] = $('#degreeForm select[name="fln_degree"]').find(':selected').text();
 
-                        $('#degreeForm input[name="tarikh_senat_degree"]').val(data.detail.degree.tarikh_senat ? data.detail.degree.tarikh_senat : data_not_available);
-                        originalVal['tarikh_senat_degree'] = data.detail.degree.tarikh_senat;
+                    //     $('#degreeForm input[name="tarikh_senat_degree"]').val(data.detail.degree.tarikh_senat ? data.detail.degree.tarikh_senat : data_not_available);
+                    //     originalVal['tarikh_senat_degree'] = data.detail.degree.tarikh_senat;
 
-                        if(data.detail.degree.biasiswa != null) {
-                            $('#degreeForm select[name="biasiswa_degree"]').val((data.detail.degree.biasiswa == true) ? 1 : 0).trigger('change');
-                        }
-                        else {
-                            selectionNull('biasiswa_degree', 'degreeForm');
-                        }
-                        originalVal['biasiswa_degree'] = $('#degreeForm select[name="biasiswa_degree"]').find(':selected').text();
+                    //     if(data.detail.degree.biasiswa != null) {
+                    //         $('#degreeForm select[name="biasiswa_degree"]').val((data.detail.degree.biasiswa == true) ? 1 : 0).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('biasiswa_degree', 'degreeForm');
+                    //     }
+                    //     originalVal['biasiswa_degree'] = $('#degreeForm select[name="biasiswa_degree"]').find(':selected').text();
 
-                        var tmDegElement = $("#tm_ism");
-                        tmDegElement.attr("hidden", true);
-                    }else{
-                        $('#degreeForm input[name="tahun_degree"]').val(data_not_available);
-                        originalVal['tahun_degree'] = '';
-                        selectionNull('kelayakan_degree', 'degreeForm');
-                        originalVal['kelayakan_degree'] = '';
-                        $('#degreeForm input[name="cgpa_degree"]').val(data_not_available);
-                        originalVal['cgpa_degree'] = '';
-                        selectionNull('institusi_degree', 'degreeForm');
-                        originalVal['institusi_degree'] = '';
-                        $('#degreeForm input[name="nama_sijil_degree"]').val(data_not_available);
-                        originalVal['nama_sijil_degree'] = '';
-                        selectionNull('pengkhususan_degree', 'degreeForm');
-                        originalVal['pengkhususan_degree'] = '';
-                        selectionNull('fln_degree', 'degreeForm');
-                        originalVal['fln_degree'] = '';
-                        $('#degreeForm input[name="tarikh_senat_degree"]').val(data_not_available);
-                        originalVal['tarikh_senat_degree'] = '';
-                        selectionNull('biasiswa_degree', 'degreeForm');
-                        originalVal['biasiswa_degree'] = '';
+                    //     var tmDegElement = $("#tm_ism");
+                    //     tmDegElement.attr("hidden", true);
+                    // }else{
+                    //     $('#degreeForm input[name="tahun_degree"]').val(data_not_available);
+                    //     originalVal['tahun_degree'] = '';
+                    //     selectionNull('kelayakan_degree', 'degreeForm');
+                    //     originalVal['kelayakan_degree'] = '';
+                    //     $('#degreeForm input[name="cgpa_degree"]').val(data_not_available);
+                    //     originalVal['cgpa_degree'] = '';
+                    //     selectionNull('institusi_degree', 'degreeForm');
+                    //     originalVal['institusi_degree'] = '';
+                    //     $('#degreeForm input[name="nama_sijil_degree"]').val(data_not_available);
+                    //     originalVal['nama_sijil_degree'] = '';
+                    //     selectionNull('pengkhususan_degree', 'degreeForm');
+                    //     originalVal['pengkhususan_degree'] = '';
+                    //     selectionNull('fln_degree', 'degreeForm');
+                    //     originalVal['fln_degree'] = '';
+                    //     $('#degreeForm input[name="tarikh_senat_degree"]').val(data_not_available);
+                    //     originalVal['tarikh_senat_degree'] = '';
+                    //     selectionNull('biasiswa_degree', 'degreeForm');
+                    //     originalVal['biasiswa_degree'] = '';
 
-                        var tmDegElement = $("#tm_ism");
-                        tmDegElement.removeAttr("hidden");
-                    }
+                    //     var tmDegElement = $("#tm_ism");
+                    //     tmDegElement.removeAttr("hidden");
+                    // }
 
-                    $('#masterForm input[name="master_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.master != null) {
+                    // $('#masterForm input[name="master_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    // if(data.detail.master != null) {
 
-                        $('#masterForm input[name="tahun_master"]').val(data.detail.master.tahun_lulus ? data.detail.master.tahun_lulus : data_not_available);
-                        originalVal['tahun_master'] = data.detail.master.tahun_lulus;
+                    //     $('#masterForm input[name="tahun_master"]').val(data.detail.master.tahun_lulus ? data.detail.master.tahun_lulus : data_not_available);
+                    //     originalVal['tahun_master'] = data.detail.master.tahun_lulus;
 
-                        if(data.detail.master.kel_kod) {
-                            $('#masterForm select[name="kelayakan_master"]').val(data.detail.master.kel_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('kelayakan_master', 'masterForm');
-                        }
-                        originalVal['kelayakan_master'] = $('#masterForm select[name="kelayakan_master"]').find(':selected').text();
+                    //     if(data.detail.master.kel_kod) {
+                    //         $('#masterForm select[name="kelayakan_master"]').val(data.detail.master.kel_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('kelayakan_master', 'masterForm');
+                    //     }
+                    //     originalVal['kelayakan_master'] = $('#masterForm select[name="kelayakan_master"]').find(':selected').text();
 
-                        $('#masterForm input[name="cgpa_master"]').val(data.detail.master.cgpa ? data.detail.master.cgpa : data_not_available);
-                        originalVal['cgpa_master'] = data.detail.master.cgpa;
+                    //     $('#masterForm input[name="cgpa_master"]').val(data.detail.master.cgpa ? data.detail.master.cgpa : data_not_available);
+                    //     originalVal['cgpa_master'] = data.detail.master.cgpa;
 
-                        if(data.detail.master.ins_kod) {
-                            $('#masterForm select[name="institusi_master"]').val(data.detail.master.ins_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('institusi_master', 'masterForm');
-                        }
-                        originalVal['institusi_master'] = $('#masterForm select[name="institusi_master"]').find(':selected').text();
+                    //     if(data.detail.master.ins_kod) {
+                    //         $('#masterForm select[name="institusi_master"]').val(data.detail.master.ins_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('institusi_master', 'masterForm');
+                    //     }
+                    //     originalVal['institusi_master'] = $('#masterForm select[name="institusi_master"]').find(':selected').text();
 
-                        $('#masterForm input[name="nama_sijil_master"]').val(data.detail.master.nama_sijil ? data.detail.master.nama_sijil : data_not_available);
-                        originalVal['kod_ruj_pengkhususan'] = data.detail.master.nama_sijil;
+                    //     $('#masterForm input[name="nama_sijil_master"]').val(data.detail.master.nama_sijil ? data.detail.master.nama_sijil : data_not_available);
+                    //     originalVal['kod_ruj_pengkhususan'] = data.detail.master.nama_sijil;
 
-                        if(data.detail.master.pen_kod) {
-                            $('#masterForm select[name="pengkhususan_master"]').val(data.detail.master.pen_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('pengkhususan_master', 'masterForm');
-                        }
-                        originalVal['pengkhususan_master'] = $('#masterForm select[name="pengkhususan_master"]').find(':selected').text();
+                    //     if(data.detail.master.pen_kod) {
+                    //         $('#masterForm select[name="pengkhususan_master"]').val(data.detail.master.pen_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('pengkhususan_master', 'masterForm');
+                    //     }
+                    //     originalVal['pengkhususan_master'] = $('#masterForm select[name="pengkhususan_master"]').find(':selected').text();
 
-                        if(data.detail.master.ins_fln) {
-                            $('#masterForm select[name="fln_master"]').val(data.detail.master.ins_fln).trigger('change');
-                        }
-                        else {
-                            selectionNull('fln_master', 'masterForm');
-                        }
-                        originalVal['fln_master'] = $('#masterForm select[name="fln_master"]').find(':selected').text();
+                    //     if(data.detail.master.ins_fln) {
+                    //         $('#masterForm select[name="fln_master"]').val(data.detail.master.ins_fln).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('fln_master', 'masterForm');
+                    //     }
+                    //     originalVal['fln_master'] = $('#masterForm select[name="fln_master"]').find(':selected').text();
 
-                        $('#masterForm input[name="tarikh_senat_master"]').val(data.detail.master.tarikh_senat ? data.detail.master.tarikh_senat : data_not_available);
-                        originalVal['tarikh_senat_master'] = data.detail.master.tarikh_senat;
+                    //     $('#masterForm input[name="tarikh_senat_master"]').val(data.detail.master.tarikh_senat ? data.detail.master.tarikh_senat : data_not_available);
+                    //     originalVal['tarikh_senat_master'] = data.detail.master.tarikh_senat;
 
-                        if(data.detail.master.biasiswa != null) {
-                            $('#masterForm select[name="biasiswa_master"]').val((data.detail.master.biasiswa == true) ? 1 : 0).trigger('change');
-                        }
-                        else {
-                            selectionNull('biasiswa_master', 'masterForm');
-                        }
-                        originalVal['biasiswa_master'] = $('#masterForm select[name="biasiswa_master"]').find(':selected').text();
+                    //     if(data.detail.master.biasiswa != null) {
+                    //         $('#masterForm select[name="biasiswa_master"]').val((data.detail.master.biasiswa == true) ? 1 : 0).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('biasiswa_master', 'masterForm');
+                    //     }
+                    //     originalVal['biasiswa_master'] = $('#masterForm select[name="biasiswa_master"]').find(':selected').text();
 
-                        var tmMasterElement = $("#tm_is");
-                        tmMasterElement.attr("hidden", true);
-                    }else{
-                        $('#masterForm input[name="tahun_master"]').val(data_not_available);
-                        originalVal['tahun_master'] = '';
-                        selectionNull('kelayakan_master', 'masterForm');
-                        originalVal['kelayakan_master'] = '';
-                        $('#masterForm input[name="cgpa_master"]').val(data_not_available);
-                        originalVal['cgpa_master'] = '';
-                        selectionNull('institusi_master', 'masterForm');
-                        originalVal['institusi_master'] = '';
-                        $('#masterForm input[name="nama_sijil_master"]').val(data_not_available);
-                        originalVal['nama_sijil_master'] = '';
-                        selectionNull('pengkhususan_master', 'masterForm');
-                        originalVal['pengkhususan_master'] = '';
-                        selectionNull('fln_master', 'masterForm');
-                        originalVal['fln_master'] = '';
-                        $('#masterForm input[name="tarikh_senat_master"]').val(data_not_available);
-                        originalVal['tarikh_senat_master'] = '';
-                        selectionNull('biasiswa_master', 'masterForm');
-                        originalVal['biasiswa_master'] = '';
+                    //     var tmMasterElement = $("#tm_is");
+                    //     tmMasterElement.attr("hidden", true);
+                    // }else{
+                    //     $('#masterForm input[name="tahun_master"]').val(data_not_available);
+                    //     originalVal['tahun_master'] = '';
+                    //     selectionNull('kelayakan_master', 'masterForm');
+                    //     originalVal['kelayakan_master'] = '';
+                    //     $('#masterForm input[name="cgpa_master"]').val(data_not_available);
+                    //     originalVal['cgpa_master'] = '';
+                    //     selectionNull('institusi_master', 'masterForm');
+                    //     originalVal['institusi_master'] = '';
+                    //     $('#masterForm input[name="nama_sijil_master"]').val(data_not_available);
+                    //     originalVal['nama_sijil_master'] = '';
+                    //     selectionNull('pengkhususan_master', 'masterForm');
+                    //     originalVal['pengkhususan_master'] = '';
+                    //     selectionNull('fln_master', 'masterForm');
+                    //     originalVal['fln_master'] = '';
+                    //     $('#masterForm input[name="tarikh_senat_master"]').val(data_not_available);
+                    //     originalVal['tarikh_senat_master'] = '';
+                    //     selectionNull('biasiswa_master', 'masterForm');
+                    //     originalVal['biasiswa_master'] = '';
 
-                        var tmMasterElement = $("#tm_is");
-                        tmMasterElement.removeAttr("hidden");
-                    }
+                    //     var tmMasterElement = $("#tm_is");
+                    //     tmMasterElement.removeAttr("hidden");
+                    // }
 
-                    $('#phdForm input[name="phd_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.phd != null) {
+                    // $('#phdForm input[name="phd_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    // if(data.detail.phd != null) {
 
-                        $('#phdForm input[name="tahun_phd"]').val(data.detail.phd.tahun_lulus ? data.detail.phd.tahun_lulus : data_not_available);
-                        originalVal['tahun_phd'] = data.detail.phd.tahun_lulus;
+                    //     $('#phdForm input[name="tahun_phd"]').val(data.detail.phd.tahun_lulus ? data.detail.phd.tahun_lulus : data_not_available);
+                    //     originalVal['tahun_phd'] = data.detail.phd.tahun_lulus;
 
-                        if(data.detail.phd.kel_kod) {
-                            $('#phdForm select[name="kelayakan_phd"]').val(data.detail.phd.kel_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('kelayakan_phd', 'phdForm');
-                        }
-                        originalVal['kelayakan_phd'] = $('#phdForm select[name="kelayakan_phd"]').find(':selected').text();
+                    //     if(data.detail.phd.kel_kod) {
+                    //         $('#phdForm select[name="kelayakan_phd"]').val(data.detail.phd.kel_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('kelayakan_phd', 'phdForm');
+                    //     }
+                    //     originalVal['kelayakan_phd'] = $('#phdForm select[name="kelayakan_phd"]').find(':selected').text();
 
-                        $('#phdForm input[name="cgpa_phd"]').val(data.detail.phd.cgpa ? data.detail.phd.cgpa : data_not_available);
-                        originalVal['cgpa_phd'] = data.detail.phd.cgpa;
+                    //     $('#phdForm input[name="cgpa_phd"]').val(data.detail.phd.cgpa ? data.detail.phd.cgpa : data_not_available);
+                    //     originalVal['cgpa_phd'] = data.detail.phd.cgpa;
 
-                        if(data.detail.phd.ins_kod) {
-                            $('#phdForm select[name="institusi_phd"]').val(data.detail.phd.ins_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('institusi_phd', 'phdForm');
-                        }
-                        originalVal['institusi_phd'] = $('#phdForm select[name="institusi_phd"]').find(':selected').text();
+                    //     if(data.detail.phd.ins_kod) {
+                    //         $('#phdForm select[name="institusi_phd"]').val(data.detail.phd.ins_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('institusi_phd', 'phdForm');
+                    //     }
+                    //     originalVal['institusi_phd'] = $('#phdForm select[name="institusi_phd"]').find(':selected').text();
 
-                        $('#phdForm input[name="nama_sijil_phd"]').val(data.detail.phd.nama_sijil ? data.detail.phd.nama_sijil : data_not_available);
-                        originalVal['kod_ruj_pengkhususan'] = data.detail.phd.nama_sijil;
+                    //     $('#phdForm input[name="nama_sijil_phd"]').val(data.detail.phd.nama_sijil ? data.detail.phd.nama_sijil : data_not_available);
+                    //     originalVal['kod_ruj_pengkhususan'] = data.detail.phd.nama_sijil;
 
-                        if(data.detail.phd.pen_kod) {
-                            $('#phdForm select[name="pengkhususan_phd"]').val(data.detail.phd.pen_kod).trigger('change');
-                        }
-                        else {
-                            selectionNull('pengkhususan_phd', 'phdForm');
-                        }
-                        originalVal['pengkhususan_phd'] = $('#phdForm select[name="pengkhususan_phd"]').find(':selected').text();
+                    //     if(data.detail.phd.pen_kod) {
+                    //         $('#phdForm select[name="pengkhususan_phd"]').val(data.detail.phd.pen_kod).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('pengkhususan_phd', 'phdForm');
+                    //     }
+                    //     originalVal['pengkhususan_phd'] = $('#phdForm select[name="pengkhususan_phd"]').find(':selected').text();
 
-                        if(data.detail.phd.ins_fln) {
-                            $('#phdForm select[name="fln_phd"]').val(data.detail.phd.ins_fln).trigger('change');
-                        }
-                        else {
-                            selectionNull('fln_phd', 'phdForm');
-                        }
-                        originalVal['fln_phd'] = $('#phdForm select[name="fln_phd"]').find(':selected').text();
+                    //     if(data.detail.phd.ins_fln) {
+                    //         $('#phdForm select[name="fln_phd"]').val(data.detail.phd.ins_fln).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('fln_phd', 'phdForm');
+                    //     }
+                    //     originalVal['fln_phd'] = $('#phdForm select[name="fln_phd"]').find(':selected').text();
 
-                        $('#phdForm input[name="tarikh_senat_phd"]').val(data.detail.phd.tarikh_senat ? data.detail.phd.tarikh_senat : data_not_available);
-                        originalVal['tarikh_senat_phd'] = data.detail.phd.tarikh_senat;
+                    //     $('#phdForm input[name="tarikh_senat_phd"]').val(data.detail.phd.tarikh_senat ? data.detail.phd.tarikh_senat : data_not_available);
+                    //     originalVal['tarikh_senat_phd'] = data.detail.phd.tarikh_senat;
 
-                        if(data.detail.phd.biasiswa != null) {
-                            $('#phdForm select[name="biasiswa_phd"]').val((data.detail.phd.biasiswa == true) ? 1 : 0).trigger('change');
-                        }
-                        else {
-                            selectionNull('biasiswa_phd', 'phdForm');
-                        }
-                        originalVal['biasiswa_phd'] = $('#phdForm select[name="biasiswa_phd"]').find(':selected').text();
+                    //     if(data.detail.phd.biasiswa != null) {
+                    //         $('#phdForm select[name="biasiswa_phd"]').val((data.detail.phd.biasiswa == true) ? 1 : 0).trigger('change');
+                    //     }
+                    //     else {
+                    //         selectionNull('biasiswa_phd', 'phdForm');
+                    //     }
+                    //     originalVal['biasiswa_phd'] = $('#phdForm select[name="biasiswa_phd"]').find(':selected').text();
 
-                        var tmDrElement = $("#tm_idf");
-                        tmDrElement.attr("hidden", true);
-                    }else{
-                        $('#phdForm input[name="tahun_phd"]').val(data_not_available);
-                        originalVal['tahun_phd'] = '';
-                        selectionNull('kelayakan_phd', 'phdForm');
-                        originalVal['kelayakan_phd'] = '';
-                        $('#phdForm input[name="cgpa_phd"]').val(data_not_available);
-                        originalVal['cgpa_phd'] = '';
-                        selectionNull('institusi_phd', 'phdForm');
-                        originalVal['institusi_phd'] = '';
-                        $('#phdForm input[name="nama_sijil_phd"]').val(data_not_available);
-                        originalVal['nama_sijil_phd'] = '';
-                        selectionNull('pengkhususan_phd', 'phdForm');
-                        originalVal['pengkhususan_phd'] = '';
-                        selectionNull('fln_phd', 'phdForm');
-                        originalVal['fln_phd'] = '';
-                        $('#phdForm input[name="tarikh_senat_phd"]').val(data_not_available);
-                        originalVal['tarikh_senat_phd'] = '';
-                        selectionNull('biasiswa_phd', 'phdForm');
-                        originalVal['biasiswa_phd'] = '';
+                    //     var tmDrElement = $("#tm_idf");
+                    //     tmDrElement.attr("hidden", true);
+                    // }else{
+                    //     $('#phdForm input[name="tahun_phd"]').val(data_not_available);
+                    //     originalVal['tahun_phd'] = '';
+                    //     selectionNull('kelayakan_phd', 'phdForm');
+                    //     originalVal['kelayakan_phd'] = '';
+                    //     $('#phdForm input[name="cgpa_phd"]').val(data_not_available);
+                    //     originalVal['cgpa_phd'] = '';
+                    //     selectionNull('institusi_phd', 'phdForm');
+                    //     originalVal['institusi_phd'] = '';
+                    //     $('#phdForm input[name="nama_sijil_phd"]').val(data_not_available);
+                    //     originalVal['nama_sijil_phd'] = '';
+                    //     selectionNull('pengkhususan_phd', 'phdForm');
+                    //     originalVal['pengkhususan_phd'] = '';
+                    //     selectionNull('fln_phd', 'phdForm');
+                    //     originalVal['fln_phd'] = '';
+                    //     $('#phdForm input[name="tarikh_senat_phd"]').val(data_not_available);
+                    //     originalVal['tarikh_senat_phd'] = '';
+                    //     selectionNull('biasiswa_phd', 'phdForm');
+                    //     originalVal['biasiswa_phd'] = '';
 
-                        var tmDrElement = $("#tm_idf");
-                        tmDrElement.removeAttr("hidden");
-                    }
+                    //     var tmDrElement = $("#tm_idf");
+                    //     tmDrElement.removeAttr("hidden");
+                    // }
+
+                    $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $("#list-pt").empty();
+                    reloadPengajianTinggi();
 
                     $('#profesionalForm input[name="profesional_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-profesional tbody').empty();

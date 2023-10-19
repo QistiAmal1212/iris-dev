@@ -126,9 +126,9 @@ class MaklumatPemohonController extends Controller
         $previousPage = $currentPage-1;
         $nextPage = $currentPage+1;
         $sql = "SELECT no_kp_baru, nama_penuh FROM calon WHERE nama_penuh ilike ? and no_kp_baru is not null OFFSET ? LIMIT ?";
-         
+
         $candidate = DB::select($sql, ['%' . $nama . '%', $offset, 10]);
-        
+
         return view('maklumat_pemohon.list', compact('total_pages', 'candidate', 'previousPage', 'nextPage', 'currentPage'));
     }
 
@@ -2324,79 +2324,505 @@ class MaklumatPemohonController extends Controller
         return response()->json(['message' => 'Record deleted successfully'], 200);
     }
 
-    public function updateDiploma(Request $request)
+    // public function updateDiploma(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+
+    //         $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->diploma_no_pengenalan)
+    //         ->with('eligibility')->whereHas('eligibility', function ($query) {
+    //             $query->with('kelayakanSetaraf');
+    //             $query->whereHas('kelayakanSetaraf', function ($query2) {
+    //                 $query2->where('kod', 5);
+    //             });
+    //         })
+    //         ->first();
+
+    //         $request->validate([
+    //             'tahun_diploma' => 'required|string',
+    //             'kelayakan_diploma' => 'required|string|exists:ruj_kelayakan,kod',
+    //             'cgpa_diploma' => 'required|string',
+    //             'institusi_diploma' => 'required|string|exists:ruj_institusi,kod',
+    //             'nama_sijil_diploma' => 'required|string',
+    //             'pengkhususan_diploma' => 'required|string|exists:ruj_pengkhususan,kod',
+    //             'fln_diploma' => 'required|integer|digits_between:1,2',
+    //             'tarikh_senat_diploma' => 'required',
+    //             'biasiswa_diploma' => 'required|boolean',
+    //         ],[
+    //             'tahun_diploma.required' => 'Sila pilih tahun pengajian tinggi',
+    //             'kelayakan_diploma.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+    //             'kelayakan_diploma.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+    //             'cgpa_diploma.required' => 'Sila pilih cgpa pengajian tinggi',
+    //             'institusi_diploma.required' => 'Sila pilih institusi pengajian tinggi',
+    //             'institusi_diploma.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+    //             'nama_sijil_diploma.required' => 'Sila pilih nama sijil pengajian tinggi',
+    //             'pengkhususan_diploma.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+    //             'pengkhususan_diploma.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+    //             'fln_diploma.required' => 'Sila pilih francais luar negara pengajian tinggi',
+    //             'fln_diploma.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+    //             'tarikh_senat_diploma.required' => 'Sila pilih tarikh senat pengajian tinggi',
+    //             'biasiswa_diploma.required' => 'Sila pilih biasiswa pengajian tinggi',
+    //             'biasiswa_diploma.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+    //         ]);
+
+    //         if(!$candidate){
+    //             CalonPengajianTinggi::create([
+    //                 'cal_no_pengenalan' => $request->diploma_no_pengenalan,
+    //                 'peringkat_pengajian' => 4,
+    //                 'tahun_lulus' => $request->tahun_diploma,
+    //                 'kel_kod' => $request->kelayakan_diploma,
+    //                 'cgpa' => $request->cgpa_diploma,
+    //                 'ins_kod' => $request->institusi_diploma,
+    //                 'nama_sijil' => $request->nama_sijil_diploma,
+    //                 'pen_kod' => $request->pengkhususan_diploma,
+    //                 'ins_fln' => $request->fln_diploma,
+    //                 'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_diploma)->format('Y-m-d'),
+    //                 'biasiswa' => $request->biasiswa_diploma,
+    //             ]);
+    //         } else{
+    //             $candidate->update([
+    //                 'tahun_lulus' => $request->tahun_diploma,
+    //                 'kel_kod' => $request->kelayakan_diploma,
+    //                 'cgpa' => $request->cgpa_diploma,
+    //                 'ins_kod' => $request->institusi_diploma,
+    //                 'nama_sijil' => $request->nama_sijil_diploma,
+    //                 'pen_kod' => $request->pengkhususan_diploma,
+    //                 'ins_fln' => $request->fln_diploma,
+    //                 'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_diploma)->format('Y-m-d'),
+    //                 'biasiswa' => $request->biasiswa_diploma,
+    //             ]);
+    //         }
+
+    //         CalonGarisMasa::create([
+    //             'no_pengenalan' => $request->diploma_no_pengenalan,
+    //             'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Diploma)',
+    //             'activity_type_id' => 4,
+    //             'created_by' => auth()->user()->id,
+    //             'updated_by' => auth()->user()->id,
+    //         ]);
+
+    //         DB::commit();
+    //         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+    //     } catch (\Throwable $e) {
+
+    //         DB::rollback();
+    //         return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+    //     }
+    // }
+
+    // public function diplomaDetails(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+
+    //         $candidateDiploma = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)
+    //         ->with('eligibility')->whereHas('eligibility', function ($query) {
+    //             $query->with('kelayakanSetaraf');
+    //             $query->whereHas('kelayakanSetaraf', function ($query2) {
+    //                 $query2->where('kod', 5);
+    //             });
+    //         })
+    //         ->first();
+
+    //         $candidateDiploma->tarikh_senat = ($candidateDiploma->tarikh_senat != null) ? Carbon::parse($candidateDiploma->tarikh_senat)->format('d/m/Y') : null;
+
+    //         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateDiploma]);
+
+    //     } catch (\Throwable $e) {
+
+    //         //DB::rollback();
+    //         return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+    //     }
+    // }
+
+    // public function updateDegree(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+
+    //         $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->degree_no_pengenalan)
+    //         ->with('eligibility')->whereHas('eligibility', function ($query) {
+    //             $query->with('kelayakanSetaraf');
+    //             $query->whereHas('kelayakanSetaraf', function ($query2) {
+    //                 $query2->where('kod', 7);
+    //             });
+    //         })
+    //         ->first();
+
+    //         $request->validate([
+    //             'tahun_degree' => 'required|string',
+    //             'kelayakan_degree' => 'required|string|exists:ruj_kelayakan,kod',
+    //             'cgpa_degree' => 'required|string',
+    //             'institusi_degree' => 'required|string|exists:ruj_institusi,kod',
+    //             'nama_sijil_degree' => 'required|string',
+    //             'pengkhususan_degree' => 'required|string|exists:ruj_pengkhususan,kod',
+    //             'fln_degree' => 'required|integer|digits_between:1,2',
+    //             'tarikh_senat_degree' => 'required',
+    //             'biasiswa_degree' => 'required|boolean',
+    //         ],[
+    //             'tahun_degree.required' => 'Sila pilih tahun pengajian tinggi',
+    //             'kelayakan_degree.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+    //             'kelayakan_degree.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+    //             'cgpa_degree.required' => 'Sila pilih cgpa pengajian tinggi',
+    //             'institusi_degree.required' => 'Sila pilih institusi pengajian tinggi',
+    //             'institusi_degree.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+    //             'nama_sijil_degree.required' => 'Sila pilih nama sijil pengajian tinggi',
+    //             'pengkhususan_degree.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+    //             'pengkhususan_degree.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+    //             'fln_degree.required' => 'Sila pilih francais luar negara pengajian tinggi',
+    //             'fln_degree.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+    //             'tarikh_senat_degree.required' => 'Sila pilih tarikh senat pengajian tinggi',
+    //             'biasiswa_degree.required' => 'Sila pilih biasiswa pengajian tinggi',
+    //             'biasiswa_degree.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+    //         ]);
+
+    //         if(!$candidate){
+    //             CalonPengajianTinggi::create([
+    //                 'cal_no_pengenalan' => $request->degree_no_pengenalan,
+    //                 'peringkat_pengajian' => 3,
+    //                 'tahun_lulus' => $request->tahun_degree,
+    //                 'kel_kod' => $request->kelayakan_degree,
+    //                 'cgpa' => $request->cgpa_degree,
+    //                 'ins_kod' => $request->institusi_degree,
+    //                 'nama_sijil' => $request->nama_sijil_degree,
+    //                 'pen_kod' => $request->pengkhususan_degree,
+    //                 'ins_fln' => $request->fln_degree,
+    //                 'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_degree)->format('Y-m-d'),
+    //                 'biasiswa' => $request->biasiswa_degree,
+    //             ]);
+    //         } else{
+    //             $candidate->update([
+    //                 'tahun_lulus' => $request->tahun_degree,
+    //                 'kel_kod' => $request->kelayakan_degree,
+    //                 'cgpa' => $request->cgpa_degree,
+    //                 'ins_kod' => $request->institusi_degree,
+    //                 'nama_sijil' => $request->nama_sijil_degree,
+    //                 'pen_kod' => $request->pengkhususan_degree,
+    //                 'ins_fln' => $request->fln_degree,
+    //                 'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_degree)->format('Y-m-d'),
+    //                 'biasiswa' => $request->biasiswa_degree,
+    //             ]);
+    //         }
+
+    //         CalonGarisMasa::create([
+    //             'no_pengenalan' => $request->degree_no_pengenalan,
+    //             'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Ijazah Sarjana Muda)',
+    //             'activity_type_id' => 4,
+    //             'created_by' => auth()->user()->id,
+    //             'updated_by' => auth()->user()->id,
+    //         ]);
+
+    //         DB::commit();
+    //         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+    //     } catch (\Throwable $e) {
+
+    //         DB::rollback();
+    //         return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+    //     }
+    // }
+
+    // public function degreeDetails(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+
+    //         $candidateDegree = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)
+    //         ->with('eligibility')->whereHas('eligibility', function ($query) {
+    //             $query->with('kelayakanSetaraf');
+    //             $query->whereHas('kelayakanSetaraf', function ($query2) {
+    //                 $query2->where('kod', 7);
+    //             });
+    //         })
+    //         ->first();
+
+    //         $candidateDegree->tarikh_senat = ($candidateDegree->tarikh_senat != null) ? Carbon::parse($candidateDegree->tarikh_senat)->format('d/m/Y') : null;
+
+    //         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateDegree]);
+
+    //     } catch (\Throwable $e) {
+
+    //         //DB::rollback();
+    //         return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+    //     }
+    // }
+
+    // public function updateMaster(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+
+    //         $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->master_no_pengenalan)
+    //         ->with('eligibility')->whereHas('eligibility', function ($query) {
+    //             $query->with('kelayakanSetaraf');
+    //             $query->whereHas('kelayakanSetaraf', function ($query2) {
+    //                 $query2->where('kod', 8);
+    //             });
+    //         })
+    //         ->first();
+
+    //         $request->validate([
+    //             'tahun_master' => 'required|string',
+    //             'kelayakan_master' => 'required|string|exists:ruj_kelayakan,kod',
+    //             'cgpa_master' => 'required|string',
+    //             'institusi_master' => 'required|string|exists:ruj_institusi,kod',
+    //             'nama_sijil_master' => 'required|string',
+    //             'pengkhususan_master' => 'required|string|exists:ruj_pengkhususan,kod',
+    //             'fln_master' => 'required|integer|digits_between:1,2',
+    //             'tarikh_senat_master' => 'required',
+    //             'biasiswa_master' => 'required|boolean',
+    //         ],[
+    //             'tahun_master.required' => 'Sila pilih tahun pengajian tinggi',
+    //             'kelayakan_master.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+    //             'kelayakan_master.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+    //             'cgpa_master.required' => 'Sila pilih cgpa pengajian tinggi',
+    //             'institusi_master.required' => 'Sila pilih institusi pengajian tinggi',
+    //             'institusi_master.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+    //             'nama_sijil_master.required' => 'Sila pilih nama sijil pengajian tinggi',
+    //             'pengkhususan_master.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+    //             'pengkhususan_master.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+    //             'fln_master.required' => 'Sila pilih francais luar negara pengajian tinggi',
+    //             'fln_master.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+    //             'tarikh_senat_master.required' => 'Sila pilih tarikh senat pengajian tinggi',
+    //             'biasiswa_master.required' => 'Sila pilih biasiswa pengajian tinggi',
+    //             'biasiswa_master.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+    //         ]);
+
+    //         if(!$candidate){
+    //             CalonPengajianTinggi::create([
+    //                 'cal_no_pengenalan' => $request->master_no_pengenalan,
+    //                 'peringkat_pengajian' => 2,
+    //                 'tahun_lulus' => $request->tahun_master,
+    //                 'kel_kod' => $request->kelayakan_master,
+    //                 'cgpa' => $request->cgpa_master,
+    //                 'ins_kod' => $request->institusi_master,
+    //                 'nama_sijil' => $request->nama_sijil_master,
+    //                 'pen_kod' => $request->pengkhususan_master,
+    //                 'ins_fln' => $request->fln_master,
+    //                 'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_master)->format('Y-m-d'),
+    //                 'biasiswa' => $request->biasiswa_master,
+    //             ]);
+    //         } else{
+    //             $candidate->update([
+    //                 'tahun_lulus' => $request->tahun_master,
+    //                 'kel_kod' => $request->kelayakan_master,
+    //                 'cgpa' => $request->cgpa_master,
+    //                 'ins_kod' => $request->institusi_master,
+    //                 'nama_sijil' => $request->nama_sijil_master,
+    //                 'pen_kod' => $request->pengkhususan_master,
+    //                 'ins_fln' => $request->fln_master,
+    //                 'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_master)->format('Y-m-d'),
+    //                 'biasiswa' => $request->biasiswa_master,
+    //             ]);
+    //         }
+
+    //         CalonGarisMasa::create([
+    //             'no_pengenalan' => $request->master_no_pengenalan,
+    //             'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Ijazah Sarjana)',
+    //             'activity_type_id' => 4,
+    //             'created_by' => auth()->user()->id,
+    //             'updated_by' => auth()->user()->id,
+    //         ]);
+
+    //         DB::commit();
+    //         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+    //     } catch (\Throwable $e) {
+
+    //         DB::rollback();
+    //         return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+    //     }
+    // }
+
+    // public function masterDetails(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+
+    //         $candidateMaster = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)
+    //         ->with('eligibility')->whereHas('eligibility', function ($query) {
+    //             $query->with('kelayakanSetaraf');
+    //             $query->whereHas('kelayakanSetaraf', function ($query2) {
+    //                 $query2->where('kod', 8);
+    //             });
+    //         })
+    //         ->first();
+
+    //         $candidateMaster->tarikh_senat = ($candidateMaster->tarikh_senat != null) ? Carbon::parse($candidateMaster->tarikh_senat)->format('d/m/Y') : null;
+
+    //         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateMaster]);
+
+    //     } catch (\Throwable $e) {
+
+    //         return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+    //     }
+    // }
+
+    // public function updatePhd(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+
+    //         $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->phd_no_pengenalan)
+    //         ->with('eligibility')->whereHas('eligibility', function ($query) {
+    //             $query->with('kelayakanSetaraf');
+    //             $query->whereHas('kelayakanSetaraf', function ($query2) {
+    //                 $query2->where('kod', 9);
+    //             });
+    //         })
+    //         ->first();
+
+    //         $request->validate([
+    //             'tahun_phd' => 'required|string',
+    //             'kelayakan_phd' => 'required|string|exists:ruj_kelayakan,kod',
+    //             'cgpa_phd' => 'required|string',
+    //             'institusi_phd' => 'required|string|exists:ruj_institusi,kod',
+    //             'nama_sijil_phd' => 'required|string',
+    //             'pengkhususan_phd' => 'required|string|exists:ruj_pengkhususan,kod',
+    //             'fln_phd' => 'required|integer|digits_between:1,2',
+    //             'tarikh_senat_phd' => 'required',
+    //             'biasiswa_phd' => 'required|boolean',
+    //         ],[
+    //             'tahun_phd.required' => 'Sila pilih tahun pengajian tinggi',
+    //             'kelayakan_phd.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+    //             'kelayakan_phd.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+    //             'cgpa_phd.required' => 'Sila pilih cgpa pengajian tinggi',
+    //             'institusi_phd.required' => 'Sila pilih institusi pengajian tinggi',
+    //             'institusi_phd.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+    //             'nama_sijil_phd.required' => 'Sila pilih nama sijil pengajian tinggi',
+    //             'pengkhususan_phd.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+    //             'pengkhususan_phd.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+    //             'fln_phd.required' => 'Sila pilih francais luar negara pengajian tinggi',
+    //             'fln_phd.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+    //             'tarikh_senat_phd.required' => 'Sila pilih tarikh senat pengajian tinggi',
+    //             'biasiswa_phd.required' => 'Sila pilih biasiswa pengajian tinggi',
+    //             'biasiswa_phd.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+    //         ]);
+
+    //         if(!$candidate){
+    //             CalonPengajianTinggi::create([
+    //                 'cal_no_pengenalan' => $request->phd_no_pengenalan,
+    //                 'peringkat_pengajian' => 1,
+    //                 'tahun_lulus' => $request->tahun_phd,
+    //                 'kel_kod' => $request->kelayakan_phd,
+    //                 'cgpa' => $request->cgpa_phd,
+    //                 'ins_kod' => $request->institusi_phd,
+    //                 'nama_sijil' => $request->nama_sijil_phd,
+    //                 'pen_kod' => $request->pengkhususan_phd,
+    //                 'ins_fln' => $request->fln_phd,
+    //                 'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_phd)->format('Y-m-d'),
+    //                 'biasiswa' => $request->biasiswa_phd,
+    //             ]);
+    //         } else{
+    //             $candidate->update([
+    //                 'tahun_lulus' => $request->tahun_phd,
+    //                 'kel_kod' => $request->kelayakan_phd,
+    //                 'cgpa' => $request->cgpa_phd,
+    //                 'ins_kod' => $request->institusi_phd,
+    //                 'nama_sijil' => $request->nama_sijil_phd,
+    //                 'pen_kod' => $request->pengkhususan_phd,
+    //                 'ins_fln' => $request->fln_phd,
+    //                 'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_phd)->format('Y-m-d'),
+    //                 'biasiswa' => $request->biasiswa_phd,
+    //             ]);
+    //         }
+
+    //         CalonGarisMasa::create([
+    //             'no_pengenalan' => $request->phd_no_pengenalan,
+    //             'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Ijazah Doktor Falsafah)',
+    //             'activity_type_id' => 4,
+    //             'created_by' => auth()->user()->id,
+    //             'updated_by' => auth()->user()->id,
+    //         ]);
+
+    //         DB::commit();
+    //         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+    //     } catch (\Throwable $e) {
+
+    //         DB::rollback();
+    //         return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+    //     }
+    // }
+
+    // public function phdDetails(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+
+    //         $candidatePhd = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)
+    //         ->with('eligibility')->whereHas('eligibility', function ($query) {
+    //             $query->with('kelayakanSetaraf');
+    //             $query->whereHas('kelayakanSetaraf', function ($query2) {
+    //                 $query2->where('kod', 9);
+    //             });
+    //         })
+    //         ->first();
+
+    //         $candidatePhd->tarikh_senat = ($candidatePhd->tarikh_senat != null) ? Carbon::parse($candidatePhd->tarikh_senat)->format('d/m/Y') : null;
+
+    //         return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePhd]);
+
+    //     } catch (\Throwable $e) {
+
+    //         return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+    //     }
+    // }
+
+    public function storePt(Request $request)
     {
         DB::beginTransaction();
         try {
 
-            $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->diploma_no_pengenalan)
-            ->with('eligibility')->whereHas('eligibility', function ($query) {
-                $query->with('kelayakanSetaraf');
-                $query->whereHas('kelayakanSetaraf', function ($query2) {
-                    $query2->where('kod', 5);
-                });
-            })
-            ->first();
-
             $request->validate([
-                'tahun_diploma' => 'required|string',
-                'kelayakan_diploma' => 'required|string|exists:ruj_kelayakan,kod',
-                'cgpa_diploma' => 'required|string',
-                'institusi_diploma' => 'required|string|exists:ruj_institusi,kod',
-                'nama_sijil_diploma' => 'required|string',
-                'pengkhususan_diploma' => 'required|string|exists:ruj_pengkhususan,kod',
-                'fln_diploma' => 'required|integer|digits_between:1,2',
-                'tarikh_senat_diploma' => 'required',
-                'biasiswa_diploma' => 'required|boolean',
+                'tahun_pengajian_tinggi' => 'required|string',
+                'peringkat_pengajian_tinggi' => 'required|string|exists:ruj_peringkat_pengajian,id',
+                'kelayakan_pengajian_tinggi' => 'required|string|exists:ruj_kelayakan,kod',
+                'cgpa_pengajian_tinggi' => 'required|string',
+                'institusi_pengajian_tinggi' => 'required|string|exists:ruj_institusi,kod',
+                'nama_sijil_pengajian_tinggi' => 'required|string',
+                'pengkhususan_pengajian_tinggi' => 'required|string|exists:ruj_pengkhususan,kod',
+                'fln_pengajian_tinggi' => 'required|integer|digits_between:1,2',
+                'tarikh_senat_pengajian_tinggi' => 'required',
+                'biasiswa_pengajian_tinggi' => 'required|boolean',
             ],[
-                'tahun_diploma.required' => 'Sila pilih tahun pengajian tinggi',
-                'kelayakan_diploma.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
-                'kelayakan_diploma.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
-                'cgpa_diploma.required' => 'Sila pilih cgpa pengajian tinggi',
-                'institusi_diploma.required' => 'Sila pilih institusi pengajian tinggi',
-                'institusi_diploma.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
-                'nama_sijil_diploma.required' => 'Sila pilih nama sijil pengajian tinggi',
-                'pengkhususan_diploma.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
-                'pengkhususan_diploma.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
-                'fln_diploma.required' => 'Sila pilih francais luar negara pengajian tinggi',
-                'fln_diploma.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
-                'tarikh_senat_diploma.required' => 'Sila pilih tarikh senat pengajian tinggi',
-                'biasiswa_diploma.required' => 'Sila pilih biasiswa pengajian tinggi',
-                'biasiswa_diploma.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+                'tahun_pengajian_tinggi.required' => 'Sila pilih tahun pengajian tinggi',
+                'kelayakan_pengajian_tinggi.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+                'kelayakan_pengajian_tinggi.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+                'cgpa_pengajian_tinggi.required' => 'Sila pilih cgpa pengajian tinggi',
+                'institusi_pengajian_tinggi.required' => 'Sila pilih institusi pengajian tinggi',
+                'institusi_pengajian_tinggi.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+                'nama_sijil_pengajian_tinggi.required' => 'Sila pilih nama sijil pengajian tinggi',
+                'pengkhususan_pengajian_tinggi.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+                'pengkhususan_pengajian_tinggi.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+                'fln_pengajian_tinggi.required' => 'Sila pilih francais luar negara pengajian tinggi',
+                'fln_pengajian_tinggi.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+                'tarikh_senat_pengajian_tinggi.required' => 'Sila pilih tarikh senat pengajian tinggi',
+                'biasiswa_pengajian_tinggi.required' => 'Sila pilih biasiswa pengajian tinggi',
+                'biasiswa_pengajian_tinggi.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
             ]);
 
-            if(!$candidate){
-                CalonPengajianTinggi::create([
-                    'cal_no_pengenalan' => $request->diploma_no_pengenalan,
-                    'peringkat_pengajian' => 4,
-                    'tahun_lulus' => $request->tahun_diploma,
-                    'kel_kod' => $request->kelayakan_diploma,
-                    'cgpa' => $request->cgpa_diploma,
-                    'ins_kod' => $request->institusi_diploma,
-                    'nama_sijil' => $request->nama_sijil_diploma,
-                    'pen_kod' => $request->pengkhususan_diploma,
-                    'ins_fln' => $request->fln_diploma,
-                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_diploma)->format('Y-m-d'),
-                    'biasiswa' => $request->biasiswa_diploma,
-                ]);
-            } else{
-                $candidate->update([
-                    'tahun_lulus' => $request->tahun_diploma,
-                    'kel_kod' => $request->kelayakan_diploma,
-                    'cgpa' => $request->cgpa_diploma,
-                    'ins_kod' => $request->institusi_diploma,
-                    'nama_sijil' => $request->nama_sijil_diploma,
-                    'pen_kod' => $request->pengkhususan_diploma,
-                    'ins_fln' => $request->fln_diploma,
-                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_diploma)->format('Y-m-d'),
-                    'biasiswa' => $request->biasiswa_diploma,
-                ]);
-            }
+            CalonPengajianTinggi::create([
+                'cal_no_pengenalan' => $request->pengajian_tinggi_no_pengenalan,
+                'tahun_lulus' => $request->tahun_pengajian_tinggi,
+                'peringkat_pengajian' => $request->peringkat_pengajian_tinggi,
+                'kel_kod' => $request->kelayakan_pengajian_tinggi,
+                'cgpa' => $request->cgpa_pengajian_tinggi,
+                'ins_kod' => $request->institusi_pengajian_tinggi,
+                'nama_sijil' => $request->nama_sijil_pengajian_tinggi,
+                'pen_kod' => $request->pengkhususan_pengajian_tinggi,
+                'ins_fln' => $request->fln_pengajian_tinggi,
+                'tarikh_senat' => $request->tarikh_senat_pengajian_tinggi,
+                'biasiswa' => $request->biasiswa_pengajian_tinggi,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+            ]);
 
             CalonGarisMasa::create([
-                'no_pengenalan' => $request->diploma_no_pengenalan,
-                'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Diploma)',
-                'activity_type_id' => 4,
+                'no_pengenalan' => $request->pengajian_tinggi_no_pengenalan,
+                'details' => 'Tambah Maklumat Akademik (Pengajian Tinggi)',
+                'activity_type_id' => 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -2411,215 +2837,100 @@ class MaklumatPemohonController extends Controller
         }
     }
 
-    public function diplomaDetails(Request $request)
+    public function listPt(Request $request)
     {
         DB::beginTransaction();
         try {
+            $candidatePt = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)
+            ->with(['institution'])
+            ->with(['eligibility'])
+            ->with(['specialization'])
+            ->with(['peringkat'])
+            ->get();
 
-            $candidateDiploma = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)
-            ->with('eligibility')->whereHas('eligibility', function ($query) {
-                $query->with('kelayakanSetaraf');
-                $query->whereHas('kelayakanSetaraf', function ($query2) {
-                    $query2->where('kod', 5);
-                });
-            })
-            ->first();
+            // if(!$candidate) {
+            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
+            //}
 
-            $candidateDiploma->tarikh_senat = ($candidateDiploma->tarikh_senat != null) ? Carbon::parse($candidateDiploma->tarikh_senat)->format('d/m/Y') : null;
-
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateDiploma]);
+            //DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePt]);
 
         } catch (\Throwable $e) {
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
-    }
 
-    public function updateDegree(Request $request)
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
+    }
+    public function detailPt(Request $request, $idPt)
     {
         DB::beginTransaction();
         try {
+            $candidatePt = CalonPengajianTinggi::where('id', $idPt)->first();
 
-            $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->degree_no_pengenalan)
-            ->with('eligibility')->whereHas('eligibility', function ($query) {
-                $query->with('kelayakanSetaraf');
-                $query->whereHas('kelayakanSetaraf', function ($query2) {
-                    $query2->where('kod', 7);
-                });
-            })
-            ->first();
-
-            $request->validate([
-                'tahun_degree' => 'required|string',
-                'kelayakan_degree' => 'required|string|exists:ruj_kelayakan,kod',
-                'cgpa_degree' => 'required|string',
-                'institusi_degree' => 'required|string|exists:ruj_institusi,kod',
-                'nama_sijil_degree' => 'required|string',
-                'pengkhususan_degree' => 'required|string|exists:ruj_pengkhususan,kod',
-                'fln_degree' => 'required|integer|digits_between:1,2',
-                'tarikh_senat_degree' => 'required',
-                'biasiswa_degree' => 'required|boolean',
-            ],[
-                'tahun_degree.required' => 'Sila pilih tahun pengajian tinggi',
-                'kelayakan_degree.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
-                'kelayakan_degree.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
-                'cgpa_degree.required' => 'Sila pilih cgpa pengajian tinggi',
-                'institusi_degree.required' => 'Sila pilih institusi pengajian tinggi',
-                'institusi_degree.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
-                'nama_sijil_degree.required' => 'Sila pilih nama sijil pengajian tinggi',
-                'pengkhususan_degree.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
-                'pengkhususan_degree.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
-                'fln_degree.required' => 'Sila pilih francais luar negara pengajian tinggi',
-                'fln_degree.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
-                'tarikh_senat_degree.required' => 'Sila pilih tarikh senat pengajian tinggi',
-                'biasiswa_degree.required' => 'Sila pilih biasiswa pengajian tinggi',
-                'biasiswa_degree.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
-            ]);
-
-            if(!$candidate){
-                CalonPengajianTinggi::create([
-                    'cal_no_pengenalan' => $request->degree_no_pengenalan,
-                    'peringkat_pengajian' => 3,
-                    'tahun_lulus' => $request->tahun_degree,
-                    'kel_kod' => $request->kelayakan_degree,
-                    'cgpa' => $request->cgpa_degree,
-                    'ins_kod' => $request->institusi_degree,
-                    'nama_sijil' => $request->nama_sijil_degree,
-                    'pen_kod' => $request->pengkhususan_degree,
-                    'ins_fln' => $request->fln_degree,
-                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_degree)->format('Y-m-d'),
-                    'biasiswa' => $request->biasiswa_degree,
-                ]);
-            } else{
-                $candidate->update([
-                    'tahun_lulus' => $request->tahun_degree,
-                    'kel_kod' => $request->kelayakan_degree,
-                    'cgpa' => $request->cgpa_degree,
-                    'ins_kod' => $request->institusi_degree,
-                    'nama_sijil' => $request->nama_sijil_degree,
-                    'pen_kod' => $request->pengkhususan_degree,
-                    'ins_fln' => $request->fln_degree,
-                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_degree)->format('Y-m-d'),
-                    'biasiswa' => $request->biasiswa_degree,
-                ]);
-            }
-
-            CalonGarisMasa::create([
-                'no_pengenalan' => $request->degree_no_pengenalan,
-                'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Ijazah Sarjana Muda)',
-                'activity_type_id' => 4,
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
-            ]);
-
-            DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
-
-        } catch (\Throwable $e) {
-
-            DB::rollback();
-            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }
-    }
-
-    public function degreeDetails(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-
-            $candidateDegree = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)
-            ->with('eligibility')->whereHas('eligibility', function ($query) {
-                $query->with('kelayakanSetaraf');
-                $query->whereHas('kelayakanSetaraf', function ($query2) {
-                    $query2->where('kod', 7);
-                });
-            })
-            ->first();
-
-            $candidateDegree->tarikh_senat = ($candidateDegree->tarikh_senat != null) ? Carbon::parse($candidateDegree->tarikh_senat)->format('d/m/Y') : null;
-
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateDegree]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePt]);
 
         } catch (\Throwable $e) {
 
             //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
+
+        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
     }
 
-    public function updateMaster(Request $request)
+    public function updatePt(Request $request)
     {
         DB::beginTransaction();
         try {
 
-            $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->master_no_pengenalan)
-            ->with('eligibility')->whereHas('eligibility', function ($query) {
-                $query->with('kelayakanSetaraf');
-                $query->whereHas('kelayakanSetaraf', function ($query2) {
-                    $query2->where('kod', 8);
-                });
-            })
-            ->first();
-
             $request->validate([
-                'tahun_master' => 'required|string',
-                'kelayakan_master' => 'required|string|exists:ruj_kelayakan,kod',
-                'cgpa_master' => 'required|string',
-                'institusi_master' => 'required|string|exists:ruj_institusi,kod',
-                'nama_sijil_master' => 'required|string',
-                'pengkhususan_master' => 'required|string|exists:ruj_pengkhususan,kod',
-                'fln_master' => 'required|integer|digits_between:1,2',
-                'tarikh_senat_master' => 'required',
-                'biasiswa_master' => 'required|boolean',
+                'tahun_pengajian_tinggi' => 'required|string',
+                'peringkat_pengajian_tinggi' => 'required|string|exists:ruj_peringkat_pengajian,id',
+                'kelayakan_pengajian_tinggi' => 'required|string|exists:ruj_kelayakan,kod',
+                'cgpa_pengajian_tinggi' => 'required|string',
+                'institusi_pengajian_tinggi' => 'required|string|exists:ruj_institusi,kod',
+                'nama_sijil_pengajian_tinggi' => 'required|string',
+                'pengkhususan_pengajian_tinggi' => 'required|string|exists:ruj_pengkhususan,kod',
+                'fln_pengajian_tinggi' => 'required|integer|digits_between:1,2',
+                'tarikh_senat_pengajian_tinggi' => 'required',
+                'biasiswa_pengajian_tinggi' => 'required|boolean',
             ],[
-                'tahun_master.required' => 'Sila pilih tahun pengajian tinggi',
-                'kelayakan_master.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
-                'kelayakan_master.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
-                'cgpa_master.required' => 'Sila pilih cgpa pengajian tinggi',
-                'institusi_master.required' => 'Sila pilih institusi pengajian tinggi',
-                'institusi_master.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
-                'nama_sijil_master.required' => 'Sila pilih nama sijil pengajian tinggi',
-                'pengkhususan_master.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
-                'pengkhususan_master.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
-                'fln_master.required' => 'Sila pilih francais luar negara pengajian tinggi',
-                'fln_master.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
-                'tarikh_senat_master.required' => 'Sila pilih tarikh senat pengajian tinggi',
-                'biasiswa_master.required' => 'Sila pilih biasiswa pengajian tinggi',
-                'biasiswa_master.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
+                'tahun_pengajian_tinggi.required' => 'Sila pilih tahun pengajian tinggi',
+                'kelayakan_pengajian_tinggi.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
+                'kelayakan_pengajian_tinggi.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
+                'cgpa_pengajian_tinggi.required' => 'Sila pilih cgpa pengajian tinggi',
+                'institusi_pengajian_tinggi.required' => 'Sila pilih institusi pengajian tinggi',
+                'institusi_pengajian_tinggi.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
+                'nama_sijil_pengajian_tinggi.required' => 'Sila pilih nama sijil pengajian tinggi',
+                'pengkhususan_pengajian_tinggi.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
+                'pengkhususan_pengajian_tinggi.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
+                'fln_pengajian_tinggi.required' => 'Sila pilih francais luar negara pengajian tinggi',
+                'fln_pengajian_tinggi.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
+                'tarikh_senat_pengajian_tinggi.required' => 'Sila pilih tarikh senat pengajian tinggi',
+                'biasiswa_pengajian_tinggi.required' => 'Sila pilih biasiswa pengajian tinggi',
+                'biasiswa_pengajian_tinggi.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
             ]);
 
-            if(!$candidate){
-                CalonPengajianTinggi::create([
-                    'cal_no_pengenalan' => $request->master_no_pengenalan,
-                    'peringkat_pengajian' => 2,
-                    'tahun_lulus' => $request->tahun_master,
-                    'kel_kod' => $request->kelayakan_master,
-                    'cgpa' => $request->cgpa_master,
-                    'ins_kod' => $request->institusi_master,
-                    'nama_sijil' => $request->nama_sijil_master,
-                    'pen_kod' => $request->pengkhususan_master,
-                    'ins_fln' => $request->fln_master,
-                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_master)->format('Y-m-d'),
-                    'biasiswa' => $request->biasiswa_master,
-                ]);
-            } else{
-                $candidate->update([
-                    'tahun_lulus' => $request->tahun_master,
-                    'kel_kod' => $request->kelayakan_master,
-                    'cgpa' => $request->cgpa_master,
-                    'ins_kod' => $request->institusi_master,
-                    'nama_sijil' => $request->nama_sijil_master,
-                    'pen_kod' => $request->pengkhususan_master,
-                    'ins_fln' => $request->fln_master,
-                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_master)->format('Y-m-d'),
-                    'biasiswa' => $request->biasiswa_master,
-                ]);
-            }
+
+            CalonPengajianTinggi::where('id',$request->id_pt)->update([
+                'tahun_lulus' => $request->tahun_pengajian_tinggi,
+                'peringkat_pengajian' => $request->peringkat_pengajian_tinggi,
+                'kel_kod' => $request->kelayakan_pengajian_tinggi,
+                'cgpa' => $request->cgpa_pengajian_tinggi,
+                'ins_kod' => $request->institusi_pengajian_tinggi,
+                'nama_sijil' => $request->nama_sijil_pengajian_tinggi,
+                'pen_kod' => $request->pengkhususan_pengajian_tinggi,
+                'ins_fln' => $request->fln_pengajian_tinggi,
+                'tarikh_senat' => $request->tarikh_senat_pengajian_tinggi,
+                'biasiswa' => $request->biasiswa_pengajian_tinggi,
+                'pengguna' => auth()->user()->id,
+            ]);
 
             CalonGarisMasa::create([
-                'no_pengenalan' => $request->master_no_pengenalan,
-                'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Ijazah Sarjana)',
+                'no_pengenalan' => $request->pengajian_tinggi_no_pengenalan,
+                'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi)',
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
@@ -2635,139 +2946,15 @@ class MaklumatPemohonController extends Controller
         }
     }
 
-    public function masterDetails(Request $request)
-    {
-        DB::beginTransaction();
-        try {
+    public function deletePt(Request $request){
+        $skm = CalonSkm::find($request-> idSkm);
 
-            $candidateMaster = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)
-            ->with('eligibility')->whereHas('eligibility', function ($query) {
-                $query->with('kelayakanSetaraf');
-                $query->whereHas('kelayakanSetaraf', function ($query2) {
-                    $query2->where('kod', 8);
-                });
-            })
-            ->first();
-
-            $candidateMaster->tarikh_senat = ($candidateMaster->tarikh_senat != null) ? Carbon::parse($candidateMaster->tarikh_senat)->format('d/m/Y') : null;
-
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateMaster]);
-
-        } catch (\Throwable $e) {
-
-            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        if (!$skm) {
+            return response()->json(['message' => 'Record not found'], 404);
         }
-    }
+        $skm->delete();
 
-    public function updatePhd(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-
-            $candidate = CalonPengajianTinggi::where('cal_no_pengenalan', $request->phd_no_pengenalan)
-            ->with('eligibility')->whereHas('eligibility', function ($query) {
-                $query->with('kelayakanSetaraf');
-                $query->whereHas('kelayakanSetaraf', function ($query2) {
-                    $query2->where('kod', 9);
-                });
-            })
-            ->first();
-
-            $request->validate([
-                'tahun_phd' => 'required|string',
-                'kelayakan_phd' => 'required|string|exists:ruj_kelayakan,kod',
-                'cgpa_phd' => 'required|string',
-                'institusi_phd' => 'required|string|exists:ruj_institusi,kod',
-                'nama_sijil_phd' => 'required|string',
-                'pengkhususan_phd' => 'required|string|exists:ruj_pengkhususan,kod',
-                'fln_phd' => 'required|integer|digits_between:1,2',
-                'tarikh_senat_phd' => 'required',
-                'biasiswa_phd' => 'required|boolean',
-            ],[
-                'tahun_phd.required' => 'Sila pilih tahun pengajian tinggi',
-                'kelayakan_phd.required' => 'Sila pilih peringkat kelulusan pengajian tinggi',
-                'kelayakan_phd.exists' => 'Tiada rekod peringkat kelulusan pengajian tinggi yang dipilih',
-                'cgpa_phd.required' => 'Sila pilih cgpa pengajian tinggi',
-                'institusi_phd.required' => 'Sila pilih institusi pengajian tinggi',
-                'institusi_phd.exists' => 'Tiada rekod institusi pengajian tinggi yang dipilih',
-                'nama_sijil_phd.required' => 'Sila pilih nama sijil pengajian tinggi',
-                'pengkhususan_phd.required' => 'Sila pilih pengkhususan/bidang pengajian tinggi',
-                'pengkhususan_phd.exists' => 'Tiada rekod pengkhususan/bidang pengajian tinggi yang dipilih',
-                'fln_phd.required' => 'Sila pilih francais luar negara pengajian tinggi',
-                'fln_phd.digits_between' => 'Sila pilih Ya/Tidak sahaja untuk francais luar negara pengajian tinggi',
-                'tarikh_senat_phd.required' => 'Sila pilih tarikh senat pengajian tinggi',
-                'biasiswa_phd.required' => 'Sila pilih biasiswa pengajian tinggi',
-                'biasiswa_phd.boolean' => 'Sila pilih Ya/Tidak sahaja untuk biasiswa pengajian tinggi',
-            ]);
-
-            if(!$candidate){
-                CalonPengajianTinggi::create([
-                    'cal_no_pengenalan' => $request->phd_no_pengenalan,
-                    'peringkat_pengajian' => 1,
-                    'tahun_lulus' => $request->tahun_phd,
-                    'kel_kod' => $request->kelayakan_phd,
-                    'cgpa' => $request->cgpa_phd,
-                    'ins_kod' => $request->institusi_phd,
-                    'nama_sijil' => $request->nama_sijil_phd,
-                    'pen_kod' => $request->pengkhususan_phd,
-                    'ins_fln' => $request->fln_phd,
-                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_phd)->format('Y-m-d'),
-                    'biasiswa' => $request->biasiswa_phd,
-                ]);
-            } else{
-                $candidate->update([
-                    'tahun_lulus' => $request->tahun_phd,
-                    'kel_kod' => $request->kelayakan_phd,
-                    'cgpa' => $request->cgpa_phd,
-                    'ins_kod' => $request->institusi_phd,
-                    'nama_sijil' => $request->nama_sijil_phd,
-                    'pen_kod' => $request->pengkhususan_phd,
-                    'ins_fln' => $request->fln_phd,
-                    'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_phd)->format('Y-m-d'),
-                    'biasiswa' => $request->biasiswa_phd,
-                ]);
-            }
-
-            CalonGarisMasa::create([
-                'no_pengenalan' => $request->phd_no_pengenalan,
-                'details' => 'Kemaskini Maklumat Akademik (Pengajian Tinggi Ijazah Doktor Falsafah)',
-                'activity_type_id' => 4,
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
-            ]);
-
-            DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
-
-        } catch (\Throwable $e) {
-
-            DB::rollback();
-            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }
-    }
-
-    public function phdDetails(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-
-            $candidatePhd = CalonPengajianTinggi::where('cal_no_pengenalan', $request->noPengenalan)
-            ->with('eligibility')->whereHas('eligibility', function ($query) {
-                $query->with('kelayakanSetaraf');
-                $query->whereHas('kelayakanSetaraf', function ($query2) {
-                    $query2->where('kod', 9);
-                });
-            })
-            ->first();
-
-            $candidatePhd->tarikh_senat = ($candidatePhd->tarikh_senat != null) ? Carbon::parse($candidatePhd->tarikh_senat)->format('d/m/Y') : null;
-
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePhd]);
-
-        } catch (\Throwable $e) {
-
-            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
-        }
+        return response()->json(['message' => 'Record deleted successfully'], 200);
     }
 
     public function storeProfesional(Request $request)
@@ -3004,7 +3191,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            
+
             if($request->type == 'A'){
                 $noPengenalan = $request->experienceA_no_pengenalan;
                 $details = 'Kemaskini Pegawai Berkhidmat (Maklumat PSB/PSL A)';
@@ -3060,7 +3247,7 @@ class MaklumatPemohonController extends Controller
                 ]);
             }
 
-            $candidate = CalonPengalaman::where('cal_no_pengenalan', $noPengenalan)->first();      
+            $candidate = CalonPengalaman::where('cal_no_pengenalan', $noPengenalan)->first();
 
             $dataPengalaman = [];
             if(!$candidate){

@@ -27,7 +27,7 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="pengajianTinggi-tab" data-bs-toggle="tab" href="#pengajianTinggi" aria-controls="pengajianTinggi" role="tab" aria-selected="true">
                 Pengajian Tinggi
-                {{-- <br><div class="badge badge-light-danger fw-bolder" id="tm_pt" hidden>Tiada Maklumat</div> --}}
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_pt" hidden>Tiada Maklumat</div>
             </a>
         </li>
         <li class="nav-item" role="presentation">
