@@ -140,7 +140,7 @@ class MaklumatPemohonController extends Controller
         try {
 
             $candidate = Calon::where(function ($query) use ($no_ic) {
-                $query->where('no_kp_baru', $no_ic);
+                $query->where('no_kp_baru', $no_ic)->orWhere('no_kp_lama', $no_ic);
             })
             ->with([
                 'license',
