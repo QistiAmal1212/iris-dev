@@ -80,7 +80,7 @@ class InstitutionController extends Controller
                     if ($institution->NamaNegara) {
                         return $institution->NamaNegara->diskripsi;
                     } else {
-                        return "No Country";
+                        return "TIADA NEGARA";
                     }
                 })
                 ->editColumn('jenis', function ($institution) {

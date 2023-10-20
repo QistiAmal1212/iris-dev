@@ -156,7 +156,6 @@
                 {
                     data: "neg",
                     name: "neg",
-                    className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -164,7 +163,6 @@
                 {
                     data: "jenis",
                     name: "jenis",
-                    className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -242,7 +240,6 @@
                     {
                         data: "neg",
                         name: "neg",
-                        className: "text-center",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();
                         }
@@ -250,7 +247,6 @@
                     {
                         data: "jenis",
                         name: "jenis",
-                        className: "text-center",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();
                         }

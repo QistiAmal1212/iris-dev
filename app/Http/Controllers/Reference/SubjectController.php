@@ -116,7 +116,7 @@ class SubjectController extends Controller
 
             $subject = Subject::create([
                 'kod' => $request->code,
-                'name' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'tkt' => strtoupper($request->form),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,

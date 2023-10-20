@@ -157,7 +157,6 @@
                 {
                     data: "kod_bah",
                     name: "kod_bah",
-                    className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -165,7 +164,6 @@
                 {
                     data: "kod_neg",
                     name: "kod_neg",
-                    className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -243,7 +241,6 @@
                     {
                         data: "kod_bah",
                         name: "kod_bah",
-                        className: "text-center",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();
                         }
@@ -251,7 +248,6 @@
                     {
                         data: "kod_neg",
                         name: "kod_neg",
-                        className: "text-center",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();
                         }

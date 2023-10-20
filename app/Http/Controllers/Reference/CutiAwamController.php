@@ -81,7 +81,7 @@ class CutiAwamController extends Controller
                     return $cutiawam->tarikh_cuti = Carbon::parse($cutiawam->tarikh_cuti)->format('d/m/Y');
                 })
                 ->editColumn('kod_cuti', function ($cutiawam) {
-                    return $cutiawam->scut->diskripsi;
+                    return strtoupper($cutiawam->scut->diskripsi);
                 })
                 ->editColumn('kod_neg', function ($cutiawam) {
                     return $cutiawam->negeri->diskripsi;

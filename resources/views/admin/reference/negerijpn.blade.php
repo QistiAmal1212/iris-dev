@@ -77,7 +77,7 @@
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
                             <th>Negeri JPN</th>
-                            <th width="15%">Kod Negeri</th>
+                            <th width="15%">Kod Negeri JPN</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -282,9 +282,9 @@
                         url2 = url2.replace(':replaceThis', negerijpn_id);
 
                         $('#negerijpnForm').attr('action', url2);
-                        $('#negerijpnForm select[name="code"]').val(data.detail.kod).trigger('change');
-                        $('#negerijpnForm input[name="name"]').val(data.detail.nama);
-                        $('#negerijpnForm input[name="kod_ruj_negeri"]').val(data.detail.kod_ruj_negeri);
+                        $('#negerijpnForm select[name="code"]').val(data.detail.kod_spa).trigger('change');
+                        $('#negerijpnForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#negerijpnForm input[name="kod_ruj_negeri"]').val(data.detail.kod_jpn);
 
                         $('#negerijpnForm input[name="code"]').prop('readonly', true);
 

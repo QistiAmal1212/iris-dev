@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reference\KodPelbagai;
 use App\Models\Reference\SenaraiCuti;
 use Illuminate\Http\Request;
 use App\Models\LogSystem;
@@ -42,7 +43,7 @@ class SenaraiCutiController extends Controller
             }
         }
 
-        $senaraicuti = SenaraiCuti::orderBy('kod', 'asc')->get();
+        $kategori = KodPelbagai::where('kategori', 'KATEGORI CUTI')->where('sah_yt', 'Y')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -56,12 +57,24 @@ class SenaraiCutiController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($senaraicuti)
+            $senaraicuti = SenaraiCuti::orderBy('kod', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $senaraicuti->where('kategori', $request->activity_type_id);
+            }
+
+            return Datatables::of($senaraicuti->get())
                 ->editColumn('kod', function ($senaraicuti){
                     return $senaraicuti->kod;
                 })
                 ->editColumn('nama', function ($senaraicuti) {
-                    return $senaraicuti->diskripsi;
+                    return strtoupper($senaraicuti->diskripsi);
+                })
+                ->editColumn('kategori', function ($senaraicuti) {
+                    return KodPelbagai::where('kategori', 'KATEGORI CUTI')
+                            ->where('kod', $senaraicuti->kategori)
+                            ->pluck('diskripsi')
+                            ->first();
                 })
                 ->editColumn('action', function ($senaraicuti) use ($accessDelete) {
                     $button = "";
@@ -84,7 +97,7 @@ class SenaraiCutiController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.senarai_cuti', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.senarai_cuti', compact('accessAdd', 'accessUpdate', 'accessDelete', 'kategori'));
     }
 
     public function store(Request $request)

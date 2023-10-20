@@ -54,7 +54,7 @@
         <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
             <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <label class="form-label" for="code">Carian Jenis</label>
+                    <label class="form-label" for="code">Carian Kategori</label>
                     <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                         <option value="Lihat Semua" selected>Lihat Semua</option>
                         @foreach ($bidang as $bid)
@@ -138,7 +138,6 @@
             {
                 data: "jenis",
                 name: "jenis",
-                className : "text-center",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -146,7 +145,6 @@
             {
                 data: "kat",
                 name: "kat",
-                className : "text-center",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -225,7 +223,6 @@
                 {
                     data: "jenis",
                     name: "jenis",
-                    className : "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -233,7 +230,6 @@
                 {
                     data: "kat",
                     name: "kat",
-                    className : "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }

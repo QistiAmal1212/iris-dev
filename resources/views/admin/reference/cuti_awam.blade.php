@@ -82,8 +82,8 @@
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
                             <th>Tarikh Cuti</th>
-                            <th>Kod Cuti</th>
-                            <th>Kod Negeri</th>
+                            <th>Cuti</th>
+                            <th>Negeri</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -111,7 +111,7 @@
                         $('#module_id').empty();
                         $('#module_id').append('<option value="Lihat Semua" selected>Lihat Semua</option>');
                         $.each(data, function(key, value) {
-                            $('#module_id').append('<option value="'+ value.codes +'">'+value.codes +' - '+ value.categories +'</option>');
+                            $('#module_id').append('<option value="'+ value.codes +'">'+value.codes +' - '+ value.categories.toUpperCase() +'</option>');
                         });
                     }
                 });
@@ -157,7 +157,6 @@
                 {
                     data: "kod_cuti",
                     name: "kod_cuti",
-                    className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -165,7 +164,6 @@
                 {
                     data: "kod_neg",
                     name: "kod_neg",
-                    className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -243,7 +241,6 @@
                     {
                         data: "kod_cuti",
                         name: "kod_cuti",
-                        className: "text-center",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();
                         }
@@ -251,7 +248,6 @@
                     {
                         data: "kod_neg",
                         name: "kod_neg",
-                        className: "text-center",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();
                         }

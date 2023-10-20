@@ -57,9 +57,9 @@
                     <label class="form-label" for="code">Carian Tingkatan</label>
                     <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                         <option value="Lihat Semua" selected>Lihat Semua</option>
-                        <option value="3">Tingkatan 3 </option>
-                        <option value="5">Tingkatan 5 </option>
-                        <option value="6">Tingkatan 6 </option>
+                        <option value="3">TINGKATAN 3 </option>
+                        <option value="5">TINGKATAN 5 </option>
+                        <option value="6">TINGKATAN 6 </option>
                     </select>
                 </div>
             </div>
@@ -254,7 +254,7 @@
             $('#subjectForm').attr('action', '{{ route("admin.reference.subject.store") }}');
             $('#subjectForm input[name="code"]').val("");
             $('#subjectForm input[name="name"]').val("");
-            $('#subjectForm input[name="form"]').val("");
+            $('#subjectForm select[name="form"]').val("").trigger('change');
             $('#subjectForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Matapelajaran');
@@ -285,7 +285,7 @@
                     $('#subjectForm').attr('action',url2 );
                     $('#subjectForm input[name="code"]').val(data.detail.kod);
                     $('#subjectForm input[name="name"]').val(data.detail.diskripsi);
-                    $('#subjectForm input[name="form"]').val(data.detail.tkt);
+                    $('#subjectForm select[name="form"]').val(data.detail.tkt).trigger('change');
 
                     $('#subjectForm input[name="code"]').prop('readonly', true);
 

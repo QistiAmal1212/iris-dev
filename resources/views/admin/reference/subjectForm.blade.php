@@ -34,9 +34,12 @@
                                 <label class="form-label" for="form">Tingkatan
                                     <span class="text text-danger">*</span>
                                 </label>
-                                <div class="input-group">
-                                    <input type="text" id="form" name="form" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
-                                </div>
+                                <select name="form" id="form" class="select2 form-control">
+                                    <option value="">Sila Pilih:-</option>
+                                    <option value="3">TINGKATAN 3 </option>
+                                    <option value="5">TINGKATAN 5 </option>
+                                    <option value="6">TINGKATAN 6 </option>
+                                </select>
                             </div>
                         </div>
                     </div>

@@ -159,7 +159,6 @@
             {
                 data: "type",
                 name: "type",
-                className : "text-center",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -167,7 +166,6 @@
             {
                 data: "field",
                 name: "field",
-                className : "text-center",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -246,7 +244,6 @@
                 {
                     data: "type",
                     name: "type",
-                    className : "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -254,7 +251,6 @@
                 {
                     data: "field",
                     name: "field",
-                    className : "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }

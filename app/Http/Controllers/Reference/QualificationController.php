@@ -61,7 +61,7 @@ class QualificationController extends Controller
 
             $qualification = Qualification::orderBy('kod', 'asc');
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $qualification->where('bidang', $request->activity_type_id);
+                $qualification->where('kategori', $request->activity_type_id);
             }
 
             // if ($request->module_id && $request->module_id != "Lihat Semua") {

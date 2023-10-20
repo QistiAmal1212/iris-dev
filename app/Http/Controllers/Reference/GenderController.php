@@ -60,7 +60,7 @@ class GenderController extends Controller
                     return $gender->kod;
                 })
                 ->editColumn('name', function ($gender) {
-                    return $gender->diskripsi;
+                    return strtoupper($gender->diskripsi);
                 })
                 ->editColumn('action', function ($gender) use ($accessDelete) {
                     $button = "";

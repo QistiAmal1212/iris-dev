@@ -173,7 +173,7 @@
 
                         $('#raceForm').attr('action', url2);
                         $('#raceForm input[name="code"]').val(data.detail.kod);
-                        $('#raceForm input[name="name"]').val(data.detail.nama);
+                        $('#raceForm input[name="name"]').val(data.detail.diskripsi);
                         $('#raceForm input[name="kump"]').val(data.detail.kump);
 
                         $('#raceForm input[name="code"]').prop('readonly', true);

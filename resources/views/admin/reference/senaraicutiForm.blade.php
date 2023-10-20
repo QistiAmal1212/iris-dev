@@ -34,9 +34,12 @@
                                 <label class="form-label" for="kategori">Kategori
                                     <span class="text text-danger">*</span>
                                 </label>
-                                <div class="input-group">
-                                    <input type="text" id="kategori" name="kategori" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
-                                </div>
+                                <select class="form-control" name="kategori" id="kategori">
+                                    <option value="">Sila Pilih:-</option>
+                                    @foreach ($kategori as $kategori)
+                                        <option value="{{ $kategori->kod }}">{{ $kategori->diskripsi }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
