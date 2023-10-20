@@ -36,7 +36,8 @@ class User extends Authenticatable
         'login_failed_counter',
         'is_blocked',
         'is_active',
-        'time_to_change_password'
+        'time_to_change_password',
+        'is_migrated'
     ];
 
     /**
