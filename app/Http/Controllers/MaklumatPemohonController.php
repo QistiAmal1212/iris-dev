@@ -125,7 +125,7 @@ class MaklumatPemohonController extends Controller
         $currentPage = $request->input('page', 1);
         $previousPage = $currentPage-1;
         $nextPage = $currentPage+1;
-        $sql = "SELECT no_kp_baru, nama_penuh FROM calon WHERE nama_penuh ilike ? and no_kp_baru is not null OFFSET ? LIMIT ?";
+        $sql = "SELECT no_kp_baru, nama_penuh, no_kp_lama FROM calon WHERE nama_penuh ilike ? and no_kp_baru is not null OFFSET ? LIMIT ?";
          
         $candidate = DB::select($sql, ['%' . $nama . '%', $offset, 10]);
         
