@@ -175,7 +175,7 @@
                 $.each(data.detail, function(i, item) {
                     if(item){
                         trPt += '<hr><div class="row mt-2 mb-2"><div class="col-12 text-end mb-2">';
-                        trPt += '<button class="btn btn-success editPt-btn" data-ptEdit="' + item.id + '" >Edit</button></div>';
+                        trPt += '<button class="btn btn-primary btn-sm editPt-btn" data-ptEdit="' + item.id + '" ><i class="fas fa-pencil-alt"></i></button></div>';
                         if(item.tahun_lulus){ trPt += '<div class="col-sm-3 col-md-3 col-lg-3 mb-1"><label class="form-label">Tahun</label><input type="text" class="form-control" value="' + item.tahun_lulus + '" readonly></div>'; }
                         else{ trPt += '<div class="col-sm-3 col-md-3 col-lg-3 mb-1"><label class="form-label">Tahun</label><input type="text" class="form-control" value="Tiada" readonly></div>'; }
                         if(item.peringkat){ trPt += '<div class="col-sm-9 col-md-9 col-lg-9 mb-1"><label class="form-label">Peringkat Pengajian</label><input type="text" class="form-control" value="' + item.peringkat.diskripsi + '" readonly></div>'; }
@@ -238,7 +238,7 @@
                 $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val(data.detail.pen_kod ? data.detail.pen_kod : '').trigger('change');
                 $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').val(data.detail.ins_fln ? data.detail.ins_fln : '').trigger('change');
                 $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val(data.detail.tarikh_senat ? data.detail.tarikh_senat : '');
-                $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val(data.detail.biasiswa ? data.detail.biasiswa : '').trigger('change');
+                $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val(data.detail.biasiswa).trigger('change');
 
             }
         });
