@@ -15,7 +15,7 @@
 <thead>
 <tr>
 	<th width="10%">#</th>
-	<th>No Kad Pengenalan Baru</th>
+	<th>No Kad Pengenalan</th>
 	<th width="55%">Nama Penuh</th>
 	<th width="15%">Lihat Maklumat</th>
 	</tr>
