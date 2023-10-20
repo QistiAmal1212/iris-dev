@@ -41,4 +41,8 @@ class CalonPengajianTinggi extends Model
     public function specialization() {
         return $this->belongsTo('App\Models\Reference\Specialization', 'pen_kod', 'kod');
     }
+
+    public function peringkat() {
+        return $this->belongsTo('App\Models\Reference\PeringkatPengajian', 'peringkat_pengajian', 'id');
+    }
 }

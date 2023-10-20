@@ -122,6 +122,14 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::post('delete/{idSkm}', 'deleteSkm')->name('skm.delete');
         });
 
+        Route::prefix('pengajian_tinggi')->group(function () {
+            Route::post('store', 'storePt')->name('pt.store');
+            Route::get('list/{noPengenalan}', 'listPt')->name('pt.list');
+            Route::post('update', 'updatePt')->name('pt.update');
+            Route::get('getDetail/{idPt}', 'detailPt')->name('pt.detail');
+            Route::post('delete/{idPt}', 'deletePt')->name('pt.delete');
+        });
+
         Route::prefix('bahasa')->group(function () {
             Route::post('store', 'storeBahasa')->name('bahasa.store');
             Route::get('list/{noPengenalan}', 'listBahasa')->name('bahasa.list');
@@ -136,31 +144,26 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::post('delete/{idBakat}', 'deleteBakat')->name('bakat.delete');
         });
 
-        Route::prefix('pengajian_tinggi')->group(function () {
-            Route::post('update', 'updatePengajianTinggi')->name('pengajian-tinggi.update');
-            Route::get('details/{noPengenalan}', 'pengajianTinggiDetails')->name('pengajian-tinggi.details');
-        });
+        // Route::prefix('diploma')->group(function () {
+        //     Route::post('update', 'updateDiploma')->name('diploma.update');
+        //     Route::get('details/{noPengenalan}', 'diplomaDetails')->name('diploma.details');
+        // });
 
-        Route::prefix('diploma')->group(function () {
-            Route::post('update', 'updateDiploma')->name('diploma.update');
-            Route::get('details/{noPengenalan}', 'diplomaDetails')->name('diploma.details');
-        });
+        // Route::prefix('degree')->group(function () {
+        //     Route::post('update', 'updateDegree')->name('degree.update');
+        //     Route::get('details/{noPengenalan}', 'degreeDetails')->name('degree.details');
+        // });
 
-        Route::prefix('degree')->group(function () {
-            Route::post('update', 'updateDegree')->name('degree.update');
-            Route::get('details/{noPengenalan}', 'degreeDetails')->name('degree.details');
-        });
+        // Route::prefix('master')->group(function () {
+        //     Route::post('update', 'updateMaster')->name('master.update');
+        //     Route::get('details/{noPengenalan}', 'masterDetails')->name('master.details');
+        // });
 
-        Route::prefix('master')->group(function () {
-            Route::post('update', 'updateMaster')->name('master.update');
-            Route::get('details/{noPengenalan}', 'masterDetails')->name('master.details');
-        });
+        // Route::prefix('phd')->group(function () {
+        //     Route::post('update', 'updatePhd')->name('phd.update');
+        //     Route::get('details/{noPengenalan}', 'phdDetails')->name('phd.details');
+        // });
 
-        Route::prefix('phd')->group(function () {
-            Route::post('update', 'updatePhd')->name('phd.update');
-            Route::get('details/{noPengenalan}', 'phdDetails')->name('phd.details');
-        });
-        
         Route::prefix('profesional')->group(function () {
             Route::post('store', 'storeProfesional')->name('profesional.store');
             Route::get('list/{noPengenalan}', 'listProfesional')->name('profesional.list');
