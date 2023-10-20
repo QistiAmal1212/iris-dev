@@ -2813,7 +2813,7 @@ class MaklumatPemohonController extends Controller
                 'nama_sijil' => $request->nama_sijil_pengajian_tinggi,
                 'pen_kod' => $request->pengkhususan_pengajian_tinggi,
                 'ins_fln' => $request->fln_pengajian_tinggi,
-                'tarikh_senat' => $request->tarikh_senat_pengajian_tinggi,
+                'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_pengajian_tinggi)->format('Y-m-d'),
                 'biasiswa' => $request->biasiswa_pengajian_tinggi,
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
@@ -2848,6 +2848,10 @@ class MaklumatPemohonController extends Controller
             ->with(['peringkat'])
             ->get();
 
+            foreach($candidatePt as $candidate){
+                $candidate->tarikh_senat = ($candidate->tarikh_senat != null) ? Carbon::parse($candidate->tarikh_senat)->format('d/m/Y') : null;
+            }
+
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             //}
@@ -2868,6 +2872,8 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
             $candidatePt = CalonPengajianTinggi::where('id', $idPt)->first();
+
+            $candidatePt->tarikh_senat = ($candidatePt->tarikh_senat != null) ? Carbon::parse($candidatePt->tarikh_senat)->format('d/m/Y') : null;
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePt]);
 
@@ -2923,7 +2929,7 @@ class MaklumatPemohonController extends Controller
                 'nama_sijil' => $request->nama_sijil_pengajian_tinggi,
                 'pen_kod' => $request->pengkhususan_pengajian_tinggi,
                 'ins_fln' => $request->fln_pengajian_tinggi,
-                'tarikh_senat' => $request->tarikh_senat_pengajian_tinggi,
+                'tarikh_senat' => Carbon::createFromFormat('d/m/Y', $request->tarikh_senat_pengajian_tinggi)->format('Y-m-d'),
                 'biasiswa' => $request->biasiswa_pengajian_tinggi,
                 'pengguna' => auth()->user()->id,
             ]);
