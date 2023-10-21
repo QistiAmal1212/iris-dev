@@ -298,7 +298,8 @@ Maklumat Pemohon
             });
             return;
         }
-
+        $('#tukar_log').val(htmlContent);
+        
         Swal.fire({
         title: 'Adakah anda ingin simpan perubahan ini?',
         html: htmlContent,

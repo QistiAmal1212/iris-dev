@@ -115,8 +115,10 @@ data-reloadPage="false">
         </button>
     </div>
 </div>
+<input type="hidden" name="tukar_log"  id= "tukar_log">
 </form>
 <input type="hidden" name="editbutton" value=0 id= "editbutton">
+
 <textarea id="currentvalues" style="display:none;"></textarea>
 
 <script>
@@ -154,18 +156,7 @@ data-reloadPage="false">
         
         var datachanged = false;
         var checkValue = JSON.parse($('#currentvalues').val());
-        console.log(checkValue);
-        var check_data_new = {
-                gender: $('#gender').find(':selected').text(),
-                religion: $('#religion').find(':selected').text(),
-                race: $('#race').find(':selected').text(),
-                date_of_birth: $('#date_of_birth').val(),
-                marital_status: $('#marital_status').find(':selected').text(),
-                phone_number: $('#phone_number').val(),
-                email: $('#email').val()
-            };
-        console.log(check_data_new);
-
+   
         if (checkValue.gender != $('#gender').find(':selected').text()) {
             datachanged = true;
         }

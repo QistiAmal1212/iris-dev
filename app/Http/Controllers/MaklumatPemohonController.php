@@ -280,13 +280,14 @@ class MaklumatPemohonController extends Controller
                 'no_tel' => $request->phone_number,
                 'pengguna' => auth()->user()->id,
             ]);
-
+            
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->personal_no_pengenalan,
                 'activity_type_id' => 4,
                 'details' => 'Kemaskini Maklumat Peribadi (Peribadi)',
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log) ? json_encode($request->tukar_log) : null
             ]);
 
             DB::commit();

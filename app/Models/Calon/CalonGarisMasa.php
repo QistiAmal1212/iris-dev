@@ -14,6 +14,7 @@ class CalonGarisMasa extends Model
         'activity_type_id',
         'created_by',
         'updated_by',
+        'tukar_log'
     ];
 
     public function created_user()

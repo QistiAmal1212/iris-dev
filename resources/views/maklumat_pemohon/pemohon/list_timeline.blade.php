@@ -14,8 +14,14 @@
             } else if($timeline->activity_type_id == 4){
                 $action = 'Dikemaskini oleh:';
             }
+            if ($timeline->tukar_log) {
+                $tukarLog = json_decode($timeline->tukar_log); 
+            } else {
+                $tukarLog = '';
+            }
             ?>
             <p>{{ $action }} <strong> {{ $timeline->created_user->name }} </strong></p>
+            {!! nl2br($tukarLog) !!}
         </div>
     </li>
     @endforeach
