@@ -349,13 +349,13 @@ class MaklumatPemohonController extends Controller
             if (!isset($request->permanent_address_2)) {
                 if (isset($candidate->alamat_2_tetap)) {
                     DB::rollback();
-                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);   
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Sila isikan alamat'], 404);   
                 }
             }
             if (!isset($request->permanent_address_3)) {
                 if (isset($candidate->alamat_3_tetap)) {
                     DB::rollback();
-                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);   
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Sila isikan alamat'], 404);   
                 }
             }
 
