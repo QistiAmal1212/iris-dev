@@ -296,6 +296,10 @@ Maklumat Pemohon
                 icon: 'info',
                 confirmButtonText: 'OK'
             });
+
+            $('#editbutton').val(0);
+            reloadPersonal();
+            disbalefields();
             return;
         }
         $('#tukar_log').val(htmlContent);
@@ -313,6 +317,9 @@ Maklumat Pemohon
                 if (originalVal.hasOwnProperty(key)) {
                     if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
                         originalVal[key] = newValues[key];
+                        if (!newValues[key] && btnName == 'btnEditPersonal') {
+                            reloadPersonal();
+                        }
                     }
                 }
             }
