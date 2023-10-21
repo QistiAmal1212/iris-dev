@@ -508,7 +508,7 @@ Maklumat Pemohon
 
                     $('#alamatTetapForm input[name="permanent_address_1"]').attr('disabled', true);
                     $('#alamatTetapForm input[name="permanent_address_1"]').val(data.detail.alamat_1_tetap ? data.detail.alamat_1_tetap.toUpperCase() : data_not_available);
-                    originalVal['permanent_address_1'] = data.detail.alamat_1_tetap.toUpperCase();
+                    originalVal['permanent_address_1'] = data.detail.alamat_1_tetap;
                     $('#alamatTetapForm input[name="permanent_address_2"]').attr('disabled', true);
                     $('#alamatTetapForm input[name="permanent_address_2"]').val(data.detail.alamat_2_tetap ? data.detail.alamat_2_tetap.toUpperCase() : data_not_available);
                     originalVal['permanent_address_2'] = data.detail.alamat_2_tetap;
@@ -529,7 +529,7 @@ Maklumat Pemohon
 
                     $('#alamatSuratForm input[name="address_1"]').attr('disabled', true);
                     $('#alamatSuratForm input[name="address_1"]').val(data.detail.alamat_1 ? data.detail.alamat_1.toUpperCase() : data_not_available);
-                    originalVal['address_1'] = data.detail.alamat_1.toUpperCase();
+                    originalVal['address_1'] = data.detail.alamat_1;
                     $('#alamatSuratForm input[name="address_2"]').attr('disabled', true);
                     $('#alamatSuratForm input[name="address_2"]').val(data.detail.alamat_2 ? data.detail.alamat_2.toUpperCase() : data_not_available);
                     originalVal['address_2'] = data.detail.alamat_2;
