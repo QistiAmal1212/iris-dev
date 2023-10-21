@@ -2,6 +2,14 @@
     .flatpickr-input[disabled]{
         background-color: #efefef;
     }
+    input[type="number"]::-webkit-outer-spin-button, 
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
 </style>
 <div class="card" id="update_personal" style="display:none">
     <div class="d-flex justify-content-end align-items-center my-1 ">
@@ -79,7 +87,7 @@ data-reloadPage="false">
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">No. Telefon</label>
-            <input type="text" class="form-control" value="" name="phone_number" id="phone_number" oninput="checkInput('phone_number', 'phone_numberAlert')" disabled>
+            <input type="number" class="form-control" value="" name="phone_number" id="phone_number" oninput="checkInput('phone_number', 'phone_numberAlert')" disabled>
             <div id="phone_numberAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
@@ -122,6 +130,7 @@ data-reloadPage="false">
 <textarea id="currentvalues" style="display:none;"></textarea>
 
 <script>
+
     function editPersonal() {
         $('#personalForm select[name="gender"]').attr('disabled', false);
         $('#personalForm select[name="religion"]').attr('disabled', false);
