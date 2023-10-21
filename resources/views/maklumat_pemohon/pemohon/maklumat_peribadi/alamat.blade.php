@@ -406,6 +406,7 @@
                 $('#alamatTetapForm select[name="permanent_state"]').attr('disabled', true);
 
                 $("#button_action_alamat_tetap").attr("style", "display:none");
+                checkifalamatempty();
             },
             error: function(data) {
                 //
@@ -449,6 +450,7 @@
                 $('#alamatSuratForm select[name="state"]').attr('disabled', true);
 
                 $("#button_action_alamat_surat").attr("style", "display:none");
+                checkifalamatempty();
             },
             error: function(data) {
                 //
