@@ -189,14 +189,17 @@ data-reloadPage="false">
         }
         if (!datachanged) {
             $('#editbutton').val(0);
-            $('#personalForm select[name="gender"]').attr('disabled', true);
+            disbalefields();
+        }
+    }
+    function disbalefields() {
+        $('#personalForm select[name="gender"]').attr('disabled', true);
             $('#personalForm select[name="religion"]').attr('disabled', true);
             $('#personalForm select[name="race"]').attr('disabled', true);
             $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
             $('#personalForm select[name="marital_status"]').attr('disabled', true);
             $('#personalForm input[name="phone_number"]').attr('disabled', true);
             $('#personalForm input[name="email"]').attr('disabled', true);
-        }
     }
 
     function reloadPersonal() {
