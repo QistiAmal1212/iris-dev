@@ -304,9 +304,11 @@ Maklumat Pemohon
                 $('#editbutton_alamat').val(0);
                 reloadAlamatSurat();
                 disbalefieldsalamat();
+                checkifalamatempty();
             } else if(btnName == 'btnEditAlamatTetap') {
                 reloadAlamatTetap();
                 disbalefieldsalamat();
+                checkifalamatempty();
             }
             return;
         }
@@ -338,9 +340,11 @@ Maklumat Pemohon
                         }
                         if(!newValues[key] && btnName == 'btnEditAlamatSurat') {
                             reloadAlamatSurat();
+                            checkifalamatempty();
                         }
                         if(!newValues[key] && btnName == 'btnEditAlamatTetap') {
                             reloadAlamatTetap();
+                            checkifalamatempty();
                         }
                     }
                 }
