@@ -216,11 +216,26 @@
         var permanent_poscode =  $('#permanent_poscode').val();
         var permanent_city =  $('#permanent_city').val();
         var permanent_state =  $('#permanent_state').find(':selected').text();
-        if (!permanent_address_1 && !permanent_address_2 && !permanent_address_3 && !permanent_state && !permanent_city && !permanent_poscode) {
+     
+        var dontbypassalamattetap = false;
+        if (!permanent_address_1 || permanent_address_1 == 'Tiada Maklumat' || permanent_address_1 =='') {
+            if (!permanent_address_2 || permanent_address_2 == 'Tiada Maklumat' || permanent_address_2 =='') {
+                if (!permanent_address_3 || permanent_address_3 == 'Tiada Maklumat' || permanent_address_3 == '') {
+                    if (!permanent_poscode || permanent_poscode == 'Tiada Maklumat' || permanent_poscode == '') {
+                        if (!permanent_city || permanent_city == 'Tiada Maklumat' || permanent_city == '') {
+                            if (!permanent_state || permanent_state == 'Tiada Maklumat' || permanent_state == '') {
+                                dontbypassalamattetap = true
+                            } 
+                        } 
+                    } 
+                }   
+            }
+        }
+
+        if (dontbypassalamattetap) {
             $('#tm_alamat_tetap').removeAttr('hidden');
         } else {
             $('#tm_alamat_tetap').attr("hidden", true);
-            
         }
 
         var address_1 = $('#address_1').val();
@@ -229,11 +244,25 @@
         var poscode = $('#poscode').val();
         var city = $('#city').val();
         var state = $('#state').find(':selected').text();
-         if (!address_1 && !address_2 && !address_3 && !state && !city && !poscode) {
+       
+        var dontbypassalamatsurat = false;
+         if (!address_1 || address_1 == 'Tiada Maklumat' || address_1 == '') {
+            if (!address_2 || address_2 == 'Tiada Maklumat' || address_2 == '') {
+                if (!address_3 || address_3 == 'Tiada Maklumat' || address_3 == '') {
+                    if (!poscode || poscode == 'Tiada Maklumat' || poscode == '') {
+                        if (!city || city == 'Tiada Maklumat' || city =='') {
+                            if (!state || state == 'Tiada Maklumat' || state == '') {
+                                dontbypassalamatsurat = true
+                            } 
+                        } 
+                    } 
+                }   
+            }
+        }
+         if (dontbypassalamatsurat) {
             $('#tm_alamat_surat').removeAttr('hidden');
         } else {
             $('#tm_alamat_surat').attr("hidden", true);
-
         }
 
     }
