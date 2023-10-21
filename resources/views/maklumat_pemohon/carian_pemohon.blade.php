@@ -301,11 +301,12 @@ Maklumat Pemohon
                 reloadPersonal();
                 disbalefields();
             } else if (btnName == 'btnEditAlamatSurat') {
-                $('#editbutton_alamat').val(0);
+                $('#editbutton_alamat_surat').val(0);
                 reloadAlamatSurat();
                 disbalefieldsalamat();
                 checkifalamatempty();
             } else if(btnName == 'btnEditAlamatTetap') {
+                $('#editbutton_alamat_tetap').val(0);
                 reloadAlamatTetap();
                 disbalefieldsalamat();
                 checkifalamatempty();
@@ -331,6 +332,7 @@ Maklumat Pemohon
         }).then((result) => {
         if (result.isConfirmed) {
             $('#'+btnName).trigger('click');
+
             for (var key in originalVal) {
                 if (originalVal.hasOwnProperty(key)) {
                     if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
@@ -340,14 +342,15 @@ Maklumat Pemohon
                         }
                         if(!newValues[key] && btnName == 'btnEditAlamatSurat') {
                             reloadAlamatSurat();
-                            checkifalamatempty();
                         }
                         if(!newValues[key] && btnName == 'btnEditAlamatTetap') {
                             reloadAlamatTetap();
-                            checkifalamatempty();
                         }
                     }
                 }
+            }
+            if(btnName == 'btnEditAlamatSurat' || btnName == 'btnEditAlamatTetap') {
+                checkifalamatempty();
             }
         }
         })
