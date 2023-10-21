@@ -52,15 +52,15 @@
 
                     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                         <label class="form-label">Alamat</label>
-                        <input type="text" class="form-control" value="" name="permanent_address_1" id="permanent_address_1" oninput="checkInput('permanent_address_1', 'permanent_address_1Alert')" disabled>
+                        <input type="text" class="form-control" value="" name="permanent_address_1" id="permanent_address_1" onkeyup="this.value = this.value.toUpperCase();" oninput="checkInput('permanent_address_1', 'permanent_address_1Alert')" disabled>
                         <div id="permanent_address_1Alert" style="color: red; font-size: smaller;"></div>
 
                         <br>
-                        <input type="text" class="form-control" value="" name="permanent_address_2" id="permanent_address_2" oninput="checkInput('permanent_address_2', 'permanent_address_2Alert')" disabled>
+                        <input type="text" class="form-control" value="" name="permanent_address_2" id="permanent_address_2" onkeyup="this.value = this.value.toUpperCase();" oninput="checkInput('permanent_address_2', 'permanent_address_2Alert')" disabled>
                         <div id="permanent_address_2Alert" style="color: red; font-size: smaller;"></div>
 
                         <br>
-                        <input type="text" class="form-control" value="" name="permanent_address_3" id="permanent_address_3" oninput="checkInput('permanent_address_3', 'permanent_address_3Alert')" disabled>
+                        <input type="text" class="form-control" value="" name="permanent_address_3" id="permanent_address_3" onkeyup="this.value = this.value.toUpperCase();" oninput="checkInput('permanent_address_3', 'permanent_address_3Alert')" disabled>
                         <div id="permanent_address_3Alert" style="color: red; font-size: smaller;"></div>
                     </div>
 
@@ -72,7 +72,7 @@
 
                     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
                         <label class="form-label">Bandar</label>
-                        <input type="text" class="form-control" value="" name="permanent_city" id="permanent_city" oninput="checkInput('permanent_city', 'permanent_cityAlert')" disabled>
+                        <input type="text" class="form-control" value="" name="permanent_city" id="permanent_city" onkeyup="this.value = this.value.toUpperCase();" oninput="checkInput('permanent_city', 'permanent_cityAlert')" disabled>
                         <div id="permanent_cityAlert" style="color: red; font-size: smaller;"></div>
                     </div>
 
@@ -110,6 +110,7 @@
                         </button>
                     </div>
                 </div>
+            <input type="hidden" name="tukar_log_alamat_tetap"  id= "tukar_log_alamat_tetap">
             </form> {{-- TUTUP FORM SINI --}}
         </div>
 
@@ -136,15 +137,15 @@
 
                     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                         <label class="form-label">Alamat</label>
-                        <input type="text" class="form-control" value="" name="address_1" id="address_1" oninput="checkInput('address_1', 'address_1Alert')" disabled>
+                        <input type="text" class="form-control" value="" name="address_1" id="address_1" onkeyup="this.value = this.value.toUpperCase();" oninput="checkInput('address_1', 'address_1Alert')" disabled>
                         <div id="address_1Alert" style="color: red; font-size: smaller;"></div>
 
                         <br>
-                        <input type="text" class="form-control" value="" name="address_2" id="address_2" oninput="checkInput('address_2', 'address_2Alert')" disabled>
+                        <input type="text" class="form-control" value="" name="address_2" id="address_2" onkeyup="this.value = this.value.toUpperCase();" oninput="checkInput('address_2', 'address_2Alert')" disabled>
                         <div id="address_2Alert" style="color: red; font-size: smaller;"></div>
 
                         <br>
-                        <input type="text" class="form-control" value="" name="address_3" id="address_3" oninput="checkInput('address_3', 'address_3Alert')" disabled>
+                        <input type="text" class="form-control" value="" name="address_3" id="address_3" onkeyup="this.value = this.value.toUpperCase();" oninput="checkInput('address_3', 'address_3Alert')" disabled>
                         <div id="address_3Alert" style="color: red; font-size: smaller;"></div>
                     </div>
 
@@ -156,7 +157,7 @@
 
                     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
                         <label class="form-label">Bandar</label>
-                        <input type="text" class="form-control" value="" name="city" id="city" oninput="checkInput('city', 'cityAlert')" disabled>
+                        <input type="text" class="form-control" value="" name="city" id="city" onkeyup="this.value = this.value.toUpperCase();" oninput="checkInput('city', 'cityAlert')" disabled>
                         <div id="cityAlert" style="color: red; font-size: smaller;"></div>
                     </div>
 
@@ -194,12 +195,19 @@
                         </button>
                     </div>
                 </div>
+                <input type="hidden" name="tukar_log_alamat_surat"  id= "tukar_log_alamat_surat">
             </form>
         </div>
     </div>
 </div>
+<input type="hidden" name="editbutton_alamat_surat" value=0 id="editbutton_alamat_surat">
+<input type="hidden" name="editbutton_alamat_tetap" value=0 id="editbutton_alamat_tetap">
+
+<textarea id="currentvalues_alamat_tetap" style="display:none;"></textarea>
+<textarea id="currentvalues_alamat_surat" style="display:none;"></textarea>
 
 <script>
+
     function editAlamatTetap() {
         $('#alamatTetapForm input[name="permanent_address_1"]').attr('disabled', false);
         $('#alamatTetapForm input[name="permanent_address_2"]').attr('disabled', false);
@@ -209,8 +217,113 @@
         $('#alamatTetapForm select[name="permanent_state"]').attr('disabled', false);
 
         $("#button_action_alamat_tetap").attr("style", "display:block");
+        storevalues('tetap')
     }
+    function storevalues(type){
+        if (type == 'tetap') {
+            var editbuttoncount = $('#editbutton_alamat_tetap').val();
+        if (editbuttoncount <= 0) {
+            $('#editbutton_alamat_tetap').val(1)
+            var check_data = {
+                permanent_address_1: $('#permanent_address_1').val(),
+                permanent_address_2: $('#permanent_address_2').val(),
+                permanent_address_3: $('#permanent_address_3').val(),
+                permanent_poscode: $('#permanent_poscode').val(),
+                permanent_city: $('#permanent_city').val(),
+                permanent_state: $('#permanent_state').find(':selected').text(),
+            };
+            $('#currentvalues_alamat_tetap').val(JSON.stringify(check_data));
+            } else {
+                checkkemaskinialamat('tetap');
+            }
+        } else {
+            var editbuttoncount = $('#editbutton_alamat_surat').val();
+            if (editbuttoncount <= 0) {
+                // firsttime
+                $('#editbutton_alamat_surat').val(1)
+                var check_data = {
+                    address_1: $('#address_1').val(),
+                    address_2: $('#address_2').val(),
+                    address_3: $('#address_3').val(),
+                    poscode: $('#poscode').val(),
+                    city: $('#city').val(),
+                    state: $('#state').find(':selected').text()
+                };
+                $('#currentvalues_alamat_surat').val(JSON.stringify(check_data));
+            } else {
+                checkkemaskinialamat('surat');
+            }
+        }
+      
+    }
+    function checkkemaskinialamat(type) {
+        var datachanged = false;
+        if (type == 'tetap') {
+            var checkValue = JSON.parse($('#currentvalues_alamat_tetap').val());
+            if (checkValue.permanent_address_1 !=  $('#permanent_address_1').val()) {
+                datachanged = true;
+            }
+            if (checkValue.permanent_address_2 !=  $('#permanent_address_2').val()) {
+                datachanged = true;
+            }
+            if (checkValue.permanent_address_3 !=  $('#permanent_address_3').val()) {
+                datachanged = true;
+            }
+            if (checkValue.permanent_poscode != $('#permanent_poscode').val()) {
+                datachanged = true;
+            }
+            if (checkValue.permanent_city != $('#permanent_city').val()) {
+                datachanged = true;
+            }
+            if (checkValue.permanent_state != $('#permanent_state').find(':selected').text()) {
+                datachanged = true;
+            }
+            if (!datachanged) {
+                $('#editbutton_alamat_tetap').val(0);
+                disbalefieldsalamat();
+            }
+        } else {
+            var checkValue = JSON.parse($('#currentvalues_alamat_surat').val());
+            if (checkValue.address_1 !=  $('#address_1').val()) {
+                datachanged = true;
+            }
+            if (checkValue.address_2 !=  $('#address_2').val()) {
+                datachanged = true;
+            }
+            if (checkValue.address_3 !=  $('#address_3').val()) {
+                datachanged = true;
+            }
+            if (checkValue.poscode != $('#poscode').val()) {
+                datachanged = true;
+            }
+            if (checkValue.city != $('#city').val()) {
+                datachanged = true;
+            }
+            if (checkValue.state != $('#state').find(':selected').text()) {
+                datachanged = true;
+            }
+            if (!datachanged) {
+                $('#editbutton_alamat_surat').val(0);
+                disbalefieldsalamat();
+            }
+        }
+    }
+    function disbalefieldsalamat() {
+        $('#alamatSuratForm input[name="address_1"]').attr('disabled', true);
+        $('#alamatSuratForm input[name="address_2"]').attr('disabled', true);
+        $('#alamatSuratForm input[name="address_3"]').attr('disabled', true);
+        $('#alamatSuratForm input[name="poscode"]').attr('disabled', true);
+        $('#alamatSuratForm input[name="city"]').attr('disabled', true);
+        $('#alamatSuratForm select[name="state"]').attr('disabled', true);
 
+        $('#alamatTetapForm input[name="permanent_address_1"]').attr('disabled', true);
+        $('#alamatTetapForm input[name="permanent_address_2"]').attr('disabled', true);
+        $('#alamatTetapForm input[name="permanent_address_3"]').attr('disabled', true);
+        $('#alamatTetapForm input[name="permanent_poscode"]').attr('disabled', true);
+        $('#alamatTetapForm input[name="permanent_city"]').attr('disabled', true);
+        $('#alamatTetapForm select[name="permanent_state"]').attr('disabled', true);
+
+    }
     function reloadAlamatTetap() {
         var no_pengenalan = $('#candidate_no_pengenalan').val();
 
@@ -221,15 +334,15 @@
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#alamatTetapForm input[name="permanent_address_1"]').val(data.detail.alamat_1_tetap);
+                $('#alamatTetapForm input[name="permanent_address_1"]').val(data.detail.alamat_1_tetap ?data.detail.alamat_1_tetap.toUpperCase() : '');
                 $('#alamatTetapForm input[name="permanent_address_1"]').attr('disabled', true);
-                $('#alamatTetapForm input[name="permanent_address_2"]').val(data.detail.alamat_2_tetap);
+                $('#alamatTetapForm input[name="permanent_address_2"]').val(data.detail.alamat_2_tetap ? data.detail.alamat_2_tetap.toUpperCase() : '');
                 $('#alamatTetapForm input[name="permanent_address_2"]').attr('disabled', true);
-                $('#alamatTetapForm input[name="permanent_address_3"]').val(data.detail.alamat_3_tetap);
+                $('#alamatTetapForm input[name="permanent_address_3"]').val(data.detail.alamat_3_tetap ? data.detail.alamat_3_tetap.toUpperCase() : '');
                 $('#alamatTetapForm input[name="permanent_address_3"]').attr('disabled', true);
                 $('#alamatTetapForm input[name="permanent_poscode"]').val(data.detail.poskod_tetap);
                 $('#alamatTetapForm input[name="permanent_poscode"]').attr('disabled', true);
-                $('#alamatTetapForm input[name="permanent_city"]').val(data.detail.bandar_tetap);
+                $('#alamatTetapForm input[name="permanent_city"]').val(data.detail.bandar_tetap ? data.detail.bandar_tetap.toUpperCase() : '');
                 $('#alamatTetapForm input[name="permanent_city"]').attr('disabled', true);
                 $('#alamatTetapForm select[name="permanent_state"]').val(data.detail.tempat_tinggal_tetap).trigger('change');
                 $('#alamatTetapForm select[name="permanent_state"]').attr('disabled', true);
@@ -251,6 +364,7 @@
         $('#alamatSuratForm select[name="state"]').attr('disabled', false);
 
         $("#button_action_alamat_surat").attr("style", "display:block");
+        storevalues('surat');
     }
 
     function reloadAlamatSurat() {
@@ -263,15 +377,15 @@
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#alamatSuratForm input[name="address_1"]').val(data.detail.alamat_1);
+                $('#alamatSuratForm input[name="address_1"]').val(data.detail.alamat_1 ? data.detail.alamat_1.toUpperCase() : '');
                 $('#alamatSuratForm input[name="address_1"]').attr('disabled', true);
-                $('#alamatSuratForm input[name="address_2"]').val(data.detail.alamat_2);
+                $('#alamatSuratForm input[name="address_2"]').val( data.detail.alamat_2 ? data.detail.alamat_2.toUpperCase() : '');
                 $('#alamatSuratForm input[name="address_2"]').attr('disabled', true);
-                $('#alamatSuratForm input[name="address_3"]').val(data.detail.alamat_3);
+                $('#alamatSuratForm input[name="address_3"]').val(data.detail.alamat_3 ? data.detail.alamat_3.toUpperCase() : '');
                 $('#alamatSuratForm input[name="address_3"]').attr('disabled', true);
                 $('#alamatSuratForm input[name="poscode"]').val(data.detail.poskod);
                 $('#alamatSuratForm input[name="poscode"]').attr('disabled', true);
-                $('#alamatSuratForm input[name="city"]').val(data.detail.bandar);
+                $('#alamatSuratForm input[name="city"]').val(data.detail.bandar ? data.detail.bandar.toUpperCase() : '');
                 $('#alamatSuratForm input[name="city"]').attr('disabled', true);
                 $('#alamatSuratForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change');
                 $('#alamatSuratForm select[name="state"]').attr('disabled', true);

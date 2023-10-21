@@ -346,6 +346,19 @@ class MaklumatPemohonController extends Controller
                 'permanent_state.exists' => 'Tiada rekod data negeri yang dipilih',
             ]);
 
+            if (!isset($request->permanent_address_2)) {
+                if (isset($candidate->alamat_2_tetap)) {
+                    DB::rollback();
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);   
+                }
+            }
+            if (!isset($request->permanent_address_3)) {
+                if (isset($candidate->alamat_3_tetap)) {
+                    DB::rollback();
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);   
+                }
+            }
+
             $candidate->update([
                 'alamat_1_tetap' => $request->permanent_address_1,
                 'alamat_2_tetap' => $request->permanent_address_2,
@@ -361,6 +374,7 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_alamat_tetap) ? json_encode($request->tukar_log_alamat_tetap) : null
             ]);
 
             DB::commit();
@@ -395,6 +409,18 @@ class MaklumatPemohonController extends Controller
                 'state.required' => 'Sila pilih negeri alamat surat menyurat',
                 'state.exists' => 'Tiada rekod data negeri yang dipilih',
             ]);
+            if (!isset($request->address_2)) {
+                if (isset($candidate->alamat_2)) {
+                    DB::rollback();
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);   
+                }
+            }
+            if (!isset($request->address_3)) {
+                if (isset($candidate->alamat_3)) {
+                    DB::rollback();
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);   
+                }
+            }
 
             $candidate->update([
                 'alamat_1' => $request->address_1,
@@ -411,6 +437,7 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_alamat_surat) ? json_encode($request->tukar_log_alamat_surat) : null
             ]);
 
             DB::commit();
