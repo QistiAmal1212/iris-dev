@@ -8,6 +8,7 @@
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
                         Alamat Tetap
+                        <br><div class="badge badge-light-danger fw-bolder" id="tm_alamat_tetap" hidden>Tiada Maklumat</div>
                     </span>
                 </span>
             </button>
@@ -23,6 +24,7 @@
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
                         Alamat Surat Menyurat
+                        <br><div class="badge badge-light-danger fw-bolder" id="tm_alamat_surat" hidden>Tiada Maklumat</div>
                     </span>
                 </span>
             </button>
@@ -207,7 +209,34 @@
 <textarea id="currentvalues_alamat_surat" style="display:none;"></textarea>
 
 <script>
+    function checkifalamatempty() {
+        var permanent_address_1 =  $('#permanent_address_1').val();
+        var permanent_address_2 =  $('#permanent_address_2').val();
+        var permanent_address_3 =  $('#permanent_address_3').val();
+        var permanent_poscode =  $('#permanent_poscode').val();
+        var permanent_city =  $('#permanent_city').val();
+        var permanent_state =  $('#permanent_state').find(':selected').text();
+        if (!permanent_address_1 && !permanent_address_2 && !permanent_address_3 && !permanent_state && !permanent_city && !permanent_poscode) {
+            $('#tm_alamat_tetap').removeAttr('hidden');
+        } else {
+            $('#tm_alamat_tetap').attr("hidden", true);
+            
+        }
 
+        var address_1 = $('#address_1').val();
+        var address_2 = $('#address_2').val();
+        var address_3 = $('#address_3').val();
+        var poscode = $('#poscode').val();
+        var city = $('#city').val();
+        var state = $('#state').find(':selected').text();
+         if (!address_1 && !address_2 && !address_3 && !state && !city && !poscode) {
+            $('#tm_alamat_surat').removeAttr('hidden');
+        } else {
+            $('#tm_alamat_surat').attr("hidden", true);
+
+        }
+
+    }
     function editAlamatTetap() {
         $('#alamatTetapForm input[name="permanent_address_1"]').attr('disabled', false);
         $('#alamatTetapForm input[name="permanent_address_2"]').attr('disabled', false);

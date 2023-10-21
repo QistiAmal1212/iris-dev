@@ -697,7 +697,7 @@ Maklumat Pemohon
                     $('#skmForm input[name="skm_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-skm tbody').empty();
                     reloadSkm();
-
+                    checkifalamatempty();
                     // $('#diplomaForm input[name="diploma_no_pengenalan"]').val(data.detail.no_pengenalan);
                     // if(data.detail.diploma != null) {
 
