@@ -299,7 +299,7 @@ Maklumat Pemohon
             return;
         }
         $('#tukar_log').val(htmlContent);
-        
+        $('#editbutton').val(0);
         Swal.fire({
         title: 'Adakah anda ingin simpan perubahan ini?',
         html: htmlContent,
