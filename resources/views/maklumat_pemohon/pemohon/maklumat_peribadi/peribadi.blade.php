@@ -87,7 +87,7 @@ data-reloadPage="false">
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">No. Telefon</label>
-            <input type="number" class="form-control" value="" name="phone_number" id="phone_number" oninput="checkInput('phone_number', 'phone_numberAlert')" disabled>
+            <input type="text" class="form-control" value="" name="phone_number" id="phone_number" oninput="checkInput('phone_number', 'phone_numberAlert')" onkeypress="return event.charCode >= 48 && event.charCode <= 57" disabled>
             <div id="phone_numberAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
@@ -130,7 +130,7 @@ data-reloadPage="false">
 <textarea id="currentvalues" style="display:none;"></textarea>
 
 <script>
-
+ 
     function editPersonal() {
         $('#personalForm select[name="gender"]').attr('disabled', false);
         $('#personalForm select[name="religion"]').attr('disabled', false);
