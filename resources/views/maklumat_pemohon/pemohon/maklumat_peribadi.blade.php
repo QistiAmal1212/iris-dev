@@ -13,6 +13,7 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="tempatLahir-tab" data-bs-toggle="tab" href="#tempatLahir" aria-controls="tempatLahir" role="tab" aria-selected="true">
                 Tempat Lahir
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_lahir" hidden>Tiada Maklumat</div>
             </a>
         </li>
         <li class="nav-item" role="presentation">

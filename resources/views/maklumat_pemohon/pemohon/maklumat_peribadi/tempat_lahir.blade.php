@@ -63,17 +63,79 @@ data-reloadPage="false">
         </button>
     </div>
 </div>
+<input type="hidden" name="tukar_log_lahir"  id="tukar_log_lahir">
 </form>
+<input type="hidden" name="editbutton_lahir" value=0 id="editbutton_lahir">
+
+<textarea id="currentvalues_lahir" style="display:none;"></textarea>
 
 <script>
+    function checkiflahirempty() {
+       var place_of_birth = $('#place_of_birth').find(':selected').text();
+       var father_place_of_birth = $('#father_place_of_birth').find(':selected').text();
+       var mother_place_of_birth = $('#mother_place_of_birth').find(':selected').text();
+     
+        var dontbypasslahir = false;
+        if (!place_of_birth || place_of_birth == 'Tiada Maklumat' || place_of_birth =='') {
+            if (!father_place_of_birth || father_place_of_birth == 'Tiada Maklumat' || father_place_of_birth =='') {
+                if (!mother_place_of_birth || mother_place_of_birth == 'Tiada Maklumat' || mother_place_of_birth == '') {
+                    dontbypasslahir = true;
+                }   
+            }
+        }
+
+        if (dontbypasslahir) {
+            $('#tm_lahir').removeAttr('hidden');
+        } else {
+            $('#tm_lahir').attr("hidden", true);
+        }
+    }
     function editTempatLahir() {
         $('#tempatLahirForm select[name="place_of_birth"]').attr('disabled', false);
         $('#tempatLahirForm select[name="father_place_of_birth"]').attr('disabled', false);
         $('#tempatLahirForm select[name="mother_place_of_birth"]').attr('disabled', false);
 
         $("#button_action_tempat_lahir").attr("style", "display:block");
-    }
 
+        var editbuttoncount = $('#editbutton_lahir').val();
+        console.log(editbuttoncount);
+        if (editbuttoncount <= 0) {
+            // firsttime
+            $('#editbutton_lahir').val(1)
+            var check_data = {
+                place_of_birth: $('#place_of_birth').find(':selected').text(),
+                father_place_of_birth: $('#father_place_of_birth').find(':selected').text(),
+                mother_place_of_birth: $('#mother_place_of_birth').find(':selected').text(),
+            };
+            $('#currentvalues_lahir').val(JSON.stringify(check_data));
+        } else {
+            checkkemaskinilahir();
+        }
+    }
+    function checkkemaskinilahir() {
+        
+        var datachanged = false;
+        var checkValue = JSON.parse($('#currentvalues_lahir').val());
+   
+        if (checkValue.place_of_birth != $('#place_of_birth').find(':selected').text()) {
+            datachanged = true;
+        }
+        if (checkValue.father_place_of_birth != $('#father_place_of_birth').find(':selected').text()) {
+            datachanged = true;
+        }
+        if (checkValue.mother_place_of_birth != $('#mother_place_of_birth').find(':selected').text()) {
+            datachanged = true;
+        }
+        if (!datachanged) {
+            $('#editbutton_lahir').val(0);
+            disbalefieldslahir();
+        }
+    }
+    function disbalefieldslahir() {
+        $('#tempatLahirForm select[name="place_of_birth"]').attr('disabled', true);
+        $('#tempatLahirForm select[name="father_place_of_birth"]').attr('disabled', true);
+        $('#tempatLahirForm select[name="mother_place_of_birth"]').attr('disabled', true);
+    }
     function reloadTempatLahir() {
         var no_pengenalan = $('#candidate_no_pengenalan').val();
 
@@ -92,6 +154,7 @@ data-reloadPage="false">
                 $('#tempatLahirForm select[name="mother_place_of_birth"]').attr('disabled', true);
 
                 $("#button_action_tempat_lahir").attr("style", "display:none");
+                checkiflahirempty();
             },
             error: function(data) {
                 //
