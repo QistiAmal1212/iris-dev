@@ -318,6 +318,10 @@ Maklumat Pemohon
                 $('#editbutton_lessen').val(0);
                 disbalefieldslessen();
                 reloadLesenMemandu();
+            } else if (btnName == 'btnEditOKU') {
+                $('#editbutton_oku').val(0);
+                disbalefieldsoku();
+                reloadOKU();
             }
             return;
         }
@@ -336,6 +340,9 @@ Maklumat Pemohon
         } else if (btnName == 'btnEditLesenMemandu') {
             $('#tukar_log_lessen').val(htmlContent);
             $('#editbutton_lessen').val(0);
+        } else if (btnName == 'btnEditOKU') {
+            $('#editbutton_oku').val(0);
+            $('#tukar_log_oku').val(htmlContent);
         }
         Swal.fire({
         title: 'Adakah anda ingin simpan perubahan ini?',
@@ -365,6 +372,9 @@ Maklumat Pemohon
                         }
                         if(!newValues[key] && btnName == 'btnEditLesenMemandu') {
                             reloadLesenMemandu();
+                        }
+                        if(!newValues[key] && btnName == 'btnEditOKU') {
+                            reloadOKU();
                         }
                     }
                 }

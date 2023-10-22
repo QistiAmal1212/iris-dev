@@ -99,7 +99,6 @@ data-reloadPage="false">
         $("#button_action_tempat_lahir").attr("style", "display:block");
 
         var editbuttoncount = $('#editbutton_lahir').val();
-        console.log(editbuttoncount);
         if (editbuttoncount <= 0) {
             // firsttime
             $('#editbutton_lahir').val(1)
