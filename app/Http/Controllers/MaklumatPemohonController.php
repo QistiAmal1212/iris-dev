@@ -546,17 +546,19 @@ class MaklumatPemohonController extends Controller
                 'license_type' => 'required|string|not_in:Tiada Maklumat',
                 'license_expiry_date' => 'required|string|not_in:Tiada Maklumat',
                 'license_blacklist_status' => 'required|string|not_in:Tiada Maklumat',
-                'license_blacklist_details' => 'required|string|not_in:Tiada Maklumat',
+                'license_blacklist_details' => 'string|nullable',
             ],[
                 'license_type.required' => 'Sila pilih jenis lesen',
                 'license_expiry_date.required' => 'Sila pilih tarikh tamat tempoh',
                 'license_blacklist_status.required' => 'Sila pilih senarai hitam status',
                 'license_blacklist_details.required' => 'Sila pilih butiran senarai hitam',
             ]);
+
             if ($request->license_blacklist_status == 1 && !isset($request->license_blacklist_details)) {
                 DB::rollback();
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Sila isikan Butiran Senarai Hitam'], 404);
             }
+
             $candidateLesen = CalonLesen::where('cal_no_pengenalan', $request->lesen_memandu_no_pengenalan)->first();
 
             if($candidateLesen){
