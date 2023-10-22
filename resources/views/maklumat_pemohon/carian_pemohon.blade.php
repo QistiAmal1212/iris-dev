@@ -128,6 +128,7 @@ Maklumat Pemohon
                         <li class="nav-item" role="presentation">
                             <a class="nav-link fw-bolder" id="skim-tab" data-bs-toggle="tab" href="#skim" aria-controls="skim" role="tab" aria-selected="true">
                                 Maklumat <br> Skim
+                                <div class="badge badge-light-danger fw-bolder" id="tm_skim" hidden>Tiada Maklumat</div>
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -322,7 +323,12 @@ Maklumat Pemohon
                 $('#editbutton_oku').val(0);
                 disbalefieldsoku();
                 reloadOKU();
+            } else if (btnName == 'btnEditPusatTemuduga') {
+                $('#editbutton_skim').val(0);
+                disbalefieldsskim();
+                reloadPusatTemuduga();
             }
+            
             return;
         }
         if (btnName == 'btnEditPersonal') {
@@ -343,6 +349,9 @@ Maklumat Pemohon
         } else if (btnName == 'btnEditOKU') {
             $('#editbutton_oku').val(0);
             $('#tukar_log_oku').val(htmlContent);
+        } else if (btnName == 'btnEditPusatTemuduga') {
+            $('#editbutton_skim').val(0);
+            $('#tukar_log_skim').val(htmlContent);
         }
         Swal.fire({
         title: 'Adakah anda ingin simpan perubahan ini?',
@@ -375,6 +384,9 @@ Maklumat Pemohon
                         }
                         if(!newValues[key] && btnName == 'btnEditOKU') {
                             reloadOKU();
+                        }
+                        if(!newValues[key] && btnName == 'reloadPusatTemuduga') {
+                            reloadPusatTemuduga();
                         }
                     }
                 }

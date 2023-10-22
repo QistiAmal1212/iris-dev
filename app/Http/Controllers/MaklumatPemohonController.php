@@ -730,6 +730,8 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_skim) ? json_encode($request->tukar_log_skim) : null
+
             ]);
 
             DB::commit();

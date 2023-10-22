@@ -40,7 +40,12 @@ data-reloadPage="false">
         </div>
     </div>
 </div>
+<input type="hidden" name="tukar_log_skim"  id="tukar_log_skim">
 </form>
+<input type="hidden" name="editbutton_skim" value=0 id="editbutton_skim">
+
+<textarea id="currentvalues_skim" style="display:none;"></textarea>
+
 
 <div class="table-responsive">
     <table class="table header_uppercase table-bordered table-hovered" id="table-skim">
@@ -60,12 +65,51 @@ data-reloadPage="false">
 </div>
 
 <script>
+    function checkiflahirempty() {
+       var pusat_temuduga = $('#pusat_temuduga').find(':selected').text();
+       
+        var dontbypassskim = false;
+        if (!pusat_temuduga || pusat_temuduga == 'Tiada Maklumat' || pusat_temuduga =='') {
+            dontbypassskim = true;
+        }
+
+        if (dontbypassskim) {
+            $('#tm_skim').removeAttr('hidden');
+        } else {
+            $('#tm_skim').attr("hidden", true);
+        }
+    }
     function editPusatTemuduga() {
         $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', false);
 
         $("#button_action_pusat_temuduga").attr("style", "display:block");
+        var editbuttoncount = $('#editbutton_skim').val();
+        if (editbuttoncount <= 0) {
+            // firsttime
+            $('#editbutton_skim').val(1)
+            var check_data = {
+                pusat_temuduga : $('#pusat_temuduga').find(':selected').text()
+            };
+            $('#currentvalues_skim').val(JSON.stringify(check_data));
+        } else {
+            checkkemaskiniskim();
+        }
     }
-
+    function checkkemaskiniskim() {
+        
+        var datachanged = false;
+        var checkValue = JSON.parse($('#currentvalues_skim').val());
+        if (checkValue.pusat_temuduga != $('#pusat_temuduga').find(':selected').text()) {
+            datachanged = true;
+        }
+        if (!datachanged) {
+            $('#editbutton_skim').val(0);
+            disbalefieldsskim();
+        }
+    }
+    function disbalefieldsskim() {
+        $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
+    }
     function reloadPusatTemuduga() {
         var no_pengenalan = $('#candidate_no_pengenalan').val();
 
@@ -80,6 +124,7 @@ data-reloadPage="false">
                 $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
 
                 $("#button_action_pusat_temuduga").attr("style", "display:none");
+                checkiflahirempty();
             },
             error: function(data) {
                 //
