@@ -314,6 +314,10 @@ Maklumat Pemohon
                 $('#editbutton_lahir').val(0);
                 disbalefieldslahir();
                 reloadTempatLahir();
+            } else if (btnName == 'btnEditLesenMemandu') {
+                $('#editbutton_lessen').val(0);
+                disbalefieldslessen();
+                reloadLesenMemandu();
             }
             return;
         }
@@ -329,6 +333,9 @@ Maklumat Pemohon
         } else if (btnName == 'btnEditTempatLahir') {
             $('#tukar_log_lahir').val(htmlContent);
             $('#editbutton_lahir').val(0);
+        } else if (btnName == 'btnEditLesenMemandu') {
+            $('#tukar_log_lessen').val(htmlContent);
+            $('#editbutton_lessen').val(0);
         }
         Swal.fire({
         title: 'Adakah anda ingin simpan perubahan ini?',
@@ -356,12 +363,11 @@ Maklumat Pemohon
                         if(!newValues[key] && btnName == 'btnEditTempatLahir') {
                             reloadTempatLahir();
                         }
+                        if(!newValues[key] && btnName == 'btnEditLesenMemandu') {
+                            reloadLesenMemandu();
+                        }
                     }
                 }
-            }
-            
-            if(btnName == 'btnEditAlamatSurat' || btnName == 'btnEditAlamatTetap') {
-                checkifalamatempty();
             }
         }
         })

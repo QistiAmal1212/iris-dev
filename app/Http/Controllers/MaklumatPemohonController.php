@@ -553,7 +553,10 @@ class MaklumatPemohonController extends Controller
                 'license_blacklist_status.required' => 'Sila pilih senarai hitam status',
                 'license_blacklist_details.required' => 'Sila pilih butiran senarai hitam',
             ]);
-
+            if ($request->license_blacklist_status == 1 && !isset($request->license_blacklist_details)) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Sila isikan Butiran Senarai Hitam'], 404);
+            }
             $candidateLesen = CalonLesen::where('cal_no_pengenalan', $request->lesen_memandu_no_pengenalan)->first();
 
             if($candidateLesen){
@@ -581,6 +584,8 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_lessen) ? json_encode($request->tukar_log_lessen) : null
+
             ]);
 
             DB::commit();

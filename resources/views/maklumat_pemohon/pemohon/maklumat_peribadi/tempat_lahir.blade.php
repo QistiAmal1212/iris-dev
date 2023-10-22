@@ -90,6 +90,7 @@ data-reloadPage="false">
             $('#tm_lahir').attr("hidden", true);
         }
     }
+    
     function editTempatLahir() {
         $('#tempatLahirForm select[name="place_of_birth"]').attr('disabled', false);
         $('#tempatLahirForm select[name="father_place_of_birth"]').attr('disabled', false);

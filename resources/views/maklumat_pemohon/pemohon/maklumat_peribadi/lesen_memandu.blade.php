@@ -65,9 +65,37 @@ data-reloadPage="false">
         </button>
     </div>
 </div>
+<input type="hidden" name="tukar_log_lessen"  id="tukar_log_lessen">
 </form>
+<input type="hidden" name="editbutton_lessen" value=0 id="editbutton_lessen">
 
+<textarea id="currentvalues_lessen" style="display:none;"></textarea>
 <script>
+
+    function checkiflessenempty() {
+       var license_type = $('#license_type').val();
+       var license_expiry_date = $('#license_expiry_date').val();
+       var license_blacklist_status = $('#license_blacklist_status').find(':selected').text();
+       var license_blacklist_details = $('#license_blacklist_details').val();
+     
+        var dontbypasslessen = false;
+        if (!license_type || license_type == 'Tiada Maklumat' || license_type =='') {
+            if (!license_expiry_date || license_expiry_date == 'Tiada Maklumat' || license_expiry_date =='') {
+                if (!license_blacklist_status || license_blacklist_status == 'Tiada Maklumat' || license_blacklist_status == '') {
+                    if (!license_blacklist_details || license_blacklist_details == 'Tiada Maklumat' || license_blacklist_details == '') {
+                        dontbypasslessen = true;
+                    }
+                }   
+            }
+        }
+
+        if (dontbypasslessen) {
+            $('#tm_lesen').removeAttr('hidden');
+        } else {
+            $('#tm_lesen').attr("hidden", true);
+        }
+    }
+
     function editLesenMemandu() {
         $('#lesenMemanduForm input[name="license_type"]').attr('disabled', false);
         $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', false);
@@ -75,8 +103,52 @@ data-reloadPage="false">
         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', false);
 
         $("#button_action_lesen_memandu").attr("style", "display:block");
-    }
 
+        var editbuttoncount = $('#editbutton_lessen').val();
+    
+        if (editbuttoncount <= 0) {
+            // firsttime
+            $('#editbutton_lessen').val(1)
+            var check_data = {
+                license_type: $('#license_type').val(),
+                license_expiry_date: $('#license_expiry_date').val(),
+                license_blacklist_status: $('#license_blacklist_status').find(':selected').text(),
+                license_blacklist_details: $('#license_blacklist_details').val()
+            };
+            $('#currentvalues_lessen').val(JSON.stringify(check_data));
+        } else {
+            checkkemaskinilessen();
+        }
+    }
+     function checkkemaskinilessen() {
+        
+        var datachanged = false;
+        var checkValue = JSON.parse($('#currentvalues_lessen').val());
+   
+        if (checkValue.license_type != $('#license_type').val()) {
+            datachanged = true;
+        }
+        if (checkValue.license_expiry_date != $('#license_expiry_date').val()) {
+            datachanged = true;
+        }
+        if (checkValue.license_blacklist_details != $('#license_blacklist_details').val()) {
+            datachanged = true;
+        }
+        if (checkValue.license_blacklist_status != $('#license_blacklist_status').find(':selected').text()) {
+            datachanged = true;
+        }
+        
+        if (!datachanged) {
+            $('#editbutton_lessen').val(0);
+            disbalefieldslessen();
+        }
+    }
+    function disbalefieldslessen() {
+        $('#lesenMemanduForm input[name="license_type"]').attr('disabled', true);
+        $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', true);
+        $('#lesenMemanduForm select[name="license_blacklist_status"]').attr('disabled', true);
+        $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', true);
+    }
     function reloadLesenMemandu() {
         var no_pengenalan = $('#candidate_no_pengenalan').val();
 
@@ -100,6 +172,7 @@ data-reloadPage="false">
 
                 var tmLesenElement = $("#tm_lesen");
                 tmLesenElement.attr("hidden", true);
+                checkiflessenempty();
             },
             error: function(data) {
                 //
