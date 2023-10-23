@@ -775,14 +775,18 @@ class MaklumatPemohonController extends Controller
                 'gred_pmr' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_pmr' => 'required|string',
             ],[
-                'subjek_pmr.required' => 'Sila pilih subjek pmr',
+                'subjek_pmr.required' => 'Sila pilih Matapelajaran',
                 'subjek_pmr.exists' => 'Tiada rekod subjek yang dipilih',
-                'gred_pmr.required' => 'Sila pilih gred pmr',
+                'gred_pmr.required' => 'Sila pilih Gred',
                 'gred_pmr.exists' => 'Tiada rekod gred yang dipilih',
-                'tahun_pmr.required' => 'Sila pilih gred pmr',
+                'tahun_pmr.required' => 'Sila pilih Tahun',
                 'tahun_pmr.exists' => 'Tiada rekod gred pmr yang dipilih',
             ]);
-
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->pmr_no_pengenalan)->where('mpel_kod',$request->subjek_pmr)->where('tahun', $request->tahun_pmr)->first();
+            if ($check) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Tiada rekod subjek yang dipilih'], 404);   
+            }
             CalonKeputusanSekolah::create([
                 'cal_no_pengenalan' => $request->pmr_no_pengenalan,
                 'mpel_kod' => $request->subjek_pmr,
@@ -855,9 +859,9 @@ class MaklumatPemohonController extends Controller
                 'gred_pmr' => 'required|string',
                 'tahun_pmr' => 'required|string',
             ],[
-                'subjek_pmr.required' => 'Sila pilih subjek pmr',
-                'gred_pmr.required' => 'Sila pilih gred pmr',
-                'tahun_pmr.required' => 'Sila pilih gred pmr',
+                'subjek_pmr.required' => 'Sila pilih Matapelajaran',
+                'gred_pmr.required' => 'Sila pilih Gred',
+                'tahun_pmr.required' => 'Sila pilih Tahun',
             ]);
 
             CalonKeputusanSekolah::where('id',$request->id_pmr)->update([

@@ -218,9 +218,9 @@ data-reloadPage="false">
                             trPmr += '<td>' + item.subject_form3.diskripsi + '</td>';
                             trPmr += '<td align="center">' + item.gred + '</td>';
                             trPmr += '<td align="center" style="display:none;">' + item.tahun + '</td>';
-                            trPmr += '<td align="center"><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i>';
+                            trPmr += '<td align="center"><a><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i></a>';
                             trPmr += '&nbsp;&nbsp;';
-                            trPmr += '<i class="fas fa-trash text-danger deletePmr-btn" data-id="' + item.id + '" ></i></td>';
+                            trPmr += '<a><i class="fas fa-trash text-danger deletePmr-btn" data-id="' + item.id + '" ></i></a></td>';
                             trPmr += '</tr>';
                         }
                     });
