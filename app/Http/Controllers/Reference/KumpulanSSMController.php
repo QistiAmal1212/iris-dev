@@ -63,18 +63,21 @@ class KumpulanSSMController extends Controller
                 ->editColumn('nama', function ($kumpulanssm) {
                     return $kumpulanssm->diskripsi;
                 })
-                ->editColumn('action', function ($kumpulanssm) use ($accessDelete) {
+                ->editColumn('action', function ($kumpulanssm) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="kumpulanssmForm('.$kumpulanssm->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
+                    if($accessUpdate){
                         if($kumpulanssm->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$kumpulanssm->id.'" onclick="toggleActive('.$kumpulanssm->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$kumpulanssm->id.'" onclick="toggleActive('.$kumpulanssm->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$kumpulanssm->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 
@@ -222,7 +225,7 @@ class KumpulanSSMController extends Controller
 
             if($sah_yt=='Y') $sah_yt = 'T';
             else $sah_yt = 'Y';
-            
+
             $kumpulanssm->update([
                 'sah_yt' => $sah_yt,
             ]);
@@ -231,6 +234,27 @@ class KumpulanSSMController extends Controller
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $kumpulanssm = KumpulanSSM::find($request-> kumpulanssmId);
+
+            $kumpulanssm->delete();
+
+            if (!$kumpulanssm) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);

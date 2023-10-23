@@ -331,5 +331,29 @@
                 }
             });
         }
+
+        function deleteItem(kodpelbagaiId){
+        var url = "{{ route('admin.reference.kodpelbagai.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', kodpelbagaiId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
+        }
     </script>
 @endsection

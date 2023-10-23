@@ -295,6 +295,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{matriculationId}', [MatriculationController::class, 'edit'])->name('admin.reference.matriculation.edit');
             Route::post('update/{matriculationId}', [MatriculationController::class, 'update'])->name('admin.reference.matriculation.update');
             Route::post('toggleActive/{matriculationId}', [MatriculationController::class, 'toggleActive'])->name('admin.reference.matriculation.toggleActive');
+            Route::post('delete/{matriculationId}', [MatriculationController::class, 'deleteItem'])->name('admin.reference.matriculation.delete');
         });
 
         Route::prefix('jurusan_matrikulasi')->group(function () {
@@ -303,6 +304,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{matriculationCourseId}', [MatriculationCourseController::class, 'edit'])->name('admin.reference.matriculation-course.edit');
             Route::post('update/{matriculationCourseId}', [MatriculationCourseController::class, 'update'])->name('admin.reference.matriculation-course.update');
             Route::post('toggleActive/{matriculationCourseId}', [MatriculationCourseController::class, 'toggleActive'])->name('admin.reference.matriculation-course.toggleActive');
+            Route::post('delete/{matriculationCourseId}', [MatriculationCourseController::class, 'deleteItem'])->name('admin.reference.matriculation-course.delete');
         });
 
         Route::prefix('subjek_matrikulasi')->group(function () {
@@ -311,6 +313,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{matriculationSubjectId}', [MatriculationSubjectController::class, 'edit'])->name('admin.reference.matriculation-subject.edit');
             Route::post('update/{matriculationSubjectId}', [MatriculationSubjectController::class, 'update'])->name('admin.reference.matriculation-subject.update');
             Route::post('toggleActive/{matriculationSubjectId}', [MatriculationSubjectController::class, 'toggleActive'])->name('admin.reference.matriculation-subject.toggleActive');
+            Route::post('delete/{matriculationSubjectId}', [MatriculationSubjectController::class, 'deleteItem'])->name('admin.reference.matriculation-subject.delete');
         });
 
         Route::prefix('taraf_jawatan')->group(function () {
@@ -346,6 +349,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{talentId}', [TalentController::class, 'edit'])->name('admin.reference.talent.edit');
             Route::post('update/{talentId}', [TalentController::class, 'update'])->name('admin.reference.talent.update');
             Route::post('toggleActive/{talentId}', [TalentController::class, 'toggleActive'])->name('admin.reference.talent.toggleActive');
+            Route::post('delete/{talentId}', [TalentController::class, 'deleteItem'])->name('admin.reference.talent.delete');
         });
 
         Route::prefix('gred_gaji')->group(function () {
@@ -381,6 +385,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{penaltyId}', [PenaltyController::class, 'edit'])->name('admin.reference.penalty.edit');
             Route::post('update/{penaltyId}', [PenaltyController::class, 'update'])->name('admin.reference.penalty.update');
             Route::post('toggleActive/{penaltyId}', [PenaltyController::class, 'toggleActive'])->name('admin.reference.penalty.toggleActive');
+            Route::post('delete/{penaltyId}', [PenaltyController::class, 'deleteItem'])->name('admin.reference.penalty.delete');
         });
 
         Route::prefix('butiran_gred_gaji')->group(function () {
@@ -417,6 +422,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{kodpelbagaiId}', [KodPelbagaiController::class, 'edit'])->name('admin.reference.kodpelbagai.edit');
             Route::post('update/{kodpelbagaiId}', [KodPelbagaiController::class, 'update'])->name('admin.reference.kodpelbagai.update');
             Route::post('toggleActive/{kodpelbagaiId}', [KodPelbagaiController::class, 'toggleActive'])->name('admin.reference.kodpelbagai.toggleActive');
+            Route::post('delete/{kodpelbagaiId}', [KodPelbagaiController::class, 'deleteItem'])->name('admin.reference.kodpelbagai.delete');
         });
 
         Route::prefix('bekas_tentera_polis')->group(function () {
@@ -490,6 +496,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{statusId}', [StatusController::class, 'edit'])->name('admin.reference.status.edit');
             Route::post('update/{statusId}', [StatusController::class, 'update'])->name('admin.reference.status.update');
             Route::post('toggleActive/{statusId}', [StatusController::class, 'toggleActive'])->name('admin.reference.status.toggleActive');
+            Route::post('delete/{statusId}', [StatusController::class, 'deleteItem'])->name('admin.reference.status.delete');
         });
 
         Route::prefix('sebab_tolak')->group(function () {
@@ -507,6 +514,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{zontelefonId}', [ZonTelefonController::class, 'edit'])->name('admin.reference.zontelefon.edit');
             Route::post('update/{zontelefonId}', [ZonTelefonController::class, 'update'])->name('admin.reference.zontelefon.update');
             Route::post('toggleActive/{zontelefonId}', [ZonTelefonController::class, 'toggleActive'])->name('admin.reference.zontelefon.toggleActive');
+            Route::post('delete/{zontelefonId}', [ZonTelefonController::class, 'deleteItem'])->name('admin.reference.zontelefon.delete');
         });
 
         Route::prefix('kelayakan_setaraf')->group(function () {
@@ -515,6 +523,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{kelayakansetarafId}', [KelayakanSetarafController::class, 'edit'])->name('admin.reference.kelayakansetaraf.edit');
             Route::post('update/{kelayakansetarafId}', [KelayakanSetarafController::class, 'update'])->name('admin.reference.kelayakansetaraf.update');
             Route::post('toggleActive/{kelayakansetarafId}', [KelayakanSetarafController::class, 'toggleActive'])->name('admin.reference.kelayakansetaraf.toggleActive');
+            Route::post('delete/{kelayakansetarafId}', [KelayakanSetarafController::class, 'deleteItem'])->name('admin.reference.kelayakansetaraf.delete');
         });
 
         Route::prefix('ketua_perkhidmatan')->group(function () {
@@ -550,6 +559,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{kumpulanssmId}', [KumpulanSSMController::class, 'edit'])->name('admin.reference.kumpulanssm.edit');
             Route::post('update/{kumpulanssmId}', [KumpulanSSMController::class, 'update'])->name('admin.reference.kumpulanssm.update');
             Route::post('toggleActive/{kumpulanssmId}', [KumpulanSSMController::class, 'toggleActive'])->name('admin.reference.kumpulanssm.toggleActive');
+            Route::post('delete/{kumpulanssmId}', [KumpulanSSMController::class, 'deleteItem'])->name('admin.reference.kumpulanssm.delete');
         });
 
         Route::prefix('tawaran_kursus')->group(function () {
@@ -567,6 +577,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{rulingId}', [RulingController::class, 'edit'])->name('admin.reference.ruling.edit');
             Route::post('update/{rulingId}', [RulingController::class, 'update'])->name('admin.reference.ruling.update');
             Route::post('toggleActive/{rulingId}', [RulingController::class, 'toggleActive'])->name('admin.reference.ruling.toggleActive');
+            Route::post('delete/{rulingId}', [RulingController::class, 'deleteItem'])->name('admin.reference.ruling.delete');
         });
 
         Route::prefix('negeri_jpn')->group(function () {
@@ -594,6 +605,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{jenisokuId}', [JenisOkuJKMController::class, 'edit'])->name('admin.reference.jenisoku.edit');
             Route::post('update/{jenisokuId}', [JenisOkuJKMController::class, 'update'])->name('admin.reference.jenisoku.update');
             Route::post('toggleActive/{jenisokuId}', [JenisOkuJKMController::class, 'toggleActive'])->name('admin.reference.jenisoku.toggleActive');
+            Route::post('delete/{jenisokuId}', [JenisOkuJKMController::class, 'deleteItem'])->name('admin.reference.jenisoku.delete');
         });
 
         Route::prefix('jelas_urusan')->group(function () {
@@ -602,6 +614,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{jelasurusanId}', [JelasUrusanController::class, 'edit'])->name('admin.reference.jelasurusan.edit');
             Route::post('update/{jelasurusanId}', [JelasUrusanController::class, 'update'])->name('admin.reference.jelasurusan.update');
             Route::post('toggleActive/{jelasurusanId}', [JelasUrusanController::class, 'toggleActive'])->name('admin.reference.jelasurusan.toggleActive');
+            Route::post('delete/{jelasurusanId}', [JelasUrusanController::class, 'deleteItem'])->name('admin.reference.jelasurusan.delete');
         });
 
         Route::prefix('klasifikasi_perkhidmatan')->group(function () {
@@ -610,6 +623,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{klasifikasiperkhidmatanId}', [KlasifikasiPerkhidmatanController::class, 'edit'])->name('admin.reference.klasifikasiperkhidmatan.edit');
             Route::post('update/{klasifikasiperkhidmatanId}', [KlasifikasiPerkhidmatanController::class, 'update'])->name('admin.reference.klasifikasiperkhidmatan.update');
             Route::post('toggleActive/{klasifikasiperkhidmatanId}', [KlasifikasiPerkhidmatanController::class, 'toggleActive'])->name('admin.reference.klasifikasiperkhidmatan.toggleActive');
+            Route::post('delete/{klasifikasiperkhidmatanId}', [KlasifikasiPerkhidmatanController::class, 'deleteItem'])->name('admin.reference.klasifikasiperkhidmatan.delete');
         });
 
         Route::prefix('skim_kumpulan_perkhidmatan_c')->group(function () {
@@ -618,6 +632,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{jkkcId}', [JKKCController::class, 'edit'])->name('admin.reference.jkkc.edit');
             Route::post('update/{jkkcId}', [JKKCController::class, 'update'])->name('admin.reference.jkkc.update');
             Route::post('toggleActive/{jkkcId}', [JKKCController::class, 'toggleActive'])->name('admin.reference.jkkc.toggleActive');
+            Route::post('delete/{jkkcId}', [JKKCController::class, 'deleteItem'])->name('admin.reference.jkkc.delete');
         });
 
         Route::prefix('ahli_suruhanjaya')->group(function () {
@@ -626,6 +641,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{ahlisuruhanjayaId}', [AhliSuruhanjayaController::class, 'edit'])->name('admin.reference.ahlisuruhanjaya.edit');
             Route::post('update/{ahlisuruhanjayaId}', [AhliSuruhanjayaController::class, 'update'])->name('admin.reference.ahlisuruhanjaya.update');
             Route::post('toggleActive/{ahlisuruhanjayaId}', [AhliSuruhanjayaController::class, 'toggleActive'])->name('admin.reference.ahlisuruhanjaya.toggleActive');
+            Route::post('delete/{ahlisuruhanjayaId}', [AhliSuruhanjayaController::class, 'deleteItem'])->name('admin.reference.ahlisuruhanjaya.delete');
         });
 
         Route::prefix('pengalaman_9')->group(function () {
@@ -634,6 +650,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{pengalaman9Id}', [Pengalaman9Controller::class, 'edit'])->name('admin.reference.pengalaman9.edit');
             Route::post('update/{pengalaman9Id}', [Pengalaman9Controller::class, 'update'])->name('admin.reference.pengalaman9.update');
             Route::post('toggleActive/{pengalaman9Id}', [Pengalaman9Controller::class, 'toggleActive'])->name('admin.reference.pengalaman9.toggleActive');
+            Route::post('delete/{pengalaman9Id}', [Pengalaman9Controller::class, 'deleteItem'])->name('admin.reference.pengalaman9.delete');
         });
 
     });
