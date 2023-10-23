@@ -78,24 +78,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                {{-- <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="role_display">Nama Paparan <span class="text text-danger">*</span> </label>
                                         <div class="input-group">
                                             <input type="text" id="role_display" class="form-control" name="role_display" required>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="role_level">Jenis Peranan <span class="text text-danger">*</span> </label>
-                                        <select id="role_level" class="form-select select2" name="role_level" required>
-                                            <option value=""></option>
-                                            <option value="1">Peranan Dalaman</option>
-                                            <option value="0">Peranan Luaran</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="access_function">Fungsi Capaian Akses<span class="text text-danger">*</span> </label>
@@ -103,6 +93,16 @@
                                             @foreach($masterFunction as $function)
                                             <option value="{{ $function->id }}">{{ $function->code." - ".$function->name }}</option>
                                             @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="role_level">Jenis Peranan <span class="text text-danger">*</span> </label>
+                                        <select id="role_level" class="form-select select2" name="role_level" required>
+                                            <option value=""></option>
+                                            <option value="1">Peranan Dalaman</option>
+                                            <option value="0">Peranan Luaran</option>
                                         </select>
                                     </div>
                                 </div>

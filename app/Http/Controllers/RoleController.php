@@ -80,9 +80,9 @@ class RoleController extends Controller
                     ->editColumn('name', function ($roles) {
                         return $roles->name;
                     })
-                    ->editColumn('display_name', function ($roles) {
-                        return $roles->display_name;
-                    })
+                    // ->editColumn('display_name', function ($roles) {
+                    //     return $roles->display_name;
+                    // })
                     ->editColumn('description', function ($roles) {
                         return $roles->description;
                     })
@@ -140,17 +140,17 @@ class RoleController extends Controller
     {
         DB::beginTransaction();
         try {
-            // $validatedData = $request->validate([
-            //     'role_name' => 'required|string',
-            //     'role_description' => 'required|string',
-            //     'role_display' => 'required|string',
-            //     'role_level' => 'required|boolean'
-            // ]);
+            $validatedData = $request->validate([
+                'role_name' => 'required|string',
+                'role_description' => 'required|string',
+                // 'role_display' => 'required|string',
+                'role_level' => 'required|boolean'
+            ]);
 
             $role = Role::create([
                 'name' => $request->role_name,
                 'description' => $request->role_description,
-                'display_name' => $request->role_display,
+                'display_name' => $request->role_name,
                 'is_internal' => $request->role_level,
                 'guard_name' => 'web'
             ]);
@@ -223,7 +223,7 @@ class RoleController extends Controller
             $validatedData = $request->validate([
                 'role_name' => 'required|string',
                 'role_description' => 'required|string',
-                'role_display' => 'required|string',
+                // 'role_display' => 'required|string',
                 'role_level' => 'required|boolean'
             ]);
 
@@ -235,7 +235,7 @@ class RoleController extends Controller
 
             $role->name = $request->role_name;
             $role->description = $request->role_description;
-            $role->display_name = $request->role_display;
+            $role->display_name = $request->role_name;
             $role->is_internal = $request->role_level;
             // $role->update($request->only('role_name', 'role_description','role_display'));
             $role->syncPermissions($request->permissions ? $request->permissions : []);
@@ -463,7 +463,7 @@ class RoleController extends Controller
             $validatedData = $request->validate([
                 'role_name' => 'required|string',
                 'role_description' => 'required|string',
-                'role_display' => 'required|string',
+                // 'role_display' => 'required|string',
                 'role_level' => 'required|boolean'
             ]);
 
@@ -478,7 +478,7 @@ class RoleController extends Controller
             $role->update([
                 'name' => $request->role_name,
                 'description' => $request->role_description,
-                'display_name' => $request->role_display,
+                'display_name' => $request->role_name,
                 'is_internal' => $request->role_level,
             ]);
 

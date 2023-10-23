@@ -132,7 +132,7 @@
                         <th>No</th>
                         <th>ID Peranan</th>
                         <th>Nama Peranan</th>
-                        <th>Nama Paparan</th>
+                        {{-- <th>Nama Paparan</th> --}}
                         <th>Penerangan</th>
                         <th>Jenis Peranan</th>
                         <th>Tindakan</th>
@@ -189,13 +189,13 @@
                         return $("<div/>").html(data).text();
                     }
                 },
-                {
-                    data: "display_name",
-                    name: "display_name",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
+                // {
+                //     data: "display_name",
+                //     name: "display_name",
+                //     render: function(data, type, row) {
+                //         return $("<div/>").html(data).text();
+                //     }
+                // },
                 {
                     data: "description",
                     name: "description",
