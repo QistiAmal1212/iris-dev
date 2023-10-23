@@ -14,7 +14,7 @@ class ApiRequest extends FormRequest
         throw new HttpResponseException(
             response()->json(
                 [
-                    'status_code' => config('staticdata.status_codes.unprocessable_entity'),
+                    'status_code' => config('status.status_codes.unprocessable_entity'),
                     'message' => 'Validation failed.',
                     'errors' => $validator->errors(),
                 ],

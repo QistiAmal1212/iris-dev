@@ -201,7 +201,10 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
 Route::controller(IntegrationController::class)->group(function () {
     Route::prefix('integrasi')->group(function () {
         Route::get('dashboard-integrasi','DashboardIntegration')->name('dashboard_integration');
-        Route::get('informasi-integrasi','IntegrationInformation')->name('integration_information');
+        Route::post('store-api', 'storeApi')->name('store.api');
+        Route::get('edit-api/{idApi}', 'editApi')->name('edit.api');
+        Route::post('update-api/{idApi}', 'updateApi')->name('update.api');
+        Route::get('informasi-integrasi/{idApi}','IntegrationInformation')->name('integration_information');
     });
 });
 

@@ -185,6 +185,12 @@ class PemohonRequest extends ApiRequest
             ];
         }
 
+        if ($routeName == 'pemohon.details') {
+            $rules = [
+                'path' => 'required|string|exists:senarai_api,nama_path',
+                'no_kp' => 'required|string',
+            ];
+        }
         return $rules;
     }
 
@@ -195,6 +201,10 @@ class PemohonRequest extends ApiRequest
 
         if ($this->route('id')) {
             $data['id'] = $this->route('id');
+        }
+
+        if ($this->route('path')) {
+            $data['path'] = $this->route('path');
         }
 
         return $data;

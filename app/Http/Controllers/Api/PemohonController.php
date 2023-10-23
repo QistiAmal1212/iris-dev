@@ -25,14 +25,13 @@ use App\Models\Calon\CalonPsl;
 use App\Models\Calon\CalonTenteraPolis;
 use App\Models\Calon\CalonBahasa;
 use App\Models\Calon\CalonBakat;
+use App\Models\Integrasi\SenaraiApi;
 use Carbon;
 
 class PemohonController extends ApiController
 {
     public function store(PemohonRequest $request)
     {
-        $request->validated();
-
         $noPengenalan = $request->no_kp;
 
         if($request->jantina == 'L' || $request->jantina == '1'){
@@ -125,7 +124,6 @@ class PemohonController extends ApiController
                     'pusat_temuduga' => $request->pusat_temuduga,
                 ]);
             }
-
 
             if($jenisLesen != null){
                 $lesen = CalonLesen::where('cal_no_pengenalan', $noPengenalan)->first();
@@ -485,7 +483,7 @@ class PemohonController extends ApiController
                             'nama_sijil' => $pengajian['nama_sijil'],
                             'tarikh_senat' => $pengajian['tarikh_senat'],
                             'peringkat_pengajian' => $pengajian['peringkat'],
-                            'biasiswa' => $pengajian['biasiswa'],
+                            'biasiswa' => ($pengajian['biasiswa'] != null) ? 1 : 0,
                         ];
                         $calonPengajian->update($dataPengajian);
                     } else {
@@ -500,7 +498,7 @@ class PemohonController extends ApiController
                             'nama_sijil' => $pengajian['nama_sijil'],
                             'tarikh_senat' => $pengajian['tarikh_senat'],
                             'peringkat_pengajian' => $pengajian['peringkat'],
-                            'biasiswa' => $pengajian['biasiswa'],
+                            'biasiswa' => ($pengajian['biasiswa'] != null) ? 1 : 0,
                         ];
                         CalonPengajianTinggi::create($dataPengajian);
                     }
@@ -700,11 +698,114 @@ class PemohonController extends ApiController
             );
         }
 
+        if($response == config('status.status_codes.success')){
+            
+        }
+
         return $this->successResponseFormat(
             $response,
             'Data berjaya disimpan.',
             []
         );
+    }
+
+    public function details(PemohonRequest $request)
+    {
+        $apiPath = $request->path;
+
+        $senaraiApi = SenaraiApi::where('nama_path', $apiPath)->first();
+
+        $aksesApi = $senaraiApi->akses->pluck('id')->toArray();
+
+        $dataAkses = [];
+
+        $calon = Calon::where('no_kp_baru', $request->no_kp)->first();
+
+        if(in_array(1, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['calon' => $calon]);
+        }
+
+        if(in_array(2, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['bahasa' => $calon->language]);
+        }
+
+        if(in_array(3, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['bakat' => $calon->talent]);
+        }
+
+        // if(in_array(4, $aksesApi)){
+        //     $dataAkses = array_merge($dataAkses, ['daftar' => $calon->daftar]);
+        // }
+
+        if(in_array(5, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['keputusan_sekolah' => $calon->schoolResult]);
+        }
+
+        if(in_array(6, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['lesen' => $calon->license]);
+        }
+
+        if(in_array(7, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['matrikulasi' => $calon->matriculation]);
+        }
+
+        if(in_array(8, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['oku' => $calon->oku]);
+        }
+
+        if(in_array(9, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['pengajian_tinggi' => $calon->higherEducation]);
+        }
+
+        if(in_array(10, $aksesApi)){
+            $dataAkses = array_merge($datAkses, ['pengalaman' => $calon->experience]);
+        }
+
+        if(in_array(11, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['pengalaman9' => $calon->pengalaman9]);
+        }
+
+        if(in_array(12, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['profesional' => $calon->professional]);
+        }
+
+        if(in_array(13, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['psl' => $calon->psl]);
+        }
+
+        // if(in_array(14, $aksesApi)){
+        //     $dataAkses = array_merge($dataAkses, ['senarai_hitam' => '']);
+        // }
+
+        if(in_array(15, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['skim' => $calon->skim]);
+        }
+
+        if(in_array(16, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['skm' => $calon->skm]);
+        }
+
+        if(in_array(17, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['spmu' => $calon->spmu]);
+        }
+
+        if(in_array(18, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['stpm_pngk' => $calon->stpmPngk]);
+        }
+
+        if(in_array(19, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['svm' => $calon->svm]);
+        }
+
+        // if(in_array(20, $aksesApi)){
+        //     $dataAkses = array_merge($dataAkses, ['tatatertib' => ''])
+        // }
+
+        if(in_array(21, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['tentera_polis' => $calon->armyPolice]);
+        }
+
+        return $dataAkses;
     }
 
     private static function getKodNegeri($kod){

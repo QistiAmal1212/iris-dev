@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('pemohon')->group(function () {
     Route::post('/store', [PemohonController::class, 'store'])->name('pemohon.store');
+    Route::get('/details/{path}', [PemohonController::class, 'details'])->name('pemohon.details');
 });

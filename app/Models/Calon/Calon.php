@@ -84,7 +84,7 @@ class Calon extends Model
     }
 
     public function higherEducation() {
-        return $this->hasOne('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonPengajianTinggi', 'cal_no_pengenalan', 'no_pengenalan');
     }
 
     public function diploma() {
@@ -157,5 +157,21 @@ class Calon extends Model
 
     public function interviewCentre(){
         return $this->belongsTo('App\Models\Reference\InterviewCentre', 'pusat_temuduga', 'kod');
+    }
+
+    public function daftar(){
+        return $this->hasMany('App\Models\Calon\CalonDaftar', 'no_pengenalan', 'no_pengenalan');
+    }
+
+    public function pengalaman9(){
+        return $this->hasMany('App\Models\Calon\CalonPengalaman9', 'no_pengenalan', 'no_pengenalan');
+    }
+
+    public function spmu(){
+        return $this->hasMany('App\Models\Calon\CalonSpmUlangan', 'no_pengenalan', 'no_pengenalan');
+    }
+
+    public function stpmPngk(){
+        return $this->hasMany('App\Models\Calon\CalonStpmPngk', 'no_pengenalan', 'no_pengenalan');
     }
 }

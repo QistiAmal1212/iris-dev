@@ -121,47 +121,40 @@ Pengurusan Integrasi
                         </thead>
 
                         <tbody>
+                            @php
+                            $i=1;
+                            @endphp
+                            @foreach($senaraiApi as $api)
                             <tr>
-                                <td>1</td>
+                                <td>{{ $i++ }}</td>
                                 <td>
-                                    <a class="btn text-primary float-right" href="{{ route('integration_information') }}">
-                                        API001
+                                    <a class="btn text-primary float-right" href="{{ route('integration_information', $api->id) }}">
+                                        {{ "API".substr(str_repeat(0, 3).$api->id, - 3); }}
                                     </a>
                                 </td>
-                                <td>Penjanaan Laporan Permohonan</td>
-                                <td>https://api.example.com:8443/v1/reports</td>
+                                <td>{{ $api->nama }}</td>
+                                <td>{{ url('/').'/'.$api->url }}</td>
                                 <td>
+                                    @if($api->status)
                                     <span class="badge badge-rounded badge-light-primary fw-bolder">Aktif</span>
-                                </td>
-                                <td>
-                                    <div class="demo-inline-spacing justify-content-center align-content-center">
-                                        <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status" checked/>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <a class="btn text-primary float-right" href="{{ route('integration_information') }}">
-                                        API002
-                                    </a>
-                                </td>
-                                <td>Penjanaan Laporan Permohonan dan Status</td>
-                                <td>https://api.example.com:8443/v1/reports</td>
-                                <td>
+                                    @else
                                     <span class="badge badge-rounded badge-light-danger fw-bolder">Tidak Aktif</span>
+                                    @endif
                                 </td>
-                                <td>
-                                    <div class="demo-inline-spacing justify-content-center align-content-center">
+                                {{-- <td>
+                                    <div class="justify-content-center align-content-center">
                                         <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status" />
+                                            <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status" {{ ($api->status) ? "checked" : "" }}/>
                                         </div>
                                     </div>
+                                </td> --}}
+                                <td>
+                                    @if($api->url != 'api/pemohon/store')
+                                    <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="editApi('{{ $api->id }}')"> <i class="fas fa-pencil text-primary"></i> 
+                                    @endif
                                 </td>
                             </tr>
-
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -169,5 +162,15 @@ Pengurusan Integrasi
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+function editApi(id) {
+        url = "{{route('edit.api',':replaceThis')}}"
+        url = url.replace(':replaceThis',id);
+        $("#modal-div").load(url);
+    }
+</script>
 @endsection
 
