@@ -136,6 +136,7 @@
                         $.each(data, function(key, value) {
                             $('#ref_country_code').append('<option value="'+ value.codes +'">'+ value.categories +'</option>');
                         });
+                        $('#institutionForm select[name="ref_country_code"]').val($('#institutionForm input[name="temp"]').val()).trigger('change');
                     }
                 });
             }{
@@ -316,6 +317,7 @@
                 $('#institutionForm').attr('action', '{{ route('admin.reference.institution.store') }}');
                 $('#institutionForm input[name="code"]').val("");
                 $('#institutionForm input[name="name"]').val("");
+                $('#institutionForm input[name="temp"]').val("");
                 $('#institutionForm select[name="ref_country_code"]').val("").trigger('change');
                 $('#institutionForm select[name="type"]').val("").trigger('change');
 
@@ -349,6 +351,7 @@
                         $('#institutionForm').attr('action', url2);
                         $('#institutionForm input[name="code"]').val(data.detail.kod);
                         $('#institutionForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#institutionForm input[name="temp"]').val(data.detail.negara);
                         $('#institutionForm select[name="ref_country_code"]').val(data.detail.negara).trigger('change');
                         $('#institutionForm select[name="type"]').val(data.detail.jenis_institusi).trigger('change');
                         $('#institutionForm input[name="code"]').prop('readonly', true);
@@ -398,6 +401,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(institutionId){
+        var url = "{{ route('admin.reference.institution.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', institutionId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
     </script>
 @endsection

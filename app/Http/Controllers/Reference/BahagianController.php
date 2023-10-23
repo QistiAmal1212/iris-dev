@@ -63,18 +63,21 @@ class BahagianController extends Controller
                 ->editColumn('nama', function ($bahagian) {
                     return $bahagian->diskripsi;
                 })
-                ->editColumn('action', function ($bahagian) use ($accessDelete) {
+                ->editColumn('action', function ($bahagian) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="bahagianForm('.$bahagian->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
+                    if($accessUpdate){
                         if($bahagian->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$bahagian->id.'" onclick="toggleActive('.$bahagian->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$bahagian->id.'" onclick="toggleActive('.$bahagian->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$bahagian->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 
@@ -231,6 +234,27 @@ class BahagianController extends Controller
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $bahagian = Bahagian::find($request-> bahagianId);
+
+            $bahagian->delete();
+
+            if (!$bahagian) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);

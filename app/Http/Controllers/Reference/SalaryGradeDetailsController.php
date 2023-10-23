@@ -277,4 +277,25 @@ class salaryGradeDetailsController extends Controller
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
     }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $salaryGradeDetails = SalaryGradeDetails::find($request-> salaryGradeDetailsId);
+
+            $salaryGradeDetails->delete();
+
+            if (!$salaryGradeDetails) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
 }

@@ -8,6 +8,7 @@
             <div class="modal-body">
                 <form action="{{ route('admin.reference.institution.store') }}" method="POST" id="institutionForm" data-reloadPage="true">
                     @csrf
+                    <input type="text" name="temp" id="temp" value="" hidden>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">

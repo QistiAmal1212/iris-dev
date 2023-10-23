@@ -63,18 +63,21 @@ class DepartmentMinistryController extends Controller
                 ->editColumn('nama', function ($departmentMinistry) {
                     return $departmentMinistry->diskripsi;
                 })
-                ->editColumn('action', function ($departmentMinistry) use ($accessDelete) {
+                ->editColumn('action', function ($departmentMinistry) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="departmentMinistryForm('.$departmentMinistry->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
+                    if($accessUpdate){
                         if($departmentMinistry->sah_yt=="Y") {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$departmentMinistry->id.'" onclick="toggleActive('.$departmentMinistry->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$departmentMinistry->id.'" onclick="toggleActive('.$departmentMinistry->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$departmentMinistry->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 
@@ -268,6 +271,27 @@ class DepartmentMinistryController extends Controller
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $departmentMinistry = DepartmentMinistry::find($request-> departmentMinistryId);
+
+            $departmentMinistry->delete();
+
+            if (!$departmentMinistry) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);

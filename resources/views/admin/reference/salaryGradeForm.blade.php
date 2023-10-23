@@ -278,7 +278,7 @@
                     url2 = url2.replace(':replaceThis', salary_grade_id);
 
                     $('#salaryGradeDetailsForm').attr('action', url2);
-                    
+
                     $('#salaryGradeDetailsForm input[name="level"]').val(data.detail.peringkat);
                     $('#salaryGradeDetailsForm input[name="year"]').val(data.detail.tahun);
                     $('#salaryGradeDetailsForm input[name="amount"]').val(data.detail.amaun);
@@ -297,6 +297,30 @@
 
 
     }
+
+    function deleteItemSGD(salaryGradeDetailsId){
+        var url = "{{ route('admin.reference.salary-grade-details.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', salaryGradeDetailsId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        getListGredGaji($('#lihat-semua').data('gred'));
+                    }
+                })
+            }
+        })
+
+        }
 
     function showPreviousPage() {
         $('#page2').hide();

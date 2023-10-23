@@ -64,18 +64,21 @@ class SalaryGradeController extends Controller
                 ->editColumn('name', function ($salaryGrade) {
                     return $salaryGrade->diskripsi;
                 })
-                ->editColumn('action', function ($salaryGrade) use ($accessDelete) {
+                ->editColumn('action', function ($salaryGrade) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="salaryGradeForm('.$salaryGrade->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
+                    if($accessUpdate){
                         if($salaryGrade->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$salaryGrade->id.'" onclick="toggleActive('.$salaryGrade->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$salaryGrade->id.'" onclick="toggleActive('.$salaryGrade->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$salaryGrade->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 
@@ -137,18 +140,21 @@ class SalaryGradeController extends Controller
                 ->editColumn('amount', function ($salaryGradeDetails) {
                     return $salaryGradeDetails->amaun;
                 })
-                ->editColumn('action', function ($salaryGradeDetails) use ($accessDelete){
+                ->editColumn('action', function ($salaryGradeDetails) use ($accessUpdate, $accessDelete){
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="showNextPage('.$salaryGradeDetails->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
+                    if($accessUpdate){
                         if($salaryGradeDetails->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$salaryGradeDetails->id.'" onclick="toggleActiveSGD('.$salaryGradeDetails->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$salaryGradeDetails->id.'" onclick="toggleActiveSGD('.$salaryGradeDetails->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItemSGD('.$salaryGradeDetails->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 
@@ -301,6 +307,27 @@ class SalaryGradeController extends Controller
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $salaryGrade = SalaryGrade::find($request-> salaryGradeId);
+
+            $salaryGrade->delete();
+
+            if (!$salaryGrade) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);

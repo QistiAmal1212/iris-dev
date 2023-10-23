@@ -137,6 +137,7 @@
                         $.each(data, function(key, value) {
                             $('#type').append('<option value="'+ value.codes +'">'+ value.categories +'</option>');
                         });
+                        $('#specializationForm select[name="type"]').val($('#specializationForm input[name="temp"]').val()).trigger('change');
                     }
                 });
             }else{
@@ -349,6 +350,7 @@
                     $('#specializationForm').attr('action',url2 );
                     $('#specializationForm input[name="code"]').val(data.detail.kod);
                     $('#specializationForm input[name="name"]').val(data.detail.diskripsi);
+                    $('#specializationForm input[name="temp"]').val(data.detail.jenis);
                     $('#specializationForm select[name="type"]').val(data.detail.jenis).trigger('change');
                     $('#specializationForm select[name="field"]').val(data.detail.bidang).trigger('change');
                     $('#specializationForm input[name="code"]').prop('readonly', true);
@@ -399,6 +401,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(specializationId){
+        var url = "{{ route('admin.reference.specialization.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', specializationId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
 
 </script>
