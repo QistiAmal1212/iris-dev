@@ -785,7 +785,7 @@ class MaklumatPemohonController extends Controller
             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->pmr_no_pengenalan)->where('mpel_kod',$request->subjek_pmr)->where('tahun', $request->tahun_pmr)->first();
             if ($check) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Tiada rekod subjek yang dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
             }
             CalonKeputusanSekolah::create([
                 'cal_no_pengenalan' => $request->pmr_no_pengenalan,
@@ -871,12 +871,20 @@ class MaklumatPemohonController extends Controller
                 'pengguna' => auth()->user()->id,
             ]);
 
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->pmr_no_pengenalan)->where('mpel_kod',$request->subjek_pmr)->where('tahun', $request->tahun_pmr)->get();
+            if (count($check) > 1) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
+
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->pmr_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (PT3/PMR/SRP)',
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_pmr) ? json_encode($request->tukar_log_pmr) : null
+
             ]);
 
             DB::commit();

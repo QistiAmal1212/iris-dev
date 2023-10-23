@@ -290,7 +290,6 @@ Maklumat Pemohon
         }}
         }
 
-
         if (htmlContent === '<p>Perubahan:</p>') {
             Swal.fire({
                 title: 'Tiada Perubahan Dibuat',

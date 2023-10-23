@@ -67,9 +67,21 @@ data-reloadPage="false">
             <button type="button" class="btn btn-danger float-right" onclick="reloadPmr()">
                 <i class="fa fa-refresh"></i>
             </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" id="btnSavePmr" onclick="$('#btnEditPmr').trigger('click');">
+            <!-- <button type="button" class="btn btn-success float-right" id="btnSavePmr" onclick="$('#btnEditPmr').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
-            </button>
+            </button> -->
+            <button type="button" class="btn btn-success float-right" id="btnSavePmr" onclick="confirmSubmit2('btnEditPmr', {
+                subjek_pmr: $('#subjek_pmr').find(':selected').text(),
+                gred_pmr: $('#gred_pmr').find(':selected').text(),
+                tahun_pmr: $('#tahun_pmr').val()
+            },{
+                subjek_pmr: 'Matapelajaran',
+                gred_pmr: 'Gred',
+                tahun_pmr: 'Tahun'
+            }
+        );">
+            <i class="fa fa-save"></i> Tambah
+        </button>
         </div>
     </div>
 </div>
@@ -104,20 +116,41 @@ data-reloadPage="false">
             return ;
         }
         $('#mpel_kod_pmr').val(value)
-        // if ($('#subjek_pmr').val() != $('#mpel_kod_pmr').text()) {
-        //     if (event == 'subjek_pmr') {
-        //         $('#pmrForm select[name="mpel_kod_pmr"] option').filter(function() {
-        //             return $(this).val() === value;
-        //         }).prop('selected', true);
-        //     } else {
-        //         console.log('okok')
-        //         $('#pmrForm select[name="subjek_pmr"] option').filter(function() {
-        //           return $(this).text() == value;
-        //         }).prop('selected', true);
-        //     }
-        // } else {
-        //     return ;
-        // }
+    }
+    function confirmSubmit2(btnName, newValues, columnHead) {
+        var originalVal = JSON.parse($('#currentvalues_pmr').val());
+
+        var htmlContent = '<p>Perubahan:</p>';
+        for (var key in originalVal) {
+        if (originalVal.hasOwnProperty(key)) {
+            if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+                if (originalVal[key] == null || originalVal[key] === '') {
+                    if (newValues[key] !== 'Tiada Maklumat') {
+                        if(newValues[key] !== null){
+                            htmlContent += '<p>' + columnHead[key] + ':<br>';
+                            htmlContent += 'Tiada Maklumat kepada ' + newValues[key] + '</p>';
+                        }
+
+                    }
+                } else {
+                    htmlContent += '<p>' + columnHead[key] + ':<br>';
+                    htmlContent += originalVal[key] + ' kepada ' + newValues[key] + '</p>';
+                }
+        }}
+        }
+         if (htmlContent === '<p>Perubahan:</p>') {
+            Swal.fire({
+                title: 'Tiada Perubahan Dibuat',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+        } else {
+             $('#btnEditPmr').trigger('click')
+             $('#tukar_log_pmr').val(htmlContent);
+        }
+        $('#editbutton_pmr').val(0);
+        reloadPmr();
+        disbalefieldspmr();
     }
     function editPmr() {
         $('#pmrForm select[name="subjek_pmr"]').attr('disabled', false);
@@ -135,7 +168,6 @@ data-reloadPage="false">
             var check_data = {
                 subjek_pmr: $('#subjek_pmr').find(':selected').text(),
                 gred_pmr: $('#gred_pmr').find(':selected').text(),
-                mpel_kod_pmr: $('#mpel_kod_pmr').val(),
                 tahun_pmr: $('#tahun_pmr').val()
             };
             $('#currentvalues_pmr').val(JSON.stringify(check_data));
@@ -148,10 +180,6 @@ data-reloadPage="false">
         var datachanged = false;
         var checkValue = JSON.parse($('#currentvalues_pmr').val());
    
-        // if (checkValue.mpel_kod_pmr != $('#mpel_kod_pmr').val()) {
-        //     datachanged = true;
-        // }
-    
         if (checkValue.subjek_pmr != $('#subjek_pmr').find(':selected').text()) {
             datachanged = true;
         }
@@ -162,7 +190,6 @@ data-reloadPage="false">
         if (checkValue.tahun_pmr != $('#tahun_pmr').val()) {
             datachanged = true;
         }
-        
         
         if (!datachanged) {
             $('#editbutton_pmr').val(0);
@@ -204,7 +231,6 @@ data-reloadPage="false">
                 $('#table-pmr tbody').empty();
                 var trPmr = '';
                 var bilPmr = 0;
-                console.log(data.detail)
                 $.each(data.detail, function(j, item2) {
                         trPmr += '<tr>';
                         trPmr += '<td align="left" colspan="5"><b> Tahun : ' + j + '</b></td>';
@@ -251,14 +277,10 @@ data-reloadPage="false">
                             return $(this).text() === subjectName;
                         }).prop('selected', true).trigger('change');
 
-                        // $('#pmrForm select[name="mpel_kod_pmr"] option').filter(function() {
-                        //     return $(this).text() === mpelkod;
-                        // }).prop('selected', true).trigger('change');
-                        // mpel_kod_pmr
-
                         $('#pmrForm select[name="gred_pmr"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
                         $('#pmrForm input[name="tahun_pmr"]').val($(row).find('td:nth-child(5)').text());
                         $('#pmrForm input[name="mpel_kod_pmr"]').val($(row).find('td:nth-child(2)').text());
+                        editPmr();
                 });
 
                 $(document).on('click', '.deletePmr-btn', function() {
