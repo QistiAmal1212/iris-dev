@@ -544,6 +544,7 @@ Route::prefix('admin')->group(function () {
             Route::get('edit/{negerijpnId}', [NegeriJPNController::class, 'edit'])->name('admin.reference.negerijpn.edit');
             Route::post('update/{negerijpnId}', [NegeriJPNController::class, 'update'])->name('admin.reference.negerijpn.update');
             Route::post('toggleActive/{negerijpnId}', [NegeriJPNController::class, 'toggleActive'])->name('admin.reference.negerijpn.toggleActive');
+            Route::get('getChild', [NegeriJPNController::class, 'getCategoriesByParent'])->name('admin.reference.negerijpn.getChild');
         });
 
         Route::prefix('skim_perkhidmatan')->group(function () {

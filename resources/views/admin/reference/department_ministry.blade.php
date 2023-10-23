@@ -153,7 +153,7 @@
             $('#departmentMinistryForm input[name="alamat_3"]').val("");
             $('#departmentMinistryForm input[name="poskod"]').val("");
             $('#departmentMinistryForm input[name="bandar"]').val("");
-            $('#departmentMinistryForm select[name="unit_urusan"]').val("").trigger('change');
+            $('#departmentMinistryForm input[name="unit_urusan"]').val("");
             $('#departmentMinistryForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Kementerian');
@@ -191,7 +191,7 @@
                     $('#departmentMinistryForm input[name="alamat_3"]').val(data.detail.alamat_3);
                     $('#departmentMinistryForm input[name="poskod"]').val(data.detail.poskod);
                     $('#departmentMinistryForm input[name="bandar"]').val(data.detail.bandar);
-                    $('#departmentMinistryForm select[name="unit_urusan"]').val(data.detail.unit_urusan).trigger('change');
+                    $('#departmentMinistryForm [name="unit_urusan"]').val(data.detail.unit_urusan);
                     $('#departmentMinistryForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Kementerian');

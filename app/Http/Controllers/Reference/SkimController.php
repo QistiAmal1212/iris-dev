@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\JenisSkim;
 use App\Models\Reference\KumpulanJKK;
 use App\Models\Reference\SalaryGrade;
 use App\Models\Reference\SkimPerkhidmatan;
@@ -48,6 +49,7 @@ class SkimController extends Controller
         $ggh = SalaryGrade::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skim_pkh = SkimPerkhidmatan::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $kump_jkk = KumpulanJKK::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
+        $jenis_skim = JenisSkim::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         if ($request->ajax()) {
 
@@ -65,7 +67,7 @@ class SkimController extends Controller
             $skim = Skim::orderBy('kod', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
-                $skim->where('KUMP_PKHIDMAT_JKK', $request->activity_type_id);
+                $skim->where('jenis_skim', $request->activity_type_id);
             }
             return Datatables::of($skim->get())
                 ->editColumn('code', function ($skim){
@@ -73,6 +75,12 @@ class SkimController extends Controller
                 })
                 ->editColumn('name', function ($skim) {
                     return $skim->diskripsi;
+                })
+                ->editColumn('jenis', function ($skim) {
+                    return JenisSkim::where('sah_yt', 'Y')
+                    ->where('kod', $skim->jenis_skim)
+                    ->pluck('diskripsi')
+                    ->first();
                 })
                 ->editColumn('ggh', function ($skim) {
                     return $skim->GGH_KOD;
@@ -104,7 +112,7 @@ class SkimController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.skim', compact('accessAdd', 'accessUpdate', 'accessDelete', 'ggh', 'skim_pkh', 'kump_jkk'));
+        return view('admin.reference.skim', compact('accessAdd', 'accessUpdate', 'accessDelete', 'ggh', 'skim_pkh', 'kump_jkk', 'jenis_skim'));
     }
 
     public function store(Request $request)

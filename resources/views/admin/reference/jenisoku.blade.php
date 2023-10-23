@@ -50,22 +50,22 @@
         </div>
         <hr>
         <div class="card-body">
-            <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
-                <div class="row">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
+                <div class="row align-items-center">
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <label class="form-label" for="code">Carian Jenis OKU</label>
                         <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                             <option value="Lihat Semua" selected>Lihat Semua</option>
                             @foreach ($KategoriOKU as $kat)
-                            <option value="{{ $kat->diskripsi }}">{{ $kat->diskripsi }}</option>
+                            <option value="{{ $kat->kategori_oku }}">{{ $kat->kategori_oku }}</option>
                             @endforeach
                         </select>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end align-items-center my-1 ">
-                    <button type="submit" class="btn btn-success float-right">
-                        <i class="fa fa-search"></i> Cari
-                    </button>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                        <button type="submit" class="btn btn-success">
+                          <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

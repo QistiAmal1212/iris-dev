@@ -41,7 +41,7 @@
 </style>
 
 <div class="card">
-    {{-- <div class="card-header">
+    <div class="card-header">
         <h4 class="card-title">Senarai Negeri</h4>
         @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="stateForm()">
@@ -49,7 +49,7 @@
         </button>
         @endif
     </div>
-    <hr> --}}
+    <hr>
 
     <div class="card-body">
         <div class="table-responsive">

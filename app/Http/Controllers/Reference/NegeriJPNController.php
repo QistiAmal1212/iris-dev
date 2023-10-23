@@ -58,7 +58,7 @@ class NegeriJPNController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            $negerijpn = NegeriJPN::orderBy('kod_spa', 'asc');
+            $negerijpn = NegeriJPN::orderBy('kod_jpn', 'asc');
             if($request->activity_type_id && $request->activity_type_id != "Lihat Semua"){
                 $negerijpn->where('kod_spa',$request->activity_type_id);
             }
@@ -81,7 +81,7 @@ class NegeriJPNController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="negerijpnForm('.$negerijpn->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($negerijpn->sah_yt) {
+                        if($negerijpn->sah_yt =='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$negerijpn->id.'" onclick="toggleActive('.$negerijpn->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$negerijpn->id.'" onclick="toggleActive('.$negerijpn->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -96,6 +96,17 @@ class NegeriJPNController extends Controller
         }
 
         return view('admin.reference.negerijpn', compact('accessAdd', 'accessUpdate', 'accessDelete', 'negeri'));
+    }
+
+    public function getCategoriesByParent(Request $request)
+    {
+        $parentCategory = $request->input('parent_category');
+
+        $categories = State::where('kod', $parentCategory)
+            ->pluck('diskripsi')
+            ->toArray();
+
+        return response()->json($categories);
     }
 
     public function store(Request $request)

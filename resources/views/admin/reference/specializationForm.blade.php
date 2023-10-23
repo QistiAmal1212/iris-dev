@@ -31,21 +31,6 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label" for="type">Jenis
-                                    <span class="text text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <select id="type" name="type" class="form-control" required>
-                                        <option value="">Sila Pilih:-</option>
-                                        @foreach ($jenis as $jenis)
-                                        <option value="{{ $jenis->kod }}">{{ $jenis->diskripsi }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
                                 <label class="form-label" for="field">Bidang
                                     <span class="text text-danger">*</span>
                                 </label>
@@ -54,6 +39,21 @@
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($bidang as $bidang)
                                         <option value="{{ $bidang->kod }}">{{ $bidang->diskripsi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="type">Jenis
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="type" name="type" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($jenis as $jenis)
+                                        <option value="{{ $jenis->kod }}">{{ $jenis->diskripsi }}</option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -172,7 +172,7 @@
 
                         $('#bekastenteraForm').attr('action', url2);
                         $('#bekastenteraForm input[name="code"]').val(data.detail.kod);
-                        $('#bekastenteraForm input[name="name"]').val(data.detail.nama);
+                        $('#bekastenteraForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#bekastenteraForm input[name="code"]').prop('readonly', true);
 

@@ -31,21 +31,6 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label" for="kod_ruj_bahagian">Bahagian
-                                    <span class="text text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <select id="kod_ruj_bahagian" name="kod_ruj_bahagian" class="form-control" required>
-                                        <option value="">Sila Pilih:-</option>
-                                        @foreach ($bahagian as $bah)
-                                        <option value="{{ $bah->kod }}">{{ $bah->diskripsi }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
                                 <label class="form-label" for="kod_ruj_negeri">Negeri
                                     <span class="text text-danger">*</span>
                                 </label>
@@ -55,6 +40,17 @@
                                         @foreach ($negeri as $neg)
                                         <option value="{{ $neg->kod }}">{{ $neg->diskripsi }}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="kod_ruj_bahagian">Bahagian
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="kod_ruj_bahagian" name="kod_ruj_bahagian" class="form-control" required>
                                     </select>
                                 </div>
                             </div>

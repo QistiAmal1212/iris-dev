@@ -34,9 +34,11 @@
                                 <label class="form-label" for="GUNASAMA">Gunasama
                                     <span class="text text-danger">*</span>
                                 </label>
-                                <div class="input-group">
-                                    <input type="text" id="GUNASAMA" name="GUNASAMA" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
-                                </div>
+                                <select id="GUNASAMA" name="GUNASAMA" class="form-control" required>
+                                    <option value="">Sila Pilih:-</option>
+                                    <option value="1">YA</option>
+                                    <option value="2">TIDAK</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -45,7 +47,12 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="ref_skim_type" name="ref_skim_type" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <select id="ref_skim_type" name="ref_skim_type" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($jenis_skim as $jenis)
+                                        <option value="{{ $jenis->kod }}">{{ $jenis->diskripsi }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

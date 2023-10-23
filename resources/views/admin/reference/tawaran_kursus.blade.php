@@ -50,14 +50,35 @@
         </div>
         <hr>
         <div class="card-body">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
+                <div class="row align-items-center">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <label class="form-label" for="code">Carian Jenis</label>
+                        <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
+                            <option value="Lihat Semua" selected>Lihat Semua</option>
+                            @foreach ($jenis as $j)
+                            <option value="{{ $j->kod }}">{{ $j->kod }} - {{ $j->diskripsi }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                        <button type="submit" class="btn btn-success">
+                          <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
             <div class="table-responsive">
                 <table class="table header_uppercase table-bordered" id="table-tawarankursus">
                     <thead>
                         <tr>
                             <th width="2%">No.</th>
-                            <th width="10%">Kod</th>
+                            <th width="7%">Kod</th>
                             <th>Tawaran Kursus</th>
                             <th>Diskripsi</th>
+                            <th>Jenis</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -108,7 +129,13 @@
                 {
                     data: "diskripsi",
                     name: "diskripsi",
-                    className: "text-center",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "jenis",
+                    name: "jenis",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }
@@ -138,6 +165,91 @@
             }
         });
 
+        $('body').on('submit','#form-search',function(e){
+
+            e.preventDefault();
+
+            var form = $("#form-search");
+
+            if(!form.valid()){
+                return false;
+            }
+            var table;
+
+            table = $('#table-tawarankursus').DataTable().destroy();
+
+            table = $('#table-tawarankursus').DataTable({
+                orderCellsTop: true,
+                colReorder: false,
+                pageLength: 25,
+                processing: true,
+                serverSide: true, //enable if data is large (more than 50,000)
+                deferRender: true,
+                ajax: form.attr('action')+"?"+form.serialize(),
+                columns: [{
+                        defaultContent: '',
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: "kod",
+                        name: "kod",
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "nama",
+                        name: "nama",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "diskripsi",
+                        name: "diskripsi",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "jenis",
+                        name: "jenis",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+
+                ],
+                language: {
+                    emptyTable: "Tiada data tersedia",
+                    info: "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+                    infoEmpty: "Menunjukkan 0 hingga 0 daripada 0 entri",
+                    infoFiltered: "(Ditapis dari _MAX_ entri)",
+                    search: "Cari:",
+                    zeroRecords: "Tiada rekod yang ditemui",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Seterusnya",
+                        previous: "Sebelumnya"
+                    },
+                    lengthMenu: "Lihat _MENU_ entri",
+                }
+            });
+            });
+
         tawarankursusForm = function(id = null) {
             var tawarankursusFormModal;
             tawarankursusFormModal = new bootstrap.Modal(document.getElementById('tawarankursusFormModal'), {
@@ -152,8 +264,8 @@
                 $('#tawarankursusForm').attr('action', '{{ route('admin.reference.tawarankursus.store') }}');
                 $('#tawarankursusForm input[name="code"]').val("");
                 $('#tawarankursusForm input[name="name"]').val("");
-                $('#tawarankursusForm input[name="jenis"]').val("");
-                $('#tawarankursusForm input[name="diskripsi"]').val("");
+                $('#tawarankursusForm select[name="jenis"]').val("");
+                $('#tawarankursusForm textarea[name="diskripsi"]').val("");
                 $('#tawarankursusForm input[name="code"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Tawaran Kursus');
@@ -184,8 +296,8 @@
                         $('#tawarankursusForm').attr('action', url2);
                         $('#tawarankursusForm input[name="code"]').val(data.detail.kod);
                         $('#tawarankursusForm input[name="name"]').val(data.detail.diskripsi);
-                        $('#tawarankursusForm input[name="jenis"]').val(data.detail.jenis);
-                        $('#tawarankursusForm input[name="diskripsi"]').val(data.detail.diskripsi_penuh);
+                        $('#tawarankursusForm select[name="jenis"]').val(data.detail.jenis).trigger('change');
+                        $('#tawarankursusForm textarea[name="diskripsi"]').val(data.detail.diskripsi_penuh);
 
                         $('#tawarankursusForm input[name="code"]').prop('readonly', true);
 

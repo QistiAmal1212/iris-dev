@@ -50,8 +50,8 @@
         </div>
         <hr>
         <div class="card-body">
-            <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
-                <div class="row">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
+                <div class="row align-items-center">
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <label class="form-label" for="code">Carian Negeri</label>
                         <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
@@ -64,13 +64,14 @@
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <label class="form-label" for="code">Carian Bahagian</label>
                         <select name="module_id" id="module_id" class="select2 form-control">
+                            <option value="Lihat Semua" selected>Sila Pilih:-</option>
                         </select>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end align-items-center my-1 ">
-                    <button type="submit" class="btn btn-success float-right">
-                        <i class="fa fa-search"></i> Cari
-                    </button>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                        <button type="submit" class="btn btn-success">
+                          <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -100,7 +101,6 @@
         $(document).ready(function() {
         $('#activity_type_id').change(function() {
             var parentCategory = $(this).val();
-            console.log(parentCategory)
             if(parentCategory && parentCategory!= "Lihat Semua") {
                 $.ajax({
                     url: "{{ route('admin.reference.daerah.getChild') }}",
@@ -117,6 +117,29 @@
                 });
             }{
                 $('#module_id').empty();
+            }
+        });
+    });
+    $(document).ready(function() {
+        $('#kod_ruj_negeri').change(function() {
+            var parentCategory = $(this).val();
+            if(parentCategory && parentCategory!= "") {
+                $.ajax({
+                    url: "{{ route('admin.reference.daerah.getChild') }}",
+                    type: 'GET',
+                    data: {parent_category: parentCategory},
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#kod_ruj_bahagian').empty();
+                        $('#kod_ruj_bahagian').append('<option value="" selected>Sila Pilih:-</option>');
+                        $.each(data, function(key, value) {
+                            $('#kod_ruj_bahagian').append('<option value="'+ value.codes +'">'+ value.categories +'</option>');
+                        });
+                    }
+                });
+            }{
+                $('#kod_ruj_bahagian').empty();
+                $('#kod_ruj_bahagian').append('<option value="" selected>Sila Pilih:-</option>');
             }
         });
     });

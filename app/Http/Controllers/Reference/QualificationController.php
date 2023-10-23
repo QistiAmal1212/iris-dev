@@ -262,7 +262,7 @@ class QualificationController extends Controller
             else $sah_yt = 'Y';
 
             $qualification->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();

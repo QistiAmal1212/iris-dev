@@ -35,7 +35,12 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="jenis" name="jenis" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <select id="jenis" name="jenis" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($jenis as $jen)
+                                        <option value="{{ $jen->kod }}">{{ $jen->diskripsi }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +50,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="diskripsi" name="diskripsi" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <textarea type="text" id="diskripsi" name="diskripsi" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required></textarea>
                                 </div>
                             </div>
                         </div>

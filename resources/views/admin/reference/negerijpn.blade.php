@@ -27,7 +27,7 @@
             /* word-wrap: break-word; */
         }
 
-        input[readonly] {
+        #kod_ruj_negeri[readonly] {
             pointer-events: none;
             /* Disable pointer events */
             background-color: #f0f0f0;
@@ -50,8 +50,8 @@
         </div>
         <hr>
         <div class="card-body">
-            <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
-                <div class="row">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
+                <div class="row align-items-center">
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <label class="form-label" for="code">Carian Negeri</label>
                         <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
@@ -61,11 +61,11 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end align-items-center my-1 ">
-                    <button type="submit" class="btn btn-success float-right">
-                        <i class="fa fa-search"></i> Cari
-                    </button>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                        <button type="submit" class="btn btn-success">
+                          <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -111,8 +111,8 @@
                     }
                 },
                 {
-                    data: "kod",
-                    name: "kod",
+                    data: "kod_neg",
+                    name: "kod_neg",
                     className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
@@ -126,8 +126,8 @@
                     }
                 },
                 {
-                    data: "kod_neg",
-                    name: "kod_neg",
+                    data: "kod",
+                    name: "kod",
                     className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
@@ -190,8 +190,8 @@
                         }
                     },
                     {
-                        data: "kod",
-                        name: "kod",
+                        data: "kod_neg",
+                        name: "kod_neg",
                         className: "text-center",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();
@@ -205,8 +205,8 @@
                         }
                     },
                     {
-                        data: "kod_neg",
-                        name: "kod_neg",
+                        data: "kod",
+                        name: "kod",
                         className: "text-center",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();
@@ -254,7 +254,7 @@
                 $('#negerijpnForm input[name="name"]').val("");
                 $('#negerijpnForm input[name="kod_ruj_negeri"]').val("");
 
-                $('#negerijpnForm input[name="code"]').prop('readonly', false);
+                $('#negerijpnForm input[name="kod_ruj_negeri"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Negeri JPN');
 
@@ -286,7 +286,7 @@
                         $('#negerijpnForm input[name="name"]').val(data.detail.diskripsi);
                         $('#negerijpnForm input[name="kod_ruj_negeri"]').val(data.detail.kod_jpn);
 
-                        $('#negerijpnForm input[name="code"]').prop('readonly', true);
+                        $('#negerijpnForm input[name="kod_ruj_negeri"]').prop('readonly', true);
 
                         $('#title-role').html('Kemaskini Negeri JPN');
 
@@ -334,5 +334,24 @@
                 }
             });
         }
+
+        $(document).ready(function() {
+        $('#code').change(function() {
+            var parentCategory = $(this).val();
+            if(parentCategory && parentCategory!= "") {
+                $.ajax({
+                    url: "{{ route('admin.reference.negerijpn.getChild') }}",
+                    type: 'GET',
+                    data: {parent_category: parentCategory},
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#name').val(data);
+                    }
+                });
+            }{
+                $('#name').val('');
+            }
+        });
+    });
     </script>
 @endsection

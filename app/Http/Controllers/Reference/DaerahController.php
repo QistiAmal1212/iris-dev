@@ -61,7 +61,7 @@ class DaerahController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            $daerah = Daerah::orderBy('kod', 'asc');
+            $daerah = Daerah::orderBy('kod', 'asc')->orderBy('diskripsi', 'asc');
 
             if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
                 $daerah->where('neg_kod', $request->activity_type_id);
@@ -139,7 +139,7 @@ class DaerahController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_daerah,kod',
+                'code' => 'required|string',
                 'name' => 'required|string',
                 'kod_ruj_bahagian' => 'required|string|exists:ruj_bahagian,kod',
                 'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
@@ -232,7 +232,7 @@ class DaerahController extends Controller
             $log->data_old = json_encode($daerah);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_daerah,kod,'.$daerahId,
+                'code' => 'required|string',
                 'name' => 'required|string',
                 'kod_ruj_bahagian' => 'required|string|exists:ruj_bahagian,kod',
                 'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',

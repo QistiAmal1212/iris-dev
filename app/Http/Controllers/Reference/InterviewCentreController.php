@@ -77,6 +77,9 @@ class InterviewCentreController extends Controller
                 ->editColumn('neg', function ($interviewCentre) {
                     return $interviewCentre->negeri->diskripsi;
                 })
+                ->editColumn('kp', function ($interviewCentre) {
+                    return $interviewCentre->kod_pendek;
+                })
                 ->editColumn('action', function ($interviewCentre) use ($accessDelete) {
                     $button = "";
 
@@ -110,15 +113,15 @@ class InterviewCentreController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_pusat_temuduga,kod',
                 'name' => 'required|string',
-                'ref_area_code' => 'required|string|exists:ruj_kawasan_pst_td,kod',
+                // 'ref_area_code' => 'required|string|exists:ruj_kawasan_pst_td,kod',
                 'ref_state_code' => 'required|string|exists:ruj_negeri,kod',
                 'kod_pendek' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan pusat temuduga',
-                'ref_area_code.required' => 'Sila isikan kawasan pusat temuduga',
-                'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
+                // 'ref_area_code.required' => 'Sila isikan kawasan pusat temuduga',
+                // 'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
                 'ref_state_code.required' => 'Sila isikan negeri',
                 'ref_state_code.exists' => 'Tiada rekod negeri yang dipilih',
                 'kod_pendek.required' => 'Sila isikan kod pendek',
@@ -127,7 +130,7 @@ class InterviewCentreController extends Controller
             $iv = InterviewCentre::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
-                'kpt_kod' => $request->ref_area_code,
+                // 'kpt_kod' => $request->ref_area_code,
                 'neg_kod' => strtoupper($request->ref_state_code),
                 'kod_pendek' => strtoupper($request->kod_pendek),
                 'id_pencipta' => auth()->user()->id,
@@ -203,14 +206,14 @@ class InterviewCentreController extends Controller
             $request->validate([
                 'code' => 'required|string|unique:ruj_pusat_temuduga,kod,'.$interviewCentreId,
                 'name' => 'required|string',
-                'ref_area_code' => 'required|string|exists:ruj_kawasan_pst_td,kod',
+                // 'ref_area_code' => 'required|string|exists:ruj_kawasan_pst_td,kod',
                 'ref_state_code' => 'required|string|exists:ruj_negeri,kod',
                 'kod_pendek' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan pusat temuduga',
-                'ref_area_code.required' => 'Sila isikan kawasan pusat temuduga',
+                // 'ref_area_code.required' => 'Sila isikan kawasan pusat temuduga',
                 'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
                 'ref_state_code.required' => 'Sila isikan negeri',
                 'ref_state_code.exists' => 'Tiada rekod negeri yang dipilih',
@@ -220,7 +223,7 @@ class InterviewCentreController extends Controller
             $interviewCentre->update([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
-                'kpt_kod' => $request->ref_area_code,
+                // 'kpt_kod' => $request->ref_area_code,
                 'neg_kod' => strtoupper($request->ref_state_code),
                 'kod_pendek' => strtoupper($request->kod_pendek),
                 'pengguna' => auth()->user()->id,

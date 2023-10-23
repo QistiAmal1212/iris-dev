@@ -55,9 +55,7 @@
                                     {{-- <span class="text text-danger">*</span> --}}
                                 </label>
                                 <div class="input-group">
-                                    <select id="unit_urusan" name="unit_urusan" class="form-control" required>
-                                        <option value="">Sila Pilih:-</option>
-                                    </select>
+                                    <input type="text" id="unit_urusan" name="unit_urusan" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
                                 </div>
                             </div>
                         </div>

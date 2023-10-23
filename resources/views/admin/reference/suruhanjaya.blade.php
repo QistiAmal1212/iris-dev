@@ -172,7 +172,7 @@
 
                         $('#suruhanjayaForm').attr('action', url2);
                         $('#suruhanjayaForm input[name="code"]').val(data.detail.kod);
-                        $('#suruhanjayaForm input[name="name"]').val(data.detail.nama);
+                        $('#suruhanjayaForm input[name="name"]').val(data.detail.diskripsi);
 
                         $('#suruhanjayaForm input[name="code"]').prop('readonly', true);
 

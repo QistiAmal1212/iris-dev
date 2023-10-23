@@ -28,13 +28,13 @@
                                     <select id="name" name="name" class="form-control" required>
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($KategoriOKU as $kat)
-                                        <option value="{{ $kat->nama }}">{{ $kat->nama }}</option>
+                                        <option value="{{ $kat->kategori_oku }}">{{ $kat->kategori_oku }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="sub">Sub OKU
                                     <span class="text text-danger">*</span>

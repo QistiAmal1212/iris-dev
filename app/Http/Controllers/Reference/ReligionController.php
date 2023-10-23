@@ -63,18 +63,21 @@ class ReligionController extends Controller
                 ->editColumn('nama', function ($religion) {
                     return $religion->diskripsi;
                 })
-                ->editColumn('action', function ($religion) use ($accessDelete) {
+                ->editColumn('action', function ($religion) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="religionForm('.$religion->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
+                    if($accessUpdate){
                         if($religion->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$religion->id.'" onclick="toggleActive('.$religion->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$religion->id.'" onclick="toggleActive('.$religion->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$religion->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use Illuminate\Support\Carbon;
 use App\Models\Reference\AhliSuruhanjaya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -139,8 +140,8 @@ class AhliSuruhanjayaController extends Controller
                 'alamat2' => strtoupper($request->alamat2),
                 'alamat3' => strtoupper($request->alamat3),
                 'kekananan' => strtoupper($request->kekananan),
-                'kontrak_dari1' => strtoupper($request->kontrak_dari1),
-                'kontrak_hingga1' => strtoupper($request->kontrak_hingga1),
+                'kontrak_dari1' => Carbon::createFromFormat('d/m/Y', $request->kontrak_dari1)->format('Y-m-d'),
+                'kontrak_hingga1' => Carbon::createFromFormat('d/m/Y', $request->kontrak_hingga1)->format('Y-m-d'),
                 'elaun_pada_gred' => strtoupper($request->elaun_pada_gred),
                 'status_ahli' => strtoupper($request->status_ahli),
                 'sah_yt'=> "Y",
@@ -180,6 +181,10 @@ class AhliSuruhanjayaController extends Controller
             if (!$ahlisuruhanjaya) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+
+            $ahlisuruhanjaya->kontrak_dari1 = Carbon::parse($ahlisuruhanjaya->kontrak_dari1)->format('d/m/Y');
+            $ahlisuruhanjaya->kontrak_hingga1 = Carbon::parse($ahlisuruhanjaya->kontrak_hingga1)->format('d/m/Y');
+
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.ahlisuruhanjaya')->firstOrFail()->id;
             $log->activity_type_id = 2;
@@ -256,8 +261,8 @@ class AhliSuruhanjayaController extends Controller
                 'alamat2' => strtoupper($request->alamat2),
                 'alamat3' => strtoupper($request->alamat3),
                 'kekananan' => strtoupper($request->kekananan),
-                'kontrak_dari1' => strtoupper($request->kontrak_dari1),
-                'kontrak_hingga1' => strtoupper($request->kontrak_hingga1),
+                'kontrak_dari1' => Carbon::createFromFormat('d/m/Y', $request->kontrak_dari1)->format('Y-m-d'),
+                'kontrak_hingga1' => Carbon::createFromFormat('d/m/Y', $request->kontrak_hingga1)->format('Y-m-d'),
                 'elaun_pada_gred' => strtoupper($request->elaun_pada_gred),
                 'status_ahli' => strtoupper($request->status_ahli),
                 'pengguna' => auth()->user()->id,

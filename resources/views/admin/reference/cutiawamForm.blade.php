@@ -31,21 +31,6 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label" for="kod_ruj_senarai_cuti">Senarai Cuti
-                                    <span class="text text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <select id="kod_ruj_senarai_cuti" name="kod_ruj_senarai_cuti" class="form-control" required>
-                                        <option value="">Sila Pilih:-</option>
-                                        @foreach ($senaraicuti as $cuti)
-                                        <option value="{{ $cuti->kod }}">{{ strtoupper($cuti->diskripsi) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
                                 <label class="form-label" for="kod_ruj_negeri">Negeri
                                     <span class="text text-danger">*</span>
                                 </label>
@@ -54,6 +39,21 @@
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($negeri as $neg)
                                         <option value="{{ $neg->kod }}">{{ $neg->diskripsi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="kod_ruj_senarai_cuti">Senarai Cuti
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="kod_ruj_senarai_cuti" name="kod_ruj_senarai_cuti" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($senaraicuti as $cuti)
+                                        <option value="{{ $cuti->kod }}">{{ strtoupper($cuti->diskripsi) }}</option>
                                         @endforeach
                                     </select>
                                 </div>

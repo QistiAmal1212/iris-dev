@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
+use App\Models\Reference\KodPelbagai;
 use App\Models\Reference\TawaranKursus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,8 @@ class TawaranKursusController extends Controller
             }
         }
 
-        $tawarankursus = TawaranKursus::orderBy('kod', 'asc')->get();
+        $jenis = KodPelbagai::where('kategori', 'JENIS TAWARAN KURSUS')->where('sah_yt', 'Y')->orderBy('kod', 'asc')->get();
+
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -56,7 +58,14 @@ class TawaranKursusController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($tawarankursus)
+            $tawarankursus = TawaranKursus::orderBy('kod', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $tawarankursus->where('jenis', $request->activity_type_id);
+
+            }
+
+            return Datatables::of($tawarankursus->get())
                 ->editColumn('kod', function ($tawarankursus){
                     return $tawarankursus->kod;
                 })
@@ -65,6 +74,13 @@ class TawaranKursusController extends Controller
                 })
                 ->editColumn('diskripsi', function ($tawarankursus) {
                     return $tawarankursus->diskripsi_penuh;
+                })
+                ->editColumn('jenis', function ($tawarankursus) {
+                    return KodPelbagai::where('kategori', 'JENIS TAWARAN KURSUS')
+                    ->where('sah_yt', 'Y')
+                    ->where('kod', $tawarankursus->jenis)
+                    ->pluck('diskripsi')
+                    ->first();
                 })
                 ->editColumn('action', function ($tawarankursus) use ($accessDelete) {
                     $button = "";
@@ -87,7 +103,7 @@ class TawaranKursusController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.tawaran_kursus', compact('accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.reference.tawaran_kursus', compact('accessAdd', 'accessUpdate', 'accessDelete', 'jenis'));
     }
 
     public function store(Request $request)

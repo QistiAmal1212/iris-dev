@@ -51,22 +51,22 @@
     </div>
     <hr>
     <div class="card-body">
-        <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
-            <div class="row">
+        <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
+            <div class="row align-items-center">
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <label class="form-label" for="code">Carian JKK</label>
+                    <label class="form-label" for="code">Carian Jenis</label>
                     <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                         <option value="Lihat Semua" selected>Lihat Semua</option>
-                        @foreach ($kump_jkk as $kump)
-                        <option value="{{ $kump->kod }}">{{ $kump->kod }} - {{ $kump->diskripsi }}</option>
+                        @foreach ($jenis_skim as $js)
+                        <option value="{{ $js->kod }}">{{ $js->kod }} - {{ $js->diskripsi }}</option>
                         @endforeach
                     </select>
                 </div>
-            </div>
-            <div class="d-flex justify-content-end align-items-center my-1 ">
-                <button type="submit" class="btn btn-success float-right">
-                    <i class="fa fa-search"></i> Cari
-                </button>
+                <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                    <button type="submit" class="btn btn-success">
+                      <i class="fa fa-search"></i> Cari
+                    </button>
+                </div>
             </div>
         </form>
     </div>
@@ -78,6 +78,7 @@
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
                         <th>Skim</th>
+                        <th>Jenis</th>
                         <th width="10%">Gred Gaji</th>
                         <th width="10%">KUmpulan JKK</th>
                         <th width="10%">Tindakan</th>
@@ -126,6 +127,13 @@
             {
                 data: "name",
                 name: "name",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "jenis",
+                name: "jenis",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }
@@ -218,6 +226,13 @@
                     }
                 },
                 {
+                    data: "jenis",
+                    name: "jenis",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
                     data: "ggh",
                     name: "ggh",
                     className : "text-center",
@@ -271,8 +286,8 @@
             $('#skimForm').attr('action', '{{ route("admin.reference.skim.store") }}');
             $('#skimForm input[name="code"]').val("");
             $('#skimForm input[name="name"]').val("");
-            $('#skimForm input[name="GUNASAMA"]').val("");
-            $('#skimForm input[name="ref_skim_type"]').val("");
+            $('#skimForm select[name="GUNASAMA"]').val("").trigger('change');
+            $('#skimForm select[name="ref_skim_type"]').val("").trigger('change');
             $('#skimForm select[name="GGH_KOD"]').val("").trigger('change');
             $('#skimForm select[name="SKIM_PKHIDMAT"]').val("").trigger('change');
             $('#skimForm select[name="KUMP_PKHIDMAT_JKK"]').val("").trigger('change');
@@ -306,8 +321,8 @@
                     $('#skimForm').attr('action',url2 );
                     $('#skimForm input[name="code"]').val(data.detail.kod);
                     $('#skimForm input[name="name"]').val(data.detail.diskripsi);
-                    $('#skimForm input[name="GUNASAMA"]').val(data.detail.GUNASAMA);
-                    $('#skimForm input[name="ref_skim_type"]').val(data.detail.jenis_skim);
+                    $('#skimForm select[name="GUNASAMA"]').val(data.detail.GUNASAMA).trigger('change');
+                    $('#skimForm select[name="ref_skim_type"]').val(data.detail.jenis_skim).trigger('change');
                     $('#skimForm select[name="GGH_KOD"]').val(data.detail.GGH_KOD).trigger('change');
                     $('#skimForm select[name="SKIM_PKHIDMAT"]').val(data.detail.SKIM_PKHIDMAT).trigger('change');
                     $('#skimForm select[name="KUMP_PKHIDMAT_JKK"]').val(data.detail.KUMP_PKHIDMAT_JKK).trigger('change');

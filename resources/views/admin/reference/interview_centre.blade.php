@@ -50,8 +50,8 @@
         </div>
         <hr>
         <div class="card-body">
-            <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
-                <div class="row">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
+                <div class="row align-items-center">
                     <div class="col-sm-4 col-md-4 col-lg-4">
                         <label class="form-label" for="code">Carian Negeri</label>
                         <select name="module_id" id="module_id" class="select2 form-control">
@@ -61,11 +61,11 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end align-items-center my-1 ">
-                    <button type="submit" class="btn btn-success float-right">
-                        <i class="fa fa-search"></i> Cari
-                    </button>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                        <button type="submit" class="btn btn-success">
+                          <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -79,6 +79,7 @@
                             <th width="10%">Kod</th>
                             <th>Nama</th>
                             <th>Kod Negeri</th>
+                            <th width="10%">Kod Pendek</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -129,6 +130,13 @@
                 {
                     data: "neg",
                     name: "neg",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "kp",
+                    name: "kp",
                     className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
@@ -207,6 +215,13 @@
                     {
                         data: "neg",
                         name: "neg",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "kp",
+                        name: "kp",
                         className: "text-center",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();

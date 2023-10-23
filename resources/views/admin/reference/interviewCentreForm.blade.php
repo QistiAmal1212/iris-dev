@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-12">
+                        {{-- <div class="col-md-4 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="ref_area_code">Kawasan Pusat Temuduga <span class="text text-danger">*</span>
                                 </label>
@@ -43,7 +43,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label" for="ref_state_code">Negeri
