@@ -290,7 +290,6 @@ Maklumat Pemohon
         }}
         }
 
-
         if (htmlContent === '<p>Perubahan:</p>') {
             Swal.fire({
                 title: 'Tiada Perubahan Dibuat',
@@ -327,7 +326,11 @@ Maklumat Pemohon
                 $('#editbutton_skim').val(0);
                 disbalefieldsskim();
                 reloadPusatTemuduga();
-            }
+            }  else if (btnName == 'btnEditPmr') {
+                $('#editbutton_pmr').val(0);
+                disbalefieldspmr();
+                reloadPmr();
+            }            
             
             return;
         }
@@ -352,7 +355,11 @@ Maklumat Pemohon
         } else if (btnName == 'btnEditPusatTemuduga') {
             $('#editbutton_skim').val(0);
             $('#tukar_log_skim').val(htmlContent);
-        }
+        } else if (btnName == 'btnEditPmr') {
+            $('#editbutton_pmr').val(0);
+            $('#tukar_log_pmr').val(htmlContent);
+        }            
+            
         Swal.fire({
         title: 'Adakah anda ingin simpan perubahan ini?',
         html: htmlContent,

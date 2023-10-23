@@ -775,14 +775,18 @@ class MaklumatPemohonController extends Controller
                 'gred_pmr' => 'required|string|exists:ruj_gred_matapelajaran,gred',
                 'tahun_pmr' => 'required|string',
             ],[
-                'subjek_pmr.required' => 'Sila pilih subjek pmr',
+                'subjek_pmr.required' => 'Sila pilih Matapelajaran',
                 'subjek_pmr.exists' => 'Tiada rekod subjek yang dipilih',
-                'gred_pmr.required' => 'Sila pilih gred pmr',
+                'gred_pmr.required' => 'Sila pilih Gred',
                 'gred_pmr.exists' => 'Tiada rekod gred yang dipilih',
-                'tahun_pmr.required' => 'Sila pilih gred pmr',
+                'tahun_pmr.required' => 'Sila pilih Tahun',
                 'tahun_pmr.exists' => 'Tiada rekod gred pmr yang dipilih',
             ]);
-
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->pmr_no_pengenalan)->where('mpel_kod',$request->subjek_pmr)->where('tahun', $request->tahun_pmr)->first();
+            if ($check) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
             CalonKeputusanSekolah::create([
                 'cal_no_pengenalan' => $request->pmr_no_pengenalan,
                 'mpel_kod' => $request->subjek_pmr,
@@ -800,6 +804,8 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_pmr) ? json_encode($request->tukar_log_pmr) : null
+
             ]);
 
             DB::commit();
@@ -823,12 +829,16 @@ class MaklumatPemohonController extends Controller
                 $query->where('tkt', '3');
             })->get();
 
+            $array = [];
+            foreach ($candidatePmr as $key => $value) {
+                $array[$value->tahun][] = $value; 
+            }
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             //}
 
             //DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePmr]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $array]);
 
         } catch (\Throwable $e) {
 
@@ -849,9 +859,9 @@ class MaklumatPemohonController extends Controller
                 'gred_pmr' => 'required|string',
                 'tahun_pmr' => 'required|string',
             ],[
-                'subjek_pmr.required' => 'Sila pilih subjek pmr',
-                'gred_pmr.required' => 'Sila pilih gred pmr',
-                'tahun_pmr.required' => 'Sila pilih gred pmr',
+                'subjek_pmr.required' => 'Sila pilih Matapelajaran',
+                'gred_pmr.required' => 'Sila pilih Gred',
+                'tahun_pmr.required' => 'Sila pilih Tahun',
             ]);
 
             CalonKeputusanSekolah::where('id',$request->id_pmr)->update([
@@ -861,12 +871,20 @@ class MaklumatPemohonController extends Controller
                 'pengguna' => auth()->user()->id,
             ]);
 
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->pmr_no_pengenalan)->where('mpel_kod',$request->subjek_pmr)->where('tahun', $request->tahun_pmr)->get();
+            if (count($check) > 1) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
+
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->pmr_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (PT3/PMR/SRP)',
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_pmr) ? json_encode($request->tukar_log_pmr) : null
+
             ]);
 
             DB::commit();
