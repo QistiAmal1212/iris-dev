@@ -698,10 +698,6 @@ class PemohonController extends ApiController
             );
         }
 
-        if($response == config('status.status_codes.success')){
-            
-        }
-
         return $this->successResponseFormat(
             $response,
             'Data berjaya disimpan.',
@@ -726,83 +722,103 @@ class PemohonController extends ApiController
         }
 
         if(in_array(2, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['bahasa' => $calon->language]);
+           $dataAkses = array_merge($dataAkses, ['bahasa' => $calon->language]);
+           unset($calon->language);
         }
 
         if(in_array(3, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['bakat' => $calon->talent]);
+            unset($calon->talent);
         }
 
         // if(in_array(4, $aksesApi)){
         //     $dataAkses = array_merge($dataAkses, ['daftar' => $calon->daftar]);
+        //    unset($calon->daftar);
         // }
 
         if(in_array(5, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['keputusan_sekolah' => $calon->schoolResult]);
+            unset($calon->schoolResult);
         }
 
         if(in_array(6, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['lesen' => $calon->license]);
+            unset($calon->license);
         }
 
         if(in_array(7, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['matrikulasi' => $calon->matriculation]);
+            unset($calon->matriculation);
         }
 
         if(in_array(8, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['oku' => $calon->oku]);
+            unset($calon->oku);
         }
 
         if(in_array(9, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['pengajian_tinggi' => $calon->higherEducation]);
+            unset($calon->higherEducation);
         }
 
         if(in_array(10, $aksesApi)){
             $dataAkses = array_merge($datAkses, ['pengalaman' => $calon->experience]);
+            unset($calon->experience);
         }
 
         if(in_array(11, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['pengalaman9' => $calon->pengalaman9]);
+            unset($calon->pengalaman9);
         }
 
         if(in_array(12, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['profesional' => $calon->professional]);
+            unset($calon->professional);
         }
 
         if(in_array(13, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['psl' => $calon->psl]);
+            unset($calon->psl);
         }
 
         // if(in_array(14, $aksesApi)){
         //     $dataAkses = array_merge($dataAkses, ['senarai_hitam' => '']);
+        //     unset('');
         // }
 
         if(in_array(15, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['skim' => $calon->skim]);
+            unset($calon->skim);
         }
 
         if(in_array(16, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['skm' => $calon->skm]);
+            unset($calon->skm);
         }
 
         if(in_array(17, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['spmu' => $calon->spmu]);
+            unset($calon->spmu);
         }
 
         if(in_array(18, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['stpm_pngk' => $calon->stpmPngk]);
+            unset($calon->stpmPngk);
         }
 
         if(in_array(19, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['svm' => $calon->svm]);
+            unset($calon->svm);
         }
 
         // if(in_array(20, $aksesApi)){
         //     $dataAkses = array_merge($dataAkses, ['tatatertib' => ''])
+        //     unset('');
         // }
 
         if(in_array(21, $aksesApi)){
             $dataAkses = array_merge($dataAkses, ['tentera_polis' => $calon->armyPolice]);
+            unset($calon->armyPolice);
         }
 
         return $dataAkses;
