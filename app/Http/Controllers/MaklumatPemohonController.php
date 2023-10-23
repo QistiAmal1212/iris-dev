@@ -825,12 +825,16 @@ class MaklumatPemohonController extends Controller
                 $query->where('tkt', '3');
             })->get();
 
+            $array = [];
+            foreach ($candidatePmr as $key => $value) {
+                $array[$value->tahun][] = $value; 
+            }
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             //}
 
             //DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePmr]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $array]);
 
         } catch (\Throwable $e) {
 

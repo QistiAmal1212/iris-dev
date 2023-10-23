@@ -204,20 +204,26 @@ data-reloadPage="false">
                 $('#table-pmr tbody').empty();
                 var trPmr = '';
                 var bilPmr = 0;
-                $.each(data.detail, function(i, item) {
-                    if (item.subject_form3 != null) {
-                        bilPmr += 1;
+                console.log(data.detail)
+                $.each(data.detail, function(j, item2) {
                         trPmr += '<tr>';
-                        trPmr += '<td align="center">' + bilPmr + '</td>';
-                        trPmr += '<td align="center">' + item.mpel_kod + '</td>';
-                        trPmr += '<td>' + item.subject_form3.diskripsi + '</td>';
-                        trPmr += '<td align="center">' + item.gred + '</td>';
-                        trPmr += '<td align="center" style="display:none;">' + item.tahun + '</td>';
-                        trPmr += '<td align="center"><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i>';
-                        trPmr += '&nbsp;&nbsp;';
-                        trPmr += '<i class="fas fa-trash text-danger deletePmr-btn" data-id="' + item.id + '" ></i></td>';
+                        trPmr += '<td align="left" colspan="5"><b> Tahun : ' + j + '</b></td>';
                         trPmr += '</tr>';
-                    }
+                    $.each(item2, function(i, item) {
+                        if (item.subject_form3 != null) {
+                            bilPmr += 1;
+                            trPmr += '<tr>';
+                            trPmr += '<td align="center">' + bilPmr + '</td>';
+                            trPmr += '<td align="center">' + item.mpel_kod + '</td>';
+                            trPmr += '<td>' + item.subject_form3.diskripsi + '</td>';
+                            trPmr += '<td align="center">' + item.gred + '</td>';
+                            trPmr += '<td align="center" style="display:none;">' + item.tahun + '</td>';
+                            trPmr += '<td align="center"><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i>';
+                            trPmr += '&nbsp;&nbsp;';
+                            trPmr += '<i class="fas fa-trash text-danger deletePmr-btn" data-id="' + item.id + '" ></i></td>';
+                            trPmr += '</tr>';
+                        }
+                    });
                 });
                 $('#table-pmr tbody').append(trPmr);
 
