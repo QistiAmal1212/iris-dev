@@ -122,21 +122,21 @@ data-reloadPage="false">
 
         var htmlContent = '<p>Perubahan:</p>';
         for (var key in originalVal) {
-        if (originalVal.hasOwnProperty(key)) {
-            if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
-                if (originalVal[key] == null || originalVal[key] === '') {
-                    if (newValues[key] !== 'Tiada Maklumat') {
-                        if(newValues[key] !== null){
-                            htmlContent += '<p>' + columnHead[key] + ':<br>';
-                            htmlContent += 'Tiada Maklumat kepada ' + newValues[key] + '</p>';
+            if (originalVal.hasOwnProperty(key)) {
+                if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+                    if (originalVal[key] == null || originalVal[key] === '') {
+                        if (newValues[key] !== 'Tiada Maklumat') {
+                            if(newValues[key] !== null){
+                                htmlContent += '<p>' + columnHead[key] + ':<br>';
+                                htmlContent += 'Tiada Maklumat kepada ' + newValues[key] + '</p>';
+                            }
                         }
-
+                    } else {
+                        htmlContent += '<p>' + columnHead[key] + ':<br>';
+                        htmlContent += originalVal[key] + ' kepada ' + newValues[key] + '</p>';
                     }
-                } else {
-                    htmlContent += '<p>' + columnHead[key] + ':<br>';
-                    htmlContent += originalVal[key] + ' kepada ' + newValues[key] + '</p>';
                 }
-        }}
+            }
         }
          if (htmlContent === '<p>Perubahan:</p>') {
             Swal.fire({
@@ -145,8 +145,8 @@ data-reloadPage="false">
                 confirmButtonText: 'OK'
             });
         } else {
-             $('#btnEditPmr').trigger('click')
-             $('#tukar_log_pmr').val(htmlContent);
+            $('#tukar_log_pmr').val(htmlContent);
+            $('#btnEditPmr').trigger('click')
         }
         $('#editbutton_pmr').val(0);
         reloadPmr();
