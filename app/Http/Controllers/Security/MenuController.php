@@ -234,7 +234,7 @@ class MenuController extends Controller
                 'type' => 'required|string|in:Web,Menu',
                 'module' => 'required_if:type,Web|nullable|integer|exists:master_module,id|unique:security_menu,module_id,'.$menuId,
                 'level' => 'required|integer|between:1,3',
-                'menu_link' => 'required_if:level,2,3|integer|exists:security_menu,id',
+                'menu_link' => 'nullable|integer|exists:security_menu,id|required_if:level,2,3',
             ]);
 
             $log = new LogSystem;

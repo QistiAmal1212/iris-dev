@@ -219,6 +219,7 @@ function resetPassword(email) {
             $('#userFormModal span[name="the_eye"]').attr('hidden', false);
             $('#userFormModal span[name="the_eye_2"]').attr('hidden', false);
             $('#userFormModal form[name="FormUserModal"]').attr('action', '{{route("user.store")}}');
+            $('#userFormModal form[name="FormUserModal"]').data('swal', 'Pengguna berjaya ditambah. Email telah dihantar kepada pengguna.');
             $('#userFormModal input[name="_method"]').attr('value', 'POST');
             $('#userFormModal select[name="department_ministry_code"]').val("").trigger('change');
             $('#userFormModal select[name="skim_code"]').val("").trigger('change');
@@ -265,6 +266,7 @@ function resetPassword(email) {
                     $('#userFormModal span[name="the_eye_2"]').attr('hidden', true);
                     $('#userFormModal span[name="the_eye_2"]').attr('hidden', true);
                     $('#userFormModal form[name="FormUserModal"]').attr('action',url2 );
+                    $('#userFormModal form[name="FormUserModal"]').data('swal', 'Maklumat berjaya dikemaskini');
                     $('#userFormModal input[name="_method"]').attr('value','PUT' );
                     $('#userFormModal select[name="department_ministry_code"]').val(data.detail.ref_department_ministry_code).trigger('change');
                     $('#userFormModal select[name="skim_code"]').val(data.detail.ref_skim_code).trigger('change');

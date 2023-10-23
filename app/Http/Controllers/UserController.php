@@ -93,7 +93,7 @@ class UserController extends Controller
                 $log->save();
 
                 if($request->name){
-                    $users->where('name', 'like', '%' . $request->name . '%');
+                    $users->where('name', 'ilike', '%' . $request->name . '%');
                 }
                 if($request->no_ic){
                     $users->where('no_ic', 'like', '%' . $request->no_ic . '%');
@@ -102,17 +102,12 @@ class UserController extends Controller
                     $users->whereHas('roles', function ($query) use ($request) {
                         $query->where('id', $request->role);
                     });
-
                 }
                 if($request->department_ministry){
-                    $users->whereHas('department_ministry', function ($query) use ($request) {
-                        $query->where('kod', $request->department_ministry);
-                    });
+                    $users->where('ref_department_ministry_code', $request->department_ministry);
                 }
                 if($request->skim){
-                    $users->whereHas('skim', function ($query) use ($request) {
-                        $query->where('kod', $request->skim);
-                    });
+                    $users->where('ref_skim_code', $request->skim);
                 }
 
                 return Datatables::of($users->get())
@@ -351,7 +346,7 @@ class UserController extends Controller
                 'email' => 'required|email|unique:users,email,'.$id_used,
                 'phone_number' => 'required',
                 'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
-                'skim_code' => 'required|exists:ref_skim,kod',
+                'skim_code' => 'required|exists:ruj_skim,kod',
                 'roles' => 'required',
             ],[
                 'ic_number.required' => 'Sila isikan no kad pengenalan',
@@ -483,7 +478,7 @@ class UserController extends Controller
                 'captcha' => 'Pengesahan CAPTCHA gagal. Sila cuba semula.',
             ]);
 
-            if (!Hash::check($request->reset_password_old, auth()->user()->password)) { 
+            if (!Hash::check($request->reset_password_old, auth()->user()->password)) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Kata laluan semasa tidak betul'], 401);
             }
 

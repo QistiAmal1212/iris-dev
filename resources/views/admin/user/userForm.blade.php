@@ -12,7 +12,7 @@
             </div>
 
             <div class="modal-body px-sm-2 mx-50">
-                <form id="userFormModal" action="" method="POST" data-reloadPage="true" name="FormUserModal">
+                <form id="userFormModal" action="" class="userForm" method="POST" data-reloadPage="true" name="FormUserModal" data-swal="Pengguna berjaya ditambah. Email telah dihantar kepada pengguna.">
                     @csrf
                     <input type="hidden" name="user_id" value="{{$id ?? null}}">
                     <input type="hidden" name="_method" value="">

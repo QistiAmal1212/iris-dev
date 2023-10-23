@@ -16,7 +16,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="name">Nama <span class="text text-danger">*</span> </label>
                                     <div class="input-group">
-                                        <input type="text" id="name" name="name" value="" class="form-control" placeholder="Menu Name" required>
+                                        <input type="text" id="name" name="name" value="" class="form-control" placeholder="Nama Menu" required>
                                     </div>
                                 </div>
                             </div>
