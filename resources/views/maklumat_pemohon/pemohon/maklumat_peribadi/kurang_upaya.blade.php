@@ -17,11 +17,17 @@
                     </div>
                 </div>
 
-                <form id="okuForm" action="{{ route('oku.update') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadOKU" data-reloadPage="false">
-                    @csrf
+                <form
+                id="okuForm"
+                action="{{ route('oku.update') }}"
+                method="POST"
+                data-refreshFunctionName="reloadTimeline"
+                data-refreshFunctionNameIfSuccess="reloadOKU"
+                data-reloadPage="false">
+                @csrf
                     <div class="row">
                         <input type="hidden" name="oku_no_pengenalan" id="oku_no_pengenalan" value="">
-
+                        <input type="hidden" name="temp" id="temp" value="">
                         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
                             <label class="form-label">No. Pendaftaran OKU</label>
                             <input type="text" class="form-control" value="" name="oku_registration_no" id="oku_registration_no" oninput="checkInput('oku_registration_no', 'oku_registration_noAlert')" disabled>
@@ -39,7 +45,7 @@
                             <select class="select2 form-control" name="oku_category" id="oku_category" disabled>
                                 <option value=""></option>
                                 @foreach($kategoriOKU as $kategori)
-                                <option value="{{ $kategori->kod }}">{{ $kategori->diskripsi }}</option>
+                                <option value="{{ $kategori->kod_oku }}">{{ $kategori->kategori_oku }}</option>
                                 @endforeach
                             </select>
                             <div id="oku_categoryAlert" style="color: red; font-size: smaller;"></div>
@@ -47,8 +53,9 @@
 
                         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
                             <label class="form-label">Sub- Kategori OKU</label>
-                            <input type="text" class="form-control" value="" name="oku_sub" id="oku_sub" oninput="checkInput('oku_sub', 'oku_subAlert')" disabled>
-                            <div id="oku_subAlert" style="color: red; font-size: smaller;"></div>
+                            <select class="select2 form-control" name="oku_sub" id="oku_sub" disabled>
+                                <option value=""></option>
+                            </select>
                         </div>
                     </div>
 
@@ -59,7 +66,7 @@
                                 oku_registration_no: $('#oku_registration_no').val(),
                                 oku_status: $('#oku_status').val(),
                                 oku_category: $('#oku_category').find(':selected').text(),
-                                oku_sub: $('#oku_sub').val(),
+                                oku_sub: $('#oku_sub').find(':selected').text(),
                             },{
                                 oku_registration_no: 'No. Pendaftaran OKU',
                                 oku_status: 'Status OKU',
@@ -133,8 +140,8 @@
        var oku_registration_no = $('#oku_registration_no').val();
        var oku_status = $('#oku_status').val();
        var oku_category = $('#oku_category').find(':selected').text();
-       var oku_sub = $('#oku_sub').val();
-     
+       var oku_sub = $('#oku_sub').find(':selected').text();
+
         var dontbypassoku = false;
         if (!oku_registration_no || oku_registration_no == 'Tiada Maklumat' || oku_registration_no =='') {
             if (!oku_status || oku_status == 'Tiada Maklumat' || oku_status =='') {
@@ -142,7 +149,7 @@
                     if (!oku_sub || oku_sub == 'Tiada Maklumat' || oku_sub == '') {
                         dontbypassoku = true;
                     }
-                }   
+                }
             }
         }
 
@@ -157,7 +164,7 @@
         $('#okuForm input[name="oku_registration_no"]').attr('disabled', false);
         $('#okuForm input[name="oku_status"]').attr('disabled', false);
         $('#okuForm select[name="oku_category"]').attr('disabled', false);
-        $('#okuForm input[name="oku_sub"]').attr('disabled', false);
+        $('#okuForm select[name="oku_sub"]').attr('disabled', false);
 
         $("#button_action_oku").attr("style", "display:block");
 
@@ -169,7 +176,7 @@
                 oku_registration_no: $('#oku_registration_no').val(),
                 oku_status: $('#oku_status').val(),
                 oku_category: $('#oku_category').find(':selected').text(),
-                oku_sub: $('#oku_sub').val()
+                oku_sub: $('#oku_sub').find(':selected').text()
             };
             $('#currentvalues_oku').val(JSON.stringify(check_data));
         } else {
@@ -178,10 +185,10 @@
     }
 
     function checkkemaskinioku() {
-        
+
         var datachanged = false;
         var checkValue = JSON.parse($('#currentvalues_oku').val());
-   
+
         if (checkValue.oku_registration_no != $('#oku_registration_no').val()) {
             datachanged = true;
         }
@@ -191,7 +198,7 @@
         if (checkValue.oku_category != $('#oku_category').find(':selected').text()) {
             datachanged = true;
         }
-        if (checkValue.oku_sub != $('#oku_sub').val()) {
+        if (checkValue.oku_sub != $('#oku_sub').find(':selected').text()) {
             datachanged = true;
         }
         if (!datachanged) {
@@ -203,7 +210,7 @@
         $('#okuForm input[name="oku_registration_no"]').attr('disabled', true);
         $('#okuForm input[name="oku_status"]').attr('disabled', true);
         $('#okuForm select[name="oku_category"]').attr('disabled', true);
-        $('#okuForm input[name="oku_sub"]').attr('disabled', true);
+        $('#okuForm select[name="oku_sub"]').attr('disabled', true);
     }
 
     function reloadOKU() {
@@ -222,8 +229,8 @@
                 $('#okuForm input[name="oku_status"]').attr('disabled', true);
                 $('#okuForm select[name="oku_category"]').val(data.detail.oku.kategori_oku);
                 $('#okuForm select[name="oku_category"]').attr('disabled', true);
-                $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub_oku);
-                $('#okuForm input[name="oku_sub"]').attr('disabled', true);
+                $('#okuForm select[name="oku_sub"]').val(data.detail.oku.sub_oku);
+                $('#okuForm select[name="oku_sub"]').attr('disabled', true);
 
                 $("#button_action_oku").attr("style", "display:none");
 

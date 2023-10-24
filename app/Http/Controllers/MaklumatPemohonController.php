@@ -12,6 +12,7 @@ use App\Models\CandidateSej\CandidateLicenseSej;
 use App\Models\CandidateSej\CandidateMatriculationSej;
 use App\Models\CandidateSej\CandidateOkuSej;
 use App\Models\CandidateSej\CandidatePslSej;
+use App\Models\Reference\JenisOkuJKM;
 use App\Models\Reference\KodPelbagai;
 use App\Models\Reference\Language;
 use App\Models\Reference\MatriculationSubject;
@@ -107,7 +108,7 @@ class MaklumatPemohonController extends Controller
         $kolejMatrikulasi = Matriculation::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $jurusanMatrikulasi = MatriculationCourse::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $subjekMatrikulasi =  MatriculationSubject::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $kategoriOKU = KodPelbagai::where('kategori', 'KECACATAN CALON')->where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
+        $kategoriOKU = JenisOkuJKM::where('diskripsi_oku', null)->where('sah_yt', 'Y')->get();
         $Bahasa = Language::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $kategoriPenguasaan = KodPelbagai::where('kategori', 'PENGUASAAN BAHASA')->where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $jenisPeperiksaan = Qualification::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
@@ -116,6 +117,32 @@ class MaklumatPemohonController extends Controller
         $kumpulanPerkhidmatan = KumpulanSSM::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         return view('maklumat_pemohon.carian_pemohon', compact('departmentMinistries', 'eligibilities', 'genders', 'gredPmr', 'institutions', 'jenisBekasTenteraPolis', 'jenisPerkhidmatan', 'maritalStatuses', 'penalties', 'peringkatPengajian', 'positionLevels', 'pusatTemuduga', 'races', 'ranks', 'religions', 'states', 'skims', 'specializations', 'subjekPmr', 'skmkod', 'talentkod', 'gredSpm', 'subjekSpm', 'gredSpmv', 'subjekSpmv', 'gredSvm', 'subjekSvm', 'gredStpm', 'subjekStpm', 'gredStam', 'subjekStam', 'kolejMatrikulasi', 'jurusanMatrikulasi', 'subjekMatrikulasi', 'kategoriOKU', 'Bahasa', 'kategoriPenguasaan', 'jenisPeperiksaan', 'sektorPekerjaan', 'gredJawatan', 'kumpulanPerkhidmatan'));
+    }
+
+    public function getCategoriesByParent(Request $request)
+    {
+        $parentCategory = $request->input('parent_category');
+
+        $codes = JenisOkuJKM::where('kod_oku', $parentCategory)
+            ->select('kategori_oku')
+            ->distinct()
+            ->pluck('kategori_oku')
+            ->filter()
+            ->toArray();
+
+        $categories = JenisOkuJKM::whereIn('kategori_oku', $codes)
+        ->whereNotNull('diskripsi_oku')
+        ->where('sah_yt', 'Y')
+        ->get();
+
+        $result = $categories->map(function($item) {
+            return [
+                'categories' => $item->diskripsi_oku,
+                'codes' => $item->kod_oku
+            ];
+        });
+
+        return response()->json($result);
     }
 
     public function viewMaklumatPemohon(){
@@ -138,7 +165,7 @@ class MaklumatPemohonController extends Controller
         $previousPage = $currentPage-1;
         $nextPage = $currentPage+1;
         $sql = "SELECT no_kp_baru, nama_penuh, no_kp_lama FROM calon WHERE nama_penuh ilike ? and no_kp_baru is not null OFFSET ? LIMIT ?";
-         
+
         $candidate = DB::select($sql, ['%' . $nama . '%', $offset, 10]);
 
         return view('maklumat_pemohon.list', compact('total_pages', 'candidate', 'previousPage', 'nextPage', 'currentPage'));
@@ -297,7 +324,7 @@ class MaklumatPemohonController extends Controller
                 'no_tel' => $request->phone_number,
                 'pengguna' => auth()->user()->id,
             ]);
-            
+
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->personal_no_pengenalan,
                 'activity_type_id' => 4,
@@ -366,13 +393,13 @@ class MaklumatPemohonController extends Controller
             if (!isset($request->permanent_address_2)) {
                 if (isset($candidate->alamat_2_tetap)) {
                     DB::rollback();
-                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Sila isikan alamat'], 404);   
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Sila isikan alamat'], 404);
                 }
             }
             if (!isset($request->permanent_address_3)) {
                 if (isset($candidate->alamat_3_tetap)) {
                     DB::rollback();
-                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Sila isikan alamat'], 404);   
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Sila isikan alamat'], 404);
                 }
             }
 
@@ -429,13 +456,13 @@ class MaklumatPemohonController extends Controller
             if (!isset($request->address_2)) {
                 if (isset($candidate->alamat_2)) {
                     DB::rollback();
-                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);   
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
                 }
             }
             if (!isset($request->address_3)) {
                 if (isset($candidate->alamat_3)) {
                     DB::rollback();
-                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);   
+                    return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
                 }
             }
 
@@ -799,7 +826,7 @@ class MaklumatPemohonController extends Controller
                 'tahun_pmr.required' => 'Sila pilih Tahun',
                 'tahun_pmr.exists' => 'Tiada rekod gred pmr yang dipilih',
             ]);
-           
+
             CalonKeputusanSekolah::create([
                 'cal_no_pengenalan' => $request->pmr_no_pengenalan,
                 'mpel_kod' => $request->subjek_pmr,
@@ -823,7 +850,7 @@ class MaklumatPemohonController extends Controller
             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->pmr_no_pengenalan)->where('mpel_kod',$request->subjek_pmr)->where('tahun', $request->tahun_pmr)->where('mpel_tkt',3)->where('jenis_sijil',1)->first();
             if ($check) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             DB::commit();
@@ -849,7 +876,7 @@ class MaklumatPemohonController extends Controller
 
             $array = [];
             foreach ($candidatePmr as $key => $value) {
-                $array[$value->tahun][] = $value; 
+                $array[$value->tahun][] = $value;
             }
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -893,7 +920,7 @@ class MaklumatPemohonController extends Controller
 
             if (count($check) > 1) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             CalonGarisMasa::create([
@@ -949,7 +976,7 @@ class MaklumatPemohonController extends Controller
              $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',1)->where('mpel_tkt',5)->where('mpel_kod',$request->subjek_spm1)->where('tahun', $request->tahun_spm1)->first();
             if ($check) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             CalonKeputusanSekolah::create([
@@ -968,7 +995,7 @@ class MaklumatPemohonController extends Controller
                 'tahun' => $request->tahun_spm1,
             ]);
 
-           
+
 
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->spm1_no_pengenalan,
@@ -983,7 +1010,7 @@ class MaklumatPemohonController extends Controller
             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('mpel_kod',$request->subjek_spm1)->where('tahun', $request->tahun_spm1)->where('kep_terbuka',1)->get();
             if (count($check) > 1) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             DB::commit();
@@ -1054,7 +1081,7 @@ class MaklumatPemohonController extends Controller
             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',1)->where('mpel_tkt',5)->where('mpel_kod',$request->subjek_spm1)->where('tahun', $request->tahun_spm1)->get();
             if (count($check) > 1) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             CalonGarisMasa::create([
@@ -1110,7 +1137,7 @@ class MaklumatPemohonController extends Controller
             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',1)->where('mpel_tkt',5)->where('mpel_kod',$request->subjek_spm2)->where('tahun', $request->tahun_spm2)->first();
             if ($check) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             CalonKeputusanSekolah::create([
@@ -1207,7 +1234,7 @@ class MaklumatPemohonController extends Controller
             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',1)->where('mpel_tkt',5)->where('mpel_kod',$request->subjek_spm2)->where('tahun', $request->tahun_spm2)->get();
             if (count($check) > 1) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             CalonGarisMasa::create([
@@ -1763,10 +1790,10 @@ class MaklumatPemohonController extends Controller
             ]);
 
             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',5)->where('mpel_tkt',6)->where('mpel_kod',$request->subjek_stam1)->where('tahun', $request->tahun_stam1)->first();
-            
+
             if ($check) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             CalonKeputusanSekolah::create([
@@ -1855,7 +1882,7 @@ class MaklumatPemohonController extends Controller
             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',5)->where('mpel_tkt',6)->where('mpel_kod',$request->subjek_stam1)->where('tahun', $request->tahun_stam1)->get();
             if (count($check) > 1) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             CalonGarisMasa::create([
@@ -1910,7 +1937,7 @@ class MaklumatPemohonController extends Controller
             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam2_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',5)->where('mpel_tkt',6)->where('mpel_kod',$request->subjek_stam2)->where('tahun', $request->tahun_stam2)->first();
             if ($check) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             CalonKeputusanSekolah::create([
@@ -1929,7 +1956,7 @@ class MaklumatPemohonController extends Controller
                 'tahun' => $request->tahun_stam2
             ]);
 
-           
+
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->stam2_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (STAM 2)',
@@ -2001,7 +2028,7 @@ class MaklumatPemohonController extends Controller
             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam2_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',5)->where('mpel_tkt',6)->where('mpel_kod',$request->subjek_stam2)->where('tahun', $request->tahun_stam2)->get();
             if (count($check) > 1) {
                 DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);
             }
 
             CalonGarisMasa::create([
