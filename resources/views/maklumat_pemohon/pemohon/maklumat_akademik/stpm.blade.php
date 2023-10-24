@@ -84,6 +84,7 @@
                 data-refreshFunctionNameIfSuccess="reloadStpm1"
                 data-reloadPage="false">
                     @csrf
+
                     <div class="row">
                         <input type="hidden" name="stpm1_no_pengenalan" id="stpm1_no_pengenalan" value="">
                         <input type="hidden" name="id_stpm1" id="id_stpm1" value="">
@@ -268,6 +269,13 @@
                 data-refreshFunctionNameIfSuccess="reloadStam1"
                 data-reloadPage="false">
                     @csrf
+                     <div class="row">
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_stam1" name="tahun_stam1" disabled>
+                        </div>
+                    </div>
+                    
                     <div class="row">
 
                         <input type="hidden" name="stam1_no_pengenalan" id="stam1_no_pengenalan" value="">
@@ -275,8 +283,8 @@
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" id="subjek_stam1" name="subjek_stam1" disabled>
-                                <option value="" hidden>Mata Pelajaran</option>
+                            <select class="select2 form-control" id="subjek_stam1" name="subjek_stam1" disabled onchange="changesubjeckstam('subjek_stam1')">
+                                <option value="" hidden></option>
                                     @foreach($subjekStam as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
@@ -284,18 +292,18 @@
                         </div>
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Mp Kod</label>
+                            <input type="text" class="form-control" value="" id="mp_kod_stam1" name="mp_kod_stam1" disabled>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
                             <select class="select2 form-control" id="gred_stam1" name="gred_stam1" disabled>
-                                <option value="" hidden>Gred</option>
+                                <option value="" hidden></option>
                                     @foreach($gredStam as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
                                     @endforeach
                             </select>
-                        </div>
-
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_stam1" name="tahun_stam1" disabled>
                         </div>
 
                         <div id="button_action_stam1" style="display:none">
@@ -304,13 +312,28 @@
                                 <button type="button" class="btn btn-danger me-1" onclick="reloadStam1()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                                <button type="button" class="btn btn-success float-right" id="btnSaveStam1" onclick="$('#btnEditStam1').trigger('click');">
+                              <!--   <button type="button" class="btn btn-success float-right" id="btnSaveStam1" onclick="$('#btnEditStam1').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button> -->
+                                 <button type="button" class="btn btn-success float-right" id="btnSaveStam1" onclick="confirmSubmitstam('btnEditStam1', {
+                                            subjek_stam1: $('#subjek_stam1').find(':selected').text(),
+                                            gred_stam1: $('#gred_stam1').find(':selected').text(),
+                                            tahun_stam1: $('#tahun_stam1').val()
+                                        },{
+                                            subjek_stam1: 'Matapelajaran',
+                                            gred_stam1: 'Gred',
+                                            tahun_stam1: 'Tahun'
+                                        }
+                                    );">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
                             </div>
                         </div>
                     </div>
+                <input type="hidden" name="tukar_log_stam1"  id="tukar_log_stam1">
                 </form>
+                <input type="hidden" name="editbutton_stam1" value=0 id="editbutton_stam1">
+                <textarea id="currentvalues_stam1" style="display:none;"></textarea>
 
                 <div class="table-responsive mb-1 mt-1">
                     <table class="table header_uppercase table-bordered table-hovered" id="table-stam1">
@@ -355,18 +378,29 @@
                 data-reloadPage="false">
                     @csrf
                     <div class="row">
+                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_stam2" name="tahun_stam2" disabled>
+                        </div>
 
+                    </div>
+                    <div class="row">
                         <input type="hidden" name="stam2_no_pengenalan" id="stam2_no_pengenalan" value="">
                         <input type="hidden" name="id_stam2" id="id_stam2" value="">
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" id="subjek_stam2" name="subjek_stam2" disabled>
+                            <select class="select2 form-control" id="subjek_stam2" name="subjek_stam2" disabled onchange="changesubjeckstam('subjek_stam2')">
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekStam as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
+                        </div>
+
+                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">MP Kod</label>
+                            <input type="text" class="form-control" value="" id="mp_kod_stam2" name="mp_kod_stam2" disabled>
                         </div>
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
@@ -379,24 +413,34 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_stam2" name="tahun_stam2" disabled>
-                        </div>
-
                         <div id="button_action_stam2" style="display:none">
                             <button type="button" id="btnEditStam2" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
                                 <button type="button" class="btn btn-danger me-1" onclick="reloadStam2()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                                <button type="button" class="btn btn-success float-right" id="btnSaveStam2" onclick="$('#btnEditStam2').trigger('click');">
+                                <!-- <button type="button" class="btn btn-success float-right" id="btnSaveStam2" onclick="$('#btnEditStam2').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button> -->
+                                <button type="button" class="btn btn-success float-right" id="btnSaveStam2" onclick="confirmSubmitstam('btnEditStam2', {
+                                            subjek_stam2: $('#subjek_stam2').find(':selected').text(),
+                                            gred_stam2: $('#gred_stam2').find(':selected').text(),
+                                            tahun_stam2: $('#tahun_stam2').val()
+                                        },{
+                                            subjek_stam2: 'Matapelajaran',
+                                            gred_stam2: 'Gred',
+                                            tahun_stam2: 'Tahun'
+                                        }
+                                    );">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
                             </div>
                         </div>
                     </div>
+                <input type="hidden" name="tukar_log_stam2"  id="tukar_log_stam2">
                 </form>
+                <input type="hidden" name="editbutton_stam2" value=0 id="editbutton_stam2">
+                <textarea id="currentvalues_stam2" style="display:none;"></textarea>
 
                 <div class="table-responsive mb-1 mt-1">
                     <table class="table header_uppercase table-bordered table-hovered" id="table-stam2">
@@ -520,6 +564,113 @@
 </div>
 
 <script>
+
+    function changesubjeckstam(event) {
+        var value = $('#'+event).val();
+        var text = $('#'+event).text();
+        if (value == '') {
+            return ;
+        }
+        if (event == 'subjek_stam1') {
+            $('#mp_kod_stam1').val(value);
+        } else {
+            $('#mp_kod_stam2').val(value);
+        }
+    }
+    function confirmSubmitstam(btnName, newValues, columnHead) {
+        if (btnName == 'btnEditStam1') {
+            var originalVal = JSON.parse($('#currentvalues_stam1').val());
+        } else {
+            var originalVal = JSON.parse($('#currentvalues_stam2').val());
+        }
+        var htmlContent = '<p>Perubahan:</p>';
+        for (var key in originalVal) {
+            if (originalVal.hasOwnProperty(key)) {
+                if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+                    if (originalVal[key] == null || originalVal[key] === '') {
+                        if (newValues[key] !== 'Tiada Maklumat') {
+                            if(newValues[key] !== null){
+                                htmlContent += '<p>' + columnHead[key] + ':<br>';
+                                htmlContent += 'Tiada Maklumat kepada ' + newValues[key] + '</p>';
+                            }
+                        }
+                    } else {
+                        htmlContent += '<p>' + columnHead[key] + ':<br>';
+                        htmlContent += originalVal[key] + ' kepada ' + newValues[key] + '</p>';
+                    }
+                }
+            }
+        }
+         if (htmlContent === '<p>Perubahan:</p>') {
+            Swal.fire({
+                title: 'Tiada Perubahan Dibuat',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+        } else {
+            if (btnName == 'btnEditStam1') {
+                $('#tukar_log_stam1').val(htmlContent);
+                $('#btnEditStam1').trigger('click');
+            } else {
+                $('#tukar_log_stam2').val(htmlContent);
+                $('#btnEditStam2').trigger('click');
+            }
+        }
+        if (btnName == 'btnEditStam1') {
+            $('#editbutton_stam1').val(0);
+            reloadStam1();
+            disbalefieldsstam('stam1');
+        } else {
+            disbalefieldsstam('stam2');
+            $('#editbutton_stam2').val(0);
+            reloadStam2();
+        }
+    }
+ 
+    function checkkemaskinistam(type) {
+        var datachanged = false;
+        var checkValue = JSON.parse($('#currentvalues_'+type).val());
+
+        if (type == 'stam1') {
+            if (checkValue.subjek_stam1 != $('#subjek_stam1').find(':selected').text()) {
+                datachanged = true;
+            }
+            if (checkValue.gred_stam1 != $('#gred_stam1').find(':selected').text()) {
+                datachanged = true;
+            }
+
+            if (checkValue.tahun_stam1 != $('#tahun_stam1').val()) {
+                datachanged = true;
+            }
+        } else {
+            if (checkValue.subjek_stam2 != $('#subjek_stam2').find(':selected').text()) {
+                datachanged = true;
+            }
+            if (checkValue.gred_stam2 != $('#gred_stam2').find(':selected').text()) {
+                datachanged = true;
+            }
+            if (checkValue.tahun_stam2 != $('#tahun_stam2').val()) {
+                datachanged = true;
+            }
+        }
+        
+        if (!datachanged) {
+            $('#editbutton_'+type).val(0);
+            disbalefieldsstam(type);
+        }
+    }
+    function disbalefieldsstam(type) {
+        if (type == 'stam1') {
+            $('#stam1Form select[name="subjek_stam1"]').attr('disabled', true);
+            $('#stam1Form select[name="gred_stam1"]').attr('disabled', true);
+            $('#stam1Form input[name="tahun_stam1"]').attr('disabled', true);
+        } else {
+            $('#stam2Form select[name="subjek_stam2"]').attr('disabled', true);
+            $('#stam2Form select[name="gred_stam2"]').attr('disabled', true);
+            $('#stam2Form input[name="tahun_stam2"]').attr('disabled', true);
+        }
+        $("#button_action_"+type).attr("style", "display:none");
+    }
     function editStpm1() {
         $('#stpm1Form select[name="subjek_stpm1"]').attr('disabled', false);
         $('#stpm1Form select[name="gred_stpm1"]').attr('disabled', false);
@@ -581,6 +732,7 @@
                 }
 
                 $(document).on('click', '.editStpm1-btn', function() {
+                    $('#editbutton_stam1').val(0);
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#stpm1Form').attr('action', "{{ route('stpm1.update') }}");
                     var row = $(this).closest('tr');
@@ -671,6 +823,7 @@
                 }
 
                 $(document).on('click', '.editStpm2-btn', function() {
+                    $('#editbutton_stam2').val(0);
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#stpm2Form').attr('action', "{{ route('stpm2.update') }}");
                     var row = $(this).closest('tr');
@@ -712,6 +865,20 @@
         $('#stam1Form input[name="tahun_stam1"]').attr('disabled', false);
 
         $("#button_action_stam1").attr("style", "display:block");
+        var editbuttoncount = $('#editbutton_stam1').val();
+    
+        if (editbuttoncount <= 0) {
+            // firsttime
+            $('#editbutton_stam1').val(1)
+            var check_data = {
+                subjek_stam1: $('#subjek_stam1').find(':selected').text(),
+                gred_stam1: $('#gred_stam1').find(':selected').text(),
+                tahun_stam1: $('#tahun_stam1').val()
+            };
+           $('#currentvalues_stam1').val(JSON.stringify(check_data));
+        } else {
+            checkkemaskinistam('stam1');
+        }
     }
 
     function reloadStam1() {
@@ -728,6 +895,7 @@
                 $('#stam1Form select[name="subjek_stam1"]').val('').trigger('change');
                 $('#stam1Form select[name="gred_stam1"]').val('').trigger('change');
                 $('#stam1Form input[name="tahun_stam1"]').val('');
+                $('#stam1Form input[name="mp_kod_stam1"]').val('');
                 $('#stam1Form select[name="subjek_stam1"]').attr('disabled', true);
                 $('#stam1Form select[name="gred_stam1"]').attr('disabled', true);
                 $('#stam1Form input[name="tahun_stam1"]').attr('disabled', true);
@@ -741,15 +909,21 @@
                 var bilStam = 0;
                 $.each(data.detail, function(i, item) {
                     if (item.subject_form6 != null) {
+                        if (bilStam == 0) {
+                            trStam += '<tr>';
+                            trStam += '<td align="left" colspan="5"><b>' + item.tahun + '</b></td>';
+                            trStam += '</tr>';
+                        }
                         bilStam += 1;
                         trStam += '<tr>';
                         trStam += '<td align="center">' + bilStam + '</td>';
                         trStam += '<td>' + item.subject_form6.kod + '</td>'; //Kod MP
                         trStam += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStam += '<td align="center">' + item.gred + '</td>';
-                        trStam += '<td align="center"><i class="fas fa-pencil text-primary editStam1-btn" data-id="' + item.id + ' " data-form="stam"></i>';
+                        trStam += '<td align="center" style="display:none;">' + item.tahun + '</td>';
+                        trStam += '<td align="center"><a><i class="fas fa-pencil text-primary editStam1-btn" data-id="' + item.id + ' " data-form="stam"></i></a>';
                         trStam += '&nbsp;&nbsp;';
-                        trStam += '<i class="fas fa-trash text-danger deleteStam1-btn" data-id="' + item.id + '"></i></td>';
+                        trStam += '<a><i class="fas fa-trash text-danger deleteStam1-btn" data-id="' + item.id + '"></i></a></td>';
                         trStam += '</tr>';
                     }
                 });
@@ -778,7 +952,8 @@
                         return $(this).text() === subjectName;
                     }).prop('selected', true).trigger('change');
                     $('#stam1Form select[name="gred_stam1"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
-                    //$('#stam1Form input[name="tahun_stam1"]').val($(row).find('td:nth-child(5)').text());
+                    $('#stam1Form input[name="tahun_stam1"]').val($(row).find('td:nth-child(5)').text());
+                    editStam1();
                 });
 
 
@@ -808,6 +983,23 @@
         $('#stam2Form input[name="tahun_stam2"]').attr('disabled', false);
 
         $("#button_action_stam2").attr("style", "display:block");
+        var editbuttoncount = $('#editbutton_stam2').val();
+    
+        if (editbuttoncount <= 0) {
+            // firsttime
+            $('#editbutton_stam2').val(1)
+            var check_data = {
+                subjek_stam2: $('#subjek_stam2').find(':selected').text(),
+                gred_stam2: $('#gred_stam2').find(':selected').text(),
+                tahun_stam2: $('#tahun_stam2').val()
+            };
+            $('#currentvalues_stam2').val(JSON.stringify(check_data));
+            console.log(check_data)
+           var c =  $('#currentvalues_stam2').val(JSON.stringify(check_data));
+            console.log(c)
+        } else {
+            checkkemaskinistam('stam2');
+        }
     }
 
     function reloadStam2() {
@@ -824,6 +1016,7 @@
                 $('#stam2Form select[name="subjek_stam2"]').val('').trigger('change');
                 $('#stam2Form select[name="gred_stam2"]').val('').trigger('change');
                 $('#stam2Form input[name="tahun_stam2"]').val('');
+                $('#stam2Form input[name="mp_kod_stam2"]').val('');
                 $('#stam2Form select[name="subjek_stam2"]').attr('disabled', true);
                 $('#stam2Form select[name="gred_stam2"]').attr('disabled', true);
                 $('#stam2Form input[name="tahun_stam2"]').attr('disabled', true);
@@ -837,15 +1030,21 @@
                 var bilStam = 0;
                 $.each(data.detail, function(i, item) {
                     if (item.subject_form6 != null) {
+                        if (bilStam == 0) {
+                            trStam += '<tr>';
+                            trStam += '<td align="left" colspan="5"><b>' + item.tahun + '</b></td>';
+                            trStam += '</tr>';
+                        }
                         bilStam += 1;
                         trStam += '<tr>';
                         trStam += '<td align="center">' + bilStam + '</td>';
                         trStam += '<td>' + item.subject_form6.kod + '</td>'; //Kod MP
                         trStam += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStam += '<td align="center">' + item.gred + '</td>';
-                        trStam += '<td align="center"><i class="fas fa-pencil text-primary editStam2-btn" data-id="' + item.id + ' " data-form="stam"></i>';
+                        trStam += '<td align="center" style="display:none;">' + item.tahun + '</td>';
+                        trStam += '<td align="center"><a><i class="fas fa-pencil text-primary editStam2-btn" data-id="' + item.id + ' " data-form="stam"></i></a>';
                         trStam += '&nbsp;&nbsp;';
-                        trStam += '<i class="fas fa-trash text-danger deleteStam2-btn" data-id="' + item.id + '"></i></td>';
+                        trStam += '<a><i class="fas fa-trash text-danger deleteStam2-btn" data-id="' + item.id + '"></i></a></td>';
                         trStam += '</tr>';
                     }
                 });
@@ -868,7 +1067,8 @@
                         return $(this).text() === subjectName;
                     }).prop('selected', true).trigger('change');
                     $('#stam2Form select[name="gred_stam2"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
-                    //$('#stam2Form input[name="tahun_stam2"]').val($(row).find('td:nth-child(5)').text());
+                    $('#stam2Form input[name="tahun_stam2"]').val($(row).find('td:nth-child(5)').text());
+                     editStam2();
                 });
 
 

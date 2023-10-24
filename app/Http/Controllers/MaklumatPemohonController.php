@@ -782,11 +782,7 @@ class MaklumatPemohonController extends Controller
                 'tahun_pmr.required' => 'Sila pilih Tahun',
                 'tahun_pmr.exists' => 'Tiada rekod gred pmr yang dipilih',
             ]);
-            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->pmr_no_pengenalan)->where('mpel_kod',$request->subjek_pmr)->where('tahun', $request->tahun_pmr)->first();
-            if ($check) {
-                DB::rollback();
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
-            }
+           
             CalonKeputusanSekolah::create([
                 'cal_no_pengenalan' => $request->pmr_no_pengenalan,
                 'mpel_kod' => $request->subjek_pmr,
@@ -807,6 +803,11 @@ class MaklumatPemohonController extends Controller
                 'tukar_log' => isset($request->tukar_log_pmr) ? json_encode($request->tukar_log_pmr) : null
 
             ]);
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->pmr_no_pengenalan)->where('mpel_kod',$request->subjek_pmr)->where('tahun', $request->tahun_pmr)->where('mpel_tkt',3)->where('jenis_sijil',1)->first();
+            if ($check) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -871,7 +872,8 @@ class MaklumatPemohonController extends Controller
                 'pengguna' => auth()->user()->id,
             ]);
 
-            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->pmr_no_pengenalan)->where('mpel_kod',$request->subjek_pmr)->where('tahun', $request->tahun_pmr)->get();
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->pmr_no_pengenalan)->where('mpel_kod',$request->subjek_pmr)->where('tahun', $request->tahun_pmr)->where('mpel_tkt',3)->where('jenis_sijil',1)->get();
+
             if (count($check) > 1) {
                 DB::rollback();
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
@@ -927,6 +929,12 @@ class MaklumatPemohonController extends Controller
                 'tahun_spm1.exists' => 'Tiada rekod gred spm yang dipilih',
             ]);
 
+             $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',1)->where('mpel_tkt',5)->where('mpel_kod',$request->subjek_spm1)->where('tahun', $request->tahun_spm1)->first();
+            if ($check) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
+
             CalonKeputusanSekolah::create([
                 'cal_no_pengenalan' => $request->spm1_no_pengenalan,
                 'kep_terbuka' => 1,
@@ -942,6 +950,8 @@ class MaklumatPemohonController extends Controller
             CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',1)->where('mpel_tkt',5)->update([
                 'tahun' => $request->tahun_spm1,
             ]);
+
+           
 
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->spm1_no_pengenalan,
@@ -1024,6 +1034,12 @@ class MaklumatPemohonController extends Controller
                 'tahun' => $request->tahun_spm1,
             ]);
 
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',1)->where('mpel_tkt',5)->where('mpel_kod',$request->subjek_spm1)->where('tahun', $request->tahun_spm1)->get();
+            if (count($check) > 1) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
+
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->spm1_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (SPM/SPMV 1)',
@@ -1074,6 +1090,12 @@ class MaklumatPemohonController extends Controller
                 'tahun_spm2.exists' => 'Tiada rekod gred spm yang dipilih',
             ]);
 
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',1)->where('mpel_tkt',5)->where('mpel_kod',$request->subjek_spm2)->where('tahun', $request->tahun_spm2)->first();
+            if ($check) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
+
             CalonKeputusanSekolah::create([
                 'cal_no_pengenalan' => $request->spm2_no_pengenalan,
                 'kep_terbuka' => 2,
@@ -1086,8 +1108,8 @@ class MaklumatPemohonController extends Controller
                 'pengguna' => auth()->user()->id,
             ]);
 
-            CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',1)->where('mpel_tkt',5)->update([
-                'tahun' => $request->tahun_spm1,
+            CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm2_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',1)->where('mpel_tkt',5)->update([
+                'tahun' => $request->tahun_spm2,
             ]);
 
             CalonGarisMasa::create([
@@ -1164,6 +1186,12 @@ class MaklumatPemohonController extends Controller
             CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',1)->where('mpel_tkt',5)->update([
                 'tahun' => $request->tahun_spm1,
             ]);
+
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',1)->where('mpel_tkt',5)->where('mpel_kod',$request->subjek_spm2)->where('tahun', $request->tahun_spm2)->get();
+            if (count($check) > 1) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
 
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->spm2_no_pengenalan,
@@ -1717,6 +1745,13 @@ class MaklumatPemohonController extends Controller
                 'tahun_stam1.exists' => 'Tiada rekod gred stam yang dipilih',
             ]);
 
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',5)->where('mpel_tkt',6)->where('mpel_kod',$request->subjek_stam1)->where('tahun', $request->tahun_stam1)->first();
+            
+            if ($check) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
+
             CalonKeputusanSekolah::create([
                 'cal_no_pengenalan' => $request->stam1_no_pengenalan,
                 'kep_terbuka' => 1,
@@ -1729,12 +1764,17 @@ class MaklumatPemohonController extends Controller
                 'pengguna' => auth()->user()->id,
             ]);
 
+            CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',5)->where('mpel_tkt',6)->update([
+                'tahun' => $request->tahun_stam1,
+            ]);
+
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->stam1_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (STAM 1)',
                 'activity_type_id' => 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_stam1) ? json_encode($request->tukar_log_stam1) : null
             ]);
 
             DB::commit();
@@ -1791,12 +1831,23 @@ class MaklumatPemohonController extends Controller
                 'pengguna' => auth()->user()->id,
             ]);
 
+             CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',5)->where('mpel_tkt',6)->update([
+                'tahun' => $request->tahun_stam1,
+            ]);
+
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',5)->where('mpel_tkt',6)->where('mpel_kod',$request->subjek_stam1)->where('tahun', $request->tahun_stam1)->get();
+            if (count($check) > 1) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
+
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->stam1_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (STAM 1)',
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_stam1) ? json_encode($request->tukar_log_stam1) : null
             ]);
 
             DB::commit();
@@ -1839,6 +1890,12 @@ class MaklumatPemohonController extends Controller
                 'tahun_stam2.exists' => 'Tiada rekod gred stam yang dipilih',
             ]);
 
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam2_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',5)->where('mpel_tkt',6)->where('mpel_kod',$request->subjek_stam2)->where('tahun', $request->tahun_stam2)->first();
+            if ($check) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
+
             CalonKeputusanSekolah::create([
                 'cal_no_pengenalan' => $request->stam2_no_pengenalan,
                 'kep_terbuka' => 2,
@@ -1851,12 +1908,18 @@ class MaklumatPemohonController extends Controller
                 'pengguna' => auth()->user()->id,
             ]);
 
+            CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam2_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',5)->where('mpel_tkt',6)->update([
+                'tahun' => $request->tahun_stam2
+            ]);
+
+           
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->stam2_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (STAM 2)',
                 'activity_type_id' => 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_stam2) ? json_encode($request->tukar_log_stam2) : null
             ]);
 
             DB::commit();
@@ -1913,12 +1976,24 @@ class MaklumatPemohonController extends Controller
                 'pengguna' => auth()->user()->id,
             ]);
 
+            CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam2_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',5)->where('mpel_tkt',6)->update([
+                'tahun' => $request->tahun_stam2
+            ]);
+
+
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->stam2_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',5)->where('mpel_tkt',6)->where('mpel_kod',$request->subjek_stam2)->where('tahun', $request->tahun_stam2)->get();
+            if (count($check) > 1) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
+
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->stam2_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (STAM 2)',
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_stam2) ? json_encode($request->tukar_log_stam2) : null
             ]);
 
             DB::commit();
