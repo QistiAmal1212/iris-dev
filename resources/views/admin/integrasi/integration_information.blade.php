@@ -104,7 +104,7 @@ Maklumat Integrasi
                             @foreach($api->log as $log)
                             <tr>
                                 <td>{{ $i ++ }}</td>
-                                <td>{{ $log->tarikh_cipta->format('Y-m-d') }}</td>
+                                <td>{{ $log->tarikh_cipta->format('d/m/Y') }}</td>
                                 <td>{{ $log->tarikh_cipta->format('H:i:s') }}</td>
                                 <td>
                                     {{-- <span class="badge badge-rounded badge-light-primary fw-bolder mb-1">Prod</span>
