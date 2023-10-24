@@ -26,6 +26,7 @@ use App\Models\Calon\CalonTenteraPolis;
 use App\Models\Calon\CalonBahasa;
 use App\Models\Calon\CalonBakat;
 use App\Models\Integrasi\SenaraiApi;
+use App\Models\Integrasi\LogApi;
 use Carbon;
 
 class PemohonController extends ApiController
@@ -681,10 +682,32 @@ class PemohonController extends ApiController
 
             DB::commit();
             $response = config('status.status_codes.success');
+
+            $senaraiApi = SenaraiApi::where('url','api/pemohon/store')->first();
+
+            $log = new LogApi;
+            $log->id_senarai_api = $senaraiApi->id;
+            $log->kod_http = '200';
+            $log->nama = 'Data berjaya disimpan';
+            $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
+            $log->size_request = strlen($request->getContent()) / 1024;
+            $log->status = 1;
+            $log->save();
         } catch (Exception $e) {
         //} catch (\Throwable $e) {
             DB::rollBack();
             Log::error('Store Pemohon API Error: ' . $e);
+
+            $senaraiApi = SenaraiApi::where('url','api/pemohon/store')->first();
+
+            $log = new LogApi;
+            $log->id_senarai_api = $senaraiApi->id;
+            $log->kod_http = '500';
+            $log->nama = 'Internal server error';
+            $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
+            $log->size_request = strlen($request->getContent()) / 1024;
+            $log->status = 0;
+            $log->save();
 
             $response = config('status.status_codes.internal_server_error');
         }
@@ -697,7 +720,7 @@ class PemohonController extends ApiController
                 config('status.http_codes.internal_server_error')
             );
         }
-
+        
         return $this->successResponseFormat(
             $response,
             'Data berjaya disimpan.',
@@ -821,7 +844,22 @@ class PemohonController extends ApiController
             unset($calon->armyPolice);
         }
 
-        return $dataAkses;
+        $senaraiApi = SenaraiApi::where('nama_path', $request->path)->first();
+
+        $log = new LogApi;
+        $log->id_senarai_api = $senaraiApi->id;
+        $log->kod_http = '200';
+        $log->nama = 'Tindakan Berjaya';
+        $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
+        $log->size_request = strlen($request->getContent()) / 1024;
+        $log->status = 1;
+        $log->save();
+
+        return $this->successResponseFormat(
+            config('status.status_codes.success'),
+            'Tindakan berjaya.',
+            $dataAkses
+        );
     }
 
     private static function getKodNegeri($kod){

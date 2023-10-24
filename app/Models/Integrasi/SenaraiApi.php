@@ -24,4 +24,8 @@ class SenaraiApi extends Model
     {
         return $this->belongsToMany('App\Models\Integrasi\TableApi', 'akses_api', 'id_senarai_api', 'id_table_api');
     }
+
+    public function log(){
+        return $this->hasMany('App\Models\Integrasi\LogApi', 'id_senarai_api', 'id');
+    }
 }

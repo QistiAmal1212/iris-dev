@@ -45,7 +45,7 @@ Maklumat Integrasi
                 <div class="user-avatar-section">
                     <div class="d-flex align-items-center flex-column">
                         <div class="user-info text-center">
-                            <h4 class="fw-bolder">ID API: API001</h4>
+                            <h4 class="fw-bolder">ID API: {{ "API".substr(str_repeat(0, 3).$api->id, - 3); }}</h4>
                         </div>
                     </div>
                 </div>
@@ -87,6 +87,7 @@ Maklumat Integrasi
                         <thead>
                             <tr>
                                 <th width="10%">No</th>
+                                <th>Tarikh</th>
                                 <th>Masa</th>
                                 <th>Kod HTTP</th>
                                 <th>Nama</th>
@@ -97,54 +98,35 @@ Maklumat Integrasi
                         </thead>
 
                         <tbody>
-                            <tr class="bg-light-info">
-                                <td colspan="7">17 July 2022</td>
-                            </tr>
+                            @php
+                            $i = 1;
+                            @endphp
+                            @foreach($api->log as $log)
                             <tr>
-                                <td>1</td>
-                                <td> 04:00:00 </td>
+                                <td>{{ $i ++ }}</td>
+                                <td>{{ $log->tarikh_cipta->format('d/m/Y') }}</td>
+                                <td>{{ $log->tarikh_cipta->format('H:i:s') }}</td>
                                 <td>
-                                    <span class="badge badge-rounded badge-light-primary fw-bolder mb-1">Prod</span>
-                                    <br>
-                                    <span class="badge badge-rounded badge-light-success fw-bolder">200</span>
+                                    {{-- <span class="badge badge-rounded badge-light-primary fw-bolder mb-1">Prod</span>
+                                    <br> --}}
+                                    @if($log->kod_http == '200')
+                                    <span class="badge badge-rounded badge-light-success fw-bolder">{{ $log->kod_http }}</span>
+                                    @else
+                                    <span class="badge badge-rounded badge-light-danger fw-bolder">{{ $log->kod_http }}</span>
+                                    @endif
                                 </td>
-                                <td>APPSumo Message Notification</td>
-                                <td> 1.757ms </td>
-                                <td> 0.003Kb </td>
+                                <td>{{ $log->nama }}</td>
+                                <td>{{ number_format($log->execution_time, 2, '.', '').'ms' }}</td>
+                                <td>{{ number_format($log->size_request, 2, '.', '').'Kb' }}</td>
                                 <td>
-                                    <span class="badge badge-rounded badge-light-danger fw-bolder mb-1">Gagal</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td> 05:00:00 </td>
-                                <td>
-                                    <span class="badge badge-rounded badge-light-primary fw-bolder mb-1">Prod</span>
-                                    <br>
-                                    <span class="badge badge-rounded badge-light-success fw-bolder">200</span>
-                                </td>
-                                <td>APPSumo Message Notification</td>
-                                <td> 1.757ms </td>
-                                <td> 0.003Kb </td>
-                                <td>
-                                    <span class="badge badge-rounded badge-light-danger fw-bolder mb-1">Gagal</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td> 06:00:00 </td>
-                                <td>
-                                    <span class="badge badge-rounded badge-light-primary fw-bolder mb-1">Prod</span>
-                                    <br>
-                                    <span class="badge badge-rounded badge-light-success fw-bolder">200</span>
-                                </td>
-                                <td>APPSumo Message Notification</td>
-                                <td> 1.757ms </td>
-                                <td> 0.003Kb </td>
-                                <td>
+                                    @if($log->kod_http == '200')
                                     <span class="badge badge-rounded badge-light-success fw-bolder mb-1">Berjaya</span>
+                                    @else
+                                    <span class="badge badge-rounded badge-light-danger fw-bolder mb-1">Gagal</span>
+                                    @endif
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
