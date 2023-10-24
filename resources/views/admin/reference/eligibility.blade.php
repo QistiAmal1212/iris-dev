@@ -250,9 +250,9 @@
 
                 $('#eligibilityForm input[name="code"]').val("");
                 $('#eligibilityForm input[name="name"]').val("");
-                $('#eligibilityForm select[name="ref_skim_code"]').val("").trigger('change');
+                // $('#eligibilityForm select[name="ref_skim_code"]').val("").trigger('change');
                 $('#eligibilityForm select[name="equivalent"]').val("").trigger('change');
-                $('#eligibilityForm input[name="rank"]').val("");
+                // $('#eligibilityForm input[name="rank"]').val("");
                 $('#eligibilityForm input[name="code"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Kelayakan');
@@ -283,9 +283,9 @@
                         $('#eligibilityForm').attr('action', url2);
                         $('#eligibilityForm input[name="code"]').val(data.detail.kod);
                         $('#eligibilityForm input[name="name"]').val(data.detail.diskripsi);
-                        $('#eligibilityForm select[name="ref_skim_code"]').val(data.detail.ski_kod).trigger('change');
+                        // $('#eligibilityForm select[name="ref_skim_code"]').val(data.detail.ski_kod).trigger('change');
                         $('#eligibilityForm select[name="equivalent"]').val(data.detail.kelayakan_setara).trigger('change');
-                        $('#eligibilityForm input[name="rank"]').val(data.detail.rank_layak);
+                        // $('#eligibilityForm input[name="rank"]').val(data.detail.rank_layak);
                         $('#eligibilityForm input[name="code"]').prop('readonly', true);
 
                         $('#title-role').html('Kemaskini Kelayakan');

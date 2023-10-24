@@ -4,20 +4,18 @@ namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
-use App\Models\Reference\KelayakanSetaraf;
-use App\Models\Reference\Skim;
+use App\Models\Reference\JenisSkim;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Reference\Eligibility;
 use Yajra\DataTables\DataTables;
 use App\Models\Master\MasterModule;
 
-class EligibilityController extends Controller
+class JenisSkimController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->module = MasterModule::where('code', 'admin.reference.eligibility')->first();
+        $this->module = MasterModule::where('code', 'admin.reference.jenisskim')->first();
         $this->menu = $this->module->menu;
     }
 
@@ -44,15 +42,13 @@ class EligibilityController extends Controller
             }
         }
 
-        $skim = Skim::where('sah_yt', 'Y')->get();
-        $kelayakanSetaraf = KelayakanSetaraf::where('sah_yt', 'Y')->get();
-
+        $jenisskim = JenisSkim::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.eligibility')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jenisskim')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Kelayakan";
+            $log->description = "Lihat Senarai Jenis Skim";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -60,36 +56,28 @@ class EligibilityController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            $eligibility = Eligibility::orderBy('kod', 'asc');
-            if($request->activity_type_id && $request->activity_type_id != "Lihat Semua"){
-                $eligibility->where('kelayakan_setara',$request->activity_type_id);
-            }
-            return Datatables::of($eligibility->with(['KSetara'])->get())
-                ->editColumn('code', function ($eligibility){
-                    return $eligibility->kod;
+            return Datatables::of($jenisskim)
+                ->editColumn('kod', function ($jenisskim){
+                    return $jenisskim->kod;
                 })
-                ->editColumn('name', function ($eligibility) {
-                    return $eligibility->diskripsi;
+                ->editColumn('nama', function ($jenisskim) {
+                    return $jenisskim->diskripsi;
                 })
-                ->editColumn('ks', function ($eligibility) {
-                    // return $eligibility->kelayakan_setara;
-                    return $eligibility->KSetara->diskripsi;
-                })
-                ->editColumn('action', function ($eligibility) use ($accessUpdate, $accessDelete) {
+                ->editColumn('action', function ($jenisskim) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="eligibilityForm('.$eligibility->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="jenisskimForm('.$jenisskim->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessUpdate){
-                        if($eligibility->sah_yt=='Y') {
-                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$eligibility->id.'" onclick="toggleActive('.$eligibility->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
+                        if($jenisskim->sah_yt=='Y') {
+                            $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$jenisskim->id.'" onclick="toggleActive('.$jenisskim->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
-                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$eligibility->id.'" onclick="toggleActive('.$eligibility->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
+                            $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$jenisskim->id.'" onclick="toggleActive('.$jenisskim->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
                     }
                     if($accessDelete){
-                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$eligibility->id.')"> <i class="fas fa-trash text-danger"></i> ';
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$jenisskim->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 
@@ -99,8 +87,7 @@ class EligibilityController extends Controller
                 ->make(true);
         }
 
-        //pass
-        return view('admin.reference.eligibility', compact('accessAdd', 'accessUpdate', 'accessDelete', 'skim', 'kelayakanSetaraf'));
+        return view('admin.reference.jenisskim', compact('accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function store(Request $request)
@@ -109,36 +96,27 @@ class EligibilityController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelayakan,kod',
+                'code' => 'required|string|unique:ruj_jenis_skim,kod',
                 'name' => 'required|string',
-                // 'ref_skim_code' => 'required|string',
-                'equivalent' => 'required|string',
-                // 'rank' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kelayakan',
-                // 'ref_skim_code.required' => 'Sila isikan jawatan',
-                'equivalent.required' => 'Sila isikan bersamaan',
-                // 'rank.required' => 'Sila isikan pangkat',
+                'name.required' => 'Sila isikan jenis skim',
             ]);
 
-            $kelayakan = Eligibility::create([
+            $jenisskim = JenisSkim::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
-                // 'ski_kod' => $request->ref_skim_code,
-                'kelayakan_setara' => strtoupper($request->equivalent),
-                // 'rank_layak' => strtoupper($request->rank),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
                 'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.eligibility')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jenisskim')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Kelayakan";
-            $log->data_new = json_encode($kelayakan);
+            $log->description = "Tambah Jenis Skim";
+            $log->data_new = json_encode($jenisskim);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -155,28 +133,31 @@ class EligibilityController extends Controller
         }
 
     }
+
     public function edit(Request $request)
     {
         DB::beginTransaction();
         try {
 
-            $eligibility = Eligibility::find($request->eligibilityId);
+            $jenisskim = JenisSkim::find($request->jenisskimId);
 
-            if (!$eligibility) {
+            if (!$jenisskim) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.eligibility')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jenisskim')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Kelayakan";
-            $log->data_new = json_encode($eligibility);
+            $log->description = "Lihat Maklumat Jenis Skim";
+            $log->data_new = json_encode($jenisskim);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $eligibility]);
+            DB::commit();
+
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $jenisskim]);
 
         } catch (\Throwable $e) {
 
@@ -190,41 +171,32 @@ class EligibilityController extends Controller
         DB::beginTransaction();
         try {
 
-            $eligibilityId = $request->eligibilityId;
-            $eligibility = Eligibility::find($eligibilityId);
+            $jenisskimId = $request->jenisskimId;
+            $jenisskim = JenisSkim::find($jenisskimId);
 
             $log = new LogSystem;
-            $log->module_id = MasterModule::where('code', 'admin.reference.eligibility')->firstOrFail()->id;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jenisskim')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Kelayakan";
-            $log->data_old = json_encode($eligibility);
+            $log->description = "Kemaskini Maklumat Jenis Skim";
+            $log->data_old = json_encode($jenisskim);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelayakan,kod,'.$eligibilityId,
+                'code' => 'required|string|unique:ruj_jenis_skim,kod,'.$jenisskimId,
                 'name' => 'required|string',
-                // 'ref_skim_code' => 'required|string',
-                'equivalent' => 'required|string',
-                // 'rank' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kelayakan',
-                // 'ref_skim_code.required' => 'Sila isikan jawatan',
-                'equivalent.required' => 'Sila isikan bersamaan',
-                // 'rank.required' => 'Sila isikan pangkat',
+                'name.required' => 'Sila isikan jenis skim',
             ]);
 
-            $eligibility->update([
+            $jenisskim->update([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
-                // 'ski_kod' => $request->ref_skim_code,
-                'kelayakan_setara' => strtoupper($request->equivalent),
-                // 'rank_layak' => strtoupper($request->rank),
                 'pengguna' => auth()->user()->id,
             ]);
 
-            $eligibilityNewData = Eligibility::find($eligibilityId);
-            $log->data_new = json_encode($eligibilityNewData);
+            $jenisskimNewData = JenisSkim::find($jenisskimId);
+            $log->data_new = json_encode($jenisskimNewData);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
             $log->ip_address = $request->ip();
@@ -246,15 +218,15 @@ class EligibilityController extends Controller
         DB::beginTransaction();
         try {
 
-            $eligibilityId = $request->eligibilityId;
-            $eligibility = Eligibility::find($eligibilityId);
+            $jenisskimId = $request->jenisskimId;
+            $jenisskim = JenisSkim::find($jenisskimId);
 
-            $sah_yt = $eligibility->sah_yt;
+            $sah_yt = $jenisskim->sah_yt;
 
             if($sah_yt=='Y') $sah_yt = 'T';
             else $sah_yt = 'Y';
 
-            $eligibility->update([
+            $jenisskim->update([
                 'sah_yt' => $sah_yt,
             ]);
 
@@ -271,11 +243,11 @@ class EligibilityController extends Controller
     public function deleteItem(Request $request){
         DB::beginTransaction();
         try{
-            $eligibility = Eligibility::find($request-> eligibilityId);
+            $jenisskim = JenisSkim::find($request-> jenisskimId);
 
-            $eligibility->delete();
+            $jenisskim->delete();
 
-            if (!$eligibility) {
+            if (!$jenisskim) {
                 throw new \Exception('Rekod tidak dijumpai');
             }
 

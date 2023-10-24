@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Reference;
 use App\Http\Controllers\Controller;
 use App\Models\LogSystem;
 use App\Models\Reference\JenisSkim;
+use App\Models\Reference\KetuaPerkhidmatan;
 use App\Models\Reference\KumpulanJKK;
+use App\Models\Reference\KumpulanSSM;
 use App\Models\Reference\SalaryGrade;
 use App\Models\Reference\SkimPerkhidmatan;
 use Illuminate\Http\Request;
@@ -49,7 +51,9 @@ class SkimController extends Controller
         $ggh = SalaryGrade::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skim_pkh = SkimPerkhidmatan::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $kump_jkk = KumpulanJKK::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
+        $kump_ssm = KumpulanSSM::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $jenis_skim = JenisSkim::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
+        $ketua = KetuaPerkhidmatan::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         if ($request->ajax()) {
 
@@ -115,7 +119,7 @@ class SkimController extends Controller
                 ->make(true);
         }
 
-        return view('admin.reference.skim', compact('accessAdd', 'accessUpdate', 'accessDelete', 'ggh', 'skim_pkh', 'kump_jkk', 'jenis_skim'));
+        return view('admin.reference.skim', compact('accessAdd', 'accessUpdate', 'accessDelete', 'ggh', 'skim_pkh', 'kump_jkk', 'jenis_skim', 'kump_ssm', 'ketua'));
     }
 
     public function store(Request $request)
@@ -131,6 +135,8 @@ class SkimController extends Controller
                 'ref_skim_type' => 'required|string',
                 'KUMP_PKHIDMAT_JKK' => 'required|string',
                 'SKIM_PKHIDMAT' => 'required|string',
+                'KUMP_PKHIDMAT_SSB' => 'required|string',
+                // 'KP_KOD' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -140,6 +146,7 @@ class SkimController extends Controller
                 'ref_skim_type.required' => 'Sila isikan jenis jawatan',
                 'KUMP_PKHIDMAT_JKK.required' => 'Sila isikan kumpulan perkhidmatan JKK',
                 'SKIM_PKHIDMAT.required' => 'Sila isikan jawatan perkidmatan',
+                'KUMP_PKHIDMAT_SSB.required' => 'Sila isikan kumpulan perkhidmatan SSM',
             ]);
 
             $skim = Skim::create([
@@ -150,6 +157,8 @@ class SkimController extends Controller
                 'jenis_skim' => strtoupper($request->ref_skim_type),
                 'KUMP_PKHIDMAT_JKK' => strtoupper($request->KUMP_PKHIDMAT_JKK),
                 'SKIM_PKHIDMAT' => strtoupper($request->SKIM_PKHIDMAT),
+                'KUMP_PKHIDMAT_SSB' => strtoupper($request->KUMP_PKHIDMAT_SSB),
+                'KP_KOD' => strtoupper($request->KP_KOD),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
                 'sah_yt' => 'Y'
@@ -229,6 +238,7 @@ class SkimController extends Controller
                 'ref_skim_type' => 'required|string',
                 'KUMP_PKHIDMAT_JKK' => 'required|string',
                 'SKIM_PKHIDMAT' => 'required|string',
+                'KUMP_PKHIDMAT_SSB' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -238,6 +248,7 @@ class SkimController extends Controller
                 'ref_skim_type.required' => 'Sila isikan jenis jawatan',
                 'KUMP_PKHIDMAT_JKK.required' => 'Sila isikan kumpulan perkhidmatan JKK',
                 'SKIM_PKHIDMAT.required' => 'Sila isikan jawatan perkidmatan',
+                'KUMP_PKHIDMAT_SSB.required' => 'Sila isikan kumpulan perkhidmatan SSM',
             ]);
 
             $skim->update([
@@ -248,6 +259,8 @@ class SkimController extends Controller
                 'jenis_skim' => strtoupper($request->ref_skim_type),
                 'KUMP_PKHIDMAT_JKK' => strtoupper($request->KUMP_PKHIDMAT_JKK),
                 'SKIM_PKHIDMAT' => strtoupper($request->SKIM_PKHIDMAT),
+                'KUMP_PKHIDMAT_SSB' => strtoupper($request->KUMP_PKHIDMAT_SSB),
+                'KP_KOD' => strtoupper($request->KP_KOD),
                 'pengguna' => auth()->user()->id,
             ]);
 

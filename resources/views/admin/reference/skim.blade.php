@@ -291,6 +291,8 @@
             $('#skimForm select[name="GGH_KOD"]').val("").trigger('change');
             $('#skimForm select[name="SKIM_PKHIDMAT"]').val("").trigger('change');
             $('#skimForm select[name="KUMP_PKHIDMAT_JKK"]').val("").trigger('change');
+            $('#skimForm select[name="KP_KOD"]').val("").trigger('change');
+            $('#skimForm select[name="KUMP_PKHIDMAT_SSB"]').val("").trigger('change');
             $('#skimForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Skim');
@@ -326,6 +328,8 @@
                     $('#skimForm select[name="GGH_KOD"]').val(data.detail.GGH_KOD).trigger('change');
                     $('#skimForm select[name="SKIM_PKHIDMAT"]').val(data.detail.SKIM_PKHIDMAT).trigger('change');
                     $('#skimForm select[name="KUMP_PKHIDMAT_JKK"]').val(data.detail.KUMP_PKHIDMAT_JKK).trigger('change');
+                    $('#skimForm select[name="KP_KOD"]').val(data.detail.KP_KOD).trigger('change');
+                    $('#skimForm select[name="KUMP_PKHIDMAT_SSB"]').val(data.detail.KUMP_PKHIDMAT_SSB).trigger('change');
 
                     $('#skimForm input[name="code"]').prop('readonly', true);
 

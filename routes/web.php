@@ -17,6 +17,7 @@ use App\Http\Controllers\Reference\CutiAwamController;
 use App\Http\Controllers\Reference\DaerahController;
 use App\Http\Controllers\Reference\JelasUrusanController;
 use App\Http\Controllers\Reference\JenisOkuJKMController;
+use App\Http\Controllers\Reference\JenisSkimController;
 use App\Http\Controllers\Reference\JKKCController;
 use App\Http\Controllers\Reference\KelayakanSetarafController;
 use App\Http\Controllers\Reference\KetuaPerkhidmatanController;
@@ -651,6 +652,15 @@ Route::prefix('admin')->group(function () {
             Route::post('update/{pengalaman9Id}', [Pengalaman9Controller::class, 'update'])->name('admin.reference.pengalaman9.update');
             Route::post('toggleActive/{pengalaman9Id}', [Pengalaman9Controller::class, 'toggleActive'])->name('admin.reference.pengalaman9.toggleActive');
             Route::post('delete/{pengalaman9Id}', [Pengalaman9Controller::class, 'deleteItem'])->name('admin.reference.pengalaman9.delete');
+        });
+
+        Route::prefix('jenis_skim')->group(function () {
+            Route::get('/', [JenisSkimController::class, 'index'])->name('admin.reference.jenisskim');
+            Route::post('create', [JenisSkimController::class, 'store'])->name('admin.reference.jenisskim.store');
+            Route::get('edit/{jenisskim}', [JenisSkimController::class, 'edit'])->name('admin.reference.jenisskim.edit');
+            Route::post('update/{jenisskim}', [JenisSkimController::class, 'update'])->name('admin.reference.jenisskim.update');
+            Route::post('toggleActive/{jenisskim}', [JenisSkimController::class, 'toggleActive'])->name('admin.reference.jenisskim.toggleActive');
+            Route::post('delete/{jenisskim}', [JenisSkimController::class, 'deleteItem'])->name('admin.reference.jenisskim.delete');
         });
 
     });

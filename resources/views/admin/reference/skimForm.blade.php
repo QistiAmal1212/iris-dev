@@ -41,9 +41,24 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="form-group">
-                                <label class="form-label" for="ref_skim_type">Jenis
+                                <label class="form-label" for="SKIM_PKHIDMAT">Skim Perkhidmatan
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="SKIM_PKHIDMAT" name="SKIM_PKHIDMAT" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($skim_pkh as $pkh)
+                                        <option value="{{ $pkh->kod }}">{{ $pkh->diskripsi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="ref_skim_type">Jenis Skim
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
@@ -51,6 +66,51 @@
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($jenis_skim as $jenis)
                                         <option value="{{ $jenis->kod }}">{{ $jenis->diskripsi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="KP_KOD">Ketua Perkhidmatan
+                                    <span class="text text-danger"></span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="KP_KOD" name="KP_KOD" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($ketua as $kt)
+                                        <option value="{{ $kt->kod }}">{{ $kt->diskripsi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="KUMP_PKHIDMAT_SSB">Kumpulan Perkhidmatan SSM
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="KUMP_PKHIDMAT_SSB" name="KUMP_PKHIDMAT_SSB" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($kump_ssm as $ssm)
+                                        <option value="{{ $ssm->kod }}">{{ $ssm->diskripsi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="KUMP_PKHIDMAT_JKK">Kumpulan Perkhidmatan JKK
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="KUMP_PKHIDMAT_JKK" name="KUMP_PKHIDMAT_JKK" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($kump_jkk as $jkk)
+                                        <option value="{{ $jkk->kod }}">{{ $jkk->diskripsi }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -66,36 +126,6 @@
                                         <option value="">Sila Pilih:-</option>
                                         @foreach ($ggh as $gred)
                                         <option value="{{ $gred->kod }}">{{ $gred->kod }} - {{ $gred->diskripsi }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label" for="SKIM_PKHIDMAT">Skim Perkhidmatan
-                                    <span class="text text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <select id="SKIM_PKHIDMAT" name="SKIM_PKHIDMAT" class="form-control" required>
-                                        <option value="">Sila Pilih:-</option>
-                                        @foreach ($skim_pkh as $pkh)
-                                        <option value="{{ $pkh->kod }}">{{ $pkh->diskripsi }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label" for="KUMP_PKHIDMAT_JKK">Kumpulan Perkhidmatan JKK
-                                    <span class="text text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <select id="KUMP_PKHIDMAT_JKK" name="KUMP_PKHIDMAT_JKK" class="form-control" required>
-                                        <option value="">Sila Pilih:-</option>
-                                        @foreach ($kump_jkk as $jkk)
-                                        <option value="{{ $jkk->kod }}">{{ $jkk->diskripsi }}</option>
                                         @endforeach
                                     </select>
                                 </div>

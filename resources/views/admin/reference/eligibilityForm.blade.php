@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-12">
+                        {{-- <div class="col-md-4 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="ref_skim_code">Kod Jawatan <span class="text text-danger">*</span>
                                 </label>
@@ -43,8 +43,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-4">
+                        </div> --}}
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="equivalent">Kelayakan Setaraf
                                     <span class="text text-danger">*</span>
@@ -57,7 +57,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label" for="rank">Pangkat Kelayakan
                                     <span class="text text-danger">*</span>
@@ -67,7 +67,7 @@
                                         class="form-control" oninput="this.value = this.value.toUpperCase()" required>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <button type="button" id="btn_submit" hidden onclick="generalFormSubmit(this);"></button>
                 </form>
