@@ -12,11 +12,12 @@
             </div>
 
             <div class="modal-body px-sm-2 mx-50">
-                <form id="userFormModal" action="" class="userForm" method="POST" data-reloadPage="true" name="FormUserModal" data-swal="Pengguna berjaya ditambah. Email telah dihantar kepada pengguna.">
+                <form id="userFormModal" action="" class="userForm" method="POST" data-reloadPage="true" name="FormUserModal" data-swal="">
                     @csrf
                     <input type="hidden" name="user_id" value="{{$id ?? null}}">
                     <input type="hidden" name="_method" value="">
                     <input type="hidden" name="route" value="{{ $route }}">
+                    <input type="hidden" name="data-swal" value="">
 
                     <div class="row">
                         <div class="col-md-3 col-12">
