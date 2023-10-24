@@ -56,6 +56,7 @@ class RoleController extends Controller
         $permissions = Permission::get();
         $masterFunction = MasterFunction::all();
         $securityMenu = SecurityMenu::where('level', '1')->get();
+        $allRoles = Role::orderBy('name', 'asc')->get();
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
         // $roles = Role::paginate(20);
         $roles = Role::orderBy('is_internal', 'desc')->orderBy('name', 'asc')->get();
@@ -109,9 +110,9 @@ class RoleController extends Controller
                         //edit role
                         $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'edit\')" data-toggle="tooltip" data-placement="top" title="kemas kini"> <i class="fas fa-pencil text-primary"></i> ';
 
-                        if($accessDelete){
-                            $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'duplicate\')" data-toggle="tooltip" data-placement="top" title="salin"> <i class="fas fa-clone text-primary"></i> ';
-                        }
+                        // if($accessDelete){
+                        //     $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'duplicate\')" data-toggle="tooltip" data-placement="top" title="salin"> <i class="fas fa-clone text-primary"></i> ';
+                        // }
 
                         //delete role
                         // $button .= '<a class="btn btn-xs btn-default" title="" onclick="$(`#rolesDeleteButton_'.$roles->id.'`).trigger(`click`);" > <i class="fas fa-trash text-danger"></i> </a>';
@@ -127,7 +128,7 @@ class RoleController extends Controller
                     ->make(true);
             }
 
-        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles', 'masterFunction', 'securityMenu', 'accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles', 'masterFunction', 'securityMenu', 'accessAdd', 'accessUpdate', 'accessDelete', 'allRoles'));
     }
 
     public function create()
