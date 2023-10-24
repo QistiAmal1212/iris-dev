@@ -657,10 +657,10 @@ Route::prefix('admin')->group(function () {
         Route::prefix('jenis_skim')->group(function () {
             Route::get('/', [JenisSkimController::class, 'index'])->name('admin.reference.jenisskim');
             Route::post('create', [JenisSkimController::class, 'store'])->name('admin.reference.jenisskim.store');
-            Route::get('edit/{jenisskim}', [JenisSkimController::class, 'edit'])->name('admin.reference.jenisskim.edit');
-            Route::post('update/{jenisskim}', [JenisSkimController::class, 'update'])->name('admin.reference.jenisskim.update');
-            Route::post('toggleActive/{jenisskim}', [JenisSkimController::class, 'toggleActive'])->name('admin.reference.jenisskim.toggleActive');
-            Route::post('delete/{jenisskim}', [JenisSkimController::class, 'deleteItem'])->name('admin.reference.jenisskim.delete');
+            Route::get('edit/{jenisskimId}', [JenisSkimController::class, 'edit'])->name('admin.reference.jenisskim.edit');
+            Route::post('update/{jenisskimId}', [JenisSkimController::class, 'update'])->name('admin.reference.jenisskim.update');
+            Route::post('toggleActive/{jenisskimId}', [JenisSkimController::class, 'toggleActive'])->name('admin.reference.jenisskim.toggleActive');
+            Route::post('delete/{jenisskimId}', [JenisSkimController::class, 'deleteItem'])->name('admin.reference.jenisskim.delete');
         });
 
     });
