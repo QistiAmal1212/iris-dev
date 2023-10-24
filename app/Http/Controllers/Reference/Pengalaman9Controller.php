@@ -182,7 +182,7 @@ class Pengalaman9Controller extends Controller
             $log->data_old = json_encode($pengalaman9);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_pengalaman9 ,kod,'.$pengalaman9Id,
+                'code' => 'required|string|unique:ruj_jenis_pengalaman9,kod,'.$pengalaman9Id,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',

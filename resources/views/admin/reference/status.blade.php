@@ -108,7 +108,6 @@
                 {
                     data: "diskripsi",
                     name: "diskripsi",
-                    className: "text-center",
                     render: function(data, type, row) {
                         return $("<div/>").html(data).text();
                     }

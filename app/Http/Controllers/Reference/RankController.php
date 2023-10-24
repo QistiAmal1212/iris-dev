@@ -227,7 +227,7 @@ class RankController extends Controller
             else $sah_yt = 'Y';
 
             $rank->update([
-                'sah_yt' => !$sah_yt,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();
