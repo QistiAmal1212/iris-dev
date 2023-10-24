@@ -15,6 +15,7 @@ Maklumat Integrasi
 
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('msg.home') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('dashboard_integration') }}">Pengurusan Integrasi</a></li>
 <li class="breadcrumb-item"><a>Maklumat Integrasi</a></li>
 @endsection
 
@@ -52,7 +53,7 @@ Maklumat Integrasi
             </div>
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-header align-items-start pb-0">
                 <div>
                     <h2 class="fw-bolder">Penyambungan Berjaya</h2>
@@ -70,7 +71,7 @@ Maklumat Integrasi
                 </div>
             </div>
             <div id="line-area-chart-5"></div>
-        </div>
+        </div> --}}
     </div>
 
     <div class="col-md-9 col-lg-9 col-xl-9 col-12">

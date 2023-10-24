@@ -15,6 +15,7 @@ class SenaraiApi extends Model
         'status',
         'id_pencipta',
         'pengguna',
+        'method',
     ];
     
     const CREATED_AT = 'tarikh_cipta';

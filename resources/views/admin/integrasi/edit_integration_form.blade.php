@@ -10,6 +10,12 @@
             @csrf
             <div class="modal-body">
                 <div class="row">
+                    @if($api->url == 'api/pemohon/store')
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                        <label class="form-label fw-bolder">Url API</label>
+                        <input type="text" class="form-control" name="url_api" id="url_api" value="{{ url('/').'/'.$api->url }}" readonly>
+                    </div>
+                    @else
                     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                         <label class="form-label fw-bolder">Url API</label>
                         <div class="input-group mb-2">
@@ -17,6 +23,7 @@
                             <input type="text" class="form-control" id="url_api" name="url_api" value="{{ $api->nama_path }}"/>
                         </div>
                     </div>
+                    @endif
 
                     <div class="col-sm-10 col-md-10 col-lg-10 mb-1">
                         <label class="form-label fw-bolder">Nama API</label>
@@ -32,6 +39,7 @@
                         </div>
                     </div>
                 </div>
+                @if($api->url != 'api/pemohon/store')
                 <hr>
                 <label class="form-label fw-bolder">Table API</label>
                 <br>
@@ -47,6 +55,7 @@
                     @endif
                     @endforeach
                 </div>
+                @endif
             </div>
             <div class="modal-footer">
                 <div class="d-flex justify-content-end align-items-center">
