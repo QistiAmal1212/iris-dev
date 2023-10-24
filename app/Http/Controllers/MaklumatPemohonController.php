@@ -939,6 +939,10 @@ class MaklumatPemohonController extends Controller
                 'pengguna' => auth()->user()->id,
             ]);
 
+            CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',1)->where('mpel_tkt',5)->update([
+                'tahun' => $request->tahun_spm1,
+            ]);
+
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->spm1_no_pengenalan,
                 'details' => 'Tambah Maklumat Akademik (SPM/SPMV 1)',
@@ -1016,6 +1020,10 @@ class MaklumatPemohonController extends Controller
                 'pengguna' => auth()->user()->id,
             ]);
 
+            CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',1)->where('jenis_sijil',1)->where('mpel_tkt',5)->update([
+                'tahun' => $request->tahun_spm1,
+            ]);
+
             CalonGarisMasa::create([
                 'no_pengenalan' => $request->spm1_no_pengenalan,
                 'details' => 'Kemaskini Maklumat Akademik (SPM/SPMV 1)',
@@ -1076,6 +1084,10 @@ class MaklumatPemohonController extends Controller
                 'mpel_tkt' => 5,
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
+            ]);
+
+            CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',1)->where('mpel_tkt',5)->update([
+                'tahun' => $request->tahun_spm1,
             ]);
 
             CalonGarisMasa::create([
@@ -1147,6 +1159,10 @@ class MaklumatPemohonController extends Controller
                 'gred' => $request->gred_spm2,
                 'tahun' => $request->tahun_spm2,
                 'pengguna' => auth()->user()->id,
+            ]);
+
+            CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('kep_terbuka',2)->where('jenis_sijil',1)->where('mpel_tkt',5)->update([
+                'tahun' => $request->tahun_spm1,
             ]);
 
             CalonGarisMasa::create([

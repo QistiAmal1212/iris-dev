@@ -742,6 +742,7 @@
                 }
 
                 $(document).on('click', '.editSpm1-btn', function() {
+                     $('#editbutton_spm1').val(0)
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#spm1Form').attr('action', "{{ route('spm1.update') }}");
                     var row = $(this).closest('tr');
@@ -859,6 +860,7 @@
                 }
 
                 $(document).on('click', '.editSpm2-btn', function() {
+                     $('#editbutton_spm2').val(0)
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#spm2Form').attr('action', "{{ route('spm2.update') }}");
                     var row = $(this).closest('tr');
