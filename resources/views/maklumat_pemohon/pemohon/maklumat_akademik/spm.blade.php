@@ -105,12 +105,18 @@
                 data-reloadPage="false">
                     @csrf
                     <div class="row">
+                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_spm1" name="tahun_spm1" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
                         <input type="hidden" name="spm1_no_pengenalan" id="spm1_no_pengenalan" value="">
                         <input type="hidden" name="id_spm1" id="id_spm1" value="">
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" id="subjek_spm1" name="subjek_spm1" disabled>
+                            <select class="select2 form-control" id="subjek_spm1" name="subjek_spm1" disabled onchange="changesubjeckspm('subjek_spm1')">
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekSpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -129,8 +135,8 @@
                         </div>
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_spm1" name="tahun_spm1" disabled>
+                            <label class="form-label">MP Kpd</label>
+                            <input type="text" class="form-control" value="" id="mp_kod_spm1" name="mp_kod_spm1" disabled>
                         </div>
 
                         <div id="button_action_spm1" style="display:none">
@@ -139,13 +145,28 @@
                                 <button type="button" class="btn btn-danger me-1" onclick="reloadSpm1()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                                <button type="button" class="btn btn-success float-right" id="btnSaveSpm1" onclick="$('#btnEditSpm1').trigger('click');">
+                                <!-- <button type="button" class="btn btn-success float-right" id="btnSaveSpm1" onclick="$('#btnEditSpm1').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button> -->
+                                <button type="button" class="btn btn-success float-right" id="btnSaveSpm1" onclick="confirmSubmitspm('btnEditSpm1', {
+                                          subjek_spm1: $('#subjek_spm1').find(':selected').text(),
+                                            gred_spm1: $('#gred_spm1').find(':selected').text(),
+                                            tahun_spm1: $('#tahun_spm1').val()
+                                        },{
+                                            subjek_spm1: 'Matapelajaran',
+                                            gred_spm1: 'Gred',
+                                            tahun_spm1: 'Tahun'
+                                        }
+                                    );">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
                             </div>
                         </div>
                     </div>
-                </form>
+                    <input type="hidden" name="tukar_log_spm1"  id="tukar_log_spm1">
+                    </form>
+                    <input type="hidden" name="editbutton_spm1" value=0 id="editbutton_spm1">
+                    <textarea id="currentvalues_spm1" style="display:none;"></textarea>
 
                 <div class="table-responsive mb-1 mt-1">
                     <table class="table header_uppercase table-bordered table-hovered" id="table-spm1">
@@ -190,12 +211,18 @@
                 data-reloadPage="false">
                     @csrf
                     <div class="row">
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Tahun</label>
+                            <input type="text" class="form-control" value="" id="tahun_spm2" name="tahun_spm2" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
                         <input type="hidden" name="spm2_no_pengenalan" id="spm2_no_pengenalan" value="">
                         <input type="hidden" name="id_spm2" id="id_spm2" value="">
 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
-                            <select class="select2 form-control" id="subjek_spm2" name="subjek_spm2" disabled>
+                            <select class="select2 form-control" id="subjek_spm2" name="subjek_spm2" disabled onchange="changesubjeckspm('subjek_spm2')">
                                 <option value="" hidden>Mata Pelajaran</option>
                                     @foreach($subjekSpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
@@ -214,8 +241,8 @@
                         </div>
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">Tahun</label>
-                            <input type="text" class="form-control" value="" id="tahun_spm2" name="tahun_spm2" disabled>
+                            <label class="form-label">MP Kod</label>
+                            <input type="text" class="form-control" value="" id="mp_kod_spm2" name="mp_kod_spm2" disabled>
                         </div>
 
                         <div id="button_action_spm2" style="display:none">
@@ -224,13 +251,28 @@
                                 <button type="button" class="btn btn-danger me-1" onclick="reloadSpm2()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                                <button type="button" class="btn btn-success float-right" id="btnSaveSpm2" onclick="$('#btnEditSpm2').trigger('click');">
+                                <!-- <button type="button" class="btn btn-success float-right" id="btnSaveSpm2" onclick="$('#btnEditSpm2').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button> -->
+                                <button type="button" class="btn btn-success float-right" id="btnSaveSpm2" onclick="confirmSubmitspm('btnEditSpm2', {
+                                          subjek_spm2: $('#subjek_spm2').find(':selected').text(),
+                                            gred_spm2: $('#gred_spm2').find(':selected').text(),
+                                            tahun_spm2: $('#tahun_spm2').val()
+                                        },{
+                                            subjek_spm2: 'Matapelajaran',
+                                            gred_spm2: 'Gred',
+                                            tahun_spm2: 'Tahun'
+                                        }
+                                    );">
                                     <i class="fa fa-save"></i> Tambah
                                 </button>
                             </div>
                         </div>
                     </div>
-                </form>
+                    <input type="hidden" name="tukar_log_spm2"  id="tukar_log_spm2">
+                    </form>
+                    <input type="hidden" name="editbutton_spm2" value=0 id="editbutton_spm2">
+                    <textarea id="currentvalues_spm2" style="display:none;"></textarea></form>
 
                 <div class="table-responsive mb-1 mt-1">
                     <table class="table header_uppercase table-bordered table-hovered" id="table-spm2">
@@ -507,14 +549,135 @@
 </div>
 
 <script>
+
+    function changesubjeckspm(event) {
+        var value = $('#'+event).val();
+        var text = $('#'+event).text();
+        if (value == '') {
+            return ;
+        }
+        if (event == 'subjek_spm1') {
+            $('#mp_kod_spm1').val(value);
+        } else {
+            $('#mp_kod_spm2').val(value);
+        }
+    }
+    function confirmSubmitspm(btnName, newValues, columnHead) {
+        if (btnName == 'btnEditSpm1') {
+            var originalVal = JSON.parse($('#currentvalues_spm1').val());
+        } else {
+            var originalVal = JSON.parse($('#currentvalues_spm2').val());
+        }
+        var htmlContent = '<p>Perubahan:</p>';
+        for (var key in originalVal) {
+            if (originalVal.hasOwnProperty(key)) {
+                if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+                    if (originalVal[key] == null || originalVal[key] === '') {
+                        if (newValues[key] !== 'Tiada Maklumat') {
+                            if(newValues[key] !== null){
+                                htmlContent += '<p>' + columnHead[key] + ':<br>';
+                                htmlContent += 'Tiada Maklumat kepada ' + newValues[key] + '</p>';
+                            }
+                        }
+                    } else {
+                        htmlContent += '<p>' + columnHead[key] + ':<br>';
+                        htmlContent += originalVal[key] + ' kepada ' + newValues[key] + '</p>';
+                    }
+                }
+            }
+        }
+        console.log(htmlContent);
+         if (htmlContent === '<p>Perubahan:</p>') {
+            Swal.fire({
+                title: 'Tiada Perubahan Dibuat',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+        } else {
+            if (btnName == 'btnEditSpm1') {
+                $('#tukar_log_spm1').val(htmlContent);
+                $('#btnEditSpm1').trigger('click');
+            } else {
+                $('#tukar_log_spm2').val(htmlContent);
+                $('#btnEditSpm2').trigger('click');
+            }
+        }
+        if (btnName == 'btnEditSpm1') {
+            $('#editbutton_spm1').val(0);
+            reloadSpm1();
+            disbalefieldsspm('spm1');
+        } else {
+            disbalefieldsspm('spm2');
+            $('#editbutton_spm2').val(0);
+            reloadSpm2();
+        }
+    }
     function editSpm1() {
         $('#spm1Form select[name="subjek_spm1"]').attr('disabled', false);
         $('#spm1Form select[name="gred_spm1"]').attr('disabled', false);
         $('#spm1Form input[name="tahun_spm1"]').attr('disabled', false);
 
         $("#button_action_spm1").attr("style", "display:block");
+        
+        var editbuttoncount = $('#editbutton_spm1').val();
+    
+        if (editbuttoncount <= 0) {
+            // firsttime
+            $('#editbutton_spm1').val(1)
+            var check_data = {
+                subjek_spm1: $('#subjek_spm1').find(':selected').text(),
+                gred_spm1: $('#gred_spm1').find(':selected').text(),
+                tahun_spm1: $('#tahun_spm1').val()
+            };
+            $('#currentvalues_spm1').val(JSON.stringify(check_data));
+        } else {
+            checkkemaskinispm('spm1');
+        }
     }
+    function checkkemaskinispm(type) {
+        var datachanged = false;
+        var checkValue = JSON.parse($('#currentvalues_'+type).val());
+        if (type == 'spm1') {
+            if (checkValue.subjek_spm1 != $('#subjek_spm1').find(':selected').text()) {
+                datachanged = true;
+            }
+            if (checkValue.gred_spm1 != $('#gred_spm1').find(':selected').text()) {
+                datachanged = true;
+            }
 
+            if (checkValue.tahun_spm1 != $('#tahun_spm1').val()) {
+                datachanged = true;
+            }
+        } else {
+            if (checkValue.subjek_spm1 != $('#subjek_spm1').find(':selected').text()) {
+                datachanged = true;
+            }
+            if (checkValue.gred_spm1 != $('#gred_spm1').find(':selected').text()) {
+                datachanged = true;
+            }
+
+            if (checkValue.tahun_spm1 != $('#tahun_spm1').val()) {
+                datachanged = true;
+            }
+        }
+        
+        if (!datachanged) {
+            $('#editbutton_'+type).val(0);
+            disbalefieldsspm(type);
+        }
+    }
+    function disbalefieldsspm(type) {
+        if (type == 'spm1') {
+            $('#spm1Form select[name="subjek_spm1"]').attr('disabled', true);
+            $('#spm1Form select[name="gred_spm1"]').attr('disabled', true);
+            $('#spm1Form input[name="tahun_spm1"]').attr('disabled', true);
+        } else {
+            $('#spm2Form select[name="subjek_spm2"]').attr('disabled', true);
+            $('#spm2Form select[name="gred_spm2"]').attr('disabled', true);
+            $('#spm2Form input[name="tahun_spm2"]').attr('disabled', true);
+        }
+        $("#button_action_"+type).attr("style", "display:none");
+    }
     function reloadSpm1() {
         var no_pengenalan = $('#spm1_no_pengenalan').val();
         $('#spm1Form input[name="spm1_no_pengenalan"]').val(no_pengenalan);
@@ -529,6 +692,7 @@
                 $('#spm1Form select[name="subjek_spm1"]').val('').trigger('change');
                 $('#spm1Form select[name="gred_spm1"]').val('').trigger('change');
                 $('#spm1Form input[name="tahun_spm1"]').val('');
+                $('#spm1Form input[name="mp_kod_spm1"]').val('');       
                 $('#spm1Form select[name="subjek_spm1"]').attr('disabled', true);
                 $('#spm1Form select[name="gred_spm1"]').attr('disabled', true);
                 $('#spm1Form input[name="tahun_spm1"]').attr('disabled', true);
@@ -549,9 +713,11 @@
                             trSpm += '<td>' + item.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
                             trSpm += '<td align="center">' + item.gred + '</td>';
-                            trSpm += '<td align="center"><i class="fas fa-pencil text-primary editSpm1-btn" data-id="' + item.id + ' "></i>';
+                            trSpm += '<td align="center" style="display:none;">' + item.tahun + '</td>';
+                            trSpm += '<td align="center"><a><i class="fas fa-pencil text-primary editSpm1-btn" data-id="' + item.id + ' "></i></a>';
                             trSpm += '&nbsp;&nbsp;';
-                            trSpm += '<i class="fas fa-trash text-danger deleteSpm1-btn" data-id="' + item.id + '"></i></td>';
+                            trSpm += '<a><i class="fas fa-trash text-danger deleteSpm1-btn" data-id="' + item.id + '"></i></a></td>';
+
                             trSpm += '</tr>';
                         }
                     });
@@ -581,6 +747,10 @@
                         return $(this).text() === subjectName;
                     }).prop('selected', true).trigger('change');
                     $('#spm1Form select[name="gred_spm1"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
+                    $('#spm1Form input[name="mp_kod_spm1"]').val($(row).find('td:nth-child(2)').text());
+                    $('#spm1Form input[name="tahun_spm1"]').val($(row).find('td:nth-child(5)').text());
+                    editSpm1();
+
                     //$('#spm1Form input[name="tahun_spm1"]').val($(row).find('td:nth-child(5)').text());
                 });
 
@@ -611,6 +781,20 @@
         $('#spm2Form input[name="tahun_spm2"]').attr('disabled', false);
 
         $("#button_action_spm2").attr("style", "display:block");
+        var editbuttoncount = $('#editbutton_spm2').val();
+    
+        if (editbuttoncount <= 0) {
+            // firsttime
+            $('#editbutton_spm2').val(1)
+            var check_data = {
+                subjek_spm: $('#subek_spm2').find(':selected').text(),
+                gred_spm: $('#gred_spm2').find(':selected').text(),
+                tahun_spm: $('#tahun_spm2').val()
+            };
+            $('#currentvalues_spm2').val(JSON.stringify(check_data));
+        } else {
+            checkkemaskinispm('spm2');
+        }
     }
 
     function reloadSpm2() {
@@ -627,6 +811,7 @@
                 $('#spm2Form select[name="subjek_spm2"]').val('').trigger('change');
                 $('#spm2Form select[name="gred_spm2"]').val('').trigger('change');
                 $('#spm2Form input[name="tahun_spm2"]').val('');
+                $('#spm2Form input[name="mp_kod_spm2"]').val('');
                 $('#spm2Form select[name="subjek_spm2"]').attr('disabled', true);
                 $('#spm2Form select[name="gred_spm2"]').attr('disabled', true);
                 $('#spm2Form input[name="tahun_spm2"]').attr('disabled', true);
@@ -647,9 +832,10 @@
                             trSpm += '<td>' + item.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
                             trSpm += '<td align="center">' + item.gred + '</td>';
-                            trSpm += '<td align="center"><i class="fas fa-pencil text-primary editSpm2-btn" data-id="' + item.id + ' "></i>';
+                            trSpm += '<td align="center" style="display:none;">' + item.tahun + '</td>';
+                            trSpm += '<td align="center"><a><i class="fas fa-pencil text-primary editSpm2-btn" data-id="' + item.id + ' "></i></a>';
                             trSpm += '&nbsp;&nbsp;';
-                            trSpm += '<i class="fas fa-trash text-danger deleteSpm2-btn" data-id="' + item.id + '"></i></td>';
+                            trSpm += '<a><i class="fas fa-trash text-danger deleteSpm2-btn" data-id="' + item.id + '"></i></a></td>';
                             trSpm += '</tr>';
                         }
                     });
@@ -673,7 +859,9 @@
                         return $(this).text() === subjectName;
                     }).prop('selected', true).trigger('change');
                     $('#spm2Form select[name="gred_spm2"]').val($(row).find('td:nth-child(4)').text()).trigger('change');
-                    //$('#spm2Form input[name="tahun_spm2"]').val($(row).find('td:nth-child(5)').text());
+                    $('#spm2Form input[name="mp_kod_spm2"]').val($(row).find('td:nth-child(2)').text());
+                    $('#spm2Form input[name="tahun_spm2"]').val($(row).find('td:nth-child(5)').text());
+                    editSpm2();
                 });
 
 
@@ -786,6 +974,8 @@
     //         }
     //     });
     // }
+    // 
+
 
     function editSvm() {
         $('#svmForm input[name="tahun_svm"]').attr('disabled', false);

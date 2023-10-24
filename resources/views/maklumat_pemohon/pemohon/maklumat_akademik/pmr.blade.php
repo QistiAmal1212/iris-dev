@@ -42,12 +42,6 @@ data-reloadPage="false">
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Mp Kod</label>
-        <!-- <select class="select2 form-control" value="" id="mpel_kod_pmr" name="mpel_kod_pmr" disabled onchange="changeMP('mpel_kod_pmr')">
-            <option value=""></option>
-            @foreach($subjekPmr as $subjek)
-            <option value="{{ $subjek->diskripsi }}">{{ $subjek->kod }}</option>
-            @endforeach
-        </select> -->
         <input type="text" class="form-control" value="" id="mpel_kod_pmr" name="mpel_kod_pmr" disabled>
     </div> 
 

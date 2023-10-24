@@ -945,7 +945,15 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_spm1) ? json_encode($request->tukar_log_spm1) : null
+
             ]);
+
+            $check = CalonKeputusanSekolah::where('cal_no_pengenalan',$request->spm1_no_pengenalan)->where('mpel_kod',$request->subjek_spm1)->where('tahun', $request->tahun_spm1)->where('kep_terbuka',1)->get();
+            if (count($check) > 1) {
+                DB::rollback();
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Matapelajaran telah dipilih'], 404);   
+            }
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -1014,6 +1022,8 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_spm1) ? json_encode($request->tukar_log_spm1) : null
+
             ]);
 
             DB::commit();
@@ -1074,6 +1084,8 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_spm2) ? json_encode($request->tukar_log_spm2) : null
+
             ]);
 
             DB::commit();
@@ -1143,6 +1155,8 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_spm2) ? json_encode($request->tukar_log_spm2) : null
+
             ]);
 
             DB::commit();
