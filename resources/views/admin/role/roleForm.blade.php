@@ -126,7 +126,7 @@
 
                             <div class="col-md-12 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="level_one">Menu</label>
+                                    <label class="form-label" for="level_one">Menu<span class="text text-danger">*</span> </label>
                                     <select id="level_one" class="select2 form-select" name="level_one[]" multiple onchange="showListMenu('one')">
                                         @foreach($securityMenu as $menu)
                                             <option value="{{ $menu->id }}">{{ $menu->name }}</option>
@@ -160,7 +160,7 @@
 
                             <div class="col-md-12 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="level_two">Menu</label>
+                                    <label class="form-label" for="level_two">Menu<span class="text text-danger">*</span> </label>
                                     <select id="level_two" class="select2 form-select" name="level_two[]" multiple onchange="showListMenu('two')">
 
                                     </select>
@@ -192,7 +192,7 @@
 
                             <div class="col-md-12 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="level_three">Menu</label>
+                                    <label class="form-label" for="level_three">Menu<span class="text text-danger">*</span> </label>
                                     <select id="level_three" class="select2 form-select" name="level_three[]" multiple onchange="showListMenu('three')">
 
                                     </select>

@@ -58,7 +58,7 @@ class RoleController extends Controller
         $securityMenu = SecurityMenu::where('level', '1')->get();
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
         // $roles = Role::paginate(20);
-        $roles = Role::all();
+        $roles = Role::orderBy('is_internal', 'desc')->orderBy('name', 'asc')->get();
 
         if ($request->ajax()) {
 
@@ -144,7 +144,20 @@ class RoleController extends Controller
                 'role_name' => 'required|string',
                 'role_description' => 'required|string',
                 // 'role_display' => 'required|string',
-                'role_level' => 'required|boolean'
+                'role_level' => 'required|boolean',
+                'access_function' => 'required|array',
+                'level_one' => 'required|array',
+                'level_two' => 'required|array',
+                'level_three' => 'required|array',
+            ],[
+                'role_name.required' => 'Sila isikan nama peranan',
+                'role_description.required' => 'Sila isikan diskripsi peranan',
+                'role_level.required' => 'Sila pilih jenis peranan',
+                'access_function.required' => 'Sila pilih capaian akses',
+                'level_one.required' => 'Sila pilih menu level 1',
+                'level_two.required' => 'Sila pilih menu level 2',
+                'level_three.required' => 'Sila pilih menu level 3',
+
             ]);
 
             $role = Role::create([
@@ -464,7 +477,20 @@ class RoleController extends Controller
                 'role_name' => 'required|string',
                 'role_description' => 'required|string',
                 // 'role_display' => 'required|string',
-                'role_level' => 'required|boolean'
+                'role_level' => 'required|boolean',
+                'access_function' => 'required|array',
+                'level_one' => 'required|array',
+                'level_two' => 'required|array',
+                'level_three' => 'required|array',
+            ],[
+                'role_name.required' => 'Sila isikan nama peranan',
+                'role_description.required' => 'Sila isikan diskripsi peranan',
+                'role_level.required' => 'Sila pilih jenis peranan',
+                'access_function.required' => 'Sila pilih capaian akses',
+                'level_one.required' => 'Sila pilih menu level 1',
+                'level_two.required' => 'Sila pilih menu level 2',
+                'level_three.required' => 'Sila pilih menu level 3',
+
             ]);
 
             $role = Role::with(['function', 'menu'])->find($request->roleId);
