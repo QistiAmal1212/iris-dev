@@ -708,6 +708,11 @@
                 if(data.detail.data != null){
                     $.each(data.detail.data, function(i, item) {
                         if (item.subject_form5 != null) {
+                            if (bilSpm == 0) {
+                                trSpm += '<tr>';
+                                trSpm += '<td align="left" colspan="5"><b>' + item.tahun + '</b></td>';
+                                trSpm += '</tr>';
+                            }
                             bilSpm += 1;
                             trSpm += '<tr>';
                             trSpm += '<td align="center">' + bilSpm + '</td>';
@@ -827,6 +832,11 @@
                 if(data.detail.data != null){
                     $.each(data.detail.data, function(i, item) {
                         if (item.subject_form5 != null) {
+                            if (bilSpm == 0) {
+                                trSpm += '<tr>';
+                                trSpm += '<td align="left" colspan="5"><b>' + item.tahun + '</b></td>';
+                                trSpm += '</tr>';
+                            }
                             bilSpm += 1;
                             trSpm += '<tr>';
                             trSpm += '<td align="center">' + bilSpm + '</td>';
