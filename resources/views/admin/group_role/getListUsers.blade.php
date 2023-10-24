@@ -84,6 +84,7 @@
                                 <th>Kementerian</th>
                                 <th>Jawatan</th>
                                 <th>Status</th>
+                                <th>Tindakan</th>
                             </tr>
                         </thead>
                     </table>
