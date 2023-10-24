@@ -21,7 +21,7 @@ class PemohonRequest extends ApiRequest
      */
     public function rules()
     {
-        $routeName = $routeName = $this->route()->getName();
+        $routeName = $this->route()->getName();
 
         if ($routeName == 'pemohon.store') {
             $rules = [

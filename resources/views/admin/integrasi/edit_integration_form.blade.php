@@ -10,9 +10,12 @@
             @csrf
             <div class="modal-body">
                 <div class="row">
-                    <div class="input-group mb-2">
-                        <span class="input-group-text" id="url_api">{{ url('/')."/api/pemohon/details/" }}</span>
-                        <input type="text" class="form-control" id="url_api" name="url_api" value="{{ $api->nama_path }}"/>
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                        <label class="form-label fw-bolder">Url API</label>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="url_api">{{ url('/')."/api/pemohon/details/" }}</span>
+                            <input type="text" class="form-control" id="url_api" name="url_api" value="{{ $api->nama_path }}"/>
+                        </div>
                     </div>
 
                     <div class="col-sm-10 col-md-10 col-lg-10 mb-1">
@@ -30,12 +33,14 @@
                     </div>
                 </div>
                 <hr>
+                <label class="form-label fw-bolder">Table API</label>
+                <br>
                 <div class="row">
                     @foreach($tableApi as $table)
                     @if($table->id != 4 && $table->id != 14 && $table->id != 20)
                     <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="table_api{{ $table->id }}" name="listTable[]" value="{{ $table->id }}" @if(in_array($table->id, $aksesApi)) checked @endif>
+                            <input class="form-check-input" type="checkbox" id="table_api{{ $table->id }}" name="table_api[]" value="{{ $table->id }}" @if(in_array($table->id, $aksesApi)) checked @endif>
                             <label class="form-check-label" for="table_api{{ $table->id }}">{{ $table->nama }}</label>
                         </div>
                     </div>

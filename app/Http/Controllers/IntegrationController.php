@@ -27,6 +27,19 @@ class IntegrationController extends Controller
         DB::beginTransaction();
         try {
 
+            $request->validate([
+                'url_api' => 'required|string|unique:senarai_api,nama_path',
+                'nama_api' => 'required|string',
+                'table_api' => 'required|array',
+                'table_api.*' => 'required|exists:table_api,id',
+            ],[
+                'url_api.required' => 'Sila isikan url api',
+                'url_api.unique' => 'Url api telah diambil',
+                'nama_api.required' => 'Sila isikan nama api',
+                'table_api.required' => 'Sila pilih table api',
+                'table_api.*.exists' => 'Tiada rekod data table yang dipilih',
+            ]);
+
             $senaraiApi = SenaraiApi::create([
                 'nama' => $request->nama_api,
                 'url' => 'api/pemohon/details/'.$request->url_api,
@@ -37,7 +50,7 @@ class IntegrationController extends Controller
             ]);
 
             if($senaraiApi){
-                $senaraiApi->akses()->sync($request->listTable);
+                $senaraiApi->akses()->sync($request->table_api);
             }
 
             DB::commit();
@@ -63,6 +76,19 @@ class IntegrationController extends Controller
         DB::beginTransaction();
         try {
 
+            $request->validate([
+                'url_api' => 'required|string|unique:senarai_api,nama_path,'.$request->idApi,
+                'nama_api' => 'required|string',
+                'table_api' => 'required|array',
+                'table_api.*' => 'required|exists:table_api,id',
+            ],[
+                'url_api.required' => 'Sila isikan url api',
+                'url_api.unique' => 'Url api telah diambil',
+                'nama_api.required' => 'Sila isikan nama api',
+                'table_api.required' => 'Sila pilih table api',
+                'table_api.*.exists' => 'Tiada rekod data table yang dipilih',
+            ]);
+
             $api = SenaraiApi::find($request->idApi);
 
             $updateApi = $api->update([
@@ -74,7 +100,7 @@ class IntegrationController extends Controller
             ]);
 
             if($updateApi){
-                $api->akses()->sync($request->listTable);
+                $api->akses()->sync($request->table_api);
             }
 
             DB::commit();
@@ -87,7 +113,9 @@ class IntegrationController extends Controller
         }
     }
 
-    public function IntegrationInformation (){
-        return view('admin.integrasi.integration_information');
+    public function IntegrationInformation (Request $request){
+        $api = SenaraiApi::with(['log'])->find($request->idApi);
+
+        return view('admin.integrasi.integration_information', compact('api'));
     }
 }
