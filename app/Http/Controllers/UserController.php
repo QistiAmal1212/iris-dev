@@ -61,7 +61,7 @@ class UserController extends Controller
         }
 
         $departmentMinistry = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $skim = Skim::where('sah_yt', 'Y')->get();
+        $skim = Skim::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         if(request()->route()->getname() == 'admin.internalUser' || request()->route()->getname() == 'admin.externalUser'){
             if ($request->ajax()) {
@@ -227,7 +227,7 @@ class UserController extends Controller
             $validatedData = $request->validate([
                 'ic_number' => 'required|min_digits:12|unique:users,no_ic',
                 'full_name' => 'required|string',
-                'email' => 'required|email|unique:users,email',
+                'email' => 'required|email',
                 'phone_number' => 'required',
                 'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
                 'skim_code' => 'required|exists:ruj_skim,kod',
@@ -245,7 +245,6 @@ class UserController extends Controller
                 'ic_number.min_digits' => 'No kad pengenalan mestilah sekurang-kurangnya 12 aksara',
                 'full_name.required' => 'Sila isikan nama penuh',
                 'email.required' => 'Sila isikan emel',
-                'email.unique' => 'Emel telah diambil',
                 'phone_number.required' => 'Sila isikan no telefon',
                 'department_ministry_code.required' => 'Sila pilih nama kementerian',
                 'department_ministry_code.exists' => 'Nama kementerian tidak sah',
@@ -343,7 +342,7 @@ class UserController extends Controller
             $validatedData = $request->validate([
                 'ic_number' => 'required|integer|min_digits:12|unique:users,no_ic,'.$id_used,
                 'full_name' => 'required|string',
-                'email' => 'required|email|unique:users,email,'.$id_used,
+                'email' => 'required|email',
                 'phone_number' => 'required',
                 'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
                 'skim_code' => 'required|exists:ruj_skim,kod',
@@ -354,7 +353,6 @@ class UserController extends Controller
                 'ic_number.min_digits' => 'No kad pengenalan mestilah sekurang-kurangnya 12 aksara',
                 'full_name.required' => 'Sila isikan nama penuh',
                 'email.required' => 'Sila isikan emel',
-                'email.unique' => 'Emel telah diambil',
                 'phone_number.required' => 'Sila isikan no telefon',
                 'department_ministry_code.required' => 'Sila pilih nama kementerian',
                 'department_ministry_code.exists' => 'Nama kementerian tidak sah',
