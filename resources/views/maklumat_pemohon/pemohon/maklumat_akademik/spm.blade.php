@@ -266,10 +266,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="tukar_log_spm2"  id="tukar_log_spm2">
-                                    </form>
+                                <input type="hidden" name="tukar_log_spm2"  id="tukar_log_spm2">
+                                </form>
                                 <input type="hidden" name="editbutton_spm2" value=0 id="editbutton_spm2">
-                                <textarea id="currentvalues_spm2" style="display:none;"></textarea></form>
+                                <textarea id="currentvalues_spm2" style="display:none;"></textarea>
 
                                 <div class="table-responsive mb-1 mt-1">
                                     <table class="table header_uppercase table-bordered table-hovered" id="table-spm2">
@@ -629,7 +629,6 @@
                 }
             }
         }
-        console.log(htmlContent);
          if (htmlContent === '<p>Perubahan:</p>') {
             Swal.fire({
                 title: 'Tiada Perubahan Dibuat',

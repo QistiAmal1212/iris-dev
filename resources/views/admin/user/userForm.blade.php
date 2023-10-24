@@ -33,7 +33,7 @@
                             <div class="form-group">
                                 <label class="form-label fw-bolder"> Nama Penuh </label>
                                 <div class="input-group">
-                                    <input type="text" id="full_name" name="full_name" value="" class="form-control" required>
+                                    <input type="text" id="full_name" name="full_name" oninput="this.value = this.value.toUpperCase()" value="" class="form-control" required>
                                 </div>
                             </div>
                         </div>

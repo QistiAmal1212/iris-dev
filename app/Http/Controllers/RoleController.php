@@ -56,9 +56,10 @@ class RoleController extends Controller
         $permissions = Permission::get();
         $masterFunction = MasterFunction::all();
         $securityMenu = SecurityMenu::where('level', '1')->get();
+        $allRoles = Role::orderBy('name', 'asc')->get();
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
         // $roles = Role::paginate(20);
-        $roles = Role::all();
+        $roles = Role::orderBy('is_internal', 'desc')->orderBy('name', 'asc')->get();
 
         if ($request->ajax()) {
 
@@ -109,9 +110,9 @@ class RoleController extends Controller
                         //edit role
                         $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'edit\')" data-toggle="tooltip" data-placement="top" title="kemas kini"> <i class="fas fa-pencil text-primary"></i> ';
 
-                        if($accessDelete){
-                            $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'duplicate\')" data-toggle="tooltip" data-placement="top" title="salin"> <i class="fas fa-clone text-primary"></i> ';
-                        }
+                        // if($accessDelete){
+                        //     $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'duplicate\')" data-toggle="tooltip" data-placement="top" title="salin"> <i class="fas fa-clone text-primary"></i> ';
+                        // }
 
                         //delete role
                         // $button .= '<a class="btn btn-xs btn-default" title="" onclick="$(`#rolesDeleteButton_'.$roles->id.'`).trigger(`click`);" > <i class="fas fa-trash text-danger"></i> </a>';
@@ -127,7 +128,7 @@ class RoleController extends Controller
                     ->make(true);
             }
 
-        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles', 'masterFunction', 'securityMenu', 'accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles', 'masterFunction', 'securityMenu', 'accessAdd', 'accessUpdate', 'accessDelete', 'allRoles'));
     }
 
     public function create()
@@ -144,7 +145,20 @@ class RoleController extends Controller
                 'role_name' => 'required|string',
                 'role_description' => 'required|string',
                 // 'role_display' => 'required|string',
-                'role_level' => 'required|boolean'
+                'role_level' => 'required|boolean',
+                'access_function' => 'required|array',
+                'level_one' => 'required|array',
+                'level_two' => 'required|array',
+                'level_three' => 'required|array',
+            ],[
+                'role_name.required' => 'Sila isikan nama peranan',
+                'role_description.required' => 'Sila isikan diskripsi peranan',
+                'role_level.required' => 'Sila pilih jenis peranan',
+                'access_function.required' => 'Sila pilih capaian akses',
+                'level_one.required' => 'Sila pilih menu level 1',
+                'level_two.required' => 'Sila pilih menu level 2',
+                'level_three.required' => 'Sila pilih menu level 3',
+
             ]);
 
             $role = Role::create([
@@ -464,7 +478,20 @@ class RoleController extends Controller
                 'role_name' => 'required|string',
                 'role_description' => 'required|string',
                 // 'role_display' => 'required|string',
-                'role_level' => 'required|boolean'
+                'role_level' => 'required|boolean',
+                'access_function' => 'required|array',
+                'level_one' => 'required|array',
+                'level_two' => 'required|array',
+                'level_three' => 'required|array',
+            ],[
+                'role_name.required' => 'Sila isikan nama peranan',
+                'role_description.required' => 'Sila isikan diskripsi peranan',
+                'role_level.required' => 'Sila pilih jenis peranan',
+                'access_function.required' => 'Sila pilih capaian akses',
+                'level_one.required' => 'Sila pilih menu level 1',
+                'level_two.required' => 'Sila pilih menu level 2',
+                'level_three.required' => 'Sila pilih menu level 3',
+
             ]);
 
             $role = Role::with(['function', 'menu'])->find($request->roleId);
