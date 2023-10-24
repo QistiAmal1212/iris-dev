@@ -80,7 +80,7 @@ class LoginController extends Controller
         }
         $today= now();
         $lastUpdate = $user->last_change_password;
-        if($today->diffInDays($lastUpdate)>1){
+        if($today->diffInDays($lastUpdate)>180){
             $user->login_failed_counter = 0;
             $user->last_login = now();
             $user->save();
