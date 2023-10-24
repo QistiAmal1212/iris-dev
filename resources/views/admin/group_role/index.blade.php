@@ -58,6 +58,7 @@
 
 @section('script')
 <script>
+    var tableListUsers;
 
     var table = $('#table-group-role').DataTable({
         orderCellsTop: true,
@@ -158,8 +159,6 @@
             },
         });
 
-        var tableListUsers;
-
         tableListUsers = $('#table-list-users').DataTable().destroy();
 
         tableListUsers = $('#table-list-users').DataTable({
@@ -231,6 +230,12 @@
                         return $("<div/>").html(data).text();
                     }
                 },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
 
             ],
             language : {
@@ -252,6 +257,32 @@
 
         var viewUsersModal = new bootstrap.Modal(document.getElementById('viewUsersModal'), { keyboard: false});
         viewUsersModal.show();
+    }
+
+    function deleteItem(userId, roleId){
+        var url = "{{ route('admin.group-role.removeUserRole', ':replaceThis') }}"
+        url = url.replace(':replaceThis', userId);
+
+        console.log(userId, roleId)
+
+        Swal.fire({
+            title: 'Adakah anda ingin membuang pengguna daripada peranan ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: { role_id: roleId },
+                    async: true,
+                    success: function(data){
+                        tableListUsers.ajax.reload();
+                    }
+                })
+            }
+        })
     }
 
     function closeModal() {

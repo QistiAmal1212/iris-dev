@@ -61,7 +61,7 @@ class UserController extends Controller
         }
 
         $departmentMinistry = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $skim = Skim::where('sah_yt', 'Y')->get();
+        $skim = Skim::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         if(request()->route()->getname() == 'admin.internalUser' || request()->route()->getname() == 'admin.externalUser'){
             if ($request->ajax()) {
@@ -92,6 +92,7 @@ class UserController extends Controller
                 $log->created_by_user_id = auth()->id();
                 $log->save();
 
+                $users->orderBy('name', 'asc');
                 if($request->name){
                     $users->where('name', 'ilike', '%' . $request->name . '%');
                 }
@@ -131,24 +132,24 @@ class UserController extends Controller
                         return $users->no_ic;
                     })
                     ->editColumn('department_ministry', function ($users) use ($type) {
-                        return ($users->ref_department_ministry_code != null) ? $users->department_ministry->nama : null;
+                        return ($users->ref_department_ministry_code != null) ? $users->department_ministry->diskripsi : null;
                     })
                     ->editColumn('skim', function ($users) use ($type) {
-                        return ($users->ref_skim_code != null) ? $users->skim->name : null;
+                        return ($users->ref_skim_code != null) ? $users->skim->diskripsi : null;
                     })
                     ->editColumn('role', function ($users) use ($type) {
+                        $roles = $users->getRoleNames()->toArray();
 
-                        $roles = implode(",", $users->getRoleNames()->toArray());
-                        $role_label = '</br>';
-                        $role_label .= '<td>';
-                        if (strpos($roles, "admin") !== false && strpos($roles, "superadmin") !== false) {
-                            $role_label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span> &nbsp; <span class="badge rounded-pill bg-light-secondary">Admin</span>';
-                        } elseif ($roles == "admin") {
-                            $role_label .= '<span class="badge rounded-pill bg-light-secondary">Admin</span>';
-                        } elseif ($roles == "superadmin") {
-                            $role_label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span>';
-                        } else {
-                            $role_label .= '<span class="badge rounded-pill bg-light-info">' . $roles . '</span> &nbsp;';
+                        // $role_label = '</br>';
+                        $role_label = '<td>';
+
+                        foreach( $roles as $role ) {
+                            if($role == "superadmin")
+                                $role_label .= '<span class="badge rounded-pill bg-light-primary" style="margin-right: 2px">' . $role . '</span>';
+                            elseif($role == "admin")
+                                $role_label .= '<span class="badge rounded-pill bg-light-info" style="margin-right: 2px">' . $role . '</span>';
+                            else
+                                $role_label .= '<span class="badge rounded-pill bg-light-warning" style="margin-right: 2px">' . $role . '</span>';
                         }
                         $role_label .= "</td>";
 
@@ -227,7 +228,7 @@ class UserController extends Controller
             $validatedData = $request->validate([
                 'ic_number' => 'required|min_digits:12|unique:users,no_ic',
                 'full_name' => 'required|string',
-                'email' => 'required|email|unique:users,email',
+                'email' => 'required|email',
                 'phone_number' => 'required',
                 'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
                 'skim_code' => 'required|exists:ruj_skim,kod',
@@ -245,7 +246,6 @@ class UserController extends Controller
                 'ic_number.min_digits' => 'No kad pengenalan mestilah sekurang-kurangnya 12 aksara',
                 'full_name.required' => 'Sila isikan nama penuh',
                 'email.required' => 'Sila isikan emel',
-                'email.unique' => 'Emel telah diambil',
                 'phone_number.required' => 'Sila isikan no telefon',
                 'department_ministry_code.required' => 'Sila pilih nama kementerian',
                 'department_ministry_code.exists' => 'Nama kementerian tidak sah',
@@ -343,7 +343,7 @@ class UserController extends Controller
             $validatedData = $request->validate([
                 'ic_number' => 'required|integer|min_digits:12|unique:users,no_ic,'.$id_used,
                 'full_name' => 'required|string',
-                'email' => 'required|email|unique:users,email,'.$id_used,
+                'email' => 'required|email',
                 'phone_number' => 'required',
                 'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
                 'skim_code' => 'required|exists:ruj_skim,kod',
@@ -354,7 +354,6 @@ class UserController extends Controller
                 'ic_number.min_digits' => 'No kad pengenalan mestilah sekurang-kurangnya 12 aksara',
                 'full_name.required' => 'Sila isikan nama penuh',
                 'email.required' => 'Sila isikan emel',
-                'email.unique' => 'Emel telah diambil',
                 'phone_number.required' => 'Sila isikan no telefon',
                 'department_ministry_code.required' => 'Sila pilih nama kementerian',
                 'department_ministry_code.exists' => 'Nama kementerian tidak sah',

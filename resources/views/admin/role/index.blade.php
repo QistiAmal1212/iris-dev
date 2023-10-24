@@ -24,6 +24,17 @@
         width: 100% !important;
         /* word-wrap: break-word; */
     }
+
+    .top-button-container button, .bottom-button-container button {
+        border: 1px solid #ccc;
+        margin: 5px;
+        width: calc(50% - 10px); /* Adjust width as needed */
+    }
+    .middle-text {
+        text-align: center;
+        margin: 10px 0;
+        font-weight: bold;
+    }
 </style>
 
 <div class="col-md-6 col-sm-12">
@@ -96,7 +107,7 @@
                     @if($accessAdd)
                         <div class="card-body text-sm-end text-center ps-sm-0">
                             <!-- <a onclick="viewRoleForm()" class="stretched-link text-nowrap add-new-role"> -->
-                            <a onclick="viewForm()" class="stretched-link text-nowrap add-new-role">
+                            <a onclick="addOption()" class="stretched-link text-nowrap add-new-role">
                                 <span class="btn btn-primary mb-1">Tambah Peranan</span>
                             </a>
                             <p class="mb-0 text-muted">Tambah peranan, jika peranan belum wujud.</p>
@@ -154,6 +165,39 @@
     function actionForm(id, FormAction){
         action= FormAction;
         viewForm(id);
+    }
+
+    function addOption(){
+
+        const allRoles = @json($allRoles);
+
+        const options = allRoles.map(role => `<option value="${role.id}">${role.name}</option>`).join('');
+        Swal.fire({
+                title: 'Sila Pilih',
+                html:
+                '<hr><div class="top-button-container"><button class="btn btn-primary" onclick="handleTopButtonClick()">Tambah Peranan</button></div>' +
+                '<div class="middle-text">atau</div>' +
+                '<div class="bottom-button-container">' +
+                    `<select id="optionSelect" class="form-control" style="margin-top: 10px;">${options}</select>` +
+                    '<button class="btn btn-primary mt-2" onclick="handleOptionButtonClick()">Salin Peranan</button>' +
+                '</div>',
+                showConfirmButton: false,
+                showCancelButton: false,
+            });
+    };
+
+    function handleTopButtonClick() {
+        Swal.close();
+        viewForm()
+    }
+
+    function handleOptionButtonClick() {
+        const selectedOption = document.getElementById('optionSelect').value;
+        Swal.close();
+
+        action= 'duplicate';
+
+        viewForm(selectedOption);
     }
 
     $(function() {
