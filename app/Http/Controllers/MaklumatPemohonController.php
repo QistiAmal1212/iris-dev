@@ -2125,6 +2125,14 @@ class MaklumatPemohonController extends Controller
         //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
     }
 
+    public function editMatrikulasi(Request $request){
+        $id = $request->input('id');
+
+        $candidateMatrikulasi = CalonMatrikulasi::where('id', $id)->with(['course', 'college', 'subject'])->first();
+
+        return response()->json($candidateMatrikulasi);
+    }
+
     public function updateMatrikulasi(Request $request)
     {
         DB::beginTransaction();

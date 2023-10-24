@@ -275,7 +275,7 @@
                             <input type="text" class="form-control" value="" id="tahun_stam1" name="tahun_stam1" disabled>
                         </div>
                     </div>
-                    
+
                     <div class="row">
 
                         <input type="hidden" name="stam1_no_pengenalan" id="stam1_no_pengenalan" value="">
@@ -626,7 +626,7 @@
             reloadStam2();
         }
     }
- 
+
     function checkkemaskinistam(type) {
         var datachanged = false;
         var checkValue = JSON.parse($('#currentvalues_'+type).val());
@@ -653,7 +653,7 @@
                 datachanged = true;
             }
         }
-        
+
         if (!datachanged) {
             $('#editbutton_'+type).val(0);
             disbalefieldsstam(type);
@@ -866,7 +866,7 @@
 
         $("#button_action_stam1").attr("style", "display:block");
         var editbuttoncount = $('#editbutton_stam1').val();
-    
+
         if (editbuttoncount <= 0) {
             // firsttime
             $('#editbutton_stam1').val(1)
@@ -984,7 +984,7 @@
 
         $("#button_action_stam2").attr("style", "display:block");
         var editbuttoncount = $('#editbutton_stam2').val();
-    
+
         if (editbuttoncount <= 0) {
             // firsttime
             $('#editbutton_stam2').val(1)
@@ -1174,24 +1174,24 @@
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
 
-                    $('#matrikulasiForm input[name="id_matrikulasi"]').val(id);
-                    var kolejName = $(row).find('td:nth-child(2)').text();
-                    $('#matrikulasiForm select[name="kolej_matrikulasi"] option').filter(function() {
-                        return $(this).text() === kolejName;
-                    }).prop('selected', true).trigger('change');
-                    var jurusanName = $(row).find('td:nth-child(3)').text();
-                    $('#matrikulasiForm select[name="jurusan_matrikulasi"] option').filter(function() {
-                        return $(this).text() === jurusanName;
-                    }).prop('selected', true).trigger('change');
-                    $('#matrikulasiForm input[name="matrik_matrikulasi"]').val($(row).find('td:nth-child(4)').text());
-                    $('#matrikulasiForm input[name="sesi_matrikulasi"]').val($(row).find('td:nth-child(5)').text());
-                    $('#matrikulasiForm input[name="semester_matrikulasi"]').val($(row).find('td:nth-child(6)').text());
-                    var subjekName = $(row).find('td:nth-child(7)').text();
-                    $('#matrikulasiForm select[name="subjek_matrikulasi"] option').filter(function() {
-                        return $(this).text() === subjekName;
-                    }).prop('selected', true).trigger('change');
-                    $('#matrikulasiForm input[name="gred_matrikulasi"]').val($(row).find('td:nth-child(8)').text());
-                    $('#matrikulasiForm input[name="pngk_matrikulasi"]').val($(row).find('td:nth-child(9)').text());
+                    $.ajax({
+                        url: "{{ route('matrikulasi.edit') }}",
+                        type: 'GET',
+                        data: {id: id},
+                        dataType: 'json',
+                        success: function(data) {
+                            console.log(data)
+                            $('#matrikulasiForm input[name="id_matrikulasi"]').val(id);
+                            $('#matrikulasiForm select[name="kolej_matrikulasi"]').val(data.college.kod).trigger('change');
+                            $('#matrikulasiForm select[name="jurusan_matrikulasi"]').val(data.course.kod).trigger('change');
+                            $('#matrikulasiForm input[name="matrik_matrikulasi"]').val(data.no_matrik);
+                            $('#matrikulasiForm input[name="sesi_matrikulasi"]').val(data.sesi);
+                            $('#matrikulasiForm input[name="semester_matrikulasi"]').val(data.semester);
+                            $('#matrikulasiForm select[name="subjek_matrikulasi"]').val(data.subject.kod).trigger('change');
+                            $('#matrikulasiForm input[name="gred_matrikulasi"]').val(data.gred);
+                            $('#matrikulasiForm input[name="pngk_matrikulasi"]').val(data.pngk);
+                        }
+                    });
                 });
 
                 $(document).on('click', '.deleteMatrikulasi-btn', function() {

@@ -114,6 +114,7 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('list/{noPengenalan}', 'listMatrikulasi')->name('matrikulasi.list');
             Route::post('update', 'updateMatrikulasi')->name('matrikulasi.update');
             Route::post('delete/{idMatrikulasi}', 'deleteMatrikulasi')->name('matrikulasi.delete');
+            Route::get('getItem', 'editMatrikulasi')->name('matrikulasi.edit');
         });
 
         Route::prefix('skm')->group(function () {
