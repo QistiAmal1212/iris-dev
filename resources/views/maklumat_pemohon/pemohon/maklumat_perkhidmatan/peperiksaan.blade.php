@@ -1,66 +1,121 @@
-<div class="card" id="update_psl" style="display:none">
-    <div class="d-flex justify-content-end align-items-center my-1 ">
-        <a class="me-3 text-danger" type="button" onclick="editPsl()">
-            <i class="fa-regular fa-pen-to-square"></i>
-            Kemaskini
-        </a>
-    </div>
-</div>
-<form
-id="pslForm"
-action="{{ route('psl.store') }}"
-method="POST"
-data-refreshFunctionName="reloadTimeline"
-data-refreshFunctionNameIfSuccess="reloadPsl"
-data-reloadPage="false">
-@csrf
-<div class="row mt-2 mb-2">
-    <input type="hidden" name="psl_no_pengenalan" id="psl_no_pengenalan" value="">
-    <input type="hidden" name="id_psl" id="id_psl" value="">
-
-    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-        <label class="form-label">Jenis Peperiksaan</label>
-        <select class="select2 form-control" value="" id="jenis_peperiksaan" name="jenis_peperiksaan" disabled>
-            <option value=""></option>
-            @foreach($jenisPeperiksaan as $peperiksaan)
-            <option value="{{ $peperiksaan->kod }}">{{ $peperiksaan->diskripsi }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col sm-4 col-md-4 col-lg-4 mb-1">
-        <label class="form-label">Tarikh Peperiksaan</label>
-        <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="tarikh_peperiksaan" id="tarikh_peperiksaan" disabled />
-    </div>
-
-    <div id="button_action_psl" style="display:none">
-        <button type="button" id="btnEditPsl" hidden onclick="generalFormSubmit(this);"></button>
-        <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-danger float-right" onclick="reloadPsl()">
-                <i class="fa fa-refresh"></i>
-            </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" id="btnSavePsl" onclick="$('#btnEditPsl').trigger('click');">
-                <i class="fa fa-save"></i> Tambah
+<div class="accordion" id="accordion_exam_psl">
+    {{-- Peperiksaan PSL --}}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading_exam_psl">
+            <button class="accordion-button fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#exam_psl" aria-expanded="true" aria-controls="exam_psl">
+                Peperiksaan PSL
             </button>
+        </h2>
+        <div id="exam_psl" class="accordion-collapse collapse show" aria-labelledby="heading_exam_psl" data-bs-parent="#accordion_exam_psl">
+            <div class="accordion-body">
+                <div id="update_psl" style="display:none">
+                    <div class="d-flex justify-content-end align-items-center mb-1">
+                        <a class="me-3 text-danger" type="button" onclick="editPsl()">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            Kemaskini
+                        </a>
+                    </div>
+                </div>
+
+                <form id="pslForm" action="{{ route('psl.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadPsl" data-reloadPage="false">
+                    @csrf
+                    <div class="row">
+                        <input type="hidden" name="psl_no_pengenalan" id="psl_no_pengenalan" value="">
+                        <input type="hidden" name="id_psl" id="id_psl" value="">
+
+                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                            <label class="form-label">Jenis Peperiksaan</label>
+                            <select class="select2 form-control" value="" id="jenis_peperiksaan" name="jenis_peperiksaan" disabled>
+                                <option value=""></option>
+                                @foreach($jenisPeperiksaan as $peperiksaan)
+                                <option value="{{ $peperiksaan->kod }}">{{ $peperiksaan->diskripsi }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
+                            <label class="form-label">Tarikh Peperiksaan</label>
+                            <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="tarikh_peperiksaan" id="tarikh_peperiksaan" disabled />
+                        </div>
+
+                        <div id="button_action_psl" style="display:none">
+                            <button type="button" id="btnEditPsl" hidden onclick="generalFormSubmit(this);"></button>
+                            <div class="d-flex justify-content-end align-items-center my-1">
+                                <button type="button" class="btn btn-danger me-1" onclick="reloadPsl()">
+                                    <i class="fa fa-refresh"></i>
+                                </button>
+                                <button type="button" class="btn btn-success float-right" id="btnSavePsl" onclick="$('#btnEditPsl').trigger('click');">
+                                    <i class="fa fa-save"></i> Tambah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table header_uppercase table-bordered table-hovered" id="table-psl">
+                        <thead>
+                            <tr>
+                                <th>Bil.</th>
+                                <th>Jenis Peperiksaan</th>
+                                <th>Tarikh Peperiksaan</th>
+                                <th>Kemaskini</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
-</form>
 
+    {{-- Peperiksaan PSL HISTORY --}}
+    <div class="accordion-item">
+        <!-- <h2 class="accordion-header" id="heading_history_exam_psl">
+            <button class="accordion-button collapsed fw-bolder text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#history_exam_psl" aria-expanded="false" aria-controls="history_exam_psl">
+                Jejak Audit [Peperiksaan PSL]
+            </button>
+        </h2> -->
+        <div id="history_exam_psl" class="accordion-collapse collapse" aria-labelledby="heading_history_exam_psl" data-bs-parent="#accordion_exam_psl">
+            <div class="accordion-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                        <label class="form-label">Tarikh Mula</label>
+                        <input type="text" class="form-control">
+                    </div>
 
-<div class="table-responsive">
-    <table class="table header_uppercase table-bordered table-hovered" id="table-psl">
-        <thead>
-            <tr>
-                <th>Bil.</th>
-                <th>Jenis Peperiksaan</th>
-                <th>Tarikh Peperiksaan</th>
-                <th>Kemaskini</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+                    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+                        <label class="form-label">Tarikh Akhir</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a class="me-3" type="button" id="reset" href="#">
+                            <span class="text-danger"> Set Semula </span>
+                        </a>
+                        <button type="submit" class="btn btn-success float-right">
+                            <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive mb-1 mt-1">
+                    <table class="table header_uppercase table-bordered table-hovered">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Maklumat</th>
+                                <th>Status</th>
+                                <th>Tarikh</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>

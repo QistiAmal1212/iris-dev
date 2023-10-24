@@ -135,6 +135,7 @@
             div .input-group {
                 width: 576px;
                 margin: 0 auto;
+                height: auto;
             }
         }
     }

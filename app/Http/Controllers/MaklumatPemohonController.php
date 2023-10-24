@@ -7,13 +7,16 @@ use App\Models\Calon\CalonLesen;
 use App\Models\Calon\CalonMatrikulasi;
 use App\Models\Calon\CalonOku;
 use App\Models\Calon\CalonPsl;
+use App\Models\CandidateSej\CandidateLanguageSej;
+use App\Models\CandidateSej\CandidateLicenseSej;
+use App\Models\CandidateSej\CandidateMatriculationSej;
+use App\Models\CandidateSej\CandidateOkuSej;
+use App\Models\CandidateSej\CandidatePslSej;
 use App\Models\Reference\KodPelbagai;
 use App\Models\Reference\Language;
 use App\Models\Reference\MatriculationSubject;
 use App\Models\Reference\Qualification;
 use App\Models\Reference\Talent;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Reference\DepartmentMinistry;
 use App\Models\Reference\Eligibility;
 use App\Models\Reference\Gender;
@@ -46,8 +49,17 @@ use App\Models\Calon\CalonBakat;
 use App\Models\Calon\CalonGarisMasa;
 use App\Models\Calon\CalonSvm;
 use App\Models\Calon\CalonProfesional;
+use App\Models\CandidateSej\CandidateSej;
+use App\Models\CandidateSej\CandidateArmyPoliceSej;
+use App\Models\CandidateSej\CandidateExperienceSej;
+use App\Models\CandidateSej\CandidateHigherEducationSej;
+use App\Models\CandidateSej\CandidateSkmSej;
+use App\Models\CandidateSej\CandidateTalentSej;
 use App\Models\Reference\Matriculation;
 use App\Models\Reference\MatriculationCourse;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -138,11 +150,16 @@ class MaklumatPemohonController extends Controller
 
         DB::beginTransaction();
         try {
-
-            $candidate = Calon::where(function ($query) use ($no_ic) {
-                $query->where('no_kp_baru', $no_ic)->orWhere('no_kp_lama', $no_ic);
-            })
-            ->with([
+            if (isset($request->type) && ($request->type == 'jejak_audit')) {
+                $candidate = CandidateSej::where(function ($query) use ($no_ic) {
+                    $query->where('no_kp_baru', $no_ic)->orWhere('no_kp_lama', $no_ic);
+                });
+            } else {
+                $candidate = Calon::where(function ($query) use ($no_ic) {
+                    $query->where('no_kp_baru', $no_ic)->orWhere('no_kp_lama', $no_ic);
+                });
+            }
+            $candidate = $candidate->with([
                 'license',
                 'oku',
                 'skim' => function ($query) {
@@ -180,7 +197,7 @@ class MaklumatPemohonController extends Controller
                 },
                 'timeline',
             ])->first();
-
+             
             if(!$candidate) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
@@ -2939,21 +2956,14 @@ class MaklumatPemohonController extends Controller
                 $candidate->tarikh_senat = ($candidate->tarikh_senat != null) ? Carbon::parse($candidate->tarikh_senat)->format('d/m/Y') : null;
             }
 
-            // if(!$candidate) {
-            //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
-            //}
-
-            //DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidatePt]);
 
         } catch (\Throwable $e) {
-
-            //DB::rollback();
+            
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
-
-        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
     }
+
     public function detailPt(Request $request, $idPt)
     {
         DB::beginTransaction();
@@ -2966,11 +2976,8 @@ class MaklumatPemohonController extends Controller
 
         } catch (\Throwable $e) {
 
-            //DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
         }
-
-        //return view('maklumat_pemohon.pemohon.maklumat_tatatertib.list_penalty', compact('candidatePenalty'));
     }
 
     public function updatePt(Request $request)
@@ -3039,7 +3046,8 @@ class MaklumatPemohonController extends Controller
         }
     }
 
-    public function deletePt(Request $request){
+    public function deletePt(Request $request)
+    {
         $skm = CalonSkm::find($request-> idSkm);
 
         if (!$skm) {
