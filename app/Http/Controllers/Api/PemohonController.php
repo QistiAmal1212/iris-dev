@@ -33,6 +33,26 @@ class PemohonController extends ApiController
 {
     public function store(PemohonRequest $request)
     {
+        $senaraiApi = SenaraiApi::where('url','api/pemohon/store')->first();
+
+        if(!$senaraiApi->status){
+            $log = new LogApi;
+            $log->id_senarai_api = $senaraiApi->id;
+            $log->kod_http = config('status.http_codes.forbidden');
+            $log->nama = 'API Tidak Aktif';
+            $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
+            $log->size_request = strlen($request->getContent()) / 1024;
+            $log->status = 0;
+            $log->save();
+
+            return $this->errorResponseFormat(
+                config('status.status_codes.forbidden'),
+                'API Tidak Aktif!',
+                [],
+                config('status.http_codes.forbidden')
+            );
+        }
+
         $noPengenalan = $request->no_kp;
 
         if($request->jantina == 'L' || $request->jantina == '1'){
@@ -683,11 +703,9 @@ class PemohonController extends ApiController
             DB::commit();
             $response = config('status.status_codes.success');
 
-            $senaraiApi = SenaraiApi::where('url','api/pemohon/store')->first();
-
             $log = new LogApi;
             $log->id_senarai_api = $senaraiApi->id;
-            $log->kod_http = '200';
+            $log->kod_http = config('status.http_codes.success');
             $log->nama = 'Data berjaya disimpan';
             $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
             $log->size_request = strlen($request->getContent()) / 1024;
@@ -698,11 +716,9 @@ class PemohonController extends ApiController
             DB::rollBack();
             Log::error('Store Pemohon API Error: ' . $e);
 
-            $senaraiApi = SenaraiApi::where('url','api/pemohon/store')->first();
-
             $log = new LogApi;
             $log->id_senarai_api = $senaraiApi->id;
-            $log->kod_http = '500';
+            $log->kod_http = config('status.http_codes.internal_server_error');
             $log->nama = 'Internal server error';
             $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
             $log->size_request = strlen($request->getContent()) / 1024;
@@ -733,6 +749,24 @@ class PemohonController extends ApiController
         $apiPath = $request->path;
 
         $senaraiApi = SenaraiApi::where('nama_path', $apiPath)->first();
+
+        if(!$senaraiApi->status){
+            $log = new LogApi;
+            $log->id_senarai_api = $senaraiApi->id;
+            $log->kod_http = config('status.http_codes.forbidden');
+            $log->nama = 'API Tidak Aktif';
+            $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
+            $log->size_request = strlen($request->getContent()) / 1024;
+            $log->status = 0;
+            $log->save();
+
+            return $this->errorResponseFormat(
+                config('status.status_codes.forbidden'),
+                'API Tidak Aktif!',
+                [],
+                config('status.http_codes.forbidden')
+            );
+        }
 
         $aksesApi = $senaraiApi->akses->pluck('id')->toArray();
 
@@ -848,7 +882,7 @@ class PemohonController extends ApiController
 
         $log = new LogApi;
         $log->id_senarai_api = $senaraiApi->id;
-        $log->kod_http = '200';
+        $log->kod_http = config('status.http_codes.success');
         $log->nama = 'Tindakan Berjaya';
         $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
         $log->size_request = strlen($request->getContent()) / 1024;

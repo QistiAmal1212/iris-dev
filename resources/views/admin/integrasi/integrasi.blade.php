@@ -115,6 +115,7 @@ Pengurusan Integrasi
                                 <th>ID API</th>
                                 <th>Nama API</th>
                                 <th>URL API</th>
+                                <th>Method</th>
                                 <th width="10%">Status</th>
                                 <th width="10%">Tindakan</th>
                             </tr>
@@ -135,23 +136,27 @@ Pengurusan Integrasi
                                 <td>{{ $api->nama }}</td>
                                 <td>{{ url('/').'/'.$api->url }}</td>
                                 <td>
+                                    @if($api->method == 'GET')
+                                    <span class="badge badge-rounded badge-light-success fw-bolder">{{ $api->method }}</span>
+                                    @else
+                                    <span class="badge badge-rounded badge-light-warning fw-bolder">{{ $api->method }}</span>
+                                    @endif
+                                </td>
+                                <td>
                                     @if($api->status)
                                     <span class="badge badge-rounded badge-light-primary fw-bolder">Aktif</span>
                                     @else
                                     <span class="badge badge-rounded badge-light-danger fw-bolder">Tidak Aktif</span>
                                     @endif
                                 </td>
-                                {{-- <td>
-                                    <div class="justify-content-center align-content-center">
-                                        <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status" {{ ($api->status) ? "checked" : "" }}/>
-                                        </div>
-                                    </div>
-                                </td> --}}
                                 <td>
-                                    @if($api->url != 'api/pemohon/store')
-                                    <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="editApi('{{ $api->id }}')"> <i class="fas fa-pencil text-primary"></i> 
+                                    <div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">
+                                    @if($api->status) 
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-default deactivate" data-id="{{ $api->id }}" onclick="toggleActive('{{ $api->id }}')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>
+                                    @else 
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-default activate" data-id="{{ $api->id }}" onclick="toggleActive('{{ $api->id }}')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>
                                     @endif
+                                    <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="editApi('{{ $api->id }}')"> <i class="fas fa-pencil text-primary"></i> 
                                 </td>
                             </tr>
                             @endforeach
@@ -166,10 +171,44 @@ Pengurusan Integrasi
 
 @section('script')
 <script>
-function editApi(id) {
+    function editApi(id) {
         url = "{{route('edit.api',':replaceThis')}}"
         url = url.replace(':replaceThis',id);
         $("#modal-div").load(url);
+    }
+    function toggleActive(apiId) {
+        var url = "{{ route('update.api.status', ':replaceThis') }}"
+        url = url.replace(':replaceThis', apiId);
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            success: function(data) {
+                if (data.status == 'success') {
+                    // Toggle the button class and icon
+                    var button = document.querySelector('[data-id="' + apiId + '"]');
+                    button.classList.toggle('activate');
+                    button.classList.toggle('deactivate');
+
+                    // Toggle the icon
+                    var icon = button.querySelector('i');
+                    if (icon.classList.contains('fa-toggle-on')) {
+                        icon.classList.replace('fa-toggle-on', 'fa-toggle-off');
+                        icon.classList.replace('text-success', 'text-danger');
+                    } else {
+                        icon.classList.replace('fa-toggle-off', 'fa-toggle-on');
+                        icon.classList.replace('text-danger', 'text-success');
+                    }
+                    toastr.success(data.title ?? "Saved");
+                    proceed();
+                } else {
+                    alert('Error toggling active state');
+                }
+            },
+            error: function(error) {
+                console.error('Error toggling active state:', error);
+            }
+        });
     }
 </script>
 @endsection

@@ -25,7 +25,7 @@ class ApiRequest extends FormRequest
 
         $log = new LogApi;
         $log->id_senarai_api = $senaraiApi->id;
-        $log->kod_http = '422';
+        $log->kod_http = config('status.http_codes.unprocessable_entity');
         $log->nama = 'Pengesahan Gagal';
         $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
         $log->size_request = strlen(request()->getContent()) / 1024;
@@ -39,7 +39,7 @@ class ApiRequest extends FormRequest
                     'message' => 'Pengesahan Gagal.',
                     'errors' => $validator->errors(),
                 ],
-                422
+                config('status.http_codes.unprocessable_entity')
             )
         );
     }

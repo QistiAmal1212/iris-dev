@@ -16,7 +16,7 @@ class IntegrationController extends Controller
     }
 
     public function DashboardIntegration (){
-        $senaraiApi = SenaraiApi::whereNot('url', 'api/pemohon/details')->get();
+        $senaraiApi = SenaraiApi::whereNot('url', 'api/pemohon/details')->orderBy('id', 'ASC')->get();
         $tableApi = TableApi::get();
 
         return view('admin.integrasi.integrasi', compact('senaraiApi', 'tableApi'));
@@ -33,11 +33,11 @@ class IntegrationController extends Controller
                 'table_api' => 'required|array',
                 'table_api.*' => 'required|exists:table_api,id',
             ],[
-                'url_api.required' => 'Sila isikan url api',
+                'url_api.required' => 'Sila isikan URL API',
                 'url_api.unique' => 'Url api telah diambil',
-                'nama_api.required' => 'Sila isikan nama api',
-                'table_api.required' => 'Sila pilih table api',
-                'table_api.*.exists' => 'Tiada rekod data table yang dipilih',
+                'nama_api.required' => 'Sila isikan nama API',
+                'table_api.required' => 'Sila pilih table API',
+                'table_api.*.exists' => 'Tiada rekod table API yang dipilih',
             ]);
 
             $senaraiApi = SenaraiApi::create([
@@ -47,6 +47,7 @@ class IntegrationController extends Controller
                 'status' => isset($request->status_api) ? 1 : 0,
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
+                'method' => 'GET',
             ]);
 
             if($senaraiApi){
@@ -76,32 +77,70 @@ class IntegrationController extends Controller
         DB::beginTransaction();
         try {
 
-            $request->validate([
-                'url_api' => 'required|string|unique:senarai_api,nama_path,'.$request->idApi,
-                'nama_api' => 'required|string',
-                'table_api' => 'required|array',
-                'table_api.*' => 'required|exists:table_api,id',
-            ],[
-                'url_api.required' => 'Sila isikan url api',
-                'url_api.unique' => 'Url api telah diambil',
-                'nama_api.required' => 'Sila isikan nama api',
-                'table_api.required' => 'Sila pilih table api',
-                'table_api.*.exists' => 'Tiada rekod data table yang dipilih',
-            ]);
+            $api = SenaraiApi::find($request->idApi);
+
+            if($api->url == 'api/pemohon/store'){
+                $request->validate([
+                    'nama_api' => 'required|string',
+                ],[
+                    'nama_api.required' => 'Sila isikan nama API',
+                ]);
+
+                $updateApi = $api->update([
+                    'nama' => $request->nama_api,
+                    'status' => isset($request->status_api) ? 1 : 0,
+                    'pengguna' => auth()->user()->id,
+                ]);
+            } else {
+
+                $request->validate([
+                    'url_api' => 'required|string|unique:senarai_api,nama_path,'.$request->idApi,
+                    'nama_api' => 'required|string',
+                    'table_api' => 'required|array',
+                    'table_api.*' => 'required|exists:table_api,id',
+                ],[
+                    'url_api.required' => 'Sila isikan URL API',
+                    'url_api.unique' => 'Url api telah diambil',
+                    'nama_api.required' => 'Sila isikan nama API',
+                    'table_api.required' => 'Sila pilih table API',
+                    'table_api.*.exists' => 'Tiada rekod table API yang dipilih',
+                ]);
+
+                $updateApi = $api->update([
+                    'nama' => $request->nama_api,
+                    'url' => 'api/pemohon/details/'.$request->url_api,
+                    'nama_path' => $request->url_api,
+                    'status' => isset($request->status_api) ? 1 : 0,
+                    'pengguna' => auth()->user()->id,
+                    'method' => 'GET',
+                ]);
+
+                if($updateApi){
+                    $api->akses()->sync($request->table_api);
+                }
+            }
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function updateApiStatus(Request $request) 
+    {
+        DB::beginTransaction();
+        try {
 
             $api = SenaraiApi::find($request->idApi);
 
             $updateApi = $api->update([
-                'nama' => $request->nama_api,
-                'url' => 'api/pemohon/details/'.$request->url_api,
-                'nama_path' => $request->url_api,
-                'status' => isset($request->status_api) ? 1 : 0,
+                'status' => $api->status ? 0 : 1,
                 'pengguna' => auth()->user()->id,
             ]);
-
-            if($updateApi){
-                $api->akses()->sync($request->table_api);
-            }
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);

@@ -204,6 +204,7 @@ Route::controller(IntegrationController::class)->group(function () {
         Route::post('store-api', 'storeApi')->name('store.api');
         Route::get('edit-api/{idApi}', 'editApi')->name('edit.api');
         Route::post('update-api/{idApi}', 'updateApi')->name('update.api');
+        Route::post('update-api-status/{idApi}', 'updateApiStatus')->name('update.api.status');
         Route::get('informasi-integrasi/{idApi}','IntegrationInformation')->name('integration_information');
     });
 });
