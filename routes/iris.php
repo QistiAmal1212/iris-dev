@@ -38,6 +38,7 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::prefix('oku')->group(function () {
             Route::post('update', 'updateOKU')->name('oku.update');
             Route::get('details/{noPengenalan}', 'OKUDetails')->name('oku.details');
+            Route::get('getChild', 'getCategoriesByParent')->name('oku.getChild');
         });
 
         Route::prefix('pusat_temuduga')->group(function () {

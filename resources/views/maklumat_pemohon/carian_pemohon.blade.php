@@ -188,6 +188,30 @@ Maklumat Pemohon
 
 @section('script')
 <script>
+    $(document).ready(function() {
+        $('#oku_category').change(function() {
+            var parentCategory = $(this).val();
+            if(parentCategory && parentCategory!= "") {
+                $.ajax({
+                    url: "{{ route('oku.getChild') }}",
+                    type: 'GET',
+                    data: {parent_category: parentCategory},
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#oku_sub').empty();
+                        $('#oku_sub').append('<option value="" selected>Sila Pilih:-</option>');
+                        $.each(data, function(key, value) {
+                            $('#oku_sub').append('<option value="'+ value.codes +'">'+ value.categories +'</option>');
+                        });
+                        $('#okuForm select[name="oku_sub"]').val($('#okuForm input[name="temp"]').val()).trigger('change');
+                    }
+                });
+            }{
+                $('#oku_sub').empty();
+                selectionNull('oku_sub', 'okuForm');
+            }
+        });
+    });
     function selectSearch(btnValue){
         $('#pilihan_carian').val(btnValue);
         reset();
@@ -330,8 +354,8 @@ Maklumat Pemohon
                 $('#editbutton_pmr').val(0);
                 disbalefieldspmr();
                 reloadPmr();
-            }            
-            
+            }
+
             return;
         }
         if (btnName == 'btnEditPersonal') {
@@ -358,8 +382,8 @@ Maklumat Pemohon
         } else if (btnName == 'btnEditPmr') {
             $('#editbutton_pmr').val(0);
             $('#tukar_log_pmr').val(htmlContent);
-        }            
-            
+        }
+
         Swal.fire({
         title: 'Adakah anda ingin simpan perubahan ini?',
         html: htmlContent,
@@ -653,9 +677,10 @@ Maklumat Pemohon
                         if(data.detail.oku.kategori_oku) { $('#okuForm select[name="oku_category"]').val(data.detail.oku.kategori_oku).trigger('change'); }
                         else { selectionNull('oku_category', 'okuForm'); }
                         originalVal['oku_category'] = $('#okuForm select[name="oku_category"]').find(':selected').text();
-                        $('#okuForm input[name="oku_sub"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub_oku ? data.detail.oku.sub_oku : data_not_available);
-                        originalVal['oku_sub'] = data.detail.oku.sub_oku;
+                        $('#okuForm select[name="oku_sub"]').attr('disabled', true);
+                        // $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub_oku ? data.detail.oku.sub_oku : data_not_available);
+                        // originalVal['oku_sub'] = data.detail.oku.sub_oku;
+                        $('#okuForm input[name="temp"]').val(data.detail.oku.sub_oku ? data.detail.oku.sub_oku : null);
                         var tmOkuElement = $("#tm_oku");
                         tmOkuElement.attr("hidden", true);
                     }else{
@@ -668,9 +693,10 @@ Maklumat Pemohon
                         // $('#okuForm input[name="oku_category"]').attr('disabled', true);
                         selectionNull('oku_category', 'okuForm');
                         originalVal['oku_category'] = "";
-                        $('#okuForm input[name="oku_sub"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_sub"]').val(data_not_available);
+                        $('#okuForm select[name="oku_sub"]').attr('disabled', true);
+                        $('#okuForm select[name="oku_sub"]').val(data_not_available);
                         originalVal['oku_sub'] = "";
+                        $('#okuForm input[name="temp"]').val("");
                         var tmOkuElement = $("#tm_oku");
                         tmOkuElement.removeAttr("hidden");
                     }
