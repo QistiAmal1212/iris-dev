@@ -5,7 +5,7 @@
 @use '../_bootstrap-extended/include-dark' as dark;
 @import '../_custom-variables/pages';
 
-$faq-header-min-height: 300px !default;
+$faq-header-min-height: 200px !default;
 
 .faq-header {
   background: url('../../../img/pages/header.png');
