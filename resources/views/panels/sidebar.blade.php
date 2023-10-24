@@ -224,7 +224,7 @@ $configData = Helper::applClasses();
                                     <?php
                                     $accessLevel3 = $menu3->role()->whereIn('id', $roles)->get();
                                     ?>
-                                    @if(count($accessLevel3) > 0 && !in_array($menu3->module->code, ['admin.reference.jenisoku','admin.reference.jelasurusan', 'admin.reference.klasifikasiperkhidmatan', 'admin.reference.jkkc', 'admin.reference.ahlisuruhanjaya']))
+                                    @if(count($accessLevel3) > 0 && !in_array($menu3->module->code, ['admin.reference.jenisoku','admin.reference.jelasurusan', 'admin.reference.klasifikasiperkhidmatan', 'admin.reference.jkkc', 'admin.reference.ahlisuruhanjaya', 'admin.reference.jenisskim']))
                                     <li class="nav-item {{ ($menu3->type == 'Web') ? in_array(request()->route()->getName(), [$menu3->module->code]) ? 'active' : '' : '#' }}">
                                         <a href="{{ ($menu3->type == 'Web') ? route($menu3->module->code) : '#' }}" class="d-flex align-items-center">
                                             <!-- <i data-feather="circle"></i> -->
