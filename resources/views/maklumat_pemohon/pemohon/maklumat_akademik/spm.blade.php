@@ -117,28 +117,28 @@
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_spm1" name="subjek_spm1" disabled onchange="changesubjeckspm('subjek_spm1')">
-                                <option value="" hidden>Mata Pelajaran</option>
+                                <option value="" hidden></option>
                                     @foreach($subjekSpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
                         </div>
+                             <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">MP Kpd</label>
+                            <input type="text" class="form-control" value="" id="mp_kod_spm1" name="mp_kod_spm1" disabled>
+                        </div>
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
                             <select class="select2 form-control" id="gred_spm1" name="gred_spm1" disabled>
-                                <option value="" hidden>Gred</option>
+                                <option value="" hidden></option>
                                     @foreach($gredSpm as $gred)
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
                                     @endforeach
                             </select>
                         </div>
 
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">MP Kpd</label>
-                            <input type="text" class="form-control" value="" id="mp_kod_spm1" name="mp_kod_spm1" disabled>
-                        </div>
-
+                   
                         <div id="button_action_spm1" style="display:none">
                             <button type="button" id="btnEditSpm1" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
@@ -223,26 +223,27 @@
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_spm2" name="subjek_spm2" disabled onchange="changesubjeckspm('subjek_spm2')">
-                                <option value="" hidden>Mata Pelajaran</option>
+                                <option value="" hidden></option>
                                     @foreach($subjekSpm as $subjek)
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
                         </div>
 
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                            <label class="form-label">Gred</label>
-                            <select class="select2 form-control" id="gred_spm2" name="gred_spm2" disabled>
-                                <option value="" hidden>Gred</option>
-                                    @foreach($gredSpm as $gred)
-                                        <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
-                                    @endforeach
-                            </select>
-                        </div>
 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">MP Kod</label>
                             <input type="text" class="form-control" value="" id="mp_kod_spm2" name="mp_kod_spm2" disabled>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                            <label class="form-label">Gred</label>
+                            <select class="select2 form-control" id="gred_spm2" name="gred_spm2" disabled>
+                                <option value="" hidden></option>
+                                    @foreach($gredSpm as $gred)
+                                        <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
+                                    @endforeach
+                            </select>
                         </div>
 
                         <div id="button_action_spm2" style="display:none">
@@ -637,6 +638,7 @@
     function checkkemaskinispm(type) {
         var datachanged = false;
         var checkValue = JSON.parse($('#currentvalues_'+type).val());
+
         if (type == 'spm1') {
             if (checkValue.subjek_spm1 != $('#subjek_spm1').find(':selected').text()) {
                 datachanged = true;
@@ -649,14 +651,13 @@
                 datachanged = true;
             }
         } else {
-            if (checkValue.subjek_spm1 != $('#subjek_spm1').find(':selected').text()) {
+            if (checkValue.subjek_spm2 != $('#subjek_spm2').find(':selected').text()) {
                 datachanged = true;
             }
-            if (checkValue.gred_spm1 != $('#gred_spm1').find(':selected').text()) {
+            if (checkValue.gred_spm2 != $('#gred_spm2').find(':selected').text()) {
                 datachanged = true;
             }
-
-            if (checkValue.tahun_spm1 != $('#tahun_spm1').val()) {
+            if (checkValue.tahun_spm2 != $('#tahun_spm2').val()) {
                 datachanged = true;
             }
         }
@@ -787,9 +788,9 @@
             // firsttime
             $('#editbutton_spm2').val(1)
             var check_data = {
-                subjek_spm: $('#subek_spm2').find(':selected').text(),
-                gred_spm: $('#gred_spm2').find(':selected').text(),
-                tahun_spm: $('#tahun_spm2').val()
+                subjek_spm2: $('#subjek_spm2').find(':selected').text(),
+                gred_spm2: $('#gred_spm2').find(':selected').text(),
+                tahun_spm2: $('#tahun_spm2').val()
             };
             $('#currentvalues_spm2').val(JSON.stringify(check_data));
         } else {
