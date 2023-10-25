@@ -128,7 +128,7 @@ Maklumat Pemohon
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link fw-bolder" id="skim-tab" data-bs-toggle="tab" href="#skim" aria-controls="skim" role="tab" aria-selected="true">
-                                Maklumat <br> Skim
+                                Maklumat <br> Skim<br>
                                 <div class="badge badge-light-danger fw-bolder" id="tm_skim" hidden>Tiada Maklumat</div>
                             </a>
                         </li>
