@@ -81,7 +81,7 @@
                         <th>Tempoh Hukuman</th>
                         <th>Tarikh Mula Hukuman</th>
                         <th>Tarikh Akhir Hukuman</th>
-                        <th>Kemaskini</th>
+                        <!-- <th>Kemaskini</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -171,9 +171,9 @@
                     trPenalty += '<td>' + item.tempoh + ' ' + item.jenis + '</td>';
                     trPenalty += '<td>' + item.tarikh_mula + '</td>';
                     trPenalty += '<td>' + item.tarikh_tamat + '</td>';
-                    trPenalty += '<td align="center"><i class="fas fa-pencil text-primary editPenalty-btn" data-id="' + item.id + ' "></i>';
-                    trPenalty += '&nbsp;&nbsp;';
-                    trPenalty += '<i class="fas fa-trash text-danger deletePenalty-btn" data-id="' + item.id + '"></i></td>';
+                    // trPenalty += '<td align="center"><i class="fas fa-pencil text-primary editPenalty-btn" data-id="' + item.id + ' "></i>';
+                    // trPenalty += '&nbsp;&nbsp;';
+                    // trPenalty += '<i class="fas fa-trash text-danger deletePenalty-btn" data-id="' + item.id + '"></i></td>';
                     trPenalty += '</tr>';
                 });
                 $('#table-penalty tbody').append(trPenalty);
@@ -181,6 +181,7 @@
                 if($('#table-penalty tbody').is(':empty')){
                     var trPenalty = '<tr><td align="center" colspan="6">*Tiada Rekod*</td></tr>';
                     $('#table-penalty tbody').append(trPenalty);
+                    $('#tm_tata').removeAttr('hidden');
                 }
 
                 $(document).on('click', '.editPenalty-btn', function() {

@@ -68,7 +68,7 @@
                 </span>
 
                 <span class="bs-stepper-subtitle">
-                    <span class="badge badge-light-danger fw-bolder mt-1" id="tm_spmu" hidden>Tiada Maklumat</span>
+                    <span class="badge badge-light-danger fw-bolder mt-1" id="tm_spmu">Tiada Maklumat</span>
                 </span>
             </button>
         </div>

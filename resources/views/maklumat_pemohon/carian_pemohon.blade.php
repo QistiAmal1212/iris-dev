@@ -149,7 +149,9 @@ Maklumat Pemohon
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link fw-bolder" id="tatatertib-tab" data-bs-toggle="tab" href="#tatatertib" aria-controls="tatatertib" role="tab" aria-selected="true">
-                                Maklumat <br> Tatatertib
+                                Maklumat <br> Tatatertib <br>
+                            <div class="badge badge-light-danger fw-bolder" id="tm_tata" hidden>Tiada Maklumat</div>
+
                             </a>
                         </li>
                     </ul>
@@ -479,7 +481,7 @@ Maklumat Pemohon
     function isTabEmpty(tabForm, fields) {
         for (let fieldName of fields) {
             let fieldValue = $(`#${tabForm} [name="${fieldName}"]`).val();
-            if (fieldValue && fieldValue.trim() !== '') {
+            if (fieldValue && fieldValue.trim() !== '' && fieldValue != 'Tiada Maklumat') {
                 return false;
             }
         }
