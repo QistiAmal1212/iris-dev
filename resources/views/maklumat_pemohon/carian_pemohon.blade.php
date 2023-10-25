@@ -723,7 +723,7 @@ Maklumat Pemohon
                     $('#table-skim tbody').empty();
                     if(data.detail.skim.length == 0){
                         var trSkim = '<tr><td align="center" colspan="6">*Tiada Rekod*</td></tr>';
-                         $('#tm_skim').attr("hidden", true);
+                        $('#tm_skim').removeAttr('hidden');
                     } else {
                         var trSkim = '';
                         var bilSkim = 0;
@@ -738,7 +738,7 @@ Maklumat Pemohon
                             trSkim += '<td>' + (item.tarikh_luput ? item.tarikh_luput : '') + '</td>';
                             trSkim += '</tr>';
                         });
-                        $('#tm_skim').removeAttr('hidden');
+                        $('#tm_skim').attr("hidden", true);
                     }
 
                     $('#table-skim tbody').append(trSkim);
