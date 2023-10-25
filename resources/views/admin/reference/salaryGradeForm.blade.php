@@ -49,7 +49,7 @@
                                 <th width="2%" class="text-center">No.</th>
                                 <th width="15%" class="text-center">Tahap</th>
                                 <th width="15%" class="text-center">Tahun</th>
-                                <th class="text-center">Jumlah</th>
+                                <th class="text-center">Jumlah (RM)</th>
                                 <th width="10%" class="text-center">Tindakan</th>
                             </tr>
                         </thead>
