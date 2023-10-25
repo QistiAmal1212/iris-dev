@@ -65,10 +65,9 @@
                     <span class="bs-stepper-title text-wrap">
                         SPM Ulangan
                     </span>
-                </span>
-
-                <span class="bs-stepper-subtitle">
-                    <span class="badge badge-light-danger fw-bolder mt-1" id="tm_spmu">Tiada Maklumat</span>
+                    <span class="bs-stepper-subtitle">
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_spmu">Tiada Maklumat</span>
+                    </span>
                 </span>
             </button>
         </div>
