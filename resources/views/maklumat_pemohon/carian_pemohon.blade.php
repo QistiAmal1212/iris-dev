@@ -743,9 +743,6 @@ Maklumat Pemohon
 
                     $('#table-skim tbody').append(trSkim);
 
-                   $('#table-stpm1 tbody').append(trStpm);
-
-
                     $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-pmr tbody').empty();
                     reloadPmr();
