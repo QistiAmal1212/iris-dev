@@ -184,9 +184,9 @@ data-reloadPage="false">
                         trSkm += '<td align="center">' + bilSkm + '</td>';
                         trSkm += '<td>' + (item.qualification ? item.qualification.diskripsi : "Tiada Maklumat")  + '</td>';
                         trSkm += '<td align="center">' + item.tahun_lulus + '</td>';
-                        trSkm += '<td align="center"><i class="fas fa-pencil text-primary editSkm-btn" data-id="' + item.id + ' " data-form="skm"></i>';
+                        trSkm += '<td align="center"><a><i class="fas fa-pencil text-primary editSkm-btn" data-id="' + item.id + ' " data-form="skm"></a></i>';
                         trSkm += '&nbsp;&nbsp;';
-                        trSkm += '<i class="fas fa-trash text-danger deleteSkm-btn" data-id="' + item.id + '"></i></td>';
+                        trSkm += '<a><i class="fas fa-trash text-danger deleteSkm-btn" data-id="' + item.id + '"></i></a></td>';
                         trSkm += '</tr>';
                     }
                 });
@@ -204,6 +204,7 @@ data-reloadPage="false">
                 }
 
                 $(document).on('click', '.editSkm-btn', function() {
+                    $('#editbutton_skm').val(0);
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#skmForm').attr('action', "{{ route('skm.update') }}");
                     var row = $(this).closest('tr');

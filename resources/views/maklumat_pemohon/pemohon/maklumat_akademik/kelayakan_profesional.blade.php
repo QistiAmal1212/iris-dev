@@ -44,13 +44,29 @@ data-reloadPage="false">
                 <button type="button" class="btn btn-danger me-1" onclick="reloadProfesional()">
                     <i class="fa fa-refresh"></i>
                 </button>
-                <button type="button" class="btn btn-success float-right" id="btnSaveProfesional" onclick="$('#btnEditProfesional').trigger('click');">
+                <!-- <button type="button" class="btn btn-success float-right" id="btnSaveProfesional" onclick="$('#btnEditProfesional').trigger('click');">
                     <i class="fa fa-save"></i> Tambah
-                </button>
+                </button> -->
+                 <button type="button" class="btn btn-success float-right" id="btnSaveProfesional" onclick="confirmSubmitkp('btnEditProfesional', {
+                        no_ahli_profesional: $('#no_ahli_profesional').val(),
+                        kelulusan_profesional: $('#kelulusan_profesional').find(':selected').text(),
+                        tarikh_keahlian_profesional: $('#tarikh_keahlian_profesional').val()
+                    },{
+                        no_ahli_profesional: 'No. Ahli',
+                        kelulusan_profesional: 'kelulusan_profesional',
+                        tarikh_keahlian_profesional: 'Tarikh Keahlian'
+                    }
+                );">
+            <i class="fa fa-save"></i> Tambah
+        </button>
             </div>
         </div>
     </div>
+<input type="hidden" name="tukar_log_kp"  id="tukar_log_kp">
 </form>
+<input type="hidden" name="editbutton_kp" value=0 id="editbutton_kp">
+
+<textarea id="currentvalues_kp" style="display:none;"></textarea>
 
 <div class="row mt-2 mb-2">
     <div class="table-responsive">
@@ -76,6 +92,82 @@ data-reloadPage="false">
         $('#profesionalForm input[name="tarikh_keahlian_profesional"]').attr('disabled', false);
 
         $("#button_action_profesional").attr("style", "display:block");
+        var editbuttoncount = $('#editbutton_kp').val();
+    
+        if (editbuttoncount <= 0) {
+            // firsttime
+            $('#editbutton_kp').val(1)
+            var check_data = {
+                no_ahli_profesional: $('#no_ahli_profesional').val(),
+                kelulusan_profesional: $('#kelulusan_profesional').find(':selected').text(),
+                tarikh_keahlian_profesional: $('#tarikh_keahlian_profesional').val()
+            };
+            $('#currentvalues_kp').val(JSON.stringify(check_data));
+        } else {
+            checkkemaskinikp();
+        }
+    }
+    function checkkemaskinikp() {
+        
+        var datachanged = false;
+        var checkValue = JSON.parse($('#currentvalues_kp').val());
+   
+        if (checkValue.kelulusan_profesional != $('#kelulusan_profesional').find(':selected').text()) {
+            datachanged = true;
+        }
+        if (checkValue.no_ahli_profesional != $('#no_ahli_profesional').val()) {
+            datachanged = true;
+        }
+        if (checkValue.tarikh_keahlian_profesional != $('#tarikh_keahlian_profesional').val()) {
+            datachanged = true;
+        }
+        
+        if (!datachanged) {
+            $('#editbutton_kp').val(0);
+            disbalefieldskp();
+        }
+    }
+    function disbalefieldskp() {
+        $('#profesionalForm input[name="no_ahli_profesional"]').attr('disabled', true);
+        $('#profesionalForm select[name="kelulusan_profesional"]').attr('disabled', true);
+        $('#profesionalForm input[name="tarikh_keahlian_profesional"]').attr('disabled', true);
+
+        $("#button_action_profesional").attr("style", "display:none");
+    }
+    function confirmSubmitkp(btnName, newValues, columnHead) {
+        var originalVal = JSON.parse($('#currentvalues_kp').val());
+
+        var htmlContent = '<p>Perubahan:</p>';
+        for (var key in originalVal) {
+            if (originalVal.hasOwnProperty(key)) {
+                if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+                    if (originalVal[key] == null || originalVal[key] === '') {
+                        if (newValues[key] !== 'Tiada Maklumat') {
+                            if(newValues[key] !== null){
+                                htmlContent += '<p>' + columnHead[key] + ':<br>';
+                                htmlContent += 'Tiada Maklumat kepada ' + newValues[key] + '</p>';
+                            }
+                        }
+                    } else {
+                        htmlContent += '<p>' + columnHead[key] + ':<br>';
+                        htmlContent += originalVal[key] + ' kepada ' + newValues[key] + '</p>';
+                    }
+                }
+            }
+        }
+         if (htmlContent === '<p>Perubahan:</p>') {
+            Swal.fire({
+                title: 'Tiada Perubahan Dibuat',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+        } else {
+            $('#tukar_log_kp').val(htmlContent);
+            $('#btnEditProfesional').trigger('click')
+        }
+        $('#editbutton_kp').val(0);
+        reloadProfesional();
+        disbalefieldskp();
     }
 
     function reloadProfesional() {
@@ -111,9 +203,9 @@ data-reloadPage="false">
                         trProfessional += '<td>' + (item.no_ahli ? item.no_ahli : '') + '</td>';
                         trProfessional += '<td>' + (item.qualification ? item.qualification.diskripsi : '') + '</td>';
                         trProfessional += '<td>' + (item.tarikh ? item.tarikh : '') + '</td>';
-                        trProfessional += '<td align="center"><i class="fas fa-pencil text-primary editProfesional-btn" data-id="' + item.id + ' "></i>';
+                        trProfessional += '<td align="center"><a><i class="fas fa-pencil text-primary editProfesional-btn" data-id="' + item.id + ' "></i></a>';
                         trProfessional += '&nbsp;&nbsp;';
-                        trProfessional += '<i class="fas fa-trash text-danger deleteProfesional-btn" data-id="' + item.id + '"></i></td>';
+                        trProfessional += '<a><i class="fas fa-trash text-danger deleteProfesional-btn" data-id="' + item.id + '"></i></a></td>';
                         trProfessional += '</tr>';
                     });
                 }
@@ -131,6 +223,7 @@ data-reloadPage="false">
                 }
 
                 $(document).on('click', '.editProfesional-btn', function() {
+                    $('#editbutton_kp').val(0);
                     $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#profesionalForm').attr('action', "{{ route('profesional.update') }}");
                     var row = $(this).closest('tr');
@@ -143,6 +236,7 @@ data-reloadPage="false">
                         return $(this).text() === kelayakanName;
                     }).prop('selected', true).trigger('change');
                     $('#profesionalForm input[name="tarikh_keahlian_profesional"]').val($(row).find('td:nth-child(4)').text());
+                    editProfesional();
                 });
 
 

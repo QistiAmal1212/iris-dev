@@ -3024,6 +3024,7 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_pt) ? json_encode($request->tukar_log_pt) : null
             ]);
 
             DB::commit();
@@ -3139,6 +3140,7 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_pt) ? json_encode($request->tukar_log_pt) : null
             ]);
 
             DB::commit();
@@ -3193,6 +3195,8 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_kp) ? json_encode($request->tukar_log_kp) : null
+
             ]);
 
             DB::commit();
@@ -3246,6 +3250,7 @@ class MaklumatPemohonController extends Controller
                 'kel1_kod' => $request->kelulusan_profesional,
                 'tarikh' => Carbon::createFromFormat('d/m/Y', $request->tarikh_keahlian_profesional)->format('Y-m-d'),
                 'pengguna' => auth()->user()->id,
+
             ]);
 
             CalonGarisMasa::create([
@@ -3254,6 +3259,7 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_kp) ? json_encode($request->tukar_log_kp) : null
             ]);
 
             DB::commit();
