@@ -105,7 +105,7 @@
                     <input type="hidden" id="diploma_no_pengenalan" name="diploma_no_pengenalan">
                     <div class="row">
 
-                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                     <!--    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Peringkat Kelulusan</label>
                             <select class="select2 form-control" name="kelayakan_diploma" id="kelayakan_diploma" disabled>
                                 <option value="" hidden>Peringkat Kelulusan</option>
@@ -113,9 +113,9 @@
                                     <option value="{{ $eligibility->kod }}">{{ $eligibility->diskripsi }}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> -->
 
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                      <!--   <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" name="tahun_diploma" id="tahun_diploma" disabled>
                         </div>
@@ -133,9 +133,9 @@
                                         <option value="{{ $institution->kod }}">{{ $institution->diskripsi }}</option>
                                     @endforeach
                             </select>
-                        </div>
+                        </div> -->
 
-                        <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                       <!--  <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                             <label class="form-label">Nama Sijil</label>
                             <input type="text" class="form-control" value="" name="nama_sijil_diploma" id="nama_sijil_diploma" disabled>
                         </div>
@@ -149,7 +149,7 @@
                                     @endforeach
                             </select>
                         </div>
-
+ --><!-- 
                         <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
                             <label class="form-label">Francais Luar Negara</label>
                             <select class="select2 form-control" name="fln_diploma" id="fln_diploma" disabled>
@@ -171,7 +171,7 @@
                                 <option value="0">Tidak</option>
                                 <option value="1">Ya</option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div id="button_action_diploma" style="display:none">
@@ -240,7 +240,7 @@
                     <input type="hidden" id="degree_no_pengenalan" name="degree_no_pengenalan">
                     <div class="row">
 
-                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                      <!--   <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Peringkat Kelulusan</label>
                             <select class="select2 form-control" name="kelayakan_degree" id="kelayakan_degree" disabled>
                                 <option value="" hidden>Peringkat Kelulusan</option>
@@ -306,7 +306,7 @@
                                 <option value="0">Tidak</option>
                                 <option value="1">Ya</option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div id="button_action_degree" style="display:none">
@@ -375,7 +375,7 @@
                     <input type="hidden" id="master_no_pengenalan" name="master_no_pengenalan">
                     <div class="row">
 
-                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                       <!--  <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Peringkat Kelulusan</label>
                             <select class="select2 form-control" name="kelayakan_master" id="kelayakan_master" disabled>
                                 <option value="" hidden>Peringkat Kelulusan</option>
@@ -441,7 +441,7 @@
                                 <option value="0">Tidak</option>
                                 <option value="1">Ya</option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div id="button_action_master" style="display:none">
@@ -510,7 +510,7 @@
                     <input type="hidden" id="phd_no_pengenalan" name="phd_no_pengenalan">
                     <div class="row">
 
-                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <!-- <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Peringkat Kelulusan</label>
                             <select class="select2 form-control" name="kelayakan_phd" id="kelayakan_phd" disabled>
                                 <option value="" hidden>Peringkat Kelulusan</option>
@@ -576,7 +576,7 @@
                                 <option value="0">Tidak</option>
                                 <option value="1">Ya</option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div id="button_action_phd" style="display:none">

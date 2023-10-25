@@ -17,7 +17,7 @@ data-reloadPage="false">
 <div class="row mt-2 mb-2">
     <input type="hidden" name="psl_no_pengenalan" id="psl_no_pengenalan" value="">
     <input type="hidden" name="id_psl" id="id_psl" value="">
-
+<!-- 
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Jenis Peperiksaan</label>
         <select class="select2 form-control" value="" id="jenis_peperiksaan" name="jenis_peperiksaan" disabled>
@@ -26,13 +26,13 @@ data-reloadPage="false">
             <option value="{{ $peperiksaan->kod }}">{{ $peperiksaan->diskripsi }}</option>
             @endforeach
         </select>
-    </div>
+    </div> -->
 
-    <div class="col sm-4 col-md-4 col-lg-4 mb-1">
+  <!--   <div class="col sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Tarikh Peperiksaan</label>
         <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="tarikh_peperiksaan" id="tarikh_peperiksaan" disabled />
     </div>
-
+ -->
     <div id="button_action_psl" style="display:none">
         <button type="button" id="btnEditPsl" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">

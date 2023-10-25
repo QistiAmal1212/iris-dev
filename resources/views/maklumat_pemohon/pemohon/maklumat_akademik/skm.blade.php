@@ -18,7 +18,7 @@ data-reloadPage="false">
     <input type="hidden" name="skm_no_pengenalan" id="skm_no_pengenalan" value="">
     <input type="hidden" name="id_skm" id="id_skm" value="">
 
-    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+  <!--   <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label"></label>
         <select class="select2 form-control" value="" id="nama_skm" name="nama_skm" disabled>
             <option value=""></option>
@@ -27,12 +27,12 @@ data-reloadPage="false">
             @endforeach
         </select>
     </div>
-
-    <div class="col sm-4 col-md-4 col-lg-4 mb-1">
+ -->
+   <!--  <div class="col sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Tahun</label>
         <input type="text" class="form-control" value="" id="tahun_skm" name="tahun_skm" disabled>
     </div>
-
+ -->
     <div id="button_action_skm" style="display:none">
         <button type="button" id="btnEditSkm" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
@@ -68,7 +68,7 @@ data-reloadPage="false">
                 <th>Bil.</th>
                 <th>Nama Sijil</th>
                 <th>Tahun</th>
-                <th>Kemaskini</th>
+                <!-- <th>Kemaskini</th> -->
             </tr>
         </thead>
         <tbody>
@@ -184,9 +184,9 @@ data-reloadPage="false">
                         trSkm += '<td align="center">' + bilSkm + '</td>';
                         trSkm += '<td>' + (item.qualification ? item.qualification.diskripsi : "Tiada Maklumat")  + '</td>';
                         trSkm += '<td align="center">' + item.tahun_lulus + '</td>';
-                        trSkm += '<td align="center"><a><i class="fas fa-pencil text-primary editSkm-btn" data-id="' + item.id + ' " data-form="skm"></a></i>';
-                        trSkm += '&nbsp;&nbsp;';
-                        trSkm += '<a><i class="fas fa-trash text-danger deleteSkm-btn" data-id="' + item.id + '"></i></a></td>';
+                        // trSkm += '<td align="center"><a><i class="fas fa-pencil text-primary editSkm-btn" data-id="' + item.id + ' " data-form="skm"></a></i>';
+                        // trSkm += '&nbsp;&nbsp;';
+                        // trSkm += '<a><i class="fas fa-trash text-danger deleteSkm-btn" data-id="' + item.id + '"></i></a></td>';
                         trSkm += '</tr>';
                     }
                 });

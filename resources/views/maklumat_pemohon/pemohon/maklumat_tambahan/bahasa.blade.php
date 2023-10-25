@@ -17,7 +17,7 @@ data-reloadPage="false">
 <div class="row mt-2 mb-2">
     <input type="hidden" name="bahasa_no_pengenalan" id="bahasa_no_pengenalan" value="">
     <input type="hidden" name="id_bahasa" id="id_bahasa" value="">
-    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+ <!--    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Bahasa</label>
         <select class="select2 form-control" value="" id="nama_bahasa" name="nama_bahasa" disabled>
             <option value=""></option>
@@ -35,7 +35,7 @@ data-reloadPage="false">
             @endforeach
         </select>
     </div>
-
+ -->
     <div id="button_action_bahasa" style="display:none">
         <button type="button" id="btnEditBahasa" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
@@ -56,7 +56,7 @@ data-reloadPage="false">
                 <th>Bil.</th>
                 <th>Bahasa</th>
                 <th>Penguasaan Bahasa</th>
-                <th>Kemaskini</th>
+                <!-- <th>Kemaskini</th> -->
             </tr>
         </thead>
         <tbody>
@@ -100,9 +100,9 @@ data-reloadPage="false">
                     trLanguage += '<td align="center">' + bilLanguage + '</td>'
                     trLanguage += '<td>' + item.language.diskripsi + '</td>';
                     trLanguage += '<td>' + item.kategori.diskripsi + '</td>';
-                    trLanguage += '<td align="center"><i class="fas fa-pencil text-primary editBahasa-btn" data-id="' + item.id + ' " data-form="bahasa"></i>';
-                    trLanguage += '&nbsp;&nbsp;';
-                    trLanguage += '<i class="fas fa-trash text-danger deleteBahasa-btn" data-id="' + item.id + '"></i></td>';
+                    // trLanguage += '<td align="center"><i class="fas fa-pencil text-primary editBahasa-btn" data-id="' + item.id + ' " data-form="bahasa"></i>';
+                    // trLanguage += '&nbsp;&nbsp;';
+                    // trLanguage += '<i class="fas fa-trash text-danger deleteBahasa-btn" data-id="' + item.id + '"></i></td>';
                     trLanguage += '</tr>';
                 });
                 $('#table-language tbody').append(trLanguage);

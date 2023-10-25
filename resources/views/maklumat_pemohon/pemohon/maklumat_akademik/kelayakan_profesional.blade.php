@@ -15,10 +15,12 @@ data-refreshFunctionName="reloadTimeline"
 data-refreshFunctionNameIfSuccess="reloadProfesional"
 data-reloadPage="false">
     @csrf
+            <!--  hide phase 1 -->
+
     <input type="hidden" value="" id="profesional_no_pengenalan" name="profesional_no_pengenalan">
     <input type="hidden" name="id_profesional" id="id_profesional" value="">
     <div class="row">
-        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+        <!-- <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
             <label class="form-label">No. Ahli</label>
             <input type="text" class="form-control" value="" id="no_ahli_profesional" name="no_ahli_profesional" disabled>
         </div>
@@ -37,16 +39,14 @@ data-reloadPage="false">
             <label class="form-label">Tarikh Keahlian</label>
             <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" id="tarikh_keahlian_profesional" name="tarikh_keahlian_profesional" disabled>
         </div>
-
+ -->
         <div id="button_action_profesional" style="display:none">
             <button type="button" id="btnEditProfesional" hidden onclick="generalFormSubmit(this);"></button>
             <div class="d-flex justify-content-end align-items-center my-1">
                 <button type="button" class="btn btn-danger me-1" onclick="reloadProfesional()">
                     <i class="fa fa-refresh"></i>
                 </button>
-                <!-- <button type="button" class="btn btn-success float-right" id="btnSaveProfesional" onclick="$('#btnEditProfesional').trigger('click');">
-                    <i class="fa fa-save"></i> Tambah
-                </button> -->
+                
                  <button type="button" class="btn btn-success float-right" id="btnSaveProfesional" onclick="confirmSubmitkp('btnEditProfesional', {
                         no_ahli_profesional: $('#no_ahli_profesional').val(),
                         kelulusan_profesional: $('#kelulusan_profesional').find(':selected').text(),
@@ -77,7 +77,7 @@ data-reloadPage="false">
                     <th>No. Ahli</th>
                     <th>Kelayakan Profesional / Ikhtisas</th>
                     <th>Tarikh Keahlian</th>
-                    <th>Kemaskini</th>
+                    <!-- <th>Kemaskini</th> -->
                 </tr>
             </thead>
             <tbody></tbody>
@@ -203,9 +203,9 @@ data-reloadPage="false">
                         trProfessional += '<td>' + (item.no_ahli ? item.no_ahli : '') + '</td>';
                         trProfessional += '<td>' + (item.qualification ? item.qualification.diskripsi : '') + '</td>';
                         trProfessional += '<td>' + (item.tarikh ? item.tarikh : '') + '</td>';
-                        trProfessional += '<td align="center"><a><i class="fas fa-pencil text-primary editProfesional-btn" data-id="' + item.id + ' "></i></a>';
-                        trProfessional += '&nbsp;&nbsp;';
-                        trProfessional += '<a><i class="fas fa-trash text-danger deleteProfesional-btn" data-id="' + item.id + '"></i></a></td>';
+                        // trProfessional += '<td align="center"><a><i class="fas fa-pencil text-primary editProfesional-btn" data-id="' + item.id + ' "></i></a>';
+                        // trProfessional += '&nbsp;&nbsp;';
+                        // trProfessional += '<a><i class="fas fa-trash text-danger deleteProfesional-btn" data-id="' + item.id + '"></i></a></td>';
                         trProfessional += '</tr>';
                     });
                 }

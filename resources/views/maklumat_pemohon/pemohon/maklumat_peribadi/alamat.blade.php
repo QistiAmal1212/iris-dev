@@ -1,3 +1,8 @@
+<style>
+    .hide_phase1{
+        display: none;
+    }
+</style>
 <div class="bs-stepper vertical vertical-wizard">
     <div class="bs-stepper-header">
         <div class="step" data-target="#alamat-tetap-info" role="tab" id="alamat-tetap-info-trigger">
@@ -34,12 +39,13 @@
     <div class="bs-stepper-content">
         {{-- ALAMAT TETAP --}}
         <div id="alamat-tetap-info" class="content parent-tab" role="tabpanel" aria-labelledby="alamat-tetap-info-trigger">
-            <div class="d-flex justify-content-end align-items-center mb-1" id="update_alamat_tetap" style="display:none">
+            <!--  hide phase 1 -->
+           <!--  <div class="d-flex justify-content-end align-items-center mb-1" id="update_alamat_tetap" style="display:none">
                 <a class="me-3 text-danger" type="button" onclick="editAlamatTetap()">
                     <i class="fa-regular fa-pen-to-square"></i>
                     Kemaskini
                 </a>
-            </div>
+            </div> -->
 
             <form 
             id="alamatTetapForm" 
@@ -118,12 +124,14 @@
 
         {{-- ALAMAT SURAT MENYURAT --}}
         <div id="alamat-surat-info" class="content parent-tab" role="tabpanel" aria-labelledby="alamat-surat-info-trigger">
-            <div class="d-flex justify-content-end align-items-center mb-1" id="update_alamat_surat" style="display:none">
+            <!--  hide phase 1 -->
+            
+            <!-- <div class="d-flex justify-content-end align-items-center mb-1" id="update_alamat_surat" style="display:none">
                 <a class="me-3 text-danger" type="button" onclick="editAlamatSurat()">
                     <i class="fa-regular fa-pen-to-square"></i>
                     Kemaskini
                 </a>
-            </div>
+            </div> -->
 
             {{-- Form alamat surat menyurat --}}
             <form 

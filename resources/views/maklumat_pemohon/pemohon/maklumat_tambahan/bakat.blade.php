@@ -17,7 +17,7 @@ data-reloadPage="false">
 <div class="row mt-2 mb-2">
     <input type="hidden" name="bakat_no_pengenalan" id="bakat_no_pengenalan" value="">
     <input type="hidden" name="id_bakat" id="id_bakat" value="">
-    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+   <!--  <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Bakat</label>
         <select class="select2 form-control" value="" id="nama_bakat" name="nama_bakat" disabled>
             <option value=""></option>
@@ -25,7 +25,7 @@ data-reloadPage="false">
             <option value="{{ $bakat->kod }}">{{ $bakat->diskripsi }}</option>
             @endforeach
         </select>
-    </div>
+    </div> -->
 
     <div id="button_action_bakat" style="display:none">
         <button type="button" id="btnEditBakat" hidden onclick="generalFormSubmit(this);"></button>
@@ -46,7 +46,7 @@ data-reloadPage="false">
             <tr>
                 <th>Bil.</th>
                 <th>Bakat</th>
-                <th>Kemaskini</th>
+                <!-- <th>Kemaskini</th> -->
             </tr>
         </thead>
         <tbody>
@@ -86,9 +86,9 @@ data-reloadPage="false">
                     trBakat += '<tr>';
                     trBakat += '<td align="center">' + bilBakat + '</td>'
                     trBakat += '<td>' + item.talent.diskripsi + '</td>';
-                    trBakat += '<td align="center"><i class="fas fa-pencil text-primary editBakat-btn" data-id="' + item.id + ' " data-form="bakat"></i>';
-                    trBakat += '&nbsp;&nbsp;';
-                    trBakat += '<i class="fas fa-trash text-danger deleteBakat-btn" data-id="' + item.id + '"></i></td>';
+                    // trBakat += '<td align="center"><i class="fas fa-pencil text-primary editBakat-btn" data-id="' + item.id + ' " data-form="bakat"></i>';
+                    // trBakat += '&nbsp;&nbsp;';
+                    // trBakat += '<i class="fas fa-trash text-danger deleteBakat-btn" data-id="' + item.id + '"></i></td>';
                     trBakat += '</tr>';
                 });
                 $('#table-talent tbody').append(trBakat);

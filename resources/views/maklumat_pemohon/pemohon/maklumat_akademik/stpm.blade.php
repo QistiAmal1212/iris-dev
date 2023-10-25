@@ -89,7 +89,7 @@
                         <input type="hidden" name="stpm1_no_pengenalan" id="stpm1_no_pengenalan" value="">
                         <input type="hidden" name="id_stpm1" id="id_stpm1" value="">
 
-                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <!-- <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_stpm1" name="subjek_stpm1" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
@@ -107,12 +107,12 @@
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
                                     @endforeach
                             </select>
-                        </div>
+                        </div> -->
 
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                       <!--  <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_stpm1" name="tahun_stpm1" disabled>
-                        </div>
+                        </div> -->
 
                         <div id="button_action_stpm1" style="display:none">
                             <button type="button" id="btnEditStpm1" hidden onclick="generalFormSubmit(this);"></button>
@@ -136,7 +136,7 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Kemaskini</th>
+                                <!-- <th>Kemaskini</th> -->
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -178,7 +178,7 @@
                     <div class="row">
                         <input type="hidden" name="stpm2_no_pengenalan" id="stpm2_no_pengenalan" value="">
                         <input type="hidden" name="id_stpm2" id="id_stpm2" value="">
-
+<!-- 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_stpm2" name="subjek_stpm2" disabled>
@@ -203,7 +203,7 @@
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_stpm2" name="tahun_stpm2" disabled>
                         </div>
-
+ -->
                         <div id="button_action_stpm2" style="display:none">
                             <button type="button" id="btnEditStpm2" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
@@ -226,7 +226,7 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Kemaskini</th>
+                                <!-- <th>Kemaskini</th> -->
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -269,19 +269,21 @@
                 data-refreshFunctionNameIfSuccess="reloadStam1"
                 data-reloadPage="false">
                     @csrf
-                     <div class="row">
+            <!--  hide phase 1 -->
+
+                   <!--   <div class="row">
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_stam1" name="tahun_stam1" disabled>
                         </div>
                     </div>
-
+ -->
                     <div class="row">
 
                         <input type="hidden" name="stam1_no_pengenalan" id="stam1_no_pengenalan" value="">
                         <input type="hidden" name="id_stam1" id="id_stam1" value="">
 
-                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                      <!--   <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_stam1" name="subjek_stam1" disabled onchange="changesubjeckstam('subjek_stam1')">
                                 <option value="" hidden></option>
@@ -289,14 +291,14 @@
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
-                        </div>
-
+                        </div> -->
+<!-- 
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Mp Kod</label>
                             <input type="text" class="form-control" value="" id="mp_kod_stam1" name="mp_kod_stam1" disabled>
-                        </div>
+                        </div> -->
 
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                     <!--    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
                             <select class="select2 form-control" id="gred_stam1" name="gred_stam1" disabled>
                                 <option value="" hidden></option>
@@ -305,7 +307,7 @@
                                     @endforeach
                             </select>
                         </div>
-
+ -->
                         <div id="button_action_stam1" style="display:none">
                             <button type="button" id="btnEditStam1" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
@@ -343,7 +345,7 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Kemaskini</th>
+                                <!-- <th>Kemaskini</th> -->
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -377,18 +379,18 @@
                 data-refreshFunctionNameIfSuccess="reloadStam2"
                 data-reloadPage="false">
                     @csrf
-                    <div class="row">
+                  <!--   <div class="row">
                          <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_stam2" name="tahun_stam2" disabled>
                         </div>
 
-                    </div>
+                    </div> -->
                     <div class="row">
                         <input type="hidden" name="stam2_no_pengenalan" id="stam2_no_pengenalan" value="">
                         <input type="hidden" name="id_stam2" id="id_stam2" value="">
 
-                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                      <!--   <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_stam2" name="subjek_stam2" disabled onchange="changesubjeckstam('subjek_stam2')">
                                 <option value="" hidden>Mata Pelajaran</option>
@@ -412,7 +414,7 @@
                                     @endforeach
                             </select>
                         </div>
-
+ -->
                         <div id="button_action_stam2" style="display:none">
                             <button type="button" id="btnEditStam2" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
@@ -450,7 +452,7 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Kemaskini</th>
+                                <!-- <th>Kemaskini</th> -->
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -461,20 +463,19 @@
 
         {{-- MATRIK --}}
         <div id="academic-matrik-info" class="content parent-tab" role="tabpanel" aria-labelledby="academic-matrik-info-trigger">
-            <div class="d-flex justify-content-end align-items-center mb-1" id="update_matrikulasi" style="display:none">
+            <!-- <div class="d-flex justify-content-end align-items-center mb-1" id="update_matrikulasi" style="display:none">
                 <a class="me-3 text-danger" type="button" onclick="editMatrikulasi()">
                     <i class="fa-regular fa-pen-to-square"></i>
                     Kemaskini
                 </a>
-            </div>
-
+            </div> -->
             <form id="matrikulasiForm" action="{{ route('matrikulasi.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadMatrikulasi" data-reloadPage="false">
                 @csrf
                 <div class="row">
                     <input type="hidden" name="matrikulasi_no_pengenalan" id="matrikulasi_no_pengenalan" value="">
                     <input type="hidden" name="id_matrikulasi" id="id_matrikulasi" value="">
 
-                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                   <!--  <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                         <label class="form-label">Kolej Matrikulasi</label>
                         <select class="select2 form-control" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
                             <option value="" hidden>Kolej Matrikulasi</option>
@@ -492,9 +493,9 @@
                                     <option value="{{ $jurusanMatrikulasi->kod }}">{{ $jurusanMatrikulasi->diskripsi }}</option>
                                 @endforeach
                         </select>
-                    </div>
+                    </div> -->
 
-                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                   <!--  <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
                         <label class="form-label">No. Matrik</label>
                         <input type="text" class="form-control" value="" id="matrik_matrikulasi" name="matrik_matrikulasi" disabled>
                     </div>
@@ -527,7 +528,7 @@
                     <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
                         <label class="form-label">PNGK</label>
                         <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
-                    </div>
+                    </div> -->
 
                     <div id="button_action_matrikulasi" style="display:none">
                         <button type="button" id="btnEditMatrikulasi" hidden onclick="generalFormSubmit(this);"></button>
@@ -553,7 +554,7 @@
                             <th>Kod MP</th>
                             <th>Mata Pelajaran</th>
                             <th>Gred</th>
-                            <th>Kemaskini</th>
+                            <!-- <th>Kemaskini</th> -->
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -712,9 +713,9 @@
                         trStpm += '<td>' + item.subject_form6.kod + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStpm += '<td align="center">' + item.gred + '</td>';
-                        trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm1-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
-                        trStpm += '&nbsp;&nbsp;';
-                        trStpm += '<i class="fas fa-trash text-danger deleteStpm1-btn" data-id="' + item.id + '"></i></td>';
+                        // trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm1-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
+                        // trStpm += '&nbsp;&nbsp;';
+                        // trStpm += '<i class="fas fa-trash text-danger deleteStpm1-btn" data-id="' + item.id + '"></i></td>';
                         trStpm += '</tr>';
                     }
                 });
@@ -809,9 +810,9 @@
                         trStpm += '<td>' + item.subject_form6.kod + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStpm += '<td align="center">' + item.gred + '</td>';
-                        trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm2-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
-                        trStpm += '&nbsp;&nbsp;';
-                        trStpm += '<i class="fas fa-trash text-danger deleteStpm2-btn" data-id="' + item.id + '"></i></td>';
+                        // trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm2-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
+                        // trStpm += '&nbsp;&nbsp;';
+                        // trStpm += '<i class="fas fa-trash text-danger deleteStpm2-btn" data-id="' + item.id + '"></i></td>';
                         trStpm += '</tr>';
                     }
                 });
@@ -921,9 +922,9 @@
                         trStam += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStam += '<td align="center">' + item.gred + '</td>';
                         trStam += '<td align="center" style="display:none;">' + item.tahun + '</td>';
-                        trStam += '<td align="center"><a><i class="fas fa-pencil text-primary editStam1-btn" data-id="' + item.id + ' " data-form="stam"></i></a>';
-                        trStam += '&nbsp;&nbsp;';
-                        trStam += '<a><i class="fas fa-trash text-danger deleteStam1-btn" data-id="' + item.id + '"></i></a></td>';
+                        // trStam += '<td align="center"><a><i class="fas fa-pencil text-primary editStam1-btn" data-id="' + item.id + ' " data-form="stam"></i></a>';
+                        // trStam += '&nbsp;&nbsp;';
+                        // trStam += '<a><i class="fas fa-trash text-danger deleteStam1-btn" data-id="' + item.id + '"></i></a></td>';
                         trStam += '</tr>';
                     }
                 });
@@ -1042,9 +1043,9 @@
                         trStam += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStam += '<td align="center">' + item.gred + '</td>';
                         trStam += '<td align="center" style="display:none;">' + item.tahun + '</td>';
-                        trStam += '<td align="center"><a><i class="fas fa-pencil text-primary editStam2-btn" data-id="' + item.id + ' " data-form="stam"></i></a>';
-                        trStam += '&nbsp;&nbsp;';
-                        trStam += '<a><i class="fas fa-trash text-danger deleteStam2-btn" data-id="' + item.id + '"></i></a></td>';
+                        // trStam += '<td align="center"><a><i class="fas fa-pencil text-primary editStam2-btn" data-id="' + item.id + ' " data-form="stam"></i></a>';
+                        // trStam += '&nbsp;&nbsp;';
+                        // trStam += '<a><i class="fas fa-trash text-danger deleteStam2-btn" data-id="' + item.id + '"></i></a></td>';
                         trStam += '</tr>';
                     }
                 });
@@ -1151,9 +1152,11 @@
                         trMatrikulasi += '<td align="center">' + item.subject.kod + '</td>'; // Kod MP
                         trMatrikulasi += '<td align="center">' + item.subject.diskripsi + '</td>';
                         trMatrikulasi += '<td align="center">' + item.gred + '</td>';
-                        trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary editMatrikulasi-btn" data-id="' + item.id + ' " data-form="matrikulasi"></i>';
-                        trMatrikulasi += '&nbsp;&nbsp;';
-                        trMatrikulasi += '<i class="fas fa-trash text-danger deleteMatrikulasi-btn" data-id="' + item.id + '"></i></td>';
+                        // trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary editMatrikulasi-btn" data-id="' + item.id + ' " data-form="matrikulasi"></i>';
+                        // trMatrikulasi += '&nbsp;&nbsp;';
+                        // trMatrikulasi += '<i class="fas fa-trash text-danger deleteMatrikulasi-btn" data-id="' + item.id + '"></i></td>';
+                        trMatrikulasi += '</tr>';
+                        
                 });
                 $('#table-matrikulasi tbody').append(trMatrikulasi);
 

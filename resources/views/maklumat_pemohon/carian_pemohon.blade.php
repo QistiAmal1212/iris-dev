@@ -34,6 +34,7 @@ Maklumat Pemohon
 
 </style>
 <section id="faq-search-filter">
+    <!-- // hide for phase 1 -->
     <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}')">
         <div class="card-body text-center">
             <h2 class="text-primary">Carian Maklumat Pemohon</h2>
@@ -66,7 +67,7 @@ Maklumat Pemohon
 </section>
 
 <hr>
-
+<input type="hidden" name="hide_phase1" id="hide_phase1" value=0>
 <div id="divCarian" style="display:none">
     <div class="card">
         <div class="card-header">
@@ -503,37 +504,41 @@ Maklumat Pemohon
                 success: function(data) {
                     var container = $('.suggestions-container');
                     container.hide();
-                    $('#update_personal').attr("style", "display:block");
-                    $('#update_alamat_tetap').attr("style", "display:block");
-                    $('#update_alamat_surat').attr("style", "display:block");
-                    $('#update_tempat_lahir').attr("style", "display:block");
-                    $('#update_pusat_temuduga').attr("style", "display:block");
-                    $('#update_lesen_memandu').attr("style", "display:block");
-                    $('#update_oku').attr("style", "display:block");
-                    $('#update_pmr').attr("style", "display:block");
-                    $('#update_spm1').attr("style", "display:block");
-                    $('#update_spm2').attr("style", "display:block");
-                    //$('#update_spmv').attr("style", "display:block");
-                    $('#update_svm').attr("style", "display:block");
-                    $('#update_stpm1').attr("style", "display:block");
-                    $('#update_stpm2').attr("style", "display:block");
-                    $('#update_stam1').attr("style", "display:block");
-                    $('#update_stam2').attr("style", "display:block");
-                    $('#update_skm').attr("style", "display:block");
-                    $('#update_matrikulasi').attr("style", "display:block");
-                    $('#update_diploma').attr("style", "display:block");
-                    $('#update_degree').attr("style", "display:block");
-                    $('#update_master').attr("style", "display:block");
-                    $('#update_phd').attr("style", "display:block");
-                    $('#update_profesional').attr("style", "display:block");
-                    $('#update_experienceA').attr("style", "display:block");
-                    $('#update_experienceB').attr("style", "display:block");
-                    $('#update_experienceC').attr("style", "display:block");
-                    $('#update_psl').attr("style", "display:block");
-                    $('#update_tentera_polis').attr("style", "display:block");
-                    $('#update_bahasa').attr("style", "display:block");
-                    $('#update_bakat').attr("style", "display:block");
-                    $('#update_penalty').attr("style", "display:block");
+                    var checkphase1 = $('#hide_phase1').val();
+                    if (checkphase1 == 1) {
+                        $('#update_personal').attr("style", "display:block");
+                        $('#update_alamat_tetap').attr("style", "display:block");
+                        $('#update_alamat_surat').attr("style", "display:block");
+                        $('#update_tempat_lahir').attr("style", "display:block");
+                        $('#update_pusat_temuduga').attr("style", "display:block");
+                        $('#update_lesen_memandu').attr("style", "display:block");
+                        $('#update_oku').attr("style", "display:block");
+                        $('#update_pmr').attr("style", "display:block");
+                        $('#update_spm1').attr("style", "display:block");
+                        $('#update_spm2').attr("style", "display:block");
+                        //$('#update_spmv').attr("style", "display:block");
+                        $('#update_svm').attr("style", "display:block");
+                        $('#update_stpm1').attr("style", "display:block");
+                        $('#update_stpm2').attr("style", "display:block");
+                        $('#update_stam1').attr("style", "display:block");
+                        $('#update_stam2').attr("style", "display:block");
+                        $('#update_skm').attr("style", "display:block");
+                        $('#update_matrikulasi').attr("style", "display:block");
+                        $('#update_diploma').attr("style", "display:block");
+                        $('#update_degree').attr("style", "display:block");
+                        $('#update_master').attr("style", "display:block");
+                        $('#update_phd').attr("style", "display:block");
+                        $('#update_profesional').attr("style", "display:block");
+                        $('#update_experienceA').attr("style", "display:block");
+                        $('#update_experienceB').attr("style", "display:block");
+                        $('#update_experienceC').attr("style", "display:block");
+                        $('#update_psl').attr("style", "display:block");
+                        $('#update_tentera_polis').attr("style", "display:block");
+                        $('#update_bahasa').attr("style", "display:block");
+                        $('#update_bakat').attr("style", "display:block");
+                        $('#update_penalty').attr("style", "display:block");
+                    }
+
 
                     $('#candidate_name').html(data.detail.nama_penuh);
                     var ic = data.detail.no_kp_baru ? data.detail.no_kp_baru +'<br>' : '';

@@ -20,17 +20,18 @@ data-refreshFunctionName="reloadTimeline"
 data-refreshFunctionNameIfSuccess="reloadPmr"
 data-reloadPage="false">
 @csrf
-<div class="row mt-2 mb-2">
+<!--  hide phase 1 -->
+<!-- <div class="row mt-2 mb-2">
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Tahun</label>
         <input type="text" class="form-control" value="" id="tahun_pmr" name="tahun_pmr" disabled>
     </div>
-</div>
+</div> -->
 <div class="row mt-2 mb-2">
     <input type="hidden" name="pmr_no_pengenalan" id="pmr_no_pengenalan" value="">
     <input type="hidden" name="id_pmr" id="id_pmr" value="">
 
-    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+  <!--   <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Mata Pelajaran</label>
         <select class="select2 form-control" value="" id="subjek_pmr" name="subjek_pmr" disabled onchange="changeMP('subjek_pmr')">
             <option value=""></option>
@@ -39,8 +40,8 @@ data-reloadPage="false">
             @endforeach
         </select>
     </div>
-
-    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+ -->
+    <!-- <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Mp Kod</label>
         <input type="text" class="form-control" value="" id="mpel_kod_pmr" name="mpel_kod_pmr" disabled>
     </div> 
@@ -53,7 +54,7 @@ data-reloadPage="false">
             <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
             @endforeach
         </select>
-    </div>
+    </div> -->
 
     <div id="button_action_pmr" style="display:none">
         <button type="button" id="btnEditPmr" hidden onclick="generalFormSubmit(this);"></button>
@@ -61,9 +62,7 @@ data-reloadPage="false">
             <button type="button" class="btn btn-danger float-right" onclick="reloadPmr()">
                 <i class="fa fa-refresh"></i>
             </button>&nbsp;&nbsp;
-            <!-- <button type="button" class="btn btn-success float-right" id="btnSavePmr" onclick="$('#btnEditPmr').trigger('click');">
-                <i class="fa fa-save"></i> Tambah
-            </button> -->
+           
             <button type="button" class="btn btn-success float-right" id="btnSavePmr" onclick="confirmSubmit2('btnEditPmr', {
                 subjek_pmr: $('#subjek_pmr').find(':selected').text(),
                 gred_pmr: $('#gred_pmr').find(':selected').text(),
@@ -93,7 +92,7 @@ data-reloadPage="false">
                 <th>MP Kod</th>
                 <th>Mata Pelajaran</th>
                 <th>Gred</th>
-                <th>Kemaskini</th>
+                <!-- <th>Kemaskini</th> -->
             </tr>
         </thead>
         <tbody>
@@ -238,9 +237,9 @@ data-reloadPage="false">
                             trPmr += '<td>' + item.subject_form3.diskripsi + '</td>';
                             trPmr += '<td align="center">' + item.gred + '</td>';
                             trPmr += '<td align="center" style="display:none;">' + item.tahun + '</td>';
-                            trPmr += '<td align="center"><a><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i></a>';
-                            trPmr += '&nbsp;&nbsp;';
-                            trPmr += '<a><i class="fas fa-trash text-danger deletePmr-btn" data-id="' + item.id + '" ></i></a></td>';
+                            // trPmr += '<td align="center"><a><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i></a>';
+                            // trPmr += '&nbsp;&nbsp;';
+                            // trPmr += '<a><i class="fas fa-trash text-danger deletePmr-btn" data-id="' + item.id + '" ></i></a></td>';
                             trPmr += '</tr>';
                         }
                     });

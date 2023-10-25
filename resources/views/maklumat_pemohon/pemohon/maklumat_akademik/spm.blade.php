@@ -104,16 +104,16 @@
                 data-refreshFunctionNameIfSuccess="reloadSpm1"
                 data-reloadPage="false">
                     @csrf
-                    <div class="row">
+<!--                     <div class="row">
                          <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_spm1" name="tahun_spm1" disabled>
                         </div>
                     </div>
-                    <div class="row">
+ -->                    <div class="row">
                         <input type="hidden" name="spm1_no_pengenalan" id="spm1_no_pengenalan" value="">
                         <input type="hidden" name="id_spm1" id="id_spm1" value="">
-
+<!-- 
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_spm1" name="subjek_spm1" disabled onchange="changesubjeckspm('subjek_spm1')">
@@ -136,7 +136,7 @@
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
                                     @endforeach
                             </select>
-                        </div>
+                        </div> -->
 
                    
                         <div id="button_action_spm1" style="display:none">
@@ -176,7 +176,7 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Kemaskini</th>
+                                <!-- <th>Kemaskini</th> -->
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -210,17 +210,17 @@
                 data-refreshFunctionNameIfSuccess="reloadSpm2"
                 data-reloadPage="false">
                     @csrf
-                    <div class="row">
+                  <!--   <div class="row">
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_spm2" name="tahun_spm2" disabled>
                         </div>
-                    </div>
-                    <div class="row">
+                    </div> --> 
+                   <div class="row">
                         <input type="hidden" name="spm2_no_pengenalan" id="spm2_no_pengenalan" value="">
                         <input type="hidden" name="id_spm2" id="id_spm2" value="">
 
-                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <!-- <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_spm2" name="subjek_spm2" disabled onchange="changesubjeckspm('subjek_spm2')">
                                 <option value="" hidden></option>
@@ -244,7 +244,7 @@
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
                                     @endforeach
                             </select>
-                        </div>
+                        </div> -->
 
                         <div id="button_action_spm2" style="display:none">
                             <button type="button" id="btnEditSpm2" hidden onclick="generalFormSubmit(this);"></button>
@@ -283,7 +283,7 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                <th>Kemaskini</th>
+                                <!-- <th>Kemaskini</th> -->
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -309,7 +309,7 @@
                     <input type="hidden" name="spmv_no_pengenalan" id="spmv_no_pengenalan" value="">
                     <input type="hidden" name="id_spmv" id="id_spmv" value="">
 
-                    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                   <!--  <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                         <label class="form-label">Mata Pelajaran</label>
                         <select class="select2 form-control" value="" id="subjek_spmv" name="subjek_spmv" disabled>
                             <option value="" hidden>Mata Pelajaran</option>
@@ -332,7 +332,7 @@
                     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                         <label class="form-label">Tahun</label>
                         <input type="text" class="form-control" value="" id="tahun_spmv" name="tahun_spmv" disabled>
-                    </div>
+                    </div> -->
 
                     <div id="button_action_spmv" style="display:none">
                         <button type="button" id="btnEditSpmv" hidden onclick="generalFormSubmit(this);"></button>
@@ -356,7 +356,7 @@
                             <th>Mata Pelajaran</th>
                             <th>Gred</th>
                             <th>Tahun</th>
-                            <th>Kemaskini</th>
+                            <!-- <th>Kemaskini</th> -->
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -395,7 +395,7 @@
                         <input type="hidden" name="svm_no_pengenalan" id="svm_no_pengenalan" value="">
                         <input type="hidden" name="id_svm" id="id_svm" value="">
 
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                        <!-- <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_svm" name="tahun_svm" disabled>
                         </div>
@@ -418,9 +418,9 @@
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
-                        </div>
+                        </div> -->
 
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                   <!--      <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
                             <select class="select2 form-control" value="" id="gred_svm" name="gred_svm" disabled>
                                 <option value="" hidden>Gred</option>
@@ -428,9 +428,9 @@
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
                                     @endforeach
                             </select>
-                        </div>
+                        </div> -->
 
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                       <!--  <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">PNGKA</label>
                             <input type="text" class="form-control" value="" id="pngka_svm" name="pngka_svm" disabled>
                         </div>
@@ -439,7 +439,7 @@
                             <label class="form-label">PNGKV</label>
                             <input type="text" class="form-control" value="" id="pngkv_svm" name="pngkv_svm" disabled>
                         </div>
-
+ -->
                         <div id="button_action_svm" style="display:none">
                             <button type="button" id="btnEditSvm" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
@@ -462,7 +462,7 @@
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
-                                {{-- <th>Kemaskini</th> --}}
+                                <!-- {{-- <th>Kemaskini</th> --}} -->
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -489,7 +489,7 @@
                 @csrf
                 <div class="row">
 
-                    <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                    <!-- <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                         <label class="form-label">Mata Pelajaran</label>
                         <select class="select2 form-control" value="" id="" name="" disabled>
                             <option value="" hidden>Mata Pelajaran</option>
@@ -497,9 +497,9 @@
                                 <option value=""></option>
                             {{-- Until here --}}
                         </select>
-                    </div>
+                    </div> -->
 
-                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                   <!--  <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                         <label class="form-label">Gred</label>
                         <select class="select2 form-control" value="" id="" name="" disabled>
                             <option value="" hidden>Gred</option>
@@ -507,12 +507,12 @@
                                     <option value=""></option>
                                 {{-- Until here --}}
                         </select>
-                    </div>
+                    </div> -->
 
-                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                  <!--   <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                         <label class="form-label">Tahun</label>
                         <input type="text" class="form-control" value="" id="" name="" disabled>
-                    </div>
+                    </div> -->
 
                     {{-- Button --}}
                     <div id="" style="display:none">
@@ -539,7 +539,7 @@
                             <th>Kod MP</th>
                             <th>Mata Pelajaran</th>
                             <th>Gred</th>
-                            <th>Kemaskini</th>
+                            <!-- <th>Kemaskini</th> -->
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -719,9 +719,9 @@
                             trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
                             trSpm += '<td align="center">' + item.gred + '</td>';
                             trSpm += '<td align="center" style="display:none;">' + item.tahun + '</td>';
-                            trSpm += '<td align="center"><a><i class="fas fa-pencil text-primary editSpm1-btn" data-id="' + item.id + ' "></i></a>';
-                            trSpm += '&nbsp;&nbsp;';
-                            trSpm += '<a><i class="fas fa-trash text-danger deleteSpm1-btn" data-id="' + item.id + '"></i></a></td>';
+                            // trSpm += '<td align="center"><a><i class="fas fa-pencil text-primary editSpm1-btn" data-id="' + item.id + ' "></i></a>';
+                            // trSpm += '&nbsp;&nbsp;';
+                            // trSpm += '<a><i class="fas fa-trash text-danger deleteSpm1-btn" data-id="' + item.id + '"></i></a></td>';
 
                             trSpm += '</tr>';
                         }
@@ -844,9 +844,9 @@
                             trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
                             trSpm += '<td align="center">' + item.gred + '</td>';
                             trSpm += '<td align="center" style="display:none;">' + item.tahun + '</td>';
-                            trSpm += '<td align="center"><a><i class="fas fa-pencil text-primary editSpm2-btn" data-id="' + item.id + ' "></i></a>';
-                            trSpm += '&nbsp;&nbsp;';
-                            trSpm += '<a><i class="fas fa-trash text-danger deleteSpm2-btn" data-id="' + item.id + '"></i></a></td>';
+                            // trSpm += '<td align="center"><a><i class="fas fa-pencil text-primary editSpm2-btn" data-id="' + item.id + ' "></i></a>';
+                            // trSpm += '&nbsp;&nbsp;';
+                            // trSpm += '<a><i class="fas fa-trash text-danger deleteSpm2-btn" data-id="' + item.id + '"></i></a></td>';
                             trSpm += '</tr>';
                         }
                     });

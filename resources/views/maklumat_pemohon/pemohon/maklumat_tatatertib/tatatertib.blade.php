@@ -18,7 +18,7 @@
     @csrf
     <input type="hidden" name="penalty_no_pengenalan" id="penalty_no_pengenalan" value="">
     <input type="hidden" name="id_penalty" id="id_penalty" value="">
-    <div class="row">
+   <!--  <div class="row">
         <div class="col sm-12 col-md-12 col-lg-12 mb-1">
             <label class="form-label fw-bolder">Tindakan Tatatertib</label>
             <select class="form-select select2" name="penalty" id="penalty" disabled>
@@ -28,10 +28,10 @@
                 @endforeach
             </select>
         </div>
-    </div>
+    </div> -->
 
     <div class="row">
-        <div class="col sm-4 col-md-4 col-lg-4 mb-1">
+     <!--    <div class="col sm-4 col-md-4 col-lg-4 mb-1">
             <label class="form-label fw-bolder">Tempoh Hukuman</label>
             <div class="input-group">
                 <input type="number" id ="penalty_duration" name="penalty_duration" class="form-control" disabled oninput="calculatePenalty()">
@@ -52,7 +52,7 @@
         <div class="col sm-4 col-md-4 col-lg-4 mb-1">
             <label class="form-label fw-bolder">Tarikh Akhir Hukuman</label>
             <input type="text" class="form-control" name="penalty_end" id="penalty_end" disabled>
-        </div>
+        </div> -->
 
     </div>
 

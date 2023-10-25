@@ -3,20 +3,21 @@
         float: right;
     }
 </style>
-<div class="d-flex justify-content-end align-items-center mb-1" id="update_pengajian_tinggi" style="display:none">
+<!--  hide phase 1 -->
+<!-- <div class="d-flex justify-content-end align-items-center mb-1" id="update_pengajian_tinggi" style="display:none;">
     <a class="me-3 text-danger" type="button" onclick="editPengajianTinggi()">
         <i class="fa-regular fa-pen-to-square"></i>
         Kemaskini
     </a>
 </div>
-
+ -->
 {{-- START LOOP --}}
 <form id="pengajianTinggiForm" action="{{ route('pt.store') }}" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="reloadPengajianTinggi" data-reloadPage="false">
     @csrf
     <div class="row mt-2 mb-2">
         <input type="hidden" name="pengajian_tinggi_no_pengenalan" id="pengajian_tinggi_no_pengenalan" value="">
         <input type="hidden" name="id_pt" id="id_pt" value="">
-
+<!-- 
         <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
             <label class="form-label">Tahun</label>
             <input type="text" class="form-control" value="" name="tahun_pengajian_tinggi" id="tahun_pengajian_tinggi" oninput="checkInput('tahun_pengajian_tinggi', 'tahun_pengajian_tinggiAlert')" disabled>
@@ -32,8 +33,8 @@
                     @endforeach
             </select>
         </div>
-
-        <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
+ -->
+   <!--      <div class="col-sm-9 col-md-9 col-lg-9 mb-1">
             <label class="form-label">Peringkat Kelulusan</label>
             <select class="select2 form-control" value="" name="kelayakan_pengajian_tinggi" id="kelayakan_pengajian_tinggi" disabled>
                 <option value="" hidden></option>
@@ -48,8 +49,8 @@
             <input type="text" class="form-control" value="" name="cgpa_pengajian_tinggi" id="cgpa_pengajian_tinggi" oninput="checkInput('cgpa_pengajian_tinggi', 'cgpa_pengajian_tinggiAlert')" disabled>
             <div id="cgpa_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
         </div>
-
-        <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+ -->
+    <!--     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
             <label class="form-label">Institusi</label>
             <select class="select2 form-control" name="institusi_pengajian_tinggi" id="institusi_pengajian_tinggi" disabled>
                 <option value="" hidden>Institusi</option>
@@ -73,9 +74,9 @@
                         <option value="{{ $specialization->kod }}">{{ $specialization->diskripsi }}</option>
                     @endforeach
             </select>
-        </div>
+        </div> -->
 
-        <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+      <!--   <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
             <label class="form-label">Francais Luar Negara</label>
             <select class="select2 form-control" value="" name="fln_pengajian_tinggi" id="fln_pengajian_tinggi" disabled>
                 <option value="" hidden></option>
@@ -97,7 +98,7 @@
                 <option value="0">Tidak</option>
                 <option value="1">Ya</option>
             </select>
-        </div>
+        </div> -->
     </div>
 
     <div id="button_action_pt" style="display:none">
@@ -317,7 +318,7 @@
                 $.each(data.detail, function(i, item) {
                     if(item){
                         trPt += '<hr><div class="row mt-2 mb-2"><div class="col-12 text-end mb-2">';
-                        trPt += '<button class="btn btn-primary btn-sm editPt-btn" data-ptEdit="' + item.id + '" ><i class="fas fa-pencil-alt"></i></button></div>';
+                        trPt += '</div>';
                         if(item.tahun_lulus){ trPt += '<div class="col-sm-3 col-md-3 col-lg-3 mb-1"><label class="form-label">Tahun</label><input type="text" class="form-control" value="' + item.tahun_lulus + '" readonly></div>'; }
                         else{ trPt += '<div class="col-sm-3 col-md-3 col-lg-3 mb-1"><label class="form-label">Tahun</label><input type="text" class="form-control" value="Tiada" readonly></div>'; }
                         if(item.peringkat){ trPt += '<div class="col-sm-9 col-md-9 col-lg-9 mb-1"><label class="form-label">Peringkat Pengajian</label><input type="text" class="form-control" value="' + item.peringkat.diskripsi + '" readonly></div>'; }
