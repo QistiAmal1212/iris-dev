@@ -266,6 +266,9 @@ Maklumat Pemohon
 
     function selectionNull(inputID, formID){
         var x = document.getElementById(inputID);
+        if (x == null || x =='undefined') {
+            return ;
+        }
         var existingOption = x.querySelector('option[value="Tiada Maklumat"]');
 
         if(existingOption){
@@ -720,6 +723,7 @@ Maklumat Pemohon
                     $('#table-skim tbody').empty();
                     if(data.detail.skim.length == 0){
                         var trSkim = '<tr><td align="center" colspan="6">*Tiada Rekod*</td></tr>';
+                         $('#tm_skim').attr("hidden", true);
                     } else {
                         var trSkim = '';
                         var bilSkim = 0;
@@ -734,9 +738,13 @@ Maklumat Pemohon
                             trSkim += '<td>' + (item.tarikh_luput ? item.tarikh_luput : '') + '</td>';
                             trSkim += '</tr>';
                         });
+                        $('#tm_skim').removeAttr('hidden');
                     }
 
                     $('#table-skim tbody').append(trSkim);
+
+                   $('#table-stpm1 tbody').append(trStpm);
+
 
                     $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
                     $('#table-pmr tbody').empty();
