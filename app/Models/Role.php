@@ -52,15 +52,12 @@ class Role extends Model
 
     public function function()
     {
-        return $this->belongsToMany('App\Models\Master\MasterFunction', 'role_has_function', 'role_id', 'function_id')
-        ->withPivot('add', 'update', 'delete')
-        ->onDelete('cascade');
+        return $this->belongsToMany('App\Models\Master\MasterFunction', 'role_has_function', 'role_id', 'function_id');
     }
 
     public function menu()
     {
         return $this->belongsToMany('App\Models\SecurityMenu', 'role_has_menu', 'role_id', 'menu_id')
-        ->withPivot('add', 'update', 'delete')
-        ->onDelete('cascade');
+        ->withPivot('add', 'update', 'delete');
     }
 }
