@@ -562,6 +562,9 @@ class RoleController extends Controller
                 throw new \Exception('Peranan gagal dihapuskan. Sila keluarkan pengguna terlebih dahulu');
             }
 
+            $role->function()->detach();
+            $role->menu()->detach();
+
             $role->delete();
 
             // $log = new LogSystem;
