@@ -155,21 +155,30 @@ class UserController extends Controller
 
                         return $role_label;
                     })
-                    ->editColumn('action', function ($users) use ($type, $accessDelete) {
+                    ->editColumn('action', function ($users) use ($type, $accessDelete, $accessUpdate) {
                         $button = "";
 
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
-                        if ($type == "internal" || ($users->ismigrated == 1)) {
-                            //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                            $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
-                            // $button .= '<form id="formDestroyUser_'.$user->id.'" method="POST" action=" '.route('user.destroy', $user).' "> @csrf <input type="hidden" name="_method" value="DELETE"/> </form>';
-                            // $button .= '<a href="#" class="btn btn-outline-dark waves-effect" onclick="event.preventDefault(); document.getElementById('formDestroyUser_. $user->id .').submit();"> <i class="fas fa-trash"></i> </a>';
-                        } else {
-                            //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                            $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
+                        if($accessUpdate){
+                            if ($type == "internal" || ($users->ismigrated == 1)) {
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
+                            } else {
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
+                            }
+                            $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="confirmResetPassword(' . "'$users->email'" . ')"data-toggle="tooltip" data-placement="top" title="reset kata laluan"> <i class="fas fa-refresh text-primary"></i>  ';
+                        }else{
+                            if ($type == "internal" || ($users->ismigrated == 1)) {
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-eye text-primary"></i> ';
+                            } else {
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-eye text-primary"></i> ';
+                            }
                         }
                         if($accessDelete){
-                            $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="confirmResetPassword(' . "'$users->email'" . ')"data-toggle="tooltip" data-placement="top" title="reset kata laluan"> <i class="fas fa-arrow-right text-primary"></i>  ';
+                            if($type== 'internal'){
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteInternalUser(' . "'$users->id'" . ')"data-toggle="tooltip" data-placement="top" title="hapus pengguna"> <i class="fas fa-trash text-danger"></i>  ';
+                            }else{
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteExternalUser(' . "'$users->id'" . ')"data-toggle="tooltip" data-placement="top" title="hapus pengguna"> <i class="fas fa-trash text-danger"></i>  ';
+                            }
                         }
 
                         $button .= "</div>";
@@ -405,6 +414,40 @@ class UserController extends Controller
         }
 
         //return to_route('user.index', [$user]);
+    }
+
+    public function deleteUser(Request $request){
+        DB::beginTransaction();
+        try{
+            $user = User::find($request-> userId);
+
+            $user->delete();
+
+            if (!$user) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            // $code = $request->route;
+
+            // $log = new LogSystem;
+            // $log->module_id = MasterModule::where('code', $code)->firstOrFail()->id;
+            // $log->activity_type_id = 5;
+            // $log->description = "Hapus Maklumat Pengguna [".$user->name."]";
+            // $log->data_new = json_encode($user);
+            // $log->url = $request->fullUrl();
+            // $log->method = strtoupper($request->method());
+            // $log->ip_address = $request->ip();
+            // $log->created_by_user_id = auth()->id();
+            // $log->save();
+
+            DB::commit();
+            return response()->json(['message' => 'Pengguna berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
     }
 
     public function destroy(Request $request, User $user)

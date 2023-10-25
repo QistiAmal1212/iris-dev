@@ -160,6 +160,7 @@
 
 @section('script')
 <script>
+    var table = '';
     var action = '';
     //ACTION FORM
     function actionForm(id, FormAction){
@@ -201,7 +202,7 @@
     }
 
     $(function() {
-        var table = $('#RoleList').DataTable({
+        table = $('#RoleList').DataTable({
             orderCellsTop: true,
             colReorder: false,
             pageLength: 10,
@@ -522,6 +523,34 @@
             });
         }
     };
+
+    function deleteRole(roleId){
+        var url = "{{ route('roles.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', roleId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan peranan ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        if (data.detail) {
+                         Swal.fire('Gagal', data.detail, 'error');
+                        } else {
+                            table.draw();
+                        }
+                    }
+                })
+            }
+        })
+
+        }
 
 </script>
 @endsection

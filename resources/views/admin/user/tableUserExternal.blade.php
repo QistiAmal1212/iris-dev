@@ -259,5 +259,31 @@
         $('#form-search select').val("").trigger("change");
     }
 
+    function deleteExternalUser(userId){
+        var url = "{{ route('user.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', userId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan pengguna ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    },
+                    failed:function(data){
+                        console.log('data')
+                    },
+                })
+            }
+        })
+    }
+
 </script>
 @endpush

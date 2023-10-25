@@ -99,27 +99,20 @@ class RoleController extends Controller
                             return $label;
                         }
                     })
-                    ->editColumn('action', function ($roles) use ($accessDelete) {
+                    ->editColumn('action', function ($roles) use ($accessDelete, $accessUpdate) {
                         $button = "";
 
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
 
-                        //view role
-                        //$button .= '<a class="btn btn-xs btn-default" onclick="viewOnlyForm('.$roles->id.')"> <i class="fas fa-eye text-seconday"></i> ';
+                        if($accessUpdate){
+                            $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'edit\')" data-toggle="tooltip" data-placement="top" title="kemas kini"> <i class="fas fa-pencil text-primary"></i> ';
+                        }else{
+                            $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'edit\')" data-toggle="tooltip" data-placement="top" title="kemas kini"> <i class="fas fa-eye text-primary"></i> ';
+                        }
+                        if($accessDelete){
+                            $button .= '<a class="btn btn-xs btn-default" onclick="deleteRole('.$roles->id.')" data-toggle="tooltip" data-placement="top" title="hapus"> <i class="fas fa-trash text-danger"></i> ';
+                        }
 
-                        //edit role
-                        $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'edit\')" data-toggle="tooltip" data-placement="top" title="kemas kini"> <i class="fas fa-pencil text-primary"></i> ';
-
-                        // if($accessDelete){
-                        //     $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'duplicate\')" data-toggle="tooltip" data-placement="top" title="salin"> <i class="fas fa-clone text-primary"></i> ';
-                        // }
-
-                        //delete role
-                        // $button .= '<a class="btn btn-xs btn-default" title="" onclick="$(`#rolesDeleteButton_'.$roles->id.'`).trigger(`click`);" > <i class="fas fa-trash text-danger"></i> </a>';
-                        // $button .= "</div>";
-                        // $button .= '<form action="'.route('roles.delete',['roleId' => $roles->id]).'" method="post" refreshFunctionDivId="RoleList">';
-                        // $button .= '<button id="rolesDeleteButton_'.$roles->id.'" type="button" hidden onclick="confirmBeforeSubmit(this)"></button>';
-                        // $button .= '</form>';
                         $button .= '</div>';
 
                         return $button;
@@ -552,5 +545,43 @@ class RoleController extends Controller
         }
 
         //return redirect()->route('role.index');
+    }
+
+    public function deleteRole(Request $request){
+        DB::beginTransaction();
+        try{
+            $role = Role::find($request->roleId);
+
+            if (!$role) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            // Check if there are users associated with this role
+            $usersWithRole = $role->users()->count();
+            if ($usersWithRole > 0) {
+                throw new \Exception('Peranan gagal dihapuskan. Sila keluarkan pengguna terlebih dahulu');
+            }
+
+            $role->delete();
+
+            // $log = new LogSystem;
+            // $log->module_id = MasterModule::where('code', 'role.index')->firstOrFail()->id;
+            // $log->activity_type_id = 5;
+            // $log->description = "Hapus Peranan [".$role->name."]";
+            // $log->data_old = $role;
+            // $log->url = $request->fullUrl();
+            // $log->method = strtoupper($request->method());
+            // $log->ip_address = $request->ip();
+            // $log->created_by_user_id = auth()->id();
+            // $log->save();
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
     }
 }
