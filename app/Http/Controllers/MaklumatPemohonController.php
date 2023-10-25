@@ -2225,6 +2225,7 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 3,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_skm) ? json_encode($request->tukar_log_skm) : null
             ]);
 
             DB::commit();
@@ -2284,6 +2285,7 @@ class MaklumatPemohonController extends Controller
                 'activity_type_id' => 4,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'tukar_log' => isset($request->tukar_log_skm) ? json_encode($request->tukar_log_skm) : null
             ]);
 
             DB::commit();

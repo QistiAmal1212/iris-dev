@@ -19,7 +19,7 @@ data-reloadPage="false">
     <input type="hidden" name="id_skm" id="id_skm" value="">
 
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-        <label class="form-label">Nama Sijil</label>
+        <label class="form-label"></label>
         <select class="select2 form-control" value="" id="nama_skm" name="nama_skm" disabled>
             <option value=""></option>
             @foreach($skmkod as $skm)
@@ -39,12 +39,26 @@ data-reloadPage="false">
             <button type="button" class="btn btn-danger float-right" onclick="reloadSkm()">
                 <i class="fa fa-refresh"></i>
             </button>&nbsp;&nbsp;
-            <button type="button" class="btn btn-success float-right" id="btnSaveSkm" onclick="$('#btnEditSkm').trigger('click');">
+          <!--   <button type="button" class="btntahun_skm btn-success float-right" id="btnSaveSkm" onclick="$('#btnEditSkm').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
-            </button>
+            </button> -->
+             <button type="button" class="btn btn-success float-right" id="btnSaveSkm" onclick="confirmSubmitskm('btnEditSkm', {
+                nama_skm: $('#nama_skm').find(':selected').text(),
+                tahun_skm: $('#tahun_skm').val()
+            },{
+                subjek_pmr: 'Nama Sijil',
+                tahun_pmr: 'Tahun'
+            }
+        );">
+            <i class="fa fa-save"></i> Tambah
+        </button>
         </div>
     </div>
+<input type="hidden" name="tukar_log_skm"  id="tukar_log_skm">
 </form>
+<input type="hidden" name="editbutton_skm" value=0 id="editbutton_skm">
+
+<textarea id="currentvalues_skm" style="display:none;"></textarea>
 </div>
 
 <div class="table-responsive">
@@ -68,6 +82,78 @@ data-reloadPage="false">
         $('#skmForm input[name="tahun_skm"]').attr('disabled', false);
 
         $("#button_action_skm").attr("style", "display:block");
+        var editbuttoncount = $('#editbutton_skm').val();
+    
+        if (editbuttoncount <= 0) {
+            // firsttime
+            $('#editbutton_skm').val(1)
+            var check_data = {
+                nama_skm: $('#nama_skm').find(':selected').text(),
+                tahun_skm: $('#tahun_skm').val()
+            };
+            $('#currentvalues_skm').val(JSON.stringify(check_data));
+        } else {
+            checkkemaskiniskm();
+        }
+    }
+    function checkkemaskiniskm() {
+        
+        var datachanged = false;
+        var checkValue = JSON.parse($('#currentvalues_skm').val());
+   
+        if (checkValue.nama_skm != $('#nama_skm').find(':selected').text()) {
+            datachanged = true;
+        }
+
+        if (checkValue.tahun_skm != $('#tahun_skm').val()) {
+            datachanged = true;
+        }
+        
+        if (!datachanged) {
+            $('#editbutton_skm').val(0);
+            disbalefieldsskm();
+        }
+    }
+    function disbalefieldsskm() {
+        $('#skmForm select[name="nama_skm"]').attr('disabled', true);
+        $('#skmForm input[name="tahun_skm"]').attr('disabled', true);
+
+        $("#button_action_skm").attr("style", "display:none");
+    }
+    function confirmSubmitskm(btnName, newValues, columnHead) {
+        var originalVal = JSON.parse($('#currentvalues_skm').val());
+
+        var htmlContent = '<p>Perubahan:</p>';
+        for (var key in originalVal) {
+            if (originalVal.hasOwnProperty(key)) {
+                if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+                    if (originalVal[key] == null || originalVal[key] === '') {
+                        if (newValues[key] !== 'Tiada Maklumat') {
+                            if(newValues[key] !== null){
+                                htmlContent += '<p>' + columnHead[key] + ':<br>';
+                                htmlContent += 'Tiada Maklumat kepada ' + newValues[key] + '</p>';
+                            }
+                        }
+                    } else {
+                        htmlContent += '<p>' + columnHead[key] + ':<br>';
+                        htmlContent += originalVal[key] + ' kepada ' + newValues[key] + '</p>';
+                    }
+                }
+            }
+        }
+         if (htmlContent === '<p>Perubahan:</p>') {
+            Swal.fire({
+                title: 'Tiada Perubahan Dibuat',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+        } else {
+            $('#tukar_log_skm').val(htmlContent);
+            $('#btnEditSkm').trigger('click')
+        }
+        $('#editbutton_skm').val(0);
+        reloadSkm();
+        disbalefieldsskm();
     }
     function reloadSkm() {
         var no_pengenalan = $('#candidate_no_pengenalan').val();
@@ -129,6 +215,7 @@ data-reloadPage="false">
                         return $(this).text() === subjectName;
                     }).prop('selected', true).trigger('change');
                     $('#skmForm input[name="tahun_skm"]').val($(row).find('td:nth-child(3)').text());
+                    editSkm();
                 });
 
                 $(document).on('click', '.deleteSkm-btn', function() {
