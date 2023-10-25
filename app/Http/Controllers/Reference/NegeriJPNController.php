@@ -63,7 +63,6 @@ class NegeriJPNController extends Controller
                 $negerijpn->where('kod_spa',$request->activity_type_id);
             }
 
-
             return Datatables::of($negerijpn->get())
                 ->editColumn('kod', function ($negerijpn){
                     return $negerijpn->kod_spa;
@@ -79,13 +78,16 @@ class NegeriJPNController extends Controller
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="negerijpnForm('.$negerijpn->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+
                     if($accessUpdate){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="negerijpnForm('.$negerijpn->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                         if($negerijpn->sah_yt =='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$negerijpn->id.'" onclick="toggleActive('.$negerijpn->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$negerijpn->id.'" onclick="toggleActive('.$negerijpn->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }else{
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="negerijpnForm('.$negerijpn->id.')"> <i class="fas fa-eye text-primary"></i> ';
                     }
                     if($accessDelete){
                         $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$negerijpn->id.')"> <i class="fas fa-trash text-danger"></i> ';
@@ -280,6 +282,17 @@ class NegeriJPNController extends Controller
             if (!$negerijpn) {
                 throw new \Exception('Rekod tidak dijumpai');
             }
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.negerijpn')->firstOrFail()->id;
+            $log->activity_type_id = 5;
+            $log->description = "Hapus NegeriJPN";
+            $log->data_new = json_encode($negerijpn);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);

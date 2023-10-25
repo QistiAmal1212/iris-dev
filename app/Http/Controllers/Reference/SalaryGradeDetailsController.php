@@ -289,6 +289,17 @@ class salaryGradeDetailsController extends Controller
                 throw new \Exception('Rekod tidak dijumpai');
             }
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.salary-grade-details')->firstOrFail()->id;
+            $log->activity_type_id = 5;
+            $log->description = "Hapus Butiran Gred Gaji";
+            $log->data_new = json_encode($salaryGradeDetails);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             DB::commit();
             return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
 

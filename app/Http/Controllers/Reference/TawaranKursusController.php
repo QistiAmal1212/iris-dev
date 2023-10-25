@@ -87,13 +87,16 @@ class TawaranKursusController extends Controller
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="tawarankursusForm('.$tawarankursus->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+
                     if($accessUpdate){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="tawarankursusForm('.$tawarankursus->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                         if($tawarankursus->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$tawarankursus->id.'" onclick="toggleActive('.$tawarankursus->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$tawarankursus->id.'" onclick="toggleActive('.$tawarankursus->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }else{
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="tawarankursusForm('.$tawarankursus->id.')"> <i class="fas fa-eye text-primary"></i> ';
                     }
                     if($accessDelete){
                         $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$tawarankursus->id.')"> <i class="fas fa-trash text-danger"></i> ';
@@ -281,6 +284,17 @@ class TawaranKursusController extends Controller
             if (!$tawarankursus) {
                 throw new \Exception('Rekod tidak dijumpai');
             }
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.tawarankursus')->firstOrFail()->id;
+            $log->activity_type_id = 5;
+            $log->description = "Hapus Tawaran Kursus";
+            $log->data_new = json_encode($tawarankursus);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);

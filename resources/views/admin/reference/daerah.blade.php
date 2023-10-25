@@ -135,6 +135,7 @@
                         $.each(data, function(key, value) {
                             $('#kod_ruj_bahagian').append('<option value="'+ value.codes +'">'+ value.categories +'</option>');
                         });
+                        $('#daerahForm select[name="kod_ruj_bahagian"]').val($('#daerahForm input[name="temp"]').val()).trigger('change');
                     }
                 });
             }{
@@ -347,6 +348,7 @@
                         $('#daerahForm').attr('action', url2);
                         $('#daerahForm input[name="code"]').val(data.detail.kod);
                         $('#daerahForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#daerahForm input[name="temp"]').val(data.detail.bah_kod);
                         $('#daerahForm select[name="kod_ruj_bahagian"]').val(data.detail.bah_kod).trigger('change');
                         $('#daerahForm select[name="kod_ruj_negeri"]').val(data.detail.neg_kod).trigger('change');
 

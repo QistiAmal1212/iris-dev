@@ -42,7 +42,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Skim Skim</h4>
+        <h4 class="card-title">Senarai Skim</h4>
         @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="skimForm()">
             <i class="fa-solid fa-add"></i> Tambah Skim

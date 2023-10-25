@@ -65,13 +65,16 @@ class JKKCController extends Controller
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="jkkcForm('.$jkkc->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+
                     if($accessUpdate){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="jkkcForm('.$jkkc->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                         if($jkkc->sah_yt=="Y") {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$jkkc->id.'" onclick="toggleActive('.$jkkc->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$jkkc->id.'" onclick="toggleActive('.$jkkc->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }else{
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="jkkcForm('.$jkkc->id.')"> <i class="fas fa-eye text-primary"></i> ';
                     }
                     if($accessDelete){
                         $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$jkkc->id.')"> <i class="fas fa-trash text-danger"></i> ';
@@ -244,6 +247,17 @@ class JKKCController extends Controller
             if (!$jkkc) {
                 throw new \Exception('Rekod tidak dijumpai');
             }
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.jkkc')->firstOrFail()->id;
+            $log->activity_type_id = 5;
+            $log->description = "Hapus JKKC";
+            $log->data_new = json_encode($jkkc);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
