@@ -560,13 +560,8 @@ class RoleController extends Controller
                 throw new \Exception('Peranan gagal dihapuskan. Sila keluarkan pengguna terlebih dahulu');
             }
 
-            DB::table('role_has_function')->where('role_id', $role->id)->delete();
-            DB::table('role_has_menu')->where('role_id', $role->id)->delete();
-
-            $users = $role->users;
-            foreach ($users as $user) {
-                $user->delete();
-            }
+            $role->function()->where('role_id', $role->id)->detach();
+            $role->menu()->where('role_id', $role->id)->detach();
 
             $role->delete();
 
