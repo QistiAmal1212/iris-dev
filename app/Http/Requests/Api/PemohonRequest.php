@@ -199,13 +199,13 @@ class PemohonRequest extends ApiRequest
                 if($api->status){
                     $rules = [
                         'path' => 'required|string|exists:senarai_api,nama_path',
-                        'no_kp' => 'required|string',
+                        'no_kp' => 'required|string|exists:calon,no_kp_baru',
                     ];
                 }
             } else {
                 $rules = [
                     'path' => 'required|string|exists:senarai_api,nama_path',
-                    'no_kp' => 'required|string',
+                    'no_kp' => 'required|string|exists:calon,no_kp_baru',
                 ];
             }
         }

@@ -195,6 +195,10 @@
                                                         Ralat Api {{ $urlApi }}
                                                         <br>
                                                         <br>
+                                                        Maklumat Ralat : <br>
+                                                        {{ $error }}
+                                                        <br>
+                                                        <br>
                                                         <i class="do-not-reply">
                                                             * Ini merupakan emel yang dijana secara automatik. Mohon untuk tidak membalas emel ini.
                                                         </i>

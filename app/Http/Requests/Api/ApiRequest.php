@@ -7,6 +7,9 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Models\Integrasi\LogApi;
 use App\Models\Integrasi\SenaraiApi;
+use App\Models\User;
+use Mail;
+use App\Mail\Api\ErrorApi;
 
 class ApiRequest extends FormRequest
 {
@@ -17,11 +20,17 @@ class ApiRequest extends FormRequest
 
         if($routeName == 'pemohon.store'){
             $senaraiApi = SenaraiApi::where('url', $this->route()->uri())->first();
+            $url = url('/').'/api/pemohon/store';
         }
         if($routeName == 'pemohon.details')
         {
             $senaraiApi = SenaraiApi::where('nama_path', $this->route('path'))->first();
+            $url = url('/').'/api/pemohon/details/'.$this->route('path');
         }
+
+        $user = User::find(1);
+
+        Mail::to($user->email)->send(new ErrorApi($url, $validator->errors()));
 
         if($senaraiApi) {
             $log = new LogApi;
