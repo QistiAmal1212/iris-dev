@@ -85,7 +85,7 @@ class SubjectController extends Controller
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$subject->id.'" onclick="toggleActive('.$subject->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
                     }else{
-                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="subjectForm('.$subject->id.')"> <i class="fas fa-pencil text-eye"></i> ';
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="subjectForm('.$subject->id.')"> <i class="fas fa-eye text-eye"></i> ';
                     }
                     if($accessDelete){
                         $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$subject->id.')"> <i class="fas fa-trash text-danger"></i> ';
