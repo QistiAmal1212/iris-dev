@@ -556,27 +556,17 @@ class RoleController extends Controller
                 throw new \Exception('Rekod tidak dijumpai');
             }
 
-            // Check if there are users associated with this role
-            $usersWithRole = $role->users()->count();
-            if ($usersWithRole > 0) {
+            if ($role->users()->exists()) {
                 throw new \Exception('Peranan gagal dihapuskan. Sila keluarkan pengguna terlebih dahulu');
             }
 
-            DB::table('role_has_function')->where('role_id', $role->id)->delete();
-            DB::table('role_has_menu')->where('role_id', $role->id)->delete();
+            $role->permissions()->detach();
+
+            $role->function()->detach();
+
+            $role->menu()->detach();
 
             $role->delete();
-
-            // $log = new LogSystem;
-            // $log->module_id = MasterModule::where('code', 'role.index')->firstOrFail()->id;
-            // $log->activity_type_id = 5;
-            // $log->description = "Hapus Peranan [".$role->name."]";
-            // $log->data_old = $role;
-            // $log->url = $request->fullUrl();
-            // $log->method = strtoupper($request->method());
-            // $log->ip_address = $request->ip();
-            // $log->created_by_user_id = auth()->id();
-            // $log->save();
 
             DB::commit();
             return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
