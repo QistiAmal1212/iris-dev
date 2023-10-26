@@ -45,7 +45,7 @@ return [
     'email'                => ':attribute tidak sah.',
     'ends_with'            => ':attribute mesti berakhir dengan salah satu dari: :values.',
     'enum'                 => 'The selected :attribute is invalid.',
-    'exists'               => ':attribute tidak sah.',
+    'exists'               => ':attribute :input tidak sah.',
     'file'                 => ':attribute mesti fail yang sah.',
     'filled'               => ':attribute diperlukan.',
     'gt'                   => [

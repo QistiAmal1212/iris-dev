@@ -2617,6 +2617,7 @@ class MaklumatPemohonController extends Controller
             ->with(['eligibility'])
             ->with(['specialization'])
             ->with(['peringkat'])
+            ->with(['biasiswa'])
             ->get();
 
             foreach($candidatePt as $candidate){

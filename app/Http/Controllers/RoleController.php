@@ -566,7 +566,7 @@ class RoleController extends Controller
             $role->delete();
 
             DB::commit();
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Peranan berjaya dihapuskan", 'detail' => "berjaya"]);
 
         }catch (\Throwable $e) {
 
