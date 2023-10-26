@@ -45,4 +45,8 @@ class CalonPengajianTinggi extends Model
     public function peringkat() {
         return $this->belongsTo('App\Models\Reference\PeringkatPengajian', 'peringkat_pengajian', 'id');
     }
+
+    public function biasiswa() {
+        return $this->belongsTo('App\Models\Reference\Biasiswa', 'biasiswa', 'kod');
+    }
 }

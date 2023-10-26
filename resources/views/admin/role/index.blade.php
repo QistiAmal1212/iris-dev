@@ -540,10 +540,11 @@
                     type: 'POST',
                     async: true,
                     success: function(data){
-                        if (data.detail) {
-                         Swal.fire('Gagal', data.detail, 'error');
-                        } else {
+                        if (data.status === 'success') {
+                            Swal.fire('Berjaya', data.message, 'success');
                             table.draw();
+                        } else {
+                            Swal.fire('Gagal', data.detail, 'error');
                         }
                     }
                 })

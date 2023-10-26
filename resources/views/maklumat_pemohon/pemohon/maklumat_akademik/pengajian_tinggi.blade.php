@@ -17,7 +17,7 @@
     <div class="row mt-2 mb-2">
         <input type="hidden" name="pengajian_tinggi_no_pengenalan" id="pengajian_tinggi_no_pengenalan" value="">
         <input type="hidden" name="id_pt" id="id_pt" value="">
-<!-- 
+<!--
         <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
             <label class="form-label">Tahun</label>
             <input type="text" class="form-control" value="" name="tahun_pengajian_tinggi" id="tahun_pengajian_tinggi" oninput="checkInput('tahun_pengajian_tinggi', 'tahun_pengajian_tinggiAlert')" disabled>
@@ -184,10 +184,10 @@
         }
     }
     function checkkemaskinipt() {
-        
+
         var datachanged = false;
         var checkValue = JSON.parse($('#currentvalues_pt').val());
-   
+
         if (checkValue.pengkhususan_pengajian_tinggi != $('#pengkhususan_pengajian_tinggi').find(':selected').text()) {
             datachanged = true;
         }
@@ -210,7 +210,7 @@
          if (checkValue.tarikh_senat_pengajian_tinggi != $('#tarikh_senat_pengajian_tinggi').val()) {
             datachanged = true;
         }
-        
+
         if (checkValue.tahun_pengajian_tinggi != $('#tahun_pengajian_tinggi').val()) {
             datachanged = true;
         }
@@ -220,7 +220,7 @@
          if (checkValue.biasiswa_pengajian_tinggi != $('#biasiswa_pengajian_tinggi').find(':selected').text()) {
             datachanged = true;
         }
-        
+
         if (!datachanged) {
             $('#editbutton_pt').val(0);
             disbalefieldspt();
@@ -317,6 +317,7 @@
                 $('#editbutton_pt').val(0);
                 $.each(data.detail, function(i, item) {
                     if(item){
+                        console.log(item)
                         trPt += '<hr><div class="row mt-2 mb-2"><div class="col-12 text-end mb-2">';
                         trPt += '</div>';
                         if(item.tahun_lulus){ trPt += '<div class="col-sm-3 col-md-3 col-lg-3 mb-1"><label class="form-label">Tahun</label><input type="text" class="form-control" value="' + item.tahun_lulus + '" disabled></div>'; }
@@ -337,7 +338,7 @@
                         else{ trPt += '<div class="col-sm-4 col-md-4 col-lg-4 mb-1"><label class="form-label">Francais Luar Negara</label><input type="text" class="form-control" value="Tiada Maklumat" disabled></div>'; }
                         if(item.tarikh_senat){ trPt += '<div class="col-sm-4 col-md-4 col-lg-4 mb-1"><label class="form-label">Tarikh Senat</label><input type="text" class="form-control" value="' + item.tarikh_senat + '" disabled></div>'; }
                         else{ trPt += '<div class="col-sm-4 col-md-4 col-lg-4 mb-1"><label class="form-label">Tarikh Senat</label><input type="text" class="form-control" value="Tiada Maklumat" disabled></div>'; }
-                        if(item.biasiswa){ item.biasiswa == 0 ? trPt += '<div class="col-sm-4 col-md-4 col-lg-4 mb-1"><label class="form-label">Biasiswa</label><input type="text" class="form-control" value="Tidak" disabled></div></div>' : trPt += '<div class="col-sm-4 col-md-4 col-lg-4 mb-1"><label class="form-label">Biasiswa</label><input type="text" class="form-control" value="Ya" disabled></div></div>'; }
+                        if(item.biasiswa){ trPt += '<div class="col-sm-4 col-md-4 col-lg-4 mb-1"><label class="form-label">Biasiswa</label><input type="text" class="form-control" value="' + item.biasiswa.diskripsi.toUpperCase() + '" disabled></div></div>'; }
                         else{ trPt += '<div class="col-sm-4 col-md-4 col-lg-4 mb-1"><label class="form-label">Biasiswa</label><input type="text" class="form-control" value="Tiada Maklumat" disabled></div></div>'; }
                     }
                 });
