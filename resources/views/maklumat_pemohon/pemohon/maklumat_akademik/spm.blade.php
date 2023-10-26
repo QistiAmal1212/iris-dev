@@ -13,6 +13,7 @@
 
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_spm1" hidden>Tiada Maklumat</span>
+                        <input type="hidden" name="tm_spm1_hidden" id="tm_spm1_hidden" value=1>
                     </span>
                 </span>
             </button>
@@ -48,6 +49,7 @@
                     {{-- BADGE IF NO DATA STARTS HERE --}}
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_svm1" hidden>Tiada Maklumat</span>
+                        <input type="hidden" name="tm_svm1_hide" id= "tm_svm1_hide" value=1>
                     </span>
                     {{-- UNTIL HERE --}}
                 </span>
@@ -734,9 +736,11 @@
 
                     var tmSpm1Element = $("#tm_spm1");
                     tmSpm1Element.removeAttr("hidden");
+                    $('#tm_spm1_hidden').val(0)
                 }else{
                     var tmSpm1Element = $("#tm_spm1");
                     tmSpm1Element.attr("hidden", true);
+                    $('#tm_spm1_hidden').val(1)
                 }
 
                 $(document).on('click', '.editSpm1-btn', function() {
@@ -1065,9 +1069,17 @@
 
                     var tmSvm1Element = $("#tm_svm1");
                     tmSvm1Element.removeAttr("hidden");
+                    $('#tm_svm1_hidden').val(0)
+                    if ($('#tm_spm1_hidden').val() == 0) {
+                        var tmSvm1Element = $("#tm_svm_spm");
+                        tmSvm1Element.removeAttr("hidden");
+                    }
                 }else{
+                    $('#tm_svm1_hidden').va(1)
                     var tmSvm1Element = $("#tm_svm1");
                     tmSvm1Element.attr("hidden", true);
+                    var tmSvm1Element = $("#tm_svm_spm");
+                        tmSvm1Element.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editSvm-btn', function() {

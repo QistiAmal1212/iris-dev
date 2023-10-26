@@ -12,6 +12,7 @@
 
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_stpm1" hidden>Tiada Maklumat</span>
+                        <input type="hidden" name="tm_stpm1_hidden" id="tm_stpm1_hidden" value=1>
                     </span>
                 </span>
             </button>
@@ -31,6 +32,7 @@
 
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_stam1" hidden>Tiada Maklumat</span>
+                        <input type="hidden" name="tm_stpm1_hidden" id="tm_stam1_hidden" value=1>
                     </span>
                 </span>
             </button>
@@ -50,6 +52,7 @@
 
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_matrikulasi" hidden>Tiada Maklumat</span>
+                        <input type="hidden" name="tm_stpm1_hidden" id="tm_matrikulasi_hidden" value=1>
                     </span>
                 </span>
             </button>
@@ -728,6 +731,7 @@
                     var tmStpm1Element = $("#tm_stpm1");
                     tmStpm1Element.removeAttr("hidden");
                 }else{
+                    $('#tm_stpm1_hidden').val(1);
                     var tmStpm1Element = $("#tm_stpm1");
                     tmStpm1Element.attr("hidden", true);
                 }
@@ -1169,6 +1173,11 @@
                 }else{
                     var tmMatrikulasiElement = $("#tm_matrikulasi");
                     tmMatrikulasiElement.attr("hidden", true);
+                }
+                if (($('#tm_stpm1').is(":hidden")) && ($('#tm_stam1').is(":hidden"))  &&  ($('#tm_matrikulasi').is(":hidden")) ) {
+                    $('#tm_stpm1_hidden').removeAttr("hidden");
+                } else {
+                    $('#tm_stpm1_hidden').attr("hidden", true);
                 }
 
                 $(document).on('click', '.editMatrikulasi-btn', function() {

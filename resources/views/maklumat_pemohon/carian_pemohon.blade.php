@@ -134,7 +134,7 @@ Maklumat Pemohon
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link fw-bolder" id="akademik-tab" data-bs-toggle="tab" href="#akademik" aria-controls="akademik" role="tab" aria-selected="true">
-                                Maklumat <br> Akademik
+                                Maklumat <br> Akademik <br>
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
