@@ -108,7 +108,7 @@ class KodPelbagaiController extends Controller
         try {
 
             $request->validate([
-                'kod' => 'required|string|unique:ruj_kod_pelbagai,kod',
+                'kod' => 'required|string',
                 'kategori' => 'required|string',
                 'nama' => 'required|string',
             ],[
@@ -194,7 +194,7 @@ class KodPelbagaiController extends Controller
             $log->data_old = json_encode($kodpelbagai);
 
             $request->validate([
-                'kod' => 'required|string|unique:ruj_kod_pelbagai,kod,'.$kodpelbagaiId,
+                'kod' => 'required|string',
                 'kategori' => 'required|string',
                 'nama' => 'required|string',
             ],[
