@@ -26,4 +26,8 @@ class CalonSpmUlangan extends Model
     // protected $keyType = 'string';
     const CREATED_AT = 'tarikh_cipta';
     const UPDATED_AT = 'tarikh_ubahsuai';
+
+    public function subjek(){
+        return $this->belongsTo('App\Models\Reference\Subject', 'matapelajaran', 'kod');
+    }
 }

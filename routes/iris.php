@@ -81,6 +81,10 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::post('delete/{idSvm}', 'deleteSvm')->name('svm.delete');
         });
 
+        Route::prefix('spmu')->group(function () {
+            Route::get('list/{noPengenalan}', 'listSpmu')->name('spmu.list');
+        });
+
         Route::prefix('stpm1')->group(function () {
             Route::post('store', 'storeStpm1')->name('stpm1.store');
             Route::get('list/{noPengenalan}', 'listStpm1')->name('stpm1.list');

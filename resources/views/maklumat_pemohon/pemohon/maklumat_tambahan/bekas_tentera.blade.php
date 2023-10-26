@@ -88,7 +88,7 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.jenis_pkhidmat).trigger('change');
+                $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.status_pkhidmat).trigger('change');
                 $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').attr('disabled', true);
                 $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.pangkat_tent_polis).trigger('change');
                 $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);

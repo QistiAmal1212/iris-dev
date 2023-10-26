@@ -68,7 +68,8 @@
                         SPM Ulangan
                     </span>
                     <span class="bs-stepper-subtitle">
-                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_spmu">Tiada Maklumat</span>
+                        <span class="badge badge-light-danger fw-bolder mt-1" id="tm_spmu" hidden>Tiada Maklumat</span>
+                        <input type="hidden" name="tm_spmu_hidden" id="tm_spmu_hidden" value=1>
                     </span>
                 </span>
             </button>
@@ -486,35 +487,10 @@
             </div>
 
             {{-- Borang SPM ULANGAN --}}
-            <form id="" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
+            <form id="spmuForm" action="" method="POST" data-refreshFunctionName="reloadTimeline" data-refreshFunctionNameIfSuccess="" data-reloadPage="false">
                 @csrf
                 <div class="row">
-
-                    <!-- <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
-                        <label class="form-label">Mata Pelajaran</label>
-                        <select class="select2 form-control" value="" id="" name="" disabled>
-                            <option value="" hidden>Mata Pelajaran</option>
-                            {{-- Loop the dropdown here --}}
-                                <option value=""></option>
-                            {{-- Until here --}}
-                        </select>
-                    </div> -->
-
-                   <!--  <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                        <label class="form-label">Gred</label>
-                        <select class="select2 form-control" value="" id="" name="" disabled>
-                            <option value="" hidden>Gred</option>
-                                {{-- Loop the dropdown here --}}
-                                    <option value=""></option>
-                                {{-- Until here --}}
-                        </select>
-                    </div> -->
-
-                  <!--   <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
-                        <label class="form-label">Tahun</label>
-                        <input type="text" class="form-control" value="" id="" name="" disabled>
-                    </div> -->
-
+                    <input type="hidden" name="spmu_no_pengenalan" id="spmu_no_pengenalan" value="">
                     {{-- Button --}}
                     <div id="" style="display:none">
                         <button type="button" id="" hidden onclick="generalFormSubmit(this);"></button>
@@ -532,7 +508,7 @@
 
             {{-- Table SPM ULANGAN --}}
             <div class="table-responsive mb-1 mt-1">
-                <table class="table header_uppercase table-bordered table-hovered" id="">
+                <table class="table header_uppercase table-bordered table-hovered" id="table-spmu">
                     <thead>
                         <tr>
                             <th>Bil.</th>
@@ -540,7 +516,6 @@
                             <th>Kod MP</th>
                             <th>Mata Pelajaran</th>
                             <th>Gred</th>
-                            <!-- <th>Kemaskini</th> -->
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -564,6 +539,7 @@
             $('#mp_kod_spm2').val(value);
         }
     }
+
     function confirmSubmitspm(btnName, newValues, columnHead) {
         if (btnName == 'btnEditSpm1') {
             var originalVal = JSON.parse($('#currentvalues_spm1').val());
@@ -613,6 +589,7 @@
             reloadSpm2();
         }
     }
+
     function editSpm1() {
         $('#spm1Form select[name="subjek_spm1"]').attr('disabled', false);
         $('#spm1Form select[name="gred_spm1"]').attr('disabled', false);
@@ -635,6 +612,7 @@
             checkkemaskinispm('spm1');
         }
     }
+
     function checkkemaskinispm(type) {
         var datachanged = false;
         var checkValue = JSON.parse($('#currentvalues_'+type).val());
@@ -667,6 +645,7 @@
             disbalefieldsspm(type);
         }
     }
+
     function disbalefieldsspm(type) {
         if (type == 'spm1') {
             $('#spm1Form select[name="subjek_spm1"]').attr('disabled', true);
@@ -679,6 +658,7 @@
         }
         $("#button_action_"+type).attr("style", "display:none");
     }
+
     function reloadSpm1() {
         var no_pengenalan = $('#spm1_no_pengenalan').val();
         $('#spm1Form input[name="spm1_no_pengenalan"]').val(no_pengenalan);
@@ -900,98 +880,6 @@
         });
     }
 
-    // function editSpmv() {
-    //     $('#spmvForm select[name="subjek_spmv"]').attr('disabled', false);
-    //     $('#spmvForm select[name="gred_spmv"]').attr('disabled', false);
-    //     $('#spmvForm input[name="tahun_spmv"]').attr('disabled', false);
-
-    //     $("#button_action_spmv").attr("style", "display:block");
-    // }
-
-    // function reloadSpmv() {
-    //     var no_pengenalan = $('#spmv_no_pengenalan').val();
-    //     $('#spmvForm input[name="spmv_no_pengenalan"]').val(no_pengenalan);
-
-    //     var reloadSpmvUrl = "{{ route('spmv.list', ':replaceThis') }}"
-    //     reloadSpmvUrl = reloadSpmvUrl.replace(':replaceThis', no_pengenalan);
-    //     $.ajax({
-    //         url: reloadSpmvUrl,
-    //         method: 'GET',
-    //         async: true,
-    //         success: function(data) {
-    //             $('#spmvForm select[name="subjek_spmv"]').val('').trigger('change');
-    //             $('#spmvForm select[name="gred_spmv"]').val('').trigger('change');
-    //             $('#spmvForm input[name="tahun_spmv"]').val('');
-    //             $('#spmvForm select[name="subjek_spmv"]').attr('disabled', true);
-    //             $('#spmvForm select[name="gred_spmv"]').attr('disabled', true);
-    //             $('#spmvForm input[name="tahun_spmv"]').attr('disabled', true);
-    //             $('#spmvForm').attr('action', "{{ route('spmv.store')  }}");
-    //             $('#btnSaveSpmv').html('<i class="fa fa-save"></i> Tambah');
-
-    //             $("#button_action_spmv").attr("style", "display:none");
-
-
-    //             $('#table-spmv tbody').empty();
-    //             var trSpmv = '';
-    //             var bilSpmv = 0;
-    //             $.each(data.detail, function(i, item) {
-    //                 if (item.subject_form5 != null) {
-    //                     bilSpmv += 1;
-    //                     trSpmv += '<tr>';
-    //                     trSpmv += '<td align="center">' + bilSpmv + '</td>';
-    //                     trSpmv += '<td>' + item.subject_form5.diskripsi + '</td>'; //KOD MATA PELAJARAN
-    //                     trSpmv += '<td>' + item.subject_form5.diskripsi + '</td>';
-    //                     trSpmv += '<td align="center">' + item.gred + '</td>';
-    //                     trSpmv += '<td align="center"><i class="fas fa-pencil text-primary editSpmv-btn" data-id="' + item.id + ' "></i>';
-    //                     trSpmv += '&nbsp;&nbsp;';
-    //                     trSpmv += '<i class="fas fa-trash text-danger deleteSpmv-btn" data-id="' + item.id + '"></i></td>';
-    //                     trSpmv += '</tr>';
-    //                 }
-    //             });
-    //             $('#table-spmv tbody').append(trSpmv);
-
-    //             if($('#table-spmv tbody').is(':empty')){
-    //                 var trSpmv = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
-    //                 $('#table-spmv tbody').append(trSpmv);
-    //             }
-
-    //             $(document).on('click', '.editSpmv-btn', function() {
-    //                 $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-    //                 $('#spmvForm').attr('action', "{{ route('spmv.update') }}");
-    //                 var row = $(this).closest('tr');
-    //                 var id = $(this).data('id');
-
-    //                 $('#spmvForm input[name="id_spmv"]').val(id);
-    //                 var subjectName = $(row).find('td:nth-child(2)').text();
-    //                 $('#spmvForm select[name="subjek_spmv"] option').filter(function() {
-    //                     return $(this).text() === subjectName;
-    //                 }).prop('selected', true).trigger('change');
-    //                 $('#spmvForm select[name="gred_spmv"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-    //                 $('#spmvForm input[name="tahun_spmv"]').val($(row).find('td:nth-child(4)').text());
-    //             });
-
-    //             $(document).on('click', '.deleteSpmv-btn', function() {
-    //                 var id = $(this).data('id');
-    //                 Swal.fire({
-    //                 title: 'Adakah anda ingin hapuskan maklumat ini?',
-    //                 showCancelButton: true,
-    //                 confirmButtonText: 'Sahkan',
-    //                 cancelButtonText: 'Batal',
-    //                 }).then((result) => {
-    //                 if (result.isConfirmed) {
-    //                     deleteItem(id, "{{ route('spmv.delete', ':replaceThis') }}", reloadSpmv )
-    //                 }
-    //                 })
-
-    //             });
-    //         },
-    //         error: function(data) {
-    //         }
-    //     });
-    // }
-    // 
-
-
     function editSvm() {
         $('#svmForm input[name="tahun_svm"]').attr('disabled', false);
         $('#svmForm select[name="kelulusan_svm"]').attr('disabled', false);
@@ -1075,7 +963,7 @@
                         tmSvm1Element.removeAttr("hidden");
                     }
                 }else{
-                    $('#tm_svm1_hidden').va(1)
+                    $('#tm_svm1_hidden').val(1)
                     var tmSvm1Element = $("#tm_svm1");
                     tmSvm1Element.attr("hidden", true);
                     var tmSvm1Element = $("#tm_svm_spm");
@@ -1112,6 +1000,61 @@
                     })
 
                 });
+            },
+            error: function(data) {
+            }
+        });
+    }
+
+    function reloadSpmu() {
+        var no_pengenalan = $('#spmu_no_pengenalan').val();
+        $('#spmuForm input[name="spmu_no_pengenalan"]').val(no_pengenalan);
+
+        var reloadSpmuUrl = "{{ route('spmu.list', ':replaceThis') }}"
+        reloadSpmuUrl = reloadSpmuUrl.replace(':replaceThis', no_pengenalan);
+        $.ajax({
+            url: reloadSpmuUrl,
+            method: 'GET',
+            async: true,
+            success: function(data) {
+                $('#table-spmu tbody').empty();
+                var trSpmu = '';
+                var bilSpmu = 0;
+                if(data.detail != null){
+                    console.log(data.detail);
+                    $.each(data.detail, function(i, item) {
+                        if(item.subjek != null) {
+                            bilSpmu += 1;
+                            trSpmu += '<tr>';
+                            trSpmu += '<td align="center">' + bilSpmu + '</td>';
+                            trSpmu += '<td align="center">' + item.tahun + '</td>';
+                            trSpmu += '<td>' + item.subjek.kod + '</td>'; //KOD MATA PELAJARAN
+                            trSpmu += '<td>' + item.subjek.diskripsi + '</td>';
+                            trSpmu += '<td align="center">' + item.gred + '</td>';
+                            trSpmu += '</tr>';
+                        }
+                    });
+                }
+                $('#table-spmu tbody').append(trSpmu);
+
+                if($('#table-spmu tbody').is(':empty')){
+                    var trSpmu = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    $('#table-spmu tbody').append(trSpmu);
+
+                    var tmSpmuElement = $("#tm_spmu");
+                    tmSpmuElement.removeAttr("hidden");
+                    $('#tm_smpu_hidden').val(0)
+                    if ($('#tm_spm1_hidden').val() == 0) {
+                        var tmSpmuElement = $("#tm_svm_spm");
+                        tmSpmuElement.removeAttr("hidden");
+                    }
+                }else{
+                    $('#tm_spmu_hidden').val(1)
+                    var tmSpmuElement = $("#tm_spmu");
+                    tmSpmuElement.attr("hidden", true);
+                    var tmSpmuElement = $("#tm_svm_spm");
+                    tmSpmuElement.attr("hidden", true);
+                }
             },
             error: function(data) {
             }
