@@ -9,13 +9,13 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="spm-tab" data-bs-toggle="tab" href="#spm" aria-controls="spm" role="tab" aria-selected="true">
                 SPM/ SPMV/ SVM/ SPM Ulangan
-                {{-- <br><div class="badge badge-light-danger fw-bolder" id="tm_spm" hidden>Tiada Maklumat</div> --}}
+                br><div class="badge badge-light-danger fw-bolder" id="tm_svm_spm" hidden>Tiada Maklumat</div>
             </a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder" id="stpm-tab" data-bs-toggle="tab" href="#stpm" aria-controls="stpm" role="tab" aria-selected="true">
                 STPM/ STAM/ Sijil Matrikulasi
-                {{-- <br><div class="badge badge-light-danger fw-bolder" id="tm_stpm" hidden>Tiada Maklumat</div> --}}
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_stpm1_hidden" hidden>Tiada Maklumat</div>
             </a>
         </li>
         <li class="nav-item" role="presentation">

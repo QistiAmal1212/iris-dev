@@ -3,7 +3,7 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link fw-bolder active" id="maklumatPSB-tab" data-bs-toggle="tab" href="#maklumatPSB" aria-controls="maklumatPSB" role="tab" aria-selected="true">
                 Maklumat PSB/PSL
-                {{-- <br><div class="badge badge-light-danger fw-bolder" id="tm_psl" hidden>Tiada Maklumat</div> --}}
+                <br><div class="badge badge-light-danger fw-bolder" id="tm_psl" hidden>Tiada Maklumat</div>
             </a>
         </li>
         <li class="nav-item" role="presentation">
