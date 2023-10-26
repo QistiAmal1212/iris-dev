@@ -12,7 +12,8 @@ class CheckUserActivity extends Command
 
     public function handle()
     {
-        $dateLimit = now()->subDays(30);
+        // $dateLimit = now()->subDays(30);
+        $dateLimit = now()->subMinutes(3);
 
         User::where('last_login', '<', $dateLimit)
             ->update(['is_active' => 0]);
