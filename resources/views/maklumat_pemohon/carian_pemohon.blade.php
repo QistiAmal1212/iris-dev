@@ -191,6 +191,44 @@ Maklumat Pemohon
 
 @section('script')
 <script>
+    $(".select2").select2();
+    $(".select2").attr("data-placeholder", "Tiada Maklumat");
+    $(".select2").select2();
+    $("#experience_department_state").select2();
+    $("#experience_department_state").attr("data-placeholder", 'Tiada Maklumat Negeri');
+    $("#experience_department_state").select2();
+
+    $("#peringkat_pengajian_tinggi").select2();
+    $("#peringkat_pengajian_tinggi").attr("data-placeholder", 'Tiada Maklumat Pengajian');
+    $("#peringkat_pengajian_tinggi").select2();
+    
+    $("#biasiswa_pengajian_tinggi").select2();
+    $("#biasiswa_pengajian_tinggi").attr("data-placeholder", 'Tiada Maklumat Biasiswa');
+    $("#biasiswa_pengajian_tinggi").select2();
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Get all input elements on the page
+        const inputElements = document.querySelectorAll('input');
+
+        // Set a global placeholder value for all input elements
+        inputElements.forEach((input) => {
+            input.placeholder = 'Tiada Maklumat';
+
+            if (input.name == 'experience_department_state') {
+                // setSelect2Placeholder('experience_department_state', 'Tiada Maklumat Negeri');
+            }
+             if (input.name == 'experience_department_daerah') {
+                input.placeholder = 'Tiada Maklumat Daerah';
+            } 
+            if (input.name == 'peringkat_pengajian_tinggi') {
+                // setSelect2Placeholder('peringkat_pengajian_tinggi', 'Tiada Maklumat Pengajian');
+            }  
+            if (input.name == 'biasiswa_pengajian_tinggi') {
+                // setSelect2Placeholder('biasiswa_pengajian_tinggi', 'Tiada Maklumat Biasiswa');
+            } 
+        });
+    });
+
     $(document).ready(function() {
         $('#oku_category').change(function() {
             var parentCategory = $(this).val();
@@ -723,7 +761,7 @@ Maklumat Pemohon
 
                     $('#table-skim tbody').empty();
                     if(data.detail.skim.length == 0){
-                        var trSkim = '<tr><td align="center" colspan="6">*Tiada Rekod*</td></tr>';
+                        var trSkim = '<tr><td align="center" colspan="6">*Tiada Maklumat*</td></tr>';
                         $('#tm_skim').removeAttr('hidden');
                     } else {
                         var trSkim = '';

@@ -55,7 +55,7 @@ data-reloadPage="false">
                 <th>Bil.</th>
                 <th>Jenis Peperiksaan</th>
                 <th>Tarikh Peperiksaan</th>
-                <th>Kemaskini</th>
+                <!-- <th>Kemaskini</th> -->
             </tr>
         </thead>
         <tbody>
@@ -100,16 +100,16 @@ data-reloadPage="false">
                         trPsl += '<td align="center">' + bilPsl + '</td>'
                         trPsl += '<td>' + item.qualification.diskripsi + '</td>';
                         trPsl += '<td>' + (item.tarikh_exam ? item.tarikh_exam : '') + '</td>';
-                        trPsl += '<td align="center"><i class="fas fa-pencil text-primary editPsl-btn" data-id="' + item.id + ' "></i>';
-                        trPsl += '&nbsp;&nbsp;';
-                        trPsl += '<i class="fas fa-trash text-danger deletePsl-btn" data-id="' + item.id + '"></i></td>';
+                        // trPsl += '<td align="center"><i class="fas fa-pencil text-primary editPsl-btn" data-id="' + item.id + ' "></i>';
+                        // trPsl += '&nbsp;&nbsp;';
+                        // trPsl += '<i class="fas fa-trash text-danger deletePsl-btn" data-id="' + item.id + '"></i></td>';
                         trPsl += '</tr>';
 
                 });
                 $('#table-psl tbody').append(trPsl);
 
                 if($('#table-psl tbody').is(':empty')){
-                    var trPsl = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    var trPsl = '<tr><td align="center" colspan="4">*Tiada Maklumat*</td></tr>';
                     $('#table-psl tbody').append(trPsl);
 
                     var tmPslElement = $("#tm_peperiksaan_psl");

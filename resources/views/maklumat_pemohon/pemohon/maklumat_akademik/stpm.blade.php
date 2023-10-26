@@ -136,6 +136,7 @@
                         <thead>
                             <tr>
                                 <th>Bil.</th>
+                                <th>Tahun</th>
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
@@ -226,6 +227,7 @@
                         <thead>
                             <tr>
                                 <th>Bil.</th>
+                                <th>Tahun</th>
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
@@ -478,7 +480,7 @@
                     <input type="hidden" name="matrikulasi_no_pengenalan" id="matrikulasi_no_pengenalan" value="">
                     <input type="hidden" name="id_matrikulasi" id="id_matrikulasi" value="">
 
-                   <!--  <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                  <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                         <label class="form-label">Kolej Matrikulasi</label>
                         <select class="select2 form-control" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
                             <option value="" hidden>Kolej Matrikulasi</option>
@@ -496,9 +498,9 @@
                                     <option value="{{ $jurusanMatrikulasi->kod }}">{{ $jurusanMatrikulasi->diskripsi }}</option>
                                 @endforeach
                         </select>
-                    </div> -->
+                    </div> 
 
-                   <!--  <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
+                    <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
                         <label class="form-label">No. Matrik</label>
                         <input type="text" class="form-control" value="" id="matrik_matrikulasi" name="matrik_matrikulasi" disabled>
                     </div>
@@ -531,7 +533,7 @@
                     <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
                         <label class="form-label">PNGK</label>
                         <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
-                    </div> -->
+                    </div> 
 
                     <div id="button_action_matrikulasi" style="display:none">
                         <button type="button" id="btnEditMatrikulasi" hidden onclick="generalFormSubmit(this);"></button>
@@ -713,6 +715,7 @@
                         bilStpm += 1;
                         trStpm += '<tr>';
                         trStpm += '<td align="center">' + bilStpm + '</td>';
+                        trStpm += '<td>' + item.tahun + '</td>'; 
                         trStpm += '<td>' + item.subject_form6.kod + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStpm += '<td align="center">' + item.gred + '</td>';
@@ -725,7 +728,7 @@
                 $('#table-stpm1 tbody').append(trStpm);
 
                 if($('#table-stpm1 tbody').is(':empty')){
-                    var trStpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trStpm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-stpm1 tbody').append(trStpm);
 
                     var tmStpm1Element = $("#tm_stpm1");
@@ -811,6 +814,7 @@
                         bilStpm += 1;
                         trStpm += '<tr>';
                         trStpm += '<td align="center">' + bilStpm + '</td>';
+                        trStpm += '<td>' + item.tahun + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.kod + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStpm += '<td align="center">' + item.gred + '</td>';
@@ -823,7 +827,7 @@
                 $('#table-stpm2 tbody').append(trStpm);
 
                 if($('#table-stpm2 tbody').is(':empty')){
-                    var trStpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trStpm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-stpm2 tbody').append(trStpm);
                 }
 
@@ -935,7 +939,7 @@
                 $('#table-stam1 tbody').append(trStam);
 
                 if($('#table-stam1 tbody').is(':empty')){
-                    var trStam = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trStam = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-stam1 tbody').append(trStam);
 
                     var tmStam1Element = $("#tm_stam1");
@@ -1056,7 +1060,7 @@
                 $('#table-stam2 tbody').append(trStam);
 
                 if($('#table-stam2 tbody').is(':empty')){
-                    var trStam = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trStam = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-stam2 tbody').append(trStam);
                 }
 
@@ -1165,7 +1169,7 @@
                 $('#table-matrikulasi tbody').append(trMatrikulasi);
 
                 if($('#table-matrikulasi tbody').is(':empty')){
-                    var trMatrikulasi = '<tr><td align="center" colspan="10">*Tiada Rekod*</td></tr>';
+                    var trMatrikulasi = '<tr><td align="center" colspan="10">*Tiada Maklumat*</td></tr>';
                     $('#table-matrikulasi tbody').append(trMatrikulasi);
 
                     var tmMatrikulasiElement = $("#tm_matrikulasi");

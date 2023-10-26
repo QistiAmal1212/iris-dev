@@ -17,7 +17,7 @@ data-reloadPage="false">
 <div class="row mt-2 mb-2">
     <input type="hidden" name="pusat_temuduga_no_pengenalan" id="pusat_temuduga_no_pengenalan" value="">
     <!--  hide phase 1 -->
-    <!-- <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+    <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
         <label class="form-label">Pusat Temuduga</label>
         <select class="select2 form-control" value="" id="pusat_temuduga" name="pusat_temuduga" disabled>
             <option value=""></option>
@@ -26,7 +26,7 @@ data-reloadPage="false">
             @endforeach
         </select>
     </div>
- -->
+ 
     <div id="button_action_pusat_temuduga" style="display:none">
         <button type="button" id="btnEditPusatTemuduga" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">

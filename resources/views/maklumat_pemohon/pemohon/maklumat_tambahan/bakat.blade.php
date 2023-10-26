@@ -94,7 +94,7 @@ data-reloadPage="false">
                 $('#table-talent tbody').append(trBakat);
 
                 if($('#table-talent tbody').is(':empty')){
-                    var trTalent = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trTalent = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-talent tbody').append(trTalent);
 
                     var tmBakatElement = $("#tm_bakat");

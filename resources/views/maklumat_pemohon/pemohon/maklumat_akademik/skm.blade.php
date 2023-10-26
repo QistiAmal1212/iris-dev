@@ -193,7 +193,7 @@ data-reloadPage="false">
                 $('#table-skm tbody').append(trSkm);
 
                 if($('#table-skm tbody').is(':empty')){
-                    var trSkm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
+                    var trSkm = '<tr><td align="center" colspan="4">*Tiada Maklumat*</td></tr>';
                     $('#table-skm tbody').append(trSkm);
 
                     var tmSkmElement = $("#tm_skm");

@@ -108,7 +108,7 @@ data-reloadPage="false">
                 $('#table-language tbody').append(trLanguage);
 
                 if($('#table-language tbody').is(':empty')){
-                    var trLanguage = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trLanguage = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-language tbody').append(trLanguage);
 
                     var tmBahasaElement = $("#tm_bahasa");

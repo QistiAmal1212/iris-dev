@@ -75,6 +75,8 @@
                 <!-- <th>Kemaskini</th> -->
             </tr>
         </thead>
-        <tbody> </tbody>
+        <tbody> <tr>
+            <td colspan="6">Tiada Maklumat</td>
+        </tr></tbody>
     </table>
 </div>

@@ -9,16 +9,13 @@
                     <span class="bs-stepper-title text-wrap">
                         PSB/PSL
                     </span>
-
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_mpsb" hidden>Tiada Maklumat</span>
                     </span>
                 </span>
             </button>
         </div>
-
         <hr>
-
         <div class="step" data-target="#perkhidmatan-hakiki-info" role="tab" id="perkhidmatan-hakiki-info-trigger">
             <button type="button" class="step-trigger">
                 <span class="bs-stepper-box">
@@ -28,7 +25,6 @@
                     <span class="bs-stepper-title text-wrap">
                         Perkhidmatan Sekarang (Hakiki)
                     </span>
-
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_hakiki" hidden>Tiada Maklumat</span>
                     </span>
@@ -257,7 +253,7 @@
 
                     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
                         <label class="form-label">Daerah</label>
-                        <input type="text" class="form-control" value="" disabled>
+                        <input type="text" class="form-control" name="experience_department_daerah" value="" disabled>
                     </div>
                 </div>
                 <div id="button_action_experienceC" style="display:none">
@@ -281,7 +277,6 @@
 </div>
 
 <script>
-
     function editExperienceA() {
         $('#experienceAForm select[name="experience_job_sector"]').attr('disabled', false);
         $('#experienceAForm input[name="experience_appoint_date"]').attr('disabled', false);

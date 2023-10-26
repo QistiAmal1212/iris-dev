@@ -89,6 +89,7 @@ data-reloadPage="false">
         <thead>
             <tr>
                 <th>Bil.</th>
+                <th>Jenis Peperiksaan</th>
                 <th>MP Kod</th>
                 <th>Mata Pelajaran</th>
                 <th>Gred</th>
@@ -233,6 +234,13 @@ data-reloadPage="false">
                             bilPmr += 1;
                             trPmr += '<tr>';
                             trPmr += '<td align="center">' + bilPmr + '</td>';
+                            if (item.jenis_sijil == 1) {
+                                trPmr += '<td align="center">PMR</td>';
+                            } else if (item.jenis_sijil == 9) {
+                                trPmr += '<td align="center">PT3</td>';
+                            } else {
+                                trPmr += '<td align="center">SRP</td>';
+                            }
                             trPmr += '<td align="center">' + item.mpel_kod + '</td>';
                             trPmr += '<td>' + item.subject_form3.diskripsi + '</td>';
                             trPmr += '<td align="center">' + item.gred + '</td>';
@@ -247,7 +255,7 @@ data-reloadPage="false">
                 $('#table-pmr tbody').append(trPmr);
 
                 if($('#table-pmr tbody').is(':empty')){
-                    var trPmr = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trPmr = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-pmr tbody').append(trPmr);
 
                     var tmPmrElement = $("#tm_pmr");

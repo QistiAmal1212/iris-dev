@@ -862,6 +862,7 @@ class MaklumatPemohonController extends Controller
             foreach ($candidatePmr as $key => $value) {
                 $array[$value->tahun][] = $value;
             }
+
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             //}
@@ -1019,7 +1020,7 @@ class MaklumatPemohonController extends Controller
             ->with('subjectForm5')
             ->whereHas('subjectForm5', function ($query) {
                 $query->where('tkt', '5');
-            })->get();
+            })->orderBy('mpel_kod','asc')->get();
 
             $spm1 = [];
             foreach($candidateSpm as $calonSpm){
@@ -1172,7 +1173,7 @@ class MaklumatPemohonController extends Controller
             ->with('subjectForm5')
             ->whereHas('subjectForm5', function ($query) {
                 $query->where('tkt', '5');
-            })->get();
+            })->orderBy('mpel_kod','asc')->get();
 
             $spm2 = [];
             foreach($candidateSpm as $calonSpm){
@@ -1307,7 +1308,7 @@ class MaklumatPemohonController extends Controller
 
             $candidateSpmv = CalonKeputusanSekolah::where('no_pengenalan', $request->noPengenalan)->where('mpel_tkt', 5)->where('jenis_sijil', 3)->with('subjectForm5')->whereHas('subjectForm5', function ($query) {
                 $query->where('tkt', '5');
-            })->get();
+            })->orderBy('mpel_kod','asc')->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
@@ -1581,7 +1582,7 @@ class MaklumatPemohonController extends Controller
             ->with('subjectForm6')
             ->whereHas('subjectForm6', function ($query) {
                 $query->where('tkt', '6');
-            })->get();
+            })->orderBy('mpel_kod','asc')->get();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateStpm]);
 
@@ -1706,7 +1707,7 @@ class MaklumatPemohonController extends Controller
             ->with('subjectForm6')
             ->whereHas('subjectForm6', function ($query) {
                 $query->where('tkt', '6');
-            })->get();
+            })->orderBy('mpel_kod','asc')->get();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateStpm]);
 
@@ -1843,7 +1844,7 @@ class MaklumatPemohonController extends Controller
             ->with('subjectForm6')
             ->whereHas('subjectForm6', function ($query) {
                 $query->where('tkt', '6');
-            })->get();
+            })->orderBy('mpel_kod','asc')->get();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateStam]);
 
@@ -1988,8 +1989,7 @@ class MaklumatPemohonController extends Controller
             ->with('subjectForm6')
             ->whereHas('subjectForm6', function ($query) {
                 $query->where('tkt', '6');
-            })->get();
-
+            })->orderBy('mpel_kod','asc')->get();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateStam]);
 
         } catch (\Throwable $e) {

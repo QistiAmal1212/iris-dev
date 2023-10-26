@@ -175,6 +175,7 @@
                         <thead>
                             <tr>
                                 <th>Bil.</th>
+                                <th>Jenis Peperiksaan</th>
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
@@ -282,6 +283,7 @@
                         <thead>
                             <tr>
                                 <th>Bil.</th>
+                                <th>Jenis Peperiksaan</th>
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
@@ -355,6 +357,7 @@
                     <thead>
                         <tr>
                             <th>Bil.</th>
+                            <th>Jenis Peperiksaan</th>
                             <th>Mata Pelajaran</th>
                             <th>Gred</th>
                             <th>Tahun</th>
@@ -397,7 +400,7 @@
                         <input type="hidden" name="svm_no_pengenalan" id="svm_no_pengenalan" value="">
                         <input type="hidden" name="id_svm" id="id_svm" value="">
 
-                        <!-- <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_svm" name="tahun_svm" disabled>
                         </div>
@@ -420,9 +423,9 @@
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
-                        </div> -->
+                        </div> 
 
-                   <!--      <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                   <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
                             <select class="select2 form-control" value="" id="gred_svm" name="gred_svm" disabled>
                                 <option value="" hidden>Gred</option>
@@ -430,9 +433,9 @@
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
                                     @endforeach
                             </select>
-                        </div> -->
+                        </div> 
 
-                       <!--  <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                       <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">PNGKA</label>
                             <input type="text" class="form-control" value="" id="pngka_svm" name="pngka_svm" disabled>
                         </div>
@@ -441,7 +444,7 @@
                             <label class="form-label">PNGKV</label>
                             <input type="text" class="form-control" value="" id="pngkv_svm" name="pngkv_svm" disabled>
                         </div>
- -->
+ 
                         <div id="button_action_svm" style="display:none">
                             <button type="button" id="btnEditSvm" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
@@ -461,6 +464,7 @@
                         <thead>
                             <tr>
                                 <th>Bil.</th>
+                                <th>Jenis Peperiksaan</th>
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
@@ -512,6 +516,7 @@
                     <thead>
                         <tr>
                             <th>Bil.</th>
+                            <th>Jenis Peperiksaan</th>
                             <th>Tahun</th>
                             <th>Kod MP</th>
                             <th>Mata Pelajaran</th>
@@ -696,6 +701,7 @@
                             bilSpm += 1;
                             trSpm += '<tr>';
                             trSpm += '<td align="center">' + bilSpm + '</td>';
+                            trSpm += '<td>SPM</td>';
                             trSpm += '<td>' + item.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
                             trSpm += '<td align="center">' + item.gred + '</td>';
@@ -711,7 +717,7 @@
                 $('#table-spm1 tbody').append(trSpm);
 
                 if($('#table-spm1 tbody').is(':empty')){
-                    var trSpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trSpm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-spm1 tbody').append(trSpm);
 
                     var tmSpm1Element = $("#tm_spm1");
@@ -823,6 +829,7 @@
                             bilSpm += 1;
                             trSpm += '<tr>';
                             trSpm += '<td align="center">' + bilSpm + '</td>';
+                            trSpm += '<td>SPM</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
                             trSpm += '<td align="center">' + item.gred + '</td>';
@@ -837,7 +844,7 @@
                 $('#table-spm2 tbody').append(trSpm);
 
                 if($('#table-spm2 tbody').is(':empty')){
-                    var trSpm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trSpm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-spm2 tbody').append(trSpm);
                 }
 
@@ -939,6 +946,7 @@
                         bilSvm += 1;
                         trSvm += '<tr>';
                         trSvm += '<td align="center">' + bilSvm + '</td>';
+                        trSvm += '<td>SVM</td>';
                         trSvm += '<td>' + data.detail.subject.kod + '</td>'; //KOD MATA PELAJARAN
                         trSvm += '<td>' + data.detail.subject.diskripsi + '</td>';
                         trSvm += '<td align="center">' + data.detail.gred + '</td>';
@@ -952,7 +960,7 @@
                 $('#table-svm tbody').append(trSvm);
 
                 if($('#table-svm tbody').is(':empty')){
-                    var trSvm = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trSvm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-svm tbody').append(trSvm);
 
                     var tmSvm1Element = $("#tm_svm1");
@@ -1027,6 +1035,7 @@
                             bilSpmu += 1;
                             trSpmu += '<tr>';
                             trSpmu += '<td align="center">' + bilSpmu + '</td>';
+                            trSpmu += '<td align="center">SPMU</td>';
                             trSpmu += '<td align="center">' + item.tahun + '</td>';
                             trSpmu += '<td>' + item.subjek.kod + '</td>'; //KOD MATA PELAJARAN
                             trSpmu += '<td>' + item.subjek.diskripsi + '</td>';
@@ -1038,7 +1047,7 @@
                 $('#table-spmu tbody').append(trSpmu);
 
                 if($('#table-spmu tbody').is(':empty')){
-                    var trSpmu = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trSpmu = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-spmu tbody').append(trSpmu);
 
                     var tmSpmuElement = $("#tm_spmu");
