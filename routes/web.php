@@ -13,6 +13,7 @@ use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Reference\AhliSuruhanjayaController;
 use App\Http\Controllers\Reference\BahagianController;
+use App\Http\Controllers\Reference\BiasiswaController;
 use App\Http\Controllers\Reference\CutiAwamController;
 use App\Http\Controllers\Reference\DaerahController;
 use App\Http\Controllers\Reference\JelasUrusanController;
@@ -663,6 +664,15 @@ Route::prefix('admin')->group(function () {
             Route::post('update/{jenisskimId}', [JenisSkimController::class, 'update'])->name('admin.reference.jenisskim.update');
             Route::post('toggleActive/{jenisskimId}', [JenisSkimController::class, 'toggleActive'])->name('admin.reference.jenisskim.toggleActive');
             Route::post('delete/{jenisskimId}', [JenisSkimController::class, 'deleteItem'])->name('admin.reference.jenisskim.delete');
+        });
+
+        Route::prefix('biasiswa')->group(function () {
+            Route::get('/', [BiasiswaController::class, 'index'])->name('admin.reference.biasiswa');
+            Route::post('create', [BiasiswaController::class, 'store'])->name('admin.reference.biasiswa.store');
+            Route::get('edit/{biasiswaId}', [BiasiswaController::class, 'edit'])->name('admin.reference.biasiswa.edit');
+            Route::post('update/{biasiswaId}', [BiasiswaController::class, 'update'])->name('admin.reference.biasiswa.update');
+            Route::post('toggleActive/{biasiswaId}', [BiasiswaController::class, 'toggleActive'])->name('admin.reference.biasiswa.toggleActive');
+            Route::post('delete/{biasiswaId}', [BiasiswaController::class, 'deleteItem'])->name('admin.reference.biasiswa.delete');
         });
 
     });
