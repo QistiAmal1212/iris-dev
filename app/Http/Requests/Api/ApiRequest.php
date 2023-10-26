@@ -23,14 +23,16 @@ class ApiRequest extends FormRequest
             $senaraiApi = SenaraiApi::where('nama_path', $this->route('path'))->first();
         }
 
-        $log = new LogApi;
-        $log->id_senarai_api = $senaraiApi->id;
-        $log->kod_http = config('status.http_codes.unprocessable_entity');
-        $log->nama = 'Pengesahan Gagal';
-        $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
-        $log->size_request = strlen(request()->getContent()) / 1024;
-        $log->status = 0;
-        $log->save();
+        if($senaraiApi) {
+            $log = new LogApi;
+            $log->id_senarai_api = $senaraiApi->id;
+            $log->kod_http = config('status.http_codes.unprocessable_entity');
+            $log->nama = 'Pengesahan Gagal';
+            $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
+            $log->size_request = strlen(request()->getContent()) / 1024;
+            $log->status = 0;
+            $log->save();
+        }
 
         throw new HttpResponseException(
             response()->json(

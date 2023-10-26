@@ -28,6 +28,9 @@ use App\Models\Calon\CalonBakat;
 use App\Models\Integrasi\SenaraiApi;
 use App\Models\Integrasi\LogApi;
 use Carbon;
+use App\Models\User;
+use Mail;
+use App\Mail\Api\ErrorApi;
 
 class PemohonController extends ApiController
 {
@@ -711,10 +714,16 @@ class PemohonController extends ApiController
             $log->size_request = strlen($request->getContent()) / 1024;
             $log->status = 1;
             $log->save();
-        } catch (Exception $e) {
-        //} catch (\Throwable $e) {
+        // } catch (Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
             Log::error('Store Pemohon API Error: ' . $e);
+
+            $user = User::find(1);
+
+            $url = url('/').'/'.$senaraiApi->url;
+
+            Mail::to($user->email)->send(new ErrorApi($url));
 
             $log = new LogApi;
             $log->id_senarai_api = $senaraiApi->id;
@@ -748,146 +757,180 @@ class PemohonController extends ApiController
     {
         $apiPath = $request->path;
 
-        $senaraiApi = SenaraiApi::where('nama_path', $apiPath)->first();
+        try {
+            DB::beginTransaction();
 
-        if(!$senaraiApi->status){
+            $senaraiApi = SenaraiApi::where('nama_path', $apiPath)->first();
+
+            if(!$senaraiApi->status){
+                $log = new LogApi;
+                $log->id_senarai_api = $senaraiApi->id;
+                $log->kod_http = config('status.http_codes.forbidden');
+                $log->nama = 'API Tidak Aktif';
+                $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
+                $log->size_request = strlen($request->getContent()) / 1024;
+                $log->status = 0;
+                $log->save();
+
+                return $this->errorResponseFormat(
+                    config('status.status_codes.forbidden'),
+                    'API Tidak Aktif!',
+                    [],
+                    config('status.http_codes.forbidden')
+                );
+            }
+
+            $aksesApi = $senaraiApi->akses->pluck('id')->toArray();
+
+            $dataAkses = [];
+
+            $calon = Calon::where('no_kp_baru', $request->no_kp)->first();
+
+            if(in_array(1, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['calon' => $calon]);
+            }
+
+            if(in_array(2, $aksesApi)){
+            $dataAkses = array_merge($dataAkses, ['bahasa' => $calon->language]);
+            unset($calon->language);
+            }
+
+            if(in_array(3, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['bakat' => $calon->talent]);
+                unset($calon->talent);
+            }
+
+            // if(in_array(4, $aksesApi)){
+            //     $dataAkses = array_merge($dataAkses, ['daftar' => $calon->daftar]);
+            //    unset($calon->daftar);
+            // }
+
+            if(in_array(5, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['keputusan_sekolah' => $calon->schoolResult]);
+                unset($calon->schoolResult);
+            }
+
+            if(in_array(6, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['lesen' => $calon->license]);
+                unset($calon->license);
+            }
+
+            if(in_array(7, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['matrikulasi' => $calon->matriculation]);
+                unset($calon->matriculation);
+            }
+
+            if(in_array(8, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['oku' => $calon->oku]);
+                unset($calon->oku);
+            }
+
+            if(in_array(9, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['pengajian_tinggi' => $calon->higherEducation]);
+                unset($calon->higherEducation);
+            }
+
+            if(in_array(10, $aksesApi)){
+                $dataAkses = array_merge($datAkses, ['pengalaman' => $calon->experience]);
+                unset($calon->experience);
+            }
+
+            if(in_array(11, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['pengalaman9' => $calon->pengalaman9]);
+                unset($calon->pengalaman9);
+            }
+
+            if(in_array(12, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['profesional' => $calon->professional]);
+                unset($calon->professional);
+            }
+
+            if(in_array(13, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['psl' => $calon->psl]);
+                unset($calon->psl);
+            }
+
+            // if(in_array(14, $aksesApi)){
+            //     $dataAkses = array_merge($dataAkses, ['senarai_hitam' => '']);
+            //     unset('');
+            // }
+
+            if(in_array(15, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['skim' => $calon->skim]);
+                unset($calon->skim);
+            }
+
+            if(in_array(16, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['skm' => $calon->skm]);
+                unset($calon->skm);
+            }
+
+            if(in_array(17, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['spmu' => $calon->spmu]);
+                unset($calon->spmu);
+            }
+
+            if(in_array(18, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['stpm_pngk' => $calon->stpmPngk]);
+                unset($calon->stpmPngk);
+            }
+
+            if(in_array(19, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['svm' => $calon->svm]);
+                unset($calon->svm);
+            }
+
+            // if(in_array(20, $aksesApi)){
+            //     $dataAkses = array_merge($dataAkses, ['tatatertib' => ''])
+            //     unset('');
+            // }
+
+            if(in_array(21, $aksesApi)){
+                $dataAkses = array_merge($dataAkses, ['tentera_polis' => $calon->armyPolice]);
+                unset($calon->armyPolice);
+            }
+
             $log = new LogApi;
             $log->id_senarai_api = $senaraiApi->id;
-            $log->kod_http = config('status.http_codes.forbidden');
-            $log->nama = 'API Tidak Aktif';
+            $log->kod_http = config('status.http_codes.success');
+            $log->nama = 'Tindakan Berjaya';
+            $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
+            $log->size_request = strlen($request->getContent()) / 1024;
+            $log->status = 1;
+            $log->save();
+
+            $response = config('status.status_codes.success');
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            Log::error('Store Pemohon API Error: ' . $e);
+
+            $user = User::find(1);
+
+            $url = url('/').'/'.$senaraiApi->url;
+
+            Mail::to($user->email)->send(new ErrorApi($url));
+
+            $log = new LogApi;
+            $log->id_senarai_api = $senaraiApi->id;
+            $log->kod_http = config('status.http_codes.internal_server_error');
+            $log->nama = 'Internal server error';
             $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
             $log->size_request = strlen($request->getContent()) / 1024;
             $log->status = 0;
             $log->save();
 
+            $response = config('status.status_codes.internal_server_error');
+        }
+
+        if($response == config('status.status_codes.internal_server_error')){
             return $this->errorResponseFormat(
-                config('status.status_codes.forbidden'),
-                'API Tidak Aktif!',
+                config('status.status_codes.internal_server_error'),
+                'Internal server error!',
                 [],
-                config('status.http_codes.forbidden')
+                config('status.http_codes.internal_server_error')
             );
         }
-
-        $aksesApi = $senaraiApi->akses->pluck('id')->toArray();
-
-        $dataAkses = [];
-
-        $calon = Calon::where('no_kp_baru', $request->no_kp)->first();
-
-        if(in_array(1, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['calon' => $calon]);
-        }
-
-        if(in_array(2, $aksesApi)){
-           $dataAkses = array_merge($dataAkses, ['bahasa' => $calon->language]);
-           unset($calon->language);
-        }
-
-        if(in_array(3, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['bakat' => $calon->talent]);
-            unset($calon->talent);
-        }
-
-        // if(in_array(4, $aksesApi)){
-        //     $dataAkses = array_merge($dataAkses, ['daftar' => $calon->daftar]);
-        //    unset($calon->daftar);
-        // }
-
-        if(in_array(5, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['keputusan_sekolah' => $calon->schoolResult]);
-            unset($calon->schoolResult);
-        }
-
-        if(in_array(6, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['lesen' => $calon->license]);
-            unset($calon->license);
-        }
-
-        if(in_array(7, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['matrikulasi' => $calon->matriculation]);
-            unset($calon->matriculation);
-        }
-
-        if(in_array(8, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['oku' => $calon->oku]);
-            unset($calon->oku);
-        }
-
-        if(in_array(9, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['pengajian_tinggi' => $calon->higherEducation]);
-            unset($calon->higherEducation);
-        }
-
-        if(in_array(10, $aksesApi)){
-            $dataAkses = array_merge($datAkses, ['pengalaman' => $calon->experience]);
-            unset($calon->experience);
-        }
-
-        if(in_array(11, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['pengalaman9' => $calon->pengalaman9]);
-            unset($calon->pengalaman9);
-        }
-
-        if(in_array(12, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['profesional' => $calon->professional]);
-            unset($calon->professional);
-        }
-
-        if(in_array(13, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['psl' => $calon->psl]);
-            unset($calon->psl);
-        }
-
-        // if(in_array(14, $aksesApi)){
-        //     $dataAkses = array_merge($dataAkses, ['senarai_hitam' => '']);
-        //     unset('');
-        // }
-
-        if(in_array(15, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['skim' => $calon->skim]);
-            unset($calon->skim);
-        }
-
-        if(in_array(16, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['skm' => $calon->skm]);
-            unset($calon->skm);
-        }
-
-        if(in_array(17, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['spmu' => $calon->spmu]);
-            unset($calon->spmu);
-        }
-
-        if(in_array(18, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['stpm_pngk' => $calon->stpmPngk]);
-            unset($calon->stpmPngk);
-        }
-
-        if(in_array(19, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['svm' => $calon->svm]);
-            unset($calon->svm);
-        }
-
-        // if(in_array(20, $aksesApi)){
-        //     $dataAkses = array_merge($dataAkses, ['tatatertib' => ''])
-        //     unset('');
-        // }
-
-        if(in_array(21, $aksesApi)){
-            $dataAkses = array_merge($dataAkses, ['tentera_polis' => $calon->armyPolice]);
-            unset($calon->armyPolice);
-        }
-
-        $senaraiApi = SenaraiApi::where('nama_path', $request->path)->first();
-
-        $log = new LogApi;
-        $log->id_senarai_api = $senaraiApi->id;
-        $log->kod_http = config('status.http_codes.success');
-        $log->nama = 'Tindakan Berjaya';
-        $log->execution_time = (microtime(true) - LARAVEL_START) * 1000;
-        $log->size_request = strlen($request->getContent()) / 1024;
-        $log->status = 1;
-        $log->save();
 
         return $this->successResponseFormat(
             config('status.status_codes.success'),

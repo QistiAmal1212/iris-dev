@@ -195,7 +195,14 @@ class PemohonRequest extends ApiRequest
         if ($routeName == 'pemohon.details') {
             $api = SenaraiApi::where('nama_path', $this->route('path'))->first();
 
-            if($api->status){
+            if($api){
+                if($api->status){
+                    $rules = [
+                        'path' => 'required|string|exists:senarai_api,nama_path',
+                        'no_kp' => 'required|string',
+                    ];
+                }
+            } else {
                 $rules = [
                     'path' => 'required|string|exists:senarai_api,nama_path',
                     'no_kp' => 'required|string',
@@ -204,6 +211,13 @@ class PemohonRequest extends ApiRequest
         }
 
         return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            'path.exists' => 'URL API tidak wujud.',
+        ];
     }
 
     // Overwrite function to add in id from route path for validation
