@@ -723,7 +723,7 @@ class PemohonController extends ApiController
 
             $url = url('/').'/'.$senaraiApi->url;
 
-            Mail::to($user->email)->send(new ErrorApi($url));
+            Mail::to($user->email)->send(new ErrorApi($url, $e->getMessage()));
 
             $log = new LogApi;
             $log->id_senarai_api = $senaraiApi->id;
@@ -909,7 +909,7 @@ class PemohonController extends ApiController
 
             $url = url('/').'/'.$senaraiApi->url;
 
-            Mail::to($user->email)->send(new ErrorApi($url));
+            Mail::to($user->email)->send(new ErrorApi($url, $e->getMessage()));
 
             $log = new LogApi;
             $log->id_senarai_api = $senaraiApi->id;
