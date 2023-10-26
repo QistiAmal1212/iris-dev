@@ -566,6 +566,11 @@ class RoleController extends Controller
 
             $role->menu()->detach();
 
+            $users = $role->users;
+            foreach ($users as $user) {
+                $user->delete();
+            }
+
             $role->delete();
 
             DB::commit();
