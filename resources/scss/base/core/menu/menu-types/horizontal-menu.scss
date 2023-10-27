@@ -141,7 +141,7 @@
         .disabled {
           pointer-events: none !important;
           a {
-            color: $gray-600;
+            color: #000000;
           }
         }
         .dropdown-toggle::after {
@@ -251,7 +251,7 @@
 
   .navigation-header {
     font-family: inherit;
-    color: #929292;
+    color: #000000;
     padding: 8px 20px;
     font-size: 1rem;
     text-transform: uppercase;
