@@ -195,6 +195,14 @@
                                                         <center>
                                                         <table width="100%">
                                                             <tr>
+                                                                <td width="40%" align="left">Nama</td>
+                                                                <td width="60%">:&nbsp;&nbsp;{{ $name }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="40%" align="left">No. Pengenalan</td>
+                                                                <td width="60%">:&nbsp;&nbsp;{{ $no_ic }}</td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td width="40%" align="left">Kata Laluan Baru</td>
                                                                 <td width="60%">:&nbsp;&nbsp;{{ $newPassword }}</td>
                                                             </tr>

@@ -30,9 +30,13 @@ class ForgotPasswordController extends Controller
         $checkActive = User::where('email', $request->email)->first();
 
         if($checkActive){
-            if(!$checkActive->is_active){
-                return redirect()->back()->withErrors(['active' => 'Akaun anda telah disekat. Sila minta Admin untuk reset kata laluan']);
+            if(!!!$checkActive->is_active){
+                return redirect()->back()->withErrors(['active' => 'Akaun anda sudah tidak aktif. Sila hubungi pentadbir bahagian masing-masing']);
             }
+            elseif($checkActive->is_blocked){
+                return redirect()->back()->withErrors(['blocked' => 'Akaun anda telah disekat. Sila hubungi pentadbir bahagian masing-masing']);
+            }
+            else{}
         }
 
         $response = $this->broker()->sendResetLink(

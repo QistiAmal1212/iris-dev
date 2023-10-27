@@ -63,7 +63,15 @@ $configData = Helper::applClasses();
                     @if($errors->has('active'))
                     <div class="alert alert-danger alert-dismissible">
                         <div class="alert-body">
-                               Akaun anda telah disekat. Sila minta Admin untuk reset kata laluan
+                            Akaun anda sudah tidak aktif. Sila hubungi pentadbir bahagian masing-masing
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+                    @if($errors->has('blocked'))
+                    <div class="alert alert-danger alert-dismissible">
+                        <div class="alert-body">
+                            Akaun anda telah disekat. Sila hubungi pentadbir bahagian masing-masing
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
