@@ -9,12 +9,14 @@ class Subject extends Model
     protected $table = 'ruj_matapelajaran';
 
     protected $fillable = [
-        'code',
-        'form',
-        'name',
-        'pemerolehan_code',
-        'created_by',
-        'updated_by',
-        'is_active',
+        'kod',
+        'diskripsi',
+        'tkt',
+        'id_pencipta',
+        'pengguna',
+        'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

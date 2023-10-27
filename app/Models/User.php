@@ -31,6 +31,13 @@ class User extends Authenticatable
         'password',
         'ref_department_ministry_code',
         'ref_skim_code',
+        'last_login',
+        'last_change_password',
+        'login_failed_counter',
+        'is_blocked',
+        'is_active',
+        'time_to_change_password',
+        'is_migrated'
     ];
 
     /**
@@ -90,6 +97,6 @@ class User extends Authenticatable
 
     public function skim()
     {
-        return $this->belongsTo('App\Models\Reference\Skim', 'ref_skim_code', 'code');
+        return $this->belongsTo('App\Models\Reference\Skim', 'ref_skim_code', 'kod');
     }
 }

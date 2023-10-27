@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\Gender;
@@ -41,28 +42,45 @@ class GenderController extends Controller
             }
         }
 
-        $gender = Gender::all();
+        $gender = Gender::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.gender')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Jantina";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($gender)
                 ->editColumn('code', function ($gender){
-                    return $gender->code;
+                    return $gender->kod;
                 })
                 ->editColumn('name', function ($gender) {
-                    return $gender->name;
+                    return strtoupper($gender->diskripsi);
                 })
-                ->editColumn('action', function ($gender) use ($accessDelete) {
+                ->editColumn('action', function ($gender) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="genderForm('.$gender->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
-                        if($gender->is_active) {
+                    if($accessUpdate){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="genderForm('.$gender->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        if($gender->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$gender->id.'" onclick="toggleActive('.$gender->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$gender->id.'" onclick="toggleActive('.$gender->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }else{
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="genderForm('.$gender->id.')"> <i class="fas fa-eye text-primary"></i> ';
                     }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$gender->id.')"> <i class="fas fa-trash text-danger"></i> ';
+                    }
+
                     $button .= '</div>';
 
                     return $button;
@@ -80,7 +98,7 @@ class GenderController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jantina,code',
+                'code' => 'required|string|unique:ruj_jantina,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -88,12 +106,24 @@ class GenderController extends Controller
                 'name.required' => 'Sila isikan jantina',
             ]);
 
-            Gender::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+            $jantina = Gender::create([
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.gender')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Jantina";
+            $log->data_new = json_encode($jantina);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -116,6 +146,16 @@ class GenderController extends Controller
             if (!$gender) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.gender')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Jantina";
+            $log->data_new = json_encode($gender);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $gender]);
 
@@ -134,8 +174,14 @@ class GenderController extends Controller
             $genderId = $request->genderId;
             $gender = Gender::find($genderId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.gender')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Jantina";
+            $log->data_old = json_encode($gender);
+
             $request->validate([
-                'code' => 'required|string|unique:ruj_jantina,code,'.$genderId,
+                'code' => 'required|string|unique:ruj_jantina,kod,'.$genderId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -144,10 +190,18 @@ class GenderController extends Controller
             ]);
 
             $gender->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
+
+            $genderNewData = Gender::find($genderId);
+            $log->data_new = json_encode($genderNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -167,16 +221,51 @@ class GenderController extends Controller
             $genderId = $request->genderId;
             $gender = Gender::find($genderId);
 
-            $is_active = $gender->is_active;
+            $sah_yt = $gender->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $gender->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $gender = Gender::find($request-> genderId);
+
+            $gender->delete();
+
+            if (!$gender) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.gender')->firstOrFail()->id;
+            $log->activity_type_id = 5;
+            $log->description = "Hapus Jantina";
+            $log->data_new = json_encode($gender);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);

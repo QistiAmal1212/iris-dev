@@ -171,8 +171,8 @@
                         url2 = url2.replace(':replaceThis', rank_id);
 
                         $('#rankForm').attr('action', url2);
-                        $('#rankForm input[name="code"]').val(data.detail.code);
-                        $('#rankForm input[name="name"]').val(data.detail.name);
+                        $('#rankForm input[name="code"]').val(data.detail.kod);
+                        $('#rankForm input[name="name"]').val(data.detail.diskripsi);
                         $('#rankForm input[name="code"]').prop('readonly', true);
 
 
@@ -221,6 +221,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(rankId){
+        var url = "{{ route('admin.reference.rank.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', rankId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
     </script>
 @endsection

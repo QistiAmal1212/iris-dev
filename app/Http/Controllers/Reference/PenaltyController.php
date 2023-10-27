@@ -42,13 +42,13 @@ class PenaltyController extends Controller
             }
         }
 
-        $penalty = Penalty::all();
+
         if ($request->ajax()) {
 
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Penalti";
+            $log->description = "Lihat Senarai Tatatertib";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -56,25 +56,40 @@ class PenaltyController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($penalty)
+            $penalty = Penalty::orderBy('kod', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $penalty->where('kategori', $request->activity_type_id);
+            }
+
+            return Datatables::of($penalty->get())
                 ->editColumn('code', function ($penalty){
-                    return $penalty->code;
+                    return $penalty->kod;
                 })
                 ->editColumn('name', function ($penalty) {
-                    return $penalty->name;
+                    return $penalty->diskripsi;
                 })
-                ->editColumn('action', function ($penalty) use ($accessDelete) {
+                ->editColumn('kategori', function ($penalty) {
+                    return $penalty->kategori;
+                })
+                ->editColumn('action', function ($penalty) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="penaltyForm('.$penalty->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
-                        if($penalty->is_active) {
+
+                    if($accessUpdate){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="penaltyForm('.$penalty->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        if($penalty->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$penalty->id.'" onclick="toggleActive('.$penalty->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$penalty->id.'" onclick="toggleActive('.$penalty->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }else{
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="penaltyForm('.$penalty->id.')"> <i class="fas fa-eye text-primary"></i> ';
+                    }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$penalty->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 
@@ -93,28 +108,29 @@ class PenaltyController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tatatertib,code',
+                'code' => 'required|string|unique:ruj_tatatertib,kod',
                 'name' => 'required|string',
                 'category' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan penalti',
+                'name.required' => 'Sila isikan tatatertib',
                 'category.required' => 'Sila isikan kategori',
             ]);
 
             $penalty = Penalty::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'category' => strtoupper($request->category),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'kategori' => strtoupper($request->category),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' =>'Y'
             ]);
 
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Penalti";
+            $log->description = "Tambah Tatatertib";
             $log->data_new = json_encode($penalty);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -146,7 +162,7 @@ class PenaltyController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Penalti";
+            $log->description = "Lihat Maklumat Tatatertib";
             $log->data_new = json_encode($penalty);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -174,25 +190,25 @@ class PenaltyController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Penalti";
+            $log->description = "Kemaskini Maklumat Tatatertib";
             $log->data_old = json_encode($penalty);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tatatertib,code,'.$penaltyId,
+                'code' => 'required|string|unique:ruj_tatatertib,kod,'.$penaltyId,
                 'name' => 'required|string',
                 'category' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan penalti',
+                'name.required' => 'Sila isikan tatatertib',
                 'category.required' => 'Sila isikan kategori',
             ]);
 
             $penalty->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'category' => strtoupper($request->category),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'kategori' => strtoupper($request->category),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $penaltyNewData = Penalty::find($penaltyId);
@@ -221,16 +237,51 @@ class PenaltyController extends Controller
             $penaltyId = $request->penaltyId;
             $penalty = Penalty::find($penaltyId);
 
-            $is_active = $penalty->is_active;
+            $sah_yt = $penalty->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $penalty->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $penalty = Penalty::find($request-> penaltyId);
+
+            $penalty->delete();
+
+            if (!$penalty) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.penalty')->firstOrFail()->id;
+            $log->activity_type_id = 5;
+            $log->description = "Hapus Tatatertib";
+            $log->data_new = json_encode($penalty);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);

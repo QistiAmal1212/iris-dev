@@ -35,11 +35,11 @@ class LogController extends Controller
 
             $audit_log = LogSystem::with(['module', 'activity_type', 'created_by'])->orderBy('created_at', 'desc');
 
-            if ($request->activity_type_id) {
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
                 $audit_log->where('activity_type_id', $request->activity_type_id);
             }
 
-            if ($request->module_id) {
+            if ($request->module_id && $request->module_id != "Lihat Semua") {
                 $audit_log->where('module_id', $request->module_id);
             }
 

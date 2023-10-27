@@ -78,24 +78,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                {{-- <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="role_display">Nama Paparan <span class="text text-danger">*</span> </label>
                                         <div class="input-group">
                                             <input type="text" id="role_display" class="form-control" name="role_display" required>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label class="form-label" for="role_level">Jenis Peranan <span class="text text-danger">*</span> </label>
-                                        <select id="role_level" class="form-select select2" name="role_level" required>
-                                            <option value=""></option>
-                                            <option value="1">Peranan Dalaman</option>
-                                            <option value="0">Peranan Luaran</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label class="form-label" for="access_function">Fungsi Capaian Akses<span class="text text-danger">*</span> </label>
@@ -103,6 +93,16 @@
                                             @foreach($masterFunction as $function)
                                             <option value="{{ $function->id }}">{{ $function->code." - ".$function->name }}</option>
                                             @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="role_level">Jenis Peranan <span class="text text-danger">*</span> </label>
+                                        <select id="role_level" class="form-select select2" name="role_level" required>
+                                            <option value=""></option>
+                                            <option value="1">Peranan Dalaman</option>
+                                            <option value="0">Peranan Luaran</option>
                                         </select>
                                     </div>
                                 </div>
@@ -126,7 +126,7 @@
 
                             <div class="col-md-12 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="level_one">Menu</label>
+                                    <label class="form-label" for="level_one">Menu<span class="text text-danger">*</span> </label>
                                     <select id="level_one" class="select2 form-select" name="level_one[]" multiple onchange="showListMenu('one')">
                                         @foreach($securityMenu as $menu)
                                             <option value="{{ $menu->id }}">{{ $menu->name }}</option>
@@ -160,7 +160,7 @@
 
                             <div class="col-md-12 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="level_two">Menu</label>
+                                    <label class="form-label" for="level_two">Menu<span class="text text-danger">*</span> </label>
                                     <select id="level_two" class="select2 form-select" name="level_two[]" multiple onchange="showListMenu('two')">
 
                                     </select>
@@ -187,12 +187,12 @@
                         </div>
                         <div id="menu-three" class="content" role="tabpanel" aria-labelledby="menu-three-trigger">
                             <div class="content-header">
-                            <h5 class="mb-0">Menu [Level 2]</h5>
+                            <h5 class="mb-0">Menu [Level 3]</h5>
                             </div>
 
                             <div class="col-md-12 col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="level_three">Menu</label>
+                                    <label class="form-label" for="level_three">Menu<span class="text text-danger">*</span> </label>
                                     <select id="level_three" class="select2 form-select" name="level_three[]" multiple onchange="showListMenu('three')">
 
                                     </select>

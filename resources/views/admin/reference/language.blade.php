@@ -174,7 +174,7 @@
 
                     $('#languageForm').attr('action',url2 );
                     $('#languageForm input[name="code"]').val(data.detail.kod);
-                    $('#languageForm input[name="name"]').val(data.detail.nama);
+                    $('#languageForm input[name="name"]').val(data.detail.diskripsi);
 
                     $('#languageForm input[name="code"]').prop('readonly', true);
 
@@ -231,6 +231,30 @@
                 }
             });
         }
+
+        function deleteItem(languageId){
+        var url = "{{ route('admin.reference.language.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', languageId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
+    }
 
 </script>
 @endsection

@@ -9,12 +9,15 @@ class Qualification extends Model
     protected $table = 'ruj_kelulusan';
 
     protected $fillable = [
-        'code',
-        'name',
-        'type',
-        'pemerolehan_code',
-        'created_by',
-        'updated_by',
-        'is_active',
+        'kod',
+        'diskripsi',
+        'jenis',
+        'kategori',
+        'id_pencipta',
+        'pengguna',
+        'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

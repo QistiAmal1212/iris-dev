@@ -171,8 +171,8 @@
                         url2 = url2.replace(':replaceThis', job_id);
 
                         $('#jobForm').attr('action', url2);
-                        $('#jobForm input[name="code"]').val(data.detail.code);
-                        $('#jobForm input[name="name"]').val(data.detail.name);
+                        $('#jobForm input[name="code"]').val(data.detail.kod);
+                        $('#jobForm input[name="name"]').val(data.detail.diskripsi);
                         $('#jobForm input[name="code"]').prop('readonly', true);
 
                         $('#title-role').html('Kemaskini Pekerjaan');

@@ -174,8 +174,8 @@
                     url2 = url2.replace(':replaceThis', gender_id);
 
                     $('#genderForm').attr('action',url2 );
-                    $('#genderForm input[name="code"]').val(data.detail.code);
-                    $('#genderForm input[name="name"]').val(data.detail.name);
+                    $('#genderForm input[name="code"]').val(data.detail.kod);
+                    $('#genderForm input[name="name"]').val(data.detail.diskripsi);
                     $('#genderForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Jantina');
@@ -224,6 +224,30 @@
                 }
             });
         }
+
+        function deleteItem(genderId){
+        var url = "{{ route('admin.reference.gender.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', genderId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
+    }
 
 </script>
 @endsection

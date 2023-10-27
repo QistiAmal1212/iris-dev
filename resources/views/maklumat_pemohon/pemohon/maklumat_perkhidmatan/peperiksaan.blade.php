@@ -17,32 +17,36 @@ data-reloadPage="false">
 <div class="row mt-2 mb-2">
     <input type="hidden" name="psl_no_pengenalan" id="psl_no_pengenalan" value="">
     <input type="hidden" name="id_psl" id="id_psl" value="">
-
+<!-- 
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Jenis Peperiksaan</label>
         <select class="select2 form-control" value="" id="jenis_peperiksaan" name="jenis_peperiksaan" disabled>
             <option value=""></option>
             @foreach($jenisPeperiksaan as $peperiksaan)
-            <option value="{{ $peperiksaan->code }}">{{ $peperiksaan->name }}</option>
+            <option value="{{ $peperiksaan->kod }}">{{ $peperiksaan->diskripsi }}</option>
             @endforeach
         </select>
-    </div>
+    </div> -->
 
-    <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
+  <!--   <div class="col sm-4 col-md-4 col-lg-4 mb-1">
         <label class="form-label">Tarikh Peperiksaan</label>
         <input type="text" class="form-control flatpickr" placeholder="DD/MM/YYYY" value="" name="tarikh_peperiksaan" id="tarikh_peperiksaan" disabled />
     </div>
-
+ -->
     <div id="button_action_psl" style="display:none">
         <button type="button" id="btnEditPsl" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
-            <button type="button" class="btn btn-success float-right" onclick="$('#btnEditPsl').trigger('click');">
+            <button type="button" class="btn btn-danger float-right" onclick="reloadPsl()">
+                <i class="fa fa-refresh"></i>
+            </button>&nbsp;&nbsp;
+            <button type="button" class="btn btn-success float-right" id="btnSavePsl" onclick="$('#btnEditPsl').trigger('click');">
                 <i class="fa fa-save"></i> Tambah
             </button>
         </div>
     </div>
-</form>
 </div>
+</form>
+
 
 <div class="table-responsive">
     <table class="table header_uppercase table-bordered table-hovered" id="table-psl">
@@ -51,7 +55,7 @@ data-reloadPage="false">
                 <th>Bil.</th>
                 <th>Jenis Peperiksaan</th>
                 <th>Tarikh Peperiksaan</th>
-                <th>Kemaskini</th>
+                <!-- <th>Kemaskini</th> -->
             </tr>
         </thead>
         <tbody>
@@ -83,7 +87,7 @@ data-reloadPage="false">
                 $('#pslForm select[name="jenis_peperiksaan"]').attr('disabled', true);
                 $('#pslForm input[name="tarikh_peperiksaan"]').attr('disabled', true);
                 $('#pslForm').attr('action', "{{ route('psl.store')  }}");
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
+                $('#btnSavePsl').html('<i class="fa fa-save"></i> Tambah');
 
                 $("#button_action_psl").attr("style", "display:none");
 
@@ -94,18 +98,29 @@ data-reloadPage="false">
                         bilPsl += 1;
                         trPsl += '<tr>';
                         trPsl += '<td align="center">' + bilPsl + '</td>'
-                        trPsl += '<td>' + item.qualification.name + '</td>';
-                        trPsl += '<td>' + (item.exam_date ? item.exam_date : '') + '</td>';
-                        trPsl += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                        trPsl += '&nbsp;&nbsp;';
-                        trPsl += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
+                        trPsl += '<td>' + item.qualification.diskripsi + '</td>';
+                        trPsl += '<td>' + (item.tarikh_exam ? item.tarikh_exam : '') + '</td>';
+                        // trPsl += '<td align="center"><i class="fas fa-pencil text-primary editPsl-btn" data-id="' + item.id + ' "></i>';
+                        // trPsl += '&nbsp;&nbsp;';
+                        // trPsl += '<i class="fas fa-trash text-danger deletePsl-btn" data-id="' + item.id + '"></i></td>';
                         trPsl += '</tr>';
 
                 });
                 $('#table-psl tbody').append(trPsl);
 
-                $(document).on('click', '.edit-btn', function() {
-                $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
+                if($('#table-psl tbody').is(':empty')){
+                    var trPsl = '<tr><td align="center" colspan="4">*Tiada Maklumat*</td></tr>';
+                    $('#table-psl tbody').append(trPsl);
+
+                    var tmPslElement = $("#tm_peperiksaan_psl");
+                    tmPslElement.removeAttr("hidden");
+                }else{
+                    var tmPslElement = $("#tm_peperiksaan_psl");
+                    tmPslElement.attr("hidden", true);
+                }
+
+                $(document).on('click', '.editPsl-btn', function() {
+                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
                     $('#pslForm').attr('action', "{{ route('psl.update') }}");
                     var row = $(this).closest('tr');
                     var id = $(this).data('id');
@@ -116,10 +131,11 @@ data-reloadPage="false">
                         return $(this).text() === subjectName;
                     }).prop('selected', true).trigger('change');
                     $('#pslForm input[name="tarikh_peperiksaan"]').val($(row).find('td:nth-child(3)').text());
+
                 });
 
 
-                $(document).on('click', '.delete-btn', function() {
+                $(document).on('click', '.deletePsl-btn', function() {
                     var id = $(this).data('id');
                     Swal.fire({
                     title: 'Adakah anda ingin hapuskan maklumat ini?',
@@ -128,26 +144,13 @@ data-reloadPage="false">
                     cancelButtonText: 'Batal',
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        pslDelete(id);
+                        deleteItem(id, "{{ route('psl.delete', ':replaceThis') }}", reloadPsl )
                     }
                     })
 
                 });
             },
             error: function(data) {
-            }
-        });
-    }
-
-    function pslDelete(id){
-        var reloadPslUrl = "{{ route('psl.delete', ':replaceThis') }}"
-        reloadPslUrl = reloadPslUrl.replace(':replaceThis', id);
-        $.ajax({
-            url: reloadPslUrl,
-            type: 'POST',
-            async: true,
-            success: function(data){
-                reloadPsl();
             }
         });
     }

@@ -26,7 +26,7 @@
         <select name="" id="" class="form-select select2">
             <option value="" hidden>Tahun</option>
                 @foreach ($skims as $skim)
-                    <option value="{{ $skim->id }}">{{ $skim->name }}</option>
+                    <option value="{{ $skim->kod }}">{{ $skim->diskripsi }}</option>
                 @endforeach
         </select>
     </div>

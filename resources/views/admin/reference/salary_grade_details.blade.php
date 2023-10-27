@@ -38,8 +38,32 @@
             @endif
         </div>
         <hr>
-
         <div class="card-body">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" novalidate>
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <label class="form-label" for="code">Carian Gred Gaji</label>
+                        <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
+                            <option value="Lihat Semua" selected>Lihat Semua</option>
+                            @foreach ($salaryGrade as $ggh)
+                            <option value="{{ $ggh->kod }}">{{ $ggh->kod }} - {{ $ggh->diskripsi }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <label class="form-label" for="code">Carian Peringkat</label>
+                        <select name="module_id" id="module_id" class="select2 form-control">
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end align-items-center my-1 ">
+                    <button type="submit" class="btn btn-success float-right">
+                        <i class="fa fa-search"></i> Cari
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
             <div class="table-responsive">
                 <table class="table header_uppercase table-bordered" id="table-salary-grade-details">
                     <thead>
@@ -62,6 +86,26 @@
 
 @section('script')
     <script>
+        $(document).ready(function() {
+        $('#activity_type_id').change(function() {
+            var parentCategory = $(this).val();
+            if(parentCategory) {
+                $.ajax({
+                    url: "{{ route('admin.reference.salary-grade-details.getChild') }}",
+                    type: 'GET',
+                    data: {parent_category: parentCategory},
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#module_id').empty();
+                        $('#module_id').append('<option value="Lihat Semua" selected>Lihat Semua</option>');
+                        $.each(data.categories, function(key, value) {
+                            $('#module_id').append('<option value="'+ value +'">'+ value +'</option>');
+                        });
+                    }
+                });
+            }
+            });
+        });
         var table = $('#table-salary-grade-details').DataTable({
             orderCellsTop: true,
             colReorder: false,
@@ -135,6 +179,91 @@
             }
         });
 
+        $('body').on('submit','#form-search',function(e){
+
+            e.preventDefault();
+
+            var form = $("#form-search");
+
+            if(!form.valid()){
+                return false;
+            }
+            var table;
+
+            table = $('#table-salary-grade-details').DataTable().destroy();
+
+            var table = $('#table-salary-grade-details').DataTable({
+                orderCellsTop: true,
+                colReorder: false,
+                pageLength: 25,
+                processing: true,
+                serverSide: true, //enable if data is large (more than 50,000)
+                deferRender: true,
+                ajax: form.attr('action')+"?"+form.serialize(),
+                columns: [{
+                        defaultContent: '',
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: "ref_salary_grade_code",
+                        name: "ref_salary_grade_code",
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "level",
+                        name: "level",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "year",
+                        name: "year",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "amount",
+                        name: "amount",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+
+                ],
+                language: {
+                    emptyTable: "Tiada data tersedia",
+                    info: "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+                    infoEmpty: "Menunjukkan 0 hingga 0 daripada 0 entri",
+                    infoFiltered: "(Ditapis dari _MAX_ entri)",
+                    search: "Cari:",
+                    zeroRecords: "Tiada rekod yang ditemui",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Seterusnya",
+                        previous: "Sebelumnya"
+                    },
+                    lengthMenu: "Lihat _MENU_ entri",
+                }
+            });
+            });
+
         salaryGradeDetailsForm = function(id = null) {
             var salaryGradeDetailsFormModal;
             salaryGradeDetailsFormModal = new bootstrap.Modal(document.getElementById('salaryGradeDetailsFormModal'), {
@@ -180,10 +309,10 @@
                         url2 = url2.replace(':replaceThis', salary_grade_id);
 
                         $('#salaryGradeDetailsForm').attr('action', url2);
-                        $('#salaryGradeDetailsForm select[name="code"]').val(data.detail.ref_salary_grade_code).trigger('change');
-                        $('#salaryGradeDetailsForm input[name="level"]').val(data.detail.level);
-                        $('#salaryGradeDetailsForm input[name="year"]').val(data.detail.year);
-                        $('#salaryGradeDetailsForm input[name="amount"]').val(data.detail.amount);
+                        $('#salaryGradeDetailsForm select[name="code"]').val(data.detail.ggh_kod).trigger('change');
+                        $('#salaryGradeDetailsForm input[name="level"]').val(data.detail.peringkat);
+                        $('#salaryGradeDetailsForm input[name="year"]').val(data.detail.tahun);
+                        $('#salaryGradeDetailsForm input[name="amount"]').val(data.detail.amaun);
 
                         $('#salaryGradeDetailsForm input[name="code"]').prop('readonly', true);
 

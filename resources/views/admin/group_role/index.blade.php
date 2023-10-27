@@ -58,6 +58,7 @@
 
 @section('script')
 <script>
+    var tableListUsers;
 
     var table = $('#table-group-role').DataTable({
         orderCellsTop: true,
@@ -139,16 +140,24 @@
             contentType: false,
             processData: false,
             success: function(data) {
+                $('#addUsersRoleForm input[name="id_role"]').val(id);
                 $('#td_name').html(':&nbsp;&nbsp;'+data.detail.name);
                 $('#td_display_name').html(':&nbsp;&nbsp;'+data.detail.display_name);
                 $('#td_description').html(':&nbsp;&nbsp;'+data.detail.description);
                 $('#td_is_internal').html(':&nbsp;&nbsp;'+data.detail.internalType);
                 $('#td_count').html(':&nbsp;&nbsp;'+data.detail.totalCount);
 
+                data.detail.availableUsers.forEach(function(user) {
+                    $('#select2-multiple').append($('<option>', {
+                        value: user.id,
+                        text: user.name
+                    }));
+                });
+
+                $('#select2-multiple').select2();
+
             },
         });
-
-        var tableListUsers;
 
         tableListUsers = $('#table-list-users').DataTable().destroy();
 
@@ -221,6 +230,12 @@
                         return $("<div/>").html(data).text();
                     }
                 },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
 
             ],
             language : {
@@ -242,6 +257,32 @@
 
         var viewUsersModal = new bootstrap.Modal(document.getElementById('viewUsersModal'), { keyboard: false});
         viewUsersModal.show();
+    }
+
+    function deleteItem(userId, roleId){
+        var url = "{{ route('admin.group-role.removeUserRole', ':replaceThis') }}"
+        url = url.replace(':replaceThis', userId);
+
+        console.log(userId, roleId)
+
+        Swal.fire({
+            title: 'Adakah anda ingin membuang pengguna daripada peranan ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: { role_id: roleId },
+                    async: true,
+                    success: function(data){
+                        tableListUsers.ajax.reload();
+                    }
+                })
+            }
+        })
     }
 
     function closeModal() {

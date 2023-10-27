@@ -49,8 +49,27 @@
             @endif
         </div>
         <hr>
-
         <div class="card-body">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
+                <div class="row align-items-center">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <label class="form-label" for="code">Carian Kelayakan Setara</label>
+                        <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
+                            <option value="Lihat Semua" selected>Lihat Semua</option>
+                            @foreach ($kelayakanSetaraf as $ks)
+                            <option value="{{ $ks->kod }}">{{ $ks->kod }} - {{ $ks->diskripsi }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                        <button type="submit" class="btn btn-success">
+                          <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
             <div class="table-responsive">
                 <table class="table header_uppercase table-bordered" id="table-eligibility">
                     <thead>
@@ -58,6 +77,7 @@
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
                             <th>Nama</th>
+                            <th>Kelayakan Setaraf</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -106,6 +126,13 @@
                     }
                 },
                 {
+                    data: "ks",
+                    name: "ks",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -130,6 +157,84 @@
             }
         });
 
+        $('body').on('submit','#form-search',function(e){
+
+            e.preventDefault();
+
+            var form = $("#form-search");
+
+            if(!form.valid()){
+                return false;
+            }
+            var table;
+
+            table = $('#table-eligibility').DataTable().destroy();
+
+            table = $('#table-eligibility').DataTable({
+                orderCellsTop: true,
+                colReorder: false,
+                pageLength: 25,
+                processing: true,
+                serverSide: true, //enable if data is large (more than 50,000)
+                deferRender: true,
+                ajax: form.attr('action')+"?"+form.serialize(),
+                columns: [{
+                        defaultContent: '',
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: "code",
+                        name: "code",
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "name",
+                        name: "name",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "ks",
+                        name: "ks",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+
+                ],
+                language: {
+                    emptyTable: "Tiada data tersedia",
+                    info: "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+                    infoEmpty: "Menunjukkan 0 hingga 0 daripada 0 entri",
+                    infoFiltered: "(Ditapis dari _MAX_ entri)",
+                    search: "Cari:",
+                    zeroRecords: "Tiada rekod yang ditemui",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Seterusnya",
+                        previous: "Sebelumnya"
+                    },
+                    lengthMenu: "Lihat _MENU_ entri",
+                }
+            });
+            });
+
         eligibilityForm = function(id = null) {
             var eligibilityFormModal;
             eligibilityFormModal = new bootstrap.Modal(document.getElementById('eligibilityFormModal'), {
@@ -145,9 +250,9 @@
 
                 $('#eligibilityForm input[name="code"]').val("");
                 $('#eligibilityForm input[name="name"]').val("");
-                $('#eligibilityForm select[name="ref_skim_code"]').val("");
-                $('#eligibilityForm input[name="equivalent"]').val("");
-                $('#eligibilityForm input[name="rank"]').val("");
+                // $('#eligibilityForm select[name="ref_skim_code"]').val("").trigger('change');
+                $('#eligibilityForm select[name="equivalent"]').val("").trigger('change');
+                // $('#eligibilityForm input[name="rank"]').val("");
                 $('#eligibilityForm input[name="code"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Kelayakan');
@@ -176,11 +281,11 @@
                         url2 = url2.replace(':replaceThis', salary_grade_id);
 
                         $('#eligibilityForm').attr('action', url2);
-                        $('#eligibilityForm input[name="code"]').val(data.detail.code);
-                        $('#eligibilityForm input[name="name"]').val(data.detail.name);
-                        $('#eligibilityForm select[name="ref_skim_code"]').val(data.detail.ref_skim_code);
-                        $('#eligibilityForm input[name="equivalent"]').val(data.detail.equivalent);
-                        $('#eligibilityForm input[name="rank"]').val(data.detail.rank);
+                        $('#eligibilityForm input[name="code"]').val(data.detail.kod);
+                        $('#eligibilityForm input[name="name"]').val(data.detail.diskripsi);
+                        // $('#eligibilityForm select[name="ref_skim_code"]').val(data.detail.ski_kod).trigger('change');
+                        $('#eligibilityForm select[name="equivalent"]').val(data.detail.kelayakan_setara).trigger('change');
+                        // $('#eligibilityForm input[name="rank"]').val(data.detail.rank_layak);
                         $('#eligibilityForm input[name="code"]').prop('readonly', true);
 
                         $('#title-role').html('Kemaskini Kelayakan');
@@ -228,6 +333,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(eligibilityId){
+        var url = "{{ route('admin.reference.eligibility.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', eligibilityId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
     </script>
 @endsection

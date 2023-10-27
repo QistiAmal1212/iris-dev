@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -78,6 +79,7 @@ class GroupRoleController extends Controller
     {
         $role = Role::find($request->roleId);
         $users = $role->users;
+
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -105,10 +107,10 @@ class GroupRoleController extends Controller
                     return $users->phone_number;
                 })
                 ->editColumn('department_ministry', function ($users) {
-                    return ($users->ref_department_ministry_code != null) ? $users->department_ministry->name : null;
+                    return ($users->ref_department_ministry_code != null) ? $users->department_ministry->diskripsi : null;
                 })
                 ->editColumn('skim', function ($users) {
-                    return ($users->ref_skim_code != null) ? $users->skim->name : null;
+                    return ($users->ref_skim_code != null) ? $users->skim->diskripsi : null;
                 })
                 ->editColumn('status', function ($users) {
                     if ($users->is_active == 1){
@@ -121,6 +123,18 @@ class GroupRoleController extends Controller
                         return $label;
                     }
                 })
+                ->editColumn('action', function ($users) use ($role) {
+                    $button = "";
+
+                    $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
+                    // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
+                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$users->id.' , '.$role->id.')"> <i class="fas fa-trash text-danger"></i> ';
+
+                    $button .= '</div>';
+
+                    return $button;
+                })
+                ->rawColumns(['action'])
                 ->make(true);
         }
     }
@@ -131,6 +145,10 @@ class GroupRoleController extends Controller
         try {
 
             $role = Role::find($request->roleId);
+
+            $availableUsers = User::whereNotIn('id', $role->users->pluck('id'))->get();
+
+            $role->availableUsers = $availableUsers;
 
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.group-role')->firstOrFail()->id;
@@ -157,6 +175,61 @@ class GroupRoleController extends Controller
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $role]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function storeUserRole(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $request->validate([
+                'roles' => 'required|array',
+            ],[
+                'roles.required' => 'Sila pilih pengguna',
+            ]);
+
+            foreach ($request->input('roles') as $user) {
+                $userRole = User::find($user);
+
+                $userRole->roles()->attach($request->id_role);
+            }
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function removeUserRole(Request $request, $userId)
+    {
+        DB::beginTransaction();
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Pengguna tidak wujud'], 404);
+            }
+
+            $role = Role::find($request->role_id);
+
+            if (!$role) {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Peranan tidak wujud'], 404);
+            }
+
+            $user->roles()->detach($role);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
 
         } catch (\Throwable $e) {
 

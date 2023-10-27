@@ -174,7 +174,7 @@
 
                     $('#maritalStatusForm').attr('action',url2 );
                     $('#maritalStatusForm input[name="code"]').val(data.detail.kod);
-                    $('#maritalStatusForm input[name="name"]').val(data.detail.nama);
+                    $('#maritalStatusForm input[name="name"]').val(data.detail.diskripsi);
                     $('#maritalStatusForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Taraf Perkahwinan');
@@ -223,6 +223,30 @@
                 }
             });
         }
+
+        function deleteItem(maritalStatusId){
+        var url = "{{ route('admin.reference.marital-status.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', maritalStatusId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
+    }
 
 </script>
 @endsection

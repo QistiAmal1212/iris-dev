@@ -9,10 +9,13 @@ class Penalty extends Model
     protected $table = 'ruj_tatatertib';
 
     protected $fillable = [
-        'code',
-        'name',
-        'category',
-        'pemerolehan_code',
-        'is_active',
+        'kod',
+        'diskripsi',
+        'kategori',
+        'id_pencipta',
+        'pengguna',
+        'sah_yt',
     ];
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

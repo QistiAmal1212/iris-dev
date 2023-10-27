@@ -24,7 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('ref_state', function (Blueprint $table) {
+        Schema::table('ruj_negeri', function (Blueprint $table) {
             $table->renameColumn('kod', 'code');
             $table->renameColumn('nama', 'name');
             $table->renameColumn('sah_yt', 'is_active');

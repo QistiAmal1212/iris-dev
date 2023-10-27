@@ -175,7 +175,7 @@
 
                     $('#stateForm').attr('action',url2 );
                     $('#stateForm input[name="code"]').val(data.detail.kod);
-                    $('#stateForm input[name="name"]').val(data.detail.nama);
+                    $('#stateForm input[name="name"]').val(data.detail.diskripsi);
                     $('#stateForm input[name="code"]').prop('readonly', true);
 
 
@@ -224,6 +224,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(stateId){
+        var url = "{{ route('admin.reference.state.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', stateId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
 
 </script>

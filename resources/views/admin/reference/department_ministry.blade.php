@@ -146,6 +146,14 @@
             $('#departmentMinistryForm').attr('action', '{{ route("admin.reference.department-ministry.store") }}');
             $('#departmentMinistryForm input[name="code"]').val("");
             $('#departmentMinistryForm input[name="name"]').val("");
+            $('#departmentMinistryForm input[name="kem_kod"]').val("");
+            $('#departmentMinistryForm input[name="gelaran_ketua"]').val("");
+            $('#departmentMinistryForm input[name="alamat_1"]').val("");
+            $('#departmentMinistryForm input[name="alamat_2"]').val("");
+            $('#departmentMinistryForm input[name="alamat_3"]').val("");
+            $('#departmentMinistryForm input[name="poskod"]').val("");
+            $('#departmentMinistryForm input[name="bandar"]').val("");
+            $('#departmentMinistryForm input[name="unit_urusan"]').val("");
             $('#departmentMinistryForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Kementerian');
@@ -175,7 +183,15 @@
 
                     $('#departmentMinistryForm').attr('action',url2 );
                     $('#departmentMinistryForm input[name="code"]').val(data.detail.kod);
-                    $('#departmentMinistryForm input[name="name"]').val(data.detail.nama);
+                    $('#departmentMinistryForm input[name="name"]').val(data.detail.diskripsi);
+                    $('#departmentMinistryForm input[name="kem_kod"]').val(data.detail.kem_kod);
+                    $('#departmentMinistryForm input[name="gelaran_ketua"]').val(data.detail.gelaran_ketua);
+                    $('#departmentMinistryForm input[name="alamat_1"]').val(data.detail.alamat_1);
+                    $('#departmentMinistryForm input[name="alamat_2"]').val(data.detail.alamat_2);
+                    $('#departmentMinistryForm input[name="alamat_3"]').val(data.detail.alamat_3);
+                    $('#departmentMinistryForm input[name="poskod"]').val(data.detail.poskod);
+                    $('#departmentMinistryForm input[name="bandar"]').val(data.detail.bandar);
+                    $('#departmentMinistryForm [name="unit_urusan"]').val(data.detail.unit_urusan);
                     $('#departmentMinistryForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Kementerian');
@@ -223,6 +239,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(departmentMinistryId){
+        var url = "{{ route('admin.reference.department-ministry.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', departmentMinistryId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
 
 </script>

@@ -9,6 +9,7 @@ use App\Models\LogSystem;
 use App\Models\Master\MasterModule;
 use App\Models\Master\MasterActivityType;
 use App\Notifications\NewUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -59,8 +60,8 @@ class UserController extends Controller
             }
         }
 
-        $departmentMinistry = DepartmentMinistry::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
-        $skim = Skim::all();
+        $departmentMinistry = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
+        $skim = Skim::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         if(request()->route()->getname() == 'admin.internalUser' || request()->route()->getname() == 'admin.externalUser'){
             if ($request->ajax()) {
@@ -91,8 +92,9 @@ class UserController extends Controller
                 $log->created_by_user_id = auth()->id();
                 $log->save();
 
+                $users->orderBy('name', 'asc');
                 if($request->name){
-                    $users->where('name', 'like', '%' . $request->name . '%');
+                    $users->where('name', 'ilike', '%' . $request->name . '%');
                 }
                 if($request->no_ic){
                     $users->where('no_ic', 'like', '%' . $request->no_ic . '%');
@@ -101,17 +103,12 @@ class UserController extends Controller
                     $users->whereHas('roles', function ($query) use ($request) {
                         $query->where('id', $request->role);
                     });
-
                 }
                 if($request->department_ministry){
-                    $users->whereHas('department_ministry', function ($query) use ($request) {
-                        $query->where('kod', $request->department_ministry);
-                    });
+                    $users->where('ref_department_ministry_code', $request->department_ministry);
                 }
                 if($request->skim){
-                    $users->whereHas('skim', function ($query) use ($request) {
-                        $query->where('code', $request->skim);
-                    });
+                    $users->where('ref_skim_code', $request->skim);
                 }
 
                 return Datatables::of($users->get())
@@ -135,42 +132,55 @@ class UserController extends Controller
                         return $users->no_ic;
                     })
                     ->editColumn('department_ministry', function ($users) use ($type) {
-                        return ($users->ref_department_ministry_code != null) ? $users->department_ministry->nama : null;
+                        return ($users->ref_department_ministry_code != null) ? $users->department_ministry->diskripsi : null;
                     })
                     ->editColumn('skim', function ($users) use ($type) {
-                        return ($users->ref_skim_code != null) ? $users->skim->name : null;
+                        return ($users->ref_skim_code != null) ? $users->skim->diskripsi : null;
                     })
                     ->editColumn('role', function ($users) use ($type) {
+                        $roles = $users->getRoleNames()->toArray();
 
-                        $roles = implode(",", $users->getRoleNames()->toArray());
-                        $role_label = '</br>';
-                        $role_label .= '<td>';
-                        if (strpos($roles, "admin") !== false && strpos($roles, "superadmin") !== false) {
-                            $role_label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span> &nbsp; <span class="badge rounded-pill bg-light-secondary">Admin</span>';
-                        } elseif ($roles == "admin") {
-                            $role_label .= '<span class="badge rounded-pill bg-light-secondary">Admin</span>';
-                        } elseif ($roles == "superadmin") {
-                            $role_label .= '<span class="badge rounded-pill bg-light-info">Superadmin</span>';
-                        } else {
-                            $role_label .= '<span class="badge rounded-pill bg-light-info">' . $roles . '</span> &nbsp;';
+                        // $role_label = '</br>';
+                        $role_label = '<td>';
+
+                        foreach( $roles as $role ) {
+                            if($role == "superadmin")
+                                $role_label .= '<span class="badge rounded-pill bg-light-primary" style="margin-right: 2px">' . $role . '</span>';
+                            elseif($role == "admin")
+                                $role_label .= '<span class="badge rounded-pill bg-light-info" style="margin-right: 2px">' . $role . '</span>';
+                            else
+                                $role_label .= '<span class="badge rounded-pill bg-light-warning" style="margin-right: 2px">' . $role . '</span>';
                         }
                         $role_label .= "</td>";
 
                         return $role_label;
                     })
-                    ->editColumn('action', function ($users) use ($type, $accessDelete) {
+                    ->editColumn('action', function ($users) use ($type, $accessDelete, $accessUpdate) {
                         $button = "";
 
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
-                        if ($type == "internal") {
-                            //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                            $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
-                            // $button .= '<form id="formDestroyUser_'.$user->id.'" method="POST" action=" '.route('user.destroy', $user).' "> @csrf <input type="hidden" name="_method" value="DELETE"/> </form>';
-                            // $button .= '<a href="#" class="btn btn-outline-dark waves-effect" onclick="event.preventDefault(); document.getElementById('formDestroyUser_. $user->id .').submit();"> <i class="fas fa-trash"></i> </a>';
-                        } else {
-                            //$button .= '<a href=" '.route('user.show', $users).' " class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                            $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
+                        if($accessUpdate){
+                            if ($type == "internal" || ($users->ismigrated == 1)) {
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
+                            } else {
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-pencil text-primary"></i> ';
+                            }
+                            $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="confirmResetPassword(' . "'$users->email'" . ')"data-toggle="tooltip" data-placement="top" title="reset kata laluan"> <i class="fas fa-refresh text-primary"></i>  ';
+                        }else{
+                            if ($type == "internal" || ($users->ismigrated == 1)) {
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-eye text-primary"></i> ';
+                            } else {
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="viewUserForm(' . $users->id . ')"> <i class="fas fa-eye text-primary"></i> ';
+                            }
                         }
+                        if($accessDelete){
+                            if($type== 'internal'){
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteInternalUser(' . "'$users->id'" . ')"data-toggle="tooltip" data-placement="top" title="hapus pengguna"> <i class="fas fa-trash text-danger"></i>  ';
+                            }else{
+                                $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteExternalUser(' . "'$users->id'" . ')"data-toggle="tooltip" data-placement="top" title="hapus pengguna"> <i class="fas fa-trash text-danger"></i>  ';
+                            }
+                        }
+
                         $button .= "</div>";
 
                         return $button;
@@ -227,14 +237,14 @@ class UserController extends Controller
             $validatedData = $request->validate([
                 'ic_number' => 'required|min_digits:12|unique:users,no_ic',
                 'full_name' => 'required|string',
-                'email' => 'required|email|unique:users,email',
+                'email' => 'required|email',
                 'phone_number' => 'required',
                 'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
-                'skim_code' => 'required|exists:ruj_skim,code',
+                'skim_code' => 'required|exists:ruj_skim,kod',
                 'password' => [
                     'required',
                     'string',
-                    'min:8',
+                    'min:12',
                     'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
                     'confirmed',
                 ],
@@ -245,14 +255,13 @@ class UserController extends Controller
                 'ic_number.min_digits' => 'No kad pengenalan mestilah sekurang-kurangnya 12 aksara',
                 'full_name.required' => 'Sila isikan nama penuh',
                 'email.required' => 'Sila isikan emel',
-                'email.unique' => 'Emel telah diambil',
                 'phone_number.required' => 'Sila isikan no telefon',
                 'department_ministry_code.required' => 'Sila pilih nama kementerian',
                 'department_ministry_code.exists' => 'Nama kementerian tidak sah',
                 'skim_code.required' => 'Sila pilih jawatan',
                 'skim_code.exists' => 'Jawatan tidak sah',
                 'password.required' => 'Sila isikan kata laluan',
-                'password.min' => 'Kata laluan mestilah sekurang-kurangnya 8 aksara',
+                'password.min' => 'Kata laluan mestilah sekurang-kurangnya 12 aksara',
                 'password.regex' => 'Kata laluan tidak sah',
                 'password.confirmed' => 'Pengesahan kata laluan tidak sepadan',
                 'roles.required' => 'Sila pilih peranan',
@@ -268,6 +277,7 @@ class UserController extends Controller
                 'ref_skim_code' => $request->skim_code,
                 'is_active' => $request->has("status") ?? 0,
                 'password' => Hash::make($request->password),
+                'time_to_change_password' => now(),
             ]);
 
             $user->syncRoles($request->roles ? $request->roles : []);
@@ -307,7 +317,7 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $permissions = Permission::all();
-        $departments = DepartmentMinistry::where('sah_yt', 1)->orderBy('nama', 'asc')->get();
+        $departments = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skims = Skim::all();
 
         $internalRoleArr = Role::where('is_internal', 1)->pluck('name')->toArray();
@@ -342,10 +352,10 @@ class UserController extends Controller
             $validatedData = $request->validate([
                 'ic_number' => 'required|integer|min_digits:12|unique:users,no_ic,'.$id_used,
                 'full_name' => 'required|string',
-                'email' => 'required|email|unique:users,email,'.$id_used,
+                'email' => 'required|email',
                 'phone_number' => 'required',
                 'department_ministry_code' => 'required|exists:ruj_kem_jabatan,kod',
-                'skim_code' => 'required|exists:ref_skim,code',
+                'skim_code' => 'required|exists:ruj_skim,kod',
                 'roles' => 'required',
             ],[
                 'ic_number.required' => 'Sila isikan no kad pengenalan',
@@ -353,7 +363,6 @@ class UserController extends Controller
                 'ic_number.min_digits' => 'No kad pengenalan mestilah sekurang-kurangnya 12 aksara',
                 'full_name.required' => 'Sila isikan nama penuh',
                 'email.required' => 'Sila isikan emel',
-                'email.unique' => 'Emel telah diambil',
                 'phone_number.required' => 'Sila isikan no telefon',
                 'department_ministry_code.required' => 'Sila pilih nama kementerian',
                 'department_ministry_code.exists' => 'Nama kementerian tidak sah',
@@ -372,7 +381,7 @@ class UserController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Pengguna [".$user->name."]";
             $log->data_old = json_encode($user);
-            
+
             $user->update([
                 'name' => $request->full_name,
                 'no_ic' => $request->ic_number,
@@ -405,6 +414,40 @@ class UserController extends Controller
         }
 
         //return to_route('user.index', [$user]);
+    }
+
+    public function deleteUser(Request $request){
+        DB::beginTransaction();
+        try{
+            $user = User::find($request-> userId);
+
+            $user->delete();
+
+            if (!$user) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            // $code = $request->route;
+
+            // $log = new LogSystem;
+            // $log->module_id = MasterModule::where('code', $code)->firstOrFail()->id;
+            // $log->activity_type_id = 5;
+            // $log->description = "Hapus Maklumat Pengguna [".$user->name."]";
+            // $log->data_new = json_encode($user);
+            // $log->url = $request->fullUrl();
+            // $log->method = strtoupper($request->method());
+            // $log->ip_address = $request->ip();
+            // $log->created_by_user_id = auth()->id();
+            // $log->save();
+
+            DB::commit();
+            return response()->json(['message' => 'Pengguna berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
     }
 
     public function destroy(Request $request, User $user)
@@ -452,32 +495,40 @@ class UserController extends Controller
 
     public function updatePassword(Request $request)
     {
-
-        // dd($request->all());
         \DB::beginTransaction();
 
         try {
             $validatedData = $request->validate([
-                'reset_password_old' => 'required|string|min:8',
-                'reset_password_new' => 'required|string|min:8',
+                'reset_password_old' => 'required|string',
+                'reset_password_new' => [
+                    'required',
+                    'string',
+                    'min:12',
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/',
+                ],
                 'reset_password_confirm' => 'required|same:reset_password_new',
                 'captcha' => 'required|captcha',
             ], [
-                'reset_password_old.required' => 'Please fill in current password',
-                'reset_password_new.required' => 'Please fill in new password',
-                'reset_password_confirm.required' => 'Please retype new password',
-                'captcha.required' => 'Please enter captcha',
-                'captcha' => 'CAPTCHA validation failed, try again.',
+                'reset_password_old.required' => 'Sila masukkan kata laluan semasa',
+                'reset_password_new.required' => 'Sila masukkan kata laluan baru',
+                'reset_password_new.min' => 'Kata laluan mestilah sekurang-kurangnya 12 aksara',
+                'reset_password_new.regex' => 'Kata laluan tidak sah',
+                'reset_password_new.confirmed' => 'Pengesahan kata laluan tidak sepadan',
+                'reset_password_confirm.required' => 'Sila masukkan kata laluan pengesahan',
+                'reset_password_confirm.same' => 'Ruangan kata laluan baru dan kata laluan pengesahan mesti sepadan',
+                'captcha.required' => 'Sila masukkan pengesahan CAPTCHA',
+                'captcha' => 'Pengesahan CAPTCHA gagal. Sila cuba semula.',
             ]);
 
-            if (Hash::check($request->reset_password_old, auth()->user()->password)) {
-
-                User::whereId(auth()->user()->id)->update(['password' => Hash::make($request->reset_password_new)]);
-                $user = auth()->user();
-
-            } else {
-                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Wrong Current Password'], 404);
+            if (!Hash::check($request->reset_password_old, auth()->user()->password)) {
+                return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => 'Kata laluan semasa tidak betul'], 401);
             }
+
+            User::whereId(auth()->user()->id)->update([
+                'password' => Hash::make($request->reset_password_new),
+                'last_change_password' => now(),
+            ]);
+            $user = auth()->user();
 
         } catch (Throwable $e) {
 

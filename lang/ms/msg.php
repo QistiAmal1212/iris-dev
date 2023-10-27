@@ -90,6 +90,7 @@ return [
     'statisticsDescription' => "Graf boleh dijana berdasarkan permohonan/borang",
     'project' => "Projek",
     'client' => "Klien",
+    'information' => "Makluman",
     'timeline' => "Garis Masa",
     'system_name' => "Nama Sistem",
     'start_date' => "Tarikh Mula",
@@ -114,7 +115,7 @@ return [
     | Letak apa apa berkaitan dengan tindakan pengguna
     |
     */
-    'submit' => 'Hantar',
+    'submit' => 'Simpan',
     'save' => 'Simpan',
     'approve' => 'Lulus',
     'disapprove' => 'Tidak Lulus',

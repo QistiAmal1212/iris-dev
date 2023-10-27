@@ -26,7 +26,7 @@
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <label class="fw-bolder"> Aktiviti </label>
                     <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
-                        <option value=""></option>
+                        <option value="Lihat Semua" selected>Lihat Semua</option>
                         @foreach($activityType as $activity)
                         <option value="{{ $activity->id }}">{{ $activity->name }}</option>
                         @endforeach
@@ -36,7 +36,7 @@
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <label class="fw-bolder"> Modul </label>
                     <select name="module_id" id="module_id" class="select2 form-control">
-                        <option value=""></option>
+                        <option value="Lihat Semua" selected>Lihat Semua</option>
                         @foreach($module as $modul)
                         <option value="{{ $modul->id }}">{{ $modul->name }}</option>
                         @endforeach
@@ -99,16 +99,16 @@
         "columns": [
             { data: 'index', defaultContent: '', orderable: false, searchable: false, render: function (data, type, row, meta) {
                 return meta.row + meta.settings._iDisplayStart + 1;
-            }},        
+            }},
             { data: "activity_type.name", name: "activity_type.name", render: function(data, type, row){
                 return $("<div/>").html(data).text();
             }},
-            { data: "module.name", name: "module.name"}, 
-            { data: "description", name: "description"},     
+            { data: "module.name", name: "module.name"},
+            { data: "description", name: "description"},
             { data: "created_by_user_id", name: "created_by_user_id", render: function(data, type, row){
                 return $("<div/>").html(data).text();
-            }},   
-            { data: "ip_address", name: "ip_address"},        
+            }},
+            { data: "ip_address", name: "ip_address"},
             { data: "created_at", name: "created_at"},
             { data: "action", name: "action", orderable: false, searchable: false},
         ],
@@ -155,16 +155,16 @@
             columns: [
                 { data: 'index', defaultContent: '', orderable: false, searchable: false, render: function (data, type, row, meta) {
                     return meta.row + meta.settings._iDisplayStart + 1;
-                }},        
+                }},
                 { data: "activity_type.name", name: "activity_type.name", render: function(data, type, row){
                     return $("<div/>").html(data).text();
                 }},
-                { data: "module.name", name: "module.name"}, 
-                { data: "description", name: "description"},     
+                { data: "module.name", name: "module.name"},
+                { data: "description", name: "description"},
                 { data: "created_by_user_id", name: "created_by_user_id", render: function(data, type, row){
                     return $("<div/>").html(data).text();
-                }},   
-                { data: "ip_address", name: "ip_address"},        
+                }},
+                { data: "ip_address", name: "ip_address"},
                 { data: "created_at", name: "created_at"},
                 { data: "action", name: "action", orderable: false, searchable: false},
             ],

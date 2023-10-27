@@ -216,11 +216,11 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>Kementerian</td>
-                                                                <td>:&nbsp;&nbsp;{{ $user->department_ministry->name }}</td>
+                                                                <td>:&nbsp;&nbsp;{{ $user->department_ministry->diskripsi }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Jawatan</td>
-                                                                <td>:&nbsp;&nbsp;{{ $user->skim->name }}</td>
+                                                                <td>:&nbsp;&nbsp;{{ $user->skim->diskripsi }}</td>
                                                             </tr>
                                                         </table>
                                                         </center>

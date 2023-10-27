@@ -12,6 +12,7 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::get('maklumat-pemohon','viewMaklumatPemohon')->name('maklumat_pemohon');
         Route::post('get-candidate-details', 'getCandidateDetails')->name('get-candidate-details');
         Route::get('timeline/{noPengenalan}', 'listTimeline')->name('timeline.list');
+        Route::get('list-carian', 'listCarian')->name('list-carian');
 
         Route::prefix('personal')->group(function () {
             Route::post('update', 'updatePersonal')->name('personal.update');
@@ -19,7 +20,8 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         });
 
         Route::prefix('alamat')->group(function () {
-            Route::post('update', 'updateAlamat')->name('alamat.update');
+            Route::post('/tetap/update', 'updateAlamatTetap')->name('alamat-tetap.update');
+            Route::post('/surat/update', 'updateAlamatSurat')->name('alamat-surat.update');
             Route::get('details/{noPengenalan}', 'alamatDetails')->name('alamat.details');
         });
 
@@ -36,6 +38,12 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::prefix('oku')->group(function () {
             Route::post('update', 'updateOKU')->name('oku.update');
             Route::get('details/{noPengenalan}', 'OKUDetails')->name('oku.details');
+            Route::get('getChild', 'getCategoriesByParent')->name('oku.getChild');
+        });
+
+        Route::prefix('pusat_temuduga')->group(function () {
+            Route::post('update', 'updatePusatTemuduga')->name('pusat-temuduga.update');
+            Route::get('details/{noPengenalan}', 'pusatTemudugaDetails')->name('pusat-temuduga.details');
         });
 
         Route::prefix('pmr')->group(function () {
@@ -45,11 +53,18 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::post('delete/{idPmr}', 'deletePmr')->name('pmr.delete');
         });
 
-        Route::prefix('spm')->group(function () {
-            Route::post('store', 'storeSpm')->name('spm.store');
-            Route::get('list/{noPengenalan}', 'listSpm')->name('spm.list');
-            Route::post('update', 'updateSpm')->name('spm.update');
-            Route::post('delete/{idSpm}', 'deleteSpm')->name('spm.delete');
+        Route::prefix('spm1')->group(function () {
+            Route::post('store', 'storeSpm1')->name('spm1.store');
+            Route::get('list/{noPengenalan}', 'listSpm1')->name('spm1.list');
+            Route::post('update', 'updateSpm1')->name('spm1.update');
+            Route::post('delete/{idSpm}', 'deleteSpm1')->name('spm1.delete');
+        });
+
+        Route::prefix('spm2')->group(function () {
+            Route::post('store', 'storeSpm2')->name('spm2.store');
+            Route::get('list/{noPengenalan}', 'listSpm2')->name('spm2.list');
+            Route::post('update', 'updateSpm2')->name('spm2.update');
+            Route::post('delete/{idSpm}', 'deleteSpm2')->name('spm2.delete');
         });
 
         Route::prefix('spmv')->group(function () {
@@ -66,18 +81,36 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::post('delete/{idSvm}', 'deleteSvm')->name('svm.delete');
         });
 
-        Route::prefix('stpm')->group(function () {
-            Route::post('store', 'storeStpm')->name('stpm.store');
-            Route::get('list/{noPengenalan}', 'listStpm')->name('stpm.list');
-            Route::post('update', 'updateStpm')->name('stpm.update');
-            Route::post('delete/{idStpm}', 'deleteStpm')->name('stpm.delete');
+        Route::prefix('spmu')->group(function () {
+            Route::get('list/{noPengenalan}', 'listSpmu')->name('spmu.list');
         });
 
-        Route::prefix('stam')->group(function () {
-            Route::post('store', 'storeStam')->name('stam.store');
-            Route::get('list/{noPengenalan}', 'listStam')->name('stam.list');
-            Route::post('update', 'updateStam')->name('stam.update');
-            Route::post('delete/{idStam}', 'deleteStam')->name('stam.delete');
+        Route::prefix('stpm1')->group(function () {
+            Route::post('store', 'storeStpm1')->name('stpm1.store');
+            Route::get('list/{noPengenalan}', 'listStpm1')->name('stpm1.list');
+            Route::post('update', 'updateStpm1')->name('stpm1.update');
+            Route::post('delete/{idStpm}', 'deleteStpm1')->name('stpm1.delete');
+        });
+
+        Route::prefix('stpm2')->group(function () {
+            Route::post('store', 'storeStpm2')->name('stpm2.store');
+            Route::get('list/{noPengenalan}', 'listStpm2')->name('stpm2.list');
+            Route::post('update', 'updateStpm2')->name('stpm2.update');
+            Route::post('delete/{idStpm}', 'deleteStpm2')->name('stpm2.delete');
+        });
+
+        Route::prefix('stam1')->group(function () {
+            Route::post('store', 'storeStam1')->name('stam1.store');
+            Route::get('list/{noPengenalan}', 'listStam1')->name('stam1.list');
+            Route::post('update', 'updateStam1')->name('stam1.update');
+            Route::post('delete/{idStam}', 'deleteStam1')->name('stam1.delete');
+        });
+
+        Route::prefix('stam2')->group(function () {
+            Route::post('store', 'storeStam2')->name('stam2.store');
+            Route::get('list/{noPengenalan}', 'listStam2')->name('stam2.list');
+            Route::post('update', 'updateStam2')->name('stam2.update');
+            Route::post('delete/{idStam}', 'deleteStam2')->name('stam2.delete');
         });
 
         Route::prefix('matrikulasi')->group(function () {
@@ -85,6 +118,7 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('list/{noPengenalan}', 'listMatrikulasi')->name('matrikulasi.list');
             Route::post('update', 'updateMatrikulasi')->name('matrikulasi.update');
             Route::post('delete/{idMatrikulasi}', 'deleteMatrikulasi')->name('matrikulasi.delete');
+            Route::get('getItem', 'editMatrikulasi')->name('matrikulasi.edit');
         });
 
         Route::prefix('skm')->group(function () {
@@ -92,6 +126,14 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('list/{noPengenalan}', 'listSkm')->name('skm.list');
             Route::post('update', 'updateSkm')->name('skm.update');
             Route::post('delete/{idSkm}', 'deleteSkm')->name('skm.delete');
+        });
+
+        Route::prefix('pengajian_tinggi')->group(function () {
+            Route::post('store', 'storePt')->name('pt.store');
+            Route::get('list/{noPengenalan}', 'listPt')->name('pt.list');
+            Route::post('update', 'updatePt')->name('pt.update');
+            Route::get('getDetail/{idPt}', 'detailPt')->name('pt.detail');
+            Route::post('delete/{idPt}', 'deletePt')->name('pt.delete');
         });
 
         Route::prefix('bahasa')->group(function () {
@@ -108,13 +150,35 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::post('delete/{idBakat}', 'deleteBakat')->name('bakat.delete');
         });
 
-        Route::prefix('pengajian_tinggi')->group(function () {
-            Route::post('update', 'updatePengajianTinggi')->name('pengajian-tinggi.update');
-            Route::get('details/{noPengenalan}', 'pengajianTinggiDetails')->name('pengajian-tinggi.details');
+        // Route::prefix('diploma')->group(function () {
+        //     Route::post('update', 'updateDiploma')->name('diploma.update');
+        //     Route::get('details/{noPengenalan}', 'diplomaDetails')->name('diploma.details');
+        // });
+
+        // Route::prefix('degree')->group(function () {
+        //     Route::post('update', 'updateDegree')->name('degree.update');
+        //     Route::get('details/{noPengenalan}', 'degreeDetails')->name('degree.details');
+        // });
+
+        // Route::prefix('master')->group(function () {
+        //     Route::post('update', 'updateMaster')->name('master.update');
+        //     Route::get('details/{noPengenalan}', 'masterDetails')->name('master.details');
+        // });
+
+        // Route::prefix('phd')->group(function () {
+        //     Route::post('update', 'updatePhd')->name('phd.update');
+        //     Route::get('details/{noPengenalan}', 'phdDetails')->name('phd.details');
+        // });
+
+        Route::prefix('profesional')->group(function () {
+            Route::post('store', 'storeProfesional')->name('profesional.store');
+            Route::get('list/{noPengenalan}', 'listProfesional')->name('profesional.list');
+            Route::post('update', 'updateProfesional')->name('profesional.update');
+            Route::post('delete/{idProfesional}', 'deleteProfesional')->name('profesional.delete');
         });
 
         Route::prefix('experience')->group(function () {
-            Route::post('update', 'updateExperience')->name('experience.update');
+            Route::post('update/{type}', 'updateExperience')->name('experience.update');
             Route::get('details/{noPengenalan}', 'experienceDetails')->name('experience.details');
         });
 
@@ -130,11 +194,12 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
             Route::get('details/{noPengenalan}', 'tenteraPolisDetails')->name('tentera-polis.details');
         });
 
-        Route::prefix('penalty')->group(function () {
+        Route::prefix('tatatertib')->group(function () {
             Route::post('store', 'storePenalty')->name('penalty.store');
             Route::get('list/{noPengenalan}', 'listPenalty')->name('penalty.list');
             Route::post('update', 'updatePenalty')->name('penalty.update');
             Route::post('delete/{idPenalty}', 'deletePenalty')->name('penalty.delete');
+            Route::post('calculate', 'calculatePenalty')->name('penalty.calculate');
         });
     });
 });
@@ -142,7 +207,11 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
 Route::controller(IntegrationController::class)->group(function () {
     Route::prefix('integrasi')->group(function () {
         Route::get('dashboard-integrasi','DashboardIntegration')->name('dashboard_integration');
-        Route::get('informasi-integrasi','IntegrationInformation')->name('integration_information');
+        Route::post('store-api', 'storeApi')->name('store.api');
+        Route::get('edit-api/{idApi}', 'editApi')->name('edit.api');
+        Route::post('update-api/{idApi}', 'updateApi')->name('update.api');
+        Route::post('update-api-status/{idApi}', 'updateApiStatus')->name('update.api.status');
+        Route::get('informasi-integrasi/{idApi}','IntegrationInformation')->name('integration_information');
     });
 });
 

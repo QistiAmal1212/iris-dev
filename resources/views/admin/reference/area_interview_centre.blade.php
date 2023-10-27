@@ -175,7 +175,7 @@
 
                     $('#areaInterviewCentreForm').attr('action',url2 );
                     $('#areaInterviewCentreForm input[name="code"]').val(data.detail.kod);
-                    $('#areaInterviewCentreForm input[name="name"]').val(data.detail.nama);
+                    $('#areaInterviewCentreForm input[name="name"]').val(data.detail.diskripsi);
                     $('#areaInterviewCentreForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Kawasan Pusat Temuduga');

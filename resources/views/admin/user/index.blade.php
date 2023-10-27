@@ -102,7 +102,7 @@
                     @if($accessAdd)
                     <div class="d-flex justify-content-end align-items-center">
                         <button type="button" class="btn btn-primary btn-md float-right" onclick="viewUserForm()">
-                            <i class="fa-solid fa-add"></i> 
+                            <i class="fa-solid fa-add"></i>
                             Tambah Pengguna
                         </button>
                     </div>
@@ -125,6 +125,67 @@
 
 @section('script')
 <script>
+    function confirmResetPassword(email) {
+    Swal.fire({
+        title: 'Reset Kata Laluan',
+        text: 'Reset kata laluan untuk pengguna ini',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sahkan',
+        cancelButtonText: 'Batal',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            resetPassword(email);
+        }
+    });
+}
+
+// function resetPassword(email) {
+//     var form = document.createElement('form');
+//     form.method = 'POST';
+//     form.action = "{{ route('password.email') }}";
+//     form.style.display = 'hidden';
+
+//     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+//     var inputEmail = document.createElement('input');
+//     inputEmail.type = 'email';
+//     inputEmail.name = 'email';
+//     inputEmail.value = email;
+
+//     var inputToken = document.createElement('input');
+//     inputToken.type = 'hidden';
+//     inputToken.name = '_token';
+//     inputToken.value = csrfToken;
+
+//     form.appendChild(inputEmail);
+//     form.appendChild(inputToken);
+
+//     document.body.appendChild(form);
+//     form.submit();
+// }
+function resetPassword(email) {
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // Send an AJAX request to reset the password
+    $.ajax({
+        url: "{{ route('password.email') }}",
+        method: 'POST',
+        async: true,
+        data: {
+            _token: csrfToken,
+            email: email
+        },
+        success: function(data) {
+            Swal.fire('Berjaya', 'Emel telah dihantar', 'success');
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+
     backtoListingFunction = function(){
         $('#listOfUser').show(500);
         $('#showUser').hide(500);
@@ -158,6 +219,7 @@
             $('#userFormModal span[name="the_eye"]').attr('hidden', false);
             $('#userFormModal span[name="the_eye_2"]').attr('hidden', false);
             $('#userFormModal form[name="FormUserModal"]').attr('action', '{{route("user.store")}}');
+            $('#userFormModal form[name="FormUserModal"]').attr('data-swal', 'Pengguna berjaya ditambah. Email telah dihantar kepada pengguna.');
             $('#userFormModal input[name="_method"]').attr('value', 'POST');
             $('#userFormModal select[name="department_ministry_code"]').val("").trigger('change');
             $('#userFormModal select[name="skim_code"]').val("").trigger('change');
@@ -204,6 +266,7 @@
                     $('#userFormModal span[name="the_eye_2"]').attr('hidden', true);
                     $('#userFormModal span[name="the_eye_2"]').attr('hidden', true);
                     $('#userFormModal form[name="FormUserModal"]').attr('action',url2 );
+                    $('#userFormModal form[name="FormUserModal"]').attr('data-swal', 'Maklumat berjaya dikemaskini.');
                     $('#userFormModal input[name="_method"]').attr('value','PUT' );
                     $('#userFormModal select[name="department_ministry_code"]').val(data.detail.ref_department_ministry_code).trigger('change');
                     $('#userFormModal select[name="skim_code"]').val(data.detail.ref_skim_code).trigger('change');

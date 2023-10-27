@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\SalaryGradeDetails;
@@ -42,22 +43,44 @@ class salaryGradeDetailsController extends Controller
             }
         }
 
-        $salaryGrade = SalaryGrade::all();
+        $salaryGrade = SalaryGrade::where('sah_yt', 'Y')->get();
+        $ranks = SalaryGradeDetails::select('peringkat')->orderBy('peringkat', 'asc')->distinct()->pluck('peringkat')->filter()->toArray();
 
-        $salaryGradeDetails = SalaryGradeDetails::all();
         if ($request->ajax()) {
-            return Datatables::of($salaryGradeDetails)
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.salary-grade-details')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Butiran Gred Gaji";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            $salaryGradeDetails = SalaryGradeDetails::orderBy('ggh_kod', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $salaryGradeDetails->where('ggh_kod', $request->activity_type_id);
+            }
+
+            if ($request->module_id && $request->module_id != "Lihat Semua") {
+                $salaryGradeDetails->where('peringkat', $request->module_id);
+            }
+
+            return Datatables::of($salaryGradeDetails->get())
                 ->editColumn('ref_salary_grade_code', function ($salaryGradeDetails){
-                    return $salaryGradeDetails->ref_salary_grade_code;
+                    return $salaryGradeDetails->ggh_kod;
                 })
                 ->editColumn('level', function ($salaryGradeDetails) {
-                    return $salaryGradeDetails->level;
+                    return $salaryGradeDetails->peringkat;
                 })
                 ->editColumn('year', function ($salaryGradeDetails){
-                    return $salaryGradeDetails->year;
+                    return $salaryGradeDetails->tahun;
                 })
                 ->editColumn('amount', function ($salaryGradeDetails) {
-                    return $salaryGradeDetails->amount;
+                    return $salaryGradeDetails->amaun;
                 })
                 ->editColumn('action', function ($salaryGradeDetails) use ($accessDelete) {
                     $button = "";
@@ -66,7 +89,7 @@ class salaryGradeDetailsController extends Controller
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
                     $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="salaryGradeDetailsForm('.$salaryGradeDetails->id.')"> <i class="fas fa-pencil text-primary"></i> ';
                     if($accessDelete){
-                        if($salaryGradeDetails->is_active) {
+                        if($salaryGradeDetails->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$salaryGradeDetails->id.'" onclick="toggleActive('.$salaryGradeDetails->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$salaryGradeDetails->id.'" onclick="toggleActive('.$salaryGradeDetails->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
@@ -81,7 +104,21 @@ class salaryGradeDetailsController extends Controller
         }
 
         //pass
-        return view('admin.reference.salary_grade_details', compact('accessAdd', 'accessUpdate', 'accessDelete', 'salaryGrade'));
+        return view('admin.reference.salary_grade_details', compact('accessAdd', 'accessUpdate', 'accessDelete', 'salaryGrade', 'ranks'));
+    }
+
+    public function getCategoriesByParent(Request $request)
+    {
+        $parentCategory = $request->input('parent_category');
+
+        $categories = SalaryGradeDetails::where('ggh_kod', $parentCategory)
+            ->select('peringkat')
+            ->distinct()
+            ->pluck('peringkat')
+            ->filter()
+            ->toArray();
+
+        return response()->json(['categories' => $categories]);
     }
 
     public function store(Request $request)
@@ -90,25 +127,37 @@ class salaryGradeDetailsController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string',
+                'kod' => 'required|string',
                 'level' => 'required|string',
                 'year' => 'required|string',
                 'amount' => 'required|string',
             ],[
-                'code.required' => 'Sila isikan kod',
+                'kod.required' => 'Sila isikan kod',
                 'level.required' => 'Sila isikan tahap gred gaji',
                 'year.required' => 'Sila isikan tahun',
                 'amount.required' => 'Sila isikan jumlah',
             ]);
 
-            SalaryGradeDetails::create([
-                'ref_salary_grade_code' => $request->code,
-                'level' => strtoupper($request->level),
-                'year' => strtoupper($request->year),
-                'amount' => strtoupper($request->amount),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+            $ggd = SalaryGradeDetails::create([
+                'ggh_kod' => $request->kod,
+                'peringkat' => strtoupper($request->level),
+                'tahun' => strtoupper($request->year),
+                'amaun' => strtoupper($request->amount),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.salary-grade-details')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Butiran Gred Gaji";
+            $log->data_new = json_encode($ggd);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -130,6 +179,16 @@ class salaryGradeDetailsController extends Controller
             if (!$salaryGradeDetails) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.salary-grade-details')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Butiran Gred Gaji";
+            $log->data_new = json_encode($salaryGradeDetails);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $salaryGradeDetails]);
 
@@ -148,25 +207,39 @@ class salaryGradeDetailsController extends Controller
             $salaryGradeDetailsId = $request->salaryGradeDetailsId;
             $salaryGradeDetails = SalaryGradeDetails::find($salaryGradeDetailsId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.salary-grade-details')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Butiran Gred Gaji";
+            $log->data_old = json_encode($salaryGradeDetails);
+
             $request->validate([
-                'code' => 'required|string',
+                'kod' => 'required|string',
                 'level' => 'required|string',
                 'year' => 'required|string',
                 'amount' => 'required|string',
             ],[
-                'code.required' => 'Sila isikan kod',
+                'kod.required' => 'Sila isikan kod',
                 'level.required' => 'Sila isikan tahap gred gaji',
                 'year.required' => 'Sila isikan tahun',
                 'amount.required' => 'Sila isikan jumlah',
             ]);
 
             $salaryGradeDetails->update([
-                'ref_salary_grade_code' => $request->code,
-                'level' => strtoupper($request->level),
-                'year' => strtoupper($request->year),
-                'amount' => strtoupper($request->amount),
-                'updated_by' => auth()->user()->id,
+                'ggh_kod' => $request->kod,
+                'peringkat' => strtoupper($request->level),
+                'tahun' => strtoupper($request->year),
+                'amaun' => strtoupper($request->amount),
+                'pengguna' => auth()->user()->id,
             ]);
+
+            $salaryGradeDetailsNewData = SalaryGradeDetails::find($salaryGradeDetailsId);
+            $log->data_new = json_encode($salaryGradeDetailsNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -186,16 +259,51 @@ class salaryGradeDetailsController extends Controller
             $salaryGradeDetailsId = $request->salaryGradeDetailsId;
             $salaryGradeDetails = SalaryGradeDetails::find($salaryGradeDetailsId);
 
-            $is_active = $salaryGradeDetails->is_active;
+            $sah_yt = $salaryGradeDetails->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $salaryGradeDetails->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $salaryGradeDetails = SalaryGradeDetails::find($request-> salaryGradeDetailsId);
+
+            $salaryGradeDetails->delete();
+
+            if (!$salaryGradeDetails) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.salary-grade-details')->firstOrFail()->id;
+            $log->activity_type_id = 5;
+            $log->description = "Hapus Butiran Gred Gaji";
+            $log->data_new = json_encode($salaryGradeDetails);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);

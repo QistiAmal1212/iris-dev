@@ -42,7 +42,7 @@ class RankController extends Controller
             }
         }
 
-        $rank = Rank::all();
+        $rank = Rank::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
 
             $log = new LogSystem;
@@ -58,23 +58,29 @@ class RankController extends Controller
 
             return Datatables::of($rank)
                 ->editColumn('code', function ($rank){
-                    return $rank->code;
+                    return $rank->kod;
                 })
                 ->editColumn('name', function ($rank) {
-                    return $rank->name;
+                    return $rank->diskripsi;
                 })
-                ->editColumn('action', function ($rank) use ($accessDelete) {
+                ->editColumn('action', function ($rank) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="rankForm('.$rank->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
-                        if($rank->is_active) {
+
+                    if($accessUpdate){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="rankForm('.$rank->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        if($rank->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$rank->id.'" onclick="toggleActive('.$rank->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$rank->id.'" onclick="toggleActive('.$rank->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }else{
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="rankForm('.$rank->id.')"> <i class="fas fa-eye text-primary"></i> ';
+                    }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$rank->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 
@@ -93,7 +99,7 @@ class RankController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pangkat,code',
+                'code' => 'required|string|unique:ruj_pangkat,kod',
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -102,10 +108,11 @@ class RankController extends Controller
             ]);
 
             $rank = Rank::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
@@ -177,7 +184,7 @@ class RankController extends Controller
             $log->data_old = json_encode($rank);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pangkat,code,'.$rankId,
+                'code' => 'required|string|unique:ruj_pangkat,kod,'.$rankId,
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -186,9 +193,9 @@ class RankController extends Controller
             ]);
 
             $rank->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $rankNewData = rank::find($rankId);
@@ -217,16 +224,51 @@ class RankController extends Controller
             $rankId = $request->rankId;
             $rank = Rank::find($rankId);
 
-            $is_active = $rank->is_active;
+            $sah_yt = $rank->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $rank->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $rank = Rank::find($request-> rankId);
+
+            $rank->delete();
+
+            if (!$rank) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.rank')->firstOrFail()->id;
+            $log->activity_type_id = 5;
+            $log->description = "Hapus Pangkat";
+            $log->data_new = json_encode($rank);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
