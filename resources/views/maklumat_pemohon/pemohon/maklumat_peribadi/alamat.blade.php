@@ -12,7 +12,7 @@
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        Alamat Tetap
+                        Alamat <br> Tetap
                         <br><div class="badge badge-light-danger fw-bolder" id="tm_alamat_tetap" hidden>Tiada Maklumat</div>
                     </span>
                 </span>
@@ -28,7 +28,7 @@
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        Alamat Surat Menyurat
+                        Alamat <br> Surat <br> Menyurat
                         <br><div class="badge badge-light-danger fw-bolder" id="tm_alamat_surat" hidden>Tiada Maklumat</div>
                     </span>
                 </span>
@@ -47,12 +47,12 @@
                 </a>
             </div> -->
 
-            <form 
-            id="alamatTetapForm" 
-            action="{{ route('alamat-tetap.update') }}" 
-            method="POST" 
-            data-refreshFunctionName="reloadTimeline" 
-            data-refreshFunctionNameIfSuccess="reloadAlamatTetap" 
+            <form
+            id="alamatTetapForm"
+            action="{{ route('alamat-tetap.update') }}"
+            method="POST"
+            data-refreshFunctionName="reloadTimeline"
+            data-refreshFunctionNameIfSuccess="reloadAlamatTetap"
             data-reloadPage="false">
                 @csrf
                 <div class="row">
@@ -125,7 +125,7 @@
         {{-- ALAMAT SURAT MENYURAT --}}
         <div id="alamat-surat-info" class="content parent-tab" role="tabpanel" aria-labelledby="alamat-surat-info-trigger">
             <!--  hide phase 1 -->
-            
+
             <!-- <div class="d-flex justify-content-end align-items-center mb-1" id="update_alamat_surat" style="display:none">
                 <a class="me-3 text-danger" type="button" onclick="editAlamatSurat()">
                     <i class="fa-regular fa-pen-to-square"></i>
@@ -134,12 +134,12 @@
             </div> -->
 
             {{-- Form alamat surat menyurat --}}
-            <form 
-            id="alamatSuratForm" 
-            action="{{ route('alamat-surat.update') }}" 
-            method="POST" 
-            data-refreshFunctionName="reloadTimeline" 
-            data-refreshFunctionNameIfSuccess="reloadAlamatSurat" 
+            <form
+            id="alamatSuratForm"
+            action="{{ route('alamat-surat.update') }}"
+            method="POST"
+            data-refreshFunctionName="reloadTimeline"
+            data-refreshFunctionNameIfSuccess="reloadAlamatSurat"
             data-reloadPage="false">
                 @csrf
                 <div class="row">
@@ -224,7 +224,7 @@
         var permanent_poscode =  $('#permanent_poscode').val();
         var permanent_city =  $('#permanent_city').val();
         var permanent_state =  $('#permanent_state').find(':selected').text();
-     
+
         var dontbypassalamattetap = false;
         if (!permanent_address_1 || permanent_address_1 == 'Tiada Maklumat' || permanent_address_1 =='') {
             if (!permanent_address_2 || permanent_address_2 == 'Tiada Maklumat' || permanent_address_2 =='') {
@@ -233,10 +233,10 @@
                         if (!permanent_city || permanent_city == 'Tiada Maklumat' || permanent_city == '') {
                             if (!permanent_state || permanent_state == 'Tiada Maklumat' || permanent_state == '') {
                                 dontbypassalamattetap = true
-                            } 
-                        } 
-                    } 
-                }   
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -252,7 +252,7 @@
         var poscode = $('#poscode').val();
         var city = $('#city').val();
         var state = $('#state').find(':selected').text();
-       
+
         var dontbypassalamatsurat = false;
          if (!address_1 || address_1 == 'Tiada Maklumat' || address_1 == '') {
             if (!address_2 || address_2 == 'Tiada Maklumat' || address_2 == '') {
@@ -261,10 +261,10 @@
                         if (!city || city == 'Tiada Maklumat' || city =='') {
                             if (!state || state == 'Tiada Maklumat' || state == '') {
                                 dontbypassalamatsurat = true
-                            } 
-                        } 
-                    } 
-                }   
+                            }
+                        }
+                    }
+                }
             }
         }
          if (dontbypassalamatsurat) {
@@ -320,7 +320,7 @@
                 checkkemaskinialamat('surat');
             }
         }
-      
+
     }
     function checkkemaskinialamat(type) {
         var datachanged = false;

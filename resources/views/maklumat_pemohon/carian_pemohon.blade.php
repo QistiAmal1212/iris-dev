@@ -178,7 +178,7 @@ Maklumat Pemohon
                             @include('maklumat_pemohon.pemohon.maklumat_tambahan')
                         </div>
                         <div class="tab-pane fade" id="tatatertib" role="tabpanel" aria-labelledby="tatatertib-tab">
-                            <hr>
+                            {{-- <hr> --}}
                             @include('maklumat_pemohon.pemohon.maklumat_tatatertib.tatatertib')
                         </div>
                     </div>
