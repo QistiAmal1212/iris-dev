@@ -18,7 +18,7 @@ data-reloadPage="false">
     <input type="hidden" name="pusat_temuduga_no_pengenalan" id="pusat_temuduga_no_pengenalan" value="">
     <!--  hide phase 1 -->
     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
-        <label class="form-label">Pusat Temuduga</label>
+        <label class="form-label">Pusat Temu Duga</label>
         <select class="select2 form-control" value="" id="pusat_temuduga" name="pusat_temuduga" disabled>
             <option value=""></option>
             @foreach($pusatTemuduga as $pusat)

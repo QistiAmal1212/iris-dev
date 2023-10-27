@@ -47,6 +47,7 @@ use App\Models\Calon\CalonBakat;
 use App\Models\Calon\CalonGarisMasa;
 use App\Models\Calon\CalonSvm;
 use App\Models\Calon\CalonSpmUlangan;
+use App\Models\Calon\CalonStpmPngk;
 use App\Models\Calon\CalonProfesional;
 use App\Models\Reference\Matriculation;
 use App\Models\Reference\MatriculationCourse;
@@ -1574,17 +1575,37 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
+            // Step 1: Get the full dataset
+            $fullDataset = CalonKeputusanSekolah::where('cal_no_pengenalan', $request->noPengenalan)
+                ->where('kep_terbuka', 1)
+                ->where('mpel_tkt', 6)
+                ->where('jenis_sijil', 1)
+                ->with('subjectForm6')
+                ->whereHas('subjectForm6', function ($query) {
+                    $query->where('tkt', '6');
+                })
+                ->select(['*', 'tahun AS tahun_row'])
+                ->orderBy('mpel_kod', 'asc')
+                ->get()
+                ->toArray();
 
-            $candidateStpm = CalonKeputusanSekolah::where('cal_no_pengenalan', $request->noPengenalan)
+            // Step 2: Get the distinct "tahun" value
+            $tahunValue = CalonKeputusanSekolah::where('cal_no_pengenalan', $request->noPengenalan)
             ->where('kep_terbuka', 1)
             ->where('mpel_tkt', 6)
             ->where('jenis_sijil', 1)
-            ->with('subjectForm6')
-            ->whereHas('subjectForm6', function ($query) {
-                $query->where('tkt', '6');
-            })->orderBy('mpel_kod','asc')->get();
+            ->select('tahun')
+            ->distinct()
+            ->first();
 
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateStpm]);
+            $pngkStpm = CalonStpmPngk::where('tahun', $tahunValue->tahun)->where('no_pengenalan', $request->noPengenalan)->first();
+
+            $dataStpm = [
+                'subjek' => $fullDataset,
+                'pngk' => $pngkStpm,
+            ];
+
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $dataStpm]);
 
         } catch (\Throwable $e) {
 
@@ -1699,17 +1720,37 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
+            // Step 1: Get the full dataset
+            $fullDataset = CalonKeputusanSekolah::where('cal_no_pengenalan', $request->noPengenalan)
+                ->where('kep_terbuka', 2)
+                ->where('mpel_tkt', 6)
+                ->where('jenis_sijil', 1)
+                ->with('subjectForm6')
+                ->whereHas('subjectForm6', function ($query) {
+                    $query->where('tkt', '6');
+                })
+                ->select(['*', 'tahun AS tahun_row'])
+                ->orderBy('mpel_kod', 'asc')
+                ->get()
+                ->toArray();
 
-            $candidateStpm = CalonKeputusanSekolah::where('cal_no_pengenalan', $request->noPengenalan)
+            // Step 2: Get the distinct "tahun" value
+            $tahunValue = CalonKeputusanSekolah::where('cal_no_pengenalan', $request->noPengenalan)
             ->where('kep_terbuka', 2)
             ->where('mpel_tkt', 6)
             ->where('jenis_sijil', 1)
-            ->with('subjectForm6')
-            ->whereHas('subjectForm6', function ($query) {
-                $query->where('tkt', '6');
-            })->orderBy('mpel_kod','asc')->get();
+            ->select('tahun')
+            ->distinct()
+            ->first();
 
-            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateStpm]);
+            $pngkStpm = CalonStpmPngk::where('tahun', $tahunValue->tahun)->where('no_pengenalan', $request->noPengenalan)->first();
+
+            $dataStpm = [
+                'subjek' => $fullDataset,
+                'pngk' => $pngkStpm,
+            ];
+
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $dataStpm]);
 
         } catch (\Throwable $e) {
 

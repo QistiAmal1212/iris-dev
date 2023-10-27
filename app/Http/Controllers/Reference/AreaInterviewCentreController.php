@@ -85,7 +85,7 @@ class AreaInterviewCentreController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kawasan pusat temuduga',
+                'name.required' => 'Sila isikan kawasan pusat temu duga',
             ]);
 
             AreaInterviewCentre::create([
@@ -141,7 +141,7 @@ class AreaInterviewCentreController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kawasan pusat temuduga',
+                'name.required' => 'Sila isikan kawasan pusat temu duga',
             ]);
 
             $areaInterviewCentre->update([

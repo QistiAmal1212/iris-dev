@@ -315,7 +315,6 @@
                 $('#editbutton_pt').val(0);
                 $.each(data.detail, function(i, item) {
                     if(item){
-                        console.log(item)
                         trPt += '<hr><div class="row mt-2 mb-2"><div class="col-12 text-end mb-2">';
                         trPt += '</div>';
                         if(item.tahun_lulus){ trPt += '<div class="col-sm-3 col-md-3 col-lg-3 mb-1"><label class="form-label">Tahun</label><input type="text" class="form-control" value="' + item.tahun_lulus + '" disabled></div>'; }

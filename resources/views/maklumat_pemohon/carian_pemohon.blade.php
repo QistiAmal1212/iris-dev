@@ -1158,8 +1158,10 @@ Maklumat Pemohon
                     $('#table-spmu tbody').empty();
 
                     $('#table-stpm1 tbody').empty();
+                    $('#pngk_stpm1').html('');
 
                     $('#table-stpm2 tbody').empty();
+                    $('#pngk_stpm2').html('');
 
                     $('#table-stam1 tbody').empty();
 
@@ -1388,8 +1390,10 @@ Maklumat Pemohon
         $('#table-spmu tbody').empty();
 
         $('#table-stpm1 tbody').empty();
+        $('#pngk_stpm1').html('');
 
         $('#table-stpm2 tbody').empty();
+        $('#pngk_stpm2').html('');
 
         $('#table-stam1 tbody').empty();
 

@@ -146,8 +146,9 @@
                         <tbody></tbody>
                         <tfoot>
                             <tr class="bg-light-primary">
-                                <td class="text-end" colspan="3">PNGK</td>
-                                <td class="text-start fw-bolder" colspan="2">auto-calculated</td>
+                                <td class="text-end" colspan="4">PNGK</td>
+                                {{-- <td class="text-start fw-bolder" colspan="2">auto-calculated</td> --}}
+                                <td class="fw-bolder" id="pngk_stpm1" colspan="1" align="center"></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -237,8 +238,9 @@
                         <tbody></tbody>
                         <tfoot>
                             <tr class="bg-light-primary">
-                                <td class="text-end" colspan="3">PNGK</td>
-                                <td class="text-start fw-bolder" colspan="2">auto-calculated</td>
+                                <td class="text-end" colspan="4">PNGK</td>
+                                {{-- <td class="text-start fw-bolder" colspan="2">auto-calculated</td> --}}
+                                <td class="fw-bolder" id="pngk_stpm2" colspan="1" align="center"></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -583,6 +585,7 @@
             $('#mp_kod_stam2').val(value);
         }
     }
+
     function confirmSubmitstam(btnName, newValues, columnHead) {
         if (btnName == 'btnEditStam1') {
             var originalVal = JSON.parse($('#currentvalues_stam1').val());
@@ -665,6 +668,7 @@
             disbalefieldsstam(type);
         }
     }
+
     function disbalefieldsstam(type) {
         if (type == 'stam1') {
             $('#stam1Form select[name="subjek_stam1"]').attr('disabled', true);
@@ -677,6 +681,7 @@
         }
         $("#button_action_"+type).attr("style", "display:none");
     }
+
     function editStpm1() {
         $('#stpm1Form select[name="subjek_stpm1"]').attr('disabled', false);
         $('#stpm1Form select[name="gred_stpm1"]').attr('disabled', false);
@@ -710,7 +715,7 @@
                 $('#table-stpm1 tbody').empty();
                 var trStpm = '';
                 var bilStpm = 0;
-                $.each(data.detail, function(i, item) {
+                $.each(data.detail.subjek, function(i, item) {
                     if (item.subject_form6 != null) {
                         bilStpm += 1;
                         trStpm += '<tr>';
@@ -737,6 +742,12 @@
                     $('#tm_stpm1_hidden').val(1);
                     var tmStpm1Element = $("#tm_stpm1");
                     tmStpm1Element.attr("hidden", true);
+                }
+
+                if(data.detail.pngk != null){
+                    $('#pngk_stpm1').html(data.detail.pngk.pngk);
+                } else {
+                    $('#pngk_stpm1').html('Tiada Maklumat');
                 }
 
                 $(document).on('click', '.editStpm1-btn', function() {
@@ -809,7 +820,7 @@
                 $('#table-stpm2 tbody').empty();
                 var trStpm = '';
                 var bilStpm = 0;
-                $.each(data.detail, function(i, item) {
+                $.each(data.detail.subjek, function(i, item) {
                     if (item.subject_form6 != null) {
                         bilStpm += 1;
                         trStpm += '<tr>';
@@ -829,6 +840,12 @@
                 if($('#table-stpm2 tbody').is(':empty')){
                     var trStpm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
                     $('#table-stpm2 tbody').append(trStpm);
+                }
+
+                if(data.detail.pngk != null){
+                    $('#pngk_stpm2').html(data.detail.pngk.pngk);
+                } else {
+                    $('#pngk_stpm2').html('Tiada Maklumat');
                 }
 
                 $(document).on('click', '.editStpm2-btn', function() {
@@ -1003,9 +1020,7 @@
                 tahun_stam2: $('#tahun_stam2').val()
             };
             $('#currentvalues_stam2').val(JSON.stringify(check_data));
-            console.log(check_data)
            var c =  $('#currentvalues_stam2').val(JSON.stringify(check_data));
-            console.log(c)
         } else {
             checkkemaskinistam('stam2');
         }
@@ -1196,7 +1211,6 @@
                         data: {id: id},
                         dataType: 'json',
                         success: function(data) {
-                            console.log(data)
                             $('#matrikulasiForm input[name="id_matrikulasi"]').val(id);
                             $('#matrikulasiForm select[name="kolej_matrikulasi"]').val(data.college.kod).trigger('change');
                             $('#matrikulasiForm select[name="jurusan_matrikulasi"]').val(data.course.kod).trigger('change');
