@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Pusat Temuduga
+    Pusat Temu Duga
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('msg.home') }}</a></li>
-    <li class="breadcrumb-item"><a>Pusat Temuduga</a>
+    <li class="breadcrumb-item"><a>Pusat Temu Duga</a>
     </li>
 @endsection
 
@@ -41,10 +41,10 @@
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Senarai Pusat Temuduga</h4>
+            <h4 class="card-title">Senarai Pusat Temu Duga</h4>
             @if ($accessAdd)
                 <button type="button" class="btn btn-primary btn-md float-right" onclick="interviewCentreForm()">
-                    <i class="fa-solid fa-add"></i> Tambah Pusat Temuduga
+                    <i class="fa-solid fa-add"></i> Tambah Pusat Temu Duga
                 </button>
             @endif
         </div>
@@ -273,7 +273,7 @@
                 $('#interviewCentreForm input[name="kod_pendek"]').val("");
                 $('#interviewCentreForm input[name="code"]').prop('readonly', false);
 
-                $('#title-role').html('Tambah Pusat Temuduga');
+                $('#title-role').html('Tambah Pusat Temu Duga');
 
                 if (accessAdd == '') {
                     $('#btn_fake').attr('hidden', true);
@@ -306,7 +306,7 @@
                         $('#interviewCentreForm input[name="kod_pendek"]').val(data.detail.kod_pendek);
                         $('#interviewCentreForm input[name="code"]').prop('readonly', true);
 
-                        $('#title-role').html('Kemaskini Pusat Temuduga');
+                        $('#title-role').html('Kemaskini Pusat Temu Duga');
 
                         if (accessUpdate == '') {
                             $('#btn_fake').attr('hidden', true);

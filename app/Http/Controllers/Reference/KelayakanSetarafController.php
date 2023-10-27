@@ -48,7 +48,7 @@ class KelayakanSetarafController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.kelayakansetaraf')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Kelayakan Setaraf";
+            $log->description = "Lihat Senarai Kelayakan Akademik";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -104,7 +104,7 @@ class KelayakanSetarafController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kelayakan setaraf',
+                'name.required' => 'Sila isikan kelayakan akademik',
             ]);
 
             $kelayakansetaraf = KelayakanSetaraf::create([
@@ -118,7 +118,7 @@ class KelayakanSetarafController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.kelayakansetaraf')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Kelayakan Setaraf";
+            $log->description = "Tambah Kelayakan Akademik";
             $log->data_new = json_encode($kelayakansetaraf);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -150,7 +150,7 @@ class KelayakanSetarafController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.kelayakansetaraf')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Kelayakan Setaraf";
+            $log->description = "Lihat Maklumat Kelayakan Akademik";
             $log->data_new = json_encode($kelayakansetaraf);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -180,7 +180,7 @@ class KelayakanSetarafController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.kelayakansetaraf')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Kelayakan Setaraf";
+            $log->description = "Kemaskini Maklumat Kelayakan Akademik";
             $log->data_old = json_encode($kelayakansetaraf);
 
             $request->validate([
@@ -189,7 +189,7 @@ class KelayakanSetarafController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kelayakan setaraf',
+                'name.required' => 'Sila isikan kelayakan akademik',
             ]);
 
             $kelayakansetaraf->update([
@@ -257,7 +257,7 @@ class KelayakanSetarafController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.kelayakansetaraf')->firstOrFail()->id;
             $log->activity_type_id = 5;
-            $log->description = "Hapus Kelayakan Setaraf";
+            $log->description = "Hapus Kelayakan Akademik";
             $log->data_new = json_encode($kelayakansetaraf);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());

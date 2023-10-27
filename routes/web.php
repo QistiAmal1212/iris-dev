@@ -402,7 +402,7 @@ Route::prefix('admin')->group(function () {
             Route::post('delete/{salaryGradeDetailsId}', [SalaryGradeDetailsController::class, 'deleteItem'])->name('admin.reference.salary-grade-details.delete');
         });
 
-        Route::prefix('pusat_temuduga')->group(function () {
+        Route::prefix('pusat_temu_duga')->group(function () {
             Route::get('/', [InterviewCentreController::class, 'index'])->name('admin.reference.interview-centre');
             Route::post('create', [InterviewCentreController::class, 'store'])->name('admin.reference.interview-centre.store');
             Route::get('edit/{interviewCentreId}', [InterviewCentreController::class, 'edit'])->name('admin.reference.interview-centre.edit');
@@ -521,7 +521,7 @@ Route::prefix('admin')->group(function () {
             Route::post('delete/{zontelefonId}', [ZonTelefonController::class, 'deleteItem'])->name('admin.reference.zontelefon.delete');
         });
 
-        Route::prefix('kelayakan_setaraf')->group(function () {
+        Route::prefix('kelayakan_akademik')->group(function () {
             Route::get('/', [KelayakanSetarafController::class, 'index'])->name('admin.reference.kelayakansetaraf');
             Route::post('create', [KelayakanSetarafController::class, 'store'])->name('admin.reference.kelayakansetaraf.store');
             Route::get('edit/{kelayakansetarafId}', [KelayakanSetarafController::class, 'edit'])->name('admin.reference.kelayakansetaraf.edit');

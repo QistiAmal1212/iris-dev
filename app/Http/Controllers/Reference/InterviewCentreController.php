@@ -53,7 +53,7 @@ class InterviewCentreController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.interview-centre')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Pusat Temuduga";
+            $log->description = "Lihat Senarai Pusat Temu Duga";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -125,7 +125,7 @@ class InterviewCentreController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan pusat temuduga',
+                'name.required' => 'Sila isikan pusat temu duga',
                 // 'ref_area_code.required' => 'Sila isikan kawasan pusat temuduga',
                 // 'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
                 'ref_state_code.required' => 'Sila isikan negeri',
@@ -146,7 +146,7 @@ class InterviewCentreController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.interview-centre')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Pusat Temuduga";
+            $log->description = "Tambah Pusat Temu Duga";
             $log->data_new = json_encode($iv);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -178,7 +178,7 @@ class InterviewCentreController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.interview-centre')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Pusat Temudaga";
+            $log->description = "Lihat Maklumat Pusat Temu Duga";
             $log->data_new = json_encode($interviewCentre);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -206,7 +206,7 @@ class InterviewCentreController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.interview-centre')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Pusat Temuduga";
+            $log->description = "Kemaskini Maklumat Pusat Temu Duga";
             $log->data_old = json_encode($interviewCentre);
 
             $request->validate([
@@ -218,7 +218,7 @@ class InterviewCentreController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan pusat temuduga',
+                'name.required' => 'Sila isikan pusat temu duga',
                 // 'ref_area_code.required' => 'Sila isikan kawasan pusat temuduga',
                 'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
                 'ref_state_code.required' => 'Sila isikan negeri',
@@ -294,7 +294,7 @@ class InterviewCentreController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.interview-centre')->firstOrFail()->id;
             $log->activity_type_id = 5;
-            $log->description = "Hapus Pusat Temuduga";
+            $log->description = "Hapus Pusat Temu Duga";
             $log->data_new = json_encode($interviewCentre);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());

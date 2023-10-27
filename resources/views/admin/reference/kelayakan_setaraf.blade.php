@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Kelayakan Setaraf
+    Kelayakan Akademik
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('msg.home') }}</a></li>
-    <li class="breadcrumb-item"><a>Kelayakan Setaraf</a>
+    <li class="breadcrumb-item"><a>Kelayakan Akademik</a>
     </li>
 @endsection
 
@@ -41,10 +41,10 @@
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Senarai Kelayakan Setaraf</h4>
+            <h4 class="card-title">Senarai Kelayakan Akademik</h4>
             @if ($accessAdd)
                 <button type="button" class="btn btn-primary btn-md float-right" onclick="kelayakansetarafForm()">
-                    <i class="fa-solid fa-add"></i> Tambah Kelayakan Setaraf
+                    <i class="fa-solid fa-add"></i> Tambah Kelayakan Akademik
                 </button>
             @endif
         </div>
@@ -56,7 +56,7 @@
                         <tr>
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
-                            <th>Kelayakan Setaraf</th>
+                            <th>Kelayakan Akademik</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -145,7 +145,7 @@
                 $('#kelayakansetarafForm input[name="name"]').val("");
                 $('#kelayakansetarafForm input[name="code"]').prop('readonly', false);
 
-                $('#title-role').html('Tambah Kelayakan Setaraf');
+                $('#title-role').html('Tambah Kelayakan Akademik');
 
                 if (accessAdd == '') {
                     $('#btn_fake').attr('hidden', true);
@@ -176,7 +176,7 @@
 
                         $('#kelayakansetarafForm input[name="code"]').prop('readonly', true);
 
-                        $('#title-role').html('Kemaskini Kelayakan Setaraf');
+                        $('#title-role').html('Kemaskini Kelayakan Akademik');
 
                         if (accessUpdate == '') {
                             $('#btn_fake').attr('hidden', true);
