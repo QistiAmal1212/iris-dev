@@ -70,7 +70,7 @@ class MenuController extends Controller
                 $log->ip_address = $request->ip();
                 $log->created_by_user_id = auth()->id();
                 $log->save();
-                
+
                 return Datatables::of($menuLevel)
                     ->editColumn('sequence', function ($menuLevel) {
                         return $menuLevel->sequence;
@@ -204,6 +204,7 @@ class MenuController extends Controller
         $masterModule = MasterModule::whereNot('code', 'home')->get();
         $menuLevel2 = SecurityMenu::where('level', 1)->get();
         $menuLevel3 = SecurityMenu::where('level', 2)->get();
+        // $menuLevel4 = SecurityMenu::where('level', 3)->get();
 
         $log = new LogSystem;
         $log->module_id = MasterModule::where('code', 'admin.security.menu')->firstOrFail()->id;
@@ -233,7 +234,7 @@ class MenuController extends Controller
                 'type' => 'required|string|in:Web,Menu',
                 'module' => 'required_if:type,Web|nullable|integer|exists:master_module,id|unique:security_menu,module_id,'.$menuId,
                 'level' => 'required|integer|between:1,3',
-                'menu_link' => 'required_if:level,2,3|integer|exists:security_menu,id',
+                'menu_link' => 'nullable|integer|exists:security_menu,id|required_if:level,2,3',
             ]);
 
             $log = new LogSystem;
@@ -249,10 +250,11 @@ class MenuController extends Controller
                 'module_id' => ($request->type == 'Web') ? $request->module : null,
                 'level' => $request->level,
                 'menu_link' => ($request->level != 1) ? $request->menu_link : null,
+                'sequence' => $request->turutan,
             ]);
 
             //For Audit Trail
-            $menuNewData = SecurityMenu::with('module')->find($menu->id); 
+            $menuNewData = SecurityMenu::with('module')->find($menu->id);
             $menuNewData->menu_link_details = SecurityMenu::find($menuNewData->menu_link);
 
             $log->data_new = json_encode($menuNewData);

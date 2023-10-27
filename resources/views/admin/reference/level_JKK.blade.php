@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Tahap JKK
+    Tingkatan JKK
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-    <li class="breadcrumb-item"><a>Tahap JKK</a>
+    <li class="breadcrumb-item"><a>Tingkatan JKK</a>
     </li>
 @endsection
 
@@ -42,10 +42,10 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Tahap JKK</h4>
+        <h4 class="card-title">Senarai Tingkatan JKK</h4>
         @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="levelJKKForm()">
-            <i class="fa-solid fa-add"></i> Tambah Tahap JKK
+            <i class="fa-solid fa-add"></i> Tambah Tingkatan JKK
         </button>
         @endif
     </div>
@@ -58,7 +58,7 @@
                     <tr>
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
-                        <th>Tahap JKK</th>
+                        <th>Tingkatan JKK</th>
                         <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
@@ -148,7 +148,7 @@
             $('#levelJKKForm input[name="name"]').val("");
             $('#levelJKKForm input[name="code"]').prop('readonly', false);
 
-            $('#title-role').html('Tambah Tahap JKK');
+            $('#title-role').html('Tambah Tingkatan JKK');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -174,11 +174,11 @@
                     url2 = url2.replace(':replaceThis', level_JKK_id);
 
                     $('#levelJKKForm').attr('action',url2 );
-                    $('#levelJKKForm input[name="code"]').val(data.detail.code);
-                    $('#levelJKKForm input[name="name"]').val(data.detail.name);
+                    $('#levelJKKForm input[name="code"]').val(data.detail.kod);
+                    $('#levelJKKForm input[name="name"]').val(data.detail.diskripsi);
                     $('#levelJKKForm input[name="code"]').prop('readonly', true);
 
-                    $('#title-role').html('Kemaskini Tahap JKK');
+                    $('#title-role').html('Kemaskini Tingkatan JKK');
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);
@@ -223,6 +223,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(levelJKKId){
+        var url = "{{ route('admin.reference.level-JKK.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', levelJKKId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
 
 </script>

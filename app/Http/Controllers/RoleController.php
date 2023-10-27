@@ -56,9 +56,10 @@ class RoleController extends Controller
         $permissions = Permission::get();
         $masterFunction = MasterFunction::all();
         $securityMenu = SecurityMenu::where('level', '1')->get();
+        $allRoles = Role::orderBy('name', 'asc')->get();
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
         // $roles = Role::paginate(20);
-        $roles = Role::all();
+        $roles = Role::orderBy('is_internal', 'desc')->orderBy('name', 'asc')->get();
 
         if ($request->ajax()) {
 
@@ -80,9 +81,9 @@ class RoleController extends Controller
                     ->editColumn('name', function ($roles) {
                         return $roles->name;
                     })
-                    ->editColumn('display_name', function ($roles) {
-                        return $roles->display_name;
-                    })
+                    // ->editColumn('display_name', function ($roles) {
+                    //     return $roles->display_name;
+                    // })
                     ->editColumn('description', function ($roles) {
                         return $roles->description;
                     })
@@ -98,23 +99,20 @@ class RoleController extends Controller
                             return $label;
                         }
                     })
-                    ->editColumn('action', function ($roles) use ($accessDelete) {
+                    ->editColumn('action', function ($roles) use ($accessDelete, $accessUpdate) {
                         $button = "";
 
                         $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
 
-                        //view role
-                        //$button .= '<a class="btn btn-xs btn-default" onclick="viewOnlyForm('.$roles->id.')"> <i class="fas fa-eye text-seconday"></i> ';
+                        if($accessUpdate){
+                            $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'edit\')" data-toggle="tooltip" data-placement="top" title="kemas kini"> <i class="fas fa-pencil text-primary"></i> ';
+                        }else{
+                            $button .= '<a class="btn btn-xs btn-default" onclick="actionForm('.$roles->id.', \'edit\')" data-toggle="tooltip" data-placement="top" title="kemas kini"> <i class="fas fa-eye text-primary"></i> ';
+                        }
+                        if($accessDelete){
+                            $button .= '<a class="btn btn-xs btn-default" onclick="deleteRole('.$roles->id.')" data-toggle="tooltip" data-placement="top" title="hapus"> <i class="fas fa-trash text-danger"></i> ';
+                        }
 
-                        //edit role
-                        $button .= '<a class="btn btn-xs btn-default" onclick="viewForm('.$roles->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-
-                        //delete role
-                        // $button .= '<a class="btn btn-xs btn-default" title="" onclick="$(`#rolesDeleteButton_'.$roles->id.'`).trigger(`click`);" > <i class="fas fa-trash text-danger"></i> </a>';
-                        // $button .= "</div>";
-                        // $button .= '<form action="'.route('roles.delete',['roleId' => $roles->id]).'" method="post" refreshFunctionDivId="RoleList">';
-                        // $button .= '<button id="rolesDeleteButton_'.$roles->id.'" type="button" hidden onclick="confirmBeforeSubmit(this)"></button>';
-                        // $button .= '</form>';
                         $button .= '</div>';
 
                         return $button;
@@ -123,7 +121,7 @@ class RoleController extends Controller
                     ->make(true);
             }
 
-        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles', 'masterFunction', 'securityMenu', 'accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.role.index', compact('roles', 'permissions', 'internalRoles', 'externalRoles', 'countInternalRoles', 'countExternalRoles', 'masterFunction', 'securityMenu', 'accessAdd', 'accessUpdate', 'accessDelete', 'allRoles'));
     }
 
     public function create()
@@ -136,17 +134,30 @@ class RoleController extends Controller
     {
         DB::beginTransaction();
         try {
-            // $validatedData = $request->validate([
-            //     'role_name' => 'required|string',
-            //     'role_description' => 'required|string',
-            //     'role_display' => 'required|string',
-            //     'role_level' => 'required|boolean'
-            // ]);
+            $validatedData = $request->validate([
+                'role_name' => 'required|string',
+                'role_description' => 'required|string',
+                // 'role_display' => 'required|string',
+                'role_level' => 'required|boolean',
+                'access_function' => 'required|array',
+                'level_one' => 'required|array',
+                'level_two' => 'required|array',
+                'level_three' => 'required|array',
+            ],[
+                'role_name.required' => 'Sila isikan nama peranan',
+                'role_description.required' => 'Sila isikan diskripsi peranan',
+                'role_level.required' => 'Sila pilih jenis peranan',
+                'access_function.required' => 'Sila pilih capaian akses',
+                'level_one.required' => 'Sila pilih menu level 1',
+                'level_two.required' => 'Sila pilih menu level 2',
+                'level_three.required' => 'Sila pilih menu level 3',
+
+            ]);
 
             $role = Role::create([
                 'name' => $request->role_name,
                 'description' => $request->role_description,
-                'display_name' => $request->role_display,
+                'display_name' => $request->role_name,
                 'is_internal' => $request->role_level,
                 'guard_name' => 'web'
             ]);
@@ -190,7 +201,7 @@ class RoleController extends Controller
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
-            
+
         } catch (\Throwable $e) {
 
             DB::rollback();
@@ -219,7 +230,7 @@ class RoleController extends Controller
             $validatedData = $request->validate([
                 'role_name' => 'required|string',
                 'role_description' => 'required|string',
-                'role_display' => 'required|string',
+                // 'role_display' => 'required|string',
                 'role_level' => 'required|boolean'
             ]);
 
@@ -231,7 +242,7 @@ class RoleController extends Controller
 
             $role->name = $request->role_name;
             $role->description = $request->role_description;
-            $role->display_name = $request->role_display;
+            $role->display_name = $request->role_name;
             $role->is_internal = $request->role_level;
             // $role->update($request->only('role_name', 'role_description','role_display'));
             $role->syncPermissions($request->permissions ? $request->permissions : []);
@@ -459,8 +470,21 @@ class RoleController extends Controller
             $validatedData = $request->validate([
                 'role_name' => 'required|string',
                 'role_description' => 'required|string',
-                'role_display' => 'required|string',
-                'role_level' => 'required|boolean'
+                // 'role_display' => 'required|string',
+                'role_level' => 'required|boolean',
+                'access_function' => 'required|array',
+                'level_one' => 'required|array',
+                'level_two' => 'required|array',
+                'level_three' => 'required|array',
+            ],[
+                'role_name.required' => 'Sila isikan nama peranan',
+                'role_description.required' => 'Sila isikan diskripsi peranan',
+                'role_level.required' => 'Sila pilih jenis peranan',
+                'access_function.required' => 'Sila pilih capaian akses',
+                'level_one.required' => 'Sila pilih menu level 1',
+                'level_two.required' => 'Sila pilih menu level 2',
+                'level_three.required' => 'Sila pilih menu level 3',
+
             ]);
 
             $role = Role::with(['function', 'menu'])->find($request->roleId);
@@ -474,7 +498,7 @@ class RoleController extends Controller
             $role->update([
                 'name' => $request->role_name,
                 'description' => $request->role_description,
-                'display_name' => $request->role_display,
+                'display_name' => $request->role_name,
                 'is_internal' => $request->role_level,
             ]);
 
@@ -521,5 +545,33 @@ class RoleController extends Controller
         }
 
         //return redirect()->route('role.index');
+    }
+
+    public function deleteRole(Request $request){
+        DB::beginTransaction();
+        try{
+            $role = Role::find($request->roleId);
+
+            if (!$role) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            if ($role->users()->exists()) {
+                throw new \Exception('Peranan gagal dihapuskan. Sila keluarkan pengguna terlebih dahulu');
+            }
+
+            $role->function()->where('role_id', $role->id)->detach();
+            $role->menu()->where('role_id', $role->id)->detach();
+
+            $role->delete();
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Peranan berjaya dihapuskan", 'detail' => "berjaya"]);
+
+        }catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
     }
 }

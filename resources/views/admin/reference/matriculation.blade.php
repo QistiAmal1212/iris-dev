@@ -173,8 +173,8 @@
                     url2 = url2.replace(':replaceThis', matriculation_id);
 
                     $('#matriculationForm').attr('action',url2 );
-                    $('#matriculationForm input[name="code"]').val(data.detail.code);
-                    $('#matriculationForm input[name="name"]').val(data.detail.name);
+                    $('#matriculationForm input[name="code"]').val(data.detail.kod);
+                    $('#matriculationForm input[name="name"]').val(data.detail.diskripsi);
                     $('#matriculationForm  input[name="code"]').prop('readonly', true);
 
 
@@ -223,6 +223,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(matriculationId){
+        var url = "{{ route('admin.reference.matriculation.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', matriculationId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
 
 </script>

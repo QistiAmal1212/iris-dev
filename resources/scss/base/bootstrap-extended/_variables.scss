@@ -22,7 +22,7 @@ $gray-600: #b8c2cc !default; // $gray
 $gray-700: #4e5154 !default;
 $gray-800: #1e1e1e !default; // $gray-dark
 $gray-900: #2a2e30 !default;
-$black: #22292f !default; // 231f48 22292f
+$black: #000000 !default; // 231f48 22292f
 
 $purple: #7367f0 !default; //$primary
 $green: #28c76f !default; //$success
@@ -37,7 +37,7 @@ $danger: $red !default;
 $info: $blue !default;
 $warning: $orange !default;
 $light: $gray-50 !default;
-$dark: #4b4b4b !default;
+$dark: #000000 !default;
 
 $min-contrast-ratio: 3 !default;
 
@@ -106,7 +106,7 @@ $spacers: map-merge(
 //
 // Settings for the `<body>` element.
 $body-bg: #f8f8f8 !default;
-$body-color: #6e6b7b !default;
+$body-color: #000000 !default;
 
 // Links
 //
@@ -169,7 +169,7 @@ $h4-font-size: $font-size-base * 1.286 !default;
 $h5-font-size: $font-size-base * 1.07 !default;
 
 $headings-font-family: inherit !default;
-$headings-color: #5e5873 !default;
+$headings-color: #000000 !default;
 
 $display-font-sizes: (
   1: 6rem,
@@ -257,7 +257,7 @@ $btn-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, bo
 // Forms
 $form-label-margin-bottom: 0.2857rem !default;
 $form-label-font-size: $small-font-size !default;
-$form-label-color: $headings-color !default;
+$form-label-color: #000000 !default;
 
 $input-padding-y: 0.571rem !default;
 $input-padding-x: 1rem !default;
@@ -416,7 +416,7 @@ $dropdown-link-disabled-color: $text-muted !default;
 $dropdown-item-padding-y: 0.65rem !default;
 $dropdown-item-padding-x: 1.28rem !default;
 
-$dropdown-header-color: $headings-color !default;
+$dropdown-header-color: #000000 !default;
 
 $dropdown_spacing: 0.4rem; // (c)
 

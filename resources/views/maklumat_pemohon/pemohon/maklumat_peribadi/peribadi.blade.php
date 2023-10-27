@@ -2,6 +2,14 @@
     .flatpickr-input[disabled]{
         background-color: #efefef;
     }
+    input[type="number"]::-webkit-outer-spin-button, 
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
 </style>
 <div class="card" id="update_personal" style="display:none">
     <div class="d-flex justify-content-end align-items-center my-1 ">
@@ -27,7 +35,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="gender" id="gender" disabled>
                 <option value=""></option>
                 @foreach($genders as $gender)
-                <option value="{{ $gender->code }}">{{ $gender->name }}</option>
+                <option value="{{ $gender->kod }}">{{ strtoupper($gender->diskripsi) }}</option>
                 @endforeach
             </select>
             <div id="genderAlert" style="color: red; font-size: smaller;"></div>
@@ -38,7 +46,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="religion" id="religion" disabled>
                 <option value=""></option>
                 @foreach($religions as $religion)
-                <option value="{{ $religion->kod }}">{{ $religion->nama }}</option>
+                <option value="{{ $religion->kod }}">{{ $religion->diskripsi }}</option>
                 @endforeach
             </select>
             <div id="religionAlert" style="color: red; font-size: smaller;"></div>
@@ -49,7 +57,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="race" id="race" disabled>
                 <option value=""></option>
                 @foreach($races as $race)
-                <option value="{{ $race->kod }}">{{ $race->nama }}</option>
+                <option value="{{ $race->kod }}">{{ $race->diskripsi }}</option>
                 @endforeach
             </select>
             <div id="raceAlert" style="color: red; font-size: smaller;"></div>
@@ -71,7 +79,7 @@ data-reloadPage="false">
             <select class="select2 form-control" name="marital_status" id="marital_status" disabled>
                 <option value=""></option>
                 @foreach($maritalStatuses as $maritalStatus)
-                <option value="{{ $maritalStatus->kod }}">{{ $maritalStatus->nama }}</option>
+                <option value="{{ $maritalStatus->kod }}">{{ $maritalStatus->diskripsi }}</option>
                 @endforeach
             </select>
             <div id="marital_statusAlert" style="color: red; font-size: smaller;"></div>
@@ -79,7 +87,7 @@ data-reloadPage="false">
 
         <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
             <label class="form-label">No. Telefon</label>
-            <input type="text" class="form-control" value="" name="phone_number" id="phone_number" oninput="checkInput('phone_number', 'phone_numberAlert')" disabled>
+            <input type="text" class="form-control" value="" name="phone_number" id="phone_number" oninput="checkInput('phone_number', 'phone_numberAlert')" onkeypress="return event.charCode >= 48 && event.charCode <= 57" disabled>
             <div id="phone_numberAlert" style="color: red; font-size: smaller;"></div>
         </div>
 
@@ -94,11 +102,11 @@ data-reloadPage="false">
     <button type="button" id="btnEditPersonal" hidden onclick="generalFormSubmit(this);"></button>
     <div class="d-flex justify-content-end align-items-center my-1">
         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditPersonal', {
-            gender: $('#gender').val(),
-            religion: $('#religion').val(),
-            race: $('#race').val(),
+            gender: $('#gender').find(':selected').text(),
+            religion: $('#religion').find(':selected').text(),
+            race: $('#race').find(':selected').text(),
             date_of_birth: $('#date_of_birth').val(),
-            marital_status: $('#marital_status').val(),
+            marital_status: $('#marital_status').find(':selected').text(),
             phone_number: $('#phone_number').val(),
             email: $('#email').val()
         },{
@@ -115,9 +123,14 @@ data-reloadPage="false">
         </button>
     </div>
 </div>
+<input type="hidden" name="tukar_log"  id= "tukar_log">
 </form>
+<input type="hidden" name="editbutton" value=0 id= "editbutton">
+
+<textarea id="currentvalues" style="display:none;"></textarea>
 
 <script>
+ 
     function editPersonal() {
         $('#personalForm select[name="gender"]').attr('disabled', false);
         $('#personalForm select[name="religion"]').attr('disabled', false);
@@ -128,6 +141,65 @@ data-reloadPage="false">
         $('#personalForm input[name="email"]').attr('disabled', false);
 
         $("#button_action_personal").attr("style", "display:block");
+
+        var editbuttoncount = $('#editbutton').val();
+        if (editbuttoncount <= 0) {
+            // firsttime
+            $('#editbutton').val(1)
+            var check_data = {
+                gender: $('#gender').find(':selected').text(),
+                religion: $('#religion').find(':selected').text(),
+                race: $('#race').find(':selected').text(),
+                date_of_birth: $('#date_of_birth').val(),
+                marital_status: $('#marital_status').find(':selected').text(),
+                phone_number: $('#phone_number').val(),
+                email: $('#email').val()
+            };
+            $('#currentvalues').val(JSON.stringify(check_data));
+        } else {
+            checkkemaskini();
+        }
+
+    }
+    function checkkemaskini() {
+        
+        var datachanged = false;
+        var checkValue = JSON.parse($('#currentvalues').val());
+   
+        if (checkValue.gender != $('#gender').find(':selected').text()) {
+            datachanged = true;
+        }
+        if (checkValue.religion != $('#religion').find(':selected').text()) {
+            datachanged = true;
+        }
+        if (checkValue.race != $('#race').find(':selected').text()) {
+            datachanged = true;
+        }
+        if (checkValue.date_of_birth != $('#date_of_birth').val()) {
+            datachanged = true;
+        }
+        if (checkValue.marital_status != $('#marital_status').find(':selected').text()) {
+            datachanged = true;
+        }
+        if (checkValue.phone_number != $('#phone_number').val()) {
+            datachanged = true;
+        }
+        if (checkValue.email != $('#email').val()) {
+            datachanged = true;
+        }
+        if (!datachanged) {
+            $('#editbutton').val(0);
+            disbalefields();
+        }
+    }
+    function disbalefields() {
+        $('#personalForm select[name="gender"]').attr('disabled', true);
+            $('#personalForm select[name="religion"]').attr('disabled', true);
+            $('#personalForm select[name="race"]').attr('disabled', true);
+            $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
+            $('#personalForm select[name="marital_status"]').attr('disabled', true);
+            $('#personalForm input[name="phone_number"]').attr('disabled', true);
+            $('#personalForm input[name="email"]').attr('disabled', true);
     }
 
     function reloadPersonal() {
@@ -140,19 +212,19 @@ data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#personalForm select[name="gender"]').val(data.detail.ref_gender_code).trigger('change');
+                $('#personalForm select[name="gender"]').val(data.detail.jan_kod).trigger('change');
                 $('#personalForm select[name="gender"]').attr('disabled', true);
-                $('#personalForm select[name="religion"]').val(data.detail.ref_religion_code).trigger('change');
+                $('#personalForm select[name="religion"]').val(data.detail.agama).trigger('change');
                 $('#personalForm select[name="religion"]').attr('disabled', true);
-                $('#personalForm select[name="race"]').val(data.detail.ref_race_code).trigger('change');
+                $('#personalForm select[name="race"]').val(data.detail.ket_kod).trigger('change');
                 $('#personalForm select[name="race"]').attr('disabled', true);
-                $('#personalForm input[name="date_of_birth"]').val(data.detail.date_of_birth);
+                $('#personalForm input[name="date_of_birth"]').val(data.detail.tarikh_lahir);
                 $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
-                $('#personalForm select[name="marital_status"]').val(data.detail.ref_marital_status_code).trigger('change');
+                $('#personalForm select[name="marital_status"]').val(data.detail.taraf_perkahwinan).trigger('change');
                 $('#personalForm select[name="marital_status"]').attr('disabled', true);
-                $('#personalForm input[name="phone_number"]').val(data.detail.phone_number);
+                $('#personalForm input[name="phone_number"]').val(data.detail.no_tel);
                 $('#personalForm input[name="phone_number"]').attr('disabled', true);
-                $('#personalForm input[name="email"]').val(data.detail.email);
+                $('#personalForm input[name="email"]').val(data.detail.e_mel);
                 $('#personalForm input[name="email"]').attr('disabled', true);
 
                 $("#button_action_personal").attr("style", "display:none");

@@ -14,6 +14,14 @@ Maklumat Profil
 @endsection
 
 @section('content')
+@error('change_password')
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <div class="alert-body">
+            {{ $message }}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@enderror
 <div class="row">
     <div class="col-md-4 col-lg-4 col-xl-4 col-12">
         <div class="card">
@@ -77,8 +85,8 @@ Maklumat Profil
                             <label class="form-label fw-bolder">Kementerian:</label>
                             <select name="department" id="department" class="form-select select2">
                                 @foreach ($departments as $department)
-                                    <option value="{{ $department->id }} {{ $user->ref_department_ministry_code ? 'selected' : '' }}">
-                                        {{ $department->name }}
+                                    <option value="{{ $department->kod }} {{ $user->ref_department_ministry_code ? 'selected' : '' }}">
+                                        {{ $department->diskripsi }}
                                     </option>
                                 @endforeach
                             </select>
@@ -88,8 +96,8 @@ Maklumat Profil
                             <label class="form-label fw-bolder">Jawatan:</label>
                             <select name="skim" id="skim" class="form-select select2">
                                 @foreach ($skims as $skim)
-                                    <option value="{{ $skim->id }} {{ $user->ref_skim_code ? 'selected' : '' }}">
-                                        {{ $skim->name }}
+                                    <option value="{{ $skim->kod }} {{ $user->ref_skim_code ? 'selected' : '' }}">
+                                        {{ $skim->diskripsi }}
                                     </option>
                                 @endforeach
                             </select>
@@ -132,6 +140,8 @@ Maklumat Profil
     </div>
 </div>
 @endsection
+
+
 
 @section('vendor-script')
   <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>

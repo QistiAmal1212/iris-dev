@@ -42,13 +42,12 @@ class SubjectController extends Controller
             }
         }
 
-        $subject = Subject::all();
         if ($request->ajax()) {
 
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
             $log->activity_type_id = 1;
-            $log->description = "Lihat Senarai Subjek";
+            $log->description = "Lihat Senarai Matapelajaran";
             $log->data_old = json_encode($request->input());
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -56,25 +55,40 @@ class SubjectController extends Controller
             $log->created_by_user_id = auth()->id();
             $log->save();
 
-            return Datatables::of($subject)
+            $subject = Subject::orderBy('kod', 'asc');
+
+            if ($request->activity_type_id && $request->activity_type_id != "Lihat Semua") {
+                $subject->where('tkt', $request->activity_type_id);
+            }
+
+            return Datatables::of($subject->get())
                 ->editColumn('code', function ($subject){
-                    return $subject->code;
+                    return $subject->kod;
                 })
                 ->editColumn('name', function ($subject) {
-                    return $subject->name;
+                    return $subject->diskripsi;
                 })
-                ->editColumn('action', function ($subject) use ($accessDelete) {
+                ->editColumn('form', function ($subject) {
+                    return $subject->tkt;
+                })
+                ->editColumn('action', function ($subject) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="subjectForm('.$subject->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
-                        if($subject->is_active) {
+
+                    if($accessUpdate){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="subjectForm('.$subject->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        if($subject->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$subject->id.'" onclick="toggleActive('.$subject->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$subject->id.'" onclick="toggleActive('.$subject->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }else{
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="subjectForm('.$subject->id.')"> <i class="fas fa-eye text-eye"></i> ';
+                    }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$subject->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 
@@ -93,7 +107,7 @@ class SubjectController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_matapelajaran,code',
+                'code' => 'required|string|unique:ruj_matapelajaran,kod',
                 'name' => 'required|string',
                 'form' => 'required|numeric|min:1|max:6',
             ],[
@@ -107,17 +121,18 @@ class SubjectController extends Controller
             ]);
 
             $subject = Subject::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'form' => strtoupper($request->form),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'tkt' => strtoupper($request->form),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
 
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
             $log->activity_type_id = 3;
-            $log->description = "Tambah Subjek";
+            $log->description = "Tambah Matapelajaran";
             $log->data_new = json_encode($subject);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -149,7 +164,7 @@ class SubjectController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
             $log->activity_type_id = 2;
-            $log->description = "Lihat Maklumat Subjek";
+            $log->description = "Lihat Maklumat Matapelajaran";
             $log->data_new = json_encode($subject);
             $log->url = $request->fullUrl();
             $log->method = strtoupper($request->method());
@@ -179,11 +194,11 @@ class SubjectController extends Controller
             $log = new LogSystem;
             $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
             $log->activity_type_id = 4;
-            $log->description = "Kemaskini Maklumat Subjek";
+            $log->description = "Kemaskini Maklumat Matapelajaran";
             $log->data_old = json_encode($subject);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_matapelajaran,code,'.$subjectId,
+                'code' => 'required|string|unique:ruj_matapelajaran,kod,'.$subjectId,
                 'name' => 'required|string',
                 'form' => 'required|numeric|min:1|max:6',
             ],[
@@ -197,10 +212,10 @@ class SubjectController extends Controller
             ]);
 
             $subject->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'form' => strtoupper($request->form),
-                'updated_by' => auth()->user()->id,
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'tkt' => strtoupper($request->form),
+                'pengguna' => auth()->user()->id,
             ]);
 
             $subjectNewData = Subject::find($subjectId);
@@ -229,16 +244,51 @@ class SubjectController extends Controller
             $subjectId = $request->subjectId;
             $subject = Subject::find($subjectId);
 
-            $is_active = $subject->is_active;
+            $sah_yt = $subject->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $subject->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $subject = Subject::find($request-> subjectId);
+
+            $subject->delete();
+
+            if (!$subject) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.subject')->firstOrFail()->id;
+            $log->activity_type_id = 5;
+            $log->description = "Hapus Matapelajaran";
+            $log->data_new = json_encode($subject);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);

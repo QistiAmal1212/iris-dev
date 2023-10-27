@@ -173,8 +173,8 @@
                     url2 = url2.replace(':replaceThis', talent_id);
 
                     $('#talentForm').attr('action',url2 );
-                    $('#talentForm input[name="code"]').val(data.detail.code);
-                    $('#talentForm input[name="name"]').val(data.detail.name);
+                    $('#talentForm input[name="code"]').val(data.detail.kod);
+                    $('#talentForm input[name="name"]').val(data.detail.diskripsi);
                     $('#talentForm input[name="code"]').prop('readonly', true);
 
 
@@ -223,6 +223,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(talentId){
+        var url = "{{ route('admin.reference.talent.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', talentId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
 
 </script>

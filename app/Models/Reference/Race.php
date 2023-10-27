@@ -10,12 +10,14 @@ class Race extends Model
 
     protected $fillable = [
         'kod',
-        'nama',
+        'diskripsi',
         'status_bumiputera',
-        'no_pemerolehan',
         'kump',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
         'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

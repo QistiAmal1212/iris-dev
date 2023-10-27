@@ -149,6 +149,7 @@
             $('#matriculationSubjectForm input[name="name"]').val("");
             $('#matriculationSubjectForm input[name="credit"]').val("");
             $('#matriculationSubjectForm input[name="semester"]').val("");
+            $('#matriculationSubjectForm input[name="category"]').val("");
             $('#matriculationSubjectForm input[name="code"]').prop('readonly', false);
 
             $('#title-role').html('Tambah Subjek Matrikulasi');
@@ -177,10 +178,11 @@
                     url2 = url2.replace(':replaceThis', matriculation_subject_id);
 
                     $('#matriculationSubjectForm').attr('action',url2 );
-                    $('#matriculationSubjectForm input[name="code"]').val(data.detail.code);
-                    $('#matriculationSubjectForm input[name="name"]').val(data.detail.name);
-                    $('#matriculationSubjectForm input[name="credit"]').val(data.detail.credit);
+                    $('#matriculationSubjectForm input[name="code"]').val(data.detail.kod);
+                    $('#matriculationSubjectForm input[name="name"]').val(data.detail.diskripsi);
+                    $('#matriculationSubjectForm input[name="credit"]').val(data.detail.kredit);
                     $('#matriculationSubjectForm input[name="semester"]').val(data.detail.semester);
+                    $('#matriculationSubjectForm input[name="category"]').val(data.detail.kategori);
                     $('#matriculationSubjectForm input[name="code"]').prop('readonly', true);
 
                     $('#title-role').html('Kemaskini Subjek Matrikulasi');
@@ -228,6 +230,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(matriculationSubjectId){
+        var url = "{{ route('admin.reference.matriculation-subject.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', matriculationSubjectId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
 
 </script>

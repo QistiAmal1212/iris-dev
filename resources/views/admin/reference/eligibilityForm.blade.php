@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label class="form-label" for="name">Kelayakan
                                     <span class="text text-danger">*</span>
@@ -32,32 +32,34 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-12">
+                        {{-- <div class="col-md-4 col-12">
                             <div class="form-group">
                                 <label class="form-label" for="ref_skim_code">Kod Jawatan <span class="text text-danger">*</span>
                                 </label>
                                 <select class="form-control" name="ref_skim_code" id="ref_skim_code" required>
                                     <option value="">Sila Pilih:-</option>
                                     @foreach ($skim as $skim)
-                                        <option value="{{ $skim->code }}">{{ $skim->code }}</option>
+                                        <option value="{{ $skim->kod }}">{{ $skim->diskripsi }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div> --}}
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label" for="equivalent">Kelayakan Setaraf
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <select class="form-control" name="equivalent" id="equivalent" required>
+                                    <option value="">Sila Pilih:-</option>
+                                    @foreach ($kelayakanSetaraf as $kelayakanSetaraf)
+                                        <option value="{{ $kelayakanSetaraf->kod }}">{{ $kelayakanSetaraf->diskripsi }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label" for="equivalent">Bersamaan
-                                    <span class="text text-danger">*</span>
-                                </label>
-                                <div class="input-group">
-                                    <input type="text" id="equivalent" name="equivalent" value=""
-                                        class="form-control" oninput="this.value = this.value.toUpperCase()" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label" for="rank">Pangkat
+                                <label class="form-label" for="rank">Pangkat Kelayakan
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
@@ -65,7 +67,7 @@
                                         class="form-control" oninput="this.value = this.value.toUpperCase()" required>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <button type="button" id="btn_submit" hidden onclick="generalFormSubmit(this);"></button>
                 </form>

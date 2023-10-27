@@ -64,6 +64,32 @@ class LoginController extends Controller
 
     protected function authenticated($request, $user)
     {
+        if (!$user->is_active) {
+            auth()->logout();
+            return redirect()->route('login')->withErrors(["active" => "Akaun anda sudah tidak aktif. Sila hubungi pentadbir bahagian masing-masing"]);
+        }
+        if ($user->is_blocked) {
+            auth()->logout();
+            return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat. Sila hubungi pentadbir bahagian masing-masing"]);
+        }
+        if($user->last_change_password==null){
+            $user->login_failed_counter = 0;
+            $user->last_login = now();
+            $user->save();
+            return redirect()->to('/admin/user/' . $user->id)->withErrors(["change_password" => "Kata Laluan perlu ditukar untuk kali pertama"]);
+        }
+        $today= now();
+        $lastUpdate = $user->last_change_password;
+        if($today->diffInDays($lastUpdate)>180){
+            $user->login_failed_counter = 0;
+            $user->last_login = now();
+            $user->save();
+            return redirect()->to('/admin/user/' . $user->id)->withErrors(["change_password" => "Kata Laluan perlu ditukar setiap 6 bulan"]);
+        }
+        $user->login_failed_counter = 0;
+        $user->last_login = now();
+        $user->save();
+
         $log = new LogSystem;
         $log->module_id = 1;
         $log->activity_type_id = 6;
@@ -85,6 +111,27 @@ class LoginController extends Controller
         }
         // Cookie::make('no_ic', $user->no_ic, 525600);
         // Cookie::make('password', $request->password, 525600);
+    }
+
+    protected function sendFailedLoginResponse(Request $request){
+        $user = User::where('no_ic', $request->no_ic)->first();
+
+        if($user){
+            $user->login_failed_counter += 1;
+
+            if($user->login_failed_counter >= 5){
+                $user->is_blocked = true;
+                $user->save();
+            }
+            if ($user->is_blocked) {
+                auth()->logout();
+                return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat. Sila hubungi pentadbir bahagian masing-masing"]);
+            }
+
+            $user->save();
+
+        }
+        return redirect()->route('login')->withErrors(["active" => "Kata Laluan Salah"]);
     }
 
     /**

@@ -24,6 +24,17 @@
         width: 100% !important;
         /* word-wrap: break-word; */
     }
+
+    .top-button-container button, .bottom-button-container button {
+        border: 1px solid #ccc;
+        margin: 5px;
+        width: calc(50% - 10px); /* Adjust width as needed */
+    }
+    .middle-text {
+        text-align: center;
+        margin: 10px 0;
+        font-weight: bold;
+    }
 </style>
 
 <div class="col-md-6 col-sm-12">
@@ -96,8 +107,8 @@
                     @if($accessAdd)
                         <div class="card-body text-sm-end text-center ps-sm-0">
                             <!-- <a onclick="viewRoleForm()" class="stretched-link text-nowrap add-new-role"> -->
-                            <a onclick="viewForm()" class="stretched-link text-nowrap add-new-role">
-                                <span class="btn btn-primary mb-1">Tambah Perananan</span>
+                            <a onclick="addOption()" class="stretched-link text-nowrap add-new-role">
+                                <span class="btn btn-primary mb-1">Tambah Peranan</span>
                             </a>
                             <p class="mb-0 text-muted">Tambah peranan, jika peranan belum wujud.</p>
                         </div>
@@ -132,7 +143,7 @@
                         <th>No</th>
                         <th>ID Peranan</th>
                         <th>Nama Peranan</th>
-                        <th>Nama Paparan</th>
+                        {{-- <th>Nama Paparan</th> --}}
                         <th>Penerangan</th>
                         <th>Jenis Peranan</th>
                         <th>Tindakan</th>
@@ -149,8 +160,49 @@
 
 @section('script')
 <script>
+    var table = '';
+    var action = '';
+    //ACTION FORM
+    function actionForm(id, FormAction){
+        action= FormAction;
+        viewForm(id);
+    }
+
+    function addOption(){
+
+        const allRoles = @json($allRoles);
+
+        const options = allRoles.map(role => `<option value="${role.id}">${role.name}</option>`).join('');
+        Swal.fire({
+                title: 'Sila Pilih',
+                html:
+                '<hr><div class="top-button-container"><button class="btn btn-primary" onclick="handleTopButtonClick()">Tambah Peranan</button></div>' +
+                '<div class="middle-text">atau</div>' +
+                '<div class="bottom-button-container">' +
+                    `<select id="optionSelect" class="form-control" style="margin-top: 10px;">${options}</select>` +
+                    '<button class="btn btn-primary mt-2" onclick="handleOptionButtonClick()">Salin Peranan</button>' +
+                '</div>',
+                showConfirmButton: false,
+                showCancelButton: false,
+            });
+    };
+
+    function handleTopButtonClick() {
+        Swal.close();
+        viewForm()
+    }
+
+    function handleOptionButtonClick() {
+        const selectedOption = document.getElementById('optionSelect').value;
+        Swal.close();
+
+        action= 'duplicate';
+
+        viewForm(selectedOption);
+    }
+
     $(function() {
-        var table = $('#RoleList').DataTable({
+        table = $('#RoleList').DataTable({
             orderCellsTop: true,
             colReorder: false,
             pageLength: 10,
@@ -182,13 +234,13 @@
                         return $("<div/>").html(data).text();
                     }
                 },
-                {
-                    data: "display_name",
-                    name: "display_name",
-                    render: function(data, type, row) {
-                        return $("<div/>").html(data).text();
-                    }
-                },
+                // {
+                //     data: "display_name",
+                //     name: "display_name",
+                //     render: function(data, type, row) {
+                //         return $("<div/>").html(data).text();
+                //     }
+                // },
                 {
                     data: "description",
                     name: "description",
@@ -285,7 +337,7 @@
             $('#roleForm input[name="role_name"]').val("");
             $('#roleForm textarea[name="role_description"]').val("");
             $('#roleForm input[name="role_display"]').val("");
-            $('#roleForm select[name="role_level"]').val("");
+            $('#roleForm select[name="role_level"]').val("").trigger('change');
             $('#roleForm select[name="access_function[]"]').val("").trigger('change');
             $("#level_one").attr("onchange","showListMenu('one')");
             $('#roleForm select[name="level_one[]"]').val("").trigger('change');
@@ -308,7 +360,7 @@
             $('#menu-two').removeClass('active dstepper-block');
             $('#menu-three').removeClass('active dstepper-block');
 
-            $('#title-role').html('Add Role');
+            $('#title-role').html('Tambah Peranan');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -330,14 +382,18 @@
                     // console.log(data);
                     id_used = data.detail.id;
                     // console.log(id_used);
-                    url2 = "{{route('role.updateRole',':replaceThis')}}"
-                    url2 = url2.replace(':replaceThis',id_used);
+                    if(action==='edit'){
+                        url2 = "{{route('role.updateRole',':replaceThis')}}"
+                        url2 = url2.replace(':replaceThis',id_used);
+                    }else{
+                        url2 = "{{route('role.store')}}"
+                    }
 
                     $('#roleForm').attr('action',url2 );
                     $('#roleForm input[name="role_name"]').val(data.detail.name);
                     $('#roleForm textarea[name="role_description"]').val(data.detail.description);
                     $('#roleForm input[name="role_display"]').val(data.detail.display_name);
-                    $('#roleForm select[name="role_level"]').val(data.detail.is_internal);
+                    $('#roleForm select[name="role_level"]').val(data.detail.is_internal? 1 : 0).trigger('change');
                     $('#roleForm select[name="access_function[]"]').val(data.detail.listFunction).trigger('change');
                     $("#level_one").attr("onchange","showListMenu('one', "+data.detail.id+")");
                     $('#roleForm select[name="level_one[]"]').val(data.detail.levelOne).trigger('change');
@@ -362,7 +418,12 @@
                     $('#menu-two').removeClass('active dstepper-block');
                     $('#menu-three').removeClass('active dstepper-block');
 
-                    $('#title-role').html('Edit Role');
+
+                    if(action==='edit'){
+                        $('#title-role').html('Kemas Kini Peranan');
+                    }else{
+                        $('#title-role').html('Menyalin Peranan');
+                    }
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);
@@ -462,6 +523,35 @@
             });
         }
     };
+
+    function deleteRole(roleId){
+        var url = "{{ route('roles.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', roleId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan peranan ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        if (data.status === 'success') {
+                            Swal.fire('Berjaya', data.message, 'success');
+                            table.draw();
+                        } else {
+                            Swal.fire('Gagal', data.detail, 'error');
+                        }
+                    }
+                })
+            }
+        })
+
+        }
 
 </script>
 @endsection

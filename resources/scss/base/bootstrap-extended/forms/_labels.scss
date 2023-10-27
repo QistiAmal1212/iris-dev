@@ -9,4 +9,9 @@
 .col-form-label-sm {
   @include font-size($form-label-font-size); // Override the `<legend>` default
   align-self: center;
+  color: #000000;
+}
+
+.form-label{
+    color: #000000;
 }

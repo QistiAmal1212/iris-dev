@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reference;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Reference\MatriculationSubject;
@@ -41,33 +42,51 @@ class MatriculationSubjectController extends Controller
             }
         }
 
-        $matriculationSubject = MatriculationSubject::all();
+        $matriculationSubject = MatriculationSubject::orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.matriculation-subject')->firstOrFail()->id;
+            $log->activity_type_id = 1;
+            $log->description = "Lihat Senarai Subjek Matrikulasi";
+            $log->data_old = json_encode($request->input());
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
             return Datatables::of($matriculationSubject)
                 ->editColumn('code', function ($matriculationSubject){
-                    return $matriculationSubject->code;
+                    return $matriculationSubject->kod;
                 })
                 ->editColumn('name', function ($matriculationSubject) {
-                    return $matriculationSubject->name;
+                    return $matriculationSubject->diskripsi;
                 })
                 ->editColumn('credit', function ($matriculationSubject) {
-                    return $matriculationSubject->credit;
+                    return $matriculationSubject->kredit;
                 })
                 ->editColumn('semester', function ($matriculationSubject) {
                     return $matriculationSubject->semester;
                 })
-                ->editColumn('action', function ($matriculationSubject) use ($accessDelete) {
+                ->editColumn('action', function ($matriculationSubject) use ($accessUpdate, $accessDelete) {
                     $button = "";
 
                     $button .= '<div class="btn-group btn-group-sm d-flex justify-content-center" role="group" aria-label="Action">';
                     // //$button .= '<a onclick="getModalContent(this)" data-action="'.route('role.edit', $roles).'" type="button" class="btn btn-xs btn-default"> <i class="fas fa-eye text-primary"></i> </a>';
-                    $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="matriculationSubjectForm('.$matriculationSubject->id.')"> <i class="fas fa-pencil text-primary"></i> ';
-                    if($accessDelete){
-                        if($matriculationSubject->is_active) {
+
+                    if($accessUpdate){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="matriculationSubjectForm('.$matriculationSubject->id.')"> <i class="fas fa-pencil text-primary"></i> ';
+                        if($matriculationSubject->sah_yt=='Y') {
                             $button .= '<a href="#" class="btn btn-sm btn-default deactivate" data-id="'.$matriculationSubject->id.'" onclick="toggleActive('.$matriculationSubject->id.')"> <i class="fas fa-toggle-on text-success fa-lg"></i> </a>';
                         } else {
                             $button .= '<a href="#" class="btn btn-sm btn-default activate" data-id="'.$matriculationSubject->id.'" onclick="toggleActive('.$matriculationSubject->id.')"> <i class="fas fa-toggle-off text-danger fa-lg"></i> </a>';
                         }
+                    }else{
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="matriculationSubjectForm('.$matriculationSubject->id.')"> <i class="fas fa-eye text-primary"></i> ';
+                    }
+                    if($accessDelete){
+                        $button .= '<a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="deleteItem('.$matriculationSubject->id.')"> <i class="fas fa-trash text-danger"></i> ';
                     }
                     $button .= '</div>';
 
@@ -86,10 +105,11 @@ class MatriculationSubjectController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_subjek_matrikulasi,code',
+                'code' => 'required|string|unique:ruj_subjek_matrikulasi,kod',
                 'name' => 'required|string',
                 'credit' => 'required|numeric',
                 'semester' => 'required|numeric',
+                'category' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -98,16 +118,30 @@ class MatriculationSubjectController extends Controller
                 'credit.numeric' => 'Kredit hendaklah dalam angka digit',
                 'semester.required' => 'Sila isikan semester subjek matrikulasi',
                 'semester.numeric' => 'Semester hendaklah dalam angka digit',
+                'category.required' => 'Sila isikan kategori subjek matrikulasi',
             ]);
 
-            MatriculationSubject::create([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'credit' => strtoupper($request->credit),
+            $subjek  = MatriculationSubject::create([
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'kredit' => strtoupper($request->credit),
                 'semester' => strtoupper($request->semester),
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'kategori' => strtoupper($request->category),
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
+                'sah_yt' => 'Y'
             ]);
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.matriculation-subject')->firstOrFail()->id;
+            $log->activity_type_id = 3;
+            $log->description = "Tambah Subjek Matrikulasi";
+            $log->data_new = json_encode($subjek);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -130,6 +164,16 @@ class MatriculationSubjectController extends Controller
             if (!$matriculationSubject) {
                 return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
             }
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.matriculation-subject')->firstOrFail()->id;
+            $log->activity_type_id = 2;
+            $log->description = "Lihat Maklumat Subjek Matrikulasi";
+            $log->data_new = json_encode($matriculationSubject);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $matriculationSubject]);
 
@@ -148,11 +192,18 @@ class MatriculationSubjectController extends Controller
             $matriculationSubjectId = $request->matriculationSubjectId;
             $matriculationSubject = MatriculationSubject::find($matriculationSubjectId);
 
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.matriculation-subject')->firstOrFail()->id;
+            $log->activity_type_id = 4;
+            $log->description = "Kemaskini Maklumat Subjek Matrikulasi";
+            $log->data_old = json_encode($matriculationSubject);
+
             $request->validate([
-                'code' => 'required|string|unique:ruj_subjek_matrikulasi,code,'.$matriculationSubjectId,
+                'code' => 'required|string|unique:ruj_subjek_matrikulasi,kod,'.$matriculationSubjectId,
                 'name' => 'required|string',
                 'credit' => 'required|numeric',
                 'semester' => 'required|numeric',
+                'category' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -161,15 +212,25 @@ class MatriculationSubjectController extends Controller
                 'credit.numeric' => 'Kredit hendaklah dalam angka digit',
                 'semester.required' => 'Sila isikan semester subjek matrikulasi',
                 'semester.numeric' => 'Semester hendaklah dalam angka digit',
+                'category.required' => 'Sila isikan kategori subjek matrikulasi',
             ]);
 
             $matriculationSubject->update([
-                'code' => $request->code,
-                'name' => strtoupper($request->name),
-                'credit' => strtoupper($request->credit),
+                'kod' => $request->code,
+                'diskripsi' => strtoupper($request->name),
+                'kredit' => strtoupper($request->credit),
                 'semester' => strtoupper($request->semester),
-                'updated_by' => auth()->user()->id,
+                'kategori' => strtoupper($request->category),
+                'pengguna' => auth()->user()->id,
             ]);
+
+            $matriculationSubjectNewData = MatriculationSubject::find($matriculationSubjectId);
+            $log->data_new = json_encode($matriculationSubjectNewData);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
@@ -189,16 +250,51 @@ class MatriculationSubjectController extends Controller
             $matriculationSubjectId = $request->matriculationSubjectId;
             $matriculationSubject = MatriculationSubject::find($matriculationSubjectId);
 
-            $is_active = $matriculationSubject->is_active;
+            $sah_yt = $matriculationSubject->sah_yt;
+
+            if($sah_yt=='Y') $sah_yt = 'T';
+            else $sah_yt = 'Y';
 
             $matriculationSubject->update([
-                'is_active' => !$is_active,
+                'sah_yt' => $sah_yt,
             ]);
 
             DB::commit();
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya", 'success' => true]);
 
         } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+    }
+
+    public function deleteItem(Request $request){
+        DB::beginTransaction();
+        try{
+            $matriculationSubject = MatriculationSubject::find($request-> matriculationSubjectId);
+
+            $matriculationSubject->delete();
+
+            if (!$matriculationSubject) {
+                throw new \Exception('Rekod tidak dijumpai');
+            }
+
+            $log = new LogSystem;
+            $log->module_id = MasterModule::where('code', 'admin.reference.matriculation-subject')->firstOrFail()->id;
+            $log->activity_type_id = 5;
+            $log->description = "Hapus Subjek Matrikulasi";
+            $log->data_new = json_encode($matriculationSubject);
+            $log->url = $request->fullUrl();
+            $log->method = strtoupper($request->method());
+            $log->ip_address = $request->ip();
+            $log->created_by_user_id = auth()->id();
+            $log->save();
+
+            DB::commit();
+            return response()->json(['message' => 'Rekod berjaya dihapuskan'], 200);
+
+        }catch (\Throwable $e) {
 
             DB::rollback();
             return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);

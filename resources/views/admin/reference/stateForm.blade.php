@@ -26,7 +26,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="name" name="name" value="" class="form-control"oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="name" name="name" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
                                 </div>
                             </div>
                         </div>

@@ -10,9 +10,12 @@ class State extends Model
 
     protected $fillable = [
         'kod',
-        'nama',
-        'created_by',
-        'updated_by',
+        'diskripsi',
+        'id_pencipta',
+        'pengguna',
         'sah_yt',
     ];
+
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

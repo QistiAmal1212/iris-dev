@@ -13,7 +13,7 @@ class GredMatapelajaran extends Model
         'jenis',
         'tkt',
         'susunan',
-        'created_by',
-        'updated_by',
+        'id_pencipta',
+        'pengguna',
     ];
 }

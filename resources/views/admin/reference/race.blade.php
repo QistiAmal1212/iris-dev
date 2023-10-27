@@ -143,6 +143,7 @@
                 $('#raceForm').attr('action', '{{ route('admin.reference.race.store') }}');
                 $('#raceForm input[name="code"]').val("");
                 $('#raceForm input[name="name"]').val("");
+                $('#raceForm input[name="kump"]').val("");
                 $('#raceForm input[name="code"]').prop('readonly', false);
 
                 $('#title-role').html('Tambah Keturunan');
@@ -172,7 +173,8 @@
 
                         $('#raceForm').attr('action', url2);
                         $('#raceForm input[name="code"]').val(data.detail.kod);
-                        $('#raceForm input[name="name"]').val(data.detail.nama);
+                        $('#raceForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#raceForm input[name="kump"]').val(data.detail.kump);
 
                         $('#raceForm input[name="code"]').prop('readonly', true);
 
@@ -222,5 +224,29 @@
                 }
             });
         }
+
+        function deleteItem(raceId){
+        var url = "{{ route('admin.reference.race.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', raceId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
+    }
     </script>
 @endsection

@@ -132,6 +132,10 @@
 
         event.preventDefault();
         if(id === null){
+            var ShowButton = $("#lihat-semua");
+            ShowButton.attr("hidden", true);
+            var ShowTable = $("#hide-table");
+            ShowTable.attr("hidden", true);
             $('#salaryGradeForm').attr('action', '{{ route("admin.reference.salary-grade.store") }}');
             $('#salaryGradeForm input[name="code"]').val("");
             $('#salaryGradeForm input[name="name"]').val("");
@@ -155,17 +159,23 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    // console.log(data);
+                    var ShowButton = $("#lihat-semua");
+                    ShowButton.removeAttr("hidden");
+                    var ShowTable = $("#hide-table");
+                    ShowTable.attr("hidden", true);
+
                     salary_grade_id = data.detail.id;
-                    // console.log(id_used);
                     url2 = "{{ route('admin.reference.salary-grade.update',':replaceThis') }}"
                     url2 = url2.replace(':replaceThis', salary_grade_id);
 
                     $('#salaryGradeForm').attr('action',url2 );
-                    $('#salaryGradeForm input[name="code"]').val(data.detail.code);
-                    $('#salaryGradeForm input[name="name"]').val(data.detail.name);
+                    $('#salaryGradeForm input[name="code"]').val(data.detail.kod);
+                    $('#salaryGradeForm input[name="name"]').val(data.detail.diskripsi);
 
                     $('#salaryGradeForm input[name="code"]').prop('readonly', true);
+
+                    $('#lihat-semua').data('gred', data.detail.kod);
+                    $('#kod').val(data.detail.kod);
 
                         $('#salaryGradeForm input[name="code"]').css({
                             'background-color': '#f0f0f0',
@@ -219,6 +229,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(salaryGradeId){
+        var url = "{{ route('admin.reference.salary-grade.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', salaryGradeId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
 
 </script>

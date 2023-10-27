@@ -175,7 +175,7 @@
 
                     $('#religionForm').attr('action',url2 );
                     $('#religionForm input[name="code"]').val(data.detail.kod);
-                    $('#religionForm input[name="name"]').val(data.detail.nama);
+                    $('#religionForm input[name="name"]').val(data.detail.diskripsi);
 
                     $('#religionForm input[name="code"]').prop('readonly', true);
 
@@ -227,6 +227,30 @@
                 }
             });
         }
+
+    function deleteItem(religionId){
+        var url = "{{ route('admin.reference.religion.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', religionId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
+    }
 
 </script>
 @endsection

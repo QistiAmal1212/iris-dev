@@ -41,14 +41,14 @@ class AreaInterviewCentreController extends Controller
             }
         }
 
-        $areaInterviewCentre = AreaInterviewCentre::all();
+        $areaInterviewCentre = AreaInterviewCentre::orderBy('diskripsi', 'asc')->orderBy('kod', 'asc')->get();
         if ($request->ajax()) {
             return Datatables::of($areaInterviewCentre)
                 ->editColumn('kod', function ($areaInterviewCentre){
                     return $areaInterviewCentre->kod;
                 })
                 ->editColumn('nama', function ($areaInterviewCentre) {
-                    return $areaInterviewCentre->nama;
+                    return $areaInterviewCentre->diskripsi;
                 })
                 ->editColumn('action', function ($areaInterviewCentre) use ($accessDelete) {
                     $button = "";
@@ -85,15 +85,15 @@ class AreaInterviewCentreController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kawasan pusat temuduga',
+                'name.required' => 'Sila isikan kawasan pusat temu duga',
             ]);
 
             AreaInterviewCentre::create([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
+                'diskripsi' => strtoupper($request->name),
                 'kawasan_induk' => 1,
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'id_pencipta' => auth()->user()->id,
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();
@@ -141,13 +141,13 @@ class AreaInterviewCentreController extends Controller
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kawasan pusat temuduga',
+                'name.required' => 'Sila isikan kawasan pusat temu duga',
             ]);
 
             $areaInterviewCentre->update([
                 'kod' => $request->code,
-                'nama' => strtoupper($request->name),
-                'updated_by' => auth()->user()->id,
+                'diskripsi' => strtoupper($request->name),
+                'pengguna' => auth()->user()->id,
             ]);
 
             DB::commit();

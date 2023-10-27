@@ -49,8 +49,33 @@
             @endif
         </div>
         <hr>
-
         <div class="card-body">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
+                <div class="row align-items-center">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <label class="form-label" for="code">Carian Jenis</label>
+                        <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
+                            <option value="Lihat Semua" selected>Lihat Semua</option>
+                            @foreach ($jenis as $jen)
+                            <option value="{{ $jen->kod }}">{{ $jen->kod }} - {{ $jen->diskripsi }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <label class="form-label" for="code">Carian Negara</label>
+                        <select name="module_id" id="module_id" class="select2 form-control">
+                            <option value="Lihat Semua" selected>Sila Pilih:-</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                        <button type="submit" class="btn btn-success">
+                          <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
             <div class="table-responsive">
                 <table class="table header_uppercase table-bordered" id="table-institution">
                     <thead>
@@ -58,6 +83,8 @@
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
                             <th>Nama Institusi</th>
+                            <th>Negara</th>
+                            <th>Jenis</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -71,6 +98,53 @@
 
 @section('script')
     <script>
+        $(document).ready(function() {
+        $('#activity_type_id').change(function() {
+            var parentCategory = $(this).val();
+            if(parentCategory && parentCategory!= "Lihat Semua") {
+                $.ajax({
+                    url: "{{ route('admin.reference.institution.getChild') }}",
+                    type: 'GET',
+                    data: {parent_category: parentCategory},
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#module_id').empty();
+                        $('#module_id').append('<option value="Lihat Semua" selected>Lihat Semua</option>');
+                        $.each(data, function(key, value) {
+                            $('#module_id').append('<option value="'+ value.codes +'">'+value.codes +' - '+ value.categories +'</option>');
+                        });
+                    }
+                });
+            }{
+                $('#module_id').empty();
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $('#type').change(function() {
+            var parentCategory = $(this).val();
+            if(parentCategory && parentCategory!= "") {
+                $.ajax({
+                    url: "{{ route('admin.reference.institution.getChild') }}",
+                    type: 'GET',
+                    data: {parent_category: parentCategory},
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#ref_country_code').empty();
+                        $('#ref_country_code').append('<option value="" selected>Sila Pilih:-</option>');
+                        $.each(data, function(key, value) {
+                            $('#ref_country_code').append('<option value="'+ value.codes +'">'+ value.categories +'</option>');
+                        });
+                        $('#institutionForm select[name="ref_country_code"]').val($('#institutionForm input[name="temp"]').val()).trigger('change');
+                    }
+                });
+            }{
+                $('#ref_country_code').empty();
+                $('#ref_country_code').append('<option value="" selected>Sila Pilih:-</option>');
+            }
+        });
+    });
         var table = $('#table-institution').DataTable({
             orderCellsTop: true,
             colReorder: false,
@@ -106,6 +180,20 @@
                     }
                 },
                 {
+                    data: "neg",
+                    name: "neg",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "jenis",
+                    name: "jenis",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -130,6 +218,91 @@
             }
         });
 
+        $('body').on('submit','#form-search',function(e){
+
+            e.preventDefault();
+
+            var form = $("#form-search");
+
+            if(!form.valid()){
+                return false;
+            }
+            var table;
+
+            table = $('#table-institution').DataTable().destroy();
+
+            var table = $('#table-institution').DataTable({
+                orderCellsTop: true,
+                colReorder: false,
+                pageLength: 25,
+                processing: true,
+                serverSide: true, //enable if data is large (more than 50,000)
+                deferRender: true,
+                ajax: form.attr('action')+"?"+form.serialize(),
+                columns: [{
+                        defaultContent: '',
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: "code",
+                        name: "code",
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "name",
+                        name: "name",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "neg",
+                        name: "neg",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "jenis",
+                        name: "jenis",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+
+                ],
+                language: {
+                    emptyTable: "Tiada data tersedia",
+                    info: "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+                    infoEmpty: "Menunjukkan 0 hingga 0 daripada 0 entri",
+                    infoFiltered: "(Ditapis dari _MAX_ entri)",
+                    search: "Cari:",
+                    zeroRecords: "Tiada rekod yang ditemui",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Seterusnya",
+                        previous: "Sebelumnya"
+                    },
+                    lengthMenu: "Lihat _MENU_ entri",
+                }
+            });
+            });
+
         institutionForm = function(id = null) {
             var institutionFormModal;
             institutionFormModal = new bootstrap.Modal(document.getElementById('institutionFormModal'), {
@@ -144,6 +317,9 @@
                 $('#institutionForm').attr('action', '{{ route('admin.reference.institution.store') }}');
                 $('#institutionForm input[name="code"]').val("");
                 $('#institutionForm input[name="name"]').val("");
+                $('#institutionForm input[name="temp"]').val("");
+                $('#institutionForm select[name="ref_country_code"]').val("").trigger('change');
+                $('#institutionForm select[name="type"]').val("").trigger('change');
 
                 $('#institutionForm input[name="code"]').prop('readonly', false);
 
@@ -173,9 +349,11 @@
                         url2 = url2.replace(':replaceThis', institution_id);
 
                         $('#institutionForm').attr('action', url2);
-                        $('#institutionForm input[name="code"]').val(data.detail.code);
-                        $('#institutionForm input[name="name"]').val(data.detail.name);
-
+                        $('#institutionForm input[name="code"]').val(data.detail.kod);
+                        $('#institutionForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#institutionForm input[name="temp"]').val(data.detail.negara);
+                        $('#institutionForm select[name="ref_country_code"]').val(data.detail.negara).trigger('change');
+                        $('#institutionForm select[name="type"]').val(data.detail.jenis_institusi).trigger('change');
                         $('#institutionForm input[name="code"]').prop('readonly', true);
 
                         $('#title-role').html('Kemaskini Institusi');
@@ -223,6 +401,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(institutionId){
+        var url = "{{ route('admin.reference.institution.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', institutionId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
     </script>
 @endsection

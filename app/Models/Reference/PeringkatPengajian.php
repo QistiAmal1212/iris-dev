@@ -9,8 +9,10 @@ class PeringkatPengajian extends Model
     protected $table = 'ruj_peringkat_pengajian';
 
     protected $fillable = [
-        'name',
-        'created_by',
-        'updated_by',
+        'diskripsi',
+        'id_pencipta',
+        'pengguna',
     ];
+    const CREATED_AT = 'tarikh_cipta';
+    const UPDATED_AT = 'tarikh_ubahsuai';
 }

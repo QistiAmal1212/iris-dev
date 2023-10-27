@@ -12,11 +12,12 @@
             </div>
 
             <div class="modal-body px-sm-2 mx-50">
-                <form id="userFormModal" action="" method="POST" data-reloadPage="true" name="FormUserModal">
+                <form id="userFormModal" action="" class="userForm" method="POST" data-reloadPage="true" name="FormUserModal" data-swal="">
                     @csrf
                     <input type="hidden" name="user_id" value="{{$id ?? null}}">
                     <input type="hidden" name="_method" value="">
                     <input type="hidden" name="route" value="{{ $route }}">
+                    <input type="hidden" name="data-swal" value="">
 
                     <div class="row">
                         <div class="col-md-3 col-12">
@@ -32,7 +33,7 @@
                             <div class="form-group">
                                 <label class="form-label fw-bolder"> Nama Penuh </label>
                                 <div class="input-group">
-                                    <input type="text" id="full_name" name="full_name" value="" class="form-control" required>
+                                    <input type="text" id="full_name" name="full_name" oninput="this.value = this.value.toUpperCase()" value="" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +62,7 @@
                                 <select class="select2 form-select" name="department_ministry_code" id="department_ministry_code" required>
                                     <option value=""></option>
                                     @foreach($departmentMinistry as $department)
-                                    <option value="{{ $department->kod }}">{{ $department->nama }}</option>
+                                    <option value="{{ $department->kod }}">{{ $department->diskripsi }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -73,7 +74,7 @@
                                 <select class="select2 form-select" name="skim_code" id="skim_code" required>
                                     <option value=""></option>
                                     @foreach($skim as $scheme)
-                                    <option value="{{ $scheme->code }}">{{ $scheme->name }}</option>
+                                    <option value="{{ $scheme->kod }}">{{ $scheme->diskripsi }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -85,7 +86,7 @@
                                     <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                     Pastikan keperluan ini dipenuhi:
                                 </h6>
-                                <div class="alert-body fw-normal"> Minimum panjang kata laluan adalah 8 huruf, kombinasi antara huruf besar dan kecil, karakter & nombor.</div>
+                                <div class="alert-body fw-normal"> Minimum panjang kata laluan adalah 12 huruf, kombinasi antara huruf besar dan kecil, karakter & nombor.</div>
                             </div>
                         </div>
 
@@ -139,7 +140,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Batal</button>
                 <button type="button" id="btnUpdateFake" class="btn btn-primary" onclick="$('#btnUpdateUserForm').trigger('click');">{{__('msg.submit')}}</button>
             </div>
         </div>

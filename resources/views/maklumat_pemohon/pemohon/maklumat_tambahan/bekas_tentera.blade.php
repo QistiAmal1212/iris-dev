@@ -23,7 +23,7 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
         <select class="select2 form-control" name="jenis_perkhidmatan_tentera_polis" id="jenis_perkhidmatan_tentera_polis" disabled>
             <option value=""></option>
             @foreach($jenisPerkhidmatan as $perkhidmatan)
-            <option value="{{ $perkhidmatan->id }}">{{ $perkhidmatan->name }}</option>
+            <option value="{{ $perkhidmatan->id }}">{{ $perkhidmatan->diskripsi }}</option>
             @endforeach
         <select>
     </div>
@@ -33,7 +33,7 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
         <select class="select2 form-control" name="pangkat_tentera_polis" id="pangkat_tentera_polis" disabled>
             <option value=""></option>
             @foreach($ranks as $rank)
-            <option value="{{ $rank->code }}">{{ $rank->name }}</option>
+            <option value="{{ $rank->kod }}">{{ $rank->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -43,7 +43,7 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
         <select class="select2 form-control" name="jenis_bekas_tentera_polis" id="jenis_bekas_tentera_polis" disabled>
             <option value=""></option>
             @foreach($jenisBekasTenteraPolis as $bekas)
-            <option value="{{ $bekas->code }}">{{ $bekas->name }}</option>
+            <option value="{{ $bekas->kod }}">{{ $bekas->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -53,9 +53,9 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
     <div class="d-flex justify-content-end align-items-center my-1">
         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditTenteraPolis',
         {
-            jenis_perkhidmatan_tentera_polis: $('#jenis_perkhidmatan_tentera_polis').val(),
-            pangkat_tentera_polis: $('#pangkat_tentera_polis').val(),
-            jenis_bekas_tentera_polis: $('#jenis_bekas_tentera_polis').val(),
+            jenis_perkhidmatan_tentera_polis: $('#jenis_perkhidmatan_tentera_polis').find(':selected').text(),
+            pangkat_tentera_polis: $('#pangkat_tentera_polis').find(':selected').text(),
+            jenis_bekas_tentera_polis: $('#jenis_bekas_tentera_polis').find(':selected').text(),
         },
         {
             jenis_perkhidmatan_tentera_polis: 'Kategori',
@@ -88,12 +88,15 @@ data-refreshFunctionNameIfSuccess="reloadTenteraPolis" data-reloadPage="false">
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.type_service).trigger('change');
+                $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.status_pkhidmat).trigger('change');
                 $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').attr('disabled', true);
-                $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.ref_rank_code).trigger('change');
+                $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.pangkat_tent_polis).trigger('change');
                 $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);
-                $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.type_army_police).trigger('change');
+                $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.jenis_bekas_tentera).trigger('change');
                 $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', true);
+
+                var tmTentPolisElement = $("#tm_tentera");
+                tmTentPolisElement.attr("hidden", true);
             },
             error: function(data) {
                 //

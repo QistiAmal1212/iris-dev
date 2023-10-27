@@ -10,31 +10,80 @@ Maklumat Pemohon
 @endsection
 
 @section('content')
+<style>
+    /* .suggestions-container {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        max-height: 50vh;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        display: none;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .suggestion {
+        padding: 7px;
+        border-bottom: 1px solid #ccc;
+    } */
+
+</style>
 <section id="faq-search-filter">
-    <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}')">
+    <!-- // hide for phase 1 -->
+    <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}'); height:8%;">
         <div class="card-body text-center">
             <h2 class="text-primary">Carian Maklumat Pemohon</h2>
             <p class="card-text mb-2">Isikan no. kad pengenalan calon dan tekan butang Cari</p>
 
+            <div>
+                <button id="btn-selectkp" class="btn btn-primary waves-effect" type="button" onclick="selectSearch('carian_kp')" >Carian Menggunakan No. Kad Pengenalan</button>
+                <button id="btn-selectname" class="btn btn-secondary waves-effect" type="button" onclick="selectSearch('carian_nama')" >Carian Menggunakan Nama</button>
+            </div><br>
+
+
             <div class="faq-search-input">
                 <div class="input-group input-group-merge">
-                    <div class="input-group-text">
+                    <div class="input-group-text" id="search-icon">
                         <i data-feather="search"></i>
                     </div>
 
                     {{-- Search form --}}
-                        <input type="text" class="form-control" id="search_ic" placeholder="No. Kad Pegenalan Calon" maxlength="12"/>
-                        <button class="btn btn-primary waves-effect" type="button" onclick="searchCandidate()">Cari</button>
+                        <input type="text" class="form-control" id="search_ic" maxlength="12" placeholder=" No. Kad Pegenalan Calon"/>
+                        <input type="text" class="form-control" id="pilihan_carian" value="carian_kp" hidden/>
+                        <button class="btn btn-primary waves-effect" id="button_cari" type="button" onclick="searchCandidate()" >Cari</button>
+                        <button class="btn btn-primary waves-effect" id="btn_carian" type="button" onclick="carianPemohon()" hidden>Cari</button>
+
+                        <div class="suggestions-container"></div>
                 </div>
+
             </div>
         </div>
     </div>
 </section>
 
 <hr>
+<input type="hidden" name="hide_phase1" id="hide_phase1" value=0>
+<div id="divCarian" style="display:none">
+    <div class="card">
+        <div class="card-header">
+            Carian Pemohon
+            <a data-bs-toggle="collapse" href="#listPemohon"><i data-feather="chevron-down"></i></a>
+        </div>
+        <div class="card-body" id="listPemohon">
+            <div class="table-responsive" id="append-data">
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-12 order-1 order-lg-1">
+    <div class="col-lg-3 col-md-3 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <p class="card-title fw-bolder">Maklumat Permohonan</p>
@@ -67,7 +116,7 @@ Maklumat Pemohon
         </div>
     </div>
 
-    <div class="col-lg-9 col-md-9 col-sm-12 order-2 order-lg-2">
+    <div class="col-lg-9 col-md-9 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <div class="">
@@ -79,12 +128,13 @@ Maklumat Pemohon
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link fw-bolder" id="skim-tab" data-bs-toggle="tab" href="#skim" aria-controls="skim" role="tab" aria-selected="true">
-                                Maklumat <br> Skim
+                                Maklumat <br> Skim<br>
+                                <div class="badge badge-light-danger fw-bolder" id="tm_skim" hidden>Tiada Maklumat</div>
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link fw-bolder" id="akademik-tab" data-bs-toggle="tab" href="#akademik" aria-controls="akademik" role="tab" aria-selected="true">
-                                Maklumat <br> Akademik
+                                Maklumat <br> Akademik <br>
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -99,7 +149,9 @@ Maklumat Pemohon
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link fw-bolder" id="tatatertib-tab" data-bs-toggle="tab" href="#tatatertib" aria-controls="tatatertib" role="tab" aria-selected="true">
-                                Maklumat <br> Tatatertib
+                                Maklumat <br> Tatatertib <br>
+                            <div class="badge badge-light-danger fw-bolder" id="tm_tata" hidden>Tiada Maklumat</div>
+
                             </a>
                         </li>
                     </ul>
@@ -126,7 +178,7 @@ Maklumat Pemohon
                             @include('maklumat_pemohon.pemohon.maklumat_tambahan')
                         </div>
                         <div class="tab-pane fade" id="tatatertib" role="tabpanel" aria-labelledby="tatatertib-tab">
-                            <hr>
+                            {{-- <hr> --}}
                             @include('maklumat_pemohon.pemohon.maklumat_tatatertib.tatatertib')
                         </div>
                     </div>
@@ -139,6 +191,99 @@ Maklumat Pemohon
 
 @section('script')
 <script>
+    $(".select2").select2();
+    $(".select2").attr("data-placeholder", "Tiada Maklumat");
+    $(".select2").select2();
+     $("#experience_department_state").select2({
+        placeholder: 'Tiada Maklumat Negeri'
+    });
+
+    $("#experience_department_state").select2();
+    $("#experience_department_state").attr("data-placeholder", 'Tiada Maklumat Negeri');
+    $("#experience_department_state").select2();
+
+    $("#peringkat_pengajian_tinggi").select2();
+    $("#peringkat_pengajian_tinggi").attr("data-placeholder", 'Tiada Maklumat Pengajian');
+    $("#peringkat_pengajian_tinggi").select2();
+
+    $("#biasiswa_pengajian_tinggi").select2();
+    $("#biasiswa_pengajian_tinggi").attr("data-placeholder", 'Tiada Maklumat Biasiswa');
+    $("#biasiswa_pengajian_tinggi").select2();
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Get all input elements on the page
+        const inputElements = document.querySelectorAll('input');
+
+        // Set a global placeholder value for all input elements
+        inputElements.forEach((input) => {
+            input.placeholder = 'Tiada Maklumat';
+
+            if (input.name == 'experience_department_state') {
+                // setSelect2Placeholder('experience_department_state', 'Tiada Maklumat Negeri');
+            }
+             if (input.name == 'experience_department_daerah') {
+                input.placeholder = 'Tiada Maklumat Daerah';
+            }
+            if (input.name == 'peringkat_pengajian_tinggi') {
+                // setSelect2Placeholder('peringkat_pengajian_tinggi', 'Tiada Maklumat Pengajian');
+            }
+            if (input.name == 'biasiswa_pengajian_tinggi') {
+                // setSelect2Placeholder('biasiswa_pengajian_tinggi', 'Tiada Maklumat Biasiswa');
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $('#oku_category').change(function() {
+            var parentCategory = $(this).val();
+            if(parentCategory && parentCategory!= "") {
+                $.ajax({
+                    url: "{{ route('oku.getChild') }}",
+                    type: 'GET',
+                    data: {parent_category: parentCategory},
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#oku_sub').empty();
+                        $('#oku_sub').append('<option value="" selected>Sila Pilih:-</option>');
+                        $.each(data, function(key, value) {
+                            $('#oku_sub').append('<option value="'+ value.codes +'">'+ value.categories +'</option>');
+                        });
+                        $('#okuForm select[name="oku_sub"]').val($('#okuForm input[name="temp"]').val()).trigger('change');
+                    }
+                });
+            }{
+                $('#oku_sub').empty();
+                selectionNull('oku_sub', 'okuForm');
+            }
+        });
+    });
+    function selectSearch(btnValue){
+        $('#pilihan_carian').val(btnValue);
+        reset();
+        $('#search_ic').val('');
+        if(btnValue == 'carian_nama'){
+            $('#btn-selectkp').removeClass('btn-primary').addClass('btn-secondary');
+            $('#btn-selectname').removeClass('btn-secondary').addClass('btn-primary');
+            $('#button_cari').attr('hidden', true);
+            $('#btn_carian').attr('hidden', false);
+            $('#search_ic').attr('placeholder', ' Nama Calon');
+            $('#search_ic').attr('minlength', '3');
+            $('#search_ic').removeAttr('maxlength');
+            $("#divCarian").attr("style", "display:block");
+        }else{
+            // $('#table-carian').DataTable().destroy();
+            // $("#table-carian > tbody").html("");
+            $('#btn-selectname').removeClass('btn-primary').addClass('btn-secondary');
+            $('#btn-selectkp').removeClass('btn-secondary').addClass('btn-primary');
+            $('#button_cari').attr('hidden', false);
+            $('#btn_carian').attr('hidden', true);
+            $('#search_ic').attr('placeholder', ' No. Kad Pegenalan Calon');
+            $('#search_ic').attr('maxlength', '12');
+            $('#search_ic').removeAttr('minlength');
+            $("#divCarian").attr("style", "display:none");
+        }
+    }
+
     var originalVal = {};
     var data_not_available = "Tiada Maklumat";
 
@@ -165,6 +310,9 @@ Maklumat Pemohon
 
     function selectionNull(inputID, formID){
         var x = document.getElementById(inputID);
+        if (x == null || x =='undefined') {
+            return ;
+        }
         var existingOption = x.querySelector('option[value="Tiada Maklumat"]');
 
         if(existingOption){
@@ -178,6 +326,19 @@ Maklumat Pemohon
         x.add(option);
 
         $('#' + formID + ' select[name="' + inputID + '"]').val("Tiada Maklumat").trigger('change');
+    }
+
+    function deleteItem(id, itemUrl, reload){
+        var deleteUrl = itemUrl;
+        deleteUrl = deleteUrl.replace(':replaceThis', id);
+        $.ajax({
+            url: deleteUrl,
+            type: 'POST',
+            async: true,
+            success: function(data){
+                reload();
+            }
+        });
     }
 
     function confirmSubmit(btnName, newValues, columnHead) {
@@ -201,14 +362,74 @@ Maklumat Pemohon
         }}
         }
 
-
         if (htmlContent === '<p>Perubahan:</p>') {
             Swal.fire({
                 title: 'Tiada Perubahan Dibuat',
                 icon: 'info',
                 confirmButtonText: 'OK'
             });
+            if (btnName == 'btnEditPersonal') {
+                $('#editbutton').val(0);
+                reloadPersonal();
+                disbalefields();
+            } else if (btnName == 'btnEditAlamatSurat') {
+                $('#editbutton_alamat_surat').val(0);
+                reloadAlamatSurat();
+                disbalefieldsalamat();
+                checkifalamatempty();
+            } else if(btnName == 'btnEditAlamatTetap') {
+                $('#editbutton_alamat_tetap').val(0);
+                reloadAlamatTetap();
+                disbalefieldsalamat();
+                checkifalamatempty();
+            } else if (btnName == 'btnEditTempatLahir') {
+                $('#editbutton_lahir').val(0);
+                disbalefieldslahir();
+                reloadTempatLahir();
+            } else if (btnName == 'btnEditLesenMemandu') {
+                $('#editbutton_lessen').val(0);
+                disbalefieldslessen();
+                reloadLesenMemandu();
+            } else if (btnName == 'btnEditOKU') {
+                $('#editbutton_oku').val(0);
+                disbalefieldsoku();
+                reloadOKU();
+            } else if (btnName == 'btnEditPusatTemuduga') {
+                $('#editbutton_skim').val(0);
+                disbalefieldsskim();
+                reloadPusatTemuduga();
+            }  else if (btnName == 'btnEditPmr') {
+                $('#editbutton_pmr').val(0);
+                disbalefieldspmr();
+                reloadPmr();
+            }
+
             return;
+        }
+        if (btnName == 'btnEditPersonal') {
+            $('#tukar_log').val(htmlContent);
+            $('#editbutton').val(0);
+        } else if(btnName == 'btnEditAlamatTetap') {
+            $('#tukar_log_alamat_tetap').val(htmlContent);
+            $('#editbutton_alamat_tetap').val(0);
+        } else if(btnName == 'btnEditAlamatSurat') {
+            $('#tukar_log_alamat_surat').val(htmlContent);
+            $('#editbutton_alamat_surat').val(0);
+        } else if (btnName == 'btnEditTempatLahir') {
+            $('#tukar_log_lahir').val(htmlContent);
+            $('#editbutton_lahir').val(0);
+        } else if (btnName == 'btnEditLesenMemandu') {
+            $('#tukar_log_lessen').val(htmlContent);
+            $('#editbutton_lessen').val(0);
+        } else if (btnName == 'btnEditOKU') {
+            $('#editbutton_oku').val(0);
+            $('#tukar_log_oku').val(htmlContent);
+        } else if (btnName == 'btnEditPusatTemuduga') {
+            $('#editbutton_skim').val(0);
+            $('#tukar_log_skim').val(htmlContent);
+        } else if (btnName == 'btnEditPmr') {
+            $('#editbutton_pmr').val(0);
+            $('#tukar_log_pmr').val(htmlContent);
         }
 
         Swal.fire({
@@ -220,19 +441,102 @@ Maklumat Pemohon
         }).then((result) => {
         if (result.isConfirmed) {
             $('#'+btnName).trigger('click');
-            // for (var key in originalVal) {
-            //     if (originalVal.hasOwnProperty(key)) {
-            //         if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
-            //             originalVal[key] = newValues[key];
-            //         }
-            //     }
-            // }
+
+            for (var key in originalVal) {
+                if (originalVal.hasOwnProperty(key)) {
+                    if (newValues.hasOwnProperty(key) && newValues[key] !== originalVal[key]) {
+                        originalVal[key] = newValues[key];
+                        if (!newValues[key] && btnName == 'btnEditPersonal') {
+                            reloadPersonal();
+                        }
+                        if(!newValues[key] && btnName == 'btnEditAlamatSurat') {
+                            reloadAlamatSurat();
+                        }
+                        if(!newValues[key] && btnName == 'btnEditAlamatTetap') {
+                            reloadAlamatTetap();
+                        }
+                        if(!newValues[key] && btnName == 'btnEditTempatLahir') {
+                            reloadTempatLahir();
+                        }
+                        if(!newValues[key] && btnName == 'btnEditLesenMemandu') {
+                            reloadLesenMemandu();
+                        }
+                        if(!newValues[key] && btnName == 'btnEditOKU') {
+                            reloadOKU();
+                        }
+                        if(!newValues[key] && btnName == 'reloadPusatTemuduga') {
+                            reloadPusatTemuduga();
+                        }
+                    }
+                }
+            }
         }
         })
     }
 
-    function searchCandidate() {
-        var search_ic = $('#search_ic').val();
+    function carianPemohon() {
+        search_nama = $('#search_ic').val();
+
+        if(search_nama == ''){
+            Swal.fire('Gagal', 'Sila isikan nama', 'error');
+        } else if (search_nama.length < 3){
+            Swal.fire('Gagal', 'Sila isikan sekurang-kurangnya 3 huruf', 'error');
+        } else {
+            $.ajax({
+                url: "{{ route('list-carian') }}",
+                method: 'GET',
+                async: true,
+                data : {
+                    search_nama : search_nama,
+                },
+                success: function(data) {
+                    $('#append-data').empty();
+                    $('#append-data').append(data);
+                }
+            });
+        }
+    }
+
+    function updatePage(id, total_pages) {
+        if (id == total_pages) {
+            return false;
+        }
+        if (id == 0) {
+            return false;
+        }
+        $.ajax({
+            url: "{{ route('list-carian') }}",
+            method: 'GET',
+            async: true,
+            data : {
+                search_nama : search_nama,
+                page: id,
+                total_pages: total_pages
+            },
+            success: function(data) {
+                $('#append-data').empty();
+                $('#append-data').append(data);
+            }
+        });
+    }
+
+    function isTabEmpty(tabForm, fields) {
+        for (let fieldName of fields) {
+            let fieldValue = $(`#${tabForm} [name="${fieldName}"]`).val();
+            if (fieldValue && fieldValue.trim() !== '' && fieldValue != 'Tiada Maklumat') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    searchCandidate = function(carian = null) {
+
+        if(carian === null){
+            search_ic = $('#search_ic').val();
+        } else {
+            search_ic = carian
+        }
 
         if(search_ic == ''){
             Swal.fire('Gagal', 'Sila isikan no kad pengenalan', 'error');
@@ -242,33 +546,52 @@ Maklumat Pemohon
                 method: 'POST',
                 async: true,
                 data : {
-                    no_ic : search_ic
+                    no_ic : search_ic,
                 },
                 success: function(data) {
-                    $('#update_alamat').attr("style", "display:block");
-                    $('#update_personal').attr("style", "display:block");
-                    $('#update_tempat_lahir').attr("style", "display:block");
-                    $('#update_pmr').attr("style", "display:block");
-                    $('#update_pengajian_tinggi').attr("style", "display:block");
-                    $('#update_experience').attr("style", "display:block");
-                    $('#update_tentera_polis').attr("style", "display:block");
-                    $('#update_penalty').attr("style", "display:block");
-                    $('#update_lesen_memandu').attr("style", "display:block");
-                    $('#update_oku').attr("style", "display:block");
-                    $('#update_pmr').attr("style", "display:block");
-                    $('#update_skm').attr("style", "display:block");
-                    $('#update_bahasa').attr("style", "display:block");
-                    $('#update_bakat').attr("style", "display:block");
-                    $('#update_psl').attr("style", "display:block");
-                    $('#update_spm').attr("style", "display:block");
-                    $('#update_spmv').attr("style", "display:block");
-                    $('#update_svm').attr("style", "display:block");
-                    $('#update_stpm').attr("style", "display:block");
-                    $('#update_stam').attr("style", "display:block");
-                    $('#update_matrikulasi').attr("style", "display:block");
+                    var container = $('.suggestions-container');
+                    container.hide();
+                    var checkphase1 = $('#hide_phase1').val();
+                    if (checkphase1 == 1) {
+                        $('#update_personal').attr("style", "display:block");
+                        $('#update_alamat_tetap').attr("style", "display:block");
+                        $('#update_alamat_surat').attr("style", "display:block");
+                        $('#update_tempat_lahir').attr("style", "display:block");
+                        $('#update_pusat_temuduga').attr("style", "display:block");
+                        $('#update_lesen_memandu').attr("style", "display:block");
+                        $('#update_oku').attr("style", "display:block");
+                        $('#update_pmr').attr("style", "display:block");
+                        $('#update_spm1').attr("style", "display:block");
+                        $('#update_spm2').attr("style", "display:block");
+                        //$('#update_spmv').attr("style", "display:block");
+                        $('#update_svm').attr("style", "display:block");
+                        $('#update_stpm1').attr("style", "display:block");
+                        $('#update_stpm2').attr("style", "display:block");
+                        $('#update_stam1').attr("style", "display:block");
+                        $('#update_stam2').attr("style", "display:block");
+                        $('#update_skm').attr("style", "display:block");
+                        $('#update_matrikulasi').attr("style", "display:block");
+                        $('#update_diploma').attr("style", "display:block");
+                        $('#update_degree').attr("style", "display:block");
+                        $('#update_master').attr("style", "display:block");
+                        $('#update_phd').attr("style", "display:block");
+                        $('#update_profesional').attr("style", "display:block");
+                        $('#update_experienceA').attr("style", "display:block");
+                        $('#update_experienceB').attr("style", "display:block");
+                        $('#update_experienceC').attr("style", "display:block");
+                        $('#update_psl').attr("style", "display:block");
+                        $('#update_tentera_polis').attr("style", "display:block");
+                        $('#update_bahasa').attr("style", "display:block");
+                        $('#update_bakat').attr("style", "display:block");
+                        $('#update_penalty').attr("style", "display:block");
+                    }
 
-                    $('#candidate_name').html(data.detail.full_name);
-                    $('#candidate_ic').html(data.detail.no_ic);
+                    $('#candidate_name').html(data.detail.nama_penuh);
+                    var ic = data.detail.no_kp_baru ? data.detail.no_kp_baru +'<br>' : '';
+                    if (data.detail.no_kp_lama) {
+                        ic = ic + (data.detail.no_kp_lama ? data.detail.no_kp_lama : '');
+                    }
+                    $('#candidate_ic').html(ic);
                     $('#candidate_no_pengenalan').val(data.detail.no_pengenalan);
 
                     var timelineUrl = "{{ route('timeline.list', ':replaceThis') }}"
@@ -276,103 +599,106 @@ Maklumat Pemohon
                     $('#candidate_timeline').load(timelineUrl)
 
                     $('#personalForm select[name="gender"]').attr('disabled', true);
-                    if(data.detail.ref_gender_code) { $('#personalForm select[name="gender"]').val(data.detail.ref_gender_code).trigger('change'); }
+                    if(data.detail.jan_kod) { $('#personalForm select[name="gender"]').val(data.detail.jan_kod).trigger('change'); }
                     else { selectionNull('gender', 'personalForm');}
-                    originalVal['gender'] = data.detail.ref_gender_code;
+                    originalVal['gender'] = $('#personalForm select[name="gender"]').find(':selected').text();
                     $('#personalForm select[name="religion"]').attr('disabled', true);
-                    if(data.detail.ref_religion_code) { $('#personalForm select[name="religion"]').val(data.detail.ref_religion_code).trigger('change'); }
+                    if(data.detail.agama) { $('#personalForm select[name="religion"]').val(data.detail.agama).trigger('change'); }
                     else { selectionNull('religion', 'personalForm'); }
-                    originalVal['religion'] = data.detail.ref_religion_code;
+                    originalVal['religion'] = $('#personalForm select[name="religion"]').find(':selected').text();
                     $('#personalForm select[name="race"]').attr('disabled', true);
-                    if(data.detail.ref_race_code) { $('#personalForm select[name="race"]').val(data.detail.ref_race_code).trigger('change'); }
+                    if(data.detail.ket_kod) { $('#personalForm select[name="race"]').val(data.detail.ket_kod).trigger('change'); }
                     else { selectionNull('race', 'personalForm'); }
-                    originalVal['race'] = data.detail.ref_race_code;
+                    originalVal['race'] = $('#personalForm select[name="race"]').find(':selected').text();
 
                     $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
-                    $('#personalForm input[name="date_of_birth"]').val(data.detail.date_of_birth ? data.detail.date_of_birth : data_not_available);
-                    originalVal['date_of_birth'] = data.detail.date_of_birth;
+                    $('#personalForm input[name="date_of_birth"]').val(data.detail.tarikh_lahir ? data.detail.tarikh_lahir : data_not_available);
+                    originalVal['date_of_birth'] = data.detail.tarikh_lahir;
 
                     $('#personalForm select[name="marital_status"]').attr('disabled', true);
-                    if(data.detail.ref_marital_status_code) { $('#personalForm select[name="marital_status"]').val(data.detail.ref_marital_status_code).trigger('change'); }
+                    if(data.detail.taraf_perkahwinan) { $('#personalForm select[name="marital_status"]').val(data.detail.taraf_perkahwinan).trigger('change'); }
                     else { selectionNull('marital_status', 'personalForm'); }
-                    originalVal['marital_status'] = data.detail.ref_marital_status_code;
+                    originalVal['marital_status'] = $('#personalForm select[name="marital_status"]').find(':selected').text();
 
                     $('#personalForm input[name="phone_number"]').attr('disabled', true);
-                     $('#personalForm input[name="phone_number"]').val(data.detail.phone_number ? data.detail.phone_number : data_not_available);
-                    originalVal['phone_number'] = data.detail.phone_number;
+                    $('#personalForm input[name="phone_number"]').val(data.detail.no_tel ? data.detail.no_tel : data_not_available);
+                    originalVal['phone_number'] = data.detail.no_tel;
 
                     $('#personalForm input[name="email"]').attr('disabled', true);
-                    $('#personalForm input[name="email"]').val(data.detail.email ? data.detail.email : data_not_available);
-                    originalVal['email'] = data.detail.email;
+                    $('#personalForm input[name="email"]').val(data.detail.e_mel ? data.detail.e_mel : data_not_available);
+                    originalVal['email'] = data.detail.e_mel;
 
                     $('#personalForm input[name="personal_no_pengenalan"]').val(data.detail.no_pengenalan);
 
-                    $('#alamatForm input[name="permanent_address_1"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_address_1"]').val(data.detail.permanent_address_1 ? data.detail.permanent_address_1 : data_not_available);
-                    // data.detail.permanent_address_1 ? '' : $('#alamatForm input[name="permanent_address_1"]').css('color', 'maroon');
-                    originalVal['permanent_address_1'] = data.detail.permanent_address_1;
-                    $('#alamatForm input[name="permanent_address_2"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_address_2"]').val(data.detail.permanent_address_2 ? data.detail.permanent_address_2 : data_not_available);
-                    originalVal['permanent_address_2'] = data.detail.permanent_address_2;
-                    $('#alamatForm input[name="permanent_address_3"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_address_3"]').val(data.detail.permanent_address_3 ? data.detail.permanent_address_3 : data_not_available);
-                    originalVal['permanent_address_3'] = data.detail.permanent_address_3;
-                    $('#alamatForm input[name="permanent_poscode"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_poscode"]').val(data.detail.permanent_poscode ? data.detail.permanent_poscode : data_not_available);
-                    originalVal['permanent_poscode'] = data.detail.permanent_poscode;
-                    $('#alamatForm input[name="permanent_city"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_city"]').val(data.detail.permanent_city ? data.detail.permanent_city : data_not_available);
-                    originalVal['permanent_city'] = data.detail.permanent_city;
-                    $('#alamatForm select[name="permanent_state"]').attr('disabled', true);
-                    if(data.detail.permanent_ref_state_code) { $('#alamatForm select[name="permanent_state"]').val(data.detail.permanent_ref_state_code).trigger('change'); }
-                    else { selectionNull('permanent_state', 'alamatForm'); }
-                    originalVal['permanent_state'] = data.detail.permanent_ref_state_code;
-                    $('#alamatForm input[name="address_1"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_1"]').val(data.detail.address_1 ? data.detail.address_1 : data_not_available);
-                    originalVal['address_1'] = data.detail.address_1;
-                    $('#alamatForm input[name="address_2"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_2"]').val(data.detail.address_2 ? data.detail.address_2 : data_not_available);
-                    originalVal['address_2'] = data.detail.address_2;
-                    $('#alamatForm input[name="address_3"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_3"]').val(data.detail.address_3 ? data.detail.address_3 : data_not_available);
-                    originalVal['address_3'] = data.detail.address_3;
-                    $('#alamatForm input[name="poscode"]').attr('disabled', true);
-                    $('#alamatForm input[name="poscode"]').val(data.detail.poscode ? data.detail.poscode : data_not_available);
-                    originalVal['poscode'] = data.detail.poscode;
-                    $('#alamatForm input[name="city"]').attr('disabled', true);
-                    $('#alamatForm input[name="city"]').val(data.detail.city ? data.detail.city : data_not_available);
-                    originalVal['city'] = data.detail.city;
-                    $('#alamatForm select[name="state"]').attr('disabled', true);
-                    if(data.detail.ref_state_code) { $('#alamatForm select[name="state"]').val(data.detail.ref_state_code).trigger('change'); }
-                    else { selectionNull('state', 'alamatForm'); }
-                    originalVal['state'] = data.detail.ref_state_code;
-                    $('#alamatForm input[name="alamat_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#alamatTetapForm input[name="permanent_address_1"]').attr('disabled', true);
+                    $('#alamatTetapForm input[name="permanent_address_1"]').val(data.detail.alamat_1_tetap ? data.detail.alamat_1_tetap.toUpperCase() : data_not_available);
+                    originalVal['permanent_address_1'] = data.detail.alamat_1_tetap;
+                    $('#alamatTetapForm input[name="permanent_address_2"]').attr('disabled', true);
+                    $('#alamatTetapForm input[name="permanent_address_2"]').val(data.detail.alamat_2_tetap ? data.detail.alamat_2_tetap.toUpperCase() : data_not_available);
+                    originalVal['permanent_address_2'] = data.detail.alamat_2_tetap;
+                    $('#alamatTetapForm input[name="permanent_address_3"]').attr('disabled', true);
+                    $('#alamatTetapForm input[name="permanent_address_3"]').val(data.detail.alamat_3_tetap ? data.detail.alamat_3_tetap.toUpperCase() : data_not_available);
+                    originalVal['permanent_address_3'] = data.detail.alamat_3_tetap;
+                    $('#alamatTetapForm input[name="permanent_poscode"]').attr('disabled', true);
+                    $('#alamatTetapForm input[name="permanent_poscode"]').val(data.detail.poskod_tetap ? data.detail.poskod_tetap : data_not_available);
+                    originalVal['permanent_poscode'] = data.detail.poskod_tetap;
+                    $('#alamatTetapForm input[name="permanent_city"]').attr('disabled', true);
+                    $('#alamatTetapForm input[name="permanent_city"]').val(data.detail.bandar_tetap ? data.detail.bandar_tetap.toUpperCase() : data_not_available);
+                    originalVal['permanent_city'] = data.detail.bandar_tetap;
+                    $('#alamatTetapForm select[name="permanent_state"]').attr('disabled', true);
+                    if(data.detail.tempat_tinggal_tetap) { $('#alamatTetapForm select[name="permanent_state"]').val(data.detail.tempat_tinggal_tetap).trigger('change'); }
+                    else { selectionNull('permanent_state', 'alamatTetapForm'); }
+                    originalVal['permanent_state'] = $('#alamatTetapForm select[name="permanent_state"]').find(':selected').text();
+                    $('#alamatTetapForm input[name="alamat_tetap_no_pengenalan"]').val(data.detail.no_pengenalan);
 
-                    if(data.detail.place_of_birth) { $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.place_of_birth).trigger('change'); }
+                    $('#alamatSuratForm input[name="address_1"]').attr('disabled', true);
+                    $('#alamatSuratForm input[name="address_1"]').val(data.detail.alamat_1 ? data.detail.alamat_1.toUpperCase() : data_not_available);
+                    originalVal['address_1'] = data.detail.alamat_1;
+                    $('#alamatSuratForm input[name="address_2"]').attr('disabled', true);
+                    $('#alamatSuratForm input[name="address_2"]').val(data.detail.alamat_2 ? data.detail.alamat_2.toUpperCase() : data_not_available);
+                    originalVal['address_2'] = data.detail.alamat_2;
+                    $('#alamatSuratForm input[name="address_3"]').attr('disabled', true);
+                    $('#alamatSuratForm input[name="address_3"]').val(data.detail.alamat_3 ? data.detail.alamat_3.toUpperCase() : data_not_available);
+                    originalVal['address_3'] = data.detail.alamat_3;
+                    $('#alamatSuratForm input[name="poscode"]').attr('disabled', true);
+                    $('#alamatSuratForm input[name="poscode"]').val(data.detail.poskod ? data.detail.poskod : data_not_available);
+                    originalVal['poscode'] = data.detail.poskod;
+                    $('#alamatSuratForm input[name="city"]').attr('disabled', true);
+                    $('#alamatSuratForm input[name="city"]').val(data.detail.bandar ? data.detail.bandar.toUpperCase() : data_not_available);
+                    originalVal['city'] = data.detail.bandar;
+                    $('#alamatSuratForm select[name="state"]').attr('disabled', true);
+                    if(data.detail.tempat_tinggal) { $('#alamatSuratForm select[name="state"]').val(data.detail.tempat_tinggal).trigger('change'); }
+                    else { selectionNull('state', 'alamatSuratForm'); }
+                    originalVal['state'] = $('#alamatSuratForm select[name="state"]').find(':selected').text();
+                    $('#alamatSuratForm input[name="alamat_surat_no_pengenalan"]').val(data.detail.no_pengenalan);
+
+                    if(data.detail.tempat_lahir) { $('#tempatLahirForm select[name="place_of_birth"]').val(data.detail.tempat_lahir).trigger('change'); }
                     else { selectionNull('place_of_birth', 'tempatLahirForm'); }
-                    originalVal['place_of_birth'] = data.detail.place_of_birth;
-                    if(data.detail.father_place_of_birth) { $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.father_place_of_birth).trigger('change'); }
+                    originalVal['place_of_birth'] = $('#tempatLahirForm select[name="place_of_birth"]').find(':selected').text();
+                    if(data.detail.tempat_lahir_bapa) { $('#tempatLahirForm select[name="father_place_of_birth"]').val(data.detail.tempat_lahir_bapa).trigger('change'); }
                     else { selectionNull('father_place_of_birth', 'tempatLahirForm'); }
-                    originalVal['father_place_of_birth'] = data.detail.father_place_of_birth;
-                    if(data.detail.mother_place_of_birth) { $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.mother_place_of_birth).trigger('change'); }
+                    originalVal['father_place_of_birth'] = $('#tempatLahirForm select[name="father_place_of_birth"]').find(':selected').text();
+                    if(data.detail.tempat_lahir_ibu) { $('#tempatLahirForm select[name="mother_place_of_birth"]').val(data.detail.tempat_lahir_ibu).trigger('change'); }
                     else { selectionNull('mother_place_of_birth', 'tempatLahirForm'); }
-                    originalVal['mother_place_of_birth'] = data.detail.mother_place_of_birth;
+                    originalVal['mother_place_of_birth'] = $('#tempatLahirForm select[name="mother_place_of_birth"]').find(':selected').text();
                     $('#tempatLahirForm input[name="tempat_lahir_no_pengenalan"]').val(data.detail.no_pengenalan);
 
                     if(data.detail.license != null) {
                         $('#lesenMemanduForm input[name="license_type"]').attr('disabled', true);
-                        $('#lesenMemanduForm input[name="license_type"]').val(data.detail.license.type ? data.detail.license.type : data_not_available);
-                        originalVal['license_type'] = data.detail.license.type;
+                        $('#lesenMemanduForm input[name="license_type"]').val(data.detail.license.jenis_lesen ? data.detail.license.jenis_lesen : data_not_available);
+                        originalVal['license_type'] = data.detail.license.jenis_lesen;
                         $('#lesenMemanduForm input[name="license_expiry_date"]').attr('disabled', true);
-                        $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.expiry_date ? data.detail.license.expiry_date : data_not_available);
-                        originalVal['license_expiry_date'] = data.detail.license.expiry_date;
+                        $('#lesenMemanduForm input[name="license_expiry_date"]').val(data.detail.license.tempoh_tamat ? data.detail.license.tempoh_tamat : data_not_available);
+                        originalVal['license_expiry_date'] = data.detail.license.tempoh_tamat;
                         $('#lesenMemanduForm select[name="license_blacklist_status"]').attr('disabled', true);
-                        if(data.detail.license.is_blacklist) { $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.is_blacklist).trigger('change'); }
+                        if(data.detail.license.status_senaraihitam) { $('#lesenMemanduForm select[name="license_blacklist_status"]').val(data.detail.license.status_senaraihitam).trigger('change'); }
                         else { selectionNull('license_blacklist_status', 'lesenMemanduForm'); }
-                        originalVal['license_blacklist_status'] = data.detail.license.is_blacklist;
+                        originalVal['license_blacklist_status'] = $('#lesenMemanduForm select[name="license_blacklist_status"]').find(':selected').text();
                         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', true);
-                        $('#lesenMemanduForm textarea[name="license_blacklist_details"]').val(data.detail.license.blacklist_details ? data.detail.license.blacklist_details : data_not_available);
-                        originalVal['license_blacklist_details'] = data.detail.license.blacklist_details;
+                        $('#lesenMemanduForm textarea[name="license_blacklist_details"]').val(data.detail.license.msg_senaraihitam ? data.detail.license.msg_senaraihitam : data_not_available);
+                        originalVal['license_blacklist_details'] = data.detail.license.msg_senaraihitam;
+                        var tmLesenElement = $("#tm_lesen");
+                        tmLesenElement.attr("hidden", true);
                     }else{
                         $('#lesenMemanduForm input[name="license_type"]').attr('disabled', true);
                         $('#lesenMemanduForm input[name="license_type"]').val(data_not_available);
@@ -386,23 +712,28 @@ Maklumat Pemohon
                         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').attr('disabled', true);
                         $('#lesenMemanduForm textarea[name="license_blacklist_details"]').val(data_not_available);
                         originalVal['license_blacklist_details'] = "";
+                        var tmLesenElement = $("#tm_lesen");
+                        tmLesenElement.removeAttr("hidden");
                     }
                     $('#lesenMemanduForm input[name="lesen_memandu_no_pengenalan"]').val(data.detail.no_pengenalan);
 
                     if(data.detail.oku != null) {
                         $('#okuForm input[name="oku_registration_no"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_registration_no"]').val(data.detail.oku.no_registration ? data.detail.oku.no_registration : data_not_available);
-                        originalVal['oku_registration_no'] = data.detail.oku.no_registration;
+                        $('#okuForm input[name="oku_registration_no"]').val(data.detail.oku.no_daftar_jkm ? data.detail.oku.no_daftar_jkm : data_not_available);
+                        originalVal['oku_registration_no'] = data.detail.oku.no_daftar_jkm;
                         $('#okuForm input[name="oku_status"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_status"]').val(data.detail.oku.status ? data.detail.oku.status : data_not_available);
-                        originalVal['oku_status'] = data.detail.oku.status;
+                        $('#okuForm input[name="oku_status"]').val(data.detail.oku.status_oku ? data.detail.oku.status_oku : data_not_available);
+                        originalVal['oku_status'] = data.detail.oku.status_oku;
                         // $('#okuForm input[name="oku_category"]').attr('disabled', true);
-                        if(data.detail.oku.category) { $('#okuForm select[name="oku_category"]').val(data.detail.oku.category).trigger('change'); }
+                        if(data.detail.oku.kategori_oku) { $('#okuForm select[name="oku_category"]').val(data.detail.oku.kategori_oku).trigger('change'); }
                         else { selectionNull('oku_category', 'okuForm'); }
-                        originalVal['oku_category'] = data.detail.oku.category;
-                        $('#okuForm input[name="oku_sub"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub ? data.detail.oku.sub : data_not_available);
-                        originalVal['oku_sub'] = data.detail.oku.sub;
+                        originalVal['oku_category'] = $('#okuForm select[name="oku_category"]').find(':selected').text();
+                        $('#okuForm select[name="oku_sub"]').attr('disabled', true);
+                        // $('#okuForm input[name="oku_sub"]').val(data.detail.oku.sub_oku ? data.detail.oku.sub_oku : data_not_available);
+                        // originalVal['oku_sub'] = data.detail.oku.sub_oku;
+                        $('#okuForm input[name="temp"]').val(data.detail.oku.sub_oku ? data.detail.oku.sub_oku : null);
+                        var tmOkuElement = $("#tm_oku");
+                        tmOkuElement.attr("hidden", true);
                     }else{
                         $('#okuForm input[name="oku_registration_no"]').attr('disabled', true);
                         $('#okuForm input[name="oku_registration_no"]').val(data_not_available);
@@ -413,15 +744,29 @@ Maklumat Pemohon
                         // $('#okuForm input[name="oku_category"]').attr('disabled', true);
                         selectionNull('oku_category', 'okuForm');
                         originalVal['oku_category'] = "";
-                        $('#okuForm input[name="oku_sub"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_sub"]').val(data_not_available);
+                        $('#okuForm select[name="oku_sub"]').attr('disabled', true);
+                        $('#okuForm select[name="oku_sub"]').val(data_not_available);
                         originalVal['oku_sub'] = "";
+                        $('#okuForm input[name="temp"]').val("");
+                        var tmOkuElement = $("#tm_oku");
+                        tmOkuElement.removeAttr("hidden");
                     }
                     $('#okuForm input[name="oku_no_pengenalan"]').val(data.detail.no_pengenalan);
 
+                    $('#pusatTemudugaForm input[name="pusat_temuduga_no_pengenalan"]').val(data.detail.no_pengenalan)
+                    $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
+
+                    if(data.detail.pusat_temuduga) {
+                        $('#pusatTemudugaForm select[name="pusat_temuduga"]').val(data.detail.pusat_temuduga).trigger('change');
+                    } else {
+                        selectionNull('pusat_temuduga', 'pusatTemudugaForm');
+                    }
+                    originalVal['pusat_temuduga'] = $('#pusatTemudugaForm select[name="pusat_temuduga"]').find(':selected').text();
+
                     $('#table-skim tbody').empty();
                     if(data.detail.skim.length == 0){
-                        var trSkim = '<tr><td align="center" colspan="6">*Tiada Rekod*</td></tr>';
+                        var trSkim = '<tr><td align="center" colspan="6">*Tiada Maklumat*</td></tr>';
+                        $('#tm_skim').removeAttr('hidden');
                     } else {
                         var trSkim = '';
                         var bilSkim = 0;
@@ -429,601 +774,236 @@ Maklumat Pemohon
                             bilSkim += 1;
                             trSkim += '<tr>';
                             trSkim += '<td align="center">' + bilSkim + '</td>'
-                            trSkim += '<td>' + item.ref_skim_code + '</td>'
-                            trSkim += '<td>' + item.skim.name + '</td>';
-                            trSkim += '<td>' + (item.register_date ? item.register_date : '') + '</td>';
-                            trSkim += '<td>' + (item.expiry_date ? item.expiry_date : '') + '</td>';
-                            trSkim += '<td>' + (item.interview_centre ? item.interview_centre.nama : '') + '</td>';
+                            trSkim += '<td>' + item.ski_kod + '</td>'
+                            trSkim += '<td>' + item.skim.diskripsi + '</td>';
+                            trSkim += '<td>' + (item.tarikhCipta ? item.tarikhCipta : '') + '</td>';
+                            trSkim += '<td>' + (item.tarikh_daftar ? item.tarikh_daftar : '') + '</td>';
+                            trSkim += '<td>' + (item.tarikh_luput ? item.tarikh_luput : '') + '</td>';
                             trSkim += '</tr>';
                         });
-                }
+                        $('#tm_skim').attr("hidden", true);
+                    }
+
                     $('#table-skim tbody').append(trSkim);
 
                     $('#pmrForm input[name="pmr_no_pengenalan"]').val(data.detail.no_pengenalan);
-
-                    $('#pmrForm select[name="subjek_pmr"]').val('').trigger('change');
-                    $('#pmrForm select[name="gred_pmr"]').val('').trigger('change');
-                    $('#pmrForm input[name="tahun_pmr"]').val('');
-                    $('#pmrForm select[name="subjek_pmr"]').attr('disabled', true);
-                    $('#pmrForm select[name="gred_pmr"]').attr('disabled', true);
-                    $('#pmrForm input[name="tahun_pmr"]').attr('disabled', true);
-                    $('#pmrForm').attr('action', "{{ route('pmr.store')  }}");
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
-
-                    $("#button_action_pmr").attr("style", "display:none");
-
                     $('#table-pmr tbody').empty();
-                    if(data.detail.pmr.length == 0){
-                        var trPmr = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trPmr = '';
-                        var bilPmr = 0;
-                        $.each(data.detail.pmr, function (i, item) {
-                            if(item.subject != null) {
-                                bilPmr += 1;
-                                trPmr += '<tr>';
-                                trPmr += '<td align="center">' + bilPmr + '</td>';
-                                trPmr += '<td>' + item.subject.name + '</td>';
-                                trPmr += '<td align="center">' + item.grade + '</td>';
-                                trPmr += '<td align="center">' + item.year + '</td>';
-                                trPmr += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trPmr += '&nbsp;&nbsp;';
-                                trPmr += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trPmr += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-pmr tbody').append(trPmr);
+                    reloadPmr();
 
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#pmrForm').attr('action', "{{ route('pmr.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
+                    $('#spm1Form input[name="spm1_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#table-spm1 tbody').empty();
+                    reloadSpm1();
 
-                        $('#pmrForm input[name="id_pmr"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#pmrForm select[name="subjek_pmr"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#pmrForm select[name="gred_pmr"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#pmrForm input[name="tahun_pmr"]').val($(row).find('td:nth-child(4)').text());
+                    $('#spm2Form input[name="spm2_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#table-spm2 tbody').empty();
+                    reloadSpm2();
 
-                    });
+                    //$('#spmvForm input[name="spmv_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    //$('#table-spmv tbody').empty();
+                    //reloadSpmv();
 
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            pmrDelete(id);
-                        }
-                        })
-
-                    });
-
-                    $('#table-spm tbody').empty();
-                    $('#spmForm input[name="spm_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.spm.length == 0){
-                        var trSpm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trSpm = '';
-                        var bilSpm = 0;
-                        $.each(data.detail.spm, function (i, item) {
-                            if(item.subject != null) {
-                                bilSpm += 1;
-                                trSpm += '<tr>';
-                                trSpm += '<td align="center">' + bilSpm + '</td>';
-                                trSpm += '<td>' + item.subject.name + '</td>';
-                                trSpm += '<td align="center">' + item.grade + '</td>';
-                                trSpm += '<td align="center">' + item.year + '</td>';
-                                trSpm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trSpm += '&nbsp;&nbsp;';
-                                trSpm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trSpm += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-spm tbody').append(trSpm);
-
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#spmForm').attr('action', "{{ route('spm.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#spmForm input[name="id_spm"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#spmForm select[name="subjek_spm"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#spmForm select[name="gred_spm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#spmForm input[name="tahun_spm"]').val($(row).find('td:nth-child(4)').text());
-
-                    });
-
-                    $('#table-spmv tbody').empty();
-                    $('#spmvForm input[name="spmv_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.spmv.length == 0){
-                        var trSpmv = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trSpmv = '';
-                        var bilSpmv = 0;
-                        $.each(data.detail.spmv, function (i, item) {
-                            if(item.subject != null) {
-                                bilSpmv += 1;
-                                trSpmv += '<tr>';
-                                trSpmv += '<td align="center">' + bilSpmv + '</td>';
-                                trSpmv += '<td>' + item.subject.name + '</td>';
-                                trSpmv += '<td align="center">' + item.grade + '</td>';
-                                trSpmv += '<td align="center">' + item.year + '</td>';
-                                trSpmv += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trSpmv += '&nbsp;&nbsp;';
-                                trSpmv += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trSpmv += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-spmv tbody').append(trSpmv);
-
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#spmvForm').attr('action', "{{ route('spmv.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#spmvForm input[name="id_spmv"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#spmvForm select[name="subjek_spmv"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#spmvForm select[name="gred_spmv"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#spmvForm input[name="tahun_spmv"]').val($(row).find('td:nth-child(4)').text());
-
-                    });
-
-                    $('#table-svm tbody').empty();
                     $('#svmForm input[name="svm_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.svm.length == 0){
-                        var trSvm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trSvm = '';
-                        var bilSvm = 0;
-                        $.each(data.detail.svm, function (i, item) {
-                            if(item.subject != null) {
-                                bilSvm += 1;
-                                trSvm += '<tr>';
-                                trSvm += '<td align="center">' + bilSvm + '</td>';
-                                trSvm += '<td>' + item.subject.name + '</td>';
-                                trSvm += '<td align="center">' + item.grade + '</td>';
-                                trSvm += '<td align="center">' + item.year + '</td>';
-                                trSvm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trSvm += '&nbsp;&nbsp;';
-                                trSvm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trSvm += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-svm tbody').append(trSvm);
+                    $('#table-svm tbody').empty();
+                    reloadSvm();
 
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#svmForm').attr('action', "{{ route('svm.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
+                    $('#spmuForm input[name="spmu_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#table-spmu tbody').empty();
+                    reloadSpmu();
 
-                        $('#svmForm input[name="id_svm"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#svmForm select[name="subjek_svm"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#svmForm select[name="gred_svm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#svmForm input[name="tahun_svm"]').val($(row).find('td:nth-child(4)').text());
+                    $('#stpm1Form input[name="stpm1_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#table-stpm1 tbody').empty();
+                    reloadStpm1();
 
-                    });
+                    $('#stpm2Form input[name="stpm2_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#table-stpm2 tbody').empty();
+                    reloadStpm2();
 
-                    $('#table-stpm tbody').empty();
-                    $('#stpmForm input[name="stpm_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.stpm.length == 0){
-                        var trStpm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trStpm = '';
-                        var bilStpm = 0;
-                        $.each(data.detail.stpm, function (i, item) {
-                            if(item.subject != null) {
-                                bilStpm += 1;
-                                trStpm += '<tr>';
-                                trStpm += '<td align="center">' + bilStpm + '</td>';
-                                trStpm += '<td>' + item.subject.name + '</td>';
-                                trStpm += '<td align="center">' + item.grade + '</td>';
-                                trStpm += '<td align="center">' + item.year + '</td>';
-                                trStpm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trStpm += '&nbsp;&nbsp;';
-                                trStpm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trStpm += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-stpm tbody').append(trStpm);
+                    $('#stam1Form input[name="stam1_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#table-stam1 tbody').empty();
+                    reloadStam1();
 
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#stpmForm').attr('action', "{{ route('stpm.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
+                    $('#stam2Form input[name="stam2_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#table-stam2 tbody').empty();
+                    reloadStam2();
 
-                        $('#stpmForm input[name="id_stpm"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#stpmForm select[name="subjek_stpm"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#stpmForm select[name="gred_stpm"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#stpmForm input[name="tahun_stpm"]').val($(row).find('td:nth-child(4)').text());
-
-                    });
-
-                    $('#table-stam tbody').empty();
-                    $('#stamForm input[name="stam_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.stam.length == 0){
-                        var trStam = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trStam = '';
-                        var bilStam = 0;
-                        $.each(data.detail.stam, function (i, item) {
-                            if(item.subject != null) {
-                                bilStam += 1;
-                                trStam += '<tr>';
-                                trStam += '<td align="center">' + bilStam + '</td>';
-                                trStam += '<td>' + item.subject.name + '</td>';
-                                trStam += '<td align="center">' + item.grade + '</td>';
-                                trStam += '<td align="center">' + item.year + '</td>';
-                                trStam += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trStam += '&nbsp;&nbsp;';
-                                trStam += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                                trStam += '</tr>';
-                            }
-                        });
-                    }
-                    $('#table-stam tbody').append(trStam);
-
-                    $(document).on('click', '.edit-btn', function() {
-                        document.querySelector('.btn.btn-success.float-right').innerHTML = '<i class="fa fa-save"></i> Simpan';
-                        $('#stamForm').attr('action', "{{ route('stam.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#stamForm input[name="id_stam"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#stamForm select[name="subjek_stam"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#stamForm select[name="gred_stam"]').val($(row).find('td:nth-child(3)').text()).trigger('change');
-                        $('#stamForm input[name="tahun_stam"]').val($(row).find('td:nth-child(4)').text());
-
-                    });
-
-                    $('#table-matrikulasi tbody').empty();
                     $('#matrikulasiForm input[name="matrikulasi_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.matriculation.length == 0){
-                        var trStam = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trMatrikulasi = '';
-                        var bilMatrikulasi = 0;
-                        $.each(data.detail.matriculation, function (i, item) {
-                                bilMatrikulasi += 1;
-                                trMatrikulasi += '<tr>';
-                                trMatrikulasi += '<td align="center">' + bilMatrikulasi + '</td>';
-                                trMatrikulasi += '<td>' + item.college.name + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.course.name + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.matric_no + '</td>';
-                                trMatrikulasi += '<td>' + item.session + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.semester + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.subject.name + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.grade + '</td>';
-                                trMatrikulasi += '<td align="center">' + item.pngk + '</td>';
-                                trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                                trMatrikulasi += '&nbsp;&nbsp;';
-                                trMatrikulasi += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                        });
-                    }
-                    $('#table-matrikulasi tbody').append(trMatrikulasi);
-
-                    $(document).on('click', '.edit-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#matrikulasiForm').attr('action', "{{ route('matrikulasi.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#matrikulasiForm input[name="id_matrikulasi"]').val(id);
-                        var kolejName = $(row).find('td:nth-child(2)').text();
-                        $('#matrikulasiForm select[name="kolej_matrikulasi"] option').filter(function() {
-                            return $(this).text() === kolejName;
-                        }).prop('selected', true).trigger('change');
-                        var jurusanName = $(row).find('td:nth-child(3)').text();
-                        $('#matrikulasiForm select[name="jurusan_matrikulasi"] option').filter(function() {
-                            return $(this).text() === jurusanName;
-                        }).prop('selected', true).trigger('change');
-                        $('#matrikulasiForm select[name="matrik_matrikulasi"]').val($(row).find('td:nth-child(4)').text());
-                        $('#matrikulasiForm input[name="sesi_matrikulasi"]').val($(row).find('td:nth-child(5)').text());
-                        $('#matrikulasiForm input[name="semester_matrikulasi"]').val($(row).find('td:nth-child(6)').text());
-                        var subjekName = $(row).find('td:nth-child(7)').text();
-                        $('#matrikulasiForm select[name="subjek_matrikulasi"] option').filter(function() {
-                            return $(this).text() === subjekName;
-                        }).prop('selected', true).trigger('change');
-                        $('#matrikulasiForm input[name="gred_matrikulasi"]').val($(row).find('td:nth-child(8)').text());
-                        $('#matrikulasiForm input[name="pngk_matrikulasi"]').val($(row).find('td:nth-child(9)').text());
-                    });
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            matrikulasiDelete(id);
-                        }
-                        })
-
-                    });
+                    $('#table-matrikulasi tbody').empty();
+                    reloadMatrikulasi();
 
                     $('#skmForm input[name="skm_no_pengenalan"]').val(data.detail.no_pengenalan);
-
-                    $('#skmForm select[name="nama_skm"]').val('').trigger('change');
-                    $('#skmForm input[name="tahun_skm"]').val('');
-                    $('#skmForm select[name="nama_skm"]').attr('disabled', true);
-                    $('#skmForm input[name="tahun_skm"]').attr('disabled', true);
-                    $('#skmForm').attr('action', "{{ route('skm.store')  }}");
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
-
-                    $("#button_action_skm").attr("style", "display:none");
-
                     $('#table-skm tbody').empty();
-
-                    if(data.detail.skm.length == 0){
-                        var trSkm = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trSkm = '';
-                        var bilSkm = 0;
-                        $.each(data.detail.skm, function (i, item) {
-                            bilSkm += 1;
-                            trSkm += '<tr>';
-                            trSkm += '<td align="center">' + bilSkm + '</td>';
-                            trSkm += '<td>' + (item.qualification ? item.qualification.name : "Tiada Maklumat")  + '</td>';
-                            trSkm += '<td align="center">' + item.year + '</td>';
-                            trSkm += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                            trSkm += '&nbsp;&nbsp;';
-                            trSkm += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                            trSkm += '</tr>';
-                        });
-                    }
-                    $('#table-skm tbody').append(trSkm);
-
-                    $(document).on('click', '.edit-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#skmForm').attr('action', "{{ route('skm.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#skmForm input[name="id_skm"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#skmForm select[name="nama_skm"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#skmForm input[name="tahun_skm"]').val($(row).find('td:nth-child(3)').text());
-                    });
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            skmDelete(id);
-                        }
-                        })
-
-                    });
+                    reloadSkm();
+                    checkifalamatempty();
 
                     $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    if(data.detail.higher_education != null) {
-                        if(data.detail.higher_education.peringkat_pengajian) { $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').val(data.detail.higher_education.peringkat_pengajian).trigger('change'); }
-                        else { selectionNull('peringkat_pengajian_tinggi', 'pengajianTinggiForm'); }
-                        originalVal['peringkat_pengajian_tinggi'] = data.detail.higher_education.peringkat_pengajian;
-                        $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val(data.detail.higher_education.year ? data.detail.higher_education.year : data_not_available);
-                        originalVal['tahun_pengajian_tinggi'] = data.detail.higher_education.year;
-                        if(data.detail.higher_education.ref_eligibility_code) { $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').val(data.detail.higher_education.ref_eligibility_code).trigger('change'); }
-                        else { selectionNull('kelayakan_pengajian_tinggi', 'pengajianTinggiForm'); }
-                        originalVal['kelayakan_pengajian_tinggi'] = data.detail.higher_education.ref_eligibility_code;
-                        $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').val(data.detail.higher_education.cgpa ? data.detail.higher_education.cgpa : data_not_available);
-                        originalVal['cgpa_pengajian_tinggi'] = data.detail.higher_education.cgpa;
-                        if(data.detail.higher_education.ref_institution_code) { $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').val(data.detail.higher_education.ref_institution_code).trigger('change'); }
-                        else { selectionNull('institusi_pengajian_tinggi', 'pengajianTinggiForm'); }
-                        originalVal['institusi_pengajian_tinggi'] = data.detail.higher_education.ref_institution_code;
-                        $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').val(data.detail.higher_education.nama_sijil ? data.detail.higher_education.nama_sijil : data_not_available);
-                        originalVal['nama_sijil_pengajian_tinggi'] = data.detail.higher_education.nama_sijil;
-                        if(data.detail.higher_education.ref_specialization_code) { $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val(data.detail.higher_education.ref_specialization_code).trigger('change'); }
-                        else { selectionNull('pengkhususan_pengajian_tinggi', 'pengajianTinggiForm'); }
-                        originalVal['pengkhususan_pengajian_tinggi'] = data.detail.higher_education.ref_specialization_code;
-                        if(data.detail.higher_education.ins_fln) { $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').val(data.detail.higher_education.ins_fln).trigger('change'); }
-                        else { selectionNull('fln_pengajian_tinggi', 'pengajianTinggiForm'); }
-                        originalVal['fln_pengajian_tinggi'] = data.detail.higher_education.ins_fln;
-                        $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val(data.detail.higher_education.tarikh_senat ? data.detail.higher_education.tarikh_senat : data_not_available);
-                        originalVal['tarikh_senat_pengajian_tinggi'] = data.detail.higher_education.tarikh_senat;
-                        if(data.detail.higher_education.biasiswa) { $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val(data.detail.higher_education.biasiswa).trigger('change'); }
-                        else { selectionNull('biasiswa_pengajian_tinggi', 'pengajianTinggiForm'); }
-                        originalVal['biasiswa_pengajian_tinggi'] = data.detail.higher_education.biasiswa;
-                    }else{
-                        selectionNull('peringkat_pengajian_tinggi', 'pengajianTinggiForm');
-                        originalVal['peringkat_pengajian_tinggi'] = '';
-                        $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val(data_not_available);
-                        originalVal['tahun_pengajian_tinggi'] = '';
-                        selectionNull('kelayakan_pengajian_tinggi', 'pengajianTinggiForm');
-                        originalVal['kelayakan_pengajian_tinggi'] = '';
-                        $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').val(data_not_available);
-                        originalVal['cgpa_pengajian_tinggi'] = '';
-                        selectionNull('institusi_pengajian_tinggi', 'pengajianTinggiForm');
-                        originalVal['institusi_pengajian_tinggi'] = '';
-                        $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').val(data_not_available);
-                        originalVal['nama_sijil_pengajian_tinggi'] = '';
-                        selectionNull('pengkhususan_pengajian_tinggi', 'pengajianTinggiForm');
-                        originalVal['pengkhususan_pengajian_tinggi'] = '';
-                        selectionNull('fln_pengajian_tinggi', 'pengajianTinggiForm');
-                        originalVal['fln_pengajian_tinggi'] = '';
-                        $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val(data_not_available);
-                        originalVal['tarikh_senat_pengajian_tinggi'] = '';
-                        selectionNull('biasiswa_pengajian_tinggi', 'pengajianTinggiForm');
-                        originalVal['biasiswa_pengajian_tinggi'] = '';
-                    }
+                    $("#list-pt").empty();
+                    reloadPengajianTinggi();
 
-                    $('#table-professional tbody').empty();
-                    if(data.detail.professional.length == 0){
-                        var trProfessional = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trProfessional = '';
-                        var bilProfessional = 0;
-                        $.each(data.detail.professional, function (i, item) {
-                            bilProfessional += 1;
-                            trProfessional += '<tr>';
-                            trProfessional += '<td align="center">' + bilProfessional + '</td>'
-                            trProfessional += '<td>' + (item.member_no ? item.member_no : '') + '</td>';
-                            trProfessional += '<td>' + (item.specialization ? item.specialization.name : '') + '</td>';
-                            trProfessional += '<td>' + (item.date ? item.date : '') + '</td>';
-                            trProfessional += '</tr>';
-                        });
-                    }
-                    $('#table-professional tbody').append(trProfessional);
+                    $('#profesionalForm input[name="profesional_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#table-profesional tbody').empty();
+                    reloadProfesional();
 
-                    $('#experienceForm input[name="experience_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#experienceAForm input[name="experienceA_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#experienceBForm input[name="experienceB_no_pengenalan"]').val(data.detail.no_pengenalan);
+                    $('#experienceCForm input[name="experienceC_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.experience != null) {
-                        $('#experienceForm input[name="experience_appoint_date"]').val(data.detail.experience.date_appoint ? data.detail.experience.date_appoint : data_not_available);
-                        originalVal['experience_appoint_date'] = data.detail.experience.date_appoint;
-                        if(data.detail.experience.ref_position_level_code) { $('#experienceForm select[name="experience_position_level"]').val(data.detail.experience.ref_position_level_code).trigger('change'); }
-                        else { selectionNull('experience_position_level', 'experienceForm'); }
-                        originalVal['experience_position_level'] = data.detail.experience.ref_position_level_code;
-                        if(data.detail.experience.ref_skim_code) { $('#experienceForm select[name="experience_skim"]').val(data.detail.experience.ref_skim_code).trigger('change'); }
-                        else { selectionNull('experience_skim', 'experienceForm'); }
-                        originalVal['experience_skim'] = data.detail.experience.ref_skim_code;
-                        $('#experienceForm input[name="experience_start_date"]').val(data.detail.experience.date_start ? data.detail.experience.date_start : data_not_available);
-                        originalVal['experience_start_date'] = data.detail.experience.date_start;
-                        $('#experienceForm input[name="experience_verify_date"]').val(data.detail.experience.date_verify ? data.detail.experience.date_verify : data_not_available);
-                        originalVal['experience_verify_date'] = data.detail.experience.date_verify;
-                        if(data.detail.experience.ref_department_ministry_code) { $('#experienceForm select[name="experience_department_ministry"]').val(data.detail.experience.ref_department_ministry_code).trigger('change'); }
-                        else { selectionNull('experience_department_ministry', 'experienceForm'); }
-                        originalVal['experience_department_ministry'] = data.detail.experience.ref_department_ministry_code;
-                        if(data.detail.experience.state_department) { $('#experienceForm select[name="experience_department_state"]').val(data.detail.experience.state_department).trigger('change'); }
-                        else { selectionNull('experience_department_state', 'experienceForm'); }
-                        originalVal['experience_department_state'] = data.detail.experience.state_department;
+                        //Tab A
+                        if(data.detail.experience.sektor_pekerjaan) {
+                            $('#experienceAForm select[name="experience_job_sector"]').val(data.detail.experience.sektor_pekerjaan).trigger('change');
+                        }
+                        else {
+                            selectionNull('experience_job_sector', 'experienceAForm');
+                        }
+                        originalVal['experience_job_sector'] = $('#experienceAForm select[name="experience_job_sector"]').find(':selected').text();
+
+                        $('#experienceAForm input[name="experience_appoint_date"]').val(data.detail.experience.tarikh_mula ? data.detail.experience.tarikh_mula : data_not_available);
+                        originalVal['experience_appoint_date'] = data.detail.experience.tarikh_mula;
+
+                        if(data.detail.experience.taraf_jawatan) {
+                            $('#experienceAForm select[name="experience_position_level"]').val(data.detail.experience.taraf_jawatan).trigger('change');
+                        }
+                        else {
+                            selectionNull('experience_position_level', 'experienceAForm');
+                        }
+                        originalVal['experience_position_level'] = $('#experienceAForm select[name="experience_position_level"]').find(':selected').text();
+
+                        //Tab B
+                        if(data.detail.experience.ski_kod) {
+                            $('#experienceBForm select[name="experience_skim"]').val(data.detail.experience.ski_kod).trigger('change');
+                        }
+                        else {
+                            selectionNull('experience_skim', 'experienceBForm');
+                        }
+                        originalVal['experience_skim'] = $('#experienceBForm select[name="experience_skim"]').find(':selected').text();
+
+                        if(data.detail.experience.kump_pkhidmat) {
+                            $('#experienceBForm select[name="experience_service_group"]').val(data.detail.experience.kump_pkhidmat).trigger('change');
+                        }
+                        else {
+                            selectionNull('experience_service_group', 'experienceBForm');
+                        }
+                        originalVal['experience_service_group'] = $('#experienceBForm select[name="experience_service_group"]').find(':selected').text();
+
+                        if(data.detail.experience.ggh_kod) {
+                            $('#experienceBForm select[name="experience_position_grade"]').val(data.detail.experience.ggh_kod).trigger('change');
+                        }
+                        else {
+                            selectionNull('experience_position_grade', 'experienceBForm');
+                        }
+                        originalVal['experience_position_grade'] = $('#experienceBForm select[name="experience_position_grade"]').find(':selected').text();
+
+                        $('#experienceBForm input[name="experience_start_date"]').val(data.detail.experience.tarikh_lantik1 ? data.detail.experience.tarikh_lantik1 : data_not_available);
+                        originalVal['experience_start_date'] = data.detail.experience.tarikh_lantik1;
+
+                        $('#experienceBForm input[name="experience_verify_date"]').val(data.detail.experience.tarikh_disahkan ? data.detail.experience.tarikh_disahkan : data_not_available);
+                        originalVal['experience_verify_date'] = data.detail.experience.tarikh_disahkan;
+
+                        //Tab C
+                        if(data.detail.experience.kj_kod) {
+                            $('#experienceCForm select[name="experience_department_ministry"]').val(data.detail.experience.kj_kod).trigger('change');
+                        }
+                        else {
+                            selectionNull('experience_department_ministry', 'experienceCForm');
+                        }
+                        originalVal['experience_department_ministry'] = $('#experienceCForm select[name="experience_department_ministry"]').find(':selected').text();
+
+                        if(data.detail.experience.negeri_jabatan) {
+                            $('#experienceCForm select[name="experience_department_state"]').val(data.detail.experience.negeri_jabatan).trigger('change');
+                        }
+                        else {
+                            selectionNull('experience_department_state', 'experienceCForm');
+                        }
+                        originalVal['experience_department_state'] = $('#experienceCForm select[name="experience_department_state"]').find(':selected').text();
+
                     }else{
-                        $('#experienceForm input[name="experience_appoint_date"]').val(data_not_available);
+                        //Tab A
+                        selectionNull('experience_job_sector', 'experienceAForm');
+                        originalVal['experience_job_sector'] = ''
+
+                        $('#experienceAForm input[name="experience_appoint_date"]').val(data_not_available);
                         originalVal['experience_appoint_date'] = '';
-                        selectionNull('experience_position_level', 'experienceForm');
+
+                        selectionNull('experience_position_level', 'experienceAForm');
                         originalVal['experience_position_level'] = '';
-                        selectionNull('experience_skim', 'experienceForm');
+
+                        //Tab B
+                        selectionNull('experience_skim', 'experienceBForm');
                         originalVal['experience_skim'] = '';
-                        $('#experienceForm input[name="experience_start_date"]').val(data_not_available);
+
+                        $('#experienceBForm input[name="experience_start_date"]').val(data_not_available);
                         originalVal['experience_start_date'] = '';
-                        $('#experienceForm input[name="experience_verify_date"]').val(data_not_available);
+
+                        $('#experienceBForm input[name="experience_verify_date"]').val(data_not_available);
                         originalVal['experience_verify_date'] = '';
-                        selectionNull('experience_department_ministry', 'experienceForm');
+
+                        //Tab C
+                        selectionNull('experience_department_ministry', 'experienceCForm');
                         originalVal['experience_department_ministry'] = '';
-                        selectionNull('experience_department_state', 'experienceForm');
+
+                        selectionNull('experience_department_state', 'experienceCForm');
                         originalVal['experience_department_state'] = '';
                     }
 
+                    let tabAFields = ['experience_job_sector', 'experience_appoint_date', 'experience_position_level'];
+                    let tabBFields = ['experience_skim', 'experience_service_group', 'experience_position_grade', 'experience_start_date', 'experience_verify_date'];
+                    let tabCFields = ['experience_department_ministry', 'experience_department_state'];
+
+                    let tabAEmpty = isTabEmpty('experienceAForm', tabAFields);
+                    let tabBEmpty = isTabEmpty('experienceBForm', tabBFields);
+                    let tabCEmpty = isTabEmpty('experienceCForm', tabCFields);
+
+                    if(tabAEmpty){
+                        var tmMpsbElement = $("#tm_mpsb");
+                        tmMpsbElement.removeAttr("hidden");
+                    }else{
+                        var tmMpsbElement = $("#tm_mpsb");
+                        tmMpsbElement.attr("hidden", true);
+                    }
+                    if(tabBEmpty){
+                        var tmHakikiElement = $("#tm_hakiki");
+                        tmHakikiElement.removeAttr("hidden");
+                    }else{
+                        var tmHakikiElement = $("#tm_hakiki");
+                        tmHakikiElement.attr("hidden", true);
+                    }
+                    if(tabCEmpty){
+                        var tmTbElement = $("#tm_tb");
+                        tmTbElement.removeAttr("hidden");
+                    }else{
+                        var tmTbElement = $("#tm_tb");
+                        tmTbElement.attr("hidden", true);
+                    }
 
                     $('#pslForm input[name="psl_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    $('#pslForm select[name="jenis_peperiksaan"]').val('').trigger('change');
-                    $('#pslForm input[name="tarikh_peperiksaan"]').val('');
-                    $('#pslForm select[name="jenis_peperiksaan"]').attr('disabled', true);
-                    $('#pslForm input[name="tarikh_peperiksaan"]').attr('disabled', true);
-                    $('#pslForm').attr('action', "{{ route('psl.store')  }}");
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
-
-                    $("#button_action_psl").attr("style", "display:none");
-
                     $('#table-psl tbody').empty();
-                    if(data.detail.psl.length == 0){
-                        var trPsl = '<tr><td align="center" colspan="4">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trPsl = '';
-                        var bilPsl = 0;
-                        $.each(data.detail.psl, function (i, item) {
-                            bilPsl += 1;
-                            trPsl += '<tr>';
-                            trPsl += '<td align="center">' + bilPsl + '</td>'
-                            trPsl += '<td>' + item.qualification.name + '</td>';
-                            trPsl += '<td>' + (item.exam_date ? item.exam_date : '') + '</td>';
-                            trPsl += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                            trPsl += '&nbsp;&nbsp;';
-                            trPsl += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                            trPsl += '</tr>';
-                        });
-                    }
-                    $('#table-psl tbody').append(trPsl);
-
-                    $(document).on('click', '.edit-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#pslForm').attr('action', "{{ route('psl.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#pslForm input[name="id_psl"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#pslForm select[name="jenis_peperiksaan"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        $('#pslForm input[name="tarikh_peperiksaan"]').val($(row).find('td:nth-child(3)').text());
-                    });
-
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            pslDelete(id);
-                        }
-                        })
-
-                    });
+                    reloadPsl();
 
                     $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val(data.detail.no_pengenalan);
                     if(data.detail.army_police != null){
-                        if(data.detail.army_police.type_service) {
-                            $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.army_police.type_service).trigger('change');
+                        if(data.detail.army_police.status_pkhidmat) {
+                            $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val(data.detail.army_police.status_pkhidmat).trigger('change');
                         }
                         else {
                             selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm');
                         }
-                        originalVal['jenis_perkhidmatan_tentera_polis'] = data.detail.army_police.type_service;
-                        if(data.detail.army_police.ref_rank_code) {
-                            $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.army_police.ref_rank_code).trigger('change');
+                        originalVal['jenis_perkhidmatan_tentera_polis'] = $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').find(':selected').text();
+                        if(data.detail.army_police.pangkat_tent_polis) {
+                            $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val(data.detail.army_police.pangkat_tent_polis).trigger('change');
                         }
                         else {
                             selectionNull('pangkat_tentera_polis', 'tenteraPolisForm');
                         }
-                        originalVal['pangkat_tentera_polis'] = data.detail.army_police.ref_rank_code;
-                        if(data.detail.army_police.type_army_police) {
-                            $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.army_police.type_army_police).trigger('change');
+                        originalVal['pangkat_tentera_polis'] = $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').find(':selected').text();
+                        if(data.detail.army_police.jenis_bekas_tentera) {
+                            $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val(data.detail.army_police.jenis_bekas_tentera).trigger('change');
                         }
                         else {
                             selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm');
                         }
-                        originalVal['jenis_bekas_tentera_polis'] = data.detail.army_police.type_army_police;
+                        originalVal['jenis_bekas_tentera_polis'] = $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').find(':selected').text();
+
+                        var tmTentPolisElement = $("#tm_tentera");
+                        tmTentPolisElement.attr("hidden", true);
                     } else {
                         selectionNull('jenis_perkhidmatan_tentera_polis', 'tenteraPolisForm');
                         originalVal['jenis_perkhidmatan_tentera_polis'] = '';
@@ -1031,213 +1011,61 @@ Maklumat Pemohon
                         originalVal['pangkat_tentera_polis'] = '';
                         selectionNull('jenis_bekas_tentera_polis', 'tenteraPolisForm');
                         originalVal['jenis_bekas_tentera_polis'] = '';
+
+                        var tmTentPolisElement = $("#tm_tentera");
+                        tmTentPolisElement.removeAttr("hidden");
                     }
 
                     $('#bahasaForm input[name="bahasa_no_pengenalan"]').val(data.detail.no_pengenalan);
-
-                    $('#bahasaForm select[name="nama_bahasa"]').val('').trigger('change');
-                    $('#bahasaForm select[name="penguasaan_bahasa"]').val('').trigger('change');
-                    $('#bahasaForm select[name="nama_bahasa"]').attr('disabled', true);
-                    $('#bahasaForm select[name="penguasaan_bahasa"]').attr('disabled', true);
-                    $('#bahasaForm').attr('action', "{{ route('bahasa.store')  }}");
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
-
-                    $("#button_action_bahasa").attr("style", "display:none");
-
                     $('#table-language tbody').empty();
-                    if(data.detail.language.length == 0){
-                        var trLanguage = '<tr><td align="center" colspan="3">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trLanguage = '';
-                        var bilLanguage = 0;
-                        $.each(data.detail.language, function (i, item) {
-                            bilLanguage += 1;
-                            trLanguage += '<tr>';
-                            trLanguage += '<td align="center">' + bilLanguage + '</td>'
-                            trLanguage += '<td>' + item.language.name + '</td>';
-                            trLanguage += '<td>' + item.level + '</td>';
-                            trLanguage += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                            trLanguage += '&nbsp;&nbsp;';
-                            trLanguage += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                            trLanguage += '</tr>';
-                        });
-                    }
-                    $('#table-language tbody').append(trLanguage);
-
-                    $(document).on('click', '.edit-btn', function() {
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#bahasaForm').attr('action', "{{ route('bahasa.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#bahasaForm input[name="id_bahasa"]').val(id);
-                        var BahasaName = $(row).find('td:nth-child(2)').text();
-                        $('#bahasaForm select[name="nama_bahasa"] option').filter(function() {
-                            return $(this).text() === BahasaName;
-                        }).prop('selected', true).trigger('change');
-                        var levelName = $(row).find('td:nth-child(3)').text();
-                        $('#bahasaForm select[name="penguasaan_bahasa"] option').filter(function() {
-                            return $(this).text() === levelName;
-                        }).prop('selected', true).trigger('change');
-                    });
-
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            bahasaDelete(id);
-                        }
-                        })
-
-                    });
+                    reloadBahasa();
 
                     $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
-                    $('#bakatForm select[name="nama_bakat"]').val('').trigger('change');
-                    $('#bakatForm select[name="nama_bakat"]').attr('disabled', true);
-                    $('#bakatForm').attr('action', "{{ route('bakat.store')  }}");
-                    $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Tambah');
-
                     $('#table-talent tbody').empty();
-                    if(data.detail.talent.length == 0){
-                        var trBakat = '<tr><td align="center" colspan="2">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trBakat = '';
-                        var bilBakat = 0;
-                        $.each(data.detail.talent, function (i, item) {
-                            bilBakat += 1;
-                            trBakat += '<tr>';
-                            trBakat += '<td align="center">' + bilBakat + '</td>'
-                            trBakat += '<td>' + item.talent.name + '</td>';
-                            trBakat += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                            trBakat += '&nbsp;&nbsp;';
-                            trBakat += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                            trBakat += '</tr>';
-                        });
-                    }
-                    $('#table-talent tbody').append(trBakat);
+                    reloadBakat();
 
-                    $(document).on('click', '.edit-btn', function() {
-                        $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#bakatForm').attr('action', "{{ route('bakat.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-
-                        $('#bakatForm input[name="id_bakat"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#bakatForm select[name="nama_bakat"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                    });
-                    $('#bakatForm input[name="bakat_no_pengenalan"]').val(data.detail.no_pengenalan);
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            bakatDelete(id);
-                        }
-                        })
-
-                    });
-
-                    $('#penaltyForm select[name="penalty"]').attr('disabled', true);
-                    $('#penaltyForm input[name="penalty_duration"]').attr('disabled', true);
-                    $('#penaltyForm select[name="penalty_type"]').attr('disabled', true);
-                    $('#penaltyForm input[name="penalty_start"]').attr('disabled', true);
-                    $('#penaltyForm input[name="penalty_end"]').attr('disabled', true);
-                    $('#penaltyForm input[name="penalty_end"]').attr('readonly', false);
                     $('#penaltyForm input[name="penalty_no_pengenalan"]').val(data.detail.no_pengenalan);
-
                     $('#table-penalty tbody').empty();
-                    if(data.detail.penalty.length == 0){
-                        var trPenalty = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
-                    } else {
-                        var trPenalty = '';
-                        var bilPenalty = 0;
-                        $.each(data.detail.penalty, function (i, item) {
-                            bilPenalty += 1;
-                            trPenalty += '<tr>';
-                            trPenalty += '<td align="center">' + bilPenalty + '</td>'
-                            trPenalty += '<td>' + item.penalty.name + '</td>';
-                            trPenalty += '<td>' + item.duration + ' ' + item.type + '</td>';
-                            trPenalty += '<td>' + item.date_start + '</td>';
-                            trPenalty += '<td>' + item.date_end + '</td>';
-                            trPenalty += '<td align="center"><i class="fas fa-pencil text-primary edit-btn" data-id="' + item.id + ' "></i>';
-                            trPenalty += '&nbsp;&nbsp;';
-                            trPenalty += '<i class="fas fa-trash text-danger delete-btn" data-id="' + item.id + '"></i></td>';
-                            trPenalty += '</tr>';
-                        });
-                    }
-                    $('#table-penalty tbody').append(trPenalty);
-
-                    $(document).on('click', '.edit-btn', function() {
-                        $('.btn.btn-success.float-right').html('<i class="fa fa-save"></i> Simpan');
-                        $('#penaltyForm').attr('action', "{{ route('penalty.update') }}");
-                        var row = $(this).closest('tr');
-                        var id = $(this).data('id');
-                        editPenalty();
-
-                        $('#penaltyForm input[name="id_penalty"]').val(id);
-                        var subjectName = $(row).find('td:nth-child(2)').text();
-                        $('#penaltyForm select[name="penalty"] option').filter(function() {
-                            return $(this).text() === subjectName;
-                        }).prop('selected', true).trigger('change');
-                        var durationAndType = $(row).find('td:nth-child(3)').text().split(' ');
-                        var duration = durationAndType[0];
-                        var type = durationAndType[1];
-                        $('#penaltyForm select[name="penalty_duration"]').val(duration).text();
-                        $('#penaltyForm select[name="penalty_type"] option').filter(function() {
-                            return $(this).text() === type;
-                        }).prop('selected', true).trigger('change');
-                        $('#penaltyForm input[name="penalty_start"]').val($(row).find('td:nth-child(4)').text());
-                        $('#penaltyForm input[name="penalty_end"]').val($(row).find('td:nth-child(5)').text());
-                    });
-
-                    $(document).on('click', '.delete-btn', function() {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                        title: 'Adakah anda ingin hapuskan maklumat ini?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sahkan',
-                        cancelButtonText: 'Batal',
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            penaltyDelete(id);
-                        }
-                        })
-
-                    });
+                    reloadPenalty();
 
                 },
                 error: function(data) {
 
+                    $('#candidate_name').html('');
+                    $('#candidate_ic').html('');
+                    $('#candidate_no_pengenalan').val('');
+                    $('#candidate_timeline').html('');
+
                     $('#update_personal').attr("style", "display:none");
-                    $('#update_alamat').attr("style", "display:none");
+                    $('#update_alamat_tetap').attr("style", "display:none");
+                    $('#update_alamat_surat').attr("style", "display:none");
                     $('#update_tempat_lahir').attr("style", "display:none");
+                    $('#update_pusat_temuduga').attr("style", "display:none");
+                    $('#update_lesen_memandu').attr("style", "display:none");
+                    $('#update_oku').attr("style", "display:none");
                     $('#update_pmr').attr("style", "display:none");
-                    $('#update_pengajian_tinggi').attr("style", "display:none");
+                    $('#update_spm1').attr("style", "display:none");
+                    $('#update_spm2').attr("style", "display:none");
+                    $('#update_stpm1').attr("style", "display:none");
+                    $('#update_stpm2').attr("style", "display:none");
+                    $('#update_stam1').attr("style", "display:none");
+                    $('#update_stam2').attr("style", "display:none");
                     $('#update_experience').attr("style", "display:none");
                     $('#update_tentera_polis').attr("style", "display:none");
                     $('#update_penalty').attr("style", "display:none");
-                    $('#update_lesen_memandu').attr("style", "display:none");
-                    $('#update_oku').attr("style", "display:none");
 
                     $("#button_action_personal").attr("style", "display:none");
-                    $("#button_action_alamat").attr("style", "display:none");
+                    $("#button_action_alamat_tetap").attr("style", "display:none");
+                    $("#button_action_alamat_surat").attr("style", "display:none");
                     $("#button_action_tempat_lahir").attr("style", "display:none");
+                    $("#button_action_pusat_temuduga").attr("style", "display:none");
                     $("#button_action_pmr").attr("style", "display:none");
-                    $("#button_action_pengajian_tinggi").attr("style", "display:none");
+                    $("#button_action_spm1").attr("style", "display:none");
+                    $("#button_action_spm2").attr("style", "display:none");
+                    $("#button_action_stpm1").attr("style", "display:none");
+                    $("#button_action_stpm2").attr("style", "display:none");
+                    $("#button_action_stam1").attr("style", "display:none");
+                    $("#button_action_stam2").attr("style", "display:none");
                     $("#button_action_experience").attr("style", "display:none");
                     $("#button_action_tentera_polis").attr("style", "display:none");
                     $("#button_action_penalty").attr("style", "display:none");
@@ -1258,31 +1086,33 @@ Maklumat Pemohon
                     $('#personalForm input[name="email"]').val('');
                     $('#personalForm input[name="personal_no_pengenalan"]').val('');
 
-                    $('#alamatForm input[name="permanent_address_1"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_address_1"]').val('');
-                    $('#alamatForm input[name="permanent_address_2"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_address_2"]').val('');
-                    $('#alamatForm input[name="permanent_address_3"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_address_3"]').val('');
-                    $('#alamatForm input[name="permanent_poscode"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_poscode"]').val('');
-                    $('#alamatForm input[name="permanent_city"]').attr('disabled', true);
-                    $('#alamatForm input[name="permanent_city"]').val('');
-                    $('#alamatForm select[name="permanent_state"]').attr('disabled', true);
-                    $('#alamatForm select[name="permanent_state"]').val('').trigger('change');
-                    $('#alamatForm input[name="address_1"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_1"]').val('');
-                    $('#alamatForm input[name="address_2"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_2"]').val('');
-                    $('#alamatForm input[name="address_3"]').attr('disabled', true);
-                    $('#alamatForm input[name="address_3"]').val('');
-                    $('#alamatForm input[name="poscode"]').attr('disabled', true);
-                    $('#alamatForm input[name="poscode"]').val('');
-                    $('#alamatForm input[name="city"]').attr('disabled', true);
-                    $('#alamatForm input[name="city"]').val('');
-                    $('#alamatForm select[name="state"]').attr('disabled', true);
-                    $('#alamatForm select[name="state"]').val('').trigger('change');
-                    $('#alamatForm input[name="alamat_no_pengenalan"]').val('');
+                    $('#alamatTetapForm input[name="permanent_address_1"]').attr('disabled', true);
+                    $('#alamatTetapForm input[name="permanent_address_1"]').val('');
+                    $('#alamatTetapForm input[name="permanent_address_2"]').attr('disabled', true);
+                    $('#alamatTetapForm input[name="permanent_address_2"]').val('');
+                    $('#alamatTetapForm input[name="permanent_address_3"]').attr('disabled', true);
+                    $('#alamatTetapForm input[name="permanent_address_3"]').val('');
+                    $('#alamatTetapForm input[name="permanent_poscode"]').attr('disabled', true);
+                    $('#alamatTetapForm input[name="permanent_poscode"]').val('');
+                    $('#alamatTetapForm input[name="permanent_city"]').attr('disabled', true);
+                    $('#alamatTetapForm input[name="permanent_city"]').val('');
+                    $('#alamatTetapForm select[name="permanent_state"]').attr('disabled', true);
+                    $('#alamatTetapForm select[name="permanent_state"]').val('').trigger('change');
+                    $('#alamatTetapForm input[name="alamat_tetap_no_pengenalan"]').val('');
+
+                    $('#alamatSuratForm input[name="address_1"]').attr('disabled', true);
+                    $('#alamatSuratForm input[name="address_1"]').val('');
+                    $('#alamatSuratForm input[name="address_2"]').attr('disabled', true);
+                    $('#alamatSuratForm input[name="address_2"]').val('');
+                    $('#alamatSuratForm input[name="address_3"]').attr('disabled', true);
+                    $('#alamatSuratForm input[name="address_3"]').val('');
+                    $('#alamatSuratForm input[name="poscode"]').attr('disabled', true);
+                    $('#alamatSuratForm input[name="poscode"]').val('');
+                    $('#alamatSuratForm input[name="city"]').attr('disabled', true);
+                    $('#alamatSuratForm input[name="city"]').val('');
+                    $('#alamatSuratForm select[name="state"]').attr('disabled', true);
+                    $('#alamatSuratForm select[name="state"]').val('').trigger('change');
+                    $('#alamatSuratForm input[name="alamat_surat_no_pengenalan"]').val('');
 
                     $('#tempatLahirForm select[name="place_of_birth"]').attr('disabled', true);
                     $('#tempatLahirForm select[name="place_of_birth"]').val('').trigger('change');
@@ -1302,6 +1132,9 @@ Maklumat Pemohon
                     $('#oku_category').val('');
                     $('#oku_sub').val('');
 
+                    $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
+                    $('#pusatTemudugaForm select[name="pusat_temuduga"]').val('').trigger('change');
+
                     $('#table-skim tbody').empty();
 
                     $('#pmrForm select[name="subjek_pmr"]').attr('disabled', true);
@@ -1314,15 +1147,25 @@ Maklumat Pemohon
 
                     $('#table-pmr tbody').empty();
 
-                    $('#table-spm tbody').empty();
+                    $('#table-spm1 tbody').empty();
 
-                    $('#table-spmv tbody').empty();
+                    $('#table-spm2 tbody').empty();
+
+                    //$('#table-spmv tbody').empty();
 
                     $('#table-svm tbody').empty();
 
-                    $('#table-stpm tbody').empty();
+                    $('#table-spmu tbody').empty();
 
-                    $('#table-stam tbody').empty();
+                    $('#table-stpm1 tbody').empty();
+                    $('#pngk_stpm1').html('');
+
+                    $('#table-stpm2 tbody').empty();
+                    $('#pngk_stpm2').html('');
+
+                    $('#table-stam1 tbody').empty();
+
+                    $('#table-stam2 tbody').empty();
 
                     $('#table-matriculation tbody').empty();
 
@@ -1350,23 +1193,31 @@ Maklumat Pemohon
                     $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').attr('disabled', true);
                     $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val('');
 
-                    $('#table-professional tbody').empty();
+                    $('#table-profesional tbody').empty();
 
-                    $('#experienceForm input[name="experience_appoint_date"]').val('');
-                    $('#experienceForm input[name="experience_appoint_date"]').attr('disabled', true);
-                    $('#experienceForm select[name="experience_position_level"]').val('').trigger('change');
-                    $('#experienceForm select[name="experience_position_level"]').attr('disabled', true);
-                    $('#experienceForm select[name="experience_skim"]').val('').trigger('change');
-                    $('#experienceForm select[name="experience_skim"]').attr('disabled', true);
-                    $('#experienceForm input[name="experience_start_date"]').val('');
-                    $('#experienceForm input[name="experience_start_date"]').attr('disabled', true);
-                    $('#experienceForm input[name="experience_verify_date"]').val('');
-                    $('#experienceForm input[name="experience_verify_date"]').attr('disabled', true);
-                    $('#experienceForm select[name="experience_department_ministry"]').val('').trigger('change');
-                    $('#experienceForm select[name="experience_department_ministry"]').attr('disabled', true);
-                    $('#experienceForm select[name="experience_department_state"]').val('').trigger('change');
-                    $('#experienceForm select[name="experience_department_state"]').attr('disabled', true);
-                    $('#experienceForm input[name="experience_no_pengenalan"]').val('');
+                    $('#experienceAForm select[name="experience_job_sector"]').val('').trigger('change');
+                    $('#experienceAForm select[name="experience_job_sector"]').attr('disabled', true);
+                    $('#experienceAForm input[name="experience_appoint_date"]').val('');
+                    $('#experienceAForm input[name="experience_appoint_date"]').attr('disabled', true);
+                    $('#experienceAForm select[name="experience_position_level"]').val('').trigger('change');
+                    $('#experienceAForm select[name="experience_position_level"]').attr('disabled', true);
+                    $('#experienceBForm select[name="experience_skim"]').val('').trigger('change');
+                    $('#experienceBForm select[name="experience_skim"]').attr('disabled', true);
+                    $('#experienceBForm select[name="experience_service_group"]').val('').trigger('change');
+                    $('#experienceBForm select[name="experience_service_group"]').attr('disabled', true);
+                    $('#experienceBForm select[name="experience_position_grade"]').val('').trigger('change');
+                    $('#experienceBForm select[name="experience_position_grade"]').attr('disabled', true);
+                    $('#experienceBForm input[name="experience_start_date"]').val('');
+                    $('#experienceBForm input[name="experience_start_date"]').attr('disabled', true);
+                    $('#experienceBForm input[name="experience_verify_date"]').val('');
+                    $('#experienceBForm input[name="experience_verify_date"]').attr('disabled', true);
+                    $('#experienceCForm select[name="experience_department_ministry"]').val('').trigger('change');
+                    $('#experienceCForm select[name="experience_department_ministry"]').attr('disabled', true);
+                    $('#experienceCForm select[name="experience_department_state"]').val('').trigger('change');
+                    $('#experienceCForm select[name="experience_department_state"]').attr('disabled', true);
+                    $('#experienceAForm input[name="experienceA_no_pengenalan"]').val('');
+                    $('#experienceBForm input[name="experienceB_no_pengenalan"]').val('');
+                    $('#experienceCForm input[name="experienceC_no_pengenalan"]').val('');
 
                     $('#table-psl tbody').empty();
 
@@ -1405,6 +1256,224 @@ Maklumat Pemohon
         var reloadUrl = "{{ route('timeline.list', ':replaceThis') }}"
         reloadUrl = reloadUrl.replace(':replaceThis', no_pengenalan);
         $('#candidate_timeline').load(reloadUrl)
+    }
+
+    function reset() {
+        // $('#table-carian').DataTable().destroy();
+        // $("#table-carian > tbody").html("");
+        $('#append-data').empty();
+
+        $('#candidate_name').html('');
+        $('#candidate_ic').html('');
+        $('#candidate_no_pengenalan').val('');
+        $('#candidate_timeline').html('');
+
+        $('#update_personal').attr("style", "display:none");
+        $('#update_alamat_tetap').attr("style", "display:none");
+        $('#update_alamat_surat').attr("style", "display:none");
+        $('#update_tempat_lahir').attr("style", "display:none");
+        $('#update_lesen_memandu').attr("style", "display:none");
+        $('#update_oku').attr("style", "display:none");
+        $('#update_pusat_temuduga').attr("style", "display:none");
+        $('#update_pmr').attr("style", "display:none");
+        $('#update_spm1').attr("style", "display:none");
+        $('#update_spm2').attr("style", "display:none");
+        $('#update_stpm1').attr("style", "display:none");
+        $('#update_stpm2').attr("style", "display:none");
+        $('#update_stam1').attr("style", "display:none");
+        $('#update_stam2').attr("style", "display:none");
+        $('#update_experience').attr("style", "display:none");
+        $('#update_tentera_polis').attr("style", "display:none");
+        $('#update_penalty').attr("style", "display:none");
+
+        $("#button_action_personal").attr("style", "display:none");
+        $("#button_action_alamat_tetap").attr("style", "display:none");
+        $("#button_action_alamat_surat").attr("style", "display:none");
+        $("#button_action_tempat_lahir").attr("style", "display:none");
+        $("#button_action_pusat_temuduga").attr("style", "display:none");
+        $("#button_action_pmr").attr("style", "display:none");
+        $("#button_action_spm1").attr("style", "display:none");
+        $("#button_action_spm2").attr("style", "display:none");
+        $("#button_action_stpm1").attr("style", "display:none");
+        $("#button_action_stpm2").attr("style", "display:none");
+        $("#button_action_stam1").attr("style", "display:none");
+        $("#button_action_stam2").attr("style", "display:none");
+        $("#button_action_experience").attr("style", "display:none");
+        $("#button_action_tentera_polis").attr("style", "display:none");
+        $("#button_action_penalty").attr("style", "display:none");
+
+        $('#personalForm select[name="gender"]').attr('disabled', true);
+        $('#personalForm select[name="gender"]').val('').trigger('change');
+        $('#personalForm select[name="religion"]').attr('disabled', true);
+        $('#personalForm select[name="religion"]').val('').trigger('change');
+        $('#personalForm select[name="race"]').attr('disabled', true);
+        $('#personalForm select[name="race"]').val('').trigger('change');
+        $('#personalForm input[name="date_of_birth"]').attr('disabled', true);
+        $('#personalForm input[name="date_of_birth"]').val('');
+        $('#personalForm select[name="marital_status"]').attr('disabled', true);
+        $('#personalForm select[name="marital_status"]').val('').trigger('change');
+        $('#personalForm input[name="phone_number"]').attr('disabled', true);
+        $('#personalForm input[name="phone_number"]').val('');
+        $('#personalForm input[name="email"]').attr('disabled', true);
+        $('#personalForm input[name="email"]').val('');
+        $('#personalForm input[name="personal_no_pengenalan"]').val('');
+
+        $('#alamatTetapForm input[name="permanent_address_1"]').attr('disabled', true);
+        $('#alamatTetapForm input[name="permanent_address_1"]').val('');
+        $('#alamatTetapForm input[name="permanent_address_2"]').attr('disabled', true);
+        $('#alamatTetapForm input[name="permanent_address_2"]').val('');
+        $('#alamatTetapForm input[name="permanent_address_3"]').attr('disabled', true);
+        $('#alamatTetapForm input[name="permanent_address_3"]').val('');
+        $('#alamatTetapForm input[name="permanent_poscode"]').attr('disabled', true);
+        $('#alamatTetapForm input[name="permanent_poscode"]').val('');
+        $('#alamatTetapForm input[name="permanent_city"]').attr('disabled', true);
+        $('#alamatTetapForm input[name="permanent_city"]').val('');
+        $('#alamatTetapForm select[name="permanent_state"]').attr('disabled', true);
+        $('#alamatTetapForm select[name="permanent_state"]').val('').trigger('change');
+        $('#alamatTetapForm input[name="alamat_tetap_no_pengenalan"]').val('');
+
+        $('#alamatSuratForm input[name="address_1"]').attr('disabled', true);
+        $('#alamatSuratForm input[name="address_1"]').val('');
+        $('#alamatSuratForm input[name="address_2"]').attr('disabled', true);
+        $('#alamatSuratForm input[name="address_2"]').val('');
+        $('#alamatSuratForm input[name="address_3"]').attr('disabled', true);
+        $('#alamatSuratForm input[name="address_3"]').val('');
+        $('#alamatSuratForm input[name="poscode"]').attr('disabled', true);
+        $('#alamatSuratForm input[name="poscode"]').val('');
+        $('#alamatSuratForm input[name="city"]').attr('disabled', true);
+        $('#alamatSuratForm input[name="city"]').val('');
+        $('#alamatSuratForm select[name="state"]').attr('disabled', true);
+        $('#alamatSuratForm select[name="state"]').val('').trigger('change');
+        $('#alamatSuratForm input[name="alamat_surat_no_pengenalan"]').val('');
+
+        $('#tempatLahirForm select[name="place_of_birth"]').attr('disabled', true);
+        $('#tempatLahirForm select[name="place_of_birth"]').val('').trigger('change');
+        $('#tempatLahirForm select[name="father_place_of_birth"]').attr('disabled', true);
+        $('#tempatLahirForm select[name="father_place_of_birth"]').val('').trigger('change');
+        $('#tempatLahirForm select[name="mother_place_of_birth"]').attr('disabled', true);
+        $('#tempatLahirForm select[name="mother_place_of_birth"]').val('').trigger('change');
+        $('#tempatLahirForm input[name="tempat_lahir_no_pengenalan"]').val('');
+
+        $('#license_type').val('');
+        $('#license_expiry_date').val('');
+        $('#license_blacklist_status').val('').trigger('change');
+        $('#license_blacklist_details').val('');
+
+        $('#oku_registration_no').val('');
+        $('#oku_status').val('');
+        $('#oku_category').val('');
+        $('#oku_sub').val('');
+
+        $('#pusatTemudugaForm select[name="pusat_temuduga"]').attr('disabled', true);
+        $('#pusatTemudugaForm select[name="pusat_temuduga"]').val('').trigger('change');
+
+        $('#table-skim tbody').empty();
+
+        $('#pmrForm select[name="subjek_pmr"]').attr('disabled', true);
+        $('#pmrForm select[name="subjek_pmr"]').val('').trigger('change');
+        $('#pmrForm select[name="gred_pmr"]').attr('disabled', true);
+        $('#pmrForm select[name="gred_pmr"]').val('').trigger('change');
+        $('#pmrForm input[name="tahun_pmr"]').attr('disabled', true);
+        $('#pmrForm input[name="tahun_pmr"]').val('');
+        $('#pmrForm input[name="pmr_no_pengenalan"]').val('');
+
+        $('#table-pmr tbody').empty();
+
+        $('#table-spm1 tbody').empty();
+
+        $('#table-spm2 tbody').empty();
+
+        //$('#table-spmv tbody').empty();
+
+        $('#table-svm tbody').empty();
+
+        $('#table-spmu tbody').empty();
+
+        $('#table-stpm1 tbody').empty();
+        $('#pngk_stpm1').html('');
+
+        $('#table-stpm2 tbody').empty();
+        $('#pngk_stpm2').html('');
+
+        $('#table-stam1 tbody').empty();
+
+        $('#table-stam2 tbody').empty();
+
+        $('#table-matriculation tbody').empty();
+
+        $('#table-skm tbody').empty();
+
+        $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="peringkat_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').val('');
+        $('#pengajianTinggiForm input[name="tahun_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="kelayakan_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').val('');
+        $('#pengajianTinggiForm input[name="cgpa_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="institusi_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').val('');
+        $('#pengajianTinggiForm input[name="nama_sijil_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="pengkhususan_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="fln_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').val('');
+        $('#pengajianTinggiForm input[name="tarikh_senat_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').val('').trigger('change');
+        $('#pengajianTinggiForm select[name="biasiswa_pengajian_tinggi"]').attr('disabled', true);
+        $('#pengajianTinggiForm input[name="pengajian_tinggi_no_pengenalan"]').val('');
+
+        $('#table-profesional tbody').empty();
+
+        $('#experienceAForm select[name="experience_job_sector"]').val('').trigger('change');
+        $('#experienceAForm select[name="experience_job_sector"]').attr('disabled', true);
+        $('#experienceAForm input[name="experience_appoint_date"]').val('');
+        $('#experienceAForm input[name="experience_appoint_date"]').attr('disabled', true);
+        $('#experienceAForm select[name="experience_position_level"]').val('').trigger('change');
+        $('#experienceAForm select[name="experience_position_level"]').attr('disabled', true);
+        $('#experienceBForm select[name="experience_skim"]').val('').trigger('change');
+        $('#experienceBForm select[name="experience_skim"]').attr('disabled', true);
+        $('#experienceBForm select[name="experience_service_group"]').val('').trigger('change');
+        $('#experienceBForm select[name="experience_service_group"]').attr('disabled', true);
+        $('#experienceBForm select[name="experience_position_grade"]').val('').trigger('change');
+        $('#experienceBForm select[name="experience_position_grade"]').attr('disabled', true);
+        $('#experienceBForm input[name="experience_start_date"]').val('');
+        $('#experienceBForm input[name="experience_start_date"]').attr('disabled', true);
+        $('#experienceBForm input[name="experience_verify_date"]').val('');
+        $('#experienceBForm input[name="experience_verify_date"]').attr('disabled', true);
+        $('#experienceCForm select[name="experience_department_ministry"]').val('').trigger('change');
+        $('#experienceCForm select[name="experience_department_ministry"]').attr('disabled', true);
+        $('#experienceCForm select[name="experience_department_state"]').val('').trigger('change');
+        $('#experienceCForm select[name="experience_department_state"]').attr('disabled', true);
+        $('#experienceAForm input[name="experienceA_no_pengenalan"]').val('');
+        $('#experienceBForm input[name="experienceB_no_pengenalan"]').val('');
+        $('#experienceCForm input[name="experienceC_no_pengenalan"]').val('');
+
+        $('#table-psl tbody').empty();
+
+        $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').val('').trigger('change');
+        $('#tenteraPolisForm select[name="jenis_perkhidmatan_tentera_polis"]').attr('disabled', true);
+        $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').val('').trigger('change');
+        $('#tenteraPolisForm select[name="pangkat_tentera_polis"]').attr('disabled', true);
+        $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').val('').trigger('change');
+        $('#tenteraPolisForm select[name="jenis_bekas_tentera_polis"]').attr('disabled', true);
+        $('#tenteraPolisForm input[name="tentera_polis_no_pengenalan"]').val('');
+
+        $('#table-language tbody').empty();
+
+        $('#table-talent tbody').empty();
+
+        $('#penaltyForm select[name="penalty"]').attr('disabled', true);
+        $('#penaltyForm input[name="penalty_duration"]').attr('disabled', true);
+        $('#penaltyForm select[name="penalty_type"]').attr('disabled', true);
+        $('#penaltyForm input[name="penalty_start"]').attr('disabled', true);
+        $('#penaltyForm input[name="penalty_end"]').attr('disabled', true);
+        $('#penaltyForm input[name="penalty_end"]').attr('readonly', false);
+        $('#penaltyForm input[name="penalty_no_pengenalan"]').val('');
+
+        $('#table-penalty tbody').empty();
     }
 </script>
 @endsection

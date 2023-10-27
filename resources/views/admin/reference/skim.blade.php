@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Jawatan
+    Skim
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('msg.home')}}</a></li>
-    <li class="breadcrumb-item"><a>Jawatan</a>
+    <li class="breadcrumb-item"><a>Skim</a>
     </li>
 @endsection
 
@@ -42,22 +42,45 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Senarai Skim Jawatan</h4>
+        <h4 class="card-title">Senarai Skim</h4>
         @if($accessAdd)
         <button type="button" class="btn btn-primary btn-md float-right" onclick="skimForm()">
-            <i class="fa-solid fa-add"></i> Tambah Jawatan
+            <i class="fa-solid fa-add"></i> Tambah Skim
         </button>
         @endif
     </div>
     <hr>
     <div class="card-body">
+        <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
+            <div class="row align-items-center">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <label class="form-label" for="code">Carian Jenis</label>
+                    <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
+                        <option value="Lihat Semua" selected>Lihat Semua</option>
+                        @foreach ($jenis_skim as $js)
+                        <option value="{{ $js->kod }}">{{ $js->kod }} - {{ $js->diskripsi }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                    <button type="submit" class="btn btn-success">
+                      <i class="fa fa-search"></i> Cari
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer">
         <div class="table-responsive">
             <table class="table header_uppercase table-bordered" id="table-skim">
                 <thead>
                     <tr>
                         <th width="2%">No.</th>
                         <th width="10%">Kod</th>
-                        <th>Skim Jawatan</th>
+                        <th>Skim</th>
+                        <th>Jenis</th>
+                        <th width="10%">Gred Gaji</th>
+                        <th width="10%">KUmpulan JKK</th>
                         <th width="10%">Tindakan</th>
                     </tr>
                 </thead>
@@ -109,6 +132,29 @@
                 }
             },
             {
+                data: "jenis",
+                name: "jenis",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "ggh",
+                name: "ggh",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "jkk",
+                name: "jkk",
+                className : "text-center",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
                 data: 'action',
                 name: 'action',
                 orderable: false,
@@ -133,6 +179,101 @@
         }
     });
 
+    $('body').on('submit','#form-search',function(e){
+
+        e.preventDefault();
+
+        var form = $("#form-search");
+
+        if(!form.valid()){
+            return false;
+        }
+        var table;
+
+        table = $('#table-skim').DataTable().destroy();
+
+        table = $('#table-skim').DataTable({
+            orderCellsTop: true,
+            colReorder: false,
+            pageLength: 25,
+            processing: true,
+            serverSide: true, //enable if data is large (more than 50,000)
+            deferRender: true,
+            ajax: form.attr('action')+"?"+form.serialize(),
+            columns: [
+                {
+                    defaultContent: '',
+                    orderable: false,
+                    searchable: false,
+                    className : "text-center",
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: "code",
+                    name: "code",
+                    className : "text-center",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "name",
+                    name: "name",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "jenis",
+                    name: "jenis",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "ggh",
+                    name: "ggh",
+                    className : "text-center",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "jkk",
+                    name: "jkk",
+                    className : "text-center",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+
+            ],
+            language : {
+                emptyTable : "Tiada data tersedia",
+                info : "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+                infoEmpty : "Menunjukkan 0 hingga 0 daripada 0 entri",
+                infoFiltered : "(Ditapis dari _MAX_ entri)",
+                search : "Cari:",
+                zeroRecords : "Tiada rekod yang ditemui",
+                paginate : {
+                    first : "Pertama",
+                    last : "Terakhir",
+                    next : "Seterusnya",
+                    previous : "Sebelumnya"
+                },
+                lengthMenu : "Lihat _MENU_ entri",
+            }
+        });
+        });
+
     skimForm = function(id = null){
         var skimFormModal;
         skimFormModal = new bootstrap.Modal(document.getElementById('skimFormModal'), { keyboard: false});
@@ -145,9 +286,16 @@
             $('#skimForm').attr('action', '{{ route("admin.reference.skim.store") }}');
             $('#skimForm input[name="code"]').val("");
             $('#skimForm input[name="name"]').val("");
+            $('#skimForm select[name="GUNASAMA"]').val("").trigger('change');
+            $('#skimForm select[name="ref_skim_type"]').val("").trigger('change');
+            $('#skimForm select[name="GGH_KOD"]').val("").trigger('change');
+            $('#skimForm select[name="SKIM_PKHIDMAT"]').val("").trigger('change');
+            $('#skimForm select[name="KUMP_PKHIDMAT_JKK"]').val("").trigger('change');
+            $('#skimForm select[name="KP_KOD"]').val("").trigger('change');
+            $('#skimForm select[name="KUMP_PKHIDMAT_SSB"]').val("").trigger('change');
             $('#skimForm input[name="code"]').prop('readonly', false);
 
-            $('#title-role').html('Tambah Jawatan');
+            $('#title-role').html('Tambah Skim');
 
             if(accessAdd == ''){
                 $('#btn_fake').attr('hidden', true);
@@ -173,12 +321,19 @@
                     url2 = url2.replace(':replaceThis', skim_id);
 
                     $('#skimForm').attr('action',url2 );
-                    $('#skimForm input[name="code"]').val(data.detail.code);
-                    $('#skimForm input[name="name"]').val(data.detail.name);
+                    $('#skimForm input[name="code"]').val(data.detail.kod);
+                    $('#skimForm input[name="name"]').val(data.detail.diskripsi);
+                    $('#skimForm select[name="GUNASAMA"]').val(data.detail.GUNASAMA).trigger('change');
+                    $('#skimForm select[name="ref_skim_type"]').val(data.detail.jenis_skim).trigger('change');
+                    $('#skimForm select[name="GGH_KOD"]').val(data.detail.GGH_KOD).trigger('change');
+                    $('#skimForm select[name="SKIM_PKHIDMAT"]').val(data.detail.SKIM_PKHIDMAT).trigger('change');
+                    $('#skimForm select[name="KUMP_PKHIDMAT_JKK"]').val(data.detail.KUMP_PKHIDMAT_JKK).trigger('change');
+                    $('#skimForm select[name="KP_KOD"]').val(data.detail.KP_KOD).trigger('change');
+                    $('#skimForm select[name="KUMP_PKHIDMAT_SSB"]').val(data.detail.KUMP_PKHIDMAT_SSB).trigger('change');
 
                     $('#skimForm input[name="code"]').prop('readonly', true);
 
-                    $('#title-role').html('Kemaskini Jawatan');
+                    $('#title-role').html('Kemaskini Skim');
 
                     if(accessUpdate == ''){
                         $('#btn_fake').attr('hidden', true);
@@ -223,6 +378,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(skimId){
+        var url = "{{ route('admin.reference.skim.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', skimId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
 
 </script>

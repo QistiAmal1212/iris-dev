@@ -8,6 +8,7 @@
             <div class="modal-body">
                 <form action="{{ route('admin.reference.specialization.store') }}" method="POST" id="specializationForm" data-reloadPage="true">
                     @csrf
+                    <input type="text" name="temp" id="temp" value="" hidden>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -25,7 +26,37 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="name" name="name" value="" class="form-control"oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="name" name="name" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="field">Bidang
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="field" name="field" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($bidang as $bidang)
+                                        <option value="{{ $bidang->kod }}">{{ $bidang->diskripsi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="type">Jenis
+                                    <span class="text text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <select id="type" name="type" class="form-control" required>
+                                        <option value="">Sila Pilih:-</option>
+                                        @foreach ($jenis as $jenis)
+                                        <option value="{{ $jenis->kod }}">{{ $jenis->diskripsi }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

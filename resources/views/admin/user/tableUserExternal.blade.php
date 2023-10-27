@@ -26,7 +26,7 @@
         <select class="select2 form-control" id="department_ministry" name="department_ministry" >
             <option value=""></option>
             @foreach($departmentMinistry as $department)
-            <option value="{{ $department->kod }}">{{ $department->nama }}</option>
+            <option value="{{ $department->kod }}">{{ $department->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -36,7 +36,7 @@
         <select class="select2 form-control" id="skim" name="skim" >
             <option value=""></option>
             @foreach($skim as $scheme)
-            <option value="{{ $scheme->code }}">{{ $scheme->name }}</option>
+            <option value="{{ $scheme->kod }}">{{ $scheme->diskripsi }}</option>
             @endforeach
         </select>
     </div>
@@ -257,6 +257,32 @@
         $('#form-search')[0].reset();
         $("#form-search").trigger("reset");
         $('#form-search select').val("").trigger("change");
+    }
+
+    function deleteExternalUser(userId){
+        var url = "{{ route('user.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', userId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan pengguna ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    },
+                    failed:function(data){
+                        console.log('data')
+                    },
+                })
+            }
+        })
     }
 
 </script>

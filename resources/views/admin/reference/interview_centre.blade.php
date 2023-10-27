@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    Pusat Temuduga
+    Pusat Temu Duga
 @endsection
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('msg.home') }}</a></li>
-    <li class="breadcrumb-item"><a>Pusat Temuduga</a>
+    <li class="breadcrumb-item"><a>Pusat Temu Duga</a>
     </li>
 @endsection
 
@@ -41,16 +41,36 @@
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Senarai Pusat Temuduga</h4>
+            <h4 class="card-title">Senarai Pusat Temu Duga</h4>
             @if ($accessAdd)
                 <button type="button" class="btn btn-primary btn-md float-right" onclick="interviewCentreForm()">
-                    <i class="fa-solid fa-add"></i> Tambah Pusat Temuduga
+                    <i class="fa-solid fa-add"></i> Tambah Pusat Temu Duga
                 </button>
             @endif
         </div>
         <hr>
-
         <div class="card-body">
+            <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
+                <div class="row align-items-center">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <label class="form-label" for="code">Carian Negeri</label>
+                        <select name="module_id" id="module_id" class="select2 form-control">
+                            <option value="Lihat Semua" selected>Lihat Semua</option>
+                            @foreach ($states as $neg)
+                            <option value="{{ $neg->kod }}">{{ $neg->kod }} - {{ $neg->diskripsi }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+                        <button type="submit" class="btn btn-success">
+                          <i class="fa fa-search"></i> Cari
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-footer">
             <div class="table-responsive">
                 <table class="table header_uppercase table-bordered" id="table-interview-centre">
                     <thead>
@@ -58,6 +78,8 @@
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
                             <th>Nama</th>
+                            <th>Kod Negeri</th>
+                            <th width="10%">Kod Pendek</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>
@@ -106,6 +128,21 @@
                     }
                 },
                 {
+                    data: "neg",
+                    name: "neg",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
+                    data: "kp",
+                    name: "kp",
+                    className: "text-center",
+                    render: function(data, type, row) {
+                        return $("<div/>").html(data).text();
+                    }
+                },
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -130,6 +167,92 @@
             }
         });
 
+        $('body').on('submit','#form-search',function(e){
+
+            e.preventDefault();
+
+            var form = $("#form-search");
+
+            if(!form.valid()){
+                return false;
+            }
+            var table;
+
+            table = $('#table-interview-centre').DataTable().destroy();
+
+            table = $('#table-interview-centre').DataTable({
+                orderCellsTop: true,
+                colReorder: false,
+                pageLength: 25,
+                processing: true,
+                serverSide: true, //enable if data is large (more than 50,000)
+                deferRender: true,
+                ajax: form.attr('action')+"?"+form.serialize(),
+                columns: [{
+                        defaultContent: '',
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: "kod",
+                        name: "kod",
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "nama",
+                        name: "nama",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "neg",
+                        name: "neg",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "kp",
+                        name: "kp",
+                        className: "text-center",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+
+                ],
+                language: {
+                    emptyTable: "Tiada data tersedia",
+                    info: "Menunjukkan _START_ hingga _END_ daripada _TOTAL_ entri",
+                    infoEmpty: "Menunjukkan 0 hingga 0 daripada 0 entri",
+                    infoFiltered: "(Ditapis dari _MAX_ entri)",
+                    search: "Cari:",
+                    zeroRecords: "Tiada rekod yang ditemui",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Seterusnya",
+                        previous: "Sebelumnya"
+                    },
+                    lengthMenu: "Lihat _MENU_ entri",
+                }
+            });
+            });
+
         interviewCentreForm = function(id = null) {
             var interviewCentreFormModal;
             interviewCentreFormModal = new bootstrap.Modal(document.getElementById('interviewCentreFormModal'), {
@@ -147,9 +270,10 @@
                 $('#interviewCentreForm input[name="name"]').val("");
                 $('#interviewCentreForm select[name="ref_area_code"]').val("").trigger('change');
                 $('#interviewCentreForm select[name="ref_state_code"]').val("").trigger('change');
+                $('#interviewCentreForm input[name="kod_pendek"]').val("");
                 $('#interviewCentreForm input[name="code"]').prop('readonly', false);
 
-                $('#title-role').html('Tambah Pusat Temuduga');
+                $('#title-role').html('Tambah Pusat Temu Duga');
 
                 if (accessAdd == '') {
                     $('#btn_fake').attr('hidden', true);
@@ -176,12 +300,13 @@
 
                         $('#interviewCentreForm').attr('action', url2);
                         $('#interviewCentreForm input[name="code"]').val(data.detail.kod);
-                        $('#interviewCentreForm input[name="name"]').val(data.detail.nama);
-                        $('#interviewCentreForm select[name="ref_area_code"]').val(data.detail.kod_ruj_kawasan_pst_td).trigger('change');
-                        $('#interviewCentreForm select[name="ref_state_code"]').val(data.detail.kod_ruj_negeri).trigger('change');
+                        $('#interviewCentreForm input[name="name"]').val(data.detail.diskripsi);
+                        $('#interviewCentreForm select[name="ref_area_code"]').val(data.detail.kpt_kod).trigger('change');
+                        $('#interviewCentreForm select[name="ref_state_code"]').val(data.detail.neg_kod).trigger('change');
+                        $('#interviewCentreForm input[name="kod_pendek"]').val(data.detail.kod_pendek);
                         $('#interviewCentreForm input[name="code"]').prop('readonly', true);
 
-                        $('#title-role').html('Kemaskini Pusat Temuduga');
+                        $('#title-role').html('Kemaskini Pusat Temu Duga');
 
                         if (accessUpdate == '') {
                             $('#btn_fake').attr('hidden', true);
@@ -226,6 +351,30 @@
                     console.error('Error toggling active state:', error);
                 }
             });
+        }
+
+        function deleteItem(interviewCentreId){
+        var url = "{{ route('admin.reference.interview-centre.delete', ':replaceThis') }}"
+        url = url.replace(':replaceThis', interviewCentreId);
+
+        Swal.fire({
+            title: 'Adakah anda ingin hapuskan maklumat ini?',
+            showCancelButton: true,
+            confirmButtonText: 'Sahkan',
+            cancelButtonText: 'Batal',
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    async: true,
+                    success: function(data){
+                        table.draw();
+                    }
+                })
+            }
+        })
+
         }
     </script>
 @endsection
