@@ -17,15 +17,15 @@ class UpdatePasswordsCommand extends Command
     protected $description = 'Reset user password every six month';
     public function handle()
 {
-    // $users = User::where('time_to_change_password', '<', Carbon::now()->subMonths(6))
-    //         ->where('is_active', true)
-    //         ->where('is_blocked', false)
-    //         ->get();
-
-    $users = User::where('time_to_change_password', '<', Carbon::now()->subMinutes(6))
+    $users = User::where('time_to_change_password', '<', Carbon::now()->subMonths(6))
             ->where('is_active', true)
             ->where('is_blocked', false)
             ->get();
+
+    // $users = User::where('time_to_change_password', '<', Carbon::now()->subMinutes(6))
+    //         ->where('is_active', true)
+    //         ->where('is_blocked', false)
+    //         ->get();
 
     foreach ($users as $user) {
         $newPassword = Str::random(12);
