@@ -194,6 +194,10 @@ Maklumat Pemohon
     $(".select2").select2();
     $(".select2").attr("data-placeholder", "Tiada Maklumat");
     $(".select2").select2();
+     $("#experience_department_state").select2({
+        placeholder: 'Tiada Maklumat Negeri'
+    });
+
     $("#experience_department_state").select2();
     $("#experience_department_state").attr("data-placeholder", 'Tiada Maklumat Negeri');
     $("#experience_department_state").select2();
@@ -201,7 +205,7 @@ Maklumat Pemohon
     $("#peringkat_pengajian_tinggi").select2();
     $("#peringkat_pengajian_tinggi").attr("data-placeholder", 'Tiada Maklumat Pengajian');
     $("#peringkat_pengajian_tinggi").select2();
-    
+
     $("#biasiswa_pengajian_tinggi").select2();
     $("#biasiswa_pengajian_tinggi").attr("data-placeholder", 'Tiada Maklumat Biasiswa');
     $("#biasiswa_pengajian_tinggi").select2();

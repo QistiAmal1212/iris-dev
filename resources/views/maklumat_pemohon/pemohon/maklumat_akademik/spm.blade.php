@@ -175,7 +175,7 @@
                         <thead>
                             <tr>
                                 <th>Bil.</th>
-                                <th>Jenis Peperiksaan</th>
+                                <!-- <th>Jenis Peperiksaan</th> -->
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
@@ -283,7 +283,7 @@
                         <thead>
                             <tr>
                                 <th>Bil.</th>
-                                <th>Jenis Peperiksaan</th>
+                                <!-- <th>Jenis Peperiksaan</th> -->
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
@@ -357,7 +357,7 @@
                     <thead>
                         <tr>
                             <th>Bil.</th>
-                            <th>Jenis Peperiksaan</th>
+                            <!-- <th>Jenis Peperiksaan</th> -->
                             <th>Mata Pelajaran</th>
                             <th>Gred</th>
                             <th>Tahun</th>
@@ -464,7 +464,7 @@
                         <thead>
                             <tr>
                                 <th>Bil.</th>
-                                <th>Jenis Peperiksaan</th>
+                                <!-- <th>Jenis Peperiksaan</th> -->
                                 <th>Kod MP</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Gred</th>
@@ -516,7 +516,7 @@
                     <thead>
                         <tr>
                             <th>Bil.</th>
-                            <th>Jenis Peperiksaan</th>
+                            <!-- <th>Jenis Peperiksaan</th> -->
                             <th>Tahun</th>
                             <th>Kod MP</th>
                             <th>Mata Pelajaran</th>
@@ -697,11 +697,14 @@
                                 trSpm += '<tr>';
                                 trSpm += '<td align="left" colspan="5"><b>' + item.tahun + '</b></td>';
                                 trSpm += '</tr>';
+                                trSpm += '<tr>';
+                                trSpm += '<td align="left" colspan="5"><b> Jenis Peperiksaan : SPM</b></td>';
+                                trSpm += '</tr>';
                             }
                             bilSpm += 1;
                             trSpm += '<tr>';
                             trSpm += '<td align="center">' + bilSpm + '</td>';
-                            trSpm += '<td>SPM</td>';
+                            // trSpm += '<td>SPM</td>';
                             trSpm += '<td>' + item.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
                             trSpm += '<td align="center">' + item.gred + '</td>';
@@ -825,11 +828,14 @@
                                 trSpm += '<tr>';
                                 trSpm += '<td align="left" colspan="5"><b>' + item.tahun + '</b></td>';
                                 trSpm += '</tr>';
+                                trSpm += '<tr>';
+                                trSpm += '<td align="left" colspan="5"><b> Jenis Peperiksaan : SPM</b></td>';
+                                trSpm += '</tr>';
                             }
                             bilSpm += 1;
                             trSpm += '<tr>';
                             trSpm += '<td align="center">' + bilSpm + '</td>';
-                            trSpm += '<td>SPM</td>'; //KOD MATA PELAJARAN
+                            // trSpm += '<td>SPM</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
                             trSpm += '<td align="center">' + item.gred + '</td>';
@@ -941,12 +947,18 @@
                 var trSvm = '';
                 var bilSvm = 0;
                 //$.each(data.detail, function(i, item) {
+               
                 if(data.detail != null) {
                     if(data.detail.subject != null) {
+                        if ( bilSvm == 0) {
+                             trSvm += '<tr>';
+                trSvm += '<td align="left" colspan="5"><b> Jenis Peperiksaan : SVM</b></td>';
+                trSvm += '</tr>';
+                        }
                         bilSvm += 1;
                         trSvm += '<tr>';
                         trSvm += '<td align="center">' + bilSvm + '</td>';
-                        trSvm += '<td>SVM</td>';
+                        // trSvm += '<td>SVM</td>';
                         trSvm += '<td>' + data.detail.subject.kod + '</td>'; //KOD MATA PELAJARAN
                         trSvm += '<td>' + data.detail.subject.diskripsi + '</td>';
                         trSvm += '<td align="center">' + data.detail.gred + '</td>';
@@ -965,17 +977,12 @@
 
                     var tmSvm1Element = $("#tm_svm1");
                     tmSvm1Element.removeAttr("hidden");
-                    $('#tm_svm1_hidden').val(0)
-                    if ($('#tm_spm1_hidden').val() == 0) {
-                        var tmSvm1Element = $("#tm_svm_spm");
-                        tmSvm1Element.removeAttr("hidden");
-                    }
                 }else{
                     $('#tm_svm1_hidden').val(1)
                     var tmSvm1Element = $("#tm_svm1");
                     tmSvm1Element.attr("hidden", true);
                     var tmSvm1Element = $("#tm_svm_spm");
-                        tmSvm1Element.attr("hidden", true);
+                    tmSvm1Element.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editSvm-btn', function() {
@@ -1013,7 +1020,11 @@
             }
         });
     }
-
+  if (($('#tm_svm1').is(":hidden")) && ($('#tm_spmu').is(":hidden"))  &&  ($('#tm_spm1').is(":hidden")) ) {
+        $('#tm_svm1_hidden').removeAttr("hidden");
+    } else {
+        $('#tm_svm1_hidden').attr("hidden", true);
+    }
     function reloadSpmu() {
         var no_pengenalan = $('#spmu_no_pengenalan').val();
         $('#spmuForm input[name="spmu_no_pengenalan"]').val(no_pengenalan);
@@ -1029,13 +1040,17 @@
                 var trSpmu = '';
                 var bilSpmu = 0;
                 if(data.detail != null){
-                    console.log(data.detail);
+                        
                     $.each(data.detail, function(i, item) {
                         if(item.subjek != null) {
+                            if (bilSpmu == 0) {
+                                trSpmu += '<tr>';
+                                trSpmu += '<td align="left" colspan="5"><b> Jenis Peperiksaan : SPMU</b></td>';
+                                trSpmu += '</tr>';
+                            }
                             bilSpmu += 1;
                             trSpmu += '<tr>';
                             trSpmu += '<td align="center">' + bilSpmu + '</td>';
-                            trSpmu += '<td align="center">SPMU</td>';
                             trSpmu += '<td align="center">' + item.tahun + '</td>';
                             trSpmu += '<td>' + item.subjek.kod + '</td>'; //KOD MATA PELAJARAN
                             trSpmu += '<td>' + item.subjek.diskripsi + '</td>';

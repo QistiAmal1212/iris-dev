@@ -177,7 +177,7 @@ class MaklumatPemohonController extends Controller
                     $query->where([
                         ['sah_yt', '=', 'Y']
                     ]);
-                    $query->with(['skim']);
+                    $query->with(['skim'])->orderBy('ski_kod','asc');
                 },
                 'interviewCentre',
                 'matriculation' => function ($query) {

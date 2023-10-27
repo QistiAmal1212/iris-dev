@@ -88,8 +88,7 @@ data-reloadPage="false">
     <table class="table header_uppercase table-bordered table-hovered" id="table-pmr">
         <thead>
             <tr>
-                <th>Bil.</th>
-                <th>Jenis Peperiksaan</th>
+                <th>Bil.</th> 
                 <th>MP Kod</th>
                 <th>Mata Pelajaran</th>
                 <th>Gred</th>
@@ -229,18 +228,15 @@ data-reloadPage="false">
                         trPmr += '<tr>';
                         trPmr += '<td align="left" colspan="5"><b> Tahun : ' + j + '</b></td>';
                         trPmr += '</tr>';
+                        trPmr += '<tr>';
+                        trPmr += '<td align="left" colspan="5"><b> Jenis Peperiksaan : PMR</b></td>';
+                        trPmr += '</tr>';
                     $.each(item2, function(i, item) {
                         if (item.subject_form3 != null) {
                             bilPmr += 1;
                             trPmr += '<tr>';
                             trPmr += '<td align="center">' + bilPmr + '</td>';
-                            if (item.jenis_sijil == 1) {
-                                trPmr += '<td align="center">PMR</td>';
-                            } else if (item.jenis_sijil == 9) {
-                                trPmr += '<td align="center">PT3</td>';
-                            } else {
-                                trPmr += '<td align="center">SRP</td>';
-                            }
+                          
                             trPmr += '<td align="center">' + item.mpel_kod + '</td>';
                             trPmr += '<td>' + item.subject_form3.diskripsi + '</td>';
                             trPmr += '<td align="center">' + item.gred + '</td>';
