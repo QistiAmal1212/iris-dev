@@ -7,7 +7,7 @@
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        Sijil Tinggi Persekolahan Malaysia
+                        Sijil <br> Tinggi <br> Persekolahan <br> Malaysia
                     </span>
 
                     <span class="bs-stepper-subtitle">
@@ -27,7 +27,7 @@
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        Sijil Tinggi Agama Malaysia
+                        Sijil <br> Tinggi <br> Agama <br> Malaysia
                     </span>
 
                     <span class="bs-stepper-subtitle">
@@ -47,7 +47,7 @@
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        Sijil Matrikulasi
+                        Sijil <br> Matrikulasi
                     </span>
 
                     <span class="bs-stepper-subtitle">
@@ -182,7 +182,7 @@
                     <div class="row">
                         <input type="hidden" name="stpm2_no_pengenalan" id="stpm2_no_pengenalan" value="">
                         <input type="hidden" name="id_stpm2" id="id_stpm2" value="">
-<!-- 
+<!--
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_stpm2" name="subjek_stpm2" disabled>
@@ -297,7 +297,7 @@
                                     @endforeach
                             </select>
                         </div> -->
-<!-- 
+<!--
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Mp Kod</label>
                             <input type="text" class="form-control" value="" id="mp_kod_stam1" name="mp_kod_stam1" disabled>
@@ -498,7 +498,7 @@
                                     <option value="{{ $jurusanMatrikulasi->kod }}">{{ $jurusanMatrikulasi->diskripsi }}</option>
                                 @endforeach
                         </select>
-                    </div> 
+                    </div>
 
                     <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
                         <label class="form-label">No. Matrik</label>
@@ -533,7 +533,7 @@
                     <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
                         <label class="form-label">PNGK</label>
                         <input type="text" class="form-control" value="" id="pngk_matrikulasi" name="pngk_matrikulasi" disabled>
-                    </div> 
+                    </div>
 
                     <div id="button_action_matrikulasi" style="display:none">
                         <button type="button" id="btnEditMatrikulasi" hidden onclick="generalFormSubmit(this);"></button>
@@ -715,7 +715,7 @@
                         bilStpm += 1;
                         trStpm += '<tr>';
                         trStpm += '<td align="center">' + bilStpm + '</td>';
-                        trStpm += '<td>' + item.tahun + '</td>'; 
+                        trStpm += '<td>' + item.tahun + '</td>';
                         trStpm += '<td>' + item.subject_form6.kod + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.diskripsi + '</td>';
                         trStpm += '<td align="center">' + item.gred + '</td>';
@@ -1164,7 +1164,7 @@
                         // trMatrikulasi += '&nbsp;&nbsp;';
                         // trMatrikulasi += '<i class="fas fa-trash text-danger deleteMatrikulasi-btn" data-id="' + item.id + '"></i></td>';
                         trMatrikulasi += '</tr>';
-                        
+
                 });
                 $('#table-matrikulasi tbody').append(trMatrikulasi);
 

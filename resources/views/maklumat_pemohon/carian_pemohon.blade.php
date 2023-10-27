@@ -35,7 +35,7 @@ Maklumat Pemohon
 </style>
 <section id="faq-search-filter">
     <!-- // hide for phase 1 -->
-    <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}')">
+    <div class="card faq-search" style="background-image: url('{{asset('images/banner/banner.png')}}'); height:8%;">
         <div class="card-body text-center">
             <h2 class="text-primary">Carian Maklumat Pemohon</h2>
             <p class="card-text mb-2">Isikan no. kad pengenalan calon dan tekan butang Cari</p>
@@ -83,7 +83,7 @@ Maklumat Pemohon
 </div>
 
 <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-12 order-1 order-lg-1">
+    <div class="col-lg-3 col-md-3 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <p class="card-title fw-bolder">Maklumat Permohonan</p>
@@ -116,11 +116,11 @@ Maklumat Pemohon
         </div>
     </div>
 
-    <div class="col-lg-9 col-md-9 col-sm-12 order-2 order-lg-2">
+    <div class="col-lg-9 col-md-9 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <div class="">
-                    <ul class="nav nav-tabs nav-justified" role="tablist">
+                    <ul class="nav nav-pills nav-justified" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link fw-bolder active" id="peribadi-tab" data-bs-toggle="tab" href="#peribadi" aria-controls="peribadi" role="tab" aria-selected="true">
                                 Maklumat <br> Peribadi
@@ -223,13 +223,13 @@ Maklumat Pemohon
             }
              if (input.name == 'experience_department_daerah') {
                 input.placeholder = 'Tiada Maklumat Daerah';
-            } 
+            }
             if (input.name == 'peringkat_pengajian_tinggi') {
                 // setSelect2Placeholder('peringkat_pengajian_tinggi', 'Tiada Maklumat Pengajian');
-            }  
+            }
             if (input.name == 'biasiswa_pengajian_tinggi') {
                 // setSelect2Placeholder('biasiswa_pengajian_tinggi', 'Tiada Maklumat Biasiswa');
-            } 
+            }
         });
     });
 

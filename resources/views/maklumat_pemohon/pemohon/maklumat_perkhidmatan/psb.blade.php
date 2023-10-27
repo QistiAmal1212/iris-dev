@@ -23,7 +23,7 @@
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        Perkhidmatan Sekarang (Hakiki)
+                        Perkhidmatan <br> Sekarang <br> (Hakiki)
                     </span>
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_hakiki" hidden>Tiada Maklumat</span>
@@ -41,7 +41,7 @@
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        Tempat Bertugas <br> Terkini
+                        Tempat <br> Bertugas <br> Terkini
                     </span>
 
                     <span class="bs-stepper-subtitle">

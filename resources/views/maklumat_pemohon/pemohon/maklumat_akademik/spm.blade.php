@@ -7,8 +7,8 @@
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        Sijil Pelajaran Malaysia/ <br>
-                        SPM (Vokasional)
+                        Sijil Pelajaran <br> Malaysia/ <br>
+                        SPM <br> Vokasional
                     </span>
 
                     <span class="bs-stepper-subtitle">
@@ -43,7 +43,7 @@
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        Sijil Vokasional Malaysia
+                        Sijil <br> Vokasional <br> Malaysia
                     </span>
 
                     {{-- BADGE IF NO DATA STARTS HERE --}}
@@ -61,11 +61,11 @@
         <div class="step" data-target="#academic-spmu-info" role="tab" id="academic-spmu-info-trigger">
             <button type="button" class="step-trigger">
                 <span class="bs-stepper-box">
-                    SPM(U)
+                    SPMU
                 </span>
                 <span class="bs-stepper-label">
                     <span class="bs-stepper-title text-wrap">
-                        SPM Ulangan
+                        SPM <br> Ulangan
                     </span>
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_spmu" hidden>Tiada Maklumat</span>
@@ -115,7 +115,7 @@
  -->                    <div class="row">
                         <input type="hidden" name="spm1_no_pengenalan" id="spm1_no_pengenalan" value="">
                         <input type="hidden" name="id_spm1" id="id_spm1" value="">
-<!-- 
+<!--
                         <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_spm1" name="subjek_spm1" disabled onchange="changesubjeckspm('subjek_spm1')">
@@ -140,7 +140,7 @@
                             </select>
                         </div> -->
 
-                   
+
                         <div id="button_action_spm1" style="display:none">
                             <button type="button" id="btnEditSpm1" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
@@ -218,7 +218,7 @@
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_spm2" name="tahun_spm2" disabled>
                         </div>
-                    </div> --> 
+                    </div> -->
                    <div class="row">
                         <input type="hidden" name="spm2_no_pengenalan" id="spm2_no_pengenalan" value="">
                         <input type="hidden" name="id_spm2" id="id_spm2" value="">
@@ -423,7 +423,7 @@
                                         <option value="{{ $subjek->kod }}">{{ $subjek->diskripsi }}</option>
                                     @endforeach
                             </select>
-                        </div> 
+                        </div>
 
                    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
@@ -433,7 +433,7 @@
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
                                     @endforeach
                             </select>
-                        </div> 
+                        </div>
 
                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">PNGKA</label>
@@ -444,7 +444,7 @@
                             <label class="form-label">PNGKV</label>
                             <input type="text" class="form-control" value="" id="pngkv_svm" name="pngkv_svm" disabled>
                         </div>
- 
+
                         <div id="button_action_svm" style="display:none">
                             <button type="button" id="btnEditSvm" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
@@ -601,9 +601,9 @@
         $('#spm1Form input[name="tahun_spm1"]').attr('disabled', false);
 
         $("#button_action_spm1").attr("style", "display:block");
-        
+
         var editbuttoncount = $('#editbutton_spm1').val();
-    
+
         if (editbuttoncount <= 0) {
             // firsttime
             $('#editbutton_spm1').val(1)
@@ -644,7 +644,7 @@
                 datachanged = true;
             }
         }
-        
+
         if (!datachanged) {
             $('#editbutton_'+type).val(0);
             disbalefieldsspm(type);
@@ -678,7 +678,7 @@
                 $('#spm1Form select[name="subjek_spm1"]').val('').trigger('change');
                 $('#spm1Form select[name="gred_spm1"]').val('').trigger('change');
                 $('#spm1Form input[name="tahun_spm1"]').val('');
-                $('#spm1Form input[name="mp_kod_spm1"]').val('');       
+                $('#spm1Form input[name="mp_kod_spm1"]').val('');
                 $('#spm1Form select[name="subjek_spm1"]').attr('disabled', true);
                 $('#spm1Form select[name="gred_spm1"]').attr('disabled', true);
                 $('#spm1Form input[name="tahun_spm1"]').attr('disabled', true);
@@ -780,7 +780,7 @@
 
         $("#button_action_spm2").attr("style", "display:block");
         var editbuttoncount = $('#editbutton_spm2').val();
-    
+
         if (editbuttoncount <= 0) {
             // firsttime
             $('#editbutton_spm2').val(1)
@@ -947,7 +947,7 @@
                 var trSvm = '';
                 var bilSvm = 0;
                 //$.each(data.detail, function(i, item) {
-               
+
                 if(data.detail != null) {
                     if(data.detail.subject != null) {
                         if ( bilSvm == 0) {
@@ -1040,7 +1040,7 @@
                 var trSpmu = '';
                 var bilSpmu = 0;
                 if(data.detail != null){
-                        
+
                     $.each(data.detail, function(i, item) {
                         if(item.subjek != null) {
                             if (bilSpmu == 0) {
