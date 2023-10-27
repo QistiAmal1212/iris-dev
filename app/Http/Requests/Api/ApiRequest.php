@@ -8,6 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Models\Integrasi\LogApi;
 use App\Models\Integrasi\SenaraiApi;
 use App\Models\User;
+use App\Models\Role;
 use Mail;
 use App\Mail\Api\ErrorApi;
 
@@ -28,9 +29,14 @@ class ApiRequest extends FormRequest
             $url = url('/').'/api/pemohon/details/'.$this->route('path');
         }
 
-        $user = User::find(1);
+        //$user = User::find(1);
+        $users = Role::find(1)->users;
 
-        Mail::to($user->email)->send(new ErrorApi($url, $validator->errors()));
+        $url = url('/').'/'.$senaraiApi->url;
+
+        foreach($users as $user){
+            Mail::to($user->email)->send(new ErrorApi($url, $validator->errors()));
+        }
 
         if($senaraiApi) {
             $log = new LogApi;

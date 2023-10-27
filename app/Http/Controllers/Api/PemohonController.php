@@ -29,6 +29,7 @@ use App\Models\Integrasi\SenaraiApi;
 use App\Models\Integrasi\LogApi;
 use Carbon;
 use App\Models\User;
+use App\Models\Role;
 use Mail;
 use App\Mail\Api\ErrorApi;
 
@@ -719,11 +720,14 @@ class PemohonController extends ApiController
             DB::rollBack();
             Log::error('Store Pemohon API Error: ' . $e);
 
-            $user = User::find(1);
+            //$user = User::find(1);
+            $users = Role::find(1)->users;
 
             $url = url('/').'/'.$senaraiApi->url;
 
-            Mail::to($user->email)->send(new ErrorApi($url, $e->getMessage()));
+            foreach($users as $user){
+                Mail::to($user->email)->send(new ErrorApi($url, $e->getMessage()));
+            }
 
             $log = new LogApi;
             $log->id_senarai_api = $senaraiApi->id;
@@ -905,11 +909,14 @@ class PemohonController extends ApiController
             DB::rollBack();
             Log::error('Store Pemohon API Error: ' . $e);
 
-            $user = User::find(1);
+            //$user = User::find(1);
+            $users = Role::find(1)->users;
 
             $url = url('/').'/'.$senaraiApi->url;
 
-            Mail::to($user->email)->send(new ErrorApi($url, $e->getMessage()));
+            foreach($users as $user){
+                Mail::to($user->email)->send(new ErrorApi($url, $e->getMessage()));
+            }
 
             $log = new LogApi;
             $log->id_senarai_api = $senaraiApi->id;
