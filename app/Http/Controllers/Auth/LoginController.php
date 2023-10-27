@@ -66,11 +66,11 @@ class LoginController extends Controller
     {
         if (!$user->is_active) {
             auth()->logout();
-            return redirect()->route('login')->withErrors(["active" => "Akaun anda sudah tidak aktif"]);
+            return redirect()->route('login')->withErrors(["active" => "Akaun anda sudah tidak aktif. Sila hubungi pentadbir bahagian masing-masing"]);
         }
         if ($user->is_blocked) {
             auth()->logout();
-            return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat"]);
+            return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat. Sila hubungi pentadbir bahagian masing-masing"]);
         }
         if($user->last_change_password==null){
             $user->login_failed_counter = 0;
@@ -125,7 +125,7 @@ class LoginController extends Controller
             }
             if ($user->is_blocked) {
                 auth()->logout();
-                return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat"]);
+                return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat. Sila hubungi pentadbir bahagian masing-masing"]);
             }
 
             $user->save();
