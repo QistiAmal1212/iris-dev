@@ -17,7 +17,7 @@
     <div class="row mt-2 mb-2">
         <input type="hidden" name="pengajian_tinggi_no_pengenalan" id="pengajian_tinggi_no_pengenalan" value="">
         <input type="hidden" name="id_pt" id="id_pt" value="">
-        <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
+        {{-- <div class="col-sm-3 col-md-3 col-lg-3 mb-1">
             <label class="form-label">Tahun</label>
             <input type="text" class="form-control" value="" name="tahun_pengajian_tinggi" id="tahun_pengajian_tinggi" oninput="checkInput('tahun_pengajian_tinggi', 'tahun_pengajian_tinggiAlert')" disabled>
             <div id="tahun_pengajian_tinggiAlert" style="color: red; font-size: smaller;"></div>
@@ -72,7 +72,7 @@
                         <option value="{{ $specialization->kod }}">{{ $specialization->diskripsi }}</option>
                     @endforeach
             </select>
-        </div> 
+        </div>
 
         <div class="col-sm-4 col-md-4 col-lg-4 mb-1">
             <label class="form-label">Francais Luar Negara</label>
@@ -96,10 +96,10 @@
                 <option value="0">Tidak</option>
                 <option value="1">Ya</option>
             </select>
-        </div> 
+        </div>  --}}
     </div>
 
-    <div id="button_action_pt" style="display:none">
+    {{-- <div id="button_action_pt" style="display:none">
         <button type="button" id="btnEditPt" hidden onclick="generalFormSubmit(this);"></button>
         <div class="d-flex justify-content-end align-items-center my-1">
             <button type="button" class="btn btn-danger float-right" onclick="reloadPengajianTinggi()">
@@ -136,7 +136,7 @@
             <i class="fa fa-save"></i> Tambah
         </button>
         </div>
-    </div>
+    </div> --}}
 <input type="hidden" name="tukar_log_pt"  id="tukar_log_pt">
 </form>
 <input type="hidden" name="editbutton_pt" value=0 id="editbutton_pt">

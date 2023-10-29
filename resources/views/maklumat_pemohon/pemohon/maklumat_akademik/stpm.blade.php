@@ -1,3 +1,13 @@
+<style>
+    .matrik-info p {
+        margin: 0;
+    }
+
+    .matrik-info b {
+        display: inline-block;
+        width: 100px; /* Adjust as needed for desired label width */
+    }
+</style>
 <div class="bs-stepper vertical vertical-wizard">
     <div class="bs-stepper-header">
         <div class="step" data-target="#academic-stpm-info" role="tab" id="academic-stpm-info-trigger">
@@ -482,7 +492,7 @@
                     <input type="hidden" name="matrikulasi_no_pengenalan" id="matrikulasi_no_pengenalan" value="">
                     <input type="hidden" name="id_matrikulasi" id="id_matrikulasi" value="">
 
-                  <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
+                  {{-- <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                         <label class="form-label">Kolej Matrikulasi</label>
                         <select class="select2 form-control" id="kolej_matrikulasi" name="kolej_matrikulasi" disabled>
                             <option value="" hidden>Kolej Matrikulasi</option>
@@ -547,9 +557,15 @@
                                 <i class="fa fa-save"></i> Tambah
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </form>
+
+            <div class="matrik-info">
+                <p><b>Kolej</b> <span id="kolej_matrik">:</span></p>
+                <p><b>Kursus</b> <span id="kursus_matrik">:</span></p>
+                <p><b>No. Matrik</b> <span id="no_matrik">:</span></p>
+            </div>
 
             <div class="table-responsive mb-1 mt-1">
                 <table class="table header_uppercase table-bordered table-hovered" id="table-matrikulasi">
@@ -565,6 +581,13 @@
                         </tr>
                     </thead>
                     <tbody></tbody>
+                    <tfoot>
+                        <tr class="bg-light-primary">
+                            <td class="text-end" colspan="5">PNGK</td>
+                            {{-- <td class="text-start fw-bolder" colspan="2">auto-calculated</td> --}}
+                            <td class="fw-bolder" id="pngk_matrik" colspan="1" align="center"></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -1116,18 +1139,18 @@
         });
     }
 
-    function editMatrikulasi() {
-        $('#matrikulasiForm select[name="kolej_matrikulasi"]').attr('disabled', false);
-        $('#matrikulasiForm select[name="jurusan_matrikulasi"]').attr('disabled', false);
-        $('#matrikulasiForm input[name="matrik_matrikulasi"]').attr('disabled', false);
-        $('#matrikulasiForm input[name="sesi_matrikulasi"]').attr('disabled', false);
-        $('#matrikulasiForm input[name="semester_matrikulasi"]').attr('disabled', false);
-        $('#matrikulasiForm select[name="subjek_matrikulasi"]').attr('disabled', false);
-        $('#matrikulasiForm input[name="gred_matrikulasi"]').attr('disabled', false);
-        $('#matrikulasiForm input[name="pngk_matrikulasi"]').attr('disabled', false);
+    // function editMatrikulasi() {
+    //     $('#matrikulasiForm select[name="kolej_matrikulasi"]').attr('disabled', false);
+    //     $('#matrikulasiForm select[name="jurusan_matrikulasi"]').attr('disabled', false);
+    //     $('#matrikulasiForm input[name="matrik_matrikulasi"]').attr('disabled', false);
+    //     $('#matrikulasiForm input[name="sesi_matrikulasi"]').attr('disabled', false);
+    //     $('#matrikulasiForm input[name="semester_matrikulasi"]').attr('disabled', false);
+    //     $('#matrikulasiForm select[name="subjek_matrikulasi"]').attr('disabled', false);
+    //     $('#matrikulasiForm input[name="gred_matrikulasi"]').attr('disabled', false);
+    //     $('#matrikulasiForm input[name="pngk_matrikulasi"]').attr('disabled', false);
 
-        $("#button_action_matrikulasi").attr("style", "display:block");
-    }
+    //     $("#button_action_matrikulasi").attr("style", "display:block");
+    // }
 
     function reloadMatrikulasi() {
         var no_pengenalan = $('#matrikulasi_no_pengenalan').val();
@@ -1140,28 +1163,28 @@
             method: 'GET',
             async: true,
             success: function(data) {
-                $('#matrikulasiForm select[name="kolej_matrikulasi"]').val('').trigger('change');
-                $('#matrikulasiForm select[name="jurusan_matrikulasi"]').val('').trigger('change');
-                $('#matrikulasiForm input[name="matrik_matrikulasi"]').val('');
-                $('#matrikulasiForm input[name="sesi_matrikulasi"]').val('');
-                $('#matrikulasiForm input[name="semester_matrikulasi"]').val('');
-                $('#matrikulasiForm select[name="subjek_matrikulasi"]').val('').trigger('change');
-                $('#matrikulasiForm input[name="gred_matrikulasi"]').val('');
-                $('#matrikulasiForm input[name="pngk_matrikulasi"]').val('');
+                // $('#matrikulasiForm select[name="kolej_matrikulasi"]').val('').trigger('change');
+                // $('#matrikulasiForm select[name="jurusan_matrikulasi"]').val('').trigger('change');
+                // $('#matrikulasiForm input[name="matrik_matrikulasi"]').val('');
+                // $('#matrikulasiForm input[name="sesi_matrikulasi"]').val('');
+                // $('#matrikulasiForm input[name="semester_matrikulasi"]').val('');
+                // $('#matrikulasiForm select[name="subjek_matrikulasi"]').val('').trigger('change');
+                // $('#matrikulasiForm input[name="gred_matrikulasi"]').val('');
+                // $('#matrikulasiForm input[name="pngk_matrikulasi"]').val('');
 
-                $('#matrikulasiForm select[name="kolej_matrikulasi"]').attr('disabled', true);
-                $('#matrikulasiForm select[name="jurusan_matrikulasi"]').attr('disabled', true);
-                $('#matrikulasiForm input[name="matrik_matrikulasi"]').attr('disabled', true);
-                $('#matrikulasiForm input[name="sesi_matrikulasi"]').attr('disabled', true);
-                $('#matrikulasiForm input[name="semester_matrikulasi"]').attr('disabled', true);
-                $('#matrikulasiForm select[name="subjek_matrikulasi"]').attr('disabled', true);
-                $('#matrikulasiForm input[name="gred_matrikulasi"]').attr('disabled', true);
-                $('#matrikulasiForm input[name="pngk_matrikulasi"]').attr('disabled', true);
+                // $('#matrikulasiForm select[name="kolej_matrikulasi"]').attr('disabled', true);
+                // $('#matrikulasiForm select[name="jurusan_matrikulasi"]').attr('disabled', true);
+                // $('#matrikulasiForm input[name="matrik_matrikulasi"]').attr('disabled', true);
+                // $('#matrikulasiForm input[name="sesi_matrikulasi"]').attr('disabled', true);
+                // $('#matrikulasiForm input[name="semester_matrikulasi"]').attr('disabled', true);
+                // $('#matrikulasiForm select[name="subjek_matrikulasi"]').attr('disabled', true);
+                // $('#matrikulasiForm input[name="gred_matrikulasi"]').attr('disabled', true);
+                // $('#matrikulasiForm input[name="pngk_matrikulasi"]').attr('disabled', true);
 
-                $('#matrikulasiForm').attr('action', "{{ route('matrikulasi.store')  }}");
-                $('#btnSaveMatrikulasi').html('<i class="fa fa-save"></i> Tambah');
+                // $('#matrikulasiForm').attr('action', "{{ route('matrikulasi.store')  }}");
+                // $('#btnSaveMatrikulasi').html('<i class="fa fa-save"></i> Tambah');
 
-                $("#button_action_matrikulasi").attr("style", "display:none");
+                // $("#button_action_matrikulasi").attr("style", "display:none");
 
                 $('#table-matrikulasi tbody').empty();
                 var trMatrikulasi = '';
@@ -1175,10 +1198,28 @@
                         trMatrikulasi += '<td align="center">' + item.subject.kod + '</td>'; // Kod MP
                         trMatrikulasi += '<td align="center">' + item.subject.diskripsi + '</td>';
                         trMatrikulasi += '<td align="center">' + item.gred + '</td>';
-                        // trMatrikulasi += '<td align="center"><i class="fas fa-pencil text-primary editMatrikulasi-btn" data-id="' + item.id + ' " data-form="matrikulasi"></i>';
-                        // trMatrikulasi += '&nbsp;&nbsp;';
-                        // trMatrikulasi += '<i class="fas fa-trash text-danger deleteMatrikulasi-btn" data-id="' + item.id + '"></i></td>';
                         trMatrikulasi += '</tr>';
+
+                        if(item.pngk != null && $('#pngk_matrik').html() !== "Tiada Maklumat"){
+                            $('#pngk_matrik').html(item.pngk);
+                        } else {
+                            $('#pngk_matrik').html('Tiada Maklumat');
+                        }
+                        if(item.college != null && $('#kolej_matrik').html() !== ": Tiada Maklumat"){
+                            $('#kolej_matrik').html(': ' + item.college.diskripsi);
+                        } else {
+                            $('#kolej_matrik').html(': Tiada Maklumat');
+                        }
+                        if(item.course != null && $('#kursus_matrik').html() !== ": Tiada Maklumat"){
+                            $('#kursus_matrik').html(': ' + item.course.diskripsi);
+                        } else {
+                            $('#kursus_matrik').html(': Tiada Maklumat');
+                        }
+                        if(item.no_matrik != null && $('#no_matrik').html() !== ": Tiada Maklumat"){
+                            $('#no_matrik').html(': ' + item.no_matrik);
+                        } else {
+                            $('#no_matrik').html(': Tiada Maklumat');
+                        }
 
                 });
                 $('#table-matrikulasi tbody').append(trMatrikulasi);

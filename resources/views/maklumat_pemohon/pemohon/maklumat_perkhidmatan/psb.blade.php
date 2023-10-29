@@ -253,7 +253,12 @@
 
                     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
                         <label class="form-label">Daerah</label>
-                        <input type="text" class="form-control" name="experience_department_daerah" value="" disabled>
+                        <select class="select2 form-control" name="experience_department_daerah" id="experience_department_daerah" disabled>
+                            <option value="" hidden>Negeri</option>
+                            @foreach($daerah as $daerah)
+                                <option value="{{ $daerah->kod }}">{{ $daerah->diskripsi }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div id="button_action_experienceC" style="display:none">
@@ -262,9 +267,11 @@
                         <button type="button" class="btn btn-success float-right" onclick="confirmSubmit('btnEditExperienceC', {
                             experience_department_ministry: $('#experience_department_ministry').find(':selected').text(),
                             experience_department_state: $('#experience_department_state').find(':selected').text(),
+                            experience_department_daerah: $('#experience_department_daerah').find(':selected').text(),
                         },{
                             experience_department_ministry: 'Kementerian/Jabatan',
                             experience_department_state: 'Negeri',
+                            experience_department_daerah: 'Daerah',
                         }
                         );">
                             <i class="fa fa-save"></i> Simpan
@@ -376,6 +383,8 @@
                 $('#experienceCForm select[name="experience_department_ministry"]').attr('disabled', true);
                 $('#experienceCForm select[name="experience_department_state"]').val(data.detail.neg_kod).trigger('change');
                 $('#experienceCForm select[name="experience_department_state"]').attr('disabled', true);
+                $('#experienceCForm select[name="experience_department_daerah"]').val(data.detail.daerah_bertugas).trigger('change');
+                $('#experienceCForm select[name="experience_department_daerah"]').attr('disabled', true);
 
                 var tmTbElement = $("#tm_tb");
                 tmTbElement.attr("hidden", true);
