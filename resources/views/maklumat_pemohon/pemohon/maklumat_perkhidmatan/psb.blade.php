@@ -284,6 +284,7 @@
 </div>
 
 <script>
+    
     function editExperienceA() {
         $('#experienceAForm select[name="experience_job_sector"]').attr('disabled', false);
         $('#experienceAForm input[name="experience_appoint_date"]').attr('disabled', false);

@@ -1235,9 +1235,9 @@
                     tmMatrikulasiElement.attr("hidden", true);
                 }
                 if (($('#tm_stpm1').is(":hidden")) && ($('#tm_stam1').is(":hidden"))  &&  ($('#tm_matrikulasi').is(":hidden")) ) {
-                    $('#tm_stpm1_hidden').removeAttr("hidden");
+                    $('#tm_stpm').removeAttr("hidden");
                 } else {
-                    $('#tm_stpm1_hidden').attr("hidden", true);
+                    $('#tm_stpm').attr("hidden", true);
                 }
 
                 $(document).on('click', '.editMatrikulasi-btn', function() {

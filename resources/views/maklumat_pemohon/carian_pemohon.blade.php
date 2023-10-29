@@ -202,6 +202,10 @@ Maklumat Pemohon
     $("#experience_department_state").attr("data-placeholder", 'Tiada Maklumat Negeri');
     $("#experience_department_state").select2();
 
+    $("#experience_department_daerah").select2();
+    $("#experience_department_daerah").attr("data-placeholder", 'Tiada Maklumat Daerah');
+    $("#experience_department_daerah").select2();
+
     $("#peringkat_pengajian_tinggi").select2();
     $("#peringkat_pengajian_tinggi").attr("data-placeholder", 'Tiada Maklumat Pengajian');
     $("#peringkat_pengajian_tinggi").select2();
@@ -320,7 +324,16 @@ Maklumat Pemohon
         }
 
         var option = document.createElement("option");
-        option.text = "Tiada Maklumat";
+        if(inputID == 'experience_department_state') {
+            option.text = 'Tiada Maklumat Negeri';
+        }
+        else if(inputID == 'experience_department_daerah') {
+            option.text = 'Tiada Maklumat Daerah';
+        }
+        else{
+            option.text = "Tiada Maklumat";
+        }
+
         option.value = "Tiada Maklumat";
         option.disabled = true;
         x.add(option);
