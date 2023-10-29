@@ -915,6 +915,14 @@ Maklumat Pemohon
                         }
                         originalVal['experience_department_state'] = $('#experienceCForm select[name="experience_department_state"]').find(':selected').text();
 
+                        if(data.detail.experience.daerah_bertugas) {
+                            $('#experienceCForm select[name="experience_department_daerah"]').val(data.detail.experience.daerah_bertugas).trigger('change');
+                        }
+                        else {
+                            selectionNull('experience_department_daerah', 'experienceCForm');
+                        }
+                        originalVal['experience_department_daerah'] = $('#experienceCForm select[name="experience_department_daerah"]').find(':selected').text();
+
                     }else{
                         //Tab A
                         selectionNull('experience_job_sector', 'experienceAForm');
@@ -942,11 +950,14 @@ Maklumat Pemohon
 
                         selectionNull('experience_department_state', 'experienceCForm');
                         originalVal['experience_department_state'] = '';
+
+                        selectionNull('experience_department_daerah', 'experienceCForm');
+                        originalVal['experience_department_daerah'] = '';
                     }
 
                     let tabAFields = ['experience_job_sector', 'experience_appoint_date', 'experience_position_level'];
                     let tabBFields = ['experience_skim', 'experience_service_group', 'experience_position_grade', 'experience_start_date', 'experience_verify_date'];
-                    let tabCFields = ['experience_department_ministry', 'experience_department_state'];
+                    let tabCFields = ['experience_department_ministry', 'experience_department_state', 'experience_department_daerah'];
 
                     let tabAEmpty = isTabEmpty('experienceAForm', tabAFields);
                     let tabBEmpty = isTabEmpty('experienceBForm', tabBFields);
