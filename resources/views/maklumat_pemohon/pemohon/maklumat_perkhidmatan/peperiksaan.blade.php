@@ -17,7 +17,7 @@ data-reloadPage="false">
 <div class="row mt-2 mb-2">
     <input type="hidden" name="psl_no_pengenalan" id="psl_no_pengenalan" value="">
     <input type="hidden" name="id_psl" id="id_psl" value="">
-<!-- 
+<!--
     <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
         <label class="form-label">Jenis Peperiksaan</label>
         <select class="select2 form-control" value="" id="jenis_peperiksaan" name="jenis_peperiksaan" disabled>
@@ -109,7 +109,7 @@ data-reloadPage="false">
                 $('#table-psl tbody').append(trPsl);
 
                 if($('#table-psl tbody').is(':empty')){
-                    var trPsl = '<tr><td align="center" colspan="4">*Tiada Maklumat*</td></tr>';
+                    var trPsl = '<tr><td align="center" colspan="4">Tiada Maklumat</td></tr>';
                     $('#table-psl tbody').append(trPsl);
 
                     var tmPslElement = $("#tm_peperiksaan_psl");

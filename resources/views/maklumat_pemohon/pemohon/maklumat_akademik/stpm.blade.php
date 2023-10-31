@@ -756,7 +756,7 @@
                 $('#table-stpm1 tbody').append(trStpm);
 
                 if($('#table-stpm1 tbody').is(':empty')){
-                    var trStpm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
+                    var trStpm = '<tr><td align="center" colspan="5">Tiada Maklumat</td></tr>';
                     $('#table-stpm1 tbody').append(trStpm);
 
                     var tmStpm1Element = $("#tm_stpm1");
@@ -861,7 +861,7 @@
                 $('#table-stpm2 tbody').append(trStpm);
 
                 if($('#table-stpm2 tbody').is(':empty')){
-                    var trStpm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
+                    var trStpm = '<tr><td align="center" colspan="5">Tiada Maklumat</td></tr>';
                     $('#table-stpm2 tbody').append(trStpm);
                 }
 
@@ -979,7 +979,7 @@
                 $('#table-stam1 tbody').append(trStam);
 
                 if($('#table-stam1 tbody').is(':empty')){
-                    var trStam = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
+                    var trStam = '<tr><td align="center" colspan="5">Tiada Maklumat</td></tr>';
                     $('#table-stam1 tbody').append(trStam);
 
                     var tmStam1Element = $("#tm_stam1");
@@ -1098,7 +1098,7 @@
                 $('#table-stam2 tbody').append(trStam);
 
                 if($('#table-stam2 tbody').is(':empty')){
-                    var trStam = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
+                    var trStam = '<tr><td align="center" colspan="5">Tiada Maklumat</td></tr>';
                     $('#table-stam2 tbody').append(trStam);
                 }
 
@@ -1225,7 +1225,12 @@
                 $('#table-matrikulasi tbody').append(trMatrikulasi);
 
                 if($('#table-matrikulasi tbody').is(':empty')){
-                    var trMatrikulasi = '<tr><td align="center" colspan="10">*Tiada Maklumat*</td></tr>';
+                    $('#pngk_matrik').html('Tiada Maklumat');
+                    $('#kolej_matrik').html(': Tiada Maklumat');
+                    $('#kursus_matrik').html(': Tiada Maklumat');
+                    $('#no_matrik').html(': Tiada Maklumat');
+                    
+                    var trMatrikulasi = '<tr><td align="center" colspan="10">Tiada Maklumat</td></tr>';
                     $('#table-matrikulasi tbody').append(trMatrikulasi);
 
                     var tmMatrikulasiElement = $("#tm_matrikulasi");
@@ -1234,7 +1239,7 @@
                     var tmMatrikulasiElement = $("#tm_matrikulasi");
                     tmMatrikulasiElement.attr("hidden", true);
                 }
-                if (($('#tm_stpm1').is(":hidden")) && ($('#tm_stam1').is(":hidden"))  &&  ($('#tm_matrikulasi').is(":hidden")) ) {
+                if (!($('#tm_stpm1').is(":hidden")) && !($('#tm_stam1').is(":hidden")) && !($('#tm_matrikulasi').is(":hidden"))) {
                     $('#tm_stpm').removeAttr("hidden");
                 } else {
                     $('#tm_stpm').attr("hidden", true);

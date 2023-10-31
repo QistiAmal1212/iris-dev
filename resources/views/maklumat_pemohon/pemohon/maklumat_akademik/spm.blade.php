@@ -690,25 +690,25 @@
                 $('#table-spm1 tbody').empty();
                 var trSpm = '';
                 var bilSpm = 0;
-                if(data.detail.data != null){
-                    $.each(data.detail.data, function(i, item) {
-                        if (item.subject_form5 != null) {
+                if(data.detail != null){
+                    $.each(data.detail, function(i, item) {
+                        if (item.data.subject_form5 != null) {
                             if (bilSpm == 0) {
                                 trSpm += '<tr>';
-                                trSpm += '<td align="left" colspan="5"><b>' + item.tahun + '</b></td>';
+                                trSpm += '<td align="left" colspan="5"><b> Tahun : ' + item.data.tahun + '</b></td>';
                                 trSpm += '</tr>';
                                 trSpm += '<tr>';
-                                trSpm += '<td align="left" colspan="5"><b> Jenis Peperiksaan : SPM</b></td>';
+                                trSpm += '<td align="left" colspan="5"><b> Jenis Peperiksaan : '+ item.jenis +'</b></td>';
                                 trSpm += '</tr>';
                             }
                             bilSpm += 1;
                             trSpm += '<tr>';
                             trSpm += '<td align="center">' + bilSpm + '</td>';
                             // trSpm += '<td>SPM</td>';
-                            trSpm += '<td>' + item.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
-                            trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
-                            trSpm += '<td align="center">' + item.gred + '</td>';
-                            trSpm += '<td align="center" style="display:none;">' + item.tahun + '</td>';
+                            trSpm += '<td>' + item.data.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
+                            trSpm += '<td>' + item.data.subject_form5.diskripsi + '</td>';
+                            trSpm += '<td align="center">' + item.data.gred + '</td>';
+                            trSpm += '<td align="center" style="display:none;">' + item.data.tahun + '</td>';
                             // trSpm += '<td align="center"><a><i class="fas fa-pencil text-primary editSpm1-btn" data-id="' + item.id + ' "></i></a>';
                             // trSpm += '&nbsp;&nbsp;';
                             // trSpm += '<a><i class="fas fa-trash text-danger deleteSpm1-btn" data-id="' + item.id + '"></i></a></td>';
@@ -720,7 +720,7 @@
                 $('#table-spm1 tbody').append(trSpm);
 
                 if($('#table-spm1 tbody').is(':empty')){
-                    var trSpm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
+                    var trSpm = '<tr><td align="center" colspan="5">Tiada Maklumat</td></tr>';
                     $('#table-spm1 tbody').append(trSpm);
 
                     var tmSpm1Element = $("#tm_spm1");
@@ -821,25 +821,25 @@
                 $('#table-spm2 tbody').empty();
                 var trSpm = '';
                 var bilSpm = 0;
-                if(data.detail.data != null){
-                    $.each(data.detail.data, function(i, item) {
-                        if (item.subject_form5 != null) {
+                if(data.detail != null){
+                    $.each(data.detail, function(i, item) {
+                        if (item.data.subject_form5 != null) {
                             if (bilSpm == 0) {
                                 trSpm += '<tr>';
-                                trSpm += '<td align="left" colspan="5"><b>' + item.tahun + '</b></td>';
+                                trSpm += '<td align="left" colspan="5"><b>' + item.data.tahun + '</b></td>';
                                 trSpm += '</tr>';
                                 trSpm += '<tr>';
-                                trSpm += '<td align="left" colspan="5"><b> Jenis Peperiksaan : SPM</b></td>';
+                                trSpm += '<td align="left" colspan="5"><b> Jenis Peperiksaan : '+ item.jenis +'</b></td>';
                                 trSpm += '</tr>';
                             }
                             bilSpm += 1;
                             trSpm += '<tr>';
                             trSpm += '<td align="center">' + bilSpm + '</td>';
                             // trSpm += '<td>SPM</td>'; //KOD MATA PELAJARAN
-                            trSpm += '<td>' + item.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
-                            trSpm += '<td>' + item.subject_form5.diskripsi + '</td>';
-                            trSpm += '<td align="center">' + item.gred + '</td>';
-                            trSpm += '<td align="center" style="display:none;">' + item.tahun + '</td>';
+                            trSpm += '<td>' + item.data.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
+                            trSpm += '<td>' + item.data.subject_form5.diskripsi + '</td>';
+                            trSpm += '<td align="center">' + item.data.gred + '</td>';
+                            trSpm += '<td align="center" style="display:none;">' + item.data.tahun + '</td>';
                             // trSpm += '<td align="center"><a><i class="fas fa-pencil text-primary editSpm2-btn" data-id="' + item.id + ' "></i></a>';
                             // trSpm += '&nbsp;&nbsp;';
                             // trSpm += '<a><i class="fas fa-trash text-danger deleteSpm2-btn" data-id="' + item.id + '"></i></a></td>';
@@ -850,7 +850,7 @@
                 $('#table-spm2 tbody').append(trSpm);
 
                 if($('#table-spm2 tbody').is(':empty')){
-                    var trSpm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
+                    var trSpm = '<tr><td align="center" colspan="5">Tiada Maklumat</td></tr>';
                     $('#table-spm2 tbody').append(trSpm);
                 }
 
@@ -972,7 +972,7 @@
                 $('#table-svm tbody').append(trSvm);
 
                 if($('#table-svm tbody').is(':empty')){
-                    var trSvm = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
+                    var trSvm = '<tr><td align="center" colspan="5">Tiada Maklumat</td></tr>';
                     $('#table-svm tbody').append(trSvm);
 
                     var tmSvm1Element = $("#tm_svm1");
@@ -1020,7 +1020,7 @@
             }
         });
     }
-  if (($('#tm_svm1').is(":hidden")) && ($('#tm_spmu').is(":hidden"))  &&  ($('#tm_spm1').is(":hidden")) ) {
+    if ((!$('#tm_svm1').is(":hidden")) && (!$('#tm_spmu').is(":hidden"))  &&  (!$('#tm_spm1').is(":hidden")) ) {
         $('#tm_svm1_hidden').removeAttr("hidden");
     } else {
         $('#tm_svm1_hidden').attr("hidden", true);
@@ -1062,7 +1062,7 @@
                 $('#table-spmu tbody').append(trSpmu);
 
                 if($('#table-spmu tbody').is(':empty')){
-                    var trSpmu = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
+                    var trSpmu = '<tr><td align="center" colspan="5">Tiada Maklumat</td></tr>';
                     $('#table-spmu tbody').append(trSpmu);
 
                     var tmSpmuElement = $("#tm_spmu");

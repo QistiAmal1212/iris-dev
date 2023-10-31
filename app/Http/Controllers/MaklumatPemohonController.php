@@ -856,14 +856,20 @@ class MaklumatPemohonController extends Controller
         try {
 
             $candidatePmr = CalonKeputusanSekolah::where('cal_no_pengenalan', $request->noPengenalan)
+            ->orderBy('mpel_kod', 'asc')
             ->where('mpel_tkt', 3)->with('subjectForm3')
+            ->where('kep_terbuka', 1)
             ->whereHas('subjectForm3', function ($query) {
                 $query->where('tkt', '3');
             })->get();
 
             $array = [];
             foreach ($candidatePmr as $key => $value) {
-                $array[$value->tahun][] = $value;
+                $jenis = KodPelbagai::where('kategori', 'JENIS SIJIL(TKT3)')
+                                    ->where('kod', $value->jenis_sijil)
+                                    ->pluck('diskripsi')
+                                    ->first();
+                $array[$value->tahun][$jenis][] = $value;
             }
 
             // if(!$candidate) {
@@ -1027,7 +1033,13 @@ class MaklumatPemohonController extends Controller
 
             $spm1 = [];
             foreach($candidateSpm as $calonSpm){
-                $spm1['data'][] = $calonSpm;
+                $jenis = KodPelbagai::where('kategori', 'JENIS SIJIL(TKT5)')
+                        ->where('kod', $calonSpm->jenis_sijil)
+                        ->pluck('diskripsi')
+                        ->first();
+
+                $newItem = ['data' => $calonSpm, 'jenis' => $jenis];
+                $spm1[] = $newItem;
             }
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $spm1]);
@@ -1180,7 +1192,13 @@ class MaklumatPemohonController extends Controller
 
             $spm2 = [];
             foreach($candidateSpm as $calonSpm){
-                $spm2['data'][] = $calonSpm;
+                $jenis = KodPelbagai::where('kategori', 'JENIS SIJIL(TKT5)')
+                        ->where('kod', $calonSpm->jenis_sijil)
+                        ->pluck('diskripsi')
+                        ->first();
+
+                $newItem = ['data' => $calonSpm, 'jenis' => $jenis];
+                $spm2[] = $newItem;
             }
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $spm2]);
@@ -1516,7 +1534,7 @@ class MaklumatPemohonController extends Controller
 
             $noPengenalan = $request->noPengenalan;
 
-            $candidateSpmu = CalonSpmUlangan::where('no_pengenalan', $noPengenalan)->with(['subjek'])->get();
+            $candidateSpmu = CalonSpmUlangan::where('no_pengenalan', $noPengenalan)->orderBy('matapelajaran', 'asc')->with(['subjek'])->get();
 
             return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => $candidateSpmu]);
 
@@ -2167,7 +2185,7 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidateMatrikulasi = CalonMatrikulasi::where('cal_no_pengenalan', $request->noPengenalan)->orderBy('kod_subjek','asc')->with(['course', 'college', 'subject'])->get();
+            $candidateMatrikulasi = CalonMatrikulasi::where('cal_no_pengenalan', $request->noPengenalan)->orderBy('semester','asc')->orderBy('kod_subjek','asc')->with(['course', 'college', 'subject'])->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);
