@@ -76,7 +76,7 @@
             </tr>
         </thead>
         <tbody> <tr>
-            <td colspan="6">Tiada Maklumat</td>
+            <td align="center" colspan="6" >Tiada Maklumat</td>
         </tr></tbody>
     </table>
 </div>
