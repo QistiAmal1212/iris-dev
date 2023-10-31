@@ -8,7 +8,7 @@
     <li class="nav-item" role="presentation">
         <a class="text-uppercase nav-link fw-bolder" id="security-info-tab" data-bs-toggle="tab" href="#security-info" aria-controls="security-info" role="tab" aria-selected="true">
             <i class="fa fa-lock" aria-hidden="true"></i>
-            Keselamatan
+            Kata Laluan
         </a>
     </li>
 </ul>
