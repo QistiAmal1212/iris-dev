@@ -44,7 +44,7 @@ data-reloadPage="false">
     <!-- <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Mp Kod</label>
         <input type="text" class="form-control" value="" id="mpel_kod_pmr" name="mpel_kod_pmr" disabled>
-    </div> 
+    </div>
 
     <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
         <label class="form-label">Gred</label>
@@ -62,7 +62,7 @@ data-reloadPage="false">
             <button type="button" class="btn btn-danger float-right" onclick="reloadPmr()">
                 <i class="fa fa-refresh"></i>
             </button>&nbsp;&nbsp;
-           
+
             <button type="button" class="btn btn-success float-right" id="btnSavePmr" onclick="confirmSubmit2('btnEditPmr', {
                 subjek_pmr: $('#subjek_pmr').find(':selected').text(),
                 gred_pmr: $('#gred_pmr').find(':selected').text(),
@@ -88,7 +88,7 @@ data-reloadPage="false">
     <table class="table header_uppercase table-bordered table-hovered" id="table-pmr">
         <thead>
             <tr>
-                <th>Bil.</th> 
+                <th>Bil.</th>
                 <th>MP Kod</th>
                 <th>Mata Pelajaran</th>
                 <th>Gred</th>
@@ -101,7 +101,7 @@ data-reloadPage="false">
 </div>
 
 <script>
-    
+
     function changeMP(event) {
         var value = $('#'+event).val();
         var text = $('#'+event).text();
@@ -154,7 +154,7 @@ data-reloadPage="false">
         $("#button_action_pmr").attr("style", "display:block");
 
         var editbuttoncount = $('#editbutton_pmr').val();
-    
+
         if (editbuttoncount <= 0) {
             // firsttime
             $('#editbutton_pmr').val(1)
@@ -169,10 +169,10 @@ data-reloadPage="false">
         }
     }
         function checkkemaskinipmr() {
-        
+
         var datachanged = false;
         var checkValue = JSON.parse($('#currentvalues_pmr').val());
-   
+
         if (checkValue.subjek_pmr != $('#subjek_pmr').find(':selected').text()) {
             datachanged = true;
         }
@@ -183,7 +183,7 @@ data-reloadPage="false">
         if (checkValue.tahun_pmr != $('#tahun_pmr').val()) {
             datachanged = true;
         }
-        
+
         if (!datachanged) {
             $('#editbutton_pmr').val(0);
             disbalefieldspmr();
@@ -228,30 +228,29 @@ data-reloadPage="false">
                         trPmr += '<tr>';
                         trPmr += '<td align="left" colspan="5"><b> Tahun : ' + j + '</b></td>';
                         trPmr += '</tr>';
-                        trPmr += '<tr>';
-                        trPmr += '<td align="left" colspan="5"><b> Jenis Peperiksaan : PMR</b></td>';
-                        trPmr += '</tr>';
-                    $.each(item2, function(i, item) {
-                        if (item.subject_form3 != null) {
-                            bilPmr += 1;
+                        $.each(item2, function(i, item3) {
                             trPmr += '<tr>';
-                            trPmr += '<td align="center">' + bilPmr + '</td>';
-                          
-                            trPmr += '<td align="center">' + item.mpel_kod + '</td>';
-                            trPmr += '<td>' + item.subject_form3.diskripsi + '</td>';
-                            trPmr += '<td align="center">' + item.gred + '</td>';
-                            trPmr += '<td align="center" style="display:none;">' + item.tahun + '</td>';
-                            // trPmr += '<td align="center"><a><i class="fas fa-pencil text-primary editPmr-btn" data-id="' + item.id + ' "></i></a>';
-                            // trPmr += '&nbsp;&nbsp;';
-                            // trPmr += '<a><i class="fas fa-trash text-danger deletePmr-btn" data-id="' + item.id + '" ></i></a></td>';
+                            trPmr += '<td align="left" colspan="5"><b> Jenis Peperiksaan : ' + i + '</b></td>';
                             trPmr += '</tr>';
-                        }
-                    });
+                            $.each(item3, function(i, item) {
+                                if (item.subject_form3 != null) {
+                                    bilPmr += 1;
+                                    trPmr += '<tr>';
+                                    trPmr += '<td align="center">' + bilPmr + '</td>';
+
+                                    trPmr += '<td align="center">' + item.mpel_kod + '</td>';
+                                    trPmr += '<td>' + item.subject_form3.diskripsi + '</td>';
+                                    trPmr += '<td align="center">' + item.gred + '</td>';
+                                    trPmr += '<td align="center" style="display:none;">' + item.tahun + '</td>';
+                                    trPmr += '</tr>';
+                                }
+                            });
+                        });
                 });
                 $('#table-pmr tbody').append(trPmr);
 
                 if($('#table-pmr tbody').is(':empty')){
-                    var trPmr = '<tr><td align="center" colspan="5">*Tiada Maklumat*</td></tr>';
+                    var trPmr = '<tr><td align="center" colspan="5">Tiada Maklumat</td></tr>';
                     $('#table-pmr tbody').append(trPmr);
 
                     var tmPmrElement = $("#tm_pmr");

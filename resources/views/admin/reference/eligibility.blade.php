@@ -53,7 +53,7 @@
             <form id="form-search" role="form" autocomplete="off" method="post" action="" class="mb-4" novalidate>
                 <div class="row align-items-center">
                     <div class="col-sm-4 col-md-4 col-lg-4">
-                        <label class="form-label" for="code">Carian Kelayakan Setara</label>
+                        <label class="form-label" for="code">Carian Kelayakan Akademik</label>
                         <select name="activity_type_id" id="activity_type_id" class="select2 form-control">
                             <option value="Lihat Semua" selected>Lihat Semua</option>
                             @foreach ($kelayakanSetaraf as $ks)
@@ -77,7 +77,7 @@
                             <th width="2%">No.</th>
                             <th width="10%">Kod</th>
                             <th>Nama</th>
-                            <th>Kelayakan Setaraf</th>
+                            <th>Kelayakan Akademik</th>
                             <th width="10%">Tindakan</th>
                         </tr>
                     </thead>

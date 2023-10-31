@@ -83,7 +83,7 @@ data-reloadPage="false">
 
         $("#button_action_skm").attr("style", "display:block");
         var editbuttoncount = $('#editbutton_skm').val();
-    
+
         if (editbuttoncount <= 0) {
             // firsttime
             $('#editbutton_skm').val(1)
@@ -97,10 +97,10 @@ data-reloadPage="false">
         }
     }
     function checkkemaskiniskm() {
-        
+
         var datachanged = false;
         var checkValue = JSON.parse($('#currentvalues_skm').val());
-   
+
         if (checkValue.nama_skm != $('#nama_skm').find(':selected').text()) {
             datachanged = true;
         }
@@ -108,7 +108,7 @@ data-reloadPage="false">
         if (checkValue.tahun_skm != $('#tahun_skm').val()) {
             datachanged = true;
         }
-        
+
         if (!datachanged) {
             $('#editbutton_skm').val(0);
             disbalefieldsskm();
@@ -193,7 +193,7 @@ data-reloadPage="false">
                 $('#table-skm tbody').append(trSkm);
 
                 if($('#table-skm tbody').is(':empty')){
-                    var trSkm = '<tr><td align="center" colspan="4">*Tiada Maklumat*</td></tr>';
+                    var trSkm = '<tr><td align="center" colspan="4">Tiada Maklumat</td></tr>';
                     $('#table-skm tbody').append(trSkm);
 
                     var tmSkmElement = $("#tm_skm");

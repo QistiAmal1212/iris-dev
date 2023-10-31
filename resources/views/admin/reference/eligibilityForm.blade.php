@@ -46,7 +46,7 @@
                         </div> --}}
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label" for="equivalent">Kelayakan Setaraf
+                                <label class="form-label" for="equivalent">Kelayakan Akademik
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <select class="form-control" name="equivalent" id="equivalent" required>

@@ -778,7 +778,7 @@ Maklumat Pemohon
 
                     $('#table-skim tbody').empty();
                     if(data.detail.skim.length == 0){
-                        var trSkim = '<tr><td align="center" colspan="6">*Tiada Maklumat*</td></tr>';
+                        var trSkim = '<tr><td align="center" colspan="6">Tiada Maklumat</td></tr>';
                         $('#tm_skim').removeAttr('hidden');
                     } else {
                         var trSkim = '';

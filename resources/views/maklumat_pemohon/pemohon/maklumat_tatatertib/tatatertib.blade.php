@@ -179,7 +179,7 @@
                 $('#table-penalty tbody').append(trPenalty);
 
                 if($('#table-penalty tbody').is(':empty')){
-                    var trPenalty = '<tr><td align="center" colspan="6">*Tiada Maklumat*</td></tr>';
+                    var trPenalty = '<tr><td align="center" colspan="6">Tiada Maklumat</td></tr>';
                     $('#table-penalty tbody').append(trPenalty);
                     $('#tm_tata').removeAttr('hidden');
                 }
