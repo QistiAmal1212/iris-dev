@@ -174,7 +174,8 @@ class PemohonRequest extends ApiRequest
                     'pengalaman9.*.tarikh_akhir' => 'nullable|date_format:Y-m-d',
                     'pengalaman9.*.tempoh_pengalaman' => 'required|string',
                     'pengalaman9.*.peringkat_pengalaman' => 'required|string',
-                    'pengalaman9.*.jenis_pengalaman' => 'required|string|ruj_jenis_pengalaman9,kod',
+                    'pengalaman9.*.jenis_pengalaman' => 'required|string',
+                    // 'pengalaman9.*.jenis_pengalaman' => 'required|string|ruj_jenis_pengalaman9,kod',
                     'kategori_tentera_polis' => 'required_with:pangkat_tentera_polis|nullable|string|exists:ruj_jenis_perkhidmatan,id', //status_pkhidmat
                     'pangkat_tentera_polis' => 'required_with:kategori_tentera_polis|nullable|string|exists:ruj_pangkat,kod',
                     'jenis_bekas_tentera_polis' => 'nullable|string|exists:ruj_jenis_bekas_tentera_polis,kod',
