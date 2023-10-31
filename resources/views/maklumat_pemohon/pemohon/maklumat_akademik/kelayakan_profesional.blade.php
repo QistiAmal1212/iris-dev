@@ -46,7 +46,7 @@ data-reloadPage="false">
                 <button type="button" class="btn btn-danger me-1" onclick="reloadProfesional()">
                     <i class="fa fa-refresh"></i>
                 </button>
-                
+
                  <button type="button" class="btn btn-success float-right" id="btnSaveProfesional" onclick="confirmSubmitkp('btnEditProfesional', {
                         no_ahli_profesional: $('#no_ahli_profesional').val(),
                         kelulusan_profesional: $('#kelulusan_profesional').find(':selected').text(),
@@ -93,7 +93,7 @@ data-reloadPage="false">
 
         $("#button_action_profesional").attr("style", "display:block");
         var editbuttoncount = $('#editbutton_kp').val();
-    
+
         if (editbuttoncount <= 0) {
             // firsttime
             $('#editbutton_kp').val(1)
@@ -108,10 +108,10 @@ data-reloadPage="false">
         }
     }
     function checkkemaskinikp() {
-        
+
         var datachanged = false;
         var checkValue = JSON.parse($('#currentvalues_kp').val());
-   
+
         if (checkValue.kelulusan_profesional != $('#kelulusan_profesional').find(':selected').text()) {
             datachanged = true;
         }
@@ -121,7 +121,7 @@ data-reloadPage="false">
         if (checkValue.tarikh_keahlian_profesional != $('#tarikh_keahlian_profesional').val()) {
             datachanged = true;
         }
-        
+
         if (!datachanged) {
             $('#editbutton_kp').val(0);
             disbalefieldskp();
@@ -212,7 +212,7 @@ data-reloadPage="false">
                 $('#table-profesional tbody').append(trProfessional);
 
                 if($('#table-profesional tbody').is(':empty')){
-                    var trProfessional = '<tr><td align="center" colspan="5">*Tiada Rekod*</td></tr>';
+                    var trProfessional = '<tr><td align="center" colspan="5">Tiada Maklumat</td></tr>';
                     $('#table-profesional tbody').append(trProfessional);
 
                     var tmProfesionalElement = $("#tm_ikhtisas");

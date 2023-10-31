@@ -1200,22 +1200,22 @@
                         trMatrikulasi += '<td align="center">' + item.gred + '</td>';
                         trMatrikulasi += '</tr>';
 
-                        if(item.pngk != null && $('#pngk_matrik').html() !== "Tiada Maklumat"){
+                        if(item.pngk != null){
                             $('#pngk_matrik').html(item.pngk);
                         } else {
                             $('#pngk_matrik').html('Tiada Maklumat');
                         }
-                        if(item.college != null && $('#kolej_matrik').html() !== ": Tiada Maklumat"){
+                        if(item.college != null){
                             $('#kolej_matrik').html(': ' + item.college.diskripsi);
                         } else {
                             $('#kolej_matrik').html(': Tiada Maklumat');
                         }
-                        if(item.course != null && $('#kursus_matrik').html() !== ": Tiada Maklumat"){
+                        if(item.course != null){
                             $('#kursus_matrik').html(': ' + item.course.diskripsi);
                         } else {
                             $('#kursus_matrik').html(': Tiada Maklumat');
                         }
-                        if(item.no_matrik != null && $('#no_matrik').html() !== ": Tiada Maklumat"){
+                        if(item.no_matrik != null){
                             $('#no_matrik').html(': ' + item.no_matrik);
                         } else {
                             $('#no_matrik').html(': Tiada Maklumat');
@@ -1229,7 +1229,7 @@
                     $('#kolej_matrik').html(': Tiada Maklumat');
                     $('#kursus_matrik').html(': Tiada Maklumat');
                     $('#no_matrik').html(': Tiada Maklumat');
-                    
+
                     var trMatrikulasi = '<tr><td align="center" colspan="10">Tiada Maklumat</td></tr>';
                     $('#table-matrikulasi tbody').append(trMatrikulasi);
 
