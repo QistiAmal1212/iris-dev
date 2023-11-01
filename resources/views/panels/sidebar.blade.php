@@ -27,7 +27,7 @@ $configData = Helper::applClasses();
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
             <li class="nav-item {{ in_array(request()->route()->getName(), ['home']) ? 'active' : '' }}">
-                <a href="{{ route('home') }}" class="d-flex align-items-center">
+                <a href="{{ route('home') }}" class="d-flex align-items-center" onclick="scrollToTop(event)">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate">{{__('msg.home')}} </span>
                 </a>
@@ -196,7 +196,7 @@ $configData = Helper::applClasses();
                         <span>{{ $menu->name }}</span>
                     </li>
                     <li class="nav_item {{ ($menu->type == 'Web') ? in_array(request()->route()->getName(), [$menu->module->code]) ? 'active' : '' : '#' }}">
-                        <a href="{{ ($menu->type == 'Web') ? route($menu->module->code) : '#' }}" class="nav_link">
+                        <a href="{{ ($menu->type == 'Web') ? route($menu->module->code) : '#' }}" class="nav_link" onclick="scrollToTop(event)">
                             <!-- <i data-feather="circle"></i> -->
                              <span class="menu-title text-truncate">{{ $menu->name }}</span>
                         </a>
@@ -211,7 +211,7 @@ $configData = Helper::applClasses();
                             ?>
                             @if(count($accessLevel2) > 0)
                             <li class="nav-item {{ ($menu2->type == 'Web') ? in_array(request()->route()->getName(), [$menu2->module->code]) ? 'active' : '' : '#' }}">
-                                <a href="{{ ($menu2->type == 'Web') ? route($menu2->module->code) : '#' }}" class="nav-link">
+                                <a href="{{ ($menu2->type == 'Web') ? route($menu2->module->code) : '#' }}" class="nav-link" onclick="scrollToTop(event)">
                                     <!-- <i data-feather="shield"></i> -->
                                     <span class="menu-title text-truncate">{{ $menu2->name }}</span>
                                 </a>
@@ -249,12 +249,12 @@ $configData = Helper::applClasses();
                 <span> Calon Acronym </span>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" class="nav-link" onclick="scrollToTop(event)">
                     <span class="menu-title text-truncate"> Calon Acronym </span>
                 </a>
                 <ul class="menu-content">
                     <li class="{{ in_array(request()->route()->getName(), ['acronym.index']) ? 'active' : '' }}">
-                        <a href="{{ route('acronym.index') }}" class="d-flex align-items-center">
+                        <a href="{{ route('acronym.index') }}" class="d-flex align-items-center" onclick="scrollToTop(event)">
                             <span class="menu-title text-truncate">
                                 Calon Acronym
                             </span>
@@ -266,12 +266,12 @@ $configData = Helper::applClasses();
                 <span> Pengurusan Integrasi </span>
             </li>
             <li class="nav-item {{ request()->is('pengurusan_integrasi*') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link">
+                <a href="#" class="nav-link" onclick="scrollToTop(event)">
                     <span class="menu-title text-truncate"> Pengurusan Integrasi </span>
                 </a>
                 <ul class="menu-content">
                     <li class="{{ in_array(request()->route()->getName(), ['dashboard_integration']) ? 'active' : '' }}">
-                        <a href="{{ route('dashboard_integration') }}" class="d-flex align-items-center">
+                        <a href="{{ route('dashboard_integration') }}" class="d-flex align-items-center" onclick="scrollToTop(event)">
                             <span class="menu-title text-truncate">
                                 Pengurusan Integrasi
                             </span>
@@ -284,12 +284,12 @@ $configData = Helper::applClasses();
                 <span> Tapisan Permohonan </span>
             </li>
             <li class="nav-item {{ request()->is('tapisan_permohonan*') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link">
+                <a href="#" class="nav-link" onclick="scrollToTop(event)">
                     <span class="menu-title text-truncate"> Tapisan Permohonan </span>
                 </a>
                 <ul class="menu-content">
                     <li class="nav-item {{ request()->is('tapisan_permohonan*') ? 'menu-open' : '' }}">
-                        <a href="#" class="d-flex align-items-center">
+                        <a href="#" class="d-flex align-items-center" onclick="scrollToTop(event)">
                             <span class="menu-title text-truncate">
                                 Pengurusan Pemerolehan
                             </span>
@@ -346,13 +346,13 @@ $configData = Helper::applClasses();
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link" onclick="scrollToTop(event)">
                         <i class="fa-solid fa-headset"></i>
                         <span class="menu-title text-truncate"> Helpdesk </span>
                     </a>
                     <ul class="menu-content">
                         <li class="{{ in_array(request()->route()->getName(), ['helpdesk.index','helpdesk.viewTicket']) ? 'active' : '' }}" >
-                            <a href="{{ route('helpdesk.index') }}" class="nav-link">
+                            <a href="{{ route('helpdesk.index') }}" class="nav-link" onclick="scrollToTop(event)">
                                 <i class="fa-solid fa-list"></i>
                                 <span class="menu-title text-truncate"> Senarai </span>
                             </a>
@@ -434,3 +434,35 @@ $configData = Helper::applClasses();
         </ul>
     </div>
 </div>
+<script>
+function scrollToTop(event) {
+    event.preventDefault();
+    var mainMenuContent = document.querySelector('.main-menu-content');
+    var start = mainMenuContent.scrollTop;
+    var end = 0;
+    var duration = 300; // Adjust the duration as needed
+
+    var startTime;
+
+    function animateScroll(timestamp) {
+        if (!startTime) startTime = timestamp;
+
+        var progress = timestamp - startTime;
+        mainMenuContent.scrollTop = easeInOutCubic(progress, start, end - start, duration);
+
+        if (progress < duration) {
+            requestAnimationFrame(animateScroll);
+        }
+    }
+
+    function easeInOutCubic(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t * t + b;
+        t -= 2;
+        return c / 2 * (t * t * t + 2) + b;
+    }
+
+    requestAnimationFrame(animateScroll);
+}
+</script>
+
