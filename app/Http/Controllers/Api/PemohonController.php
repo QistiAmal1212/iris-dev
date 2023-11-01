@@ -89,7 +89,7 @@ class PemohonController extends ApiController
                     // 'no_kp_baru' => $request->no_kp,
                     'e_mel' => $request->emel,
                     'no_tel' => $request->no_tel,
-                    'tarikh_lahir' => $request->tarikh_lahir,
+                    'tarikh_lahir' => Carbon::createFromFormat('d-m-Y', $request->tarikh_lahir),
                     'jan_kod' => $jantina,
                     'agama' => $agama,
                     'ket_kod' => $request->keturunan,
@@ -122,7 +122,7 @@ class PemohonController extends ApiController
                     'no_kp_baru' => $request->no_kp,
                     'e_mel' => $request->emel,
                     'no_tel' => $request->no_tel,
-                    'tarikh_lahir' => $request->tarikh_lahir,
+                    'tarikh_lahir' => Carbon::createFromFormat('d-m-Y', $request->tarikh_lahir),
                     'jan_kod' => $jantina,
                     'agama' => $agama,
                     'ket_kod' => $request->keturunan,
@@ -199,8 +199,8 @@ class PemohonController extends ApiController
 
                     if($calonSkim){
                         $dataSkim = [
-                            'tarikh_daftar' => $skim['tarikh_daftar'],
-                            'tarikh_luput' => ($skim['tarikh_daftar'] != null) ? Carbon::parse($skim['tarikh_daftar'])->addYear()->format('Y-m-d') : null,
+                            'tarikh_daftar' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar']) : null,
+                            'tarikh_luput' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar'])->addYear()->format('Y-m-d') : null,
                             'no_kelompok' => $skim['no_kelompok'],
                             'no_siri' => $skim['no_siri'],
                             'pusat_td_pilihan' => $request->pusat_temuduga,
@@ -210,8 +210,8 @@ class PemohonController extends ApiController
                     } else {
                         $dataSkim = [
                             'cal_no_pengenalan' => $noPengenalan,
-                            'tarikh_daftar' => $skim['tarikh_daftar'],
-                            'tarikh_luput' => ($skim['tarikh_daftar'] != null) ? Carbon::parse($skim['tarikh_daftar'])->addYear()->format('Y-m-d') : null,
+                            'tarikh_daftar' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar']) : null,
+                            'tarikh_luput' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar'])->addYear()->format('Y-m-d') : null,
                             'ski_kod' => $skim['skim'],
                             'no_kelompok' => $skim['no_kelompok'],
                             'no_siri' => $skim['no_siri'],
@@ -231,8 +231,8 @@ class PemohonController extends ApiController
 
                     if($calonDaftar){
                         $dataDaftar = [
-                            'tarikh_daftar' => $daftar['tarikh_daftar'],
-                            'tarikh_daftar_1' => $daftar['tarikh_daftar'],
+                            'tarikh_daftar' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar']) : null,
+                            'tarikh_daftar_1' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar']) : null,
                             'j_daftar' => '03',
                             'keutamaan' => $daftar['keutamaan'],
                             'status_akuan' => '1',
@@ -242,8 +242,8 @@ class PemohonController extends ApiController
                         $dataDaftar = [
                             'no_pengenalan' => $noPengenalan,
                             'skim' => $daftar['skim'],
-                            'tarikh_daftar' => $daftar['tarikh_daftar'],
-                            'tarikh_daftar_1' => $daftar['tarikh_daftar'],
+                            'tarikh_daftar' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar']) : null,
+                            'tarikh_daftar_1' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar']) : null,
                             'j_daftar' => '03',
                             'keutamaan' => $daftar['keutamaan'],
                             'status_akuan' => '1',
@@ -506,7 +506,7 @@ class PemohonController extends ApiController
                             'cgpa' => $pengajian['cgpa'],
                             'ins_fln' => $pengajian['institusi_francais'],
                             'nama_sijil' => $pengajian['nama_sijil'],
-                            'tarikh_senat' => $pengajian['tarikh_senat'],
+                            'tarikh_senat' => ($pengajian['tarikh_senat'] != null) ? Carbon::createFromFormat('d-m-Y', $pengajian['tarikh_senat']) : null,
                             'peringkat_pengajian' => $pengajian['peringkat'],
                             'biasiswa' => ($pengajian['biasiswa'] != null) ? 1 : 0,
                         ];
@@ -521,7 +521,7 @@ class PemohonController extends ApiController
                             'cgpa' => $pengajian['cgpa'],
                             'ins_fln' => $pengajian['institusi_francais'],
                             'nama_sijil' => $pengajian['nama_sijil'],
-                            'tarikh_senat' => $pengajian['tarikh_senat'],
+                            'tarikh_senat' => ($pengajian['tarikh_senat'] != null) ? Carbon::createFromFormat('d-m-Y', $pengajian['tarikh_senat']) : null,
                             'peringkat_pengajian' => $pengajian['peringkat'],
                             'biasiswa' => ($pengajian['biasiswa'] != null) ? 1 : 0,
                         ];
@@ -539,14 +539,14 @@ class PemohonController extends ApiController
                     if($calonProfesional){
                         $calonProfesional->update([
                             'no_ahli' => $profesional['no_ahli'],
-                            'tarikh' => $profesional['tarikh']
+                            'tarikh' => ($profesional['tarikh'] != null) ? Carbon::createFromFormat('d-m-Y', $profesional['tarikh']) : null,
                         ]);
                     } else {
                         $dataProfesional = [
                             'cal_no_pengenalan' => $noPengenalan,
                             'kel1_kod' => $profesional['kelulusan'],
                             'no_ahli' => $profesional['no_ahli'],
-                            'tarikh' => $profesional['tarikh']
+                            'tarikh' => ($profesional['tarikh'] != null) ? Carbon::createFromFormat('d-m-Y', $profesional['tarikh']) : null,
                         ];
                         CalonProfesional::create($dataProfesional);
                     }
@@ -560,16 +560,16 @@ class PemohonController extends ApiController
                     $calonPengalaman->update([
                         'sektor_pekerjaan' => $request->pengalaman_jenis_perkhidmatan,
                         'taraf_jawatan' => $request->pengalaman_jenis_lantikan,
-                        'tarikh_lantik1' => $request->pengalaman_tarikh_lantikan,
-                        'tarikh_mula' => $request->pengalaman_tarikh_lantikan_pertama,
-                        'tarikh_disahkan' => $request->pengalaman_tarikh_sah,
+                        'tarikh_lantik1' => ($request->pengalaman_tarikh_lantikan != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_lantikan) : null,
+                        'tarikh_mula' => ($request->pengalaman_tarikh_lantikan_pertama != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_lantikan_pertama) : null,
+                        'tarikh_disahkan' => ($request->pengalaman_tarikh_sah != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_sah) : null,
                         'ski_kod' => $request->pengalaman_skim,
                         'ggh_kod' => $request->pengalaman_gred_gaji,
                         'kj_kod' => $request->pengalaman_kementerian,
                         //'negeri_jabatan' => $request->pengalaman_negeri_bertugas,
                         'neg_kod' => $request->pengalaman_negeri_bertugas,
                         'daerah_bertugas' => $request->pengalaman_daerah_bertugas,
-                        'tarikh_tamat_kontrak' => $request->pengalaman_tarikh_tamat_kontrak,
+                        'tarikh_tamat_kontrak' => ($request->pengalaman_tarikh_tamat_kontrak != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_tamat_kontrak) : null,
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
                     ]);
                 } else {
@@ -577,16 +577,16 @@ class PemohonController extends ApiController
                         'cal_no_pengenalan' => $noPengenalan,
                         'sektor_pekerjaan' => $request->pengalaman_jenis_perkhidmatan,
                         'taraf_jawatan' => $request->pengalaman_jenis_lantikan,
-                        'tarikh_lantik1' => $request->pengalaman_tarikh_lantikan,
-                        'tarikh_mula' => $request->pengalaman_tarikh_lantikan_pertama,
-                        'tarikh_disahkan' => $request->pengalaman_tarikh_sah,
+                        'tarikh_lantik1' => ($request->pengalaman_tarikh_lantikan != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_lantikan) : null,
+                        'tarikh_mula' => ($request->pengalaman_tarikh_lantikan_pertama != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_lantikan_pertama) : null,
+                        'tarikh_disahkan' => ($request->pengalaman_tarikh_sah != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_sah) : null,
                         'ski_kod' => $request->pengalaman_skim,
                         'ggh_kod' => $request->pengalaman_gred_gaji,
                         'kj_kod' => $request->pengalaman_kementerian,
                         //'negeri_jabatan' => $request->pengalaman_negeri_bertugas,
                         'neg_kod' => $request->pengalaman_negeri_bertugas,
                         'daerah_bertugas' => $request->pengalaman_daerah_bertugas,
-                        'tarikh_tamat_kontrak' => $request->pengalaman_tarikh_tamat_kontrak,
+                        'tarikh_tamat_kontrak' => ($request->pengalaman_tarikh_tamat_kontrak != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_tamat_kontrak) : null,
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
                     ]);
                 }
@@ -602,8 +602,8 @@ class PemohonController extends ApiController
 
                     if($calonPengalaman9){
                         $calonPengalaman9->update([
-                            'tarikh_mula' => $pengalaman['tarikh_mula'],
-                            'tarikh_akhir' => $pengalaman['tarikh_akhir'],
+                            'tarikh_mula' => Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_mula']),
+                            'tarikh_akhir' => ($pengalaman['tarikh_akhir'] != null) ? Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_akhir']) : null,
                             'tempoh_pengalaman' => $pengalaman['tempoh_pengalaman'],
                             'peringkat_pengalaman' => $pengalaman['peringkat_pengalaman'],
                             'jenis_pengalaman' => $pengalaman['jenis_pengalaman']
@@ -611,8 +611,8 @@ class PemohonController extends ApiController
                     } else {
                         CalonPengalaman9::create([
                             'no_pengenalan' => $noPengenalan,
-                            'tarikh_mula' => $pengalaman['tarikh_mula'],
-                            'tarikh_akhir' => $pengalaman['tarikh_akhir'],
+                            'tarikh_mula' => Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_mula']),
+                            'tarikh_akhir' => ($pengalaman['tarikh_akhir'] != null) ? Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_akhir']) : null,
                             'tempoh_pengalaman' => $pengalaman['tempoh_pengalaman'],
                             'peringkat_pengalaman' => $pengalaman['peringkat_pengalaman'],
                             'jenis_pengalaman' => $pengalaman['jenis_pengalaman']
@@ -629,13 +629,13 @@ class PemohonController extends ApiController
 
                     if($calonPsl){
                         $calonPsl->update([
-                            'tarikh_exam' => $psl['tarikh_exam'],
+                            'tarikh_exam' => Carbon::createFromFormat('d-m-Y', $psl['tarikh_exam']),
                         ]);
                     } else {
                         $dataPsl = [
                             'cal_no_pengenalan' => $noPengenalan,
                             'kel1_kod' => $psl['kelulusan'],
-                            'tarikh_exam' => $psl['tarikh_exam'],
+                            'tarikh_exam' => Carbon::createFromFormat('d-m-Y', $psl['tarikh_exam']),
                         ];
                         CalonPsl::create($dataPsl);
                     }
@@ -718,7 +718,7 @@ class PemohonController extends ApiController
         // } catch (Exception $e) {
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Store Pemohon API Error: ' . $e);
+            //Log::error('Store Pemohon API Error: ' . $e);
 
             //$user = User::find(1);
             $users = Role::find(1)->users;
