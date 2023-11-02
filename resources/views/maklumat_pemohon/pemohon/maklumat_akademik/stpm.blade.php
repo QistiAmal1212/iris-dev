@@ -765,12 +765,12 @@
                     $('#tm_stpm1_hidden').val(1);
                     var tmStpm1Element = $("#tm_stpm1");
                     tmStpm1Element.attr("hidden", true);
-                }
 
-                if(data.detail.pngk != null){
+                    if(data.detail.pngk != null){
                     $('#pngk_stpm1').html(data.detail.pngk.pngk);
-                } else {
+                    } else {
                     $('#pngk_stpm1').html('Tiada Maklumat');
+                    }
                 }
 
                 $(document).on('click', '.editStpm1-btn', function() {

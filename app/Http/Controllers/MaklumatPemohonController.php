@@ -1618,8 +1618,11 @@ class MaklumatPemohonController extends Controller
             ->distinct()
             ->first();
 
-            $pngkStpm = CalonStpmPngk::where('tahun', $tahunValue->tahun)->where('no_pengenalan', $request->noPengenalan)->first();
-
+            $pngkStpm = null;
+            if(!$tahunValue){
+                $pngkStpm = CalonStpmPngk::where('tahun', $tahunValue->tahun)->where('no_pengenalan', $request->noPengenalan)->first();
+            }
+            
             $dataStpm = [
                 'subjek' => $fullDataset,
                 'pngk' => $pngkStpm,
