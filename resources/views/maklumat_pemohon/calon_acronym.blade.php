@@ -29,7 +29,7 @@ Calon Acronym
                         <select class="select2 form-control" name="pmr[]">
                             <option value="">Sila Pilih</option>
                             @foreach($subjekPmr as $pmr)
-                            <option value="{{ $pmr->code }}">{{ $pmr->name }}</option>
+                            <option value="{{ $pmr->kod }}">{{ $pmr->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -51,7 +51,7 @@ Calon Acronym
                         <select class="select2 form-control" name="pmr[]">
                             <option value="">Sila Pilih</option>
                             @foreach($subjekPmr as $pmr)
-                            <option value="{{ $pmr->code }}">{{ $pmr->name }}</option>
+                            <option value="{{ $pmr->kod }}">{{ $pmr->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -74,7 +74,7 @@ Calon Acronym
                         <select class="select2 form-control" name="pmr[]">
                             <option value="">Sila Pilih</option>
                             @foreach($subjekPmr as $pmr)
-                            <option value="{{ $pmr->code }}">{{ $pmr->name }}</option>
+                            <option value="{{ $pmr->kod }}">{{ $pmr->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -98,7 +98,7 @@ Calon Acronym
                         <select class="select2 form-control" name="pmr[]">
                             <option value="">Sila Pilih</option>
                             @foreach($subjekPmr as $pmr)
-                            <option value="{{ $pmr->code }}">{{ $pmr->name }}</option>
+                            <option value="{{ $pmr->kod }}">{{ $pmr->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -122,7 +122,7 @@ Calon Acronym
                         <select class="select2 form-control" name="pmr[]">
                             <option value="">Sila Pilih</option>
                             @foreach($subjekPmr as $pmr)
-                            <option value="{{ $pmr->code }}">{{ $pmr->name }}</option>
+                            <option value="{{ $pmr->kod }}">{{ $pmr->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -148,7 +148,7 @@ Calon Acronym
                         <select class="select2 form-control" name="spm[]">
                             <option value="">Sila Pilih</option>
                             @foreach($subjekSpm as $spm)
-                            <option value="{{ $spm->code }}">{{ $spm->name }}</option>
+                            <option value="{{ $spm->kod }}">{{ $spm->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -170,7 +170,7 @@ Calon Acronym
                         <select class="select2 form-control" name="spm[]">
                             <option value="">Sila Pilih</option>
                             @foreach($subjekSpm as $spm)
-                            <option value="{{ $spm->code }}">{{ $spm->name }}</option>
+                            <option value="{{ $spm->kod }}">{{ $spm->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -193,7 +193,7 @@ Calon Acronym
                         <select class="select2 form-control" name="spm[]">
                             <option value="">Sila Pilih</option>
                             @foreach($subjekSpm as $spm)
-                            <option value="{{ $spm->code }}">{{ $spm->name }}</option>
+                            <option value="{{ $spm->kod }}">{{ $spm->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -217,7 +217,7 @@ Calon Acronym
                         <select class="select2 form-control" name="spm[]">
                             <option value="">Sila Pilih</option>
                             @foreach($subjekSpm as $spm)
-                            <option value="{{ $spm->code }}">{{ $spm->name }}</option>
+                            <option value="{{ $spm->kod }}">{{ $spm->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -241,7 +241,7 @@ Calon Acronym
                         <select class="select2 form-control" name="spm[]">
                             <option value="">Sila Pilih</option>
                             @foreach($subjekSpm as $spm)
-                            <option value="{{ $spm->code }}">{{ $spm->name }}</option>
+                            <option value="{{ $spm->kod }}">{{ $spm->diskripsi }}</option>
                             @endforeach
                         </select>
                     </div>
