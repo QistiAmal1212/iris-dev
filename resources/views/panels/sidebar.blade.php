@@ -436,7 +436,6 @@ $configData = Helper::applClasses();
 </div>
 <script>
 function scrollToTop(event) {
-    event.preventDefault();
     var mainMenuContent = document.querySelector('.main-menu-content');
     var start = mainMenuContent.scrollTop;
     var end = 0;
@@ -463,6 +462,8 @@ function scrollToTop(event) {
     }
 
     requestAnimationFrame(animateScroll);
+
+    return true; 
 }
 </script>
 
