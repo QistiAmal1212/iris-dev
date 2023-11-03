@@ -951,6 +951,12 @@ Maklumat Pemohon
                         selectionNull('experience_skim', 'experienceBForm');
                         originalVal['experience_skim'] = '';
 
+                        selectionNull('experience_service_group', 'experienceBForm');
+                        originalVal['experience_service_group'] = '';
+
+                        selectionNull('experience_position_grade', 'experienceBForm');
+                        originalVal['experience_position_grade'] = '';
+
                         $('#experienceBForm input[name="experience_start_date"]').val(data_not_available);
                         originalVal['experience_start_date'] = '';
 
@@ -979,23 +985,29 @@ Maklumat Pemohon
                     if(tabAEmpty){
                         var tmMpsbElement = $("#tm_mpsb");
                         tmMpsbElement.removeAttr("hidden");
+                        updateVisibilityPSB();
                     }else{
                         var tmMpsbElement = $("#tm_mpsb");
                         tmMpsbElement.attr("hidden", true);
+                        updateVisibilityPSB();
                     }
                     if(tabBEmpty){
                         var tmHakikiElement = $("#tm_hakiki");
                         tmHakikiElement.removeAttr("hidden");
+                        updateVisibilityPSB();
                     }else{
                         var tmHakikiElement = $("#tm_hakiki");
                         tmHakikiElement.attr("hidden", true);
+                        updateVisibilityPSB();
                     }
                     if(tabCEmpty){
                         var tmTbElement = $("#tm_tb");
                         tmTbElement.removeAttr("hidden");
+                        updateVisibilityPSB();
                     }else{
                         var tmTbElement = $("#tm_tb");
                         tmTbElement.attr("hidden", true);
+                        updateVisibilityPSB();
                     }
 
                     $('#pslForm input[name="psl_no_pengenalan"]').val(data.detail.no_pengenalan);

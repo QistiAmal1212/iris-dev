@@ -182,6 +182,9 @@
                     var trPenalty = '<tr><td align="center" colspan="6">Tiada Maklumat</td></tr>';
                     $('#table-penalty tbody').append(trPenalty);
                     $('#tm_tata').removeAttr('hidden');
+                }else{
+                    var tmTataElement = $("#tm_tata");
+                    tmTataElement.attr("hidden", true);
                 }
 
                 $(document).on('click', '.editPenalty-btn', function() {
