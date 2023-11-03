@@ -155,6 +155,25 @@ class UserController extends Controller
 
                         return $role_label;
                     })
+                    ->editColumn('status', function ($users) {
+
+                        // $role_label = '</br>';
+                        $role_status = '<td>';
+
+                        // foreach( $users as $user ) {
+                            if($users->is_active == 1){
+                                $role_status .= '<span class="badge rounded-pill bg-light-info" style="margin-right: 2px">Aktif</span>';
+                            }else{
+                                $role_status .= '<span class="badge rounded-pill bg-light-warning" style="margin-right: 2px">Tidak Aktif</span>';
+                            }
+                            if($users->is_blocked == true){
+                                $role_status .= '<span class="badge rounded-pill bg-light-warning" style="margin-right: 2px">Disekat</span>';
+                            }
+                        // }
+                        $role_status .= "</td>";
+
+                        return $role_status;
+                    })
                     ->editColumn('action', function ($users) use ($type, $accessDelete, $accessUpdate) {
                         $button = "";
 
@@ -213,12 +232,15 @@ class UserController extends Controller
 
         $activeUser = $totalUser - $inactiveUser;
 
+        $blockedUser = clone $users;
+        $blockedUser = $blockedUser->where('is_blocked', true)->count();
+
         $role = Role::where('is_internal', $is_internal)->get();
 
         $externalUsers = Role::where('is_internal', 0)->get();
         $internalUsers = Role::where('is_internal', 1)->get();
 
-        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'externalUsers', 'internalUsers', 'departmentMinistry', 'skim' ,'route', 'accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'blockedUser', 'externalUsers', 'internalUsers', 'departmentMinistry', 'skim' ,'route', 'accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function create(Request $request)

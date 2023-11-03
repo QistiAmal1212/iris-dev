@@ -65,6 +65,7 @@
                 <th class="text-center fw-bolder"> Kementerian </th>
                 <th class="text-center fw-bolder"> Jawatan </th>
                 <th class="text-center fw-bolder"> Peranan </th>
+                <th class="text-center fw-bolder"> Status </th>
                 <th class="text-center fw-bolder"> Tindakan </th>
             </tr>
         </thead>
@@ -129,6 +130,13 @@
             {
                 data: "role",
                 name: "role",
+                render: function(data, type, row) {
+                    return $("<div/>").html(data).text();
+                }
+            },
+            {
+                data: "status",
+                name: "status",
                 render: function(data, type, row) {
                     return $("<div/>").html(data).text();
                 }

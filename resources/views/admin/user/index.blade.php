@@ -93,6 +93,31 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span>Jumlah Pengguna Disekat</span>
+                            <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
+                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                                    title="Kim Merchent" class="avatar avatar-sm pull-up">
+                                    <img class="rounded-circle" src="{{ asset('images/avatars/10.png') }}"
+                                        alt="Avatar" />
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
+                            <div class="role-heading">
+                                <h4 class="fw-bolder">{{ $blockedUser }}</h4>
+                                <a href="javascript:;" class="role-edit-modal" data-bs-toggle="modal"
+                                    data-bs-target="#addRoleModal">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="card">
             <div class="card-header">
@@ -200,6 +225,8 @@ function resetPassword(email) {
         var accessAdd = '{{ $accessAdd }}';
         var accessUpdate = '{{ $accessUpdate }}';
 
+        $('.badge').remove();
+
         event.preventDefault();
         if(id === null){
             $('#userFormModal input[name="full_name"]').val("");
@@ -282,6 +309,13 @@ function resetPassword(email) {
                         else
                             $(this).removeAttr('selected')
                     });
+
+                    if(data.detail.is_blocked){
+                        var badge = $('<span class="badge bg-warning">Disekat</span>');
+                        $('.form-check-label:contains("Status Aktif Pengguna")').append(badge);
+                    }else{
+                        $('.badge').remove();
+                    }
                     $('select[name="roles[]"]').trigger('change');
 
                     $('#userFormModal #btnUpdateFake').html('{{__("msg.update")}}');
