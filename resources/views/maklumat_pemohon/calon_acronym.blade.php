@@ -272,7 +272,7 @@ Calon Acronym
                 </form>
                 <hr>
                 <h4>Jumlah Data:<span id="count_calon"></span></h4>
-                <div class="table-responsive">
+                <!-- <div class="table-responsive">
                     <table class="table header_uppercase table-bordered table-hovered" id="table-acronym">
                         <thead>
                             <tr>
@@ -283,7 +283,7 @@ Calon Acronym
                         <tbody>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -334,18 +334,18 @@ Calon Acronym
                 $('#count_calon').html('');
                 $('#count_calon').html(data.detail.count);
 
-                $('#table-acronym tbody').empty();
+                // $('#table-acronym tbody').empty();
 
-                var tr = '';
-                var bil = 0;
-                $.each(data.detail.result, function (i, item) {
-                    bil += 1;
-                    tr += '<tr>';
-                    tr += '<td align="center">' + bil + '</td>'
-                    tr += '<td>' + item.no_pengenalan + '</td>';
-                    tr += '</tr>';
-                });
-                $('#table-acronym tbody').append(tr);
+                // var tr = '';
+                // var bil = 0;
+                // $.each(data.detail.result, function (i, item) {
+                //     bil += 1;
+                //     tr += '<tr>';
+                //     tr += '<td align="center">' + bil + '</td>'
+                //     tr += '<td>' + item.no_pengenalan + '</td>';
+                //     tr += '</tr>';
+                // });
+                // $('#table-acronym tbody').append(tr);
             },
             error: function(data) {
                 //
