@@ -135,7 +135,7 @@ class RoleController extends Controller
         DB::beginTransaction();
         try {
             $validatedData = $request->validate([
-                'role_name' => 'required|string',
+                'role_name' => 'required|string|unique:roles,name',
                 'role_description' => 'required|string',
                 // 'role_display' => 'required|string',
                 'role_level' => 'required|boolean',
@@ -145,6 +145,7 @@ class RoleController extends Controller
                 'level_three' => 'required|array',
             ],[
                 'role_name.required' => 'Sila isikan nama peranan',
+                'role_name.unique' => 'Nama peranan telah diambil',
                 'role_description.required' => 'Sila isikan diskripsi peranan',
                 'role_level.required' => 'Sila pilih jenis peranan',
                 'access_function.required' => 'Sila pilih capaian akses',
@@ -468,7 +469,7 @@ class RoleController extends Controller
         DB::beginTransaction();
         try {
             $validatedData = $request->validate([
-                'role_name' => 'required|string',
+                'role_name' => 'required|string|unique:roles,name',
                 'role_description' => 'required|string',
                 // 'role_display' => 'required|string',
                 'role_level' => 'required|boolean',
@@ -478,6 +479,7 @@ class RoleController extends Controller
                 'level_three' => 'required|array',
             ],[
                 'role_name.required' => 'Sila isikan nama peranan',
+                'role_name.unique' => 'Nama peranan telah diambil',
                 'role_description.required' => 'Sila isikan diskripsi peranan',
                 'role_level.required' => 'Sila pilih jenis peranan',
                 'access_function.required' => 'Sila pilih capaian akses',
