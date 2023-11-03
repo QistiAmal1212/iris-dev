@@ -22,7 +22,7 @@
 
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_stpm1" hidden>Tiada Maklumat</span>
-                        <input type="hidden" name="tm_stpm1_hidden" id="tm_stpm1_hidden" value=1>
+                        {{-- <input type="hidden" name="tm_stpm1_hidden" id="tm_stpm1_hidden" value=1> --}}
                     </span>
                 </span>
             </button>
@@ -42,7 +42,7 @@
 
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_stam1" hidden>Tiada Maklumat</span>
-                        <input type="hidden" name="tm_stpm1_hidden" id="tm_stam1_hidden" value=1>
+                        {{-- <input type="hidden" name="tm_stpm1_hidden" id="tm_stam1_hidden" value=1> --}}
                     </span>
                 </span>
             </button>
@@ -62,7 +62,7 @@
 
                     <span class="bs-stepper-subtitle">
                         <span class="badge badge-light-danger fw-bolder mt-1" id="tm_matrikulasi" hidden>Tiada Maklumat</span>
-                        <input type="hidden" name="tm_stpm1_hidden" id="tm_matrikulasi_hidden" value=1>
+                        {{-- <input type="hidden" name="tm_stpm1_hidden" id="tm_matrikulasi_hidden" value=1> --}}
                     </span>
                 </span>
             </button>
@@ -761,10 +761,12 @@
 
                     var tmStpm1Element = $("#tm_stpm1");
                     tmStpm1Element.removeAttr("hidden");
+                    updateVisibilitySTPM();
                 }else{
-                    $('#tm_stpm1_hidden').val(1);
+                    // $('#tm_stpm1_hidden').val(1);
                     var tmStpm1Element = $("#tm_stpm1");
                     tmStpm1Element.attr("hidden", true);
+                    updateVisibilitySTPM();
 
                     if(data.detail.pngk != null){
                     $('#pngk_stpm1').html(data.detail.pngk.pngk);
@@ -984,9 +986,11 @@
 
                     var tmStam1Element = $("#tm_stam1");
                     tmStam1Element.removeAttr("hidden");
+                    updateVisibilitySTPM();
                 }else{
                     var tmStam1Element = $("#tm_stam1");
                     tmStam1Element.attr("hidden", true);
+                    updateVisibilitySTPM();
                 }
 
                 $(document).on('click', '.editStam1-btn', function() {
@@ -1235,14 +1239,11 @@
 
                     var tmMatrikulasiElement = $("#tm_matrikulasi");
                     tmMatrikulasiElement.removeAttr("hidden");
+                    updateVisibilitySTPM();
                 }else{
                     var tmMatrikulasiElement = $("#tm_matrikulasi");
                     tmMatrikulasiElement.attr("hidden", true);
-                }
-                if (!($('#tm_stpm1').is(":hidden")) && !($('#tm_stam1').is(":hidden")) && !($('#tm_matrikulasi').is(":hidden"))) {
-                    $('#tm_stpm').removeAttr("hidden");
-                } else {
-                    $('#tm_stpm').attr("hidden", true);
+                    updateVisibilitySTPM();
                 }
 
                 $(document).on('click', '.editMatrikulasi-btn', function() {

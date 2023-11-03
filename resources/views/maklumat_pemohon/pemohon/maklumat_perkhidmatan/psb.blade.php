@@ -284,7 +284,7 @@
 </div>
 
 <script>
-    
+
     function editExperienceA() {
         $('#experienceAForm select[name="experience_job_sector"]').attr('disabled', false);
         $('#experienceAForm input[name="experience_appoint_date"]').attr('disabled', false);
@@ -298,6 +298,9 @@
 
         var reloadExperienceUrl = "{{ route('experience.details', ':replaceThis') }}"
         reloadExperienceUrl = reloadExperienceUrl.replace(':replaceThis', no_pengenalan);
+        var tmMpsbElement = $("#tm_mpsb");
+        tmMpsbElement.removeAttr("hidden");
+        updateVisibilityPSB();
         $.ajax({
             url: reloadExperienceUrl,
             method: 'GET',
@@ -312,6 +315,7 @@
 
                 var tmMpsbElement = $("#tm_mpsb");
                 tmMpsbElement.attr("hidden", true);
+                updateVisibilityPSB();
 
                 $("#button_action_experienceA").attr("style", "display:none");
             },
@@ -336,6 +340,9 @@
 
         var reloadExperienceUrl = "{{ route('experience.details', ':replaceThis') }}"
         reloadExperienceUrl = reloadExperienceUrl.replace(':replaceThis', no_pengenalan);
+        var tmHakikiElement = $("#tm_hakiki");
+        tmHakikiElement.removeAttr("hidden");
+        updateVisibilityPSB();
         $.ajax({
             url: reloadExperienceUrl,
             method: 'GET',
@@ -354,6 +361,7 @@
 
                 var tmHakikiElement = $("#tm_hakiki");
                 tmHakikiElement.attr("hidden", true);
+                updateVisibilityPSB();
 
                 $("#button_action_experienceB").attr("style", "display:none");
             },
@@ -375,6 +383,9 @@
 
         var reloadExperienceUrl = "{{ route('experience.details', ':replaceThis') }}"
         reloadExperienceUrl = reloadExperienceUrl.replace(':replaceThis', no_pengenalan);
+        var tmTbElement = $("#tm_tb");
+        tmTbElement.removeAttr("hidden");
+        updateVisibilityPSB();
         $.ajax({
             url: reloadExperienceUrl,
             method: 'GET',
@@ -389,6 +400,7 @@
 
                 var tmTbElement = $("#tm_tb");
                 tmTbElement.attr("hidden", true);
+                updateVisibilityPSB();
 
                 $("#button_action_experienceC").attr("style", "display:none");
             },
