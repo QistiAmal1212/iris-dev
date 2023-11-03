@@ -124,7 +124,7 @@
                         </div>
 
                         <div class="col-md-4 col-12">
-                            <label class="form-check-label fw-bolder"> Status Pengguna
+                            <label class="form-check-label fw-bolder">Status Aktif Pengguna
                                 <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Pengguna Aktif / Pengguna Tidak Aktif"></i>
                             </label>
                             <div class="form-check form-switch form-check-primary">
