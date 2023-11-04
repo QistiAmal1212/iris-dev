@@ -469,7 +469,7 @@ class RoleController extends Controller
         DB::beginTransaction();
         try {
             $validatedData = $request->validate([
-                'role_name' => 'required|string|unique:roles,name',
+                'role_name' => 'required|string',
                 'role_description' => 'required|string',
                 // 'role_display' => 'required|string',
                 'role_level' => 'required|boolean',
