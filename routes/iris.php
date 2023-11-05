@@ -180,6 +180,7 @@ Route::controller(MaklumatPemohonController::class)->group(function () {
         Route::prefix('experience')->group(function () {
             Route::post('update/{type}', 'updateExperience')->name('experience.update');
             Route::get('details/{noPengenalan}', 'experienceDetails')->name('experience.details');
+            Route::get('getChildexp', 'getCategoriesByParentexp')->name('exp.getChild');
         });
 
         Route::prefix('psl')->group(function () {

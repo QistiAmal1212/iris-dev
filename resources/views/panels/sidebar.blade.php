@@ -463,49 +463,7 @@ function scrollToTop(event) {
 
     requestAnimationFrame(animateScroll);
 
-    return true; 
-}
-</script>
-
-<<<<<<< HEAD
-=======
-<script>
-function scrollToTop(event) {
-    var mainMenuContent = document.querySelector('.main-menu-content');
-    var start = mainMenuContent.scrollTop;
-    var end = 0;
-    var duration = 300; // Adjust the duration as needed
-
-    <script>
-function scrollToTop(event) {
-    var mainMenuContent = document.querySelector('.main-menu-content');
-    var start = mainMenuContent.scrollTop;
-    var end = 0;
-    var duration = 300; // Adjust the duration as needed
-
-    var startTime;
-
-    function animateScroll(timestamp) {
-        if (!startTime) startTime = timestamp;
-
-        var progress = timestamp - startTime;
-        mainMenuContent.scrollTop = easeInOutCubic(progress, start, end - start, duration);
-
-        if (progress < duration) {
-            requestAnimationFrame(animateScroll);
-        }
-    }
-
-    function easeInOutCubic(t, b, c, d) {
-        t /= d / 2;
-        if (t < 1) return c / 2 * t * t * t + b;
-        t -= 2;
-        return c / 2 * (t * t * t + 2) + b;
-    }
-
-    requestAnimationFrame(animateScroll);
-
-    return true; 
+    return true;
 }
 </script>
 

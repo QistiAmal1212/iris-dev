@@ -104,16 +104,16 @@ Maklumat Pemohon
             </div>
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-body">
                 <p class="card-title fw-bolder">Garis Masa Permohonan</p>
                 <hr>
                 <div id="candidate_timeline">
-                {{-- TIMELINE PERMOHONAN --}}
+                TIMELINE PERMOHONAN
 
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <div class="col-lg-9 col-md-9 col-sm-12">
@@ -258,6 +258,32 @@ Maklumat Pemohon
             }{
                 $('#oku_sub').empty();
                 selectionNull('oku_sub', 'okuForm');
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $('#experience_department_state').change(function() {
+            var parentCategory = $(this).val();
+            if(parentCategory && parentCategory!= "") {
+                $.ajax({
+                    url: "{{ route('exp.getChild') }}",
+                    type: 'GET',
+                    data: {parent_category: parentCategory},
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#experience_department_daerah').empty();
+                        $('#experience_department_daerah').append('<option value="" selected>Sila Pilih:-</option>');
+                        $.each(data, function(key, value) {
+                            $('#experience_department_daerah').append('<option value="'+ value.codes +'">'+ value.categories +'</option>');
+                        });
+                        $('#experienceCForm select[name="experience_department_daerah"]').val($('#experienceCForm input[name="temp"]').val()).trigger('change');
+                    }
+                });
+            }{
+                $('#experience_department_daerah').empty();
+                selectionNull('experience_department_daerah', 'experienceCForm');
+                originalVal['experience_department_daerah'] = $('#experienceCForm select[name="experience_department_daerah"]').find(':selected').text();
             }
         });
     });
@@ -562,6 +588,7 @@ Maklumat Pemohon
                     no_ic : search_ic,
                 },
                 success: function(data) {
+
                     var container = $('.suggestions-container');
                     container.hide();
                     var checkphase1 = $('#hide_phase1').val();
@@ -609,7 +636,7 @@ Maklumat Pemohon
 
                     var timelineUrl = "{{ route('timeline.list', ':replaceThis') }}"
                     timelineUrl = timelineUrl.replace(':replaceThis', data.detail.no_pengenalan);
-                    $('#candidate_timeline').load(timelineUrl)
+                    // $('#candidate_timeline').load(timelineUrl)
 
                     $('#personalForm select[name="gender"]').attr('disabled', true);
                     if(data.detail.jan_kod) { $('#personalForm select[name="gender"]').val(data.detail.jan_kod).trigger('change'); }
@@ -735,8 +762,8 @@ Maklumat Pemohon
                         $('#okuForm input[name="oku_registration_no"]').val(data.detail.oku.no_daftar_jkm ? data.detail.oku.no_daftar_jkm : data_not_available);
                         originalVal['oku_registration_no'] = data.detail.oku.no_daftar_jkm;
                         $('#okuForm input[name="oku_status"]').attr('disabled', true);
-                        $('#okuForm input[name="oku_status"]').val(data.detail.oku.status_oku ? data.detail.oku.status_oku : data_not_available);
-                        originalVal['oku_status'] = data.detail.oku.status_oku;
+                        $('#okuForm input[name="oku_status"]').val(data.detail.oku.status_oku ? data.detail.oku.status_oku : 'AKTIF');
+                        originalVal['oku_status'] = data.detail.oku.status_oku ? data.detail.oku.status_oku : 'AKTIF';
                         // $('#okuForm input[name="oku_category"]').attr('disabled', true);
                         if(data.detail.oku.kategori_oku) { $('#okuForm select[name="oku_category"]').val(data.detail.oku.kategori_oku).trigger('change'); }
                         else { selectionNull('oku_category', 'okuForm'); }
@@ -929,12 +956,14 @@ Maklumat Pemohon
                         originalVal['experience_department_state'] = $('#experienceCForm select[name="experience_department_state"]').find(':selected').text();
 
                         if(data.detail.experience.daerah_bertugas) {
-                            $('#experienceCForm select[name="experience_department_daerah"]').val(data.detail.experience.daerah_bertugas).trigger('change');
+                            $('#experienceCForm input[name="temp"]').val(data.detail.experience.daerah_bertugas ? data.detail.experience.daerah_bertugas : null);
+                            // $('#experienceCForm select[name="experience_department_daerah"]').val(data.detail.experience.daerah_bertugas).trigger('change');
                         }
                         else {
-                            selectionNull('experience_department_daerah', 'experienceCForm');
+                            $('#experienceCForm input[name="temp"]').val("");
+                            // selectionNull('experience_department_daerah', 'experienceCForm');
                         }
-                        originalVal['experience_department_daerah'] = $('#experienceCForm select[name="experience_department_daerah"]').find(':selected').text();
+                        // originalVal['experience_department_daerah'] = $('#experienceCForm select[name="experience_department_daerah"]').find(':selected').text();
 
                     }else{
                         //Tab A
@@ -970,7 +999,8 @@ Maklumat Pemohon
                         selectionNull('experience_department_state', 'experienceCForm');
                         originalVal['experience_department_state'] = '';
 
-                        selectionNull('experience_department_daerah', 'experienceCForm');
+                        // selectionNull('experience_department_daerah', 'experienceCForm');
+                        $('#experienceCForm input[name="temp"]').val("");
                         originalVal['experience_department_daerah'] = '';
                     }
 
@@ -985,29 +1015,35 @@ Maklumat Pemohon
                     if(tabAEmpty){
                         var tmMpsbElement = $("#tm_mpsb");
                         tmMpsbElement.removeAttr("hidden");
-                        updateVisibilityPSB();
                     }else{
                         var tmMpsbElement = $("#tm_mpsb");
                         tmMpsbElement.attr("hidden", true);
-                        updateVisibilityPSB();
                     }
                     if(tabBEmpty){
                         var tmHakikiElement = $("#tm_hakiki");
                         tmHakikiElement.removeAttr("hidden");
-                        updateVisibilityPSB();
                     }else{
                         var tmHakikiElement = $("#tm_hakiki");
                         tmHakikiElement.attr("hidden", true);
-                        updateVisibilityPSB();
                     }
                     if(tabCEmpty){
                         var tmTbElement = $("#tm_tb");
                         tmTbElement.removeAttr("hidden");
-                        updateVisibilityPSB();
                     }else{
                         var tmTbElement = $("#tm_tb");
                         tmTbElement.attr("hidden", true);
-                        updateVisibilityPSB();
+                    }
+
+                    var badgeMpsb = document.getElementById('tm_mpsb');
+                    var badgeHakiki = document.getElementById('tm_hakiki');
+                    var badgeTb = document.getElementById('tm_tb');
+
+                    if (!badgeMpsb.hidden && !badgeHakiki.hidden && !badgeTb.hidden) {
+                        var spmTab = document.getElementById('tm_psl');
+                        spmTab.hidden = false;
+                    }else{
+                        var spmTab = document.getElementById('tm_psl');
+                        spmTab.hidden = true;
                     }
 
                     $('#pslForm input[name="psl_no_pengenalan"]').val(data.detail.no_pengenalan);
@@ -1070,7 +1106,7 @@ Maklumat Pemohon
                     $('#candidate_name').html('');
                     $('#candidate_ic').html('');
                     $('#candidate_no_pengenalan').val('');
-                    $('#candidate_timeline').html('');
+                    // $('#candidate_timeline').html('');
 
                     $('#update_personal').attr("style", "display:none");
                     $('#update_alamat_tetap').attr("style", "display:none");
@@ -1291,7 +1327,7 @@ Maklumat Pemohon
 
         var reloadUrl = "{{ route('timeline.list', ':replaceThis') }}"
         reloadUrl = reloadUrl.replace(':replaceThis', no_pengenalan);
-        $('#candidate_timeline').load(reloadUrl)
+        // $('#candidate_timeline').load(reloadUrl)
     }
 
     function reset() {
@@ -1302,7 +1338,7 @@ Maklumat Pemohon
         $('#candidate_name').html('');
         $('#candidate_ic').html('');
         $('#candidate_no_pengenalan').val('');
-        $('#candidate_timeline').html('');
+        // $('#candidate_timeline').html('');
 
         $('#update_personal').attr("style", "display:none");
         $('#update_alamat_tetap').attr("style", "display:none");
@@ -1511,5 +1547,6 @@ Maklumat Pemohon
 
         $('#table-penalty tbody').empty();
     }
+
 </script>
 @endsection

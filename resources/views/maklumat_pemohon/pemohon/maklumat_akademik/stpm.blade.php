@@ -761,12 +761,10 @@
 
                     var tmStpm1Element = $("#tm_stpm1");
                     tmStpm1Element.removeAttr("hidden");
-                    updateVisibilitySTPM();
                 }else{
                     // $('#tm_stpm1_hidden').val(1);
                     var tmStpm1Element = $("#tm_stpm1");
                     tmStpm1Element.attr("hidden", true);
-                    updateVisibilitySTPM();
 
                     if(data.detail.pngk != null){
                     $('#pngk_stpm1').html(data.detail.pngk.pngk);
@@ -986,11 +984,9 @@
 
                     var tmStam1Element = $("#tm_stam1");
                     tmStam1Element.removeAttr("hidden");
-                    updateVisibilitySTPM();
                 }else{
                     var tmStam1Element = $("#tm_stam1");
                     tmStam1Element.attr("hidden", true);
-                    updateVisibilitySTPM();
                 }
 
                 $(document).on('click', '.editStam1-btn', function() {
@@ -1239,11 +1235,21 @@
 
                     var tmMatrikulasiElement = $("#tm_matrikulasi");
                     tmMatrikulasiElement.removeAttr("hidden");
-                    updateVisibilitySTPM();
                 }else{
                     var tmMatrikulasiElement = $("#tm_matrikulasi");
                     tmMatrikulasiElement.attr("hidden", true);
-                    updateVisibilitySTPM();
+                }
+
+                var badgeStpm = document.getElementById('tm_stpm1');
+                var badgeStam = document.getElementById('tm_stam1');
+                var badgeMatrikulasi = document.getElementById('tm_matrikulasi');
+
+                if (!badgeStpm.hidden && !badgeStam.hidden && !badgeMatrikulasi.hidden) {
+                    var stpmTab = document.getElementById('tm_stpm');
+                    stpmTab.hidden = false;
+                }else{
+                    var stpmTab = document.getElementById('tm_stpm');
+                    stpmTab.hidden = true;
                 }
 
                 $(document).on('click', '.editMatrikulasi-btn', function() {

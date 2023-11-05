@@ -18,7 +18,7 @@ class CalonKeputusanSekolah extends Model
         'mpel_kod',
         'gred',
         'pangkat_sijil',
-        'pngk',
+        'pngk_gred',
         'id_pencipta',
         'pengguna',
     ];

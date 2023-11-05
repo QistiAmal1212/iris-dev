@@ -137,6 +137,31 @@ class MaklumatPemohonController extends Controller
         return response()->json($result);
     }
 
+    public function getCategoriesByParentexp(Request $request)
+    {
+        $parentCategory = $request->input('parent_category');
+
+        $codes = State::where('kod', $parentCategory)
+            ->select('kod')
+            ->distinct()
+            ->pluck('kod')
+            ->filter()
+            ->toArray();
+
+        $categories = Daerah::whereIn('neg_kod', $codes)
+        ->where('sah_yt', 'Y')
+        ->get();
+
+        $result = $categories->map(function($item) {
+            return [
+                'categories' => $item->diskripsi,
+                'codes' => $item->kod
+            ];
+        });
+
+        return response()->json($result);
+    }
+
     public function viewMaklumatPemohon(){
         return view('maklumat_pemohon.index_pemohon');
     }
@@ -1622,7 +1647,7 @@ class MaklumatPemohonController extends Controller
             if($tahunValue){
                 $pngkStpm = CalonStpmPngk::where('tahun', $tahunValue->tahun)->where('no_pengenalan', $request->noPengenalan)->first();
             }
-            
+
             $dataStpm = [
                 'subjek' => $fullDataset,
                 'pngk' => $pngkStpm,
@@ -2326,7 +2351,7 @@ class MaklumatPemohonController extends Controller
     {
         DB::beginTransaction();
         try {
-            $candidateSkm = CalonSkm::where('cal_no_pengenalan', $request->noPengenalan)->with(['qualification'])->get();
+            $candidateSkm = CalonSkm::where('cal_no_pengenalan', $request->noPengenalan)->orderBy('tahun_lulus', 'asc')->with(['qualification'])->get();
 
             // if(!$candidate) {
             //     return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => "Data tidak dijumpai"], 404);

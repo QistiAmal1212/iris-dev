@@ -110,6 +110,17 @@ class UserController extends Controller
                 if($request->skim){
                     $users->where('ref_skim_code', $request->skim);
                 }
+                if($request->is_active){
+                    if($request->is_active == 1){
+                       $users->where('is_active', 1);
+                    }
+                    if($request->is_active == 2){
+                        $users->where('is_active', 0);
+                    }
+                }
+                if($request->is_blocked){
+                    $users->where('is_blocked', true);
+                }
 
                 return Datatables::of($users->get())
                     ->editColumn('name', function ($users) use ($type) {
@@ -340,7 +351,7 @@ class UserController extends Controller
         $roles = Role::all();
         $permissions = Permission::all();
         $departments = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
-        $skims = Skim::all();
+        $skims = Skim::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
         $internalRoleArr = Role::where('is_internal', 1)->pluck('name')->toArray();
         if ($user->role($internalRoleArr)) {
@@ -349,6 +360,52 @@ class UserController extends Controller
             $type = "external";
         }
         return view('admin.user.user_information.user_information', compact('user', 'roles', 'skims', 'departments', 'permissions', 'type'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $validatedData = $request->validate([
+                'name' => 'required|string',
+                'email' => 'required|email',
+                'phone_number' => 'required',
+                'department' => 'required|exists:ruj_kem_jabatan,kod',
+                'skim' => 'required|exists:ruj_skim,kod',
+            ],[
+                'name.required' => 'Sila isikan nama penuh',
+                'email.required' => 'Sila isikan emel',
+                'phone_number.required' => 'Sila isikan no telefon',
+                'department.required' => 'Sila pilih nama kementerian',
+                'department.exists' => 'Nama kementerian tidak sah',
+                'skim.required' => 'Sila pilih jawatan',
+                'skim.exists' => 'Jawatan tidak sah',
+
+            ]);
+
+            $user = User::with(['department_ministry', 'skim', 'roles'])->find($request->user_id);
+
+            $user->update([
+                'name' => $request->name,
+                'no_ic' => $request->no_pengenalan,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'ref_department_ministry_code' => $request->department,
+                'ref_skim_code' => $request->skim,
+                'is_active' => 1,
+            ]);
+
+            DB::commit();
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
+        } catch (\Throwable $e) {
+
+            DB::rollback();
+            return response()->json(['title' => 'Gagal', 'status' => 'error', 'detail' => $e->getMessage()], 404);
+        }
+
+        //return to_route('user.index', [$user]);
     }
 
     public function edit(User $user, $userId)

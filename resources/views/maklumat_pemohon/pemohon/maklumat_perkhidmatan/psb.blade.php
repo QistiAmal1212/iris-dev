@@ -230,6 +230,7 @@
             data-reloadPage="false">
                 @csrf
                 <input type="hidden" name="experienceC_no_pengenalan" id="experienceC_no_pengenalan" value="">
+                <input type="hidden" name="temp" id="temp" value="">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                         <label class="form-label">Kementerian/ Jabatan</label>
@@ -254,10 +255,7 @@
                     <div class="col-sm-6 col-md-6 col-lg-6 mb-1">
                         <label class="form-label">Daerah</label>
                         <select class="select2 form-control" name="experience_department_daerah" id="experience_department_daerah" disabled>
-                            <option value="" hidden>Negeri</option>
-                            @foreach($daerah as $daerah)
-                                <option value="{{ $daerah->kod }}">{{ $daerah->diskripsi }}</option>
-                            @endforeach
+                            <option value=""></option>
                         </select>
                     </div>
                 </div>
@@ -300,7 +298,6 @@
         reloadExperienceUrl = reloadExperienceUrl.replace(':replaceThis', no_pengenalan);
         var tmMpsbElement = $("#tm_mpsb");
         tmMpsbElement.removeAttr("hidden");
-        updateVisibilityPSB();
         $.ajax({
             url: reloadExperienceUrl,
             method: 'GET',
@@ -315,7 +312,6 @@
 
                 var tmMpsbElement = $("#tm_mpsb");
                 tmMpsbElement.attr("hidden", true);
-                updateVisibilityPSB();
 
                 $("#button_action_experienceA").attr("style", "display:none");
             },
@@ -342,7 +338,6 @@
         reloadExperienceUrl = reloadExperienceUrl.replace(':replaceThis', no_pengenalan);
         var tmHakikiElement = $("#tm_hakiki");
         tmHakikiElement.removeAttr("hidden");
-        updateVisibilityPSB();
         $.ajax({
             url: reloadExperienceUrl,
             method: 'GET',
@@ -361,7 +356,6 @@
 
                 var tmHakikiElement = $("#tm_hakiki");
                 tmHakikiElement.attr("hidden", true);
-                updateVisibilityPSB();
 
                 $("#button_action_experienceB").attr("style", "display:none");
             },
@@ -385,7 +379,6 @@
         reloadExperienceUrl = reloadExperienceUrl.replace(':replaceThis', no_pengenalan);
         var tmTbElement = $("#tm_tb");
         tmTbElement.removeAttr("hidden");
-        updateVisibilityPSB();
         $.ajax({
             url: reloadExperienceUrl,
             method: 'GET',
@@ -400,7 +393,6 @@
 
                 var tmTbElement = $("#tm_tb");
                 tmTbElement.attr("hidden", true);
-                updateVisibilityPSB();
 
                 $("#button_action_experienceC").attr("style", "display:none");
             },

@@ -725,12 +725,10 @@
 
                     var tmSpm1Element = $("#tm_spm1");
                     tmSpm1Element.removeAttr("hidden");
-                    updateVisibilitySPM();
                     // $('#tm_spm1_hidden').val(0)
                 }else{
                     var tmSpm1Element = $("#tm_spm1");
                     tmSpm1Element.attr("hidden", true);
-                    updateVisibilitySPM();
                     // $('#tm_spm1_hidden').val(1)
                 }
 
@@ -979,12 +977,10 @@
 
                     var tmSvm1Element = $("#tm_svm1");
                     tmSvm1Element.removeAttr("hidden");
-                    updateVisibilitySPM();
                 }else{
                     // $('#tm_svm1_hidden').val(1)
                     var tmSvm1Element = $("#tm_svm1");
                     tmSvm1Element.attr("hidden", true);
-                    updateVisibilitySPM();
                     // var tmSvm1Element = $("#tm_svm_spm");
                     // tmSvm1Element.attr("hidden", true);
                 }
@@ -1066,7 +1062,6 @@
 
                     var tmSpmuElement = $("#tm_spmu");
                     tmSpmuElement.removeAttr("hidden");
-                    updateVisibilitySPM();
                     // $('#tm_smpu_hidden').val(0)
                     // if ($('#tm_spm1_hidden').val() == 0) {
                     //     var tmSpmuElement = $("#tm_svm_spm");
@@ -1076,9 +1071,20 @@
                     // $('#tm_spmu_hidden').val(1)
                     var tmSpmuElement = $("#tm_spmu");
                     tmSpmuElement.attr("hidden", true);
-                    updateVisibilitySPM();
                     // var tmSpmuElement = $("#tm_svm_spm");
                     // tmSpmuElement.attr("hidden", true);
+                }
+
+                var badgeSpm = document.getElementById('tm_spm1');
+                var badgeSvm = document.getElementById('tm_svm1');
+                var badgeSpmu = document.getElementById('tm_spmu');
+
+                if (!badgeSpm.hidden && !badgeSvm.hidden && !badgeSpmu.hidden) {
+                    var spmTab = document.getElementById('tm_svm_spm');
+                    spmTab.hidden = false;
+                }else{
+                    var spmTab = document.getElementById('tm_svm_spm');
+                    spmTab.hidden = true;
                 }
             },
             error: function(data) {
