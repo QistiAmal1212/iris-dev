@@ -56,9 +56,10 @@ Maklumat Profil
                 </div>
                 <hr>
 
-                <form method="POST" action="#" refreshFunctionDivId="divUpdateUser" data-swal="Akaun berjaya dikemaskini.">
+                <form method="POST" action="{{ route('profile.update') }}" refreshFunctionDivId="divUpdateUser" data-swal="Akaun berjaya dikemaskini.">
                 @csrf
                 <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
+                <input type="hidden" name="no_pengenalan" id="no_pengenalan" value="{{ $user->no_ic }}">
 
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
@@ -78,14 +79,15 @@ Maklumat Profil
 
                         <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                             <label class="form-label fw-bolder">Nombor Telefon:</label>
-                            <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ $user->phone_number }}">
+                            <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ $user->phone_number }}" maxlength="16">
                         </div>
 
                         <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                             <label class="form-label fw-bolder">Kementerian:</label>
                             <select name="department" id="department" class="form-select select2">
+                                <option value="" selected>Sila Pilih:-</option>
                                 @foreach ($departments as $department)
-                                    <option value="{{ $department->kod }} {{ $user->ref_department_ministry_code ? 'selected' : '' }}">
+                                    <option value="{{ $department->kod }}" {{ $department->kod == $user->ref_department_ministry_code ? 'selected' : '' }}>
                                         {{ $department->diskripsi }}
                                     </option>
                                 @endforeach
@@ -95,8 +97,9 @@ Maklumat Profil
                         <div class="col-sm-12 col-md-12 col-lg-12 mb-1">
                             <label class="form-label fw-bolder">Jawatan:</label>
                             <select name="skim" id="skim" class="form-select select2">
+                                <option value="" selected>Sila Pilih:-</option>
                                 @foreach ($skims as $skim)
-                                    <option value="{{ $skim->kod }} {{ $user->ref_skim_code ? 'selected' : '' }}">
+                                    <option value="{{ $skim->kod }}" {{ $skim->kod == $user->ref_skim_code ? 'selected' : '' }}>
                                         {{ $skim->diskripsi }}
                                     </option>
                                 @endforeach

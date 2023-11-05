@@ -143,6 +143,7 @@ Route::prefix('admin')->group(function () {
     Route::get('getUser/{userId}', [UserController::class,'getUser'])->name('user.getUser');
     Route::post('update-password', [UserController::class,'updatePassword'])->name('updatePassword');
     Route::post('deleteUser/{userId}', [UserController::class, 'deleteUser'])->name('user.delete');
+    Route::post('update_Profile', [UserController::class,'updateProfile'])->name('profile.update');
 
     Route::get('edit/{roleId}', [RoleController::class,'getRole'])->name('role.kemaskini');
     Route::get('edittingRole/{roleId}', [RoleController::class, 'getRole'])->name('role.editting');

@@ -65,32 +65,3 @@
         </div>
     </div>
 </div>
-<script>
-    function updateVisibilitySPM() {
-        // if (!($('#tm_stpm1').is(":hidden")) && !($('#tm_stam1').is(":hidden")) && !($('#tm_matrikulasi').is(":hidden"))) {
-        //     $('#tm_stpm').removeAttr("hidden");
-        // } else {
-        //     $('#tm_stpm').attr("hidden", true);
-        // }
-
-        if (!($('#tm_svm1').is(":hidden")) && !($('#tm_spmu').is(":hidden")) && !($('#tm_spm1').is(":hidden"))) {
-            $('#tm_svm_spm').removeAttr("hidden");
-        } else {
-            $('#tm_svm_spm').attr("hidden", true);
-        }
-    }
-
-    function updateVisibilitySTPM() {
-        if (!($('#tm_stpm1').is(":hidden")) && !($('#tm_stam1').is(":hidden")) && !($('#tm_matrikulasi').is(":hidden"))) {
-            $('#tm_stpm').removeAttr("hidden");
-        } else {
-            $('#tm_stpm').attr("hidden", true);
-        }
-
-        // if (!($('#tm_svm1').is(":hidden")) && !($('#tm_spmu').is(":hidden")) && !($('#tm_spm1').is(":hidden"))) {
-        //     $('#tm_svm_spm').removeAttr("hidden");
-        // } else {
-        //     $('#tm_svm_spm').attr("hidden", true);
-        // }
-    }
-</script>

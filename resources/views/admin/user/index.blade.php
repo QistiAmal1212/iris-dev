@@ -25,7 +25,7 @@
         </div>
         <!-- Role cards -->
         <div class="row match-height">
-            <div class="col-xl-4 col-lg-6 col-md-6">
+            <div class="col-xl-4 col-lg-6 col-md-6"  onclick="viewAll()">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-4 col-lg-6 col-md-6">
+            <div class="col-xl-4 col-lg-6 col-md-6" onclick="viewActive()">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -69,7 +69,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-4 col-lg-6 col-md-6">
+            <div class="col-xl-4 col-lg-6 col-md-6" onclick="viewInactive()">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -94,7 +94,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-4 col-lg-6 col-md-6">
+            <div class="col-xl-4 col-lg-6 col-md-6" onclick="viewBlocked()">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -164,6 +164,55 @@
         }
     });
 }
+
+    function viewAll(){
+        $('#name').val(null);
+        $('#no_ic').val(null);
+        $('#role').val(null);
+        $('#department_ministry').val(null);
+        $('#skim').val(null);
+        $('#is_active').val(null);
+        $('#is_blocked').val(null);
+
+        $('#form-search').submit();
+    }
+
+    function viewActive(){
+        $('#name').val(null);
+        $('#no_ic').val(null);
+        $('#role').val(null);
+        $('#department_ministry').val(null);
+        $('#skim').val(null);
+        $('#is_active').val(1);
+        $('#is_blocked').val(null);
+
+        $('#form-search').submit();
+    }
+
+    function viewInactive(){
+        $('#name').val(null);
+        $('#no_ic').val(null);
+        $('#role').val(null);
+        $('#department_ministry').val(null);
+        $('#skim').val(null);
+        $('#is_active').val(2);
+        $('#is_blocked').val(null);
+
+        $('#form-search').submit();
+    }
+
+    function viewBlocked(){
+        $('#name').val(null);
+        $('#no_ic').val(null);
+        $('#role').val(null);
+        $('#department_ministry').val(null);
+        $('#skim').val(null);
+        $('#is_active').val(null);
+        $('#is_blocked').val(true);
+
+        $('#form-search').submit();
+
+    }
 
 // function resetPassword(email) {
 //     var form = document.createElement('form');

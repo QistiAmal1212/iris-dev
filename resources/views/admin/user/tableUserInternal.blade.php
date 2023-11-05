@@ -40,6 +40,9 @@
         </select>
     </div>
 
+    <input type="text" name="is_active" id="is_active" hidden>
+    <input type="text" name="is_blocked" id="is_blocked" hidden>
+
     <div class="d-flex justify-content-end align-items-center my-1 ">
         <a class="me-3" type="reset" id="reset" onclick="resetFilterForm()">
             <span class="text-danger"> Set Semula </span>
@@ -231,6 +234,13 @@
                     {
                         data: "role",
                         name: "role",
+                        render: function(data, type, row) {
+                            return $("<div/>").html(data).text();
+                        }
+                    },
+                    {
+                        data: "status",
+                        name: "status",
                         render: function(data, type, row) {
                             return $("<div/>").html(data).text();
                         }

@@ -25,13 +25,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function updateVisibilityPSB() {
-        if (!($('#tm_mpsb').is(":hidden")) && !($('#tm_hakiki').is(":hidden")) && !($('#tm_tb').is(":hidden"))) {
-            $('#tm_psl').removeAttr("hidden");
-        } else {
-            $('#tm_psl').attr("hidden", true);
-        }
-    }
-</script>
