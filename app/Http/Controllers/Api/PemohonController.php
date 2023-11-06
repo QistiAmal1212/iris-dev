@@ -199,8 +199,8 @@ class PemohonController extends ApiController
 
                     if($calonSkim){
                         $dataSkim = [
-                            'tarikh_daftar' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar']) : null,
-                            'tarikh_luput' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar'])->addYear()->format('Y-m-d') : null,
+                            'tarikh_daftar' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar'])->format('Y-m-d') : null,
+                            'tarikh_luput' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar'])->addYear()->subDay()->format('Y-m-d') : null,
                             'no_kelompok' => $skim['no_kelompok'],
                             'no_siri' => $skim['no_siri'],
                             'pusat_td_pilihan' => $request->pusat_temuduga,
@@ -210,7 +210,7 @@ class PemohonController extends ApiController
                     } else {
                         $dataSkim = [
                             'cal_no_pengenalan' => $noPengenalan,
-                            'tarikh_daftar' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar']) : null,
+                            'tarikh_daftar' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar'])->format('Y-m-d') : null,
                             'tarikh_luput' => ($skim['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $skim['tarikh_daftar'])->addYear()->format('Y-m-d') : null,
                             'ski_kod' => $skim['skim'],
                             'no_kelompok' => $skim['no_kelompok'],
@@ -231,19 +231,16 @@ class PemohonController extends ApiController
 
                     if($calonDaftar){
                         $dataDaftar = [
-                            'tarikh_daftar' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar']) : null,
-                            'tarikh_daftar_1' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar']) : null,
-                            'j_daftar' => '03',
+                            'tarikh_daftar' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar'])->format('Y-m-d') : null,
                             'keutamaan' => $daftar['keutamaan'],
-                            'status_akuan' => '1',
                         ];
                         $calonDaftar->update($dataDaftar);
                     } else {
                         $dataDaftar = [
                             'no_pengenalan' => $noPengenalan,
                             'skim' => $daftar['skim'],
-                            'tarikh_daftar' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar']) : null,
-                            'tarikh_daftar_1' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar']) : null,
+                            'tarikh_daftar' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar'])->format('Y-m-d') : null,
+                            'tarikh_daftar_1' => ($daftar['tarikh_daftar'] != null) ? Carbon::createFromFormat('d-m-Y', $daftar['tarikh_daftar'])->format('Y-m-d') : null,
                             'j_daftar' => '03',
                             'keutamaan' => $daftar['keutamaan'],
                             'status_akuan' => '1',
@@ -568,7 +565,7 @@ class PemohonController extends ApiController
                         'kj_kod' => $request->pengalaman_kementerian,
                         //'negeri_jabatan' => $request->pengalaman_negeri_bertugas,
                         'neg_kod' => $request->pengalaman_negeri_bertugas,
-                        'daerah_bertugas' => $request->pengalaman_daerah_bertugas,
+                        'daerah_bertugas' => ($request->$pengalaman_daerah_bertugas != null) ? substr($request->pengalaman_daerah_bertugas, 2, 2) : null,
                         'tarikh_tamat_kontrak' => ($request->pengalaman_tarikh_tamat_kontrak != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_tamat_kontrak) : null,
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
                     ]);
@@ -585,7 +582,7 @@ class PemohonController extends ApiController
                         'kj_kod' => $request->pengalaman_kementerian,
                         //'negeri_jabatan' => $request->pengalaman_negeri_bertugas,
                         'neg_kod' => $request->pengalaman_negeri_bertugas,
-                        'daerah_bertugas' => $request->pengalaman_daerah_bertugas,
+                        'daerah_bertugas' =>  ($request->$pengalaman_daerah_bertugas != null) ? substr($request->pengalaman_daerah_bertugas, 2, 2) : null,
                         'tarikh_tamat_kontrak' => ($request->pengalaman_tarikh_tamat_kontrak != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_tamat_kontrak) : null,
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
                     ]);
