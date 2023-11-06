@@ -50,6 +50,7 @@ use App\Models\Calon\CalonSvm;
 use App\Models\Calon\CalonSpmUlangan;
 use App\Models\Calon\CalonStpmPngk;
 use App\Models\Calon\CalonProfesional;
+use App\Models\Calon\CalonSenaraiHitam;
 use App\Models\Reference\Matriculation;
 use App\Models\Reference\MatriculationCourse;
 use Yajra\DataTables\Contracts\DataTable;
@@ -3323,7 +3324,18 @@ class MaklumatPemohonController extends Controller
                 'penalty_end.required' => 'Sila isikan tarikh akhir hukuman',
             ]);
 
-            $candidatePenalty = CalonTatatertib::create([
+            // $candidatePenalty = CalonTatatertib::create([
+            //     'no_pengenalan' => $request->penalty_no_pengenalan,
+            //     'kod_ruj_penalti' => $request->penalty,
+            //     'tempoh' => $request->penalty_duration,
+            //     'jenis' => $request->penalty_type,
+            //     'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->penalty_start)->format('Y-m-d'),
+            //     'tarikh_tamat' => Carbon::createFromFormat('d/m/Y', $request->penalty_end)->format('Y-m-d'),
+            //     'id_pencipta' => auth()->user()->id,
+            //     'pengguna' => auth()->user()->id,
+            // ]);
+
+            $candidatePenalty = CalonSenaraiHitam::create([
                 'no_pengenalan' => $request->penalty_no_pengenalan,
                 'kod_ruj_penalti' => $request->penalty,
                 'tempoh' => $request->penalty_duration,
@@ -3357,11 +3369,20 @@ class MaklumatPemohonController extends Controller
         DB::beginTransaction();
         try {
 
-            $candidatePenalty = CalonTatatertib::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
+            // $candidatePenalty = CalonTatatertib::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
+
+            // foreach($candidatePenalty as $penalty){
+            //     $penalty->tarikh_mula = ($penalty->tarikh_mula != null) ? Carbon::parse($penalty->tarikh_mula)->format('d/m/Y') : null;
+            //     $penalty->tarikh_tamat = ($penalty->tarikh_tamat != null) ? Carbon::parse($penalty->tarikh_tamat)->format('d/m/Y') : null;
+            // }
+
+            $candidatePenalty = CalonSenaraiHitam::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
 
             foreach($candidatePenalty as $penalty){
-                $penalty->tarikh_mula = ($penalty->tarikh_mula != null) ? Carbon::parse($penalty->tarikh_mula)->format('d/m/Y') : null;
-                $penalty->tarikh_tamat = ($penalty->tarikh_tamat != null) ? Carbon::parse($penalty->tarikh_tamat)->format('d/m/Y') : null;
+                $penalty->pen = $penalty->penalty != null ? $penalty->penalty->diskripsi : 'Tiada Maklumat';
+                $penalty->gab = ($penalty->tempoh != null && $penalty->jenis) ? $penalty->tempoh . ' ' . $penalty->jenis : 'Tiada Maklumat';
+                $penalty->trk_kuatkuasa = ($penalty->trk_kuatkuasa != null) ? Carbon::parse($penalty->trk_kuatkuasa)->format('d/m/Y') : 'Tiada Maklumat';
+                $penalty->trk_tamat = ($penalty->trk_tamat != null) ? Carbon::parse($penalty->trk_tamat)->format('d/m/Y') : 'Tiada Maklumat';
             }
 
             // if(!$candidate) {
@@ -3401,12 +3422,21 @@ class MaklumatPemohonController extends Controller
                 'penalty_end.required' => 'Sila isikan tarikh akhir hukuman',
             ]);
 
-            CalonTatatertib::where('id',$request->id_penalty)->update([
+            // CalonTatatertib::where('id',$request->id_penalty)->update([
+            //     'kod_ruj_penalti' => $request->penalty,
+            //     'tempoh' => $request->penalty_duration,
+            //     'jenis' => $request->penalty_type,
+            //     'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->penalty_start)->format('Y-m-d'),
+            //     'tarikh_tamat' => Carbon::createFromFormat('d/m/Y', $request->penalty_end)->format('Y-m-d'),
+            //     'pengguna' => auth()->user()->id,
+            // ]);
+
+            CalonSenaraiHitam::where('id',$request->id_penalty)->update([
                 'kod_ruj_penalti' => $request->penalty,
                 'tempoh' => $request->penalty_duration,
                 'jenis' => $request->penalty_type,
-                'tarikh_mula' => Carbon::createFromFormat('d/m/Y', $request->penalty_start)->format('Y-m-d'),
-                'tarikh_tamat' => Carbon::createFromFormat('d/m/Y', $request->penalty_end)->format('Y-m-d'),
+                'trk_kuatkuasa' => Carbon::createFromFormat('d/m/Y', $request->penalty_start)->format('Y-m-d'),
+                'trk_tamat' => Carbon::createFromFormat('d/m/Y', $request->penalty_end)->format('Y-m-d'),
                 'pengguna' => auth()->user()->id,
             ]);
 
@@ -3429,7 +3459,8 @@ class MaklumatPemohonController extends Controller
     }
 
     public function deletePenalty(Request $request){
-        $penalty = CalonTatatertib::find($request-> idPenalty);
+        // $penalty = CalonTatatertib::find($request-> idPenalty);
+        $penalty = CalonSenaraiHitam::find($request-> idPenalty);
 
         if (!$penalty) {
             return response()->json(['message' => 'Record not found'], 404);

@@ -147,8 +147,12 @@ class Calon extends Model
         return $this->hasMany('App\Models\Calon\CalonBakat', 'no_pengenalan', 'no_pengenalan');
     }
 
+    // public function penalty() {
+    //     return $this->hasMany('App\Models\Calon\CalonTatatertib', 'no_pengenalan', 'no_pengenalan');
+    // }
+
     public function penalty() {
-        return $this->hasMany('App\Models\Calon\CalonTatatertib', 'no_pengenalan', 'no_pengenalan');
+        return $this->hasMany('App\Models\Calon\CalonSenaraiHitam', 'no_pengenalan', 'no_pengenalan');
     }
 
     public function timeline() {
