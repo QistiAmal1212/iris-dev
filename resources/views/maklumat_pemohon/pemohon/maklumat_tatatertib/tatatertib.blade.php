@@ -142,7 +142,6 @@
             method: 'GET',
             async: true,
             success: function(data) {
-
                 $('#penaltyForm select[name="penalty"]').val('').trigger('change');
                 $('#penaltyForm input[name="penalty_duration"]').val('');
                 $('#penaltyForm select[name="penalty_type"]').val('');
@@ -164,17 +163,20 @@
                 var trPenalty = '';
                 var bilPenalty = 0;
                 $.each(data.detail, function (i, item) {
-                    bilPenalty += 1;
-                    trPenalty += '<tr>';
-                    trPenalty += '<td align="center">' + bilPenalty + '</td>'
-                    trPenalty += '<td>' + item.penalty.diskripsi + '</td>';
-                    trPenalty += '<td>' + item.tempoh + ' ' + item.jenis + '</td>';
-                    trPenalty += '<td>' + item.tarikh_mula + '</td>';
-                    trPenalty += '<td>' + item.tarikh_tamat + '</td>';
-                    // trPenalty += '<td align="center"><i class="fas fa-pencil text-primary editPenalty-btn" data-id="' + item.id + ' "></i>';
-                    // trPenalty += '&nbsp;&nbsp;';
-                    // trPenalty += '<i class="fas fa-trash text-danger deletePenalty-btn" data-id="' + item.id + '"></i></td>';
-                    trPenalty += '</tr>';
+                    if(item !=null){
+                        bilPenalty += 1;
+                        trPenalty += '<tr>';
+                        trPenalty += '<td align="center">' + bilPenalty + '</td>'
+                        trPenalty += '<td>' + item.pen + '</td>';
+                        trPenalty += '<td>' + item.gab + '</td>';
+                        trPenalty += '<td>' + item.trk_kuatkuasa +'</td>';
+                        trPenalty += '<td>' + item.trk_tamat + '</td>';
+                        // trPenalty += '<td align="center"><i class="fas fa-pencil text-primary editPenalty-btn" data-id="' + item.id + ' "></i>';
+                        // trPenalty += '&nbsp;&nbsp;';
+                        // trPenalty += '<i class="fas fa-trash text-danger deletePenalty-btn" data-id="' + item.id + '"></i></td>';
+                        trPenalty += '</tr>';
+                    }
+
                 });
                 $('#table-penalty tbody').append(trPenalty);
 
