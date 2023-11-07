@@ -32,6 +32,7 @@ class UpdatePasswordsCommand extends Command
         $user->password = Hash::make($newPassword);
         $user->time_to_change_password = now();
         $user->last_change_password = now();
+        $user->password_new_status = true;
         $user->save();
         Mail::to($user->email)->send(new NewPasswordMail($newPassword, $user->name, $user->no_ic));
     }

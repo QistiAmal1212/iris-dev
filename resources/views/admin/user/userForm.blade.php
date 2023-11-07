@@ -61,9 +61,15 @@
                                 <label class="form-label fw-bolder"> Nama Kementerian </label>
                                 <select class="select2 form-select" name="department_ministry_code" id="department_ministry_code" required>
                                     <option value=""></option>
-                                    @foreach($departmentMinistry as $department)
-                                    <option value="{{ $department->kod }}">{{ $department->diskripsi }}</option>
-                                    @endforeach
+                                    @if ( $route == 'admin.internalUser')
+                                        @foreach($departmentMinistryInternal as $departmentInternal)
+                                        <option value="{{ $departmentInternal->kod }}">{{ $departmentInternal->diskripsi }}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach($departmentMinistry as $department)
+                                        <option value="{{ $department->kod }}">{{ $department->diskripsi }}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -124,15 +130,30 @@
                         </div>
 
                         <div class="col-md-4 col-12">
-                            <label class="form-check-label fw-bolder">Status Aktif Pengguna
-                                <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Pengguna Aktif / Pengguna Tidak Aktif"></i>
+                            <label class="form-check-label fw-bolder">Status Pengguna
+                                <i class="fa-solid fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Status Pengguna"></i>
                             </label>
-                            <div class="form-check form-switch form-check-primary">
-                                <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status"  style="width:20% !important;"/>
-                                <label class="form-check-label" for="customSwitch3">
-                                    <span class="switch-icon-left"><i class="fa-solid fa-circle-check text-success"></i></span>
-                                    <span class="switch-icon-right"><i class="fa-solid fa-circle-xmark text-danger"></i></span>
-                                </label>
+                            <div class="row">
+                                <div class="col">
+                                    Aktif:
+                                    <div class="form-check form-switch form-check-primary">
+                                        <input type="checkbox" class="form-check-input" id="customSwitch3" value="1" name="status"  style="min-width: 40px; max-width: 40px;"/>
+                                        <label class="form-check-label" for="customSwitch3">
+                                            <span class="switch-icon-left"><i class="fa-solid fa-circle-check text-success"></i></span>
+                                            <span class="switch-icon-right"><i class="fa-solid fa-circle-xmark text-danger"></i></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    Disekat:
+                                    <div class="form-check form-switch form-check-primary">
+                                        <input type="checkbox" class="form-check-input" id="customSwitch4" value="1" name="blocked"  style="min-width: 40px; max-width: 40px;"/>
+                                        <label class="form-check-label" for="customSwitch4">
+                                            <span class="switch-icon-left"><i class="fa-solid fa-circle-check text-success"></i></span>
+                                            <span class="switch-icon-right"><i class="fa-solid fa-circle-xmark text-danger"></i></span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

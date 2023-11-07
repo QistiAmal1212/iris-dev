@@ -37,7 +37,8 @@ class User extends Authenticatable
         'is_blocked',
         'is_active',
         'time_to_change_password',
-        'is_migrated'
+        'is_migrated',
+        'password_new_status'
     ];
 
     /**

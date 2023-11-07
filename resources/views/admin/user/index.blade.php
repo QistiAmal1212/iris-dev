@@ -313,6 +313,7 @@ function resetPassword(email) {
 
             div_div_disclaimer.style.display = 'block';
             userFormModal.show();
+            $('#form-search').submit();
         }else{
             url = "{{route('user.getUser',':replaceThis').'?route='.$route}}"
             url = url.replace(':replaceThis',id);
@@ -360,10 +361,9 @@ function resetPassword(email) {
                     });
 
                     if(data.detail.is_blocked){
-                        var badge = $('<span class="badge bg-warning">Disekat</span>');
-                        $('.form-check-label:contains("Status Aktif Pengguna")').append(badge);
+                        $('#userFormModal input[name="blocked"]').prop('checked', true);
                     }else{
-                        $('.badge').remove();
+                        $('#userFormModal input[name="blocked"]').prop('checked', false);
                     }
                     $('select[name="roles[]"]').trigger('change');
 
@@ -377,6 +377,7 @@ function resetPassword(email) {
 
                     div_div_disclaimer.style.display = 'none';
                     userFormModal.show();
+                    $('#form-search').submit();
                 },
             });
         }

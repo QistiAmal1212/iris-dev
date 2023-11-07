@@ -87,6 +87,7 @@ class LoginController extends Controller
             return redirect()->to('/admin/user/' . $user->id)->withErrors(["change_password" => "Kata Laluan perlu ditukar setiap 6 bulan"]);
         }
         $user->login_failed_counter = 0;
+        $user->password_new_status = false;
         $user->last_login = now();
         $user->save();
 
@@ -119,15 +120,18 @@ class LoginController extends Controller
         if($user){
             $user->login_failed_counter += 1;
 
-            if($user->login_failed_counter >= 5){
-                $user->is_blocked = true;
-                $user->save();
+            if($user->password_new_status){
+                return redirect()->route('login')->withErrors(["active" => "Kata laluan telah diubah. Sila rujuk email anda"]);
+            }else{
+                if($user->login_failed_counter >= 5){
+                    $user->is_blocked = true;
+                    $user->save();
+                }
+                if ($user->is_blocked) {
+                    auth()->logout();
+                    return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat. Sila hubungi pentadbir bahagian masing-masing"]);
+                }
             }
-            if ($user->is_blocked) {
-                auth()->logout();
-                return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat. Sila hubungi pentadbir bahagian masing-masing"]);
-            }
-
             $user->save();
 
         }

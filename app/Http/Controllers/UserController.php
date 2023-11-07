@@ -60,6 +60,7 @@ class UserController extends Controller
             }
         }
 
+        $departmentMinistryInternal = DepartmentMinistry::where('sah_yt', 'Y')->where('kod', '3674')->orderBy('diskripsi', 'asc')->get();
         $departmentMinistry = DepartmentMinistry::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
         $skim = Skim::where('sah_yt', 'Y')->orderBy('diskripsi', 'asc')->get();
 
@@ -251,7 +252,7 @@ class UserController extends Controller
         $externalUsers = Role::where('is_internal', 0)->get();
         $internalUsers = Role::where('is_internal', 1)->get();
 
-        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'blockedUser', 'externalUsers', 'internalUsers', 'departmentMinistry', 'skim' ,'route', 'accessAdd', 'accessUpdate', 'accessDelete'));
+        return view('admin.user.index', compact('type', 'role', 'totalUser', 'inactiveUser', 'activeUser', 'blockedUser', 'externalUsers', 'internalUsers', 'departmentMinistry', 'departmentMinistryInternal', 'skim' ,'route', 'accessAdd', 'accessUpdate', 'accessDelete'));
     }
 
     public function create(Request $request)
@@ -309,6 +310,7 @@ class UserController extends Controller
                 'ref_department_ministry_code' => $request->department_ministry_code,
                 'ref_skim_code' => $request->skim_code,
                 'is_active' => $request->has("status") ?? 0,
+                'is_blocked' => $request->has("blocked") ?? 0,
                 'password' => Hash::make($request->password),
                 'time_to_change_password' => now(),
             ]);
@@ -469,6 +471,7 @@ class UserController extends Controller
                 'ref_department_ministry_code' => $request->department_ministry_code,
                 'ref_skim_code' => $request->skim_code,
                 'is_active' => $request->has("status") ?? 0,
+                'is_blocked' => $request->has("blocked") ?? 0,
             ]);
 
             $user->syncRoles($request->roles ? $request->roles : []);
