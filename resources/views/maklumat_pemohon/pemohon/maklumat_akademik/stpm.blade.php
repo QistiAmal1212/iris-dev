@@ -193,8 +193,8 @@
                     <div class="row">
                         <input type="hidden" name="stpm2_no_pengenalan" id="stpm2_no_pengenalan" value="">
                         <input type="hidden" name="id_stpm2" id="id_stpm2" value="">
-<!--
-                        <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+
+                        <!-- <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_stpm2" name="subjek_stpm2" disabled>
                                 <option value="" hidden>Mata Pelajaran</option>
@@ -217,8 +217,7 @@
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_stpm2" name="tahun_stpm2" disabled>
-                        </div>
- -->
+                        </div> -->
                         <div id="button_action_stpm2" style="display:none">
                             <button type="button" id="btnEditStpm2" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
@@ -288,19 +287,18 @@
                     @csrf
             <!--  hide phase 1 -->
 
-                   <!--   <div class="row">
+                   <!-- <div class="row">
                         <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_stam1" name="tahun_stam1" disabled>
                         </div>
-                    </div>
- -->
+                    </div>-->
                     <div class="row">
 
                         <input type="hidden" name="stam1_no_pengenalan" id="stam1_no_pengenalan" value="">
                         <input type="hidden" name="id_stam1" id="id_stam1" value="">
 
-                      <!--   <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <!-- <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_stam1" name="subjek_stam1" disabled onchange="changesubjeckstam('subjek_stam1')">
                                 <option value="" hidden></option>
@@ -309,13 +307,12 @@
                                     @endforeach
                             </select>
                         </div> -->
-<!--
-                        <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                        <!-- <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Mp Kod</label>
                             <input type="text" class="form-control" value="" id="mp_kod_stam1" name="mp_kod_stam1" disabled>
                         </div> -->
 
-                     <!--    <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
+                        <!-- <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Gred</label>
                             <select class="select2 form-control" id="gred_stam1" name="gred_stam1" disabled>
                                 <option value="" hidden></option>
@@ -323,15 +320,14 @@
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
                                     @endforeach
                             </select>
-                        </div>
- -->
+                        </div> -->
                         <div id="button_action_stam1" style="display:none">
                             <button type="button" id="btnEditStam1" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
                                 <button type="button" class="btn btn-danger me-1" onclick="reloadStam1()">
                                     <i class="fa fa-refresh"></i>
                                 </button>
-                              <!--   <button type="button" class="btn btn-success float-right" id="btnSaveStam1" onclick="$('#btnEditStam1').trigger('click');">
+                                <!-- <button type="button" class="btn btn-success float-right" id="btnSaveStam1" onclick="$('#btnEditStam1').trigger('click');">
                                     <i class="fa fa-save"></i> Tambah
                                 </button> -->
                                  <button type="button" class="btn btn-success float-right" id="btnSaveStam1" onclick="confirmSubmitstam('btnEditStam1', {
@@ -396,18 +392,17 @@
                 data-refreshFunctionNameIfSuccess="reloadStam2"
                 data-reloadPage="false">
                     @csrf
-                  <!--   <div class="row">
+                    <!-- <div class="row">
                          <div class="col-sm-2 col-md-2 col-lg-2 mb-1">
                             <label class="form-label">Tahun</label>
                             <input type="text" class="form-control" value="" id="tahun_stam2" name="tahun_stam2" disabled>
                         </div>
-
                     </div> -->
                     <div class="row">
                         <input type="hidden" name="stam2_no_pengenalan" id="stam2_no_pengenalan" value="">
                         <input type="hidden" name="id_stam2" id="id_stam2" value="">
 
-                      <!--   <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
+                        <!-- <div class="col-sm-8 col-md-8 col-lg-8 mb-1">
                             <label class="form-label">Mata Pelajaran</label>
                             <select class="select2 form-control" id="subjek_stam2" name="subjek_stam2" disabled onchange="changesubjeckstam('subjek_stam2')">
                                 <option value="" hidden>Mata Pelajaran</option>
@@ -430,8 +425,7 @@
                                         <option value="{{ $gred->gred }}">{{ $gred->gred }}</option>
                                     @endforeach
                             </select>
-                        </div>
- -->
+                        </div> -->
                         <div id="button_action_stam2" style="display:none">
                             <button type="button" id="btnEditStam2" hidden onclick="generalFormSubmit(this);"></button>
                             <div class="d-flex justify-content-end align-items-center my-1">
@@ -746,7 +740,7 @@
                         trStpm += '<td>' + item.tahun + '</td>';
                         trStpm += '<td>' + item.subject_form6.kod + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.diskripsi + '</td>';
-                        trStpm += '<td align="center">' + item.gred + '</td>';
+                        trStpm += '<td align="center">' + item.gred + ((item.tahun >= '2003') ? ' (' + item.pngk_gred + ')' : '') + '</td>';
                         // trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm1-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
                         // trStpm += '&nbsp;&nbsp;';
                         // trStpm += '<i class="fas fa-trash text-danger deleteStpm1-btn" data-id="' + item.id + '"></i></td>';
@@ -851,7 +845,7 @@
                         trStpm += '<td>' + item.tahun + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.kod + '</td>'; //KOD MP
                         trStpm += '<td>' + item.subject_form6.diskripsi + '</td>';
-                        trStpm += '<td align="center">' + item.gred + '</td>';
+                        trStpm += '<td align="center">' + item.gred + ((item.tahun >= '2003') ? ' (' + item.pngk_gred + ')' : '') + '</td>';
                         // trStpm += '<td align="center"><i class="fas fa-pencil text-primary editStpm2-btn" data-id="' + item.id + ' " data-form="stpm"></i>';
                         // trStpm += '&nbsp;&nbsp;';
                         // trStpm += '<i class="fas fa-trash text-danger deleteStpm2-btn" data-id="' + item.id + '"></i></td>';
@@ -968,7 +962,7 @@
                         trStam += '<td align="center">' + bilStam + '</td>';
                         trStam += '<td>' + item.subject_form6.kod + '</td>'; //Kod MP
                         trStam += '<td>' + item.subject_form6.diskripsi + '</td>';
-                        trStam += '<td align="center">' + item.gred + '</td>';
+                        trStam += '<td align="center">' + item.gred + ' (' + getGredStam(item.gred) + ') </td>';
                         trStam += '<td align="center" style="display:none;">' + item.tahun + '</td>';
                         // trStam += '<td align="center"><a><i class="fas fa-pencil text-primary editStam1-btn" data-id="' + item.id + ' " data-form="stam"></i></a>';
                         // trStam += '&nbsp;&nbsp;';
@@ -1087,7 +1081,7 @@
                         trStam += '<td align="center">' + bilStam + '</td>';
                         trStam += '<td>' + item.subject_form6.kod + '</td>'; //Kod MP
                         trStam += '<td>' + item.subject_form6.diskripsi + '</td>';
-                        trStam += '<td align="center">' + item.gred + '</td>';
+                        trStam += '<td align="center">' + item.gred + '( ' + getGredStam(item.gred) + ') </td>';
                         trStam += '<td align="center" style="display:none;">' + item.tahun + '</td>';
                         // trStam += '<td align="center"><a><i class="fas fa-pencil text-primary editStam2-btn" data-id="' + item.id + ' " data-form="stam"></i></a>';
                         // trStam += '&nbsp;&nbsp;';
@@ -1295,5 +1289,19 @@
             error: function(data) {
             }
         });
+    }
+
+    function getGredStam(gred) {
+        if(gred == 'A'){
+            return 'Mumtaz';
+        } else if(gred == 'B'){
+            return 'Jayyid Jiddan';
+        } else if(gred == 'C'){
+            return 'Jayyid';
+        } else if(gred == 'D'){
+            return 'Maqbul';
+        } else if(gred == 'E'){
+            return 'Rasib';
+        }
     }
 </script>
