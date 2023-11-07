@@ -595,14 +595,14 @@ class PemohonController extends ApiController
                 foreach($request->pengalaman9 as $pengalaman){
 
                     $calonPengalaman9 = CalonPengalaman9::where('no_pengenalan', $noPengenalan)
-                    ->where('tarikh_mula', $pengalaman['tarikh_mula'])
-                    ->where('tarikh_akhir', $pengalaman['tarikh_akhir'])
+                    ->where('tarikh_mula', Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_mula'])->format('Y-m-d'))
+                    ->where('tarikh_akhir', Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_akhir'])->format('Y-m-d'))
                     ->first();
 
                     if($calonPengalaman9){
                         $calonPengalaman9->update([
-                            'tarikh_mula' => Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_mula']),
-                            'tarikh_akhir' => ($pengalaman['tarikh_akhir'] != null) ? Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_akhir']) : null,
+                            'tarikh_mula' => Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_mula'])->format('Y-m-d'),
+                            'tarikh_akhir' => ($pengalaman['tarikh_akhir'] != null) ? Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_akhir'])->format('Y-m-d') : null,
                             'tempoh_pengalaman' => $pengalaman['tempoh_pengalaman'],
                             'peringkat_pengalaman' => $pengalaman['peringkat_pengalaman'],
                             'jenis_pengalaman' => $pengalaman['jenis_pengalaman']
@@ -610,8 +610,8 @@ class PemohonController extends ApiController
                     } else {
                         CalonPengalaman9::create([
                             'no_pengenalan' => $noPengenalan,
-                            'tarikh_mula' => Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_mula']),
-                            'tarikh_akhir' => ($pengalaman['tarikh_akhir'] != null) ? Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_akhir']) : null,
+                            'tarikh_mula' => Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_mula'])->format('Y-m-d'),
+                            'tarikh_akhir' => ($pengalaman['tarikh_akhir'] != null) ? Carbon::createFromFormat('d-m-Y', $pengalaman['tarikh_akhir'])->format('Y-m-d') : null,
                             'tempoh_pengalaman' => $pengalaman['tempoh_pengalaman'],
                             'peringkat_pengalaman' => $pengalaman['peringkat_pengalaman'],
                             'jenis_pengalaman' => $pengalaman['jenis_pengalaman']
