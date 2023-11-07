@@ -27,6 +27,16 @@ class RedirectIfAuthenticated
             }
         }
 
+        if (auth()->check() && ! $request->session()->has('lastActivity')) {
+            $request->session()->put('lastActivity', now());
+        }
+
+        if (auth()->check() && now()->diffInMinutes(session('lastActivity')) > config('session.lifetime')) {
+            auth()->logout();
+
+            return redirect('login');
+        }
+
         return $next($request);
     }
 }

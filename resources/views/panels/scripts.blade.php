@@ -595,6 +595,27 @@
         });
     }
     // End Prototype Purposes
+
+
+    //Check Idle and auto Logout
+    var idleTime = 0;
+    $(document).on('mousemove keydown scroll', function(){
+        idleTime = 0;
+    });
+
+    setInterval(function() {
+        timerIncrement();
+    }, 1 * 60 * 1000);
+
+    function timerIncrement() {
+        var sessionLifetime = {{ config('session.lifetime') }};
+        idleTime = idleTime + 1;
+
+        if (idleTime >= sessionLifetime) {
+            window.location.href = 'home';
+        }
+    }
+
 </script>
 
 <!-- END: Developer Code JS-->

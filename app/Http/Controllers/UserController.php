@@ -612,6 +612,8 @@ class UserController extends Controller
             ]);
             $user = auth()->user();
 
+            return response()->json(['title' => 'Berjaya', 'status' => 'success', 'message' => "Berjaya", 'detail' => "berjaya"]);
+
         } catch (Throwable $e) {
 
             \DB::rollBack();
