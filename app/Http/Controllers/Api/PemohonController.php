@@ -305,7 +305,7 @@ class PemohonController extends ApiController
                     if($calonTkt5){
                         $dataTkt5 = [
                             'kep_terbuka' => $tkt5['keputusan_terbuka'],
-                            'gred' => $tkt5['gred'],
+                            'gred' => ($calonTkt5->tahun >= 2009) ? $this->getGredSpm($tkt5['gred']) : $tkt5['gred'],
                         ];
                         $calonTkt5->update($dataTkt5);
                     } else {
@@ -316,7 +316,7 @@ class PemohonController extends ApiController
                             'tahun' => $tkt5['tahun'],
                             'mpel_tkt' => '5',
                             'mpel_kod' => $tkt5['mata_pelajaran'],
-                            'gred' => $tkt5['gred'],
+                            'gred' => ($tkt5['tahun'] >= 2009) ? $this->getGredSpm($tkt5['gred']) : $tkt5['gred'],
                         ];
                         CalonKeputusanSekolah::create($dataTkt5);
                     }
@@ -364,7 +364,8 @@ class PemohonController extends ApiController
                     if($calonTkt6){
                         $dataTkt6 = [
                             'kep_terbuka' => $tkt6['keputusan_terbuka'],
-                            'gred' => $tkt6['gred'],
+                            'gred' => ($calonTkt6->jenis_sijil == '5') ? $this->getGredStam($tkt6['gred']) : $tkt6['gred'],
+                            'pngk_gred' => ($calonTkt6->jenis_sijil == '1' && $calonTkt6->tahun >= '2003') ? $this->getPngkStpm($tkt6['gred']) : null,
                         ];
                         $calonTkt6->update($dataTkt6);
                     } else {
@@ -375,7 +376,8 @@ class PemohonController extends ApiController
                             'tahun' => $tkt6['tahun'],
                             'mpel_tkt' => '6',
                             'mpel_kod' => $tkt6['mata_pelajaran'],
-                            'gred' => $tkt6['gred'],
+                            'gred' => ($tkt6['jenis_sijil'] == '5') ? $this->getGredStam($tkt6['gred']) : $tkt6['gred'],
+                            'pngk_gred' => ($tkt6['jenis_sijil'] == '1' && $tkt6['tahun'] >= '2003') ? $this->getPngkStpm($tkt6['gred']) : null,
                         ];
                         CalonKeputusanSekolah::create($dataTkt6);
                     }
@@ -565,7 +567,7 @@ class PemohonController extends ApiController
                         'kj_kod' => $request->pengalaman_kementerian,
                         //'negeri_jabatan' => $request->pengalaman_negeri_bertugas,
                         'neg_kod' => $request->pengalaman_negeri_bertugas,
-                        'daerah_bertugas' => ($request->$pengalaman_daerah_bertugas != null) ? substr($request->pengalaman_daerah_bertugas, 2, 2) : null,
+                        'daerah_bertugas' => ($request->pengalaman_daerah_bertugas != null) ? substr($request->pengalaman_daerah_bertugas, 2, 2) : null,
                         'tarikh_tamat_kontrak' => ($request->pengalaman_tarikh_tamat_kontrak != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_tamat_kontrak) : null,
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
                     ]);
@@ -582,7 +584,7 @@ class PemohonController extends ApiController
                         'kj_kod' => $request->pengalaman_kementerian,
                         //'negeri_jabatan' => $request->pengalaman_negeri_bertugas,
                         'neg_kod' => $request->pengalaman_negeri_bertugas,
-                        'daerah_bertugas' =>  ($request->$pengalaman_daerah_bertugas != null) ? substr($request->pengalaman_daerah_bertugas, 2, 2) : null,
+                        'daerah_bertugas' =>  ($request->pengalaman_daerah_bertugas != null) ? substr($request->pengalaman_daerah_bertugas, 2, 2) : null,
                         'tarikh_tamat_kontrak' => ($request->pengalaman_tarikh_tamat_kontrak != null) ? Carbon::createFromFormat('d-m-Y', $request->pengalaman_tarikh_tamat_kontrak) : null,
                         'kump_pkhidmat' => $request->pengalaman_kumpulan_pkhidmat,
                     ]);
@@ -712,7 +714,7 @@ class PemohonController extends ApiController
             $log->size_request = strlen($request->getContent()) / 1024;
             $log->status = 1;
             $log->save();
-        // } catch (Exception $e) {
+        //} catch (Exception $e) {
         } catch (\Throwable $e) {
             DB::rollBack();
             //Log::error('Store Pemohon API Error: ' . $e);
@@ -943,7 +945,8 @@ class PemohonController extends ApiController
         );
     }
 
-    private static function getKodNegeri($kod){
+    private static function getKodNegeri($kod)
+    {
 
         if($kod == '01' || $kod == '21' || $kod == '22' || $kod == '23' || $kod == '24') {
             $kodNegeri = '01';
@@ -984,5 +987,76 @@ class PemohonController extends ApiController
         }
 
         return $kodNegeri;
+    }
+
+    private static function getGredSpm($gred)
+    {
+        if($gred == 'A+'){
+            return '0';
+        } else if($gred == 'A'){
+            return '1';
+        } else if($gred == 'A-'){
+            return '2';
+        } else if($gred == 'B+'){
+            return '3';
+        } else if($gred == 'B'){
+            return '4';
+        } else if($gred == 'C+'){
+            return '5';
+        } else if($gred == 'C'){
+            return '6';
+        } else if($gred == 'D'){
+            return '7';
+        } else if($gred == 'E'){
+            return '8';
+        } else if($gred == 'G'){
+            return '9';
+        } else {
+            return $gred;
+        }
+    }
+
+    private static function getPngkStpm($gred)
+    {
+        if($gred == 'A'){
+            return '4.00';
+        } else if($gred == 'A-'){
+            return '3.67';
+        } else if($gred == 'B+'){
+            return '3.33';
+        } else if($gred == 'B'){
+            return '3.00';
+        } else if($gred == 'B-'){
+            return '2.67';
+        } else if($gred == 'C+'){
+            return '2.33';
+        } else if($gred == 'C'){
+            return '2.00';
+        } else if($gred == 'C-'){
+            return '1.67';
+        } else if($gred == 'D+'){
+            return '1.33';
+        } else if($gred == 'D'){
+            return '1.00';
+        } else if($gred == 'F'){
+            return '0.00';
+        } else {
+            return null;
+        }
+    }
+
+    private static function getGredStam($gred)
+    {
+        if($gred == 'Mumtaz' || $gred == 'MUMTAZ'){
+            return 'A';
+        } else if($gred == 'Jayyid Jiddan' || $gred == 'JAYYID JIDDAN'){
+            return 'B';
+        } else if($gred == 'Jayyid' || $gred == 'JAYYID'){
+            return 'C';
+        } else if($gred == 'Maqbul' || $gred == 'MAQBUL'){
+            return 'D';
+        } else if($gred == 'Rasid' || $gred == 'RASID'){
+            return 'E';
+        }
     }
 }
