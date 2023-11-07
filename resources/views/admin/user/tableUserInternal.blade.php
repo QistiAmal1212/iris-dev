@@ -7,7 +7,7 @@
 
     <div class="col-sm-4 col-12 mb-1">
         <label class="form-label"> No Kad Pengenalan </label>
-        <input type="text" class="form-control" name="no_ic">
+        <input type="text" class="form-control" maxlength="12" name="no_ic">
     </div>
 
     <div class="col-sm-4 col-12 mb-1">
