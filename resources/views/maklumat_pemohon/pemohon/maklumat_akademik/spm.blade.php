@@ -707,7 +707,7 @@
                             // trSpm += '<td>SPM</td>';
                             trSpm += '<td>' + item.data.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.data.subject_form5.diskripsi + '</td>';
-                            trSpm += '<td align="center">' + item.data.gred + '</td>';
+                            trSpm += '<td align="center">' + ((item.data.tahun >= '2009') ? getGredSpm(item.data.gred) : item.data.gred) + '</td>';
                             trSpm += '<td align="center" style="display:none;">' + item.data.tahun + '</td>';
                             // trSpm += '<td align="center"><a><i class="fas fa-pencil text-primary editSpm1-btn" data-id="' + item.id + ' "></i></a>';
                             // trSpm += '&nbsp;&nbsp;';
@@ -838,7 +838,7 @@
                             // trSpm += '<td>SPM</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.data.subject_form5.kod + '</td>'; //KOD MATA PELAJARAN
                             trSpm += '<td>' + item.data.subject_form5.diskripsi + '</td>';
-                            trSpm += '<td align="center">' + item.data.gred + '</td>';
+                            trSpm += '<td align="center">' + ((item.data.tahun >= '2009') ? getGredSpm(item.data.gred) : item.data.gred) + '</td>';
                             trSpm += '<td align="center" style="display:none;">' + item.data.tahun + '</td>';
                             // trSpm += '<td align="center"><a><i class="fas fa-pencil text-primary editSpm2-btn" data-id="' + item.id + ' "></i></a>';
                             // trSpm += '&nbsp;&nbsp;';
@@ -1020,6 +1020,7 @@
             }
         });
     }
+
     function reloadSpmu() {
         var no_pengenalan = $('#spmu_no_pengenalan').val();
         $('#spmuForm input[name="spmu_no_pengenalan"]').val(no_pengenalan);
@@ -1090,5 +1091,31 @@
             error: function(data) {
             }
         });
+    }
+
+    function getGredSpm(gred) {
+        if(gred == '1'){
+            return 'A+';
+        } else if(gred == '1'){
+            return 'A';
+        } else if(gred == '2'){
+            return 'A-';
+        } else if(gred == '3'){
+            return 'B+';
+        } else if(gred == '4'){
+            return 'B';
+        } else if(gred == '5'){
+            return 'C+';
+        } else if(gred == '6'){
+            return 'C';
+        } else if(gred == '7'){
+            return 'D';
+        } else if(gred == '8'){
+            return 'E';
+        } else if(gred == '9'){
+            return 'G';
+        } else {
+            return gred;
+        }
     }
 </script>

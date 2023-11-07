@@ -1057,7 +1057,7 @@ class PemohonController extends ApiController
             return 'C';
         } else if($gred == 'Maqbul' || $gred == 'MAQBUL'){
             return 'D';
-        } else if($gred == 'Rasid' || $gred == 'RASID'){
+        } else if($gred == 'Rasib' || $gred == 'RASIB'){
             return 'E';
         }
     }
