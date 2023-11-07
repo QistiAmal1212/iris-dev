@@ -3,9 +3,8 @@
         <h4 class="card-title">Tukar Kata Laluan</h4>
     </div>
     <hr>
-    <form method="POST" action="{{ route('updatePassword') }}" refreshFunctionDivId="divChangePassword"
-        data-refreshFunctionNameIfSuccess="resetInput" data-refreshFunctionName="resetOnlyCaptcha"
-        data-swal="Kata laluan berjaya dikemaskini.">
+    <form id="kemaskini-password" method="POST" action="{{ route('updatePassword') }}" refreshFunctionDivId="divChangePassword"
+        data-refreshFunctionNameIfSuccess="resetInput" data-refreshFunctionName="resetOnlyCaptcha">
         @csrf
 
         <div class="card-body" id="divChangePassword">
@@ -76,13 +75,16 @@
 
         <div class="card-footer">
             <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" onclick="$('#change_password_button').trigger('click');">
+                <button type="button" class="btn btn-primary" onclick="handleFormSubmission();">
                     <span class="align-middle d-sm-inline-block d-none">
                         Kemaskini Kata Laluan
                     </span>
                 </button>
             </div>
         </div>
+    </form>
+    <form method="POST" id="logout-form" action="{{ route('logout') }}">
+        @csrf
     </form>
 </div>
 
@@ -97,6 +99,41 @@
             }
         });
     });
+
+    function handleFormSubmission() {
+        // Swal.fire({
+        //     title: 'Makluman',
+        //     text: 'Kata laluan berjaya dikemaskini.',
+        //     icon: 'info',
+        //     showCancelButton: false,
+        //     confirmButtonText: 'Halaman Log Masuk',
+        //     cancelButtonText: 'Cancel'
+        // }).then((result) => {
+        //     if (result.isConfirmed) {
+        //         $('#change_password_button').trigger('click');
+        //     }
+        // });
+        // $('#change_password_button').trigger('click');
+
+        $.ajax({
+            method: "POST",
+            url: "{{ route('updatePassword') }}",
+            data: $('#kemaskini-password').serialize(),
+            success: function(data) {
+                Swal.fire({
+                    title: 'Makluman',
+                    text: 'Kata laluan berjaya dikemaskini.',
+                    icon: 'info',
+                    showCancelButton: false,
+                    confirmButtonText: 'Ke Halaman Log Masuk',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('logout-form').submit();
+                    }
+                });
+            }
+        });
+    }
 
     function resetInput() {
         var reset_password_old = document.getElementById('reset_password_old');

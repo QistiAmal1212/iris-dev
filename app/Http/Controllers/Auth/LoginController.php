@@ -72,6 +72,13 @@ class LoginController extends Controller
             auth()->logout();
             return redirect()->route('login')->withErrors(["active" => "Akaun anda telah disekat. Sila hubungi pentadbir bahagian masing-masing"]);
         }
+        if($user->password_new_status){
+            $user->login_failed_counter = 0;
+            $user->password_new_status = false;
+            $user->last_login = now();
+            $user->save();
+            return redirect()->to('/admin/user/' . $user->id)->withErrors(["change_password" => "Kata Laluan perlu ditukar untuk kali pertama"]);
+        }
         if($user->last_change_password==null){
             $user->login_failed_counter = 0;
             $user->last_login = now();
@@ -110,6 +117,8 @@ class LoginController extends Controller
             Cookie::queue(Cookie::forget('no_ic'));
             Cookie::queue(Cookie::forget('password'));
         }
+
+        return redirect()->to('/home');
         // Cookie::make('no_ic', $user->no_ic, 525600);
         // Cookie::make('password', $request->password, 525600);
     }
@@ -121,7 +130,7 @@ class LoginController extends Controller
             $user->login_failed_counter += 1;
 
             if($user->password_new_status){
-                return redirect()->route('login')->withErrors(["active" => "Kata laluan telah diubah. Sila rujuk email anda"]);
+                return redirect()->route('login')->withErrors(["active" => "Kata laluan telah luput (melebihi 6 bulan). Sila rujuk email anda"]);
             }else{
                 if($user->login_failed_counter >= 5){
                     $user->is_blocked = true;
