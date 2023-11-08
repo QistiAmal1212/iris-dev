@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('calon_senarai_hitam', function (Blueprint $table) {
             $table->string('kod')->comment('')->change();
-            $table->renameColumn('kod', 'kod_ruj_penalti')->comment('');
+            $table->renameColumn('kod', 'kod_ruj_penalti');
         });
     }
 };
