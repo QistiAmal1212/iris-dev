@@ -613,7 +613,7 @@
         console.log('checked....', idleTime)
 
         if (idleTime >= sessionLifetime) {
-            window.location.href = 'login';
+            window.location.reload();
         }
     }
 
