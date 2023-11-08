@@ -120,15 +120,18 @@ class NegeriJPNController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|exists:ruj_negeri,kod',
-                'name' => 'required|string',
-                'kod_ruj_negeri' => 'required|string|unique:ruj_negeri_jpn,kod_jpn',
+                'code' => 'required|string|max:3|exists:ruj_negeri,kod',
+                'name' => 'required|string|max:30',
+                'kod_ruj_negeri' => 'required|string|max:3|unique:ruj_negeri_jpn,kod_jpn',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.exist' => 'Tiada rekod negeri yang dipilih',
                 'name.required' => 'Sila isikan negeri jpn',
                 'kod_ruj_negeri.required' => 'Sila isikan negeri',
                 'kod_ruj_negeri.unique' => 'Kod telah diambil',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang negeri jpn adalah :max karakter',
+                'kod_ruj_negeri.max' => 'Maksimum negeri kod adalah :max karakter',
             ]);
 
             $negerijpn = NegeriJPN::create([

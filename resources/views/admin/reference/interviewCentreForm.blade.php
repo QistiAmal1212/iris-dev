@@ -17,7 +17,7 @@
                                 </label>
                                 <div class="input-group">
                                     <input type="text" id="code" name="code" value=""
-                                        class="form-control" required>
+                                        maxlength="2" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                                 </label>
                                 <div class="input-group">
                                     <input type="text" id="name" name="name" value=""
-                                        class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                        class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="35" required>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                                 </label>
                                 <div class="input-group">
                                     <input type="text" id="kod_pendek" name="kod_pendek" value=""
-                                        class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                        class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="4" required>
                                 </div>
                             </div>
                         </div>

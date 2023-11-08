@@ -99,12 +99,14 @@ class TalentController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_bakat,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_bakat,kod',
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan keturunan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang bakat adalah :max karakter',
             ]);
 
             $talent = Talent::create([
@@ -184,12 +186,14 @@ class TalentController extends Controller
             $log->data_old = json_encode($talent);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_bakat,kod,'.$talentId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_bakat,kod,'.$talentId,
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan keturunan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang bakat adalah :max karakter',
             ]);
 
             $talent->update([

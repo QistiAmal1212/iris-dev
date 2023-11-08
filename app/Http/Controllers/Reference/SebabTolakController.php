@@ -99,12 +99,14 @@ class SebabTolakController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_sebab_tolak,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_sebab_tolak,kod',
+                'name' => 'required|string|max:60',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan sebab tolak',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang sebab tolak adalah :max karakter',
             ]);
 
             $sebabtolak = SebabTolak::create([
@@ -182,14 +184,16 @@ class SebabTolakController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Sebab Tolak";
             $log->data_old = json_encode($sebabtolak);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_sebab_tolak,kod,'.$sebabtolakId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_sebab_tolak,kod,'.$sebabtolakId,
+                'name' => 'required|string|max:60',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan sebab tolak',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang sebab tolak adalah :max karakter',
             ]);
 
             $sebabtolak->update([

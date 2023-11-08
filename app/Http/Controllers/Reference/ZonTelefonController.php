@@ -99,12 +99,14 @@ class ZonTelefonController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_zon_telefon,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:4|unique:ruj_zon_telefon,kod',
+                'name' => 'required|string|max:30',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan zon telefon',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang zon telefon adalah :max karakter',
             ]);
 
             $zontelefon = ZonTelefon::create([
@@ -183,12 +185,14 @@ class ZonTelefonController extends Controller
             $log->data_old = json_encode($zontelefon);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_zon_telefon,kod,'.$zontelefonId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:4|unique:ruj_zon_telefon,kod,'.$zontelefonId,
+                'name' => 'required|string|max:30',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan zon telefon',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang zon telefon adalah :max karakter',
             ]);
 
             $zontelefon->update([

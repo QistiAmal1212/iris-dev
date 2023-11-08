@@ -113,14 +113,16 @@ class PenajaController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_penaja,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_penaja,kod',
+                'name' => 'required|string|max:40',
                 'jenis' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan penaja',
                 'jenis.required' => 'Sila isikan jenis',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang penaja adalah :max karakter',
             ]);
 
             $penaja = Penaja::create([
@@ -201,14 +203,16 @@ class PenajaController extends Controller
             $log->data_old = json_encode($penaja);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_penaja,kod,'.$penajaId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_penaja,kod,'.$penajaId,
+                'name' => 'required|string|max:40',
                 'jenis' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan penaja',
                 'jenis.required' => 'Sila isikan jenis',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang penaja adalah :max karakter',
             ]);
 
             $penaja->update([

@@ -102,14 +102,17 @@ class StatusController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_status,kod',
-                'name' => 'required|string',
-                'diskripsi' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_status,kod',
+                'name' => 'required|string|max:80',
+                'diskripsi' => 'required|string|max:150',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan status',
                 'diskripsi.required' => 'Sila isikan diskripsi',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang status adalah :max karakter',
+                'diskripsi.max' => 'Maksimum panjang diskripsi adalah :max karakter',
             ]);
 
             $status = Status::create([
@@ -190,14 +193,17 @@ class StatusController extends Controller
             $log->data_old = json_encode($status);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_status,kod,'.$statusId,
-                'name' => 'required|string',
-                'diskripsi' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_status,kod,'.$statusId,
+                'name' => 'required|string|max:80',
+                'diskripsi' => 'required|string|max:150',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan status',
                 'diskripsi.required' => 'Sila isikan diskripsi',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang status adalah :max karakter',
+                'diskripsi.max' => 'Maksimum panjang diskripsi adalah :max karakter',
             ]);
 
             $status->update([

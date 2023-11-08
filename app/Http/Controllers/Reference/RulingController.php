@@ -110,9 +110,9 @@ class RulingController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_ruling,kod',
-                'name' => 'required|string',
-                'pernyataan' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_ruling,kod',
+                'name' => 'required|string|max:150',
+                'pernyataan' => 'required|string|max:100',
                 'status' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -120,6 +120,9 @@ class RulingController extends Controller
                 'name.required' => 'Sila isikan ruling',
                 'pernyataan' => 'Sila isikan pernyataan',
                 'status' => 'Sila isikan status',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang ruling adalah :max karakter',
+                'pernyataan.max' => 'Maksimum panjang pernyataan adalah :max karakter',
             ]);
 
             $ruling = Ruling::create([
@@ -201,9 +204,9 @@ class RulingController extends Controller
             $log->data_old = json_encode($ruling);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_ruling,kod,'.$rulingId,
-                'name' => 'required|string',
-                'pernyataan' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_ruling,kod,'.$rulingId,
+                'name' => 'required|string|max:150',
+                'pernyataan' => 'required|string|max:100',
                 'status' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -211,6 +214,9 @@ class RulingController extends Controller
                 'name.required' => 'Sila isikan ruling',
                 'pernyataan' => 'Sila isikan pernyataan',
                 'status' => 'Sila isikan status',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang ruling adalah :max karakter',
+                'pernyataan.max' => 'Maksimum panjang pernyataan adalah :max karakter',
             ]);
 
             $ruling->update([

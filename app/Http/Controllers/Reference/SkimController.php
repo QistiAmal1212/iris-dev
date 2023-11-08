@@ -131,8 +131,8 @@ class SkimController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_skim,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_skim,kod',
+                'name' => 'required|string|max:80',
                 'GGH_KOD' => 'required|string',
                 'GUNASAMA' => 'required|string',
                 'ref_skim_type' => 'required|string',
@@ -150,6 +150,8 @@ class SkimController extends Controller
                 'KUMP_PKHIDMAT_JKK.required' => 'Sila isikan kumpulan perkhidmatan JKK',
                 'SKIM_PKHIDMAT.required' => 'Sila isikan jawatan perkidmatan',
                 'KUMP_PKHIDMAT_SSB.required' => 'Sila isikan kumpulan perkhidmatan SSM',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang skim adalah :max karakter',
             ]);
 
             $skim = Skim::create([
@@ -234,14 +236,15 @@ class SkimController extends Controller
             $log->data_old = json_encode($skim);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_skim,kod,'.$skimId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_skim,kod,'.$skimId,
+                'name' => 'required|string|max:80',
                 'GGH_KOD' => 'required|string',
                 'GUNASAMA' => 'required|string',
                 'ref_skim_type' => 'required|string',
                 'KUMP_PKHIDMAT_JKK' => 'required|string',
                 'SKIM_PKHIDMAT' => 'required|string',
                 'KUMP_PKHIDMAT_SSB' => 'required|string',
+                // 'KP_KOD' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -252,6 +255,8 @@ class SkimController extends Controller
                 'KUMP_PKHIDMAT_JKK.required' => 'Sila isikan kumpulan perkhidmatan JKK',
                 'SKIM_PKHIDMAT.required' => 'Sila isikan jawatan perkidmatan',
                 'KUMP_PKHIDMAT_SSB.required' => 'Sila isikan kumpulan perkhidmatan SSM',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang skim adalah :max karakter',
             ]);
 
             $skim->update([

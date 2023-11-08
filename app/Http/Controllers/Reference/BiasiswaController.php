@@ -61,7 +61,7 @@ class BiasiswaController extends Controller
                     return $biasiswa->kod;
                 })
                 ->editColumn('nama', function ($biasiswa) {
-                    return $biasiswa->diskripsi;
+                    return strtoupper($biasiswa->diskripsi);
                 })
                 ->editColumn('action', function ($biasiswa) use ($accessUpdate, $accessDelete) {
                     $button = "";
@@ -99,12 +99,14 @@ class BiasiswaController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_biasiswa,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_biasiswa,kod',
+                'name' => 'required|string|max:100',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan biasiswa',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang biasiswa adalah :max karakter',
             ]);
 
             $biasiswa = Biasiswa::create([
@@ -184,12 +186,14 @@ class BiasiswaController extends Controller
             $log->data_old = json_encode($biasiswa);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_biasiswa,kod,'.$biasiswaId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_biasiswa,kod,'.$biasiswaId,
+                'name' => 'required|string|max:100',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan biasiswa',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang biasiswa adalah :max karakter',
             ]);
 
             $biasiswa->update([

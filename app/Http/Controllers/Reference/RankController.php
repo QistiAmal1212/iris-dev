@@ -99,12 +99,14 @@ class RankController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pangkat,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_pangkat,kod',
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan pangkat',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang pangkat adalah :max karakter',
             ]);
 
             $rank = Rank::create([
@@ -184,12 +186,14 @@ class RankController extends Controller
             $log->data_old = json_encode($rank);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pangkat,kod,'.$rankId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_pangkat,kod,'.$rankId,
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan pangkat',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang pangkat adalah :max karakter',
             ]);
 
             $rank->update([

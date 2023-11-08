@@ -106,13 +106,15 @@ class AhliSuruhanjayaController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_ahli_suruhanjaya,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:12|unique:ruj_ahli_suruhanjaya,kod',
+                'name' => 'required|string|max:50',
                 'no_tel' => 'required|string',
                 'no_kp' => 'required|string',
-                'nama_pasangan' => 'required|string',
+                'nama_pasangan' => 'required|string|max:50',
                 'no_tel_pasangan' => 'required|string',
-                'alamat1' => 'required|string',
+                'alamat1' => 'required|string|max:60',
+                'alamat2' => 'max:60',
+                'alamat3' => 'max:60',
                 'kekananan' => 'required|string',
                 'kontrak_dari1' => 'required|string',
                 'kontrak_hingga1' => 'required|string',
@@ -133,6 +135,12 @@ class AhliSuruhanjayaController extends Controller
                 'kontrak_hingga1.required' => 'Sila isikan tarikh tamat kontrak',
                 'elaun_pada_gred.required' => 'Sila isikan elaun pada gred',
                 'status_ahli.required' => 'Sila isikan status keahlian',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang nama ahli suruhanjaya adalah :max karakter',
+                'nama_pasangan.max' => 'Maksimum panjang nama pasangan adalah :max karakter',
+                'alamat1.max' => 'Maksimum panjang alamat 1 adalah :max karakter',
+                'alamat2.max' => 'Maksimum panjang alamat 2 adalah :max karakter',
+                'alamat3.max' => 'Maksimum panjang alamat 3 adalah :max karakter',
             ]);
 
             $ahlisuruhanjaya = AhliSuruhanjaya::create([
@@ -228,22 +236,25 @@ class AhliSuruhanjayaController extends Controller
             $log->data_old = json_encode($ahlisuruhanjaya);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_ahli_suruhanjaya,kod,'.$ahlisuruhanjayaId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:12|unique:ruj_ahli_suruhanjaya,kod,'.$ahlisuruhanjayaId,
+                'name' => 'required|string|max:50',
                 'no_tel' => 'required|string',
                 'no_kp' => 'required|string',
-                'nama_pasangan' => 'required|string',
+                'nama_pasangan' => 'required|string|max:50',
                 'no_tel_pasangan' => 'required|string',
-                'alamat1' => 'required|string',
+                'alamat1' => 'required|string|max:60',
+                'alamat2' => 'max:60',
+                'alamat3' => 'max:60',
                 'kekananan' => 'required|string',
                 'kontrak_dari1' => 'required|string',
                 'kontrak_hingga1' => 'required|string',
                 'elaun_pada_gred' => 'required|string',
                 'status_ahli' => 'required|string',
+
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan ahli suruhanjaya',
+                'name.required' => 'Sila isikan nama ahli suruhanjaya',
                 'no_tel.required' => 'Sila isikan nombor telefon',
                 'no_kp.required' => 'Sila isikan nombor kad pengenalan',
                 'nama_pasangan.required' => 'Sila isikan nama pasangan',
@@ -254,6 +265,12 @@ class AhliSuruhanjayaController extends Controller
                 'kontrak_hingga1.required' => 'Sila isikan tarikh tamat kontrak',
                 'elaun_pada_gred.required' => 'Sila isikan elaun pada gred',
                 'status_ahli.required' => 'Sila isikan status keahlian',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang nama ahli suruhanjaya adalah :max karakter',
+                'nama_pasangan.max' => 'Maksimum panjang nama pasangan adalah :max karakter',
+                'alamat1.max' => 'Maksimum panjang alamat 1 adalah :max karakter',
+                'alamat2.max' => 'Maksimum panjang alamat 2 adalah :max karakter',
+                'alamat3.max' => 'Maksimum panjang alamat 3 adalah :max karakter',
             ]);
 
             $ahlisuruhanjaya->update([

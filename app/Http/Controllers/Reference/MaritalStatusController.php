@@ -98,12 +98,14 @@ class MaritalStatusController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_taraf_kahwin,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_taraf_kahwin,kod',
+                'name' => 'required|string|max:20',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan taraf perkahwinan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang taraf perkahwinan adalah :max karakter',
             ]);
 
             $taraf = MaritalStatus::create([
@@ -181,12 +183,14 @@ class MaritalStatusController extends Controller
             $log->data_old = json_encode($maritalStatus);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_taraf_kahwin,kod,'.$maritalStatusId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_taraf_kahwin,kod,'.$maritalStatusId,
+                'name' => 'required|string|max:20',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan taraf perkahwinan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang taraf perkahwinan adalah :max karakter',
             ]);
 
             $maritalStatus->update([

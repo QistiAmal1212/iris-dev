@@ -117,11 +117,11 @@ class InterviewCentreController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pusat_temuduga,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_pusat_temuduga,kod',
+                'name' => 'required|string|max:35',
                 // 'ref_area_code' => 'required|string|exists:ruj_kawasan_pst_td,kod',
                 'ref_state_code' => 'required|string|exists:ruj_negeri,kod',
-                'kod_pendek' => 'required|string',
+                'kod_pendek' => 'required|string|max:4',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -131,6 +131,9 @@ class InterviewCentreController extends Controller
                 'ref_state_code.required' => 'Sila isikan negeri',
                 'ref_state_code.exists' => 'Tiada rekod negeri yang dipilih',
                 'kod_pendek.required' => 'Sila isikan kod pendek',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang pusat temu duga adalah :max karakter',
+                'kod_pendek.max' => 'Maksimum panjang kod pendek adalah :max karakter',
             ]);
 
             $iv = InterviewCentre::create([
@@ -210,20 +213,23 @@ class InterviewCentreController extends Controller
             $log->data_old = json_encode($interviewCentre);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pusat_temuduga,kod,'.$interviewCentreId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_pusat_temuduga,kod,'.$interviewCentreId,
+                'name' => 'required|string|max:35',
                 // 'ref_area_code' => 'required|string|exists:ruj_kawasan_pst_td,kod',
                 'ref_state_code' => 'required|string|exists:ruj_negeri,kod',
-                'kod_pendek' => 'required|string',
+                'kod_pendek' => 'required|string|max:4',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan pusat temu duga',
                 // 'ref_area_code.required' => 'Sila isikan kawasan pusat temuduga',
-                'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
+                // 'ref_area_code.exists' => 'Tiada rekod kawasan pusat temuduga yang dipilih',
                 'ref_state_code.required' => 'Sila isikan negeri',
                 'ref_state_code.exists' => 'Tiada rekod negeri yang dipilih',
                 'kod_pendek.required' => 'Sila isikan kod pendek',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang pusat temu duga adalah :max karakter',
+                'kod_pendek.max' => 'Maksimum panjang kod pendek adalah :max karakter',
             ]);
 
             $interviewCentre->update([

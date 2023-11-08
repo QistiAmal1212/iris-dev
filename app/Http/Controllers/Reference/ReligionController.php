@@ -99,12 +99,14 @@ class ReligionController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_agama,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_agama,kod',
+                'name' => 'required|string|max:20',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan agama',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang agama adalah :max karakter',
             ]);
 
             $religion = Religion::create([
@@ -184,12 +186,14 @@ class ReligionController extends Controller
             $log->data_old = json_encode($religion);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_agama,kod,'.$religionId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_agama,kod,'.$religionId,
+                'name' => 'required|string|max:20',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan agama',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang agama adalah :max karakter',
             ]);
 
             $religion->update([

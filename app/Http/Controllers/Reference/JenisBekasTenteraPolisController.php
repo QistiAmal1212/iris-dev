@@ -99,12 +99,14 @@ class JenisBekasTenteraPolisController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_bekas_tentera_polis,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:4|unique:ruj_jenis_bekas_tentera_polis,kod',
+                'name' => 'required|string|max:120',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan keturunan',
+                'name.required' => 'Sila isikan jenis bekas tentera/polis',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang jenis bekas tentera/polis adalah :max karakter',
             ]);
 
             $bekastentera = JenisBekasTenteraPolis::create([
@@ -184,12 +186,14 @@ class JenisBekasTenteraPolisController extends Controller
             $log->data_old = json_encode($bekastentera);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_bekas_tentera_polis,kod,'.$bekastenteraId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:4|unique:ruj_jenis_bekas_tentera_polis,kod,'.$bekastenteraId,
+                'name' => 'required|string|max:120',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan keturunan',
+                'name.required' => 'Sila isikan jenis bekas tentera/polis',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang jenis bekas tentera/polis adalah :max karakter',
             ]);
 
             $bekastentera->update([

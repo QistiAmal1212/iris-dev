@@ -99,12 +99,14 @@ class KelayakanSetarafController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelayakan_setaraf,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_kelayakan_setaraf,kod',
+                'name' => 'required|string|max:50',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan kelayakan akademik',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kelayakan akademik adalah :max karakter',
             ]);
 
             $kelayakansetaraf = KelayakanSetaraf::create([
@@ -184,12 +186,14 @@ class KelayakanSetarafController extends Controller
             $log->data_old = json_encode($kelayakansetaraf);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelayakan_setaraf,kod,'.$kelayakansetarafId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_kelayakan_setaraf,kod,'.$kelayakansetarafId,
+                'name' => 'required|string|max:50',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan kelayakan akademik',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kelayakan akademik adalah :max karakter',
             ]);
 
             $kelayakansetaraf->update([

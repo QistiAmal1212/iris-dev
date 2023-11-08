@@ -105,8 +105,8 @@ class MatriculationSubjectController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_subjek_matrikulasi,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:15|unique:ruj_subjek_matrikulasi,kod',
+                'name' => 'required|string|max:100',
                 'credit' => 'required|numeric',
                 'semester' => 'required|numeric',
                 'category' => 'required|string',
@@ -119,6 +119,8 @@ class MatriculationSubjectController extends Controller
                 'semester.required' => 'Sila isikan semester subjek matrikulasi',
                 'semester.numeric' => 'Semester hendaklah dalam angka digit',
                 'category.required' => 'Sila isikan kategori subjek matrikulasi',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang subjek matrikulasi adalah :max karakter',
             ]);
 
             $subjek  = MatriculationSubject::create([
@@ -199,8 +201,8 @@ class MatriculationSubjectController extends Controller
             $log->data_old = json_encode($matriculationSubject);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_subjek_matrikulasi,kod,'.$matriculationSubjectId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:15|unique:ruj_subjek_matrikulasi,kod,'.$matriculationSubjectId,
+                'name' => 'required|string|max:100',
                 'credit' => 'required|numeric',
                 'semester' => 'required|numeric',
                 'category' => 'required|string',
@@ -213,6 +215,8 @@ class MatriculationSubjectController extends Controller
                 'semester.required' => 'Sila isikan semester subjek matrikulasi',
                 'semester.numeric' => 'Semester hendaklah dalam angka digit',
                 'category.required' => 'Sila isikan kategori subjek matrikulasi',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang subjek matrikulasi adalah :max karakter',
             ]);
 
             $matriculationSubject->update([

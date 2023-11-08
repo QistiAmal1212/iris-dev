@@ -99,13 +99,16 @@ class DepartmentMinistryController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kem_jabatan,kod',
-                'name' => 'required|string',
-                'alamat_1' => 'required|string',
-                'poskod' => 'required|string',
-                'bandar' => 'required|string',
-                'gelaran_ketua' => 'required|string',
-                'kem_kod' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_kem_jabatan,kod',
+                'name' => 'required|string|max:80',
+                'alamat_1' => 'required|string|max:60',
+                'alamat_2' => 'max:60',
+                'alamat_3' => 'max:60',
+                'poskod' => 'required|string|max:5',
+                'bandar' => 'required|string|max:30',
+                'gelaran_ketua' => 'required|string|max:50',
+                'kem_kod' => 'required|string|max:14',
+                'unit_urusan' => 'max:2',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -115,6 +118,16 @@ class DepartmentMinistryController extends Controller
                 'bandar.required' => 'Sila isikan bandar',
                 'gelaran_ketua.required' => 'Sila isikan gelaran ketua',
                 'kem_kod.required' => 'Sila isikan kod kementerian',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kementerian adalah :max karakter',
+                'alamat_1.max' => 'Maksimum panjang alamat 1 adalah :max karakter',
+                'alamat_2.max' => 'Maksimum panjang alamat 2 adalah :max karakter',
+                'alamat_3.max' => 'Maksimum panjang alamat 3 adalah :max karakter',
+                'poskod.max' => 'Maksimum panjang poskod adalah :max karakter',
+                'bandar.max' => 'Maksimum panjang bandar adalah :max karakter',
+                'gelaran_ketua.max' => 'Maksimum gelaran ketua bahagian adalah :max karakter',
+                'kem_kod.max' => 'Maksimum panjang kementerian kod adalah :max karakter',
+                'unit_urusan.max' => 'Maksimum panjang unit urusan adalah :max karakter',
             ]);
 
             $departmentMinistry = DepartmentMinistry::create([
@@ -198,15 +211,18 @@ class DepartmentMinistryController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Kementerian";
             $log->data_old = json_encode($departmentMinistry);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_kem_jabatan,kod,'.$departmentMinistryId,
-                'name' => 'required|string',
-                'alamat_1' => 'required|string',
-                'poskod' => 'required|string',
-                'bandar' => 'required|string',
-                'gelaran_ketua' => 'required|string',
-                'kem_kod' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_kem_jabatan,kod,'.$departmentMinistryId,
+                'name' => 'required|string|max:80',
+                'alamat_1' => 'required|string|max:60',
+                'alamat_2' => 'max:60',
+                'alamat_3' => 'max:60',
+                'poskod' => 'required|string|max:5',
+                'bandar' => 'required|string|max:30',
+                'gelaran_ketua' => 'required|string|max:50',
+                'kem_kod' => 'required|string|max:14',
+                'unit_urusan' => 'max:2',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
@@ -216,6 +232,16 @@ class DepartmentMinistryController extends Controller
                 'bandar.required' => 'Sila isikan bandar',
                 'gelaran_ketua.required' => 'Sila isikan gelaran ketua',
                 'kem_kod.required' => 'Sila isikan kod kementerian',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kementerian adalah :max karakter',
+                'alamat_1.max' => 'Maksimum panjang alamat 1 adalah :max karakter',
+                'alamat_2.max' => 'Maksimum panjang alamat 2 adalah :max karakter',
+                'alamat_3.max' => 'Maksimum panjang alamat 3 adalah :max karakter',
+                'poskod.max' => 'Maksimum panjang poskod adalah :max karakter',
+                'bandar.max' => 'Maksimum panjang bandar adalah :max karakter',
+                'gelaran_ketua.max' => 'Maksimum gelaran ketua bahagian adalah :max karakter',
+                'kem_kod.max' => 'Maksimum panjang kementerian kod adalah :max karakter',
+                'unit_urusan.max' => 'Maksimum panjang unit urusan adalah :max karakter',
             ]);
 
             $departmentMinistry->update([

@@ -108,14 +108,17 @@ class KodPelbagaiController extends Controller
         try {
 
             $request->validate([
-                'kod' => 'required|string',
-                'kategori' => 'required|string',
-                'nama' => 'required|string',
+                'kod' => 'required|string|max:14',
+                'kategori' => 'required|string|max:30',
+                'nama' => 'required|string|max:200',
             ],[
                 'kod.required' => 'Sila isikan kod',
                 'kod.unique' => 'Kod telah diambil',
                 'kategori.required' => 'Sila isikan nama kategori',
                 'nama.required' => 'Sila isikan nama kod pelbagai',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'kategori.max' => 'Maksimum panjang kategori adalah :max karakter',
+                'name.max' => 'Maksimum panjang kod pelbagai adalah :max karakter',
             ]);
 
             $kodpelbagai = KodPelbagai::create([
@@ -194,14 +197,17 @@ class KodPelbagaiController extends Controller
             $log->data_old = json_encode($kodpelbagai);
 
             $request->validate([
-                'kod' => 'required|string',
-                'kategori' => 'required|string',
-                'nama' => 'required|string',
+                'kod' => 'required|string|max:14',
+                'kategori' => 'required|string|max:30',
+                'nama' => 'required|string|max:200',
             ],[
                 'kod.required' => 'Sila isikan kod',
                 'kod.unique' => 'Kod telah diambil',
                 'kategori.required' => 'Sila isikan nama kategori',
                 'nama.required' => 'Sila isikan nama kod pelbagai',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'kategori.max' => 'Maksimum panjang kategori adalah :max karakter',
+                'name.max' => 'Maksimum panjang kod pelbagai adalah :max karakter',
             ]);
 
             $kodpelbagai->update([

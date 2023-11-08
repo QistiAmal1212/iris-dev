@@ -112,14 +112,17 @@ class JenisOkuJKMController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_oku_jkm,kod_oku',
-                'name' => 'required|string',
-                'sub' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_jenis_oku_jkm,kod_oku',
+                'name' => 'required|string|max:50',
+                'sub' => 'required|string|max:150',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan jenis oku',
                 'sub.required' => 'Sila isikan sub oku',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang jenis oku adalah :max karakter',
+                'sub.max' => 'Maksimum panjang sub oku adalah :max karakter',
             ]);
 
             $jenisoku = JenisOkuJKM::create([
@@ -200,14 +203,17 @@ class JenisOkuJKMController extends Controller
             $log->data_old = json_encode($jenisoku);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_oku_jkm,kod_oku,'.$jenisokuId,
-                'name' => 'required|string',
-                'sub' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_jenis_oku_jkm,kod_oku,'.$jenisokuId,
+                'name' => 'required|string|max:50',
+                'sub' => 'required|string|max:150',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan jenis oku',
                 'sub.required' => 'Sila isikan sub oku',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang jenis oku adalah :max karakter',
+                'sub.max' => 'Maksimum panjang sub oku adalah :max karakter',
             ]);
 
             $jenisoku->update([

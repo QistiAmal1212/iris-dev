@@ -99,12 +99,14 @@ class BahagianController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_bahagian,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_bahagian,kod',
+                'name' => 'required|string|max:30',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan bahagian',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang bahagian adalah :max karakter',
             ]);
 
             $bahagian = Bahagian::create([
@@ -184,12 +186,14 @@ class BahagianController extends Controller
             $log->data_old = json_encode($bahagian);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_bahagian,kod,'.$bahagianId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_bahagian,kod,'.$bahagianId,
+                'name' => 'required|string|max:30',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan bahagian',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang bahagian adalah :max karakter',
             ]);
 
             $bahagian->update([

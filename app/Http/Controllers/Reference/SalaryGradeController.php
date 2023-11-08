@@ -177,12 +177,14 @@ class SalaryGradeController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_gred_gaji_hdr,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:21|unique:ruj_gred_gaji_hdr,kod',
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan gred gaji',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang gred gaji adalah :max karakter',
             ]);
 
             $salaryGrade = SalaryGrade::create([
@@ -258,14 +260,16 @@ class SalaryGradeController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Ahli Suruhanjaya";
             $log->data_old = json_encode($salaryGrade);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_gred_gaji_hdr,kod,'.$salaryGradeId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:21|unique:ruj_gred_gaji_hdr,kod,'.$salaryGradeId,
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan gred gaji',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang gred gaji adalah :max karakter',
             ]);
 
             $salaryGrade->update([

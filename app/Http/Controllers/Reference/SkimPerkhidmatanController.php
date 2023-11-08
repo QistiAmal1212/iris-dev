@@ -99,12 +99,14 @@ class SkimPerkhidmatanController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_skim_perkhidmatan,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:4|unique:ruj_skim_perkhidmatan,kod',
+                'name' => 'required|string|max:200',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan skim perkhidmatan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang skim perkhidmatan adalah :max karakter',
             ]);
 
             $skimperkhidmatan = SkimPerkhidmatan::create([
@@ -184,12 +186,14 @@ class SkimPerkhidmatanController extends Controller
             $log->data_old = json_encode($skimperkhidmatan);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_skim_perkhidmatan,kod,'.$skimperkhidmatanId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:4|unique:ruj_skim_perkhidmatan,kod,'.$skimperkhidmatanId,
+                'name' => 'required|string|max:200',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan skim perkhidmatan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang skim perkhidmatan adalah :max karakter',
             ]);
 
             $skimperkhidmatan->update([

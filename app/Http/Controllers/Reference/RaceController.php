@@ -100,20 +100,22 @@ class RaceController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_keturunan,kod',
-                'name' => 'required|string',
-                'kump' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_keturunan,kod',
+                'name' => 'required|string|max:30',
+                // 'kump' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan keturunan',
-                'kump.required' => 'Sila isikan kumpulan',
+                // 'kump.required' => 'Sila isikan kumpulan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang keturunan adalah :max karakter',
             ]);
 
             $race = Race::create([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
-                'kump' => strtoupper($request->kump),
+                // 'kump' => strtoupper($request->kump),
                 'id_pencipta' => auth()->user()->id,
                 'pengguna' => auth()->user()->id,
                 'sah_yt' => 'Y'
@@ -188,20 +190,22 @@ class RaceController extends Controller
             $log->data_old = json_encode($race);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_keturunan,kod,'.$raceId,
-                'name' => 'required|string',
-                'kump' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_keturunan,kod,'.$raceId,
+                'name' => 'required|string|max:30',
+                // 'kump' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan keturunan',
-                'kump.required' => 'Sila isikan kumpulan',
+                // 'kump.required' => 'Sila isikan kumpulan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang keturunan adalah :max karakter',
             ]);
 
             $race->update([
                 'kod' => $request->code,
                 'diskripsi' => strtoupper($request->name),
-                'kump' => strtoupper($request->kump),
+                // 'kump' => strtoupper($request->kump),
                 'pengguna' => auth()->user()->id,
             ]);
 

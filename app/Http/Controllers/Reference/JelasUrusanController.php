@@ -99,12 +99,14 @@ class JelasUrusanController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jelas_urusan,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_jelas_urusan,kod',
+                'name' => 'required|string|max:60',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan jelas urusan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang jelas urusan adalah :max karakter',
             ]);
 
             $jelasurusan = JelasUrusan::create([
@@ -184,12 +186,14 @@ class JelasUrusanController extends Controller
             $log->data_old = json_encode($jelasurusan);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jelas_urusan,kod,'.$jelasurusanId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_jelas_urusan,kod,'.$jelasurusanId,
+                'name' => 'required|string|max:60',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan jelas urusan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang jelas urusan adalah :max karakter',
             ]);
 
             $jelasurusan->update([

@@ -15,7 +15,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="code" name="code" value="" class="form-control" required>
+                                    <input type="text" id="code" name="code" value="" class="form-control" maxlength="3" required>
                                 </div>
                             </div>
                         </div>
@@ -25,11 +25,11 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="name" name="name" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="name" name="name" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="30" required>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label" for="kump">Kumpulan
                                     <span class="text text-danger">*</span>
@@ -38,7 +38,7 @@
                                     <input type="text" id="kump" name="kump" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <button type="button" id="btn_submit" hidden onclick="generalFormSubmit(this);"></button>
                 </form>

@@ -99,12 +99,14 @@ class SuruhanjayaController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_suruhanjaya,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_suruhanjaya,kod',
+                'name' => 'required|string|max:30',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan suruhanjaya',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang suruhanjaya adalah :max karakter',
             ]);
 
             $suruhanjaya = Suruhanjaya::create([
@@ -182,14 +184,16 @@ class SuruhanjayaController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Suruhanjaya";
             $log->data_old = json_encode($suruhanjaya);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_suruhanjaya,kod,'.$suruhanjayaId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_suruhanjaya,kod,'.$suruhanjayaId,
+                'name' => 'required|string|max:30',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan suruhanjaya',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang suruhanjaya adalah :max karakter',
             ]);
 
             $suruhanjaya->update([

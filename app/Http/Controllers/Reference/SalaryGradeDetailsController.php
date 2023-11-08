@@ -127,15 +127,19 @@ class salaryGradeDetailsController extends Controller
         try {
 
             $request->validate([
-                'kod' => 'required|string',
-                'level' => 'required|string',
-                'year' => 'required|string',
-                'amount' => 'required|string',
+                'kod' => 'required|max:21|string',
+                'level' => 'required|max:3|string',
+                'year' => 'required|max:3|string',
+                'amount' => 'required|max:7|string',
             ],[
                 'kod.required' => 'Sila isikan kod',
                 'level.required' => 'Sila isikan tahap gred gaji',
                 'year.required' => 'Sila isikan tahun',
                 'amount.required' => 'Sila isikan jumlah',
+                'kod.max' => 'Maksimum panjang kod adalah :max karakter',
+                'level.max' => 'Maksimum panjang peringkat adalah :max karakter',
+                'year.max' => 'Maksimum panjang tahun adalah :max karakter (0-999)',
+                'amount.max' => 'Maksimum panjang amaun adalah :max karakter',
             ]);
 
             $ggd = SalaryGradeDetails::create([
@@ -214,15 +218,19 @@ class salaryGradeDetailsController extends Controller
             $log->data_old = json_encode($salaryGradeDetails);
 
             $request->validate([
-                'kod' => 'required|string',
-                'level' => 'required|string',
-                'year' => 'required|string',
-                'amount' => 'required|string',
+                'kod' => 'required|max:21|string',
+                'level' => 'required|max:3|string',
+                'year' => 'required|max:3|string',
+                'amount' => 'required|max:7|string',
             ],[
                 'kod.required' => 'Sila isikan kod',
                 'level.required' => 'Sila isikan tahap gred gaji',
                 'year.required' => 'Sila isikan tahun',
                 'amount.required' => 'Sila isikan jumlah',
+                'kod.max' => 'Maksimum panjang kod adalah :max karakter',
+                'level.max' => 'Maksimum panjang peringkat adalah :max karakter',
+                'year.max' => 'Maksimum panjang tahun adalah :max karakter (0-999)',
+                'amount.max' => 'Maksimum panjang amaun adalah :max karakter',
             ]);
 
             $salaryGradeDetails->update([

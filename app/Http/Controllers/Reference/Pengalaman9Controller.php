@@ -100,12 +100,14 @@ class Pengalaman9Controller extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_pengalaman9,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_jenis_pengalaman9,kod',
+                'name' => 'required|string|max:150',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan pengalaman',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang jelas urusan adalah :max karakter',
             ]);
 
             $pengalaman9 = Pengalaman9::create([
@@ -185,12 +187,14 @@ class Pengalaman9Controller extends Controller
             $log->data_old = json_encode($pengalaman9);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_pengalaman9,kod,'.$pengalaman9Id,
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_jenis_pengalaman9,kod,'.$pengalaman9Id,
+                'name' => 'required|string|max:150',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan pengalaman',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang jelas urusan adalah :max karakter',
             ]);
 
             $pengalaman9->update([

@@ -152,8 +152,8 @@ class SpecializationController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_pengkhususan,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_pengkhususan,kod',
+                'name' => 'required|string|max:100',
                 'type' => 'required|string',
                 'field' => 'required|string',
             ],[
@@ -162,6 +162,8 @@ class SpecializationController extends Controller
                 'name.required' => 'Sila isikan nama pengkhususan',
                 'type.required' => 'Sila isikan jenis pengkhususan',
                 'field.required' => 'Sila isikan bidang pengkhususan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang pengkhususan adalah :max karakter',
             ]);
 
             $specialization = Specialization::create([
@@ -241,18 +243,20 @@ class SpecializationController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Pengkhususan";
             $log->data_old = json_encode($specialization);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_pengkhususan,kod,'.$specializationId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_pengkhususan,kod,'.$specializationId,
+                'name' => 'required|string|max:100',
                 'type' => 'required|string',
                 'field' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan nama jawatan',
+                'name.required' => 'Sila isikan nama pengkhususan',
                 'type.required' => 'Sila isikan jenis pengkhususan',
                 'field.required' => 'Sila isikan bidang pengkhususan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang pengkhususan adalah :max karakter',
             ]);
 
             $specialization->update([

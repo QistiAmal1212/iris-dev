@@ -126,16 +126,20 @@ class QualificationController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelulusan,kod',
-                'name' => 'required|string',
-                'type' => 'required|string',
-                'category' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_kelulusan,kod',
+                'name' => 'required|string|max:100',
+                'type' => 'required|string|max:1',
+                'category' => 'required|string|max:1',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama kelulusan',
                 'type.required' => 'Sila isikan jenis kelulusan',
                 'category.required' => 'Sila isikan kategori',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kelulusan adalah :max karakter',
+                'type.max' => 'Maksimum panjang jenis adalah :max karakter',
+                'category.max' => 'Maksimum panjang kategori adalah :max karakter',
             ]);
 
             $qualification = Qualification::create([
@@ -217,16 +221,20 @@ class QualificationController extends Controller
             $log->data_old = json_encode($qualification);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelulusan,kod,'.$qualificationId,
-                'name' => 'required|string',
-                'type' => 'required|string',
-                'category' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_kelulusan,kod,'.$qualificationId,
+                'name' => 'required|string|max:100',
+                'type' => 'required|string|max:1',
+                'category' => 'required|string|max:1',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama kelulusan',
                 'type.required' => 'Sila isikan jenis kelulusan',
                 'category.required' => 'Sila isikan kategori',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kelulusan adalah :max karakter',
+                'type.max' => 'Maksimum panjang jenis adalah :max karakter',
+                'category.max' => 'Maksimum panjang kategori adalah :max karakter',
             ]);
 
             $qualification->update([
