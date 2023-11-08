@@ -605,14 +605,15 @@
 
     setInterval(function() {
         timerIncrement();
-    }, 1 * 60 * 1000);
+    }, 0.2 * 60 * 1000);
 
     function timerIncrement() {
         var sessionLifetime = {{ config('session.lifetime') }};
-        idleTime = idleTime + 1;
+        idleTime = idleTime + 0.19;
+        console.log('checked....', idleTime)
 
         if (idleTime >= sessionLifetime) {
-            window.location.href = 'home';
+            window.location.href = 'login';
         }
     }
 
