@@ -11,7 +11,7 @@ class CalonSenaraiHitam extends Model
 
     protected $fillable = [
         'no_pengenalan',
-        'kod_ruj_penalti',
+        'kod',
         'tempoh',
         'jenis',
         'trk_kuatkuasa',
@@ -28,6 +28,6 @@ class CalonSenaraiHitam extends Model
 
     public function penalty()
     {
-        return $this->belongsTo('App\Models\Reference\Penalty', 'kod_ruj_penalti', 'kod');
+        return $this->belongsTo('App\Models\Reference\Penalty', 'kod', 'kod');
     }
 }

@@ -3379,8 +3379,9 @@ class MaklumatPemohonController extends Controller
             $candidatePenalty = CalonSenaraiHitam::where('no_pengenalan', $request->noPengenalan)->with('penalty')->get();
 
             foreach($candidatePenalty as $penalty){
-                $penalty->pen = $penalty->penalty != null ? $penalty->penalty->diskripsi : 'Tiada Maklumat';
-                $penalty->gab = ($penalty->tempoh != null && $penalty->jenis) ? $penalty->tempoh . ' ' . $penalty->jenis : 'Tiada Maklumat';
+                $penalty->penalti = $penalty->penalty != null ? $penalty->kod.' - '.$penalty->penalty->diskripsi : 'Tiada Maklumat';
+                //$penalty->gab = ($penalty->tempoh != null && $penalty->jenis) ? $penalty->tempoh . ' ' . $penalty->jenis : 'Tiada Maklumat';
+                $penalty->tempoh = ($penalty->tempoh != null) ? $penalty->tempoh : 'Tiada Maklumat';
                 $penalty->trk_kuatkuasa = ($penalty->trk_kuatkuasa != null) ? Carbon::parse($penalty->trk_kuatkuasa)->format('d/m/Y') : 'Tiada Maklumat';
                 $penalty->trk_tamat = ($penalty->trk_tamat != null) ? Carbon::parse($penalty->trk_tamat)->format('d/m/Y') : 'Tiada Maklumat';
             }

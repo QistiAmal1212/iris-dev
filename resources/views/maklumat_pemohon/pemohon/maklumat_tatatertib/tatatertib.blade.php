@@ -78,7 +78,7 @@
                     <tr>
                         <th>Bil.</th>
                         <th>Tindakan Tatatertib</th>
-                        <th>Tempoh Hukuman</th>
+                        <th>Tempoh Hukuman (Tahun)</th>
                         <th>Tarikh Mula Hukuman</th>
                         <th>Tarikh Akhir Hukuman</th>
                         <!-- <th>Kemaskini</th> -->
@@ -167,10 +167,10 @@
                         bilPenalty += 1;
                         trPenalty += '<tr>';
                         trPenalty += '<td align="center">' + bilPenalty + '</td>'
-                        trPenalty += '<td>' + item.pen + '</td>';
-                        trPenalty += '<td>' + item.gab + '</td>';
-                        trPenalty += '<td>' + item.trk_kuatkuasa +'</td>';
-                        trPenalty += '<td>' + item.trk_tamat + '</td>';
+                        trPenalty += '<td>' + item.penalti + '</td>';
+                        trPenalty += '<td align="center">' + item.tempoh + '</td>';
+                        trPenalty += '<td align="center">' + item.trk_kuatkuasa +'</td>';
+                        trPenalty += '<td align="center">' + item.trk_tamat + '</td>';
                         // trPenalty += '<td align="center"><i class="fas fa-pencil text-primary editPenalty-btn" data-id="' + item.id + ' "></i>';
                         // trPenalty += '&nbsp;&nbsp;';
                         // trPenalty += '<i class="fas fa-trash text-danger deletePenalty-btn" data-id="' + item.id + '"></i></td>';

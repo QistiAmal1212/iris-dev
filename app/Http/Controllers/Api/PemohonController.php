@@ -25,6 +25,7 @@ use App\Models\Calon\CalonPsl;
 use App\Models\Calon\CalonTenteraPolis;
 use App\Models\Calon\CalonBahasa;
 use App\Models\Calon\CalonBakat;
+use App\Models\Calon\CalonSenaraiHitam;
 use App\Models\Integrasi\SenaraiApi;
 use App\Models\Integrasi\LogApi;
 use Carbon;
@@ -701,6 +702,33 @@ class PemohonController extends ApiController
                             'bakat_detail' => $bakat['bakat_detail']
                         ];
                         CalonBakat::create($dataBakat);
+                    }
+                }
+            }
+
+            if($request->senarai_hitam != null) {
+                foreach($request->senarai_hitam as $senaraiHitam){
+
+                    $tarikhMulaSenaraiHitam = Carbon::createFromFormat('d-m-Y', $senaraiHitam['tarikh_hukuman'])->format('Y-m-d');
+                    $tarikhTamatSenaraiHitam = ($senaraiHitam['tarikh_tamat'] != null) ? Carbon::createFromFormat('d-m-Y', $senaraiHitam['tarikh_tamat'])->format('Y-m-d') : null;
+
+                    $calonSenaraiHitam = CalonSenaraiHitam::where('no_pengenalan', $noPengenalan)
+                    ->where('kod', $senaraiHitam['kod_penalti'])
+                    ->where('trk_kuatkuasa', $tarikhMulaSenaraiHitam)->first();
+
+                    if($calonSenaraiHitam){
+                        $calonSenaraiHitam->update([
+                            'tempoh' => $senaraiHitam['tempoh'],
+                            'trk_tamat' => $tarikhTamatSenaraiHitam,
+                        ]);
+                    } else {
+                        CalonSenaraiHitam::create([
+                            'no_pengenalan' => $noPengenalan,
+                            'kod' => $senaraiHitam['kod_penalti'],
+                            'tempoh' => $senaraiHitam['tempoh'],
+                            'trk_kuatkuasa' => $tarikhMulaSenaraiHitam,
+                            'trk_tamat' => $tarikhTamatSenaraiHitam
+                        ]);
                     }
                 }
             }

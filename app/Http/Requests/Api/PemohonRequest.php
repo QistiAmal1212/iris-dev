@@ -187,6 +187,12 @@ class PemohonRequest extends ApiRequest
                     'bahasa.*' => 'required|array',
                     'bahasa.*.bahasa' => 'required|string|exists:ruj_bahasa,kod',
                     'bahasa.*.penguasaan' => 'required|string', //Validate dekat kod_pelbagai
+                    'senarai_hitam' => 'nullable|array',
+                    'senarai_hitam.*' => 'required|array',
+                    'senarai_hitam.*.kod_penalti' => 'required|string|exists:ruj_tatatertib,kod',
+                    'senarai_hitam.*.tempoh' => 'nullable|integer',
+                    'senarai_hitam.*.tarikh_hukuman' => 'required|date_format:d-m-Y',
+                    'senarai_hitam.*.tarikh_tamat' => 'nullable|date_format:d-m-Y,'
 
                     //Handle result sekolah exists utk matapelajaran dgn gred
                 ];
