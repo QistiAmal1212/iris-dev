@@ -96,10 +96,11 @@ class JKKCController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_skim_jkkc_sijil,ski_kod',
+                'code' => 'required|string|max:4|unique:ruj_skim_jkkc_sijil,ski_kod',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
             ]);
 
             $jkkc = JKKC::create([
@@ -176,12 +177,13 @@ class JKKCController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Skim Kumpulan Perkhidmatan C ";
             $log->data_old = json_encode($jkkc);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_skim_jkkc_sijil,ski_kod,'.$jkkcId,
+                'code' => 'required|string|max:4|unique:ruj_skim_jkkc_sijil,ski_kod,'.$jkkcId,
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
             ]);
 
             $jkkc->update([

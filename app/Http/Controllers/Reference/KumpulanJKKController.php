@@ -99,12 +99,14 @@ class KumpulanJKKController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kumpulan_jkk,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_kumpulan_jkk,kod',
+                'name' => 'required|string|max:50',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan kumpulan jkk',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kumpulan jkk adalah :max karakter',
             ]);
 
             $kumpulanjkk = KumpulanJKK::create([
@@ -181,14 +183,16 @@ class KumpulanJKKController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Kumpulan JKK";
             $log->data_old = json_encode($kumpulanjkk);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_kumpulan_jkk,kod,'.$kumpulanjkkId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_kumpulan_jkk,kod,'.$kumpulanjkkId,
+                'name' => 'required|string|max:50',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan kumpulanjkk',
+                'name.required' => 'Sila isikan kumpulan jkk',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kumpulan jkk adalah :max karakter',
             ]);
 
             $kumpulanjkk->update([

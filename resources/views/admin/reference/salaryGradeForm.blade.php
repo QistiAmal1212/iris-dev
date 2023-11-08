@@ -15,7 +15,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="code" name="code" value="" class="form-control" required>
+                                    <input type="text" id="code" name="code" value="" class="form-control" maxlength="21" required>
                                 </div>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="name" name="name" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="name" name="name" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="40" required>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                 </label>
                                 <div class="input-group">
                                     <input type="text" id="level" name="level" value=""
-                                        class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                        class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="3" required>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                 </label>
                                 <div class="input-group">
                                     <input type="text" id="year" name="year" value=""
-                                        class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                        class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="3" required>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                                 </label>
                                 <div class="input-group">
                                     <input type="text" id="amount" name="amount" value=""
-                                        class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                        class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="7" required>
                                 </div>
                             </div>
                         </div>

@@ -99,12 +99,14 @@ class NegaraController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_negara,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_negara,kod',
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan negara',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang negara adalah :max karakter',
             ]);
 
             $negara = Negara::create([
@@ -182,14 +184,16 @@ class NegaraController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Negara";
             $log->data_old = json_encode($negara);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_negara,kod,'.$negaraId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_negara,kod,'.$negaraId,
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan negara',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang negara adalah :max karakter',
             ]);
 
             $negara->update([

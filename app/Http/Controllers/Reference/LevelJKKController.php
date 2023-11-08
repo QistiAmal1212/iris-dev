@@ -99,12 +99,14 @@ class LevelJKKController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tingkatan_jkk,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_tingkatan_jkk,kod',
+                'name' => 'required|string|max:20',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan tingkatan JKK',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang tingkatan JKK adalah :max karakter',
             ]);
 
             $jkk = LevelJKK::create([
@@ -182,12 +184,14 @@ class LevelJKKController extends Controller
             $log->data_old = json_encode($levelJKK);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tingkatan_jkk,kod,'.$levelJKKId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_tingkatan_jkk,kod,'.$levelJKKId,
+                'name' => 'required|string|max:20',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan tingkatan JKK',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang tingkatan JKK adalah :max karakter',
             ]);
 
             $levelJKK->update([

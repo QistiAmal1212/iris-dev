@@ -145,7 +145,7 @@ class DaerahController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string',
+                'code' => 'required|max:2|string',
                 'name' => 'required|string',
                 'kod_ruj_bahagian' => 'required|string|exists:ruj_bahagian,kod',
                 'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
@@ -157,6 +157,7 @@ class DaerahController extends Controller
                 'kod_ruj_bahagian.exists' => 'Tiada rekod bahagian yang dipilih',
                 'kod_ruj_negeri.required' => 'Sila isikan negeri',
                 'kod_ruj_negeri.exists' => 'Tiada rekod negeri yang dipilih',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
             ]);
 
             $daerah = Daerah::create([
@@ -238,7 +239,7 @@ class DaerahController extends Controller
             $log->data_old = json_encode($daerah);
 
             $request->validate([
-                'code' => 'required|string',
+                'code' => 'required|max:2|string',
                 'name' => 'required|string',
                 'kod_ruj_bahagian' => 'required|string|exists:ruj_bahagian,kod',
                 'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
@@ -250,6 +251,7 @@ class DaerahController extends Controller
                 'kod_ruj_bahagian.exists' => 'Tiada rekod bahagian yang dipilih',
                 'kod_ruj_negeri.required' => 'Sila isikan negeri',
                 'kod_ruj_negeri.exists' => 'Tiada rekod negeri yang dipilih',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
             ]);
 
             $daerah->update([

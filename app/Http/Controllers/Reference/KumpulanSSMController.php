@@ -99,12 +99,14 @@ class KumpulanSSMController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kumpulan_ssm,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_kumpulan_ssm,kod',
+                'name' => 'required|string|max:80',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan kumpulan ssm',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kumpulan ssm adalah :max karakter',
             ]);
 
             $kumpulanssm = KumpulanSSM::create([
@@ -182,14 +184,16 @@ class KumpulanSSMController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Kumpulan SSM";
             $log->data_old = json_encode($kumpulanssm);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_kumpulan_ssm,kod,'.$kumpulanssmId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_kumpulan_ssm,kod,'.$kumpulanssmId,
+                'name' => 'required|string|max:80',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan kumpulan ssm',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kumpulan ssm adalah :max karakter',
             ]);
 
             $kumpulanssm->update([

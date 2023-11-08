@@ -151,8 +151,8 @@ class InstitutionController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_institusi,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_institusi,kod',
+                'name' => 'required|string|max:100',
                 'ref_country_code' => 'required|string',
                 'type' => 'required|string',
             ],[
@@ -161,6 +161,8 @@ class InstitutionController extends Controller
                 'name.required' => 'Sila isikan nama institusi',
                 'ref_country_code.required' => 'Sila isikan nama negara',
                 'type.required' => 'Sila isikan jenis',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang institusi adalah :max karakter',
             ]);
 
             $institution = Institution::create([
@@ -250,6 +252,21 @@ class InstitutionController extends Controller
                 'name.required' => 'Sila isikan nama institusi',
                 'ref_country_code.required' => 'Sila isikan nama negara',
                 'type.required' => 'Sila isikan jenis',
+            ]);
+
+            $request->validate([
+                'code' => 'required|string|max:14|unique:ruj_institusi,kod,'.$institutionId,
+                'name' => 'required|string|max:100',
+                'ref_country_code' => 'required|string',
+                'type' => 'required|string',
+            ],[
+                'code.required' => 'Sila isikan kod',
+                'code.unique' => 'Kod telah diambil',
+                'name.required' => 'Sila isikan nama institusi',
+                'ref_country_code.required' => 'Sila isikan nama negara',
+                'type.required' => 'Sila isikan jenis',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang institusi adalah :max karakter',
             ]);
 
             $institution->update([

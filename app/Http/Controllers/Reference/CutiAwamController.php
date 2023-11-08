@@ -148,7 +148,7 @@ class CutiAwamController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_cuti_awam,ca_id',
+                'code' => 'required|string|max:20|unique:ruj_cuti_awam,ca_id',
                 'tarikh_cuti' => 'required|string',
                 'kod_ruj_senarai_cuti' => 'required|string|exists:ruj_senarai_cuti,kod',
                 'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
@@ -160,6 +160,7 @@ class CutiAwamController extends Controller
                 'kod_ruj_senarai_cuti.exists' => 'Tiada rekod senarai cuti yang dipilih',
                 'kod_ruj_negeri.required' => 'Sila isikan negeri',
                 'kod_ruj_negeri.exists' => 'Tiada rekod negeri yang dipilih',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
             ]);
 
             $cutiawam = CutiAwam::create([
@@ -243,7 +244,7 @@ class CutiAwamController extends Controller
             $log->data_old = json_encode($cutiawam);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_cuti_awam,ca_id,'.$cutiawamId,
+                'code' => 'required|string|max:20|unique:ruj_cuti_awam,ca_id,'.$cutiawamId,
                 'tarikh_cuti' => 'required|string',
                 'kod_ruj_senarai_cuti' => 'required|string|exists:ruj_senarai_cuti,kod',
                 'kod_ruj_negeri' => 'required|string|exists:ruj_negeri,kod',
@@ -255,6 +256,7 @@ class CutiAwamController extends Controller
                 'kod_ruj_senarai_cuti.exists' => 'Tiada rekod senarai cuti yang dipilih',
                 'kod_ruj_negeri.required' => 'Sila isikan negeri',
                 'kod_ruj_negeri.exists' => 'Tiada rekod negeri yang dipilih',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
             ]);
 
             $cutiawam->update([

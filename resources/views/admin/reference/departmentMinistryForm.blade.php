@@ -15,7 +15,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="code" name="code" value="" class="form-control" required>
+                                    <input type="text" id="code" name="code" value="" class="form-control" maxlength="14" required>
                                 </div>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="name" name="name" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="name" name="name" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="80" required>
                                 </div>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="kem_kod" name="kem_kod" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="kem_kod" name="kem_kod" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="14" required>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="gelaran_ketua" name="gelaran_ketua" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="gelaran_ketua" name="gelaran_ketua" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="50" required>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                     {{-- <span class="text text-danger">*</span> --}}
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="unit_urusan" name="unit_urusan" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="unit_urusan" name="unit_urusan" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="2" required>
                                 </div>
                             </div>
                         </div>
@@ -65,21 +65,21 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="alamat_1" name="alamat_1" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="alamat_1" name="alamat_1" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="60" required>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" id="alamat_2" name="alamat_2" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="alamat_2" name="alamat_2" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="60" required>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" id="alamat_3" name="alamat_3" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="alamat_3" name="alamat_3" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="60" required>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="poskod" name="poskod" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="poskod" name="poskod" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="5" required>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="bandar" name="bandar" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="bandar" name="bandar" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="30" required>
                                 </div>
                             </div>
                         </div>

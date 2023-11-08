@@ -107,8 +107,8 @@ class SubjectController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_matapelajaran,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:13|unique:ruj_matapelajaran,kod',
+                'name' => 'required|string|max:60',
                 'form' => 'required|numeric|min:1|max:6',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -118,6 +118,8 @@ class SubjectController extends Controller
                 'form.numeric' => 'Tingkatan hendaklah dalam angka digit',
                 'form.min' => 'Tingkatan hendaklah antara 1 dan 6',
                 'form.max' => 'Tingkatan hendaklah antara 1 dan 6',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang matapelajaran adalah :max karakter',
             ]);
 
             $subject = Subject::create([
@@ -198,7 +200,7 @@ class SubjectController extends Controller
             $log->data_old = json_encode($subject);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_matapelajaran,kod,'.$subjectId,
+
                 'name' => 'required|string',
                 'form' => 'required|numeric|min:1|max:6',
             ],[
@@ -209,6 +211,22 @@ class SubjectController extends Controller
                 'form.numeric' => 'Tingkatan hendaklah dalam angka digit',
                 'form.min' => 'Tingkatan hendaklah antara 1 dan 6',
                 'form.max' => 'Tingkatan hendaklah antara 1 dan 6',
+            ]);
+
+            $request->validate([
+                'code' => 'required|string|max:13|unique:ruj_matapelajaran,kod,'.$subjectId,
+                'name' => 'required|string|max:60',
+                'form' => 'required|numeric|min:1|max:6',
+            ],[
+                'code.required' => 'Sila isikan kod',
+                'code.unique' => 'Kod telah diambil',
+                'name.required' => 'Sila isikan nama subjek',
+                'form.required' => 'Sila isikan tingkatan',
+                'form.numeric' => 'Tingkatan hendaklah dalam angka digit',
+                'form.min' => 'Tingkatan hendaklah antara 1 dan 6',
+                'form.max' => 'Tingkatan hendaklah antara 1 dan 6',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang matapelajaran adalah :max karakter',
             ]);
 
             $subject->update([

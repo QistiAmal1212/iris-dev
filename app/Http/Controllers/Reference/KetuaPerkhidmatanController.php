@@ -99,12 +99,14 @@ class KetuaPerkhidmatanController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_ketua_perkhidmatan,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:4|unique:ruj_ketua_perkhidmatan,kod',
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan ketua perkhidmatan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang ketua perkhidmatan adalah :max karakter',
             ]);
 
             $ketuaperkhidmatan = KetuaPerkhidmatan::create([
@@ -184,12 +186,23 @@ class KetuaPerkhidmatanController extends Controller
             $log->data_old = json_encode($ketuaperkhidmatan);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_ketua_perkhidmatan,kod,'.$ketuaperkhidmatanId,
+
                 'name' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan ketua perkhidmatan',
+            ]);
+
+            $request->validate([
+                'code' => 'required|string|max:4|unique:ruj_ketua_perkhidmatan,kod,'.$ketuaperkhidmatanId,
+                'name' => 'required|string|max:40',
+            ],[
+                'code.required' => 'Sila isikan kod',
+                'code.unique' => 'Kod telah diambil',
+                'name.required' => 'Sila isikan ketua perkhidmatan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang ketua perkhidmatan adalah :max karakter',
             ]);
 
             $ketuaperkhidmatan->update([

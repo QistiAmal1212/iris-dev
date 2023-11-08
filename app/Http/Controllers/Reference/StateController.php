@@ -99,12 +99,14 @@ class StateController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_negeri,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_negeri,kod',
+                'name' => 'required|string|max:35',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan negeri',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang negeri adalah :max karakter',
             ]);
 
             $state = State::create([
@@ -182,14 +184,16 @@ class StateController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Negeri";
             $log->data_old = json_encode($state);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_negeri,kod,'.$stateId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_negeri,kod,'.$stateId,
+                'name' => 'required|string|max:35',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan negeri',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang negeri adalah :max karakter',
             ]);
 
             $state->update([

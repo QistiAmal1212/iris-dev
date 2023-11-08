@@ -118,8 +118,8 @@ class TawaranKursusController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string',
-                'name' => 'required|string',
+                'code' => 'required|string|max:6',
+                'name' => 'required|string|max:80',
                 'jenis' => 'required|string',
                 'diskripsi' => 'required|string',
             ],[
@@ -128,6 +128,8 @@ class TawaranKursusController extends Controller
                 'name.required' => 'Sila isikan tawaran kursus',
                 'jenis.required' => 'Sila isikan jenis kursus',
                 'diskripsi.required' => 'Sila isikan diskripsi penuh',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang tawaran kursus adalah :max karakter',
             ]);
 
             $tawarankursus = TawaranKursus::create([
@@ -209,16 +211,18 @@ class TawaranKursusController extends Controller
             $log->data_old = json_encode($tawarankursus);
 
             $request->validate([
-                'code' => 'required|string',
-                'name' => 'required|string',
+                'code' => 'required|string|max:6',
+                'name' => 'required|string|max:80',
                 'jenis' => 'required|string',
                 'diskripsi' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
-                'name.required' => 'Sila isikan tawarankursus',
+                'name.required' => 'Sila isikan tawaran kursus',
                 'jenis.required' => 'Sila isikan jenis kursus',
                 'diskripsi.required' => 'Sila isikan diskripsi penuh',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang tawaran kursus adalah :max karakter',
             ]);
 
             $tawarankursus->update([

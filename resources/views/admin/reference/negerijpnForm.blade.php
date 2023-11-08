@@ -15,7 +15,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="kod_ruj_negeri" name="kod_ruj_negeri" value="" class="form-control" required>
+                                    <input type="text" id="kod_ruj_negeri" name="kod_ruj_negeri" value="" class="form-control" maxlength="3" required>
                                 </div>
                             </div>
                         </div>

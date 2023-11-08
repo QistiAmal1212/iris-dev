@@ -112,14 +112,16 @@ class SenaraiCutiController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_senarai_cuti,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_senarai_cuti,kod',
+                'name' => 'required|string|max:50',
                 'kategori' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan cuti',
                 'kategori.required' => 'Sila isikan kategori',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang cuti adalah :max karakter',
             ]);
 
             $senaraicuti = SenaraiCuti::create([
@@ -198,16 +200,18 @@ class SenaraiCutiController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Senarai Cuti";
             $log->data_old = json_encode($senaraicuti);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_senarai_cuti,kod,'.$senaraicutiId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:3|unique:ruj_senarai_cuti,kod,'.$senaraicutiId,
+                'name' => 'required|string|max:50',
                 'kategori' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan cuti',
                 'kategori.required' => 'Sila isikan kategori',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang cuti adalah :max karakter',
             ]);
 
             $senaraicuti->update([

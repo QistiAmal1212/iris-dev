@@ -99,12 +99,14 @@ class PositionLevelController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_taraf_jawatan,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_taraf_jawatan,kod',
+                'name' => 'required|string|max:50',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan taraf jawatan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang taraf jawatan adalah :max karakter',
             ]);
 
             $tarafJawatan = PositionLevel::create([
@@ -182,12 +184,14 @@ class PositionLevelController extends Controller
             $log->data_old = json_encode($positionLevel);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_taraf_jawatan,kod,'.$positionLevelId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_taraf_jawatan,kod,'.$positionLevelId,
+                'name' => 'required|string|max:50',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan taraf jawatan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang taraf jawatan adalah :max karakter',
             ]);
 
             $positionLevel->update([

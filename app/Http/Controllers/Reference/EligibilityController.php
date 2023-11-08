@@ -112,10 +112,10 @@ class EligibilityController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelayakan,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:16|unique:ruj_kelayakan,kod',
+                'name' => 'required|string|max:60',
                 // 'ref_skim_code' => 'required|string',
-                'equivalent' => 'required|string',
+                'equivalent' => 'required|string|exists:ruj_kelayakan_setaraf,kod',
                 // 'rank' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -124,6 +124,9 @@ class EligibilityController extends Controller
                 // 'ref_skim_code.required' => 'Sila isikan jawatan',
                 'equivalent.required' => 'Sila isikan bersamaan',
                 // 'rank.required' => 'Sila isikan pangkat',
+                'equivalent.exists' => 'Tiada rekod kelayakan akademik yang dipilih',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kelayakan adalah :max karakter',
             ]);
 
             $kelayakan = Eligibility::create([
@@ -203,10 +206,10 @@ class EligibilityController extends Controller
             $log->data_old = json_encode($eligibility);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_kelayakan,kod,'.$eligibilityId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:16|unique:ruj_kelayakan,kod,'.$eligibilityId,
+                'name' => 'required|string|max:60',
                 // 'ref_skim_code' => 'required|string',
-                'equivalent' => 'required|string',
+                'equivalent' => 'required|string|exists:ruj_kelayakan_setaraf,kod',
                 // 'rank' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
@@ -215,6 +218,9 @@ class EligibilityController extends Controller
                 // 'ref_skim_code.required' => 'Sila isikan jawatan',
                 'equivalent.required' => 'Sila isikan bersamaan',
                 // 'rank.required' => 'Sila isikan pangkat',
+                'equivalent.exists' => 'Tiada rekod kelayakan akademik yang dipilih',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang kelayakan adalah :max karakter',
             ]);
 
             $eligibility->update([

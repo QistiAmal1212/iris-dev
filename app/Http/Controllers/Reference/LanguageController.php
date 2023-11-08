@@ -99,12 +99,14 @@ class LanguageController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_bahasa,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_bahasa,kod',
+                'name' => 'required|string|max:20',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan bahasa',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang bahasa adalah :max karakter',
             ]);
 
             $bahasa = Language::create([
@@ -179,14 +181,16 @@ class LanguageController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Bahasa";
             $log->data_old = json_encode($language);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_bahasa,kod,'.$languageId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:14|unique:ruj_bahasa,kod,'.$languageId,
+                'name' => 'required|string|max:20',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan bahasa',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang bahasa adalah :max karakter',
             ]);
 
             $language->update([

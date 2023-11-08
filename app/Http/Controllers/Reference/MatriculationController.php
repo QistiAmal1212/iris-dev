@@ -99,12 +99,14 @@ class MatriculationController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_matrikulasi,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:13|unique:ruj_matrikulasi,kod',
+                'name' => 'required|string|max:100',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama matrikulasi',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang matrikulasi adalah :max karakter',
             ]);
 
             $matric = Matriculation::create([
@@ -182,12 +184,14 @@ class MatriculationController extends Controller
             $log->data_old = json_encode($matriculation);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_matrikulasi,kod,'.$matriculationId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:13|unique:ruj_matrikulasi,kod,'.$matriculationId,
+                'name' => 'required|string|max:100',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan nama matrikulasi',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang matrikulasi adalah :max karakter',
             ]);
 
             $matriculation->update([

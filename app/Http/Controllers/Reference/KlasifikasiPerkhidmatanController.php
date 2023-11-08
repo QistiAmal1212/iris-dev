@@ -99,12 +99,14 @@ class KlasifikasiPerkhidmatanController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_klasifikasi_perkhidmatan,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_klasifikasi_perkhidmatan,kod',
+                'name' => 'required|string|max:50',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan klasifikasi perkhidmatan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang klasifikasi perkhidmatan adalah :max karakter',
             ]);
 
             $klasifikasiperkhidmatan = KlasifikasiPerkhidmatan::create([
@@ -182,14 +184,16 @@ class KlasifikasiPerkhidmatanController extends Controller
             $log->activity_type_id = 4;
             $log->description = "Kemaskini Maklumat Klasifikasi Perkhidmatan";
             $log->data_old = json_encode($klasifikasiperkhidmatan);
-
+            
             $request->validate([
-                'code' => 'required|string|unique:ruj_klasifikasi_perkhidmatan,kod,'.$klasifikasiperkhidmatanId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:1|unique:ruj_klasifikasi_perkhidmatan,kod,'.$klasifikasiperkhidmatanId,
+                'name' => 'required|string|max:50',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan klasifikasi perkhidmatan',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang klasifikasi perkhidmatan adalah :max karakter',
             ]);
 
             $klasifikasiperkhidmatan->update([

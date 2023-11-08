@@ -99,12 +99,14 @@ class JenisSkimController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_skim,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_jenis_skim,kod',
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan jenis skim',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang jenis skim adalah :max karakter',
             ]);
 
             $jenisskim = JenisSkim::create([
@@ -184,12 +186,14 @@ class JenisSkimController extends Controller
             $log->data_old = json_encode($jenisskim);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_jenis_skim,kod,'.$jenisskimId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:2|unique:ruj_jenis_skim,kod,'.$jenisskimId,
+                'name' => 'required|string|max:40',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan jenis skim',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang jenis skim adalah :max karakter',
             ]);
 
             $jenisskim->update([

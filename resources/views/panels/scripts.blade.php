@@ -610,7 +610,7 @@
     function timerIncrement() {
         var sessionLifetime = {{ config('session.lifetime') }};
         idleTime = idleTime + 0.19;
-        console.log('checked....', idleTime)
+        // console.log('checked....', idleTime)
 
         if (idleTime >= sessionLifetime) {
             window.location.reload();

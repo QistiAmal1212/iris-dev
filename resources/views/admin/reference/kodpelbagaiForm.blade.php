@@ -15,7 +15,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="kod" name="kod" value="" class="form-control" required>
+                                    <input type="text" id="kod" name="kod" value="" class="form-control" maxlength="14" required>
                                 </div>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="nama" name="nama" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="nama" name="nama" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="30" required>
                                 </div>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                                     <span class="text text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input type="text" id="kategori" name="kategori" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" required>
+                                    <input type="text" id="kategori" name="kategori" value="" class="form-control" oninput="this.value = this.value.toUpperCase()" maxlength="200" required>
                                 </div>
                             </div>
                         </div>

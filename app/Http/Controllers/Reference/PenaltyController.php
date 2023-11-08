@@ -108,14 +108,16 @@ class PenaltyController extends Controller
         try {
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tatatertib,kod',
-                'name' => 'required|string',
+                'code' => 'required|string|max:10|unique:ruj_tatatertib,kod',
+                'name' => 'required|string|max:100',
                 'category' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan tatatertib',
                 'category.required' => 'Sila isikan kategori',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang tatatertib adalah :max karakter',
             ]);
 
             $penalty = Penalty::create([
@@ -194,14 +196,16 @@ class PenaltyController extends Controller
             $log->data_old = json_encode($penalty);
 
             $request->validate([
-                'code' => 'required|string|unique:ruj_tatatertib,kod,'.$penaltyId,
-                'name' => 'required|string',
+                'code' => 'required|string|max:10|unique:ruj_tatatertib,kod,'.$penaltyId,
+                'name' => 'required|string|max:100',
                 'category' => 'required|string',
             ],[
                 'code.required' => 'Sila isikan kod',
                 'code.unique' => 'Kod telah diambil',
                 'name.required' => 'Sila isikan tatatertib',
                 'category.required' => 'Sila isikan kategori',
+                'code.max' => 'Maksimum panjang kod adalah :max karakter',
+                'name.max' => 'Maksimum panjang tatatertib adalah :max karakter',
             ]);
 
             $penalty->update([
