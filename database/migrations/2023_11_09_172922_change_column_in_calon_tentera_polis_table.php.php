@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('pengguna', 12)->change();
         });
 
-        DB::statement('ALTER TABLE calon_tentera_polis ALTER COLUMN gaji_tentera TYPE NUMERIC(8, 2) USING gaji_tentera::numeric(8, 2)');
+        //DB::statement('ALTER TABLE calon_tentera_polis ALTER COLUMN gaji_tentera TYPE NUMERIC(8, 2) USING gaji_tentera::numeric(8, 2)');
     }
 
     /**
@@ -45,6 +45,6 @@ return new class extends Migration
             $table->string('pengguna')->change();
         });
 
-        DB::statement('ALTER TABLE calon_tentera_polis ALTER COLUMN gaji_tentera TYPE VARCHAR(255)');
+        //DB::statement('ALTER TABLE calon_tentera_polis ALTER COLUMN gaji_tentera TYPE VARCHAR(255)');
     }
 };

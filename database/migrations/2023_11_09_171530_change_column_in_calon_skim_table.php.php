@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('pengguna', 12)->change();
         });
 
-        DB::statement('ALTER TABLE calon_skim ALTER COLUMN tarikh_daftar TYPE DATE USING tarikh_daftar::date');
+        //DB::statement('ALTER TABLE calon_skim ALTER COLUMN tarikh_daftar TYPE DATE USING tarikh_daftar::date');
     }
 
     /**
@@ -47,6 +47,6 @@ return new class extends Migration
             $table->string('pengguna')->change();
         });
 
-        DB::statement('ALTER TABLE calon_skim ALTER COLUMN tarikh_daftar TYPE VARCHAR(255)');
+        //DB::statement('ALTER TABLE calon_skim ALTER COLUMN tarikh_daftar TYPE VARCHAR(255)');
     }
 };

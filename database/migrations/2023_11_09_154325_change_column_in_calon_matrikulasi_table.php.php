@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('pengguna', 12)->change();
         });
 
-        DB::statement('ALTER TABLE calon_matrikulasi ALTER COLUMN pngk TYPE NUMERIC(10, 2) USING pngk::numeric(10, 2)');
+        //DB::statement('ALTER TABLE calon_matrikulasi ALTER COLUMN pngk TYPE NUMERIC(10, 2) USING pngk::numeric(10, 2)');
     }
 
     /**
@@ -49,6 +49,6 @@ return new class extends Migration
             $table->string('pengguna')->change();
         });
 
-        DB::statement('ALTER TABLE calon_matrikulasi ALTER COLUMN pngk TYPE VARCHAR(255)');
+        //DB::statement('ALTER TABLE calon_matrikulasi ALTER COLUMN pngk TYPE VARCHAR(255)');
     }
 };

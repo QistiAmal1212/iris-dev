@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('pengguna', 12)->change();
         });
 
-        DB::statement('ALTER TABLE calon_pengajian_tinggi ALTER COLUMN cgpa TYPE NUMERIC(3, 2) USING cgpa::numeric(3, 2)');
+        //DB::statement('ALTER TABLE calon_pengajian_tinggi ALTER COLUMN cgpa TYPE NUMERIC(3, 2) USING cgpa::numeric(3, 2)');
     }
 
     /**
@@ -47,6 +47,6 @@ return new class extends Migration
             $table->string('pengguna')->change();
         });
 
-        DB::statement('ALTER TABLE calon_pengajian_tinggi ALTER COLUMN cgpa TYPE VARCHAR(255)');
+        //DB::statement('ALTER TABLE calon_pengajian_tinggi ALTER COLUMN cgpa TYPE VARCHAR(255)');
     }
 };

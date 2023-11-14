@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('pengguna', 12)->change();
         });
 
-        DB::statement('ALTER TABLE calon_daftar ALTER COLUMN tarikh_daftar TYPE DATE USING tarikh_daftar::date');
-        DB::statement('ALTER TABLE calon_daftar ALTER COLUMN tarikh_daftar_1 TYPE DATE USING tarikh_daftar_1::date');
-        DB::statement('ALTER TABLE calon_daftar ALTER COLUMN keutamaan TYPE NUMERIC(5, 2) USING keutamaan::numeric(5, 2)');
+        //DB::statement('ALTER TABLE calon_daftar ALTER COLUMN tarikh_daftar TYPE DATE USING tarikh_daftar::date');
+        //DB::statement('ALTER TABLE calon_daftar ALTER COLUMN tarikh_daftar_1 TYPE DATE USING tarikh_daftar_1::date');
+        //DB::statement('ALTER TABLE calon_daftar ALTER COLUMN keutamaan TYPE NUMERIC(5, 0) USING keutamaan::numeric(5, 0)');
     }
 
     /**
@@ -39,8 +39,8 @@ return new class extends Migration
             $table->string('pengguna')->change();
         });
 
-        DB::statement('ALTER TABLE calon_daftar ALTER COLUMN tarikh_daftar TYPE VARCHAR(255');
-        DB::statement('ALTER TABLE calon_daftar ALTER COLUMN tarikh_daftar_1 TYPE VARCHAR(255');
-        DB::statement('ALTER TABLE calon_daftar ALTER COLUMN keutamaan TYPE VARCHAR(255');
+        //DB::statement('ALTER TABLE calon_daftar ALTER COLUMN tarikh_daftar TYPE VARCHAR(255');
+        //DB::statement('ALTER TABLE calon_daftar ALTER COLUMN tarikh_daftar_1 TYPE VARCHAR(255');
+        //DB::statement('ALTER TABLE calon_daftar ALTER COLUMN keutamaan TYPE VARCHAR(255');
     }
 };

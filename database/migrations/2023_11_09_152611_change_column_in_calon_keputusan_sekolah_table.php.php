@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('pengguna', 12)->change();
         });
 
-        DB::statement('ALTER TABLE calon_keputusan_sekolah ALTER COLUMN pngk_gred TYPE NUMERIC(5, 2) USING pngk_gred::numeric(5, 2)');
+        //DB::statement('ALTER TABLE calon_keputusan_sekolah ALTER COLUMN pngk_gred TYPE NUMERIC(5, 2) USING pngk_gred::numeric(5, 2)');
     }
 
     /**
@@ -47,6 +47,6 @@ return new class extends Migration
             $table->string('pengguna')->change();
         });
 
-        DB::statement('ALTER TABLE calon_keputusan_sekolah ALTER COLUMN pngk_gred TYPE VARCHAR(255');
+        //DB::statement('ALTER TABLE calon_keputusan_sekolah ALTER COLUMN pngk_gred TYPE VARCHAR(255');
     }
 };

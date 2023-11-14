@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('pengguna', 12)->change();
         });
 
-        DB::statement('ALTER TABLE calon_svm ALTER COLUMN pngka TYPE NUMERIC(5, 2) USING pngka::numeric(5, 2)');
-        DB::statement('ALTER TABLE calon_svm ALTER COLUMN pngkv TYPE NUMERIC(5, 2) USING pngkv::numeric(5, 2)');
+        //DB::statement('ALTER TABLE calon_svm ALTER COLUMN pngka TYPE NUMERIC(5, 2) USING pngka::numeric(5, 2)');
+        //DB::statement('ALTER TABLE calon_svm ALTER COLUMN pngkv TYPE NUMERIC(5, 2) USING pngkv::numeric(5, 2)');
     }
 
     /**
@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string('pengguna')->change();
         });
 
-        DB::statement('ALTER TABLE calon_svm ALTER COLUMN pngka TYPE VARCHAR(255)');
-        DB::statement('ALTER TABLE calon_svm ALTER COLUMN pngkv TYPE VARCHAR(255)');
+        //DB::statement('ALTER TABLE calon_svm ALTER COLUMN pngka TYPE VARCHAR(255)');
+        //DB::statement('ALTER TABLE calon_svm ALTER COLUMN pngkv TYPE VARCHAR(255)');
     }
 };

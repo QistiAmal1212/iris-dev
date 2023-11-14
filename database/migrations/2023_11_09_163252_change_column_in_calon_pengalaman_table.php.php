@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('pengguna', 12)->change();
         });
 
-        DB::statement('ALTER TABLE calon_pengalaman ALTER COLUMN gaji_bulanan TYPE NUMERIC(7, 2) USING gaji_bulanan::numeric(7, 2)');
+        //DB::statement('ALTER TABLE calon_pengalaman ALTER COLUMN gaji_bulanan TYPE NUMERIC(7, 2) USING gaji_bulanan::numeric(7, 2)');
     }
 
     /**
@@ -61,6 +61,6 @@ return new class extends Migration
             $table->string('pengguna')->change();
         });
 
-        DB::statement('ALTER TABLE calon_pengalaman ALTER COLUMN gaji_bulanan TYPE VARCHAR(255)');
+        //DB::statement('ALTER TABLE calon_pengalaman ALTER COLUMN gaji_bulanan TYPE VARCHAR(255)');
     }
 };

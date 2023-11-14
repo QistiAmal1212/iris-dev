@@ -50,8 +50,8 @@ return new class extends Migration
             $table->string('rabun', 1)->change();
         });
         
-        DB::statement('ALTER TABLE calon ALTER COLUMN ketinggian TYPE NUMERIC(5, 2) USING ketinggian::numeric(5, 2)');
-        DB::statement('ALTER TABLE calon ALTER COLUMN berat TYPE NUMERIC(5, 2) USING berat::numeric(5, 2)');
+        //DB::statement('ALTER TABLE calon ALTER COLUMN ketinggian TYPE NUMERIC(5, 2) USING ketinggian::numeric(5, 2)');
+        //DB::statement('ALTER TABLE calon ALTER COLUMN berat TYPE NUMERIC(5, 2) USING berat::numeric(5, 2)');
     }
 
     /**
@@ -97,7 +97,7 @@ return new class extends Migration
             $table->string('rabun')->change();
         });
 
-        DB::statement('ALTER TABLE calon ALTER COLUMN ketinggian TYPE VARCHAR(255');
-        DB::statement('ALTER TABLE calon ALTER COLUMN berat TYPE VARCHAR(255');
+        //DB::statement('ALTER TABLE calon ALTER COLUMN ketinggian TYPE VARCHAR(255');
+        //DB::statement('ALTER TABLE calon ALTER COLUMN berat TYPE VARCHAR(255');
     }
 };

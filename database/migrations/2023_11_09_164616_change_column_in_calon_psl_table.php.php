@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('pengguna', 12)->change();
         });
 
-        DB::statement('ALTER TABLE calon_psl ALTER COLUMN tarikh_exam TYPE DATE USING tarikh_exam::date');
+        //DB::statement('ALTER TABLE calon_psl ALTER COLUMN tarikh_exam TYPE DATE USING tarikh_exam::date');
     }
 
     /**
@@ -33,6 +33,6 @@ return new class extends Migration
             $table->string('pengguna')->change();
         });
 
-        DB::statement('ALTER TABLE calon_psl ALTER COLUMN tarikh_exam TYPE VARCHAR(255)');
+        //DB::statement('ALTER TABLE calon_psl ALTER COLUMN tarikh_exam TYPE VARCHAR(255)');
     }
 };
