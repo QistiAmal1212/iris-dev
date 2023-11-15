@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('calon_bahasa', function (Blueprint $table) {
-            $table->string('no_pengenalan', 12)->change();
-            $table->string('jenis_bahasa', 2)->change();
-            $table->string('penguasaan', 1)->change();
-            $table->string('id_pencipta', 12)->change();
-            $table->string('pengguna', 12)->change();
-        });
+        // Schema::table('calon_bahasa', function (Blueprint $table) {
+        //     $table->string('no_pengenalan', 12)->change();
+        //     $table->string('jenis_bahasa', 2)->change();
+        //     $table->string('penguasaan', 1)->change();
+        //     $table->string('id_pencipta', 12)->change();
+        //     $table->string('pengguna', 12)->change();
+        // });
     }
 
     /**
@@ -25,12 +25,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('calon_bahasa', function (Blueprint $table) {
-            $table->string('no_pengenalan')->change();
-            $table->string('jenis_bahasa')->change();
-            $table->string('penguasaan')->change();
-            $table->string('id_pencipta')->change();
-            $table->string('pengguna')->change();
-        });
+        // Schema::table('calon_bahasa', function (Blueprint $table) {
+        //     $table->string('no_pengenalan')->change();
+        //     $table->string('jenis_bahasa')->change();
+        //     $table->string('penguasaan')->change();
+        //     $table->string('id_pencipta')->change();
+        //     $table->string('pengguna')->change();
+        // });
     }
 };

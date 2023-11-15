@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('calon_senarai_hitam', function (Blueprint $table) {
-            $table->string('no_pengenalan', 12)->change();
-            $table->string('kod', 4)->change();
-            $table->string('no_kp_baru', 12)->change();
-            $table->string('no_kp_lama', 12)->change();
-            $table->string('id_pencipta', 12)->change();
-            $table->string('pengguna', 12)->change();
-        });
+        // Schema::table('calon_senarai_hitam', function (Blueprint $table) {
+        //     $table->string('no_pengenalan', 12)->change();
+        //     $table->string('kod', 4)->change();
+        //     $table->string('no_kp_baru', 12)->change();
+        //     $table->string('no_kp_lama', 12)->change();
+        //     $table->string('id_pencipta', 12)->change();
+        //     $table->string('pengguna', 12)->change();
+        // });
     }
 
     /**
@@ -26,13 +26,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('calon_senarai_hitam', function (Blueprint $table) {
-            $table->string('no_pengenalan')->change();
-            $table->string('kod')->change();
-            $table->string('no_kp_baru')->change();
-            $table->string('no_kp_lama')->change();
-            $table->string('id_pencipta')->change();
-            $table->string('pengguna')->change();
-        });
+        // Schema::table('calon_senarai_hitam', function (Blueprint $table) {
+        //     $table->string('no_pengenalan')->change();
+        //     $table->string('kod')->change();
+        //     $table->string('no_kp_baru')->change();
+        //     $table->string('no_kp_lama')->change();
+        //     $table->string('id_pencipta')->change();
+        //     $table->string('pengguna')->change();
+        // });
     }
 };

@@ -33,19 +33,19 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('calon_skim', function (Blueprint $table) {
-            $table->string('cal_no_pengenalan')->change();
-            $table->string('jenis_lantikan')->change();
-            $table->string('ski_kod')->change();
-            $table->string('no_kelompok')->change();
-            $table->string('no_siri')->change();
-            $table->string('pusat_td_pilihan')->change();
-            $table->string('status')->change();
-            $table->string('tmp_status')->change();
-            $table->string('sah_yt')->change();
-            $table->string('id_pencipta')->change();
-            $table->string('pengguna')->change();
-        });
+        // Schema::table('calon_skim', function (Blueprint $table) {
+        //     $table->string('cal_no_pengenalan')->change();
+        //     $table->string('jenis_lantikan')->change();
+        //     $table->string('ski_kod')->change();
+        //     $table->string('no_kelompok')->change();
+        //     $table->string('no_siri')->change();
+        //     $table->string('pusat_td_pilihan')->change();
+        //     $table->string('status')->change();
+        //     $table->string('tmp_status')->change();
+        //     $table->string('sah_yt')->change();
+        //     $table->string('id_pencipta')->change();
+        //     $table->string('pengguna')->change();
+        // });
 
         //DB::statement('ALTER TABLE calon_skim ALTER COLUMN tarikh_daftar TYPE VARCHAR(255)');
     }
