@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('calon_skim', function (Blueprint $table) {
-            $table->string('cal_no_pengenalan', 12)->change();
-            $table->string('jenis_lantikan', 1)->change();
-            $table->string('ski_kod', 14)->change();
-            $table->string('no_kelompok', 10)->change();
-            $table->string('no_siri', 3)->change();
-            $table->string('pusat_td_pilihan', 2)->change();
-            $table->string('status', 1)->change();
-            $table->string('tmp_status', 2)->change();
-            $table->string('sah_yt', 2)->change();
-            $table->string('id_pencipta', 12)->change();
-            $table->string('pengguna', 12)->change();
-        });
+        // Schema::table('calon_skim', function (Blueprint $table) {
+        //     $table->string('cal_no_pengenalan', 12)->change();
+        //     $table->string('jenis_lantikan', 1)->change();
+        //     $table->string('ski_kod', 14)->change();
+        //     $table->string('no_kelompok', 10)->change();
+        //     $table->string('no_siri', 3)->change();
+        //     $table->string('pusat_td_pilihan', 2)->change();
+        //     $table->string('status', 1)->change();
+        //     $table->string('tmp_status', 2)->change();
+        //     $table->string('sah_yt', 2)->change();
+        //     $table->string('id_pencipta', 12)->change();
+        //     $table->string('pengguna', 12)->change();
+        // });
 
         //DB::statement('ALTER TABLE calon_skim ALTER COLUMN tarikh_daftar TYPE DATE USING tarikh_daftar::date');
     }
