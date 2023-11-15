@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('calon_bakat', function (Blueprint $table) {
-            $table->string('no_pengenalan', 12)->change();
-            $table->string('bakat', 2)->change();
-            $table->string('bakat_detail', 5)->change();
-            $table->string('id_pencipta', 12)->change();
-            $table->string('pengguna', 12)->change();
-        });
+        // Schema::table('calon_bakat', function (Blueprint $table) {
+        //     $table->string('no_pengenalan', 12)->change();
+        //     $table->string('bakat', 2)->change();
+        //     $table->string('bakat_detail', 5)->change();
+        //     $table->string('id_pencipta', 12)->change();
+        //     $table->string('pengguna', 12)->change();
+        // });
     }
 
     /**
