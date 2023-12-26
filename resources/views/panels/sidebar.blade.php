@@ -339,6 +339,33 @@ $configData = Helper::applClasses();
                 </li>
             @endhasanyrole --}}
 
+            <li class="navigation-header">
+                <span> Tapisan Permohonan </span>
+            </li>
+            <li class="nav-item {{ request()->is('tapisan_permohonan*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link" onclick="scrollToTop(event)">
+                    <span class="menu-title text-truncate"> Tapisan Permohonan </span>
+                </a>
+                <ul class="menu-content">
+                    <li class="nav-item {{ request()->is('tapisan_permohonan*') ? 'menu-open' : '' }}">
+                        <a href="#" class="d-flex align-items-center" onclick="scrollToTop(event)">
+                            <span class="menu-title text-truncate">
+                                Pengurusan Pemerolehan
+                            </span>
+                        </a>
+                        <ul class="menu-content">
+                            <li class="{{ in_array(request()->route()->getName(), ['senarai_skim']) ? 'active' : '' }}">
+                                <a href="{{ route('senarai_skim') }}" class="d-flex align-items-center">
+                                    <span class="menu-title text-truncate">
+                                        PGSPA
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
             {{-- HELPDESK MODULE HERE  --}}
             @if(\Composer\InstalledVersions::isInstalled('developer-unijaya/quickstart-helpdesk'))
                 <li class="navigation-header">
